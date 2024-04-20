@@ -1,0 +1,38 @@
+Save Format v3.0(19990112)
+@begin Libraries
+ "ord_serv.pbl" "";
+@end;
+@begin Objects 
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_combo_lateralidad.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_combo_lateralidad_new.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_combo_proceds.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_combo_tipo_anes.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_frec_med.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_hospestancia.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_new_devoluciones.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_new_devoluciones1.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_new_devoluciones_org.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_new_devoluciones_org1.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_ord_serv_pa_apdx.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_ord_serv_pa_rips.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_oscabeza.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_oscabeza_sale_hosp.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_oscab_hadm.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_oscab_qx.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_oscpo_cext.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_oscpo_form_cext.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_oscpo_form_cext_new.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_oscpo_form_hadm.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_oscpo_form_hadm_agrupa.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_oscpo_form_hadm_org.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_oscpo_hadm.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_oscpo_lista.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_primer_orden.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_qx_imagen.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\dw_tiempo_medicacion.srd" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\uo_orden_formula.sru" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\w_new_atiende_pqx.srw" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\w_new_at_os.srw" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\w_new_estad_ria_os.srw" "ord_serv.pbl";
+ "ws_objects\\histoclinic\\ord_serv.pbl.src\\w_new_sala_qx.srw" "ord_serv.pbl";
+@end;

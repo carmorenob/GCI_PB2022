@@ -1,0 +1,21 @@
+Save Format v3.0(19990112)
+@begin Libraries
+ "atu_plant.pbl" "";
+@end;
+@begin Objects 
+ "ws_objects\\histoclinic\\atu_plant.pbl.src\\dw_campo_lista.srd" "atu_plant.pbl";
+ "ws_objects\\histoclinic\\atu_plant.pbl.src\\dw_combo_lugar_atu.srd" "atu_plant.pbl";
+ "ws_objects\\histoclinic\\atu_plant.pbl.src\\dw_combo_plantillas.srd" "atu_plant.pbl";
+ "ws_objects\\histoclinic\\atu_plant.pbl.src\\dw_ficha_tecnica.srd" "atu_plant.pbl";
+ "ws_objects\\histoclinic\\atu_plant.pbl.src\\dw_historial_enc.srd" "atu_plant.pbl";
+ "ws_objects\\histoclinic\\atu_plant.pbl.src\\dw_historial_enc_fecha.srd" "atu_plant.pbl";
+ "ws_objects\\histoclinic\\atu_plant.pbl.src\\dw_lista_plantillas_new.srd" "atu_plant.pbl";
+ "ws_objects\\histoclinic\\atu_plant.pbl.src\\dw_plant_tingre.srd" "atu_plant.pbl";
+ "ws_objects\\histoclinic\\atu_plant.pbl.src\\dw_plant_tingre_conf.srd" "atu_plant.pbl";
+ "ws_objects\\histoclinic\\atu_plant.pbl.src\\dw_plan_fields.srd" "atu_plant.pbl";
+ "ws_objects\\histoclinic\\atu_plant.pbl.src\\dw_reg_valor.srd" "atu_plant.pbl";
+ "ws_objects\\histoclinic\\atu_plant.pbl.src\\uo_grid_encuesta.sru" "atu_plant.pbl";
+ "ws_objects\\histoclinic\\atu_plant.pbl.src\\uo_hclin_as.sru" "atu_plant.pbl";
+ "ws_objects\\histoclinic\\atu_plant.pbl.src\\w_grid_encuestas.srw" "atu_plant.pbl";
+ "ws_objects\\histoclinic\\atu_plant.pbl.src\\w_tabulacion_encuentas.srw" "atu_plant.pbl";
+@end;

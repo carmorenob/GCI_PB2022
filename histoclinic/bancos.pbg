@@ -1,0 +1,43 @@
+Save Format v3.0(19990112)
+@begin Libraries
+ "bancos.pbl" "";
+@end;
+@begin Objects 
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_bancosapdx.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_banco_a_reserva.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_banco_bolsas.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_banco_bolsas_todas.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_banco_bolsas_todas_sqlserver.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_banco_donacion.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_banco_inventario.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_banco_item_encuesta.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_banco_paciente.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_banco_pac_caract.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_banco_prueba.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_banco_prueb_prelim.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_banco_reserva.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_bolsa_dispon.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_bolsa_dispon_sqlserver.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_combo_banco_fluid.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_combo_emp_prod.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_empaques.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_encuesta.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_lista_empaques.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_lista_enc.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_lista_procs_x_subempaq.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_lista_proc_x_banco.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_lista_tipos_x_proc.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_ls_tipodon.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_matriz.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_ord_serv_banco_x_rips.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_procs_x_banco.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\dw_reservas_x_norden.srd" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\st_clasif.srs" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\w_banco_atiende.srw" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\w_banco_fluid.srw" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\w_banco_paciente.srw" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\w_banco_reserva.srw" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\w_lleva_inventario.srw" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\w_procs_bancos.srw" "bancos.pbl";
+ "ws_objects\\histoclinic\\bancos.pbl.src\\w_selecc_produc.srw" "bancos.pbl";
+@end;

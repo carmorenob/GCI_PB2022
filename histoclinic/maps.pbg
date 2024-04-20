@@ -1,0 +1,26 @@
+Save Format v3.0(19990112)
+@begin Libraries
+ "maps.pbl" "";
+@end;
+@begin Objects 
+ "ws_objects\\histoclinic\\maps.pbl.src\\dw_combo_indicadores.srd" "maps.pbl";
+ "ws_objects\\histoclinic\\maps.pbl.src\\dw_combo_maps.srd" "maps.pbl";
+ "ws_objects\\histoclinic\\maps.pbl.src\\dw_get_parm_val.srd" "maps.pbl";
+ "ws_objects\\histoclinic\\maps.pbl.src\\dw_indicadores.srd" "maps.pbl";
+ "ws_objects\\histoclinic\\maps.pbl.src\\dw_ind_parm.srd" "maps.pbl";
+ "ws_objects\\histoclinic\\maps.pbl.src\\dw_ind_rangos.srd" "maps.pbl";
+ "ws_objects\\histoclinic\\maps.pbl.src\\dw_lista_objs.srd" "maps.pbl";
+ "ws_objects\\histoclinic\\maps.pbl.src\\dw_ls_maps.srd" "maps.pbl";
+ "ws_objects\\histoclinic\\maps.pbl.src\\dw_map.srd" "maps.pbl";
+ "ws_objects\\histoclinic\\maps.pbl.src\\dw_map_barrios.srd" "maps.pbl";
+ "ws_objects\\histoclinic\\maps.pbl.src\\dw_map_ciudades.srd" "maps.pbl";
+ "ws_objects\\histoclinic\\maps.pbl.src\\dw_map_deptos.srd" "maps.pbl";
+ "ws_objects\\histoclinic\\maps.pbl.src\\dw_map_paises.srd" "maps.pbl";
+ "ws_objects\\histoclinic\\maps.pbl.src\\dw_rangos_show.srd" "maps.pbl";
+ "ws_objects\\histoclinic\\maps.pbl.src\\m_map_obj.srm" "maps.pbl";
+ "ws_objects\\histoclinic\\maps.pbl.src\\uo_dwmap.sru" "maps.pbl";
+ "ws_objects\\histoclinic\\maps.pbl.src\\w_cfg_indicadores.srw" "maps.pbl";
+ "ws_objects\\histoclinic\\maps.pbl.src\\w_lista_objs.srw" "maps.pbl";
+ "ws_objects\\histoclinic\\maps.pbl.src\\w_map.srw" "maps.pbl";
+ "ws_objects\\histoclinic\\maps.pbl.src\\w_map_config.srw" "maps.pbl";
+@end;
