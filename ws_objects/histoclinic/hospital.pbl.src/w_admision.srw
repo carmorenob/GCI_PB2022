@@ -550,19 +550,15 @@ end type
 
 event clicked;if f_permiso_boton(this,'ADM')=0 then return
 if dw_historial.rowcount()=0 then return
+
 trae historial
+
 historial.numero=dw_historial.getitemnumber(dw_historial.getrow(),'contador')
 historial.lugar=dw_historial.getitemstring(dw_historial.getrow(),'clugar')
 historial.tingres=tipo_ingres
-If f_imprime='2' then
-//	openwithparm(w_print_histor,historial)
-//	openwithparm(w_print_histor_ole_sec,historial)
-	openwithparm(w_print_histor_new_sec,historial)
-else
-//	openwithparm(w_print_histor_org,historial)
-//	openwithparm(w_print_histor_ole_agr,historial)
-	openwithparm(w_print_histor_new_agr,historial)	
-end if
+
+openwithparm(w_print_histor_txt,historial)
+
 
 end event
 
@@ -628,7 +624,7 @@ else
 	tab_1.tabpage_1.pb_change_ting.visible=false
 end if
 i_varios_ingre=idw_tiping.getitemstring(idw_tiping.getrow(),'varios_ingre')
-f_imprime=idw_tiping.getitemstring(idw_tiping.getrow(),'imprime')
+
 dw_historial.retrieve(tipdoc,docu,tipo_ingres)
 tab_1.tabpage_2.dw_1.triggerevent(constructor!)
 return 0

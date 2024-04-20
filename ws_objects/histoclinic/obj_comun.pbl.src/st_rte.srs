@@ -4,7 +4,7 @@ global type st_rte from structure
 	string		codplantilla
 	integer		numcampo
 	string		ventana
-	richtextedit		rte
+	multilineedit		mle
 	string		empresa
 	datawindow		dw_pac
 	datawindow		dw_data

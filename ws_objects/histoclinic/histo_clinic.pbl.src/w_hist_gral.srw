@@ -95,7 +95,7 @@ global w_hist_gral w_hist_gral
 type variables
 string i_clugar_his,i_profe,i_espe,i_atiende,i_plant,i_codfina
 long i_contador,i_nservicio
-
+string is_f_imprime
 end variables
 
 forward prototypes
@@ -160,7 +160,8 @@ dw_empac.reset()
 tab_s.tps_1.uo_serv.reset()
 tab_s.tps_3.uo_os_fo.reset()
 
-select imprime into :f_imprime from tipoingreso where codtingre='1';
+select imprime into :is_f_imprime from tipoingreso where codtingre='1';
+
 i_profe=w_principal.dw_profe.getitemstring(1,1)
 i_espe=w_principal.dw_profe.getitemstring(1,'cesp')
 if i_profe='' or isnull(i_profe) or i_espe='' or isnull(i_espe) then
@@ -394,13 +395,9 @@ if dw_historial.rowcount()>0 then
 else
 	return
 end if
-If f_imprime='2' then
-//	openwithparm(w_print_histor,historial)
-	openwithparm(w_print_histor_new_sec,historial)
-else
-//	openwithparm(w_print_histor_org,historial)
-	openwithparm(w_print_histor_new_agr,historial)
-end if
+
+openwithparm(w_print_histor_txt,historial)
+
 
 end event
 
@@ -434,17 +431,7 @@ if w_principal.dw_1.getitemstring(1,'estado')='1' then
   messagebox("Atención","Este Paciente esta Fallecido no puede eliminarr servicios")
   return
 end if
-
-
 if i_contador = -1 or dw_historial.rowcount()=0 then return
-
-integer li_ctos
-select Count(1) into :li_ctos
-from hclin_registro
-where (((hclin_registro.contador)=:i_contador) AND ((hclin_registro.clugar)=:i_clugar_his));
-
-if li_ctos>0 then return
-
 delete from serviciosingreso where contador = :i_contador and clugar=:i_clugar_his;
 if sqlca.sqlcode=-1 then
 	messagebox("Error borrando de Serviciosingreso",sqlca.sqlerrtext)

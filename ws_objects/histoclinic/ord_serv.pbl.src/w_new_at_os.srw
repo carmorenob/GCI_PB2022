@@ -47,13 +47,12 @@ global w_new_at_os w_new_at_os
 
 type variables
 long i_nh,i_norden,i_contador
-string tipo_ingres,carga_revisa,i_clug_hadm,i_clug_his
+string is_tipo_ingres,carga_revisa,i_clug_hadm,i_clug_his
 boolean guardo
 DataWindowChild Hab,Camas
 datawindowchild dw_lista
 String Pabellon, Habitacion, Cdemp, Ctemp,cama
 end variables
-
 forward prototypes
 public subroutine rn ()
 end prototypes
@@ -139,9 +138,9 @@ end event
 
 event itemchanged;dw_historial.reset()
 accepttext()
-tipo_ingres=gettext()
+is_tipo_ingres=gettext()
 f_imprime=dw_lista.getitemstring(dw_lista.getrow(),'imprime')
-dw_historial.retrieve(tipdoc,docu,tipo_ingres,clugar)
+dw_historial.retrieve(tipdoc,docu,is_tipo_ingres,clugar)
 end event
 
 type dw_inf from datawindow within w_new_at_os
@@ -275,10 +274,10 @@ i_nh=getitemnumber(getrow(),"nh")
 i_contador=getitemnumber(getrow(),'contador')
 i_clug_hadm=getitemstring(getrow(),"clugar")
 i_clug_his=getitemstring(getrow(),"clugar_his")
-dw_inf.retrieve(i_nh,i_clug_hadm, tipo_ingres)
+dw_inf.retrieve(i_nh,i_clug_hadm, is_tipo_ingres)
 long nnulo
 string snulo
-if uo_1.retrieve(i_contador,i_clug_his,'',i_nh,i_clug_hadm,tipo_ingres,nnulo,snulo,nnulo,snulo)=-1 then return
+if uo_1.retrieve(i_contador,i_clug_his,'',i_nh,i_clug_hadm,is_tipo_ingres,nnulo,snulo,nnulo,snulo)=-1 then return
 rn()
 
 end event

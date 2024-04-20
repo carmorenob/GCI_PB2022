@@ -314,7 +314,7 @@ trae historial
 historial.numero = st_p.contador
 historial.lugar = st_p.clugar
 historial.tingres = 'F'
-openwithparm(w_print_histor,historial)
+openwithparm(w_print_histor_txt,historial)
 close(parent)
 
 end event
@@ -971,7 +971,7 @@ borderstyle borderstyle = styleraised!
 string customformat = "dd/mm/yyyy"
 date maxdate = Date("2998-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2023-03-15"), Time("14:30:44.000000"))
+datetime value = DateTime(Date("2024-02-28"), Time("17:02:52.000000"))
 integer textsize = -9
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!

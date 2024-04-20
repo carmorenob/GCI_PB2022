@@ -384,15 +384,9 @@ if dw_historial.rowcount()>0 then
 else
 	return
 end if
-If f_imprime='2' then
-//	openwithparm(w_print_histor,historial)
-//	openwithparm(w_print_histor_ole_sec,historial)
-	openwithparm(w_print_histor_new_sec,historial)
-else
-//	openwithparm(w_print_histor_org,historial)
-//	openwithparm(w_print_histor_ole_agr,historial)
-	openwithparm(w_print_histor_new_agr,historial)		
-end if
+
+openwithparm(w_print_histor_txt,historial)
+
 
 end event
 

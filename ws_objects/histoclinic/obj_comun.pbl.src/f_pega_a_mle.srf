@@ -1,0 +1,35 @@
+﻿$PBExportHeader$f_pega_a_mle.srf
+global type f_pega_a_mle from function_object
+end type
+
+forward prototypes
+global function long f_pega_a_mle (multilineedit a_mle, string p_texto, integer p_donde)
+end prototypes
+
+global function long f_pega_a_mle (multilineedit a_mle, string p_texto, integer p_donde);long cuantos
+boolean disp_onl
+if isnull(a_mle.displayonly) then disp_onl=true
+disp_onl=a_mle.displayonly
+if disp_onl then a_mle.displayonly=false
+a_mle.setredraw(false)
+
+choose case p_donde
+	case 0 //al principio
+		a_mle.selecttext(1,0)
+		cuantos= a_mle.replacetext(p_texto)
+	case 1 //en el cursor o lo que está seleccionado
+		cuantos= a_mle.replacetext(p_texto)
+	case 2 //al final
+		a_mle.selecttext(9999999,0)
+		cuantos=a_mle.replacetext(p_texto)
+		a_mle.SelectText ( 9999999, 0)
+	case 3 //reemplazar todo
+		a_mle.text=p_texto
+		a_mle.SelectText ( 9999999, 0)
+end choose
+
+a_mle.setredraw(true)
+a_mle.displayonly=disp_onl
+return cuantos
+end function
+

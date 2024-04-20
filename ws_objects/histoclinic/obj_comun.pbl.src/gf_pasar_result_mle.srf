@@ -1,0 +1,42 @@
+﻿$PBExportHeader$gf_pasar_result_mle.srf
+global type gf_pasar_result_mle from function_object
+end type
+
+forward prototypes
+global function integer gf_pasar_result_mle (datastore p_ds, multilineedit a_mle)
+end prototypes
+
+global function integer gf_pasar_result_mle (datastore p_ds, multilineedit a_mle);string cual,coltype,apegar,reemp,encab,tipo_memo,cdoc,clug,cproc 
+//objects
+uo_datastore ds_objects
+long num_object,largo,k,j,nreg,item,nrep,item_rep,conscamp
+blob trae
+
+setpointer(hourglass!)
+nreg=0
+
+for j=1 to p_ds.rowcount()//filas del sql
+	cdoc=p_ds.getitemstring(j,'coddoc')
+	clug=p_ds.getitemstring(j,'clugar')
+	
+	cproc=p_ds.getitemstring(j,'codproced')
+	conscamp=p_ds.getitemnumber(j,'consecampo')
+	p_ds.setrow(j)
+	
+	if item_rep<>p_ds.getitemnumber(j,'item')  or nrep<>p_ds.getitemnumber(j,'nrepor') then
+		f_pega_a_mle(a_mle,'PROCEDIMIENTO:	'+p_ds.getitemstring(j,'cod_cups')+' - '+p_ds.getitemstring(j,'descripcion')+'~r~n',2)
+		f_pega_a_mle(a_mle,'FECHA:			'+string(p_ds.getitemdatetime(j,'fecharesul'),'yyyy/mm/dd HH:mm')+'~r~n',2)
+		f_pega_a_mle(a_mle,'PROFESIONAL:	'+p_ds.getitemstring(j,'desprof')+'~r~n~r~n',2)
+		
+	end if
+	
+	nrep=p_ds.getitemnumber(j,'nrepor')
+	item_rep=p_ds.getitemnumber(j,'item')
+	
+	f_pega_a_mle(a_mle,p_ds.getitemstring(j,'nombrecampo')+': '+p_ds.getitemstring(j,'resultados')+'~r~n',2)
+	
+next//las filas del sql
+destroy ds_objects
+return 1
+end function
+

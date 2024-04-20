@@ -10,8 +10,6 @@ type dw_cond from datawindow within uo_barra_hc
 end type
 type pb_kits from picturebutton within uo_barra_hc
 end type
-type rte_x from richtextedit within uo_barra_hc
-end type
 type pb_result from picturebutton within uo_barra_hc
 end type
 type pb_del_proc from picturebutton within uo_barra_hc
@@ -40,9 +38,9 @@ type c_ord from picturebutton within uo_barra_hc
 end type
 type pb_cevol from picturebutton within uo_barra_hc
 end type
-type dw_diags from datawindow within uo_barra_hc
-end type
 type dw_tri from datawindow within uo_barra_hc
+end type
+type dw_diags from datawindow within uo_barra_hc
 end type
 end forward
 
@@ -58,7 +56,6 @@ pb_buscaproc pb_buscaproc
 pb_buscamed pb_buscamed
 dw_cond dw_cond
 pb_kits pb_kits
-rte_x rte_x
 pb_result pb_result
 pb_del_proc pb_del_proc
 pb_urg pb_urg
@@ -73,8 +70,8 @@ pb_save pb_save
 pb_guia pb_guia
 c_ord c_ord
 pb_cevol pb_cevol
-dw_diags dw_diags
 dw_tri dw_tri
+dw_diags dw_diags
 end type
 global uo_barra_hc uo_barra_hc
 
@@ -82,7 +79,8 @@ type variables
 long i_contador,i_nreg,i_ncampo
 string i_clug,i_cplant,i_ing,i_tipo_plant,i_tingres,i_cemp,i_ccont,i_tipo_memo,i_cprof,i_cesp,is_guia,ls_tipo,is_pdf,i_cpo
 string i_antecedente,i_alergia,i_codant,i_tipoa
-richtextedit i_rte
+//richtextedit i_rte
+multilineedit i_mle
 datawindowchild idw_tipodiag,idw_profe,idw_desturg,idw_finalidad,idw_causaext,idw_fincon,idw_modrea
 singlelineedit i_st
 datawindow idw_results,idw_dats,idw_memos, idw_frm
@@ -93,11 +91,11 @@ forward prototypes
 public subroutine retrieve (integer p_item)
 public function integer f_enlaza_ordenes (string p_codigo, string p_tipo, string p_agrupserv)
 public function integer refresh_diags ()
-public function integer updaterte (string p_texto)
 public subroutine reemp_campo (string p_name_campo, string p_dato)
 public function integer getdiagrip (string codgeral, ref string cod_rip, ref string descrip, ref string guia)
-public subroutine inicia (long p_contador, string p_clug, long p_nreg, string p_cplant, string p_ing, string p_tipo_plant, string p_tingres, singlelineedit p_st, richtextedit p_rte, string p_cemp, string p_ccont, string p_cprof, datawindow p_dw_res, datawindow p_dw_dats, datawindow p_dw_memos, datawindow p_dw_frm, string p_cesp)
 public subroutine retrieve (long p_item, string p_tipo, string p_antecedente, string p_codant, string p_alergia, string p_cpo)
+public subroutine inicia (long p_contador, string p_clug, long p_nreg, string p_cplant, string p_ing, string p_tipo_plant, string p_tingres, singlelineedit p_st, multilineedit a_mle, string p_cemp, string p_ccont, string p_cprof, datawindow p_dw_res, datawindow p_dw_dats, datawindow p_dw_memos, datawindow p_dw_frm, string p_cesp)
+public function integer updaterte ()
 end prototypes
 
 public subroutine retrieve (integer p_item);
@@ -182,8 +180,8 @@ end function
 
 public function integer refresh_diags ();dw_diags.reset()
 long f_ubica
-boolean lb_paso
 dw_diags.retrieve(i_cplant,i_tingres)
+
 uo_datastore ds
 ds=create uo_datastore
 if pos('2347',i_tingres)>0 then
@@ -254,17 +252,14 @@ if pos('2347',i_tingres)>0 then
 		dw_diags.setitem(1,'vigila_causamuerte',ds.getitemnumber(1,'vigila_muerte'))
 		dw_diags.setitem(1,'guia',ds.getitemstring(1,'guia'))
 		dw_diags.accepttext()
-		lb_paso=true
 	end if
 else //de cons ext/odonto
 	ds.dataobject='dw_diags_cext'
 	ds.settransobject(sqlca)
-	lb_paso=false
 	if ds.retrieve(i_contador,i_clug)=0 then goto sale//los r_ son los reales de la BD
 	if isnull(ds.getitemstring(1,'diagprin')) then
 		string cods,desd
 		if not isnull(dw_diags.getitemstring(1,'dx')) then 
-			lb_paso=true
 			dw_diags.setitem(1,'r_diagprin',dw_diags.getitemstring(1,'dx'))
 			cods=dw_diags.getitemstring(1,'dx')
 			SELECT diags.desdiag into :desd
@@ -348,235 +343,24 @@ end if
 
 sale:
 destroy(ds)
-if lb_paso=false then
-	dw_diags.Modify("c_diagprin.protect=0")
-	dw_diags.Modify("r_diagprin.protect=0")
-	dw_diags.Modify("finalidad.protect=0")
-	dw_diags.Modify("causaext.protect=0")	
-end if
-dw_diags.resetupdate()
+dw_diags.Modify("r_diagprin.protect=0")
+dw_diags.Modify("finalidad.protect=0")
+dw_diags.Modify("causaext.protect=0")	
 dw_diags.triggerevent (itemfocuschanged!)
+dw_diags.resetupdate()
+
 return 1
-end function
-
-public function integer updaterte (string p_texto);int f,ll_item
-string nulo,ls_tpant,ls_dx
-datetime ld_fechadx
-
-setnull(nulo)
-if i_tipo_memo='D' then
-	dw_diags.AcceptText()
-	f = 1
-//	f = dw_diags.GetRow()
-	reemp_campo('defuncion',dw_diags.GetItemString(f,"acta_defunc"))
-//	reemp_campo('tipodiag',dw_diags.GetItemString(f,"tipo_diag"))
-	
-	reemp_campo('tipodiag',idw_tipodiag.GetItemString(idw_tipodiag.getrow(),'codtipdiag'))
-	reemp_campo('desc_tipodiag',idw_tipodiag.GetItemString(idw_tipodiag.getrow(),'descripcion'))
-
-	if not isNull(dw_diags.GetItemString(f,"est_sale")) then
-		if dw_diags.GetItemString(f,"est_sale")='1' then
-			reemp_campo('desc_estadosalida','Vivo')
-		else
-			reemp_campo('desc_estadosalida','Muerto')
-		end if
-	else
-		reemp_campo('desc_estadosalida','')
-	end if
-	reemp_campo('cprof',dw_diags.GetItemString(f,"profe"))
-	
-	string l_desprof,l_codp
-	l_codp=dw_diags.GetItemString(f,"profe")
-	if g_motor='postgres' then
-		SELECT  nombre1|| case when nombre2  is null then ' ' else  ' '||nombre2||' ' end || apellido1|| case when apellido2 is null then ' ' else  ' '||apellido2 end into :l_desprof
-		FROM profe      
-		WHERE ( profe.estado = '1' and profe.codprof = :l_codp);
-	else
-		SELECT  nombre1+ case when nombre2  is null then ' ' else  ' '+nombre2+' ' end + apellido1+ case when apellido2 is null then ' ' else  ' '+apellido2 end into :l_desprof
-		FROM profe      
-		WHERE ( profe.estado = '1' and profe.codprof = :l_codp);
-	end If
-	
-	reemp_campo('profesional',l_desprof)
-	reemp_campo('diasincapacidad',string(dw_diags.GetItemNumber(f,"d_incap")))
-		
-	reemp_campo('conductaurg',dw_diags.GetItemString(f,"dest_urg"))
-	reemp_campo('desc_conductaurg',idw_desturg.GetItemString(idw_desturg.getrow(),'descripcion'))
-
-	reemp_campo('diagprin',dw_diags.GetItemString(f,"c_diagprin"))
-	reemp_campo('desc_diagprin',dw_diags.GetItemString(f,"d_diagprin"))
-	
-	////COLOCA DX en ANTECENTE
-	if not isNull(dw_diags.GetItemString(f,"est_sale")) then
-		if dw_diags.GetItemString(f,"antecedente")='1' then
-			setnull(ls_tpant)
-			SELECT cod_tipoa into :ls_tpant
-			FROM tipo_antecedente
-			WHERE (((tipo_antecedente.dx)='1'));
-			if not isnull(ls_tpant) then
-				ls_dx=dw_diags.GetItemString(f,"c_diagprin")
-				setnull(ll_item)
-				select 1 into :ll_item from pacientes_antecedente where tipodoc=:tipdoc and documento=:docu and cod_tipoa=:ls_tpant and dx=:ls_dx;
-				if isnull(ll_item) then
-					setnull(ll_item)
-					select max(item) into :ll_item from pacientes_antecedente where tipodoc=:tipdoc and documento=:docu and cod_tipoa=:ls_tpant;
-					if isnull(ll_item) then ll_item=0
-					ll_item++
-					ld_fechadx=datetime(today(),now())
-					INSERT INTO pacientes_antecedente(tipodoc, documento,cod_tipoa,item,fecha,cprof,dx)
-					VALUES (:tipdoc,:docu,:ls_tpant,:ll_item,:ld_fechadx,:l_codp=,:ls_dx);
-					if sqlca.sqlcode<0 then
-						messagebox("Error SQL","Error insertando en pacientes_antecedente")
-						rollback;
-						return -1
-					end if
-				end if
-			end if
-		end if
-	end if
- ////////////////
-	reemp_campo('diagrel1',dw_diags.GetItemString(f,"c_diagrel1"))
-	reemp_campo('desc_diagrel1',dw_diags.GetItemString(f,"d_diagrel1"))
-
-	reemp_campo('diagrel2',dw_diags.GetItemString(f,"c_diagrel2"))
-	reemp_campo('desc_diagrel2',dw_diags.GetItemString(f,"d_diagrel2"))
-
-	reemp_campo('diagrel3',dw_diags.GetItemString(f,"c_diagrel3"))
-	reemp_campo('desc_diagrel3',dw_diags.GetItemString(f,"d_diagrel3"))
-
-	reemp_campo('diagrel4',dw_diags.GetItemString(f,"c_diagrel4"))
-	reemp_campo('desc_diagrel4',dw_diags.GetItemString(f,"d_diagrel4"))
-
-	reemp_campo('diagrel5',dw_diags.GetItemString(f,"c_diagrel5"))
-	reemp_campo('desc_diagrel5',dw_diags.GetItemString(f,"d_diagrel5"))
-
-	reemp_campo('diagcompli',dw_diags.GetItemString(f,"c_diagcompli"))
-	reemp_campo('desc_diagcompli',dw_diags.GetItemString(f,"d_diagcompli"))
-
-	reemp_campo('diagingre',dw_diags.GetItemString(f,"c_diagingre"))
-	reemp_campo('desc_diagingre',dw_diags.GetItemString(f,"d_diagingre"))
-
-	reemp_campo('diagingre1',dw_diags.GetItemString(f,"c_diagingre1"))
-	reemp_campo('desc_diagingre1',dw_diags.GetItemString(f,"d_diagingre1"))
-
-	reemp_campo('diagingre2',dw_diags.GetItemString(f,"c_diagingre2"))
-	reemp_campo('desc_diagingre2',dw_diags.GetItemString(f,"d_diagingre2"))
-
-	reemp_campo('diagingre3',dw_diags.GetItemString(f,"c_diagingre3"))
-	reemp_campo('desc_diagingre3',dw_diags.GetItemString(f,"d_diagingre3"))
-
-	reemp_campo('diagegreso',dw_diags.GetItemString(f,"c_diagegreso"))
-	reemp_campo('desc_diagegreso',dw_diags.GetItemString(f,"d_diagegreso"))
-
-	reemp_campo('diagegreso1',dw_diags.GetItemString(f,"c_diagegreso1"))
-	reemp_campo('desc_diagegreso1',dw_diags.GetItemString(f,"d_diagegreso1"))
-
-	reemp_campo('diagegreso2',dw_diags.GetItemString(f,"c_diagegreso2"))
-	reemp_campo('desc_diagegreso2',dw_diags.GetItemString(f,"d_diagegreso2"))
-
-	reemp_campo('diagegreso3',dw_diags.GetItemString(f,"c_diagegreso3"))
-	reemp_campo('desc_diagegreso3',dw_diags.GetItemString(f,"d_diagegreso3"))
-
-	reemp_campo('diagcomplica',dw_diags.GetItemString(f,"c_diagcomplica"))
-	reemp_campo('desc_diagcomplica',dw_diags.GetItemString(f,"d_diagcomplica"))
-
-	reemp_campo('causamuerte',dw_diags.GetItemString(f,"c_causamuerte"))
-	reemp_campo('desc_causamuerte',dw_diags.GetItemString(f,"d_causamuerte"))
-
-	reemp_campo('defuncion',dw_diags.GetItemString(f,"acta_defunc"))
-
-	if isnull(dw_diags.GetItemString(f,"finalidad")) then 
-		reemp_campo('finalidad',nulo)
-		reemp_campo('desc_finalidad',nulo)
-	else
-		reemp_campo('finalidad',dw_diags.GetItemString(f,"finalidad"))
-		reemp_campo('desc_finalidad',idw_finalidad.GetItemString(idw_finalidad.getrow(),"descripcion"))
-	end if
-	
-	if isnull(dw_diags.GetItemString(f,"causaext"))  then
-		reemp_campo('causaext',nulo)
-		reemp_campo('desc_causaext',nulo)
-	else
-		reemp_campo('causaext',dw_diags.GetItemString(f,"causaext"))
-		reemp_campo('desc_causaext', idw_causaext.GetItemString(idw_causaext.getrow(),"descripcion"))
-	end if
-	
-		
-	if isnull(dw_diags.GetItemString(f,"cod_modrel"))  then
-		reemp_campo('modrealiza',nulo)
-		reemp_campo('desc_modrealiza',nulo)
-	else
-		reemp_campo('modrealiza',dw_diags.GetItemString(f,"cod_modrel"))
-		reemp_campo('desc_modrealiza', idw_modrea.GetItemString(idw_modrea.getrow(),"desp_modrel"))
-	end if
-	i_rte.displayonly=true
-elseif i_tipo_memo='P' then //proceds
-	string cual,reemp,apegar,tipo
-	long j,k,line,posit
-	f_sel_rtf(rte_x)
-	rte_x.clearall()
-	f_sel_rtf(rte_x)
-	rte_x.clearall()
-	for j=1 to i_uo_padre.dw_procs_new.rowcount()
-		f_pega_a_rtf(rte_x,p_texto,2)
-		for k=1 to long(i_uo_padre.dw_procs_new.Object.DataWindow.Column.Count)
-			cual=i_uo_padre.dw_procs_new.describe('#'+string(k)+'.name')
-			reemp=rte_x.InputFieldLocate ( first! , cual )
-			do while reemp<>'' and reemp=cual
-				rte_x.InputFieldDeleteCurrent ( )
-				choose case i_uo_padre.dw_procs_new.describe(cual+'.type')
-					case 'column','compute'
-						tipo=i_uo_padre.dw_procs_new.describe(cual+'.coltype')
-						if left(tipo,4)='char' then tipo='char'
-						choose case tipo
-							case 'char'
-								apegar=i_uo_padre.dw_procs_new.getitemstring(j,cual)
-							case 'long','number','real'
-								apegar=string(i_uo_padre.dw_procs_new.getitemnumber(j,cual))
-							case 'decimal(2)'
-								apegar=string(i_uo_padre.dw_procs_new.getitemdecimal(j,cual))
-							case 'datetime'
-								apegar=string(i_uo_padre.dw_procs_new.getitemdatetime(j,cual))
-							case 'date'
-								apegar=string(i_uo_padre.dw_procs_new.getitemdate(j,cual))
-							case 'time'
-								apegar=string(i_uo_padre.dw_procs_new.getitemtime(j,cual))
-						end choose
-				end choose
-				if isnull(apegar) then apegar=''
-				f_pega_a_rtf(rte_x,apegar,1)
-				reemp=rte_x.InputFieldLocate ( next! , cual )
-				setnull(apegar)
-			loop
-		next
-		f_pega_a_rtf(rte_x,'~r~n',2)
-	next
-	i_rte.displayonly=false
-end if
-i_rte.SelectTextAll ( header! )
-i_rte.clearall()
-i_rte.SelectTextAll ( detail! )
-i_rte.clearall()
-i_rte.SelectTextAll ( header! )
-i_rte.clearall()
-i_rte.SelectTextAll ( detail! )
-i_rte.clearall()
-
-f_pega_a_rtf(i_rte,rte_x.copyrtf(false,detail!),2)
-
-Return 0
-
 end function
 
 public subroutine reemp_campo (string p_name_campo, string p_dato);string reemp, rtn
 
-if isnull(p_dato) then p_dato=''
+/*if isnull(p_dato) then p_dato=''
 reemp=rte_x.InputFieldLocate ( first! , p_name_campo )
 do while reemp<>'' and reemp=p_name_campo
 	rtn=string(rte_x.InputFieldDeleteCurrent ( ))
 	f_pega_a_rtf(rte_x,p_dato,1)
 	reemp=rte_x.InputFieldLocate ( next! , p_name_campo )
-loop
+loop*/
 end subroutine
 
 public function integer getdiagrip (string codgeral, ref string cod_rip, ref string descrip, ref string guia);SELECT diags.cod_rips, diags.DesDiag,guia INTO :cod_rip,:descrip,:guia
@@ -588,55 +372,6 @@ end if
 Return 0
 
 end function
-
-public subroutine inicia (long p_contador, string p_clug, long p_nreg, string p_cplant, string p_ing, string p_tipo_plant, string p_tingres, singlelineedit p_st, richtextedit p_rte, string p_cemp, string p_ccont, string p_cprof, datawindow p_dw_res, datawindow p_dw_dats, datawindow p_dw_memos, datawindow p_dw_frm, string p_cesp);//Para controlar dobles evoluciones simultaeas
-if i_uo_padre.i_control>1 then
-  	pb_buscaproc.enabled=FALSE
-  	pb_buscamed.enabled=FALSE
-  	pb_kits.enabled=FALSE
-  	dw_cond.enabled=FALSE
-	c_ord.enabled=FALSE
-else
-	pb_buscaproc.enabled=true
-  	pb_buscamed.enabled=true
-  	pb_kits.enabled=true
-  	dw_cond.enabled=true
-  	c_ord.enabled=true
-end if
-
-dw_diags.reset()
-dw_cond.reset()
-dw_cond.insertrow(1)
-dw_diags.visible=false
-dw_cond.visible=false
-i_contador=p_contador
-i_clug=p_clug
-i_nreg=p_nreg
-i_cplant=p_cplant
-i_ing=p_ing
-i_tipo_plant=p_tipo_plant
-i_tingres=p_tingres
-i_st=p_st
-i_rte=p_rte
-i_cemp=p_cemp
-i_ccont=p_ccont
-i_cprof=p_cprof
-i_cesp=p_cesp
-idw_results=p_dw_res
-dw_diags.Modify("r_diagprin.protect=0")
-dw_diags.Modify("finalidad.protect=0")
-dw_diags.Modify("causaext.protect=0")	
-if p_tipo_plant='H' and p_ing='I' then
-	pb_urg.enabled=true
-else
-	pb_urg.enabled=false
-end if
-
-idw_dats=p_dw_dats
-idw_memos=p_dw_memos
-idw_frm = p_dw_frm
-refresh_diags()
-end subroutine
 
 public subroutine retrieve (long p_item, string p_tipo, string p_antecedente, string p_codant, string p_alergia, string p_cpo);i_tipo_memo=p_tipo
 i_ncampo=p_item
@@ -680,6 +415,10 @@ if p_tipo='D' then //de diags
 	pb_tri.visible=false
 	pb_urg.visible=false
 	pb_guia.visible=true
+	dw_diags.resetupdate()
+	dw_diags.Modify("r_diagprin.protect=0")
+	dw_diags.Modify("finalidad.protect=0")
+	dw_diags.Modify("causaext.protect=0")	
 elseif p_tipo='C' then //conducta
 	pb_cevol.visible=false
 	pb_medi.visible=false	
@@ -794,12 +533,287 @@ else
 end if
 end subroutine
 
+public subroutine inicia (long p_contador, string p_clug, long p_nreg, string p_cplant, string p_ing, string p_tipo_plant, string p_tingres, singlelineedit p_st, multilineedit a_mle, string p_cemp, string p_ccont, string p_cprof, datawindow p_dw_res, datawindow p_dw_dats, datawindow p_dw_memos, datawindow p_dw_frm, string p_cesp);//Para controlar dobles evoluciones simultaeas
+if i_uo_padre.i_control>1 then
+  	pb_buscaproc.enabled=FALSE
+  	pb_buscamed.enabled=FALSE
+  	pb_kits.enabled=FALSE
+  	dw_cond.enabled=FALSE
+	c_ord.enabled=FALSE
+else
+	pb_buscaproc.enabled=true
+  	pb_buscamed.enabled=true
+  	pb_kits.enabled=true
+  	dw_cond.enabled=true
+  	c_ord.enabled=true
+end if
+
+dw_diags.reset()
+dw_cond.reset()
+dw_cond.insertrow(1)
+dw_diags.visible=false
+dw_cond.visible=false
+i_contador=p_contador
+i_clug=p_clug
+i_nreg=p_nreg
+i_cplant=p_cplant
+i_ing=p_ing
+i_tipo_plant=p_tipo_plant
+i_tingres=p_tingres
+i_st=p_st
+i_mle=a_mle
+i_cemp=p_cemp
+i_ccont=p_ccont
+i_cprof=p_cprof
+i_cesp=p_cesp
+idw_results=p_dw_res
+if p_tipo_plant='H' and p_ing='I' then
+	pb_urg.enabled=true
+else
+	pb_urg.enabled=false
+end if
+
+
+idw_dats=p_dw_dats
+idw_memos=p_dw_memos
+idw_frm = p_dw_frm
+refresh_diags()
+end subroutine
+
+public function integer updaterte ();string  ls_text
+
+ls_text=""
+
+if i_tipo_memo='D' then //diags
+
+	if not isnull(dw_diags.GetItemString(1,"est_sale")) and trim(dw_diags.GetItemString(1,"est_sale"))<>''  then
+		
+		ls_text+='Estado a la Salida:'+'		'
+		if dw_diags.GetItemString(1,"est_sale")='1' then
+			ls_text+='Vivo~r~n'
+		else
+			ls_text+='Muerto~r~n'
+		end if
+
+		////COLOCA DX en ANTECENTE
+		if dw_diags.GetItemString(1,"antecedente")='1' then
+			
+			string ls_tpant , ls_dx , ls_codp
+			integer li_item
+			datetime ld_fechadx
+			
+			setnull(ls_tpant)
+			
+			SELECT cod_tipoa into :ls_tpant
+			FROM tipo_antecedente
+			WHERE (((tipo_antecedente.dx)='1'));
+			if not isnull(ls_tpant) then
+				ls_dx=dw_diags.GetItemString(1,"c_diagprin")
+				setnull(li_item)
+				select 1 into :li_item from pacientes_antecedente where tipodoc=:tipdoc and documento=:docu and cod_tipoa=:ls_tpant and dx=:ls_dx;
+				if isnull(li_item) then
+					setnull(li_item)
+					select max(item) into :li_item from pacientes_antecedente where tipodoc=:tipdoc and documento=:docu and cod_tipoa=:ls_tpant;
+					if isnull(li_item) then li_item=0
+					li_item++
+					ld_fechadx=datetime(today(),now())
+					INSERT INTO pacientes_antecedente(tipodoc, documento,cod_tipoa,item,fecha,cprof,dx)
+					VALUES (:tipdoc,:docu,:ls_tpant,:li_item,:ld_fechadx,:ls_codp=,:ls_dx);
+					if sqlca.sqlcode<0 then
+						messagebox("Error SQL","Error insertando en pacientes_antecedente")
+						rollback;
+						return -1
+					end if
+				end if
+			end if
+		end if
+		////////////////
+	end if
+	
+	if not isnull(dw_diags.GetItemString(1,"profe")) and trim(dw_diags.GetItemString(1,"profe"))<>''  then
+		
+		ls_text+='Profesional:'+'		'+dw_diags.GetItemString(1,"profe")+' - '
+		
+		string ls_desprof
+		ls_codp=dw_diags.GetItemString(1,"profe")
+		if g_motor='postgres' then
+			SELECT  nombre1|| case when nombre2  is null then ' ' else  ' '||nombre2||' ' end || apellido1|| case when apellido2 is null then ' ' else  ' '||apellido2 end 
+			into :ls_desprof
+			FROM profe      
+			WHERE ( profe.estado = '1' and profe.codprof = :ls_codp);
+		else
+			SELECT  nombre1+ case when nombre2  is null then ' ' else  ' '+nombre2+' ' end + apellido1+ case when apellido2 is null then ' ' else  ' '+apellido2 end 
+			into :ls_desprof
+			FROM profe      
+			WHERE ( profe.estado = '1' and profe.codprof = :ls_codp);
+		end If
+		ls_text+=ls_desprof+'~r~n'
+			
+	end if
+	
+	if not isnull(dw_diags.GetItemNumber(1,"d_incap")) and  dw_diags.GetItemNumber(1,"d_incap")>0 then
+		
+		ls_text+='Días de Incapacidad:'+'		'+string(dw_diags.GetItemNumber(1,"d_incap"))+'~r~n'
+
+	end if
+
+	if not isnull(dw_diags.GetItemString(1,"dest_urg")) and trim(dw_diags.GetItemString(1,"dest_urg"))<>''  then
+		
+		ls_text+='Conducta de Urgencias:'+'		'+dw_diags.GetItemString(1,"dest_urg")+'  '+idw_desturg.GetItemString(idw_desturg.getrow(),'descripcion')+'~r~n'
+
+	end if
+	
+	if not isnull(dw_diags.GetItemString(1,"c_diagprin")) and trim(dw_diags.GetItemString(1,"c_diagprin"))<>''  then
+		
+		ls_text+='Como Diagnóstico Principal:'+'		'+dw_diags.GetItemString(1,"c_diagprin")+'  '+dw_diags.GetItemString(1,"d_diagprin")+'~r~n'
+
+	end if
+	
+	if not isnull(dw_diags.GetItemString(1,"tipo_diag")) and trim(dw_diags.GetItemString(1,"tipo_diag"))<>''  then
+		
+		ls_text+='Tipo de Diagnóstico:'+'		'+dw_diags.GetItemString(1,"tipo_diag")+'  '+idw_tipodiag.GetItemString(idw_tipodiag.getrow(),'descripcion')+'~r~n'
+
+	end if
+		
+	if not isnull(dw_diags.GetItemString(1,"finalidad")) and trim(dw_diags.GetItemString(1,"finalidad"))<>''  then
+		
+		ls_text+='Finalidad:'+'			'+dw_diags.GetItemString(1,"finalidad")+'  '+idw_finalidad.GetItemString(idw_finalidad.getrow(),"descripcion")+'~r~n'
+
+	end if
+
+	if not isnull(dw_diags.GetItemString(1,"causaext")) and trim(dw_diags.GetItemString(1,"causaext"))<>''  then
+		
+		ls_text+='Causa Externa:'+'			'+dw_diags.GetItemString(1,"causaext")+'  '+idw_causaext.GetItemString(idw_causaext.getrow(),"descripcion")+'~r~n'
+
+	end if
+	
+	if not isnull(dw_diags.GetItemString(1,"cod_modrel")) and trim(dw_diags.GetItemString(1,"cod_modrel"))<>''  then
+		
+		ls_text+='Modo de Realización:'+'		'+dw_diags.GetItemString(1,"cod_modrel")+'  '+idw_modrea.GetItemString(idw_modrea.getrow(),"desp_modrel")+'~r~n'
+
+	end if
+	
+	if trim(dw_diags.GetItemString(1,"c_diagrel1"))<>'' or trim(dw_diags.GetItemString(1,"c_diagrel2"))<>'' or trim(dw_diags.GetItemString(1,"c_diagrel3"))<>'' or trim(dw_diags.GetItemString(1,"c_diagrel4"))<>'' or trim(dw_diags.GetItemString(1,"c_diagrel5"))<>'' then
+		ls_text+='~r~nComo diagnósticos relacionados:~r~n'
+		if not isnull(dw_diags.GetItemString(1,"c_diagrel1"))  and trim(dw_diags.GetItemString(1,"c_diagrel1"))<>'' then
+			
+			ls_text+=dw_diags.GetItemString(1,"c_diagrel1")+' '+dw_diags.GetItemString(1,"d_diagrel1")+'~r~n'
+
+		end if
+		if not isnull(dw_diags.GetItemString(1,"c_diagrel2"))  and trim(dw_diags.GetItemString(1,"c_diagrel2"))<>'' then
+			
+			ls_text+=dw_diags.GetItemString(1,"c_diagrel2")+' '+dw_diags.GetItemString(1,"d_diagrel2")+'~r~n'
+
+		end if
+		if not isnull(dw_diags.GetItemString(1,"c_diagrel3"))  and trim(dw_diags.GetItemString(1,"c_diagrel3"))<>'' then
+			
+			ls_text+=dw_diags.GetItemString(1,"c_diagrel3")+' '+dw_diags.GetItemString(1,"d_diagrel3")+'~r~n'
+
+		end if
+		if not isnull(dw_diags.GetItemString(1,"c_diagrel4"))  and trim(dw_diags.GetItemString(1,"c_diagrel4"))<>'' then
+			
+			ls_text+=dw_diags.GetItemString(1,"c_diagrel4")+' '+dw_diags.GetItemString(1,"d_diagrel4")+'~r~n'
+
+		end if
+		if not isnull(dw_diags.GetItemString(1,"c_diagrel5"))  and trim(dw_diags.GetItemString(1,"c_diagrel5"))<>'' then
+			
+			ls_text+=dw_diags.GetItemString(1,"c_diagrel5")+' '+dw_diags.GetItemString(1,"d_diagrel5")+'~r~n'
+
+		end if
+	end if
+	
+	if trim(dw_diags.GetItemString(1,"c_diagingre"))<>'' or trim(dw_diags.GetItemString(1,"c_diagingre1"))<>'' or trim(dw_diags.GetItemString(1,"c_diagingre3"))<>'' then
+		ls_text+='~r~nComo diagnósticos de Ingreso:~r~n'
+		if not isnull(dw_diags.GetItemString(1,"c_diagingre"))  and trim(dw_diags.GetItemString(1,"c_diagingre"))<>'' then
+			
+			ls_text+=dw_diags.GetItemString(1,"c_diagingre")+' '+dw_diags.GetItemString(1,"d_diagingre")+'~r~n'
+
+		end if
+		if not isnull(dw_diags.GetItemString(1,"c_diagingre1"))  and trim(dw_diags.GetItemString(1,"c_diagingre1"))<>'' then
+			
+			ls_text+=dw_diags.GetItemString(1,"c_diagingre1")+' '+dw_diags.GetItemString(1,"d_diagingre1")+'~r~n'
+
+		end if
+		if not isnull(dw_diags.GetItemString(1,"c_diagingre2"))  and trim(dw_diags.GetItemString(1,"c_diagingre2"))<>'' then
+			
+			ls_text+=dw_diags.GetItemString(1,"c_diagingre2")+' '+dw_diags.GetItemString(1,"d_diagingre2")+'~r~n'
+
+		end if
+		if not isnull(dw_diags.GetItemString(1,"c_diagingre3"))  and trim(dw_diags.GetItemString(1,"c_diagingre3"))<>'' then
+			
+			ls_text+=dw_diags.GetItemString(1,"c_diagingre3")+' '+dw_diags.GetItemString(1,"d_diagingre3")+'~r~n'
+
+		end if
+	end if
+	
+	if trim(dw_diags.GetItemString(1,"c_diagegreso"))<>'' or trim(dw_diags.GetItemString(1,"c_diagegreso1"))<>'' or trim(dw_diags.GetItemString(1,"c_diagegreso2"))<>'' or trim(dw_diags.GetItemString(1,"c_diagegreso3"))<>'' then
+		ls_text+='~r~nComo diagnósticos de Egreso:~r~n'
+		if not isnull(dw_diags.GetItemString(1,"c_diagegreso"))  and trim(dw_diags.GetItemString(1,"c_diagegreso"))<>'' then
+			
+			ls_text+=dw_diags.GetItemString(1,"c_diagegreso")+' '+dw_diags.GetItemString(1,"d_diagegreso")+'~r~n'
+
+		end if
+		if not isnull(dw_diags.GetItemString(1,"c_diagegreso1"))  and trim(dw_diags.GetItemString(1,"c_diagegreso1"))<>'' then
+			
+			ls_text+=dw_diags.GetItemString(1,"c_diagegreso1")+' '+dw_diags.GetItemString(1,"d_diagegreso1")+'~r~n'
+
+		end if
+		if not isnull(dw_diags.GetItemString(1,"c_diagegreso2"))  and trim(dw_diags.GetItemString(1,"c_diagegreso2"))<>'' then
+			
+			ls_text+=dw_diags.GetItemString(1,"c_diagegreso2")+' '+dw_diags.GetItemString(1,"d_diagegreso2")+'~r~n'
+
+		end if
+		if not isnull(dw_diags.GetItemString(1,"c_diagegreso3"))  and trim(dw_diags.GetItemString(1,"c_diagegreso3"))<>'' then
+			
+			ls_text+=dw_diags.GetItemString(1,"c_diagegreso3")+' '+dw_diags.GetItemString(1,"d_diagegreso3")+'~r~n'
+
+		end if
+	end if
+
+	if not isnull(dw_diags.GetItemString(1,"c_diagcomplica")) and trim(dw_diags.GetItemString(1,"c_diagcomplica"))<>''  then
+		
+		ls_text+='Diagnóstico de Complicación:'+'		'+dw_diags.GetItemString(1,"c_diagcompli")+'  '+dw_diags.GetItemString(1,"d_diagcompli")+'~r~n'
+
+	end if
+	
+	if not isnull(dw_diags.GetItemString(1,"c_causamuerte")) and trim(dw_diags.GetItemString(1,"c_causamuerte"))<>''  then
+		
+		ls_text+='Causa de Muerte:'+'		'+dw_diags.GetItemString(1,"c_causamuerte")+'  '+dw_diags.GetItemString(1,"d_causamuerte")+'~r~n'
+
+	end if
+	
+	if not isnull(dw_diags.GetItemString(1,"acta_defunc"))  and trim(dw_diags.GetItemString(1,"acta_defunc"))<>'' then
+		
+		ls_text+='Acta de Defunción Nro:'+'	'+dw_diags.GetItemString(1,"acta_defunc")
+
+	end if
+
+elseif i_tipo_memo='P' then //proceds
+	long j
+	
+	if i_uo_padre.dw_procs_new.rowcount()>0 then ls_text="Procedimientos:~r~n"
+	
+	for j=1 to i_uo_padre.dw_procs_new.rowcount()
+		if not isnull(i_uo_padre.dw_procs_new.getitemdatetime(j,'fecha')) 		then ls_text+=string(i_uo_padre.dw_procs_new.getitemdatetime(j,'fecha'),'yyyy/mm/dd HH:mm')+': '
+		if not isnull(i_uo_padre.dw_procs_new.getitemstring(j,'cproced')) 		then ls_text+=i_uo_padre.dw_procs_new.getitemstring(j,'cproced')+' - '
+		if not isnull(i_uo_padre.dw_procs_new.getitemstring(j,'descripcion')) 	then ls_text+=i_uo_padre.dw_procs_new.getitemstring(j,'descripcion')+', '
+		if not isnull(i_uo_padre.dw_procs_new.getitemstring(j,'codrip_prin')) 	then ls_text+='Diag. Princ: '+i_uo_padre.dw_procs_new.getitemstring(j,'codrip_prin')+''
+		ls_text+='~r~n'
+	next
+	
+end if
+
+f_pega_a_mle(i_mle,ls_text,3)
+i_mle.displayonly=false
+Return 0
+
+end function
+
 on uo_barra_hc.create
 this.pb_buscaproc=create pb_buscaproc
 this.pb_buscamed=create pb_buscamed
 this.dw_cond=create dw_cond
 this.pb_kits=create pb_kits
-this.rte_x=create rte_x
 this.pb_result=create pb_result
 this.pb_del_proc=create pb_del_proc
 this.pb_urg=create pb_urg
@@ -814,13 +828,12 @@ this.pb_save=create pb_save
 this.pb_guia=create pb_guia
 this.c_ord=create c_ord
 this.pb_cevol=create pb_cevol
-this.dw_diags=create dw_diags
 this.dw_tri=create dw_tri
+this.dw_diags=create dw_diags
 this.Control[]={this.pb_buscaproc,&
 this.pb_buscamed,&
 this.dw_cond,&
 this.pb_kits,&
-this.rte_x,&
 this.pb_result,&
 this.pb_del_proc,&
 this.pb_urg,&
@@ -835,8 +848,8 @@ this.pb_save,&
 this.pb_guia,&
 this.c_ord,&
 this.pb_cevol,&
-this.dw_diags,&
-this.dw_tri}
+this.dw_tri,&
+this.dw_diags}
 end on
 
 on uo_barra_hc.destroy
@@ -844,7 +857,6 @@ destroy(this.pb_buscaproc)
 destroy(this.pb_buscamed)
 destroy(this.dw_cond)
 destroy(this.pb_kits)
-destroy(this.rte_x)
 destroy(this.pb_result)
 destroy(this.pb_del_proc)
 destroy(this.pb_urg)
@@ -859,8 +871,8 @@ destroy(this.pb_save)
 destroy(this.pb_guia)
 destroy(this.c_ord)
 destroy(this.pb_cevol)
-destroy(this.dw_diags)
 destroy(this.dw_tri)
+destroy(this.dw_diags)
 end on
 
 event constructor;i_uo_padre=parent
@@ -1005,10 +1017,10 @@ colum = getcolumnname()
 setitem(getRow(),'tiporep','E')
 
 if i_uo_padre.i_modo = 'A' then //arbol
-	if i_rte.Find("ORDENES MEDICAS",TRUE,TRUE,FALSE,FALSE) = 0 then
+	if pos(i_mle.text, "ORDENES MEDICAS") = 0 then
 		texto = string(today()) + '  '+string(Now())+ " ORDENES MEDICAS "
 		txt_frm = texto
-		f_pega_a_rtf(i_rte,texto,3)
+		f_pega_a_mle(i_mle,texto,3)
 	end if
 else
 	txt_frm = idw_frm.GetItemString(1, idw_frm.GetColumn())
@@ -1050,7 +1062,7 @@ choose case colum
 				texto = "~r~n"+"▪ "+st_p.descripcion+ texto+texto_np
 				txt_frm = txt_frm + texto
 				if i_uo_padre.i_modo = 'A' then
-					f_pega_a_rtf(i_rte,texto,2)
+					f_pega_a_mle(i_mle,texto,2)
 				end if 
 				setnull(texto_np)
 			end if
@@ -1101,7 +1113,7 @@ choose case colum
 			texto ='~r~n'+ "▪ "+st_med.medicamento+texto+texto_np
 			txt_frm = txt_frm + texto
 			if i_uo_padre.i_modo = 'A' then
-				f_pega_a_rtf(i_rte,texto,2)
+				f_pega_a_mle(i_mle,texto,2)
 			end if
 		end if
 end choose
@@ -1137,28 +1149,13 @@ string powertiptext = "Kits"
 end type
 
 event clicked;st_proc_comun st_pc
-st_pc.rte = i_rte
+st_pc.mle = i_mle
 st_pc.dw_conducta = dw_cond
 st_pc.carreta='1'
-st_pc.veren='2'
 //openwithparm(w_kit_viejo,st_pc)
 openwithparm(w_kit_new,st_pc)
 
 end event
-
-type rte_x from richtextedit within uo_barra_hc
-integer x = 1426
-integer y = 216
-integer width = 1733
-integer height = 132
-integer taborder = 50
-boolean init_hscrollbar = true
-boolean init_vscrollbar = true
-boolean init_wordwrap = true
-boolean init_inputfieldsvisible = true
-borderstyle borderstyle = stylelowered!
-boolean resizable = true
-end type
 
 type pb_result from picturebutton within uo_barra_hc
 boolean visible = false
@@ -1371,7 +1368,7 @@ end type
 
 event clicked;st_rte st
 st.c_prof = i_cprof
-st.rte = i_rte
+st.mle = i_mle
 st.dw_pac = w_principal.dw_1
 st.codplantilla=i_cplant
 st.numcampo=i_ncampo
@@ -1405,50 +1402,11 @@ alignment htextalign = left!
 string powertiptext = "Colocar plantilla y datos de Diags."
 end type
 
-event clicked;blob memo
-string campo, cp, texto
-long nc
+event clicked;
+UpdateRTE()
 
-SQLCA.AutoCommit = TRUE
-selectblob plantilla into :memo from hclin_plantcampo
-where codplantilla=:i_cplant and numcampo=:i_ncampo;
-if SQLCA.sqlcode=-1 then
-	Messagebox("Error leyendo plantilla del campo",sqlca.sqlerrtext)
-	Rollback;
-	SQLCA.AutoCommit = FALSE
-	Return -1
-end if
-texto = string(memo)
-if not (isNull(texto) or texto ='') then
-	if i_uo_padre.i_modo = 'F' then
-		clipboard('')
-		rte_x.SelectTextAll ( header! )
-		rte_x.clearall()
-		rte_x.SelectTextAll ( detail! )
-		rte_x.clearall()
-		rte_x.SelectTextAll ( header! )
-		rte_x.clearall()
-		rte_x.SelectTextAll ( detail! )
-		rte_x.clearall()
-		f_pega_a_rtf(rte_x,texto,3)
-		UpdateRTE(texto)
-		rte_x.SelectTextAll()
-		texto= rte_x.SelectedText()
-		idw_frm.setitem(idw_frm.getrow(),'memo_'+string(i_ncampo),texto)	
-	else
-		rte_x.SelectTextAll ( header! )
-		rte_x.clearall()
-		rte_x.SelectTextAll ( detail! )
-		rte_x.clearall()
-		rte_x.SelectTextAll ( header! )
-		rte_x.clearall()
-		rte_x.SelectTextAll ( detail! )
-		rte_x.clearall()
-		f_pega_a_rtf(rte_x,texto,3)
-		UpdateRTE(texto)		
-	end if
-end if
-SQLCA.AutoCommit = FALSE
+idw_frm.setitem(idw_frm.getrow(),'memo_'+string(i_ncampo),i_mle.text)	
+
 
 end event
 
@@ -1589,7 +1547,7 @@ if dw_tri.getitemstring(1,'at_inicial')<>'' and not isnull(dw_tri.getitemstring(
 	carreta+=tab+'Atención Inicial: '+dw_tri.getitemstring(1,'at_inicial')
 	tab='	'
 end if
-f_pega_a_rtf(i_rte,carreta+'~r~n',2)
+f_pega_a_mle(i_mle,carreta+'~r~n',2)
 
 end event
 
@@ -1619,13 +1577,13 @@ if pos('2347',i_uo_padre.i_tingre)>0 and i_uo_padre.i_estado_hadm<>'1' and i_uo_
 end if
 st_rte st
 st.c_prof = i_cprof
-st.rte = i_rte
+st.mle = i_mle
 st.dw_pac = w_principal.dw_1
 st.codplantilla=i_cplant
 st.numcampo=i_ncampo
 st.ventana = i_uo_padre.i_modo
 st.dw_data = idw_frm
-openwithparm(w_plants_rtf_campos,st)
+openwithparm(w_plants_txt_campos,st)
 
 end event
 
@@ -1795,11 +1753,32 @@ st_memo.ncampo=i_ncampo
 openwithparm(w_copiar_hc_memo,st_memo)
 st_memo=message.powerobjectparm
 if isvalid(st_memo) then
-	f_pega_a_rtf( i_rte,string(st_memo.cemp),3)
-	 i_rte.selectTextAll(Detail!)
-	 i_rte.Copy()
+	f_pega_a_mle( i_mle,string(st_memo.cemp),3)
+	 i_mle.selectText(1,9999999)
+	 i_mle.Copy()
 end if
 	
+end event
+
+type dw_tri from datawindow within uo_barra_hc
+event key pbm_dwnkey
+boolean visible = false
+integer x = 645
+integer width = 3803
+integer height = 264
+integer taborder = 60
+string title = "none"
+string dataobject = "dw_triage_resu"
+boolean hscrollbar = true
+boolean border = false
+boolean livescroll = true
+end type
+
+event key;//if key=i_uo_padre.i_nextitem or key=i_uo_padre.i_previtem or key=i_uo_padre.i_nextchild then parent.event navegar(key)
+if key=i_nextitem or key=i_previtem or key=i_nextchild then parent.event navegar(key)
+end event
+
+event constructor;settransobject(sqlca)
 end event
 
 type dw_diags from datawindow within uo_barra_hc
@@ -1809,6 +1788,7 @@ integer x = 457
 integer width = 3986
 integer height = 208
 integer taborder = 20
+boolean bringtotop = true
 string title = "dw_datos_diag_sal"
 string dataobject = "dw_datos_diag_sal"
 boolean border = false
@@ -2081,26 +2061,5 @@ event doubleclicked;choose case dwo.name
 		i_st.text=st_diag.descripcion
 		i_uo_padre.i_cambia=true
 end choose
-end event
-
-type dw_tri from datawindow within uo_barra_hc
-event key pbm_dwnkey
-boolean visible = false
-integer x = 645
-integer width = 3803
-integer height = 264
-integer taborder = 60
-string title = "none"
-string dataobject = "dw_triage_resu"
-boolean hscrollbar = true
-boolean border = false
-boolean livescroll = true
-end type
-
-event key;//if key=i_uo_padre.i_nextitem or key=i_uo_padre.i_previtem or key=i_uo_padre.i_nextchild then parent.event navegar(key)
-if key=i_nextitem or key=i_previtem or key=i_nextchild then parent.event navegar(key)
-end event
-
-event constructor;settransobject(sqlca)
 end event
 

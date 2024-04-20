@@ -209,7 +209,7 @@ if st_pc.carreta='' then
 else
 	encab=true
 end if
-dw_kits.retrieve(st_pc.carreta,st_pc.veren)
+dw_kits.retrieve(st_pc.carreta)
 
 end event
 
@@ -273,7 +273,7 @@ scrolltorow(Row)
 end event
 
 type pb_cancel from picturebutton within w_kit_new
-integer x = 1632
+integer x = 1431
 integer y = 1524
 integer width = 146
 integer height = 128
@@ -296,7 +296,7 @@ event clicked;close(parent)
 end event
 
 type pb_aceptar from picturebutton within w_kit_new
-integer x = 1481
+integer x = 1280
 integer y = 1524
 integer width = 146
 integer height = 128
@@ -322,10 +322,10 @@ dw_kits.accepttext()
 dw_kits.setfilter("esco='1'")
 dw_kits.Filter( ) 
 for k=1 to dw_kits.rowcount()
-	if isvalid(st_pc.rte) then
+	if isvalid(st_pc.mle) then
 		if not encab then
-			if st_pc.rte.Find("Se ordena",TRUE,TRUE,FALSE,FALSE) = 0 then
-//				f_pega_a_rtf(st_pc.rte,"~rORDENES MEDICAS~r~n",2)
+			if pos(st_pc.mle.text,"Se ordena",1) = 0 then
+				f_pega_a_mle(st_pc.mle,"~rORDENES MEDICAS~r~n",2)
 			end if
 			encab=true
 		end if
@@ -336,9 +336,9 @@ for k=1 to dw_kits.rowcount()
 			item=dw_kits.getitemnumber(k,'item')
 			can_k=dw_kits.getitemnumber(k,'cantidad')
 			subdeta=dw_deta_kit.retrieve(area,item)
-			if isvalid(st_pc.rte) and k=1 then
-				f_pega_a_rtf(st_pc.rte,dw_deta_kit.getitemstring(1,'ordenmedica'),2)
-				if dw_kits.getitemstring(k,'carreta')<>'' then f_pega_a_rtf(st_pc.rte,': '+dw_kits.getitemstring(k,'carreta')+'~r~n',2)
+			if isvalid(st_pc.mle) and k=1 then
+				f_pega_a_mle(st_pc.mle,dw_deta_kit.getitemstring(1,'ordenmedica'),2)
+				if dw_kits.getitemstring(k,'carreta')<>'' then f_pega_a_mle(st_pc.mle,': '+dw_kits.getitemstring(k,'carreta')+'~r~n',2)
 			end if
 			for rs=1 to subdeta
 				if isnull(dw_deta_kit.getitemstring(rs,'proced')) then //es medica
@@ -349,12 +349,12 @@ for k=1 to dw_kits.rowcount()
 					insert_proc(dw_deta_kit.getitemstring(rs,'proced'),can_k*dw_deta_kit.getitemnumber(rs,'cantidad'),descrip,dw_kits.getitemstring(k,'carreta'),dw_kits.getitemstring(k,'espe'))
 				end if
 			next
-			if isvalid(st_pc.rte) then f_pega_a_rtf(st_pc.rte,'~r~n',2)
+			if isvalid(st_pc.mle) then f_pega_a_mle(st_pc.mle,'~r~n',2)
 		case 'P'
 			descrip=dw_kits.getitemstring(k,'descripcion')
 			insert_proc(dw_kits.getitemstring(k,'proced'),dw_kits.getitemnumber(k,'cantidad'),descrip,dw_kits.getitemstring(k,'carreta'),dw_kits.getitemstring(k,'espe'))
 			if dw_kits.getitemstring(k,'carreta')<>'' then 
-				f_pega_a_rtf(st_pc.rte,':'+dw_kits.getitemstring(k,'carreta'),2)
+				f_pega_a_mle(st_pc.mle,':'+dw_kits.getitemstring(k,'carreta'),2)
 			end if
 			if dw_kits.getitemstring(k,'espe')<>''  then 
 				string desp,codi
@@ -362,13 +362,13 @@ for k=1 to dw_kits.rowcount()
 				SELECT Especialidades.DesEsp into :desp
 				FROM Especialidades
 				WHERE (((Especialidades.CodEsp)=:codi));
-				  f_pega_a_rtf(st_pc.rte,': '+desp,2)
+				  f_pega_a_mle(st_pc.mle,': '+desp,2)
 			end if
 		case 'M'
 			descrip=dw_kits.getitemstring(k,'descripcion')
 			insert_med(dw_kits.getitemstring(k,'proced'),1,dw_kits.getitemnumber(k,'cantidad'),descrip,dw_kits.getitemstring(k,'codgenerico'),dw_kits.getitemstring(k,'carreta'),dw_kits.getitemstring(k,'frecuen'),dw_kits.getitemstring(k,'administracion'))
 			if dw_kits.getitemstring(k,'carreta')<>'' then 
-				f_pega_a_rtf(st_pc.rte,':'+dw_kits.getitemstring(k,'carreta'),2)
+				f_pega_a_mle(st_pc.mle,':'+dw_kits.getitemstring(k,'carreta'),2)
 			end if
 		end choose
 next

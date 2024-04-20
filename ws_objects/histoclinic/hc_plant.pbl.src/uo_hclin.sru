@@ -4038,6 +4038,7 @@ if dwo.name='b_for' then
 	j=pos(ls_formula,'#',1)
 	dw_new_det.setfilter("")
 	dw_new_det.Filter( )
+	
 	do while j>0
 		fin=len(ls_formula) +1
 		k=pos(ls_formula,',',j+1)
