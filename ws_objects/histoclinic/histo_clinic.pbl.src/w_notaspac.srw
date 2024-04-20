@@ -20,17 +20,17 @@ type t1 from tab within w_notaspac
 end type
 type p1 from userobject within t1
 end type
-type rte_1 from richtextedit within p1
+type mle_1 from multilineedit within p1
 end type
 type p1 from userobject within t1
-rte_1 rte_1
+mle_1 mle_1
 end type
 type p2 from userobject within t1
 end type
-type rte_2 from richtextedit within p2
+type mle_2 from multilineedit within p2
 end type
 type p2 from userobject within t1
-rte_2 rte_2
+mle_2 mle_2
 end type
 type t1 from tab within w_notaspac
 p1 p1
@@ -130,7 +130,7 @@ end if
 
 blob memo
 string texto
-texto = t1.p1.rte_1.CopyRTF(False,Detail!)
+texto = t1.p1.mle_1.text
 if not (isNull(texto) or texto = '') then
 	SQLCA.Autocommit = True
 	memo = blob(texto)
@@ -439,32 +439,32 @@ string text = "Solicitud"
 long tabtextcolor = 33554432
 string picturename = "quejas.ico"
 long picturemaskcolor = 536870912
-rte_1 rte_1
+mle_1 mle_1
 end type
 
 on p1.create
-this.rte_1=create rte_1
-this.Control[]={this.rte_1}
+this.mle_1=create mle_1
+this.Control[]={this.mle_1}
 end on
 
 on p1.destroy
-destroy(this.rte_1)
+destroy(this.mle_1)
 end on
 
-type rte_1 from richtextedit within p1
+type mle_1 from multilineedit within p1
 integer x = 27
 integer y = 28
 integer width = 4055
 integer height = 1100
-integer taborder = 20
-boolean init_hscrollbar = true
-boolean init_vscrollbar = true
+integer taborder = 40
+integer textsize = -8
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
 borderstyle borderstyle = stylelowered!
 end type
-
-event modified;cambio = TRUE
-
-end event
 
 type p2 from userobject within t1
 integer x = 18
@@ -476,52 +476,33 @@ string text = "Gestion"
 long tabtextcolor = 33554432
 string picturename = "gestion.ico"
 long picturemaskcolor = 536870912
-rte_2 rte_2
+mle_2 mle_2
 end type
 
 on p2.create
-this.rte_2=create rte_2
-this.Control[]={this.rte_2}
+this.mle_2=create mle_2
+this.Control[]={this.mle_2}
 end on
 
 on p2.destroy
-destroy(this.rte_2)
+destroy(this.mle_2)
 end on
 
-type rte_2 from richtextedit within p2
-event p_undo ( boolean p_cambio )
+type mle_2 from multilineedit within p2
 integer x = 27
 integer y = 28
 integer width = 4055
 integer height = 1100
-integer taborder = 60
-boolean init_hscrollbar = true
-boolean init_vscrollbar = true
+integer taborder = 40
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+long textcolor = 33554432
 borderstyle borderstyle = stylelowered!
 end type
-
-event p_undo(boolean p_cambio);if not p_cambio then
-	this.undo()
-end if
-this.modified=false
-i_cambia_rte=false
-
-end event
-
-event key;if keyflags = 2 then
-	if key = keyC! then
-		copy()
-	elseif key = keycontrol! then
-		Return 0
-	end if
-end if
-this.SelectText(selectedLine(),selectedStart(),0,0)
-
-end event
-
-event modified;post event p_undo(i_cambia_rte)
-
-end event
 
 type pb_5 from picturebutton within w_notaspac
 integer x = 3255
@@ -555,7 +536,7 @@ if isValid(st_cl) then
 	dw_1.SetItem(f,'codprof',st_cl.profe)
 end if
 
-t1.p1.rte_1.Enabled = TRUE
+t1.p1.mle_1.Enabled = TRUE
 sle_a.Enabled = TRUE
 choose case ddlb_1.Text
 	case 'Alertas' 
@@ -570,10 +551,10 @@ end choose
 if isValid(st_cl.dw_acc) then
 	int i
 	string texto
-	f_pega_a_rtf(t1.p1.rte_1,'Acciones Pendientes de Promoción y Prevención ~r~n',3)
+	f_pega_a_mle(t1.p1.mle_1,'Acciones Pendientes de Promoción y Prevención ~r~n',3)
 	for i = 1 to st_cl.dw_acc.RowCount()
 		texto = st_cl.dw_acc.GetItemString(i,'descripcion') +' - '+ st_cl.dw_acc.GetItemString(i,'nombreaccion')
-		f_pega_a_rtf(t1.p1.rte_1,texto+'~r~n',2)
+		f_pega_a_mle(t1.p1.mle_1,texto+'~r~n',2)
 	next
 end if
 dw_1.scrolltoRow(f)
@@ -684,7 +665,7 @@ commit;
 
 blob memo
 string texto
-texto = t1.p1.rte_1.CopyRTF(False,Detail!)
+texto = t1.p1.mle_1.text
 if not (isNull(texto) or texto = '') then
 	SQLCA.Autocommit = True
 	memo = blob(texto)
@@ -726,11 +707,11 @@ end type
 event clicked;st_rte st_r
 
 st_r.ventana = st_cl.ventana
-st_r.rte = t1.p1.rte_1
+st_r.mle = t1.p1.mle_1
 st_r.c_prof = st_cl.profe
 st_r.empresa=st_cl.empresa
 st_r.dw_pac=w_principal.dw_1
-openwithparm(w_plant_rtf,st_r)
+openwithparm(w_plant_rtf_borrar,st_r)
 
 end event
 
@@ -785,11 +766,9 @@ event constructor;SetTransObject(SQLCA)
 
 end event
 
-event rowfocuschanged;t1.p1.rte_1.SelectTextAll(Detail!)
-t1.p1.rte_1.Clearall()
+event rowfocuschanged;t1.p1.mle_1.text=''
 i_cambia_rte = TRUE
-t1.p2.rte_2.SelectTextAll(Detail!)
-t1.p2.rte_2.Clearall()
+t1.p2.mle_2.text=''
 sle_a.Text = ''
 if RowCount() = 0 or currentrow = 0 then Return
 sle_a.Text = GetItemString(GetRow(),'asunto')
@@ -809,7 +788,7 @@ if SQLCA.SQLCode = -1 then
 end if
 texto = string(memo)
 if not(isNull(texto) or texto = '') then
-	t1.p1.rte_1.PasteRTF(texto,Detail!)
+	t1.p1.mle_1.text=texto
 end if
 selectblob nota_atiende into :memo from pacientesnotas
 where tipodoc=:td and documento=:doc and num_nota=:nota;
@@ -820,10 +799,9 @@ if SQLCA.SQLCode = -1 then
 end if
 texto = string(memo)
 if not(isNull(texto) or texto = '') then
-	t1.p2.rte_2.PasteRTF(texto,Detail!)
+	t1.p2.mle_2.text=texto
 end if
 
-t1.p1.rte_1.Modified = FALSE
 cambio = FALSE
 
 SQLCA.Autocommit = False
@@ -843,7 +821,7 @@ end if
 end event
 
 event retrieveend;if dw_1.RowCount() = 0 then
-	t1.p1.rte_1.Enabled = FALSE
+	t1.p1.mle_1.Enabled = FALSE
 	sle_a.Enabled = FALSE
 end if
 

@@ -2,11 +2,13 @@
 forward
 global type w_llamadas from window
 end type
+type mle_4 from multilineedit within w_llamadas
+end type
 type mc_1 from monthcalendar within w_llamadas
 end type
 type pb_cerrar from picturebutton within w_llamadas
 end type
-type rte_4 from richtextedit within w_llamadas
+type rte_4_borrar from richtextedit within w_llamadas
 end type
 type st_2 from statictext within w_llamadas
 end type
@@ -26,24 +28,24 @@ type t1 from tab within w_llamadas
 end type
 type p2 from userobject within t1
 end type
-type rte_2 from richtextedit within p2
+type mle_2 from multilineedit within p2
 end type
 type p2 from userobject within t1
-rte_2 rte_2
+mle_2 mle_2
 end type
 type p3 from userobject within t1
 end type
-type rte_3 from richtextedit within p3
+type mle_3 from multilineedit within p3
 end type
 type p3 from userobject within t1
-rte_3 rte_3
+mle_3 mle_3
 end type
 type p1 from userobject within t1
 end type
-type rte_1 from richtextedit within p1
+type mle_1 from multilineedit within p1
 end type
 type p1 from userobject within t1
-rte_1 rte_1
+mle_1 mle_1
 end type
 type t1 from tab within w_llamadas
 p2 p2
@@ -82,9 +84,10 @@ boolean resizable = true
 long backcolor = 67108864
 string icon = "llamadas_con.ico"
 boolean center = true
+mle_4 mle_4
 mc_1 mc_1
 pb_cerrar pb_cerrar
-rte_4 rte_4
+rte_4_borrar rte_4_borrar
 st_2 st_2
 st_1 st_1
 ddlb_2 ddlb_2
@@ -112,9 +115,10 @@ date l_fec
 end variables
 
 on w_llamadas.create
+this.mle_4=create mle_4
 this.mc_1=create mc_1
 this.pb_cerrar=create pb_cerrar
-this.rte_4=create rte_4
+this.rte_4_borrar=create rte_4_borrar
 this.st_2=create st_2
 this.st_1=create st_1
 this.ddlb_2=create ddlb_2
@@ -132,9 +136,10 @@ this.st_4=create st_4
 this.dw_1=create dw_1
 this.gb_1=create gb_1
 this.sle_p=create sle_p
-this.Control[]={this.mc_1,&
+this.Control[]={this.mle_4,&
+this.mc_1,&
 this.pb_cerrar,&
-this.rte_4,&
+this.rte_4_borrar,&
 this.st_2,&
 this.st_1,&
 this.ddlb_2,&
@@ -155,9 +160,10 @@ this.sle_p}
 end on
 
 on w_llamadas.destroy
+destroy(this.mle_4)
 destroy(this.mc_1)
 destroy(this.pb_cerrar)
-destroy(this.rte_4)
+destroy(this.rte_4_borrar)
 destroy(this.st_2)
 destroy(this.st_1)
 destroy(this.ddlb_2)
@@ -195,6 +201,22 @@ if cambio then
 end if
 
 end event
+
+type mle_4 from multilineedit within w_llamadas
+boolean visible = false
+integer x = 4265
+integer y = 708
+integer width = 320
+integer height = 84
+integer taborder = 60
+integer textsize = -8
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+borderstyle borderstyle = stylelowered!
+end type
 
 type mc_1 from monthcalendar within w_llamadas
 integer x = 23
@@ -281,7 +303,7 @@ commit;
 
 blob memo
 string texto, ntexto
-ntexto = t1.p2.rte_2.CopyRTF(False,Detail!)
+ntexto = t1.p2.mle_2.text
 if not (isNull(ntexto) or ntexto = '') then
 	SQLCA.Autocommit = True
 	selectblob nota_atiende into :memo from pacientesnotas
@@ -315,10 +337,10 @@ Return 0
 
 end event
 
-type rte_4 from richtextedit within w_llamadas
+type rte_4_borrar from richtextedit within w_llamadas
 boolean visible = false
-integer x = 2848
-integer y = 1800
+integer x = 3808
+integer y = 700
 integer width = 389
 integer height = 60
 integer taborder = 40
@@ -526,32 +548,30 @@ string text = "Gestion"
 long tabtextcolor = 33554432
 string picturename = "gestion.ico"
 long picturemaskcolor = 536870912
-rte_2 rte_2
+mle_2 mle_2
 end type
 
 on p2.create
-this.rte_2=create rte_2
-this.Control[]={this.rte_2}
+this.mle_2=create mle_2
+this.Control[]={this.mle_2}
 end on
 
 on p2.destroy
-destroy(this.rte_2)
+destroy(this.mle_2)
 end on
 
-type rte_2 from richtextedit within p2
-integer x = 18
-integer y = 28
-integer width = 4494
-integer height = 1092
-integer taborder = 20
-integer textsize = -9
+type mle_2 from multilineedit within p2
+integer x = 32
+integer y = 32
+integer width = 4558
+integer height = 1096
+integer taborder = 30
+integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
-boolean init_hscrollbar = true
-boolean init_vscrollbar = true
-boolean init_rulerbar = true
+long textcolor = 33554432
 borderstyle borderstyle = stylelowered!
 end type
 
@@ -565,53 +585,32 @@ string text = "Gestionado"
 long tabtextcolor = 33554432
 string picturename = "mejoramiento.ico"
 long picturemaskcolor = 536870912
-rte_3 rte_3
+mle_3 mle_3
 end type
 
 on p3.create
-this.rte_3=create rte_3
-this.Control[]={this.rte_3}
+this.mle_3=create mle_3
+this.Control[]={this.mle_3}
 end on
 
 on p3.destroy
-destroy(this.rte_3)
+destroy(this.mle_3)
 end on
 
-type rte_3 from richtextedit within p3
-event p_undo ( boolean p_cambio )
-integer x = 18
-integer y = 28
-integer width = 4558
-integer height = 1100
-integer taborder = 80
-boolean init_hscrollbar = true
-boolean init_vscrollbar = true
-boolean init_wordwrap = true
-boolean init_rulerbar = true
+type mle_3 from multilineedit within p3
+integer x = 32
+integer y = 36
+integer width = 4562
+integer height = 1104
+integer taborder = 40
+integer textsize = -8
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
 borderstyle borderstyle = stylelowered!
 end type
-
-event p_undo(boolean p_cambio);if not p_cambio then
-	this.undo()
-end if
-this.modified=false
-i_cambio_rte=false
-end event
-
-event key;if keyflags = 2 then
-	if key = keyC! then
-		copy()
-	elseif key = keycontrol! then
-		Return 0
-	end if
-end if
-this.SelectText(selectedLine(),selectedStart(),0,0)
-
-end event
-
-event modified;post event p_undo(i_cambio_rte)
-
-end event
 
 type p1 from userobject within t1
 integer x = 18
@@ -623,57 +622,32 @@ string text = "Solicitud"
 long tabtextcolor = 33554432
 string picturename = "quejas.ico"
 long picturemaskcolor = 536870912
-rte_1 rte_1
+mle_1 mle_1
 end type
 
 on p1.create
-this.rte_1=create rte_1
-this.Control[]={this.rte_1}
+this.mle_1=create mle_1
+this.Control[]={this.mle_1}
 end on
 
 on p1.destroy
-destroy(this.rte_1)
+destroy(this.mle_1)
 end on
 
-type rte_1 from richtextedit within p1
-event p_undo ( boolean p_cambio )
-integer x = 18
-integer y = 28
-integer width = 4558
-integer height = 1100
-integer taborder = 70
-integer textsize = -9
+type mle_1 from multilineedit within p1
+integer x = 9
+integer y = 24
+integer width = 4608
+integer height = 1124
+integer taborder = 50
+integer textsize = -8
+fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
-boolean init_hscrollbar = true
-boolean init_vscrollbar = true
-boolean init_wordwrap = true
-boolean init_rulerbar = true
+long textcolor = 33554432
 borderstyle borderstyle = stylelowered!
 end type
-
-event p_undo(boolean p_cambio);if not p_cambio then
-	this.undo()
-end if
-this.modified=false
-i_cambio_rte=false
-end event
-
-event key;if keyflags = 2 then
-	if key = keyC! then
-		copy()
-	elseif key = keycontrol! then
-		Return 0
-	end if
-end if
-this.SelectText(selectedLine(),selectedStart(),0,0)
-
-end event
-
-event modified;post event p_undo(i_cambio_rte)
-
-end event
 
 type pb_5 from picturebutton within w_llamadas
 boolean visible = false
@@ -809,7 +783,7 @@ commit;
 
 blob memo
 string texto, ntexto
-ntexto = t1.p2.rte_2.CopyRTF(False,Detail!)
+ntexto = t1.p2.mle_2.text
 if not (isNull(ntexto) or ntexto = '') then
 	SQLCA.Autocommit = True
 	selectblob nota_atiende into :memo from pacientesnotas
@@ -863,10 +837,8 @@ alignment htextalign = left!
 string powertiptext = "Imprimir"
 end type
 
-event clicked;openwithparm(w_print_rtf,t1.p2.rte_2)
-//if PrintSetup( ) = -1 then
-//	MessageBox("Error!","Falló Impresión")
-//end if
+event clicked;openwithparm(w_print_rtf,t1.p2.mle_2)
+
 end event
 
 type pb_1 from picturebutton within w_llamadas
@@ -900,17 +872,16 @@ else
 	Messagebox('Aviso','No existe profesional activo')
 end if
 
-rte_4.SelectTextAll()
-rte_4.ReplaceText('')
+mle_4.text=''
 
 st_r.ventana = 'NOTAS'
-st_r.rte = t1.p2.rte_2
+//carmorenost_r.rte = t1.p2.rte_2
 st_r.dw_pac=w_principal.dw_1
-openwithparm(w_plant_rtf,st_r)
-rte_4.SelectTextAll()
-cars = rte_4.Copy()
+openwithparm(w_plant_rtf_borrar,st_r)
+
+cars = len(mle_4.text)
 if cars > 0 then
-	t1.p2.rte_2.Paste()
+	t1.p2.mle_2.text=mle_4.text
 end if
 
 end event
@@ -951,14 +922,10 @@ event constructor;SetTransObject(SQLCA)
 
 end event
 
-event rowfocuschanged;t1.p1.rte_1.SelectTextAll(Detail!)
-i_cambio_rte = TRUE
-t1.p1.rte_1.Clearall()
-t1.p2.rte_2.SelectTextAll(Detail!)
-t1.p2.rte_2.Clearall()
-t1.p3.rte_3.SelectTextAll(Detail!)
-i_cambio_rte = TRUE
-t1.p3.rte_3.Clearall()
+event rowfocuschanged;
+t1.p1.mle_1.text=''
+t1.p2.mle_2.text=''
+t1.p3.mle_3.text=''
 
 if RowCount() = 0 or currentrow = 0 then Return
 sle_a.Text = GetItemString(GetRow(),'asunto')
@@ -980,7 +947,7 @@ if SQLCA.SQLCode = -1 then
 end if
 texto = string(memo)
 if not(isNull(texto) or texto = '') then
-	t1.p1.rte_1.PasteRTF(texto,Detail!)
+	t1.p1.mle_1.text=texto
 end if
 selectblob nota_atiende into :memo from pacientesnotas
 where tipodoc=:td and documento=:doc and num_nota=:nota;
@@ -991,10 +958,9 @@ if SQLCA.SQLCode = -1 then
 end if
 texto = string(memo)
 if not(isNull(texto) or texto = '') then
-	t1.p3.rte_3.PasteRTF(texto,Detail!)
+	t1.p3.mle_3.text=texto
 end if
 
-t1.p2.rte_2.Modified = FALSE
 cambio = FALSE
 
 SQLCA.Autocommit = False

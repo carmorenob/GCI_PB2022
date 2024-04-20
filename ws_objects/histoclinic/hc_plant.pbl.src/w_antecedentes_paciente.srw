@@ -2,11 +2,11 @@
 forward
 global type w_antecedentes_paciente from window
 end type
+type mle_1 from multilineedit within w_antecedentes_paciente
+end type
 type pb_1 from picturebutton within w_antecedentes_paciente
 end type
 type sle_1 from singlelineedit within w_antecedentes_paciente
-end type
-type rte_1 from richtextedit within w_antecedentes_paciente
 end type
 type pb_gua from picturebutton within w_antecedentes_paciente
 end type
@@ -32,9 +32,9 @@ windowtype windowtype = response!
 long backcolor = 67108864
 string icon = "AppIcon!"
 boolean center = true
+mle_1 mle_1
 pb_1 pb_1
 sle_1 sle_1
-rte_1 rte_1
 pb_gua pb_gua
 pb_eli pb_eli
 pb_ins pb_ins
@@ -52,18 +52,18 @@ DataWindowChild iparen,ihosp,iplani
 end variables
 
 on w_antecedentes_paciente.create
+this.mle_1=create mle_1
 this.pb_1=create pb_1
 this.sle_1=create sle_1
-this.rte_1=create rte_1
 this.pb_gua=create pb_gua
 this.pb_eli=create pb_eli
 this.pb_ins=create pb_ins
 this.pb_cancel=create pb_cancel
 this.pb_ok=create pb_ok
 this.dw_1=create dw_1
-this.Control[]={this.pb_1,&
+this.Control[]={this.mle_1,&
+this.pb_1,&
 this.sle_1,&
-this.rte_1,&
 this.pb_gua,&
 this.pb_eli,&
 this.pb_ins,&
@@ -73,9 +73,9 @@ this.dw_1}
 end on
 
 on w_antecedentes_paciente.destroy
+destroy(this.mle_1)
 destroy(this.pb_1)
 destroy(this.sle_1)
-destroy(this.rte_1)
 destroy(this.pb_gua)
 destroy(this.pb_eli)
 destroy(this.pb_ins)
@@ -154,6 +154,21 @@ else
 end if
 end event
 
+type mle_1 from multilineedit within w_antecedentes_paciente
+boolean visible = false
+integer x = 366
+integer width = 229
+integer height = 56
+integer taborder = 50
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+borderstyle borderstyle = stylelowered!
+end type
+
 type pb_1 from picturebutton within w_antecedentes_paciente
 integer x = 4050
 integer y = 732
@@ -171,16 +186,8 @@ alignment htextalign = left!
 string powertiptext = "No refiere"
 end type
 
-event clicked;i_st.rte.SelectTextAll ( header! )
-i_st.rte.clearall()
-i_st.rte.SelectTextAll ( detail! )
-i_st.rte.clearall()
-i_st.rte.SelectTextAll ( header! )
-i_st.rte.clearall()
-i_st.rte.SelectTextAll ( detail! )
-i_st.rte.clearall()
-f_pega_a_rtf(rte_1,'NO REFIERE',2)
-i_st.rte.pastertf(rte_1.copyrtf(false,detail!))
+event clicked;
+i_st.mle.text='NO REFIERE'
 close(f_vent_padre(this))
 end event
 
@@ -191,22 +198,6 @@ integer y = 1456
 integer width = 2043
 integer height = 68
 integer taborder = 50
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-borderstyle borderstyle = stylelowered!
-end type
-
-type rte_1 from richtextedit within w_antecedentes_paciente
-boolean visible = false
-integer x = 4334
-integer y = 1220
-integer width = 165
-integer height = 92
-integer taborder = 40
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -504,7 +495,7 @@ if ls_vac='0' then
 					l_apegar=l_apegar+'  No Refiere'+'~r~n'	
 			END CHOOSE	
 		end if
-		f_pega_a_rtf(rte_1,l_apegar,2)
+		f_pega_a_mle(mle_1,l_apegar,2)
 	next
 	dw_1.setfilter('')
 	dw_1.filter()
@@ -513,21 +504,13 @@ else
 	dw_1.filter()
 	for li=1 to dw_1.rowcount()
 		l_apegar='  ▪  '+	dw_1.getitemstring(li,'descripcion')+ ' '+dw_1.getitemstring(li,'dosis')+' '+string(dw_1.getitemdatetime(li,'fechavac'),'dd/mm/yyyy')+'~r~n'
-		f_pega_a_rtf(rte_1,l_apegar,2)
+		f_pega_a_mle(mle_1,l_apegar,2)
 	next
 	dw_1.setfilter('')
 	dw_1.filter()	
 end if
 dw_1.SetRedraw(true)
-i_st.rte.SelectTextAll ( header! )
-i_st.rte.clearall()
-i_st.rte.SelectTextAll ( detail! )
-i_st.rte.clearall()
-i_st.rte.SelectTextAll ( header! )
-i_st.rte.clearall()
-i_st.rte.SelectTextAll ( detail! )
-i_st.rte.clearall()
-i_st.rte.pastertf(rte_1.copyrtf(false,detail!))
+i_st.mle.text=''
 close(f_vent_padre(this))
 
 end event

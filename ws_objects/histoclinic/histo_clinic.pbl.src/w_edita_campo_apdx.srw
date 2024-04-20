@@ -2,8 +2,6 @@
 forward
 global type w_edita_campo_apdx from window
 end type
-type rte_1 from richtextedit within w_edita_campo_apdx
-end type
 type pb_1 from picturebutton within w_edita_campo_apdx
 end type
 type pb_2 from picturebutton within w_edita_campo_apdx
@@ -23,7 +21,6 @@ windowtype windowtype = response!
 long backcolor = 67108864
 string icon = "contrato.ico"
 boolean center = true
-rte_1 rte_1
 pb_1 pb_1
 pb_2 pb_2
 pb_ok pb_ok
@@ -50,43 +47,22 @@ mle_1.Alignment = Justify!
 end event
 
 on w_edita_campo_apdx.create
-this.rte_1=create rte_1
 this.pb_1=create pb_1
 this.pb_2=create pb_2
 this.pb_ok=create pb_ok
 this.mle_1=create mle_1
-this.Control[]={this.rte_1,&
-this.pb_1,&
+this.Control[]={this.pb_1,&
 this.pb_2,&
 this.pb_ok,&
 this.mle_1}
 end on
 
 on w_edita_campo_apdx.destroy
-destroy(this.rte_1)
 destroy(this.pb_1)
 destroy(this.pb_2)
 destroy(this.pb_ok)
 destroy(this.mle_1)
 end on
-
-type rte_1 from richtextedit within w_edita_campo_apdx
-boolean visible = false
-integer x = 23
-integer y = 1828
-integer width = 827
-integer height = 72
-integer taborder = 30
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-boolean init_vscrollbar = true
-boolean init_wordwrap = true
-borderstyle borderstyle = stylelowered!
-end type
 
 type pb_1 from picturebutton within w_edita_campo_apdx
 integer x = 1856
@@ -108,13 +84,9 @@ alignment htextalign = left!
 string powertiptext = "Plantilla"
 end type
 
-event clicked;I_st.rte=rte_1
-openwithparm(w_plants_rtf_campos,i_st)
-if f_sel_rtf(rte_1)>0 then
-	rte_1.SelectTextall(Detail!)
-	rte_1.Copy()
-	mle_1.paste()
-end if
+event clicked;I_st.mle=mle_1
+openwithparm(w_plants_txt_campos,i_st)
+
 end event
 
 type pb_2 from picturebutton within w_edita_campo_apdx

@@ -24,37 +24,49 @@ type t1 from tab within w_quejas_resp
 end type
 type p2 from userobject within t1
 end type
+type mle_2 from multilineedit within p2
+end type
 type st_2 from statictext within p2
 end type
 type st_1 from statictext within p2
 end type
-type rte_2 from richtextedit within p2
+type rte_2_sale from richtextedit within p2
 end type
 type p2 from userobject within t1
+mle_2 mle_2
 st_2 st_2
 st_1 st_1
-rte_2 rte_2
+rte_2_sale rte_2_sale
 end type
 type p4 from userobject within t1
 end type
-type rte_4 from richtextedit within p4
+type mle_4 from multilineedit within p4
+end type
+type rte_4_sale from richtextedit within p4
 end type
 type p4 from userobject within t1
-rte_4 rte_4
+mle_4 mle_4
+rte_4_sale rte_4_sale
 end type
 type p3 from userobject within t1
+end type
+type mle_3 from multilineedit within p3
 end type
 type rte_3 from richtextedit within p3
 end type
 type p3 from userobject within t1
+mle_3 mle_3
 rte_3 rte_3
 end type
 type p1 from userobject within t1
 end type
-type rte_1 from richtextedit within p1
+type mle_1 from multilineedit within p1
+end type
+type rte_1_sale from richtextedit within p1
 end type
 type p1 from userobject within t1
-rte_1 rte_1
+mle_1 mle_1
+rte_1_sale rte_1_sale
 end type
 type t1 from tab within w_quejas_resp
 p2 p2
@@ -480,25 +492,45 @@ string text = "Gestion"
 long tabtextcolor = 33554432
 string picturename = "gestion.ico"
 long picturemaskcolor = 536870912
+mle_2 mle_2
 st_2 st_2
 st_1 st_1
-rte_2 rte_2
+rte_2_sale rte_2_sale
 end type
 
 on p2.create
+this.mle_2=create mle_2
 this.st_2=create st_2
 this.st_1=create st_1
-this.rte_2=create rte_2
-this.Control[]={this.st_2,&
+this.rte_2_sale=create rte_2_sale
+this.Control[]={this.mle_2,&
+this.st_2,&
 this.st_1,&
-this.rte_2}
+this.rte_2_sale}
 end on
 
 on p2.destroy
+destroy(this.mle_2)
 destroy(this.st_2)
 destroy(this.st_1)
-destroy(this.rte_2)
+destroy(this.rte_2_sale)
 end on
+
+type mle_2 from multilineedit within p2
+integer x = 41
+integer y = 84
+integer width = 5842
+integer height = 1328
+integer taborder = 40
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+long textcolor = 33554432
+borderstyle borderstyle = stylelowered!
+end type
 
 type st_2 from statictext within p2
 integer x = 91
@@ -533,7 +565,7 @@ borderstyle borderstyle = stylelowered!
 boolean focusrectangle = false
 end type
 
-type rte_2 from richtextedit within p2
+type rte_2_sale from richtextedit within p2
 integer x = 96
 integer y = 84
 integer width = 5842
@@ -558,19 +590,38 @@ string text = "Mejoramiento"
 long tabtextcolor = 33554432
 string picturename = "mejoramiento.ico"
 long picturemaskcolor = 553648127
-rte_4 rte_4
+mle_4 mle_4
+rte_4_sale rte_4_sale
 end type
 
 on p4.create
-this.rte_4=create rte_4
-this.Control[]={this.rte_4}
+this.mle_4=create mle_4
+this.rte_4_sale=create rte_4_sale
+this.Control[]={this.mle_4,&
+this.rte_4_sale}
 end on
 
 on p4.destroy
-destroy(this.rte_4)
+destroy(this.mle_4)
+destroy(this.rte_4_sale)
 end on
 
-type rte_4 from richtextedit within p4
+type mle_4 from multilineedit within p4
+integer x = 18
+integer y = 48
+integer width = 5376
+integer height = 1388
+integer taborder = 50
+integer textsize = -8
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+borderstyle borderstyle = stylelowered!
+end type
+
+type rte_4_sale from richtextedit within p4
 integer x = 46
 integer y = 48
 integer width = 5376
@@ -596,17 +647,36 @@ string text = "Gestionado"
 long tabtextcolor = 33554432
 string picturename = "gnome.ico"
 long picturemaskcolor = 536870912
+mle_3 mle_3
 rte_3 rte_3
 end type
 
 on p3.create
+this.mle_3=create mle_3
 this.rte_3=create rte_3
-this.Control[]={this.rte_3}
+this.Control[]={this.mle_3,&
+this.rte_3}
 end on
 
 on p3.destroy
+destroy(this.mle_3)
 destroy(this.rte_3)
 end on
+
+type mle_3 from multilineedit within p3
+integer x = 23
+integer y = 64
+integer width = 5349
+integer height = 1344
+integer taborder = 90
+integer textsize = -8
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+borderstyle borderstyle = stylelowered!
+end type
 
 type rte_3 from richtextedit within p3
 event p_undo ( boolean p_cambio )
@@ -653,19 +723,37 @@ string text = "Solicitud"
 long tabtextcolor = 33554432
 string picturename = "quejas.ico"
 long picturemaskcolor = 536870912
-rte_1 rte_1
+mle_1 mle_1
+rte_1_sale rte_1_sale
 end type
 
 on p1.create
-this.rte_1=create rte_1
-this.Control[]={this.rte_1}
+this.mle_1=create mle_1
+this.rte_1_sale=create rte_1_sale
+this.Control[]={this.mle_1,&
+this.rte_1_sale}
 end on
 
 on p1.destroy
-destroy(this.rte_1)
+destroy(this.mle_1)
+destroy(this.rte_1_sale)
 end on
 
-type rte_1 from richtextedit within p1
+type mle_1 from multilineedit within p1
+integer y = 40
+integer width = 5367
+integer height = 1380
+integer taborder = 80
+integer textsize = -8
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+borderstyle borderstyle = stylelowered!
+end type
+
+type rte_1_sale from richtextedit within p1
 event p_undo ( boolean p_cambio )
 integer x = 37
 integer y = 40
@@ -830,7 +918,7 @@ dw_1.ResetUpdate()
 // se supone que es nota_atiende
 blob memo
 string texto
-texto = t1.p2.rte_2.CopyRTF(False,Detail!)
+texto = t1.p2.mle_2.text
 if not (isNull(texto) or texto = '') then
 	SQLCA.Autocommit = True
 	memo = blob(texto)
@@ -844,7 +932,7 @@ if not (isNull(texto) or texto = '') then
 	SQLCA.Autocommit = False
 end if
 
-texto = t1.p4.rte_4.CopyRTF(False,Detail!)
+texto = t1.p4.mle_4.text
 if not (isNull(texto) or texto = '') then
 	SQLCA.Autocommit = True
 	memo = blob(texto)
@@ -857,8 +945,8 @@ if not (isNull(texto) or texto = '') then
 	end if
 	SQLCA.Autocommit = False
 end if
-t1.p2.rte_2.setredraw(True)
-t1.p4.rte_4.setredraw(True)
+t1.p2.mle_2.setredraw(True)
+t1.p4.mle_4.setredraw(True)
 
 commit;
 dw_1.TriggerEvent(rowfocuschanged!)
@@ -890,9 +978,9 @@ end type
 event clicked;st_rte st_r
 
 st_r.ventana = 'QRES'
-st_r.rte = t1.p2.rte_2
+st_r.mle = t1.p2.mle_2
 st_r.dw_pac=w_principal.dw_1
-openwithparm(w_plant_rtf,st_r)
+openwithparm(w_plant_rtf_borrar,st_r)
 
 end event
 
@@ -938,18 +1026,10 @@ blob memo
 
 i_cambio_rte = TRUE
 texto=''
-f_sel_rtf(t1.p1.rte_1)
-t1.p1.rte_1.Clearall()
-f_pega_a_rtf(t1.p1.rte_1,texto,3)
-f_sel_rtf(t1.p2.rte_2)
-t1.p2.rte_2.Clearall()
-f_pega_a_rtf(t1.p2.rte_2,texto,3)
-f_sel_rtf(t1.p3.rte_3)
-t1.p3.rte_3.Clearall()
-f_pega_a_rtf(t1.p3.rte_3,texto,3)
-f_sel_rtf(t1.p4.rte_4)
-t1.p4.rte_4.Clearall()
-f_pega_a_rtf(t1.p4.rte_4,texto,3)
+t1.p1.mle_1.text=''
+t1.p2.mle_2.text=''
+t1.p3.mle_3.text=''
+t1.p4.mle_4.text=''
 i_cambio_rte = TRUE
 
 if RowCount() = 0 or currentrow = 0 then Return
@@ -969,7 +1049,7 @@ if SQLCA.SQLCode = -1 then
 end if
 texto = string(memo)
 if not(isNull(texto) or texto = '') then
-	t1.p1.rte_1.PasteRTF(texto,Detail!)
+	t1.p1.mle_1.text=texto
 end if
 
 selectblob mejoramiento into :memo from pacientesquejas
@@ -981,7 +1061,7 @@ if SQLCA.SQLCode = -1 then
 end if
 texto = string(memo)
 if not(isNull(texto) or texto = '') then
-	t1.p4.rte_4.PasteRTF(texto,Detail!)
+	t1.p4.mle_4.text=texto
 end if
 //
 selectblob nota_atiende into :memo from pacientesquejas
@@ -993,10 +1073,9 @@ if SQLCA.SQLCode = -1 then
 end if
 texto = string(memo)
 if not(isNull(texto) or texto = '') then
-	t1.p2.rte_2.PasteRTF(texto,Detail!)
-//	f_pega_a_rtf(t1.p3.rte_3, texto, 3)
+	t1.p2.mle_2.text=texto
 end if
-t1.p2.rte_2.Modified = FALSE
+
 cambio = FALSE
 SQLCA.Autocommit = False
 end event

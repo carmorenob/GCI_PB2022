@@ -50,9 +50,8 @@ end type
 global w_print_rtf w_print_rtf
 
 type variables
-RichTextEdit rte
+MultiLineEdit io_mle
 end variables
-
 on w_print_rtf.create
 this.st_1=create st_1
 this.em_1=create em_1
@@ -89,7 +88,7 @@ destroy(this.sle_1)
 destroy(this.gb_1)
 end on
 
-event open;rte = Message.PowerObjectParm
+event open;io_mle = Message.PowerObjectParm
 
 end event
 
@@ -173,7 +172,7 @@ if rb_1.checked then
 else
 	pages = sle_1.Text
 end if
-rte.Print(integer(em_1.Text),pages,FALSE,TRUE)
+io_mle.Print(1,0,0)
 close(parent)
 end event
 
