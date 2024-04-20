@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_valida_usuario_cohorte_materna.srf
+global type f_valida_usuario_cohorte_materna from function_object
+end type
+
+forward prototypes
+global function double f_valida_usuario_cohorte_materna (string td, string docus)
+end prototypes
+
+global function double f_valida_usuario_cohorte_materna (string td, string docus);double cohorte
+
+SELECT 
+	id_cohorte_pac into :cohorte
+FROM 
+	pacientes_cohortes INNER JOIN grupoetareo ON pacientes_cohortes.id_grupoetareo = grupoetareo.codgetareo
+WHERE 
+	(((pacientes_cohortes.tipodoc)=:td) AND ((pacientes_cohortes.documento)=:docus) 
+	AND ((grupoetareo.cohortes)='1') AND ((grupoetareo.sexo)='2') AND ((pacientes_cohortes.estado)='1'));
+	
+return cohorte
+end function
+

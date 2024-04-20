@@ -1,0 +1,46 @@
+﻿$PBExportHeader$dias_fec_intersec.srf
+global type dias_fec_intersec from function_object
+end type
+
+forward prototypes
+global function long dias_fec_intersec (datetime fec1x, datetime fec1y, datetime fec2x, datetime fec2y)
+end prototypes
+
+global function long dias_fec_intersec (datetime fec1x, datetime fec1y, datetime fec2x, datetime fec2y);datetime retx , rety
+if isNull(fec1x) then fec1x = dateTime(date("01/01/1000"))
+if isNull(fec1y) then fec1y = dateTime(date("31/12/3000"))
+if isNull(fec2x) then fec2x = dateTime(date("01/01/1000"))
+if isNull(fec2y) then fec2y = dateTime(date("31/12/3000"))
+
+if fec1x > fec1y or fec2x > fec2y then	
+	setNull(retx)
+	setNull(rety)
+	Return 0
+end if
+
+if fec2x >= fec1x then
+	retx = fec2x
+	if fec1y < retx then
+		setNull(retx)
+		setNull(rety)     // Caso 1
+	elseif fec2y <= fec1y then
+		rety = fec2y     // Caso 5 , 7 , 8
+	else
+		rety = fec1y     // Caso 2
+	end if
+else
+	retx = fec1x
+	if fec2y < retx then
+		setNull(retx)
+		setNull(rety)     // Caso 4
+	elseif fec2y <= fec1y then
+		rety = fec2y     // Caso 3
+	else
+		rety = fec1y     // Caso 6
+	end if
+end if
+
+return DaysAfter(date(retx),date(rety))
+
+end function
+

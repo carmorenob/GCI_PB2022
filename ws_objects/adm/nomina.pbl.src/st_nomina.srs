@@ -1,0 +1,8 @@
+﻿$PBExportHeader$st_nomina.srs
+global type st_nomina from structure
+	string		tipodoc
+	string		documento
+	datawindow		dw_obj
+	string		valor
+end type
+

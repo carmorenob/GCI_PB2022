@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_busca_med.srf
+global type f_busca_med from function_object
+end type
+
+forward prototypes
+global function st_med f_busca_med (string cmedica)
+end prototypes
+
+global function st_med f_busca_med (string cmedica);st_med stm
+SELECT Medicamentos.c_medica, Medicamentos.Medicamento, MedFormaF.FormaFarma,Medicamentos.POS,Medicamentos.via
+INTO :stm.cmedica,:stm.medicamento,:stm.formaf,:stm.pos,:stm.via
+FROM Medicamentos inner JOIN MedFormaF ON Medicamentos.CodFormaF = MedFormaF.CodFormaF
+WHERE Medicamentos.c_medica=:cmedica and medicamentos.estado='1';
+if sqlca.sqlnrows=0 then 
+	messagebox("Atención",'Este medicamento no existe o no está activo en f_busca_med')
+	setnull(stm.medicamento)
+end if
+return stm
+	
+end function
+

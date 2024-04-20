@@ -1,0 +1,119 @@
+﻿$PBExportHeader$f_guarda_insumos.srf
+global type f_guarda_insumos from function_object
+end type
+
+forward prototypes
+global function integer f_guarda_insumos (datawindow dw_sum_cab, datawindow dw_canasta, datawindow dw_mvto_cpo, datawindow dw_lote, string i_cdoc_cons, string i_clugar_his, string i_alm, long i_contador)
+end prototypes
+
+global function integer f_guarda_insumos (datawindow dw_sum_cab, datawindow dw_canasta, datawindow dw_mvto_cpo, datawindow dw_lote, string i_cdoc_cons, string i_clugar_his, string i_alm, long i_contador);long ndoc,item,k,j
+boolean nuevo
+If isnull(i_alm) then
+	messagebox('Error guaradndo Insumos','Almacen es nulo')
+	return -1
+end if
+
+if dw_sum_cab.rowcount()=0 then
+	nuevo=true
+	ndoc=f_trae_ndoc(i_cdoc_cons,i_clugar_his,'Entrega de Medicamentos')
+	if ndoc=-1 then
+		rollback;
+		return -1
+	end if
+	dw_sum_cab.insertrow(1)
+	dw_sum_cab.setitem(1,"coddoc",i_cdoc_cons)
+	dw_sum_cab.setitem(1,"numdoc",ndoc)
+	dw_sum_cab.setitem(1,"fecha",datetime(today(),now()))
+	dw_sum_cab.setitem(1,"clugar",i_clugar_his)
+	dw_sum_cab.setitem(1,"codalmacen",i_alm)
+	dw_sum_cab.setitem(1,"usuario",usuario)
+else
+	ndoc=dw_sum_cab.getitemnumber(1,"numdoc")
+end if
+if dw_canasta.update(true,false)=-1 then
+	if nuevo then dw_sum_cab.deleterow(1)
+	dw_sum_cab.resetupdate()
+	return -1
+end if
+if dw_sum_cab.update(true,false)=-1 then
+	if nuevo then dw_sum_cab.deleterow(1)
+	dw_sum_cab.resetupdate()
+	return -1
+end if
+select max(item) into :item from sum_mvto_cpo 
+where coddoc=:i_cdoc_cons and clugar=:i_clugar_his and numdoc=:ndoc;
+if sqlca.sqlcode=-1 then
+	messagebox('Error leyendo sum_mvto_cpo',sqlca.sqlerrtext)
+	rollback;
+	if nuevo then dw_sum_cab.deleterow(1)
+	dw_sum_cab.resetupdate()
+	return -1
+end if
+if isnull(item) then item=0
+string cod_arti
+dec costoprom
+dw_canasta.setfilter('isrownew() and cantidad>0')
+dw_canasta.filter()
+for j=1 to dw_canasta.rowcount() //solos los nuevos
+	item ++
+	dw_mvto_cpo.insertrow(1)
+	dw_mvto_cpo.setitem(1,'coddoc',i_cdoc_cons)
+	dw_mvto_cpo.setitem(1,'clugar',i_clugar_his)
+	dw_mvto_cpo.setitem(1,'numdoc',ndoc)
+	dw_mvto_cpo.setitem(1,'item',item)
+	cod_arti=dw_canasta.getitemstring(j,'codarticulo')
+	dw_mvto_cpo.setitem(1,'codarticulo',cod_arti) 
+	dw_mvto_cpo.setitem(1,'cantidad',dw_canasta.getitemnumber(j,'cantidad'))
+	dw_mvto_cpo.setitem(1,'contador_serv',i_contador)
+	dw_mvto_cpo.setitem(1,'clugar_serv',i_clugar_his)
+	dw_mvto_cpo.setitem(1,'nservicio_serv',dw_canasta.getitemnumber(j,'nservicio'))
+	dw_mvto_cpo.setitem(1,'nro_insumo_serv',dw_canasta.getitemnumber(j,'nro_insumo'))
+	select costoprom into :costoprom from sum_kardex where 
+	codarticulo=:cod_arti and codalmacen=:i_alm;
+	if sqlca.sqlcode=-1 then
+		messagebox('Error leyendo costo promedio',sqlca.sqlerrtext)
+		rollback;
+		if nuevo then dw_sum_cab.deleterow(1)
+		dw_sum_cab.resetupdate()
+		return -1
+	end if
+	dw_mvto_cpo.setitem(1,'valor_unit',costoprom)
+	//dw_lote.setfilter('nservicio_serv='+string(dw_canasta.getitemnumber(j,'nservicio'))+' and isrownew()')
+	dw_lote.setfilter('nservicio_serv='+string(dw_canasta.getitemnumber(j,'nservicio'))+' and  nro_insumo_serv='+string(dw_canasta.getitemnumber(j,'nro_insumo')) +' and isrownew()')
+	dw_lote.filter()
+	for k=1 to dw_lote.rowcount()
+		dw_lote.setitem(k,'coddoc',i_cdoc_cons)
+		dw_lote.setitem(k,'clugar',i_clugar_his)
+		dw_lote.setitem(k,'numdoc',ndoc)
+		dw_lote.setitem(k,'item',item)
+	next
+next
+if dw_mvto_cpo.update(true,false)=-1 then
+	if nuevo then dw_sum_cab.deleterow(1)
+	dw_sum_cab.resetupdate()
+	dw_mvto_cpo.resetupdate()
+	rollback;
+	return -1
+end if
+dw_mvto_cpo.setfilter('isrownew()')
+dw_mvto_cpo.filter()
+if f_mueve_kardex(i_alm,dw_mvto_cpo)=-1 then
+	rollback;
+	if nuevo then dw_sum_cab.deleterow(1)
+	dw_mvto_cpo.resetupdate()
+	dw_sum_cab.resetupdate()
+	return -1
+end if
+dw_mvto_cpo.setfilter('')
+dw_mvto_cpo.filter()
+dw_lote.setfilter('')
+dw_lote.filter()
+if f_mueve_lote(dw_lote,0)=-1 then
+	rollback;
+	if nuevo then dw_sum_cab.deleterow(1)
+	dw_sum_cab.resetupdate()
+	return -1
+end if
+return 1
+end function
+

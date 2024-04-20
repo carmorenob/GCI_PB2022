@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_dias_365.srf
+global type f_dias_365 from function_object
+end type
+
+forward prototypes
+global function long f_dias_365 (datetime fechai, datetime fechaf)
+end prototypes
+
+global function long f_dias_365 (datetime fechai, datetime fechaf);date fi,ff
+long dias_365
+
+fi=date(string(Fechai,'dd/mm/yyyy'))
+ff=date(string(FechaF,'dd/mm/yyyy'))
+dias_365=((year(ff)-year(fi))*365)+(month(ff)-month(fi ))*30+(day(ff)-day(fi ))
+return dias_365 
+end function
+

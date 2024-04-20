@@ -1,0 +1,15 @@
+﻿$PBExportHeader$st_med.srs
+global type st_med from structure
+	string		cmedica
+	string		medicamento
+	string		formaf
+	string		pos
+	string		via
+	string		frecuen
+	string		admon
+	double		dosis
+	double		peso
+	double		volumen
+	string		cplant
+end type
+

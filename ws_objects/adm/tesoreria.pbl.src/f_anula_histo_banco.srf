@@ -1,0 +1,48 @@
+﻿$PBExportHeader$f_anula_histo_banco.srf
+global type f_anula_histo_banco from function_object
+end type
+
+forward prototypes
+global function integer f_anula_histo_banco (string p_banco, string p_tcuenta, string p_numcuenta, long p_item_mov, string p_clug_nota, string p_cdoc_nota, long p_nro_nota)
+end prototypes
+
+global function integer f_anula_histo_banco (string p_banco, string p_tcuenta, string p_numcuenta, long p_item_mov, string p_clug_nota, string p_cdoc_nota, long p_nro_nota);uo_datastore dw_histo,dw_histo1
+dw_histo=create uo_datastore
+dw_histo1=create uo_datastore
+datetime fech
+long consec,j,item,k
+dec valor
+if not isnull(p_item_mov) then //es de pagos
+	dw_histo1.dataobject='dw_xa_anu_histobanco1'
+	dw_histo1.settransobject(sqlca)
+	if dw_histo1.retrieve(p_banco,p_tcuenta,p_numcuenta,p_item_mov)=-1 then return -1
+else
+	dw_histo1.dataobject='dw_xa_anu_histobanco2'
+	dw_histo1.settransobject(sqlca)
+	if dw_histo1.retrieve(p_banco ,p_tcuenta,p_numcuenta ,p_clug_nota,p_cdoc_nota ,p_nro_nota)=-1 then return -1
+end if
+for k=1 to dw_histo1.rowcount()
+	dw_histo.dataobject='dw_histo_bancos_anula'
+	dw_histo.settransobject(sqlca)
+	consec=dw_histo1.getitemnumber(k,'consec')
+	fech=datetime(date(dw_histo1.getitemdatetime(k,'fecha')))
+	if dw_histo.retrieve(p_banco,p_tcuenta,p_numcuenta,fech,consec)=0 then
+		messagebox('Atención','No se puede encontrar el movimiento en la tabla Historial de la cuenta')
+		return -1
+	end if
+	valor=dw_histo.getitemnumber(1,'valor')
+	valor *= -1
+	for j=2 to dw_histo.rowcount()
+		dw_histo.setitem(j,'saldo_ini',dw_histo.getitemnumber(j,'saldo_ini') + valor )
+		dw_histo.setitem(j,'saldo_fin',dw_histo.getitemnumber(j,'saldo_fin') + valor )
+	next
+	dw_histo.deleterow(1)
+	if dw_histo.update()=-1 then
+		Messagebox("Error",'Error modificando tesocuentas_histo')
+		return -1
+	end if
+next
+return 1
+
+end function
+

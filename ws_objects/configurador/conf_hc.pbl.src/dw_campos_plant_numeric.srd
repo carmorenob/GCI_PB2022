@@ -1,0 +1,125 @@
+﻿$PBExportHeader$dw_campos_plant_numeric.srd
+release 22;
+datawindow(units=0 timer_interval=0 color=67108864 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=60 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=76 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=char(6) update=yes updatewhereclause=yes key=yes name=codplantilla dbname="codplantilla" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=numcampo dbname="numcampo" )
+ column=(type=long update=yes updatewhereclause=yes name=padre dbname="padre" initial="0" )
+ column=(type=long update=yes updatewhereclause=yes name=orden dbname="orden" )
+ column=(type=char(255) update=yes updatewhereclause=yes name=descampo dbname="descampo" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=tipo dbname="tipo" initial="E" values="Etiqueta	E/Selección	S/Si // No	N/Lista	L/Texto	T/Memo	M/Número	R/Fecha	F/Computado	C/" )
+ column=(type=long updatewhereclause=yes name=handle dbname="handle" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=tipo_memo dbname="tipo_memo" initial="N" values="Normal	N/Conducta	C/Diagnóstico	D/Resultados	R/Atender Procs.	P/Triage	T/" validation="(gettext()<>'C' and gettext()<>'P' and gettext()<>'T' and ( plant_tipo='C' or  plant_tipo='P' or  plant_tipo='O')) or
+((gettext()<>'C' and gettext()<>'D' and gettext()<>'T') and ( plant_tipo='E' )) or
+(gettext()<>'D' and gettext()<>'T' and  gettext()<>'P' and (plant_tipo='R' or plant_tipo='Q' or plant_tipo='S')) or 
+((plant_tipo= 'H' or plant_tipo='Q' ) and ( ingreso='S' and gettext()<>'C' and gettext()<>'P' and gettext()<>'T') or ( ingreso='I' and (gettext()<>'P' and gettext()<>'T' or (  plant_codtingre ='2' and gettext()='T'))  ) ) " validationmsg="'No es válido para este tipo de plantilla'" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=estado dbname="estado" initial="1" values="	1/	0" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=medida dbname="medida" )
+ column=(type=char(255) update=yes updatewhereclause=yes name=ayuda dbname="ayuda" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=diagprin dbname="diagprin" initial="0" values="Mostrar columna acumulado	1/Mostrar columna acumulado	0" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=diagrel1 dbname="diagrel1" initial="0" values="Diag. Relacionado1	1/Diag. Relacionado1	0" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=diagrel2 dbname="diagrel2" initial="0" values="Diag. Relacionado2	1/Diag. Relacionado2	0" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=diagrel3 dbname="diagrel3" initial="0" values="Diag. Relacionado3	1/Diag. Relacionado3	0" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=diagrel4 dbname="diagrel4" initial="0" values="Diag. relacionado4	1/Diag. relacionado4	0" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=diagrel5 dbname="diagrel5" initial="0" values="Diag. Relacionado5	1/Diag. Relacionado5	0" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=diagcompli dbname="diagcompli" initial="0" values="Diag. Complicación	1/Diag. Complicación	0" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=diagingre1 dbname="diagingre1" initial="0" values="Diag. Ingreso1	1/Diag. Ingreso1	0" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=diagingre2 dbname="diagingre2" initial="0" values="Diag. Ingreso2	1/Diag. Ingreso2	0" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=diagingre3 dbname="diagingre3" initial="0" values="Diag. Ingreso3	1/Diag. Ingreso3	0" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=diagingre dbname="diagingre" initial="0" values="Diag. Ingreso	1/Diag. Ingreso	0" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=diagegreso dbname="diagegreso" initial="0" values="Diag. Egreso	1/Diag. Egreso	0" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=diagegreso1 dbname="diagegreso1" initial="0" values="Diag. Egreso1	1/Diag. Egreso1	0" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=diagegreso2 dbname="diagegreso2" initial="0" values="Diag. Egreso2	1/Diag. Egreso2	0" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=diagegreso3 dbname="diagegreso3" initial="0" values="Diag. Egreso3	1/Diag. Egreso3	0" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=diagcomplica dbname="diagcomplica" initial="0" values="Diag. Complicación	1/Diag. Complicación	0" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=causamuerte dbname="causamuerte" initial="0" values="Causa Muerte	1/Causa Muerte	0" )
+ column=(type=char(8190) update=yes updatewhereclause=no name=plantilla dbname="plantilla" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=cplant_urg dbname="cplant_urg" )
+ column=(type=long update=yes updatewhereclause=yes name=ncampo_urg dbname="ncampo_urg" )
+ column=(type=char(1) updatewhereclause=yes name=plant_tipo dbname="tipo" )
+ column=(type=char(1) updatewhereclause=yes name=plant_codtingre dbname="codtingre" )
+ column=(type=char(1) updatewhereclause=yes name=ingreso dbname="ingreso" )
+ column=(type=long update=yes updatewhereclause=yes name=num_min dbname="num_min" )
+ column=(type=long update=yes updatewhereclause=yes name=num_max dbname="num_max" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=agregado dbname="agregado" initial="0" values="Promedio	1/Suma	2/Ninguno	0/" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=obligatorio dbname="obligatorio" initial="0" values="Obligatorio	1/Obligatorio	0" )
+ column=(type=char(8190) update=yes updatewhereclause=no name=formula dbname="formula" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=importante dbname="importante" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=motivo dbname="motivo" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=ant dbname="ant" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=sexo dbname="sexo" )
+ column=(type=char(100) update=yes updatewhereclause=yes name=moda1 dbname="moda1" )
+ column=(type=number update=yes updatewhereclause=yes name=moda2 dbname="moda2" )
+ column=(type=char(100) update=yes updatewhereclause=yes name=moda3 dbname="moda3" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=moda4 dbname="moda4" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=moda5 dbname="moda5" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=varia_salud dbname="varia_salud" )
+ column=(type=char(500) update=yes updatewhereclause=yes name=frm_visible dbname="frm_visible" )
+ column=(type=char(1) updatewhereclause=yes name=pedt dbname="pedt" )
+ column=(type=datetime update=yes updatewhereclause=yes name=moda6 dbname="moda6" )
+ column=(type=char(255) updatewhereclause=yes name=sexop dbname="sexop" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=cod_ant dbname="cod_ant" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=np dbname="np" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=cod_inst dbname="cod_inst" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=remision dbname="remision" )
+ column=(type=char(1) updatewhereclause=yes name=eco dbname="eco" )
+ column=(type=char(1) updatewhereclause=yes name=futura dbname="futura" )
+ column=(type=long updatewhereclause=yes name=ndias dbname="ndias" )
+ column=(type=char(10) updatewhereclause=yes name=usu_modif dbname="usu_modif" )
+ column=(type=datetime updatewhereclause=yes name=fecha_modif dbname="fecha_modif" )
+ retrieve=" SELECT 
+	hclin_plantcampo.codplantilla,hclin_plantcampo.numcampo,
+	hclin_plantcampo.padre,hclin_plantcampo.orden ,
+	hclin_plantcampo.descampo,hclin_plantcampo.tipo ,
+	0 as handle,hclin_plantcampo.tipo_memo,hclin_plantcampo.estado,
+	hclin_plantcampo.medida,hclin_plantcampo.ayuda,
+	hclin_plantcampo.diagprin,hclin_plantcampo.diagrel1,
+	hclin_plantcampo.diagrel2,hclin_plantcampo.diagrel3,
+	hclin_plantcampo.diagrel4,hclin_plantcampo.diagrel5,
+	hclin_plantcampo.diagcompli,hclin_plantcampo.diagingre1,
+	hclin_plantcampo.diagingre2,hclin_plantcampo.diagingre3,
+	hclin_plantcampo.diagingre,hclin_plantcampo.diagegreso,
+	hclin_plantcampo.diagegreso1,hclin_plantcampo.diagegreso2,
+	hclin_plantcampo.diagegreso3,hclin_plantcampo.diagcomplica,
+	hclin_plantcampo.causamuerte,hclin_plantcampo.plantilla,
+	hclin_plantcampo.cplant_urg,hclin_plantcampo.ncampo_urg,
+	hclin_plant.tipo,hclin_plant.codtingre,
+	hclin_plant.ingreso,hclin_plantcampo.num_min,
+	hclin_plantcampo.num_max,hclin_plantcampo.agregado,
+	hclin_plantcampo.obligatorio,hclin_plantcampo.formula ,
+	hclin_plantcampo.importante ,hclin_plantcampo.motivo,
+	hclin_plantcampo.ant,hclin_plantcampo.sexo,hclin_plantcampo.moda1,
+	hclin_plantcampo.moda2,hclin_plantcampo.moda3,hclin_plantcampo.moda4,
+	hclin_plantcampo.moda5,hclin_plantcampo.varia_salud, hclin_plantcampo.frm_visible,
+	hclin_plant.pedt,hclin_plantcampo.moda6,
+	case when PADRES.SEXO is null then '0' else PADRES.SEXO end SexoP,
+	hclin_plantcampo.cod_ant,hclin_plantcampo.NP,hclin_plantcampo.cod_inst,
+	hclin_plantcampo.remision,hclin_plantcampo.eco,
+	 hclin_plantcampo.futura,
+	 hclin_plantcampo.ndias,
+	 hclin_plantcampo.usu_modif,
+	 hclin_plantcampo.fecha_modif
+FROM 
+	(hclin_plant INNER JOIN hclin_plantcampo ON hclin_plant.codplantilla = hclin_plantcampo.codplantilla) 
+	LEFT JOIN HCLIN_PLANTCAMPO AS PADRES ON (hclin_plantcampo.PADRE = PADRES.NUMCAMPO) 
+	AND (hclin_plantcampo.CODPLANTILLA = PADRES.CODPLANTILLA)
+WHERE 
+	( ( hclin_plantcampo.codplantilla = :cplant) ) " update="HCLIN_PLANTCAMPO" updatewhere=0 updatekeyinplace=no arguments=(("cplant", string))  sort="numcampo A " )
+text(band=header alignment="0" text="Nombre" border="0" color="0" x="183" y="4" height="52" width="169" html.valueishtml="0"  name=t_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="0" text="Nro" border="0" color="0" x="9" y="4" height="52" width="169" html.valueishtml="0"  name=t_2 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="5" color="0" x="23" y="8" height="60" width="128" format="[general]" html.valueishtml="0"  name=numcampo visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="5" color="33554432" x="183" y="8" height="60" width="1737" format="[general]" html.valueishtml="0"  name=descampo visible="1" edit.limit=255 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
+export.xhtml()
+ 

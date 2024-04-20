@@ -1,0 +1,49 @@
+﻿$PBExportHeader$dw_objeciones_sin_param.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no grid.lines=0 )
+header(height=68 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(4) update=yes updatewhereclause=yes name=cod_objecion dbname="glosa_objeciones.cod_objecion" )
+ column=(type=char(200) update=yes updatewhereclause=yes name=descripcion dbname="glosa_objeciones.descripcion" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=pertinente dbname="glosa_objeciones.pertinente" initial="0" values="	1/	0" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=subsanable dbname="glosa_objeciones.subsanable" initial="1" values="	1/	0" )
+ column=(type=long update=yes updatewhereclause=yes name=tiempo_resp dbname="glosa_objeciones.tiempo_resp" initial="30" )
+ column=(type=char(50) updatewhereclause=yes name=glosa_tipo_descripcion dbname="glosa_tipo.descripcion" )
+ column=(type=char(2) updatewhereclause=yes name=glosa_objeciones_tipo_auditoria dbname="glosa_objeciones.tipo_auditoria" )
+ retrieve="  SELECT glosa_objeciones.cod_objecion,   
+         glosa_objeciones.descripcion,   
+         glosa_objeciones.pertinente,   
+         glosa_objeciones.subsanable,   
+         glosa_objeciones.tiempo_resp,   
+      	 glosa_tipo.descripcion,glosa_objeciones.tipo_auditoria
+FROM glosa_objeciones INNER JOIN glosa_tipo ON glosa_objeciones.tipo_auditoria = glosa_tipo.tipo_auditoria 
+where glosa_tipo.estado='1'
+
+"  sort="glosa_objeciones_tipo_auditoria A cod_objecion A descripcion A " )
+group(level=1 header.height=0 trailer.height=28 by=("glosa_tipo_descripcion" ) header.color="536870912" trailer.color="15780518" )
+text(band=header alignment="2" text="Código" border="6" color="33554432" x="498" y="8" height="52" width="215" html.valueishtml="0"  name=cod_objecion_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Descripción" border="6" color="33554432" x="722" y="8" height="52" width="1833" html.valueishtml="0"  name=descripcion_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Pertinente" border="6" color="33554432" x="2565" y="8" height="52" width="265" html.valueishtml="0"  name=pertinente_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Subsanable" border="6" color="33554432" x="2839" y="8" height="52" width="274" html.valueishtml="0"  name=subsanable_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Dias. Resp" border="6" color="0" x="3122" y="8" height="52" width="261" html.valueishtml="0"  name=tiempo_resp_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Tipo" border="6" color="0" x="5" y="8" height="52" width="480" html.valueishtml="0"  name=glosa_tipo_descripcion_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=1 alignment="2" tabsequence=30 border="0" color="33554432" x="498" y="4" height="56" width="215" format="[general]" html.valueishtml="0" protect="0~tif ( isrownew() , 0 , 1)"  name=cod_objecion visible="1" edit.limit=4 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=40 border="0" color="33554432" x="722" y="4" height="56" width="1833" format="[general]" html.valueishtml="0"  name=descripcion visible="1" edit.limit=200 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="2" tabsequence=50 border="0" color="33554432" x="2565" y="4" height="56" width="265" format="[general]" html.valueishtml="0"  name=pertinente visible="1" checkbox.text="" checkbox.on="1" checkbox.off="0" checkbox.scale=no checkbox.threed=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="2" tabsequence=60 border="0" color="33554432" x="2839" y="4" height="56" width="274" format="[general]" html.valueishtml="0"  name=subsanable visible="1~tif ( pertinente='0' , 0 , 1)" checkbox.text="" checkbox.on="1" checkbox.off="0" checkbox.scale=no checkbox.threed=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="2" tabsequence=70 border="0" color="33554432" x="3122" y="4" height="56" width="261" format="[general]" html.valueishtml="0"  name=tiempo_resp visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=10 border="0" color="33554432" x="5" y="4" height="52" width="480" format="[general]" html.valueishtml="0"  name=glosa_tipo_descripcion visible="1~tif(cumulativeSum(  1 for group 1)=1,1,0)" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="descripcion + cod_objecion "border="0" color="0" x="3392" y="0" height="44" width="251" format="[GENERAL]" html.valueishtml="0"  name=todo visible="0"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

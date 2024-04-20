@@ -1,0 +1,12 @@
+﻿$PBExportHeader$st_evalua.srs
+global type st_evalua from structure
+	string		tipodoc
+	string		documento
+	string		coddoc
+	string		lugar
+	double		numdoc
+	double		ncargo
+	string		codplantilla
+	boolean		nuevo
+end type
+

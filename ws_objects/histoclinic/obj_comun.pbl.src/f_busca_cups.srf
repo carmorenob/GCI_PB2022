@@ -1,0 +1,122 @@
+﻿$PBExportHeader$f_busca_cups.srf
+global type f_busca_cups from function_object
+end type
+
+forward prototypes
+global function str_proc f_busca_cups (string p_codigo, string p_sexo, double p_edad, string p_atencion)
+end prototypes
+
+global function str_proc f_busca_cups (string p_codigo, string p_sexo, double p_edad, string p_atencion);str_proc str
+string parto
+datetime ahora
+//p_atencion para verificar si la validacion es de cargue o de atencion
+
+setnull(str.descripcion)
+if p_atencion='0' then
+	SELECT
+		proced.codproced, proced.descripcion, proced.parto,proced.agrupser,proced.rips,proced.tipoproc,proced.especial,proced.IndSexo,
+		proced.edadini,proced.edadfin,proced.codesp, proced.tiempoqx,	banco_subempaque.cod_tsubempaq, banco_subempaque.cod_banco, 
+		banco_tip_subempaq.descrip_tipo,proced.cod_cups,proced.cod_version,	proced.pos,	proced.remision,proced.odonconsul
+		into  :str.cproc,:str.descripcion,:parto,:str.agrupser,:str.rips,:str.tipoproc,:str.especial,:str.sexo,:str.edadini,:str.edadfin,:str.codesp,:str.tiempoqx,:str.cod_tsubempaq,:str.cod_banco,:str.descrip_tipo,:str.cups,:str.version,:str.pos,:str.remision,:str.odonconsul
+	FROM
+		((proced left join banco_producto on proced.codproced = banco_producto.codproced) 
+		left join banco_subempaque on (banco_producto.cod_banco = banco_subempaque.cod_banco) 
+		and (banco_producto.cod_empaque = banco_subempaque.cod_empaque) and (banco_producto.nro = banco_subempaque.nro)) 
+		left join banco_tip_subempaq on (banco_subempaque.cod_banco = banco_tip_subempaq.cod_banco) 
+		and (banco_subempaque.cod_tsubempaq = banco_tip_subempaq.cod_tsubempaq) 
+	WHERE proced.codproced=:p_codigo and proced.estado='1';
+	if sqlca.sqlcode=-1 then
+		messagebox("Error leyendo Proced",sqlca.sqlerrtext)
+		setnull(str.descripcion)
+		return str
+	end if
+	if sqlca.sqlnrows=0 then 
+		messagebox("Atención","Procedimiento no existe o no está activo")
+		return str
+	end if
+else
+	ahora=datetime(today())
+	SELECT 
+		proced.codproced, proced.descripcion, proced.parto,proced.agrupser,proced.rips,proced.tipoproc,proced.especial,proced.IndSexo,
+		proced.edadini,proced.edadfin,	proced.codesp, proced.tiempoqx,	banco_subempaque.cod_tsubempaq, banco_subempaque.cod_banco, 
+		banco_tip_subempaq.descrip_tipo,proced.cod_cups,proced.cod_version,proced.pos,	proced.remision,proced.odonconsul
+		into  :str.cproc,:str.descripcion,:parto,:str.agrupser,:str.rips,:str.tipoproc,:str.especial,:str.sexo,:str.edadini,:str.edadfin,:str.codesp,:str.tiempoqx,:str.cod_tsubempaq,:str.cod_banco,:str.descrip_tipo,:str.cups,:str.version,:str.pos,:str.remision,:str.odonconsul
+	FROM 
+		(((proced left join banco_producto on proced.codproced = banco_producto.codproced) 
+		left join banco_subempaque on (banco_producto.cod_banco = banco_subempaque.cod_banco) 
+		and (banco_producto.cod_empaque = banco_subempaque.cod_empaque) and (banco_producto.nro = banco_subempaque.nro)) 
+		left join banco_tip_subempaq on (banco_subempaque.cod_banco = banco_tip_subempaq.cod_banco) 
+		and (banco_subempaque.cod_tsubempaq = banco_tip_subempaq.cod_tsubempaq)) 
+		INNER JOIN PM_CUPS_VERSION ON proced.COD_VERSION = PM_CUPS_VERSION.COD_VERSION
+	WHERE 
+		(((proced.cod_cups)=:p_codigo) AND ((proced.estado)='1') 
+		AND ((getdate()) Between PM_CUPS_VERSION.VALIDO_INICIO And PM_CUPS_VERSION.VALIDO_HASTA));				
+	if sqlca.sqlcode=-1 then
+		messagebox("Error leyendo Proced",sqlca.sqlerrtext)
+		setnull(str.descripcion)
+		return str
+	end if
+	if sqlca.sqlnrows=0 then 
+		SELECT 
+			proced.codproced, proced.descripcion, proced.parto,proced.agrupser,proced.rips,proced.tipoproc,proced.especial,proced.IndSexo,
+			proced.edadini,proced.edadfin,proced.codesp, proced.tiempoqx,	banco_subempaque.cod_tsubempaq, banco_subempaque.cod_banco, 
+			banco_tip_subempaq.descrip_tipo,proced.cod_cups,proced.cod_version,proced.pos,proced.remision,odonconsul
+			into  :str.cproc,:str.descripcion,:parto,:str.agrupser,:str.rips,:str.tipoproc,:str.especial,:str.sexo,:str.edadini,:str.edadfin,:str.codesp,:str.tiempoqx,:str.cod_tsubempaq,:str.cod_banco,:str.descrip_tipo,:str.cups,:str.version,:str.pos,:str.remision,:str.odonconsul
+		FROM 
+			(((proced left join banco_producto on proced.codproced = banco_producto.codproced) 
+			left join banco_subempaque on (banco_producto.cod_banco = banco_subempaque.cod_banco) 
+			and (banco_producto.cod_empaque = banco_subempaque.cod_empaque) and (banco_producto.nro = banco_subempaque.nro)) 
+			left join banco_tip_subempaq on (banco_subempaque.cod_banco = banco_tip_subempaq.cod_banco) 
+			and (banco_subempaque.cod_tsubempaq = banco_tip_subempaq.cod_tsubempaq)) 
+			INNER JOIN PM_CUPS_VERSION ON proced.COD_VERSION = PM_CUPS_VERSION.COD_VERSION
+		WHERE 
+				(((proced.codproced)=:p_codigo) AND ((proced.estado)='1') 
+				AND ((getdate()) Between PM_CUPS_VERSION.VALIDO_INICIO And PM_CUPS_VERSION.VALIDO_HASTA));		
+		if sqlca.sqlcode=-1 then
+			messagebox("Error leyendo Proced",sqlca.sqlerrtext)
+			setnull(str.descripcion)
+			return str
+		end if
+		if sqlca.sqlnrows=0 then 
+			messagebox("Atención","Procedimiento no existe o no está activo")
+			return str
+		end if
+	end if
+end if
+if parto='1' and p_sexo='M' then
+	messagebox("Atención","Este Procedimiento aplica solo al Sexo Femenino")
+	setnull(str.descripcion)
+	setnull(str.cproc)
+	return str
+end if
+
+choose case str.sexo
+	case "1"
+		if p_sexo="F" then
+			messagebox("Atención","Este procedimiento es unicamente para sexo masculino")
+			setnull(str.descripcion)
+			setnull(str.cproc)
+			return str
+		end if
+	case "2"
+		if p_sexo="M" then
+			messagebox("Atención","Este procedimiento es unicamente para sexo femenino")
+			setnull(str.descripcion)
+			setnull(str.cproc)
+			return str
+	   end if
+end choose
+if p_edad<str.edadini or p_edad>str.edadfin then
+	Messagebox("Atención","Procedimiento no es válido para la edad del paciente")
+	setnull(str.descripcion)
+	setnull(str.cproc)
+	return str
+end if
+
+setnull(str.codadx)
+SELECT GClinico.CodAADX into :str.codadx
+FROM ProcGClinico INNER JOIN GClinico ON ProcGClinico.codgc = GClinico.codgc
+WHERE (((ProcGClinico.CodProced)=:str.cproc) AND ((ProcGClinico.estado)='1'));
+return str
+end function
+

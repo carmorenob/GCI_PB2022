@@ -1,0 +1,71 @@
+﻿$PBExportHeader$f_poblar_menus.srf
+global type f_poblar_menus from function_object
+end type
+
+forward prototypes
+global subroutine f_poblar_menus ()
+end prototypes
+
+global subroutine f_poblar_menus ();//para poblar menu reportes
+uo_datastore dw_oprsum
+dw_oprsum=create uo_datastore
+dw_oprsum.dataobject="dw_reportes"
+dw_oprsum.SetTransObject(SQLCA)
+if dw_oprsum.retrieve(usuario)=-1 then return
+long i,k
+i=dw_oprsum.rowcount()
+string opr
+if i=0 then 
+	m_principal.m_reportes.toolbaritemvisible=false
+	m_principal.m_reportes.visible=false
+end if
+if i> 15 then
+	m_principal.m_reportes.Item[16].visible=true
+	m_principal.m_reportes.Item[17].visible=true
+	m_principal.m_reportes.Item[17].enabled=true
+	m_principal.m_reportes.Item[17].toolbaritemvisible=true
+	k=15
+else
+	k=dw_oprsum.rowcount()
+end if
+for i = 1 to k
+	opr = dw_oprsum.GetItemString(i,'descripcion')
+	m_principal.m_reportes.Item[i].text = upper(Left(opr,1)) + Lower(right(opr,len(opr) - 1) )
+	m_principal.m_reportes.Item[i].tag = dw_oprsum.GetItemString(i,'cod_rep')
+	m_principal.m_reportes.Item[i].microhelp= upper(Left(opr,1)) + Lower(right(opr,len(opr) - 1) )
+	m_principal.m_reportes.Item[i].toolbaritemtext=upper(Left(opr,1)) + Lower(right(opr,len(opr) - 1) )
+	m_principal.m_reportes.Item[i].toolbaritemvisible=true
+	m_principal.m_reportes.Item[i].visible=true
+	m_principal.m_reportes.Item[i].enabled=true
+next
+for i=k+1 to 15
+	m_principal.m_reportes.Item[i].toolbaritemvisible=false
+	m_principal.m_reportes.Item[i].visible=false
+	m_principal.m_reportes.Item[i].enabled=false
+next
+menu tt
+string temp
+dw_oprsum.dataobject="dw_menus"
+dw_oprsum.SetTransObject(SQLCA)
+dw_oprsum.retrieve(usuario,'ASI')
+for i=1 to dw_oprsum.rowcount()
+	tt=f_busca_menu(m_principal,dw_oprsum.getitemstring(i,'codmenu'))
+	if not isnull(tt) then
+		if dw_oprsum.getitemstring(i,'permiso')='0' then
+			tt.visible=false
+			tt.toolbaritemvisible=false
+			tt.enabled=false
+		else
+			tt.visible=true
+			tt.toolbaritemvisible=true
+			tt.enabled=true
+			tt.text=dw_oprsum.getitemstring(i,'texto')
+			temp=dw_oprsum.getitemstring(i,'microayuda')
+			if not isnull(temp) and temp<>'' then tt.microhelp=temp
+			temp=dw_oprsum.getitemstring(i,'ayudabarra')
+			if not isnull(temp) and temp<>'' then	tt.toolbaritemtext=temp
+		end if
+	end if
+next
+end subroutine
+

@@ -1,0 +1,531 @@
+﻿$PBExportHeader$m_turnos.srm
+forward
+global type m_turnos from menu
+end type
+type m_suministrar from menu within m_turnos
+end type
+type m_- from menu within m_turnos
+end type
+type m_turno1 from menu within m_turnos
+end type
+type m_turno2 from menu within m_turnos
+end type
+type m_turno3 from menu within m_turnos
+end type
+type m_turno4 from menu within m_turnos
+end type
+type m_turno5 from menu within m_turnos
+end type
+type m_turno6 from menu within m_turnos
+end type
+type m_turno7 from menu within m_turnos
+end type
+type m_turno8 from menu within m_turnos
+end type
+type m_turno9 from menu within m_turnos
+end type
+type m_turno10 from menu within m_turnos
+end type
+type m_desocupar from menu within m_turnos
+end type
+global type m_turnos from menu
+m_suministrar m_suministrar
+m_- m_-
+m_turno1 m_turno1
+m_turno2 m_turno2
+m_turno3 m_turno3
+m_turno4 m_turno4
+m_turno5 m_turno5
+m_turno6 m_turno6
+m_turno7 m_turno7
+m_turno8 m_turno8
+m_turno9 m_turno9
+m_turno10 m_turno10
+m_desocupar m_desocupar
+end type
+end forward
+
+global type m_turnos from menu
+m_suministrar m_suministrar
+m_- m_-
+m_turno1 m_turno1
+m_turno2 m_turno2
+m_turno3 m_turno3
+m_turno4 m_turno4
+m_turno5 m_turno5
+m_turno6 m_turno6
+m_turno7 m_turno7
+m_turno8 m_turno8
+m_turno9 m_turno9
+m_turno10 m_turno10
+m_desocupar m_desocupar
+end type
+global m_turnos m_turnos
+
+on m_turnos.create
+m_turnos=this
+call super::create
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_suministrar=create m_suministrar
+this.m_-=create m_-
+this.m_turno1=create m_turno1
+this.m_turno2=create m_turno2
+this.m_turno3=create m_turno3
+this.m_turno4=create m_turno4
+this.m_turno5=create m_turno5
+this.m_turno6=create m_turno6
+this.m_turno7=create m_turno7
+this.m_turno8=create m_turno8
+this.m_turno9=create m_turno9
+this.m_turno10=create m_turno10
+this.m_desocupar=create m_desocupar
+this.Item[UpperBound(this.Item)+1]=this.m_suministrar
+this.Item[UpperBound(this.Item)+1]=this.m_-
+this.Item[UpperBound(this.Item)+1]=this.m_turno1
+this.Item[UpperBound(this.Item)+1]=this.m_turno2
+this.Item[UpperBound(this.Item)+1]=this.m_turno3
+this.Item[UpperBound(this.Item)+1]=this.m_turno4
+this.Item[UpperBound(this.Item)+1]=this.m_turno5
+this.Item[UpperBound(this.Item)+1]=this.m_turno6
+this.Item[UpperBound(this.Item)+1]=this.m_turno7
+this.Item[UpperBound(this.Item)+1]=this.m_turno8
+this.Item[UpperBound(this.Item)+1]=this.m_turno9
+this.Item[UpperBound(this.Item)+1]=this.m_turno10
+this.Item[UpperBound(this.Item)+1]=this.m_desocupar
+end on
+
+on m_turnos.destroy
+call super::destroy
+destroy(this.m_suministrar)
+destroy(this.m_-)
+destroy(this.m_turno1)
+destroy(this.m_turno2)
+destroy(this.m_turno3)
+destroy(this.m_turno4)
+destroy(this.m_turno5)
+destroy(this.m_turno6)
+destroy(this.m_turno7)
+destroy(this.m_turno8)
+destroy(this.m_turno9)
+destroy(this.m_turno10)
+destroy(this.m_desocupar)
+end on
+
+type m_suministrar from menu within m_turnos
+end type
+
+on m_suministrar.create
+call super::create
+this.tag = "Suministrar"
+this.visible = false
+this.text = "Suministrar"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_suministrar.destroy
+call super::destroy
+end on
+
+event clicked;w_estacion_enf.suministrar(w_estacion_enf.dia,w_estacion_enf.i_hora)
+
+end event
+
+type m_- from menu within m_turnos
+end type
+
+on m_-.create
+call super::create
+this.visible = false
+this.text = "-"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_-.destroy
+call super::destroy
+end on
+
+type m_turno1 from menu within m_turnos
+end type
+
+on m_turno1.create
+call super::create
+this.visible = false
+this.text = "turno1"
+this.mergeoption = editmenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_turno1.destroy
+call super::destroy
+end on
+
+event clicked;w_estacion_enf.t1.pm.dw_5.event marca_turno(tag)
+
+end event
+
+type m_turno2 from menu within m_turnos
+end type
+
+on m_turno2.create
+call super::create
+this.visible = false
+this.text = "turno2"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_turno2.destroy
+call super::destroy
+end on
+
+event clicked;w_estacion_enf.t1.pm.dw_5.event marca_turno(tag)
+end event
+
+type m_turno3 from menu within m_turnos
+end type
+
+on m_turno3.create
+call super::create
+this.visible = false
+this.text = "turno3"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_turno3.destroy
+call super::destroy
+end on
+
+event clicked;w_estacion_enf.t1.pm.dw_5.event marca_turno(tag)
+end event
+
+type m_turno4 from menu within m_turnos
+end type
+
+on m_turno4.create
+call super::create
+this.visible = false
+this.text = "turno4"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_turno4.destroy
+call super::destroy
+end on
+
+event clicked;w_estacion_enf.t1.pm.dw_5.event marca_turno(tag)
+end event
+
+type m_turno5 from menu within m_turnos
+end type
+
+on m_turno5.create
+call super::create
+this.visible = false
+this.text = "turno5"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_turno5.destroy
+call super::destroy
+end on
+
+event clicked;w_estacion_enf.t1.pm.dw_5.event marca_turno(tag)
+end event
+
+type m_turno6 from menu within m_turnos
+end type
+
+on m_turno6.create
+call super::create
+this.visible = false
+this.text = "turno6"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_turno6.destroy
+call super::destroy
+end on
+
+event clicked;w_estacion_enf.t1.pm.dw_5.event marca_turno(tag)
+end event
+
+type m_turno7 from menu within m_turnos
+end type
+
+on m_turno7.create
+call super::create
+this.visible = false
+this.text = "turno7"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_turno7.destroy
+call super::destroy
+end on
+
+event clicked;w_estacion_enf.t1.pm.dw_5.event marca_turno(tag)
+end event
+
+type m_turno8 from menu within m_turnos
+end type
+
+on m_turno8.create
+call super::create
+this.visible = false
+this.text = "turno8"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_turno8.destroy
+call super::destroy
+end on
+
+event clicked;w_estacion_enf.t1.pm.dw_5.event marca_turno(tag)
+end event
+
+type m_turno9 from menu within m_turnos
+end type
+
+on m_turno9.create
+call super::create
+this.visible = false
+this.text = "turno9"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_turno9.destroy
+call super::destroy
+end on
+
+event clicked;w_estacion_enf.t1.pm.dw_5.event marca_turno(tag)
+end event
+
+type m_turno10 from menu within m_turnos
+end type
+
+on m_turno10.create
+call super::create
+this.visible = false
+this.text = "turno10"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_turno10.destroy
+call super::destroy
+end on
+
+event clicked;w_estacion_enf.t1.pm.dw_5.event marca_turno(tag)
+end event
+
+type m_desocupar from menu within m_turnos
+end type
+
+event clicked;w_estacion_enf.t1.pm.dw_5.event marca_turno('limpia')
+
+end event
+
+on m_desocupar.create
+call super::create
+this.text = "Desocupar"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_desocupar.destroy
+call super::destroy
+end on
+

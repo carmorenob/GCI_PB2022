@@ -1,0 +1,42 @@
+﻿$PBExportHeader$f_permiso_boton.srf
+global type f_permiso_boton from function_object
+end type
+
+forward prototypes
+global function integer f_permiso_boton (picturebutton p_boton, string p_cod_vent)
+end prototypes
+
+global function integer f_permiso_boton (picturebutton p_boton, string p_cod_vent);//se utiliza en lo asistencial
+string cod_obj
+st_ordenes new_usu
+st_usuarios st_ux
+
+cod_obj=p_boton.classname()
+uo_datastore ds_boton
+ds_boton=create uo_datastore
+ds_boton.dataobject='dw_permi_obj'
+ds_boton.settransobject(sqlca)
+if ds_boton.retrieve(p_cod_vent,cod_obj,usuario)>0 then 
+	return 1
+else
+	st_ux.usuario=usuario
+	st_ux.destino=p_cod_vent
+	openwithparm(w_conecta_evol,st_ux)
+	st_ordenes st_p
+	st_p = Message.PowerObjectParm
+	if st_p.cprof= '!' then return 0
+	if st_p.cesp= '!' then return 0
+	if st_p.clugar= '!' then return 0
+	if st_p.usu= '!' then return 0
+	if ds_boton.retrieve(p_cod_vent,cod_obj,new_usu.usu)=0 then 
+		messagebox("Atención",'Este Usuario tampoco tiene permiso para este botón')
+		return 0
+	end if
+//	usuario=new_usu.usu
+//	select nombre into :g_descrip_usu from usuarios where usuario=:usuario;
+	//	f_poblar_menus() //se debe cambiar de usuario y poblar los menus
+	//cabie esto para averiguar con charli porque cambia los menus si no tienen privilegios un usuario
+	end if
+return 1
+end function
+

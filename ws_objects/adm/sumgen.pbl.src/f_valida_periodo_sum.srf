@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_valida_periodo_sum.srf
+global type f_valida_periodo_sum from function_object
+end type
+
+forward prototypes
+global function integer f_valida_periodo_sum (datetime fecha)
+end prototypes
+
+global function integer f_valida_periodo_sum (datetime fecha);long ano, mes, fila, item, v_ano, v_mes
+
+v_ano = year(date(fecha))
+v_mes = month(date(fecha))
+
+select ano, mes into :ano, :mes
+from sum_cierre
+where ano=:v_ano and mes=:v_mes and estado = '1';
+IF SQLCA.SQLCode = -1 THEN 
+	Rollback;
+	Return -1
+elseIf SQLCA.SQLCode = 100 then
+	Rollback;
+	Return -1
+END IF
+
+Return 1
+end function
+

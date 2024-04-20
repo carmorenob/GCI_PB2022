@@ -1,0 +1,44 @@
+﻿$PBExportHeader$f_check_kardex.srf
+global type f_check_kardex from function_object
+end type
+
+forward prototypes
+global function string f_check_kardex (string p_cmedica, string p_almacen, long p_cantidad, datawindow p_dw, long p_item, string p_cdoc, string p_articulo)
+end prototypes
+
+global function string f_check_kardex (string p_cmedica, string p_almacen, long p_cantidad, datawindow p_dw, long p_item, string p_cdoc, string p_articulo);// retorna ! si no hay cantidad de ninguno o suficiente y el código del articulo si hay suficientes
+uo_datastore dw_kardex
+dw_kardex = create uo_datastore
+dw_kardex.dataobject="dw_kardex"
+dw_kardex.settransobject(sqlca)
+long cuantos_gen
+string articulo,cod_gen,err
+
+SELECT  Min(sumgenerico.codgenerico) ,Sum(SUM_KARDEX.saldoactual) into :cod_gen,:cuantos_gen
+FROM SUMGENERICO INNER JOIN (SUMARTICULO INNER JOIN SUM_KARDEX ON SUMARTICULO.codArticulo = SUM_KARDEX.CODARTICULO) 
+ON SUMGENERICO.codgenerico = SUMARTICULO.codgenerico
+WHERE (((SUM_KARDEX.CODALMACEN)=:p_almacen) AND ((SUMGENERICO.c_medica)=:p_cmedica)) and SUMARTICULO.codArticulo=:p_articulo;
+if sqlca.sqlcode=-1 then
+	err=sqlca.sqlerrtext
+	rollback;
+	messagebox('Error leyendo cantidades existentes',err)
+	return '!'
+end if
+if cuantos_gen < p_cantidad then return '!'
+
+st_lotes st_lote
+st_lote.cant=p_cantidad
+st_lote.cmedica=cod_gen
+//st_lote.cmedica=p_cmedica //en la version anterior (sin insumos-costos) estaba era esta linea
+st_lote.alm=p_almacen       //para la neuva version
+st_lote.clug=clugar // esta funcion solo se utiliza en facturación 
+st_lote.cdoc=p_cdoc 
+st_lote.dw_lote_mov=p_dw
+st_lote.item=p_item
+openwithparm(w_escoge_lote,st_lote)
+if p_dw.find('item='+string(st_lote.item),1,p_dw.rowcount())=0 then
+	return '!'
+end if
+return 'ok'
+end function
+

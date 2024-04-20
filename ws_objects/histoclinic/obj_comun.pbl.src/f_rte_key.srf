@@ -1,0 +1,15 @@
+﻿$PBExportHeader$f_rte_key.srf
+global type f_rte_key from function_object
+end type
+
+forward prototypes
+global function integer f_rte_key (richtextedit p_rte, unsignedlong p_keyflags, keycode p_key)
+end prototypes
+
+global function integer f_rte_key (richtextedit p_rte, unsignedlong p_keyflags, keycode p_key);if p_key=keydelete! then return 1
+if (p_key=keyc! and p_keyflags=2) or p_keyflags=2 or p_key=KeyLeftArrow! or p_key=KeyUpArrow! or p_key=KeyRightArrow! or p_key=KeyDownArrow! then return 0
+p_rte.selecttext(p_rte.selectedline(),p_rte.selectedstart(),0,0)
+return 0
+
+end function
+

@@ -1,0 +1,26 @@
+﻿$PBExportHeader$finmes.srf
+global type finmes from function_object
+end type
+
+forward prototypes
+global function datetime finmes (datetime fecha)
+end prototypes
+
+global function datetime finmes (datetime fecha);datetime fret
+long ano,mes
+
+ano = year(date(fecha))
+mes = month(date(fecha))
+if mes = 12 then
+	mes = 1
+	ano = ano + 1
+else
+	mes = mes +1
+end if
+
+fret = datetime(date(ano,mes,1))
+fret = datetime(RelativeDate(date(fret), -1))
+return fret
+
+end function
+

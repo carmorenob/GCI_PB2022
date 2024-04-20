@@ -1,0 +1,52 @@
+﻿$PBExportHeader$get_vacac_pag.srf
+global type get_vacac_pag from function_object
+end type
+
+forward prototypes
+global function decimal get_vacac_pag (string tipodoc, string documento, string cod_concep, datetime fecini, datetime fecfin)
+end prototypes
+
+global function decimal get_vacac_pag (string tipodoc, string documento, string cod_concep, datetime fecini, datetime fecfin);long i, dias, tdias, diaspag, tdiaspag
+decimal valor, total
+string concep
+st_interfec ivac, iret, interv
+uo_datastore dw_aus
+dw_aus = Create uo_datastore
+dw_aus.DataObject = 'dw_ausentismo'
+dw_aus.setTransObject(SQLCA)
+
+dw_aus.Retrieve(tipodoc,documento,'VA')
+interv.x = fecini
+interv.y = fecfin
+for i = 1 to dw_aus.RowCount()
+	concep = dw_aus.GetItemString(i,'cod_concep')
+	ivac.x = datetime(dw_aus.GetItemDate(i,'fechaini'))
+	ivac.y = datetime(dw_aus.GetItemDate(i,'fechafin'))
+	iret = interseccion(interv,ivac)
+	if (not isNull(iret.x)) and (not isNull(iret.y)) then
+		dias = DaysAfter(date(iret.x),date(iret.y)) + 1
+	end if
+	select pagado, cantidad_ac into :valor, :diaspag from nom_cab, nom_cpo
+	where nom_cab.num_nomina = nom_cpo.num_nomina and
+	      nom_cpo.tipodoc=:tipodoc and nom_cpo.documento=:documento and 
+			nom_cab.mes = month(:fecini) -  1 and
+	      nom_cab.estado = '1' and cod_concep = :concep;
+	if SQLCA.SQLCode = -1 then
+		concep = SQLCA.SQLErrText
+		Rollback;
+		MessageBox('SQL Error',concep)
+		Return -1
+	end if
+	if isNull(valor) then valor = 0
+	total = total + valor
+	tdias = tdias + dias
+	tdiaspag = tdiaspag + diaspag
+next
+if tdiaspag = 0 then
+	Return 0
+else
+	Return total * (tdias/tdiaspag)
+end if
+
+end function
+

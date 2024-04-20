@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_lista_requi_emple_tipo.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=char(3) update=yes updatewhereclause=yes key=yes name=codrela dbname="tipoemplerequi.codrela" )
+ column=(type=char(3) update=yes updatewhereclause=yes key=yes name=tipoemple dbname="tipoemplerequi.tipoemple" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=nrequisito dbname="tipoemplerequi.nrequisito" )
+ column=(type=char(25) update=yes updatewhereclause=yes name=nombre dbname="tipoemplerequi.nombre" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=permanente dbname="tipoemplerequi.permanente" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=contrato dbname="tipoemplerequi.contrato" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"tipoemplerequi~" ) COLUMN(NAME=~"tipoemplerequi.codrela~") COLUMN(NAME=~"tipoemplerequi.tipoemple~") COLUMN(NAME=~"tipoemplerequi.nrequisito~") COLUMN(NAME=~"tipoemplerequi.nombre~") COLUMN(NAME=~"tipoemplerequi.permanente~") COLUMN(NAME=~"tipoemplerequi.contrato~")) " update="tipoemplerequi" updatewhere=0 updatekeyinplace=yes )
+column(band=detail id=4 alignment="0" tabsequence=10 border="0" color="0" x="9" y="4" height="56" width="1033" format="[general]" html.valueishtml="0"  name=nombre visible="1" edit.limit=25 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

@@ -1,0 +1,128 @@
+﻿$PBExportHeader$f_kardexentrada.srf
+global type f_kardexentrada from function_object
+end type
+
+forward prototypes
+global function integer f_kardexentrada (string codalmacen, string codarticulo, double cantidad, string coddoc, string lugar, long numdoc, long itemref, decimal costo, decimal iva, datetime fecha)
+end prototypes
+
+global function integer f_kardexentrada (string codalmacen, string codarticulo, double cantidad, string coddoc, string lugar, long numdoc, long itemref, decimal costo, decimal iva, datetime fecha);uo_datastore dw_kardex, dw_kardexmov, dw_kardexdeta
+long ano, mes, fila, item, v_ano, v_mes
+decimal cProm, saldo, cPromIni, valor
+string msg
+dw_kardex = Create uo_datastore
+dw_kardex.DataObject = 'dw_kardex'
+dw_kardex.SetTransObject(SQLCA)
+//dw_kardexdeta = Create uo_datastore
+//dw_kardexdeta.DataObject = 'dw_kardexdeta'
+//dw_kardexdeta.SetTransObject(SQLCA)
+dw_kardexmov = Create uo_datastore
+dw_kardexmov.DataObject = 'dw_kardexmov'
+dw_kardexmov.SetTransObject(SQLCA)
+
+if isNull(fecha) then
+	Rollback;
+	MessageBox('Atención','La fecha no es válida. Art. '+codarticulo)
+	Return -1
+end if
+if isNull(Cantidad) then
+	Rollback;
+	MessageBox('Atención','La cantidad es nula para el articulo '+codarticulo)
+	Return -1
+end if
+if isNull(costo) then
+	Rollback;
+	MessageBox('Atención','El costo es nulo para el articulo '+codarticulo)
+	Return -1
+end if
+if isNull(iva) then iva = 0
+
+v_ano = year(date(fecha))
+v_mes = month(date(fecha))
+
+select ano, mes into :ano, :mes
+from sum_cierre
+where ano=:v_ano and mes=:v_mes and estado = '1';
+IF SQLCA.SQLCode = -1 THEN 
+	msg = SQLCA.SQLErrText
+	Rollback;
+	MessageBox("SQL error", msg)
+	Return -1
+elseIf SQLCA.SQLCode = 100 then
+	Rollback;
+	MessageBox('Atención','No existe periodo activo, verifique fecha del documento - Año:'+string(v_ano)+' Mes:'+string(v_mes))
+	Return -1
+END IF
+
+//IF Regimen = 'S' then  //Simplificado
+	Costo = round(costo * (1 + iva),2) // Valor + IVA
+//end if
+
+////// Actualiza Kardex
+
+fila = dw_kardex.Retrieve(codalmacen,codarticulo)
+if fila = 0 then
+	//Inserta nuevo articulo al Almacen
+	fila = dw_kardex.InsertRow(0)
+	dw_kardex.SetItem(fila,'codalmacen',codalmacen)
+	dw_kardex.SetItem(fila,'codarticulo',codarticulo)
+	dw_kardex.SetItem(fila,'saldoinicial',0)
+	dw_kardex.SetItem(fila,'saldoActual',cantidad)
+	dw_kardex.SetItem(fila,'costoprominicial', 0)
+	dw_kardex.SetItem(fila,'costoprom', Costo)
+	dw_kardex.SetItem(fila,'usastock',FALSE)
+	cProm = Costo
+elseif fila = 1 then
+	if dw_kardex.GetItemNumber(fila,'saldoActual') + cantidad > 0 then
+		dw_kardex.SetItem(fila,'costoprom', round((dw_kardex.GetItemNumber(fila,'costoprom') * dw_kardex.GetItemNumber(fila,'saldoActual') + costo*cantidad)/ (dw_kardex.GetItemNumber(fila,'saldoActual') + cantidad),2))
+	end if
+	dw_kardex.SetItem(fila,'saldoActual', dw_kardex.GetItemNumber(fila,'saldoActual') + cantidad)
+	if dw_kardex.GetItemNumber(fila,'saldoActual') < 0 then
+		Rollback;
+		messageBox('Error f_kardexent','Estaria registrando saldos negativos en el Kardex. No puede procesar el documento')
+		Return -1
+	end if
+	if dw_kardex.GetItemNumber(fila,'saldoActual') < dw_kardex.GetItemNumber(fila,'stmin') then
+		messageBox('Alerta','Ha alcanzado el saldo mínimo para el artículo ' + codarticulo)
+	end if
+end if
+
+if dw_kardex.Update() = -1 then
+	rollback;
+	return -1
+end if
+
+select max(item) into :item from sum_kardex_mov
+where codalmacen = :codalmacen and
+codarti = :codarticulo and ano = :ano and mes = :mes;
+IF isNull(item) then
+	item = 1
+else
+	item = item + 1
+END IF
+fila = dw_kardexmov.InsertRow(0)
+dw_kardexmov.SetItem(fila,'codalmacen',codalmacen)
+dw_kardexmov.SetItem(fila,'codarti',codarticulo)
+dw_kardexmov.SetItem(fila,'ano',ano)
+dw_kardexmov.SetItem(fila,'mes',mes)
+dw_kardexmov.SetItem(fila,'item',item)
+dw_kardexmov.SetItem(fila,'fecha',fecha)
+dw_kardexmov.SetItem(fila,'usuario',usuario)
+dw_kardexmov.SetItem(fila,'entradacant',cantidad)
+dw_kardexmov.SetItem(fila,'valorunit',costo)
+dw_kardexmov.SetItem(fila,'cos_prom_ant',cPromIni)
+dw_kardexmov.SetItem(fila,'coddocref',coddoc)
+dw_kardexmov.SetItem(fila,'cLugarref',Lugar)
+dw_kardexmov.SetItem(fila,'numdocref',numdoc)
+dw_kardexmov.SetItem(fila,'itemref',itemref)
+if dw_kardexmov.Update() = -1 then
+	Rollback;
+	Return -1
+end if
+destroy dw_kardex
+destroy dw_kardexmov
+destroy dw_kardexdeta
+Return 0
+
+end function
+

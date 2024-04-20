@@ -1,0 +1,35 @@
+﻿$PBExportHeader$f_dias_vac_per.srf
+global type f_dias_vac_per from function_object
+end type
+
+forward prototypes
+global function integer f_dias_vac_per (string tipodoc, string documento, datetime periodo)
+end prototypes
+
+global function integer f_dias_vac_per (string tipodoc, string documento, datetime periodo);datastore dw_vac
+date ini, fin
+int dias = 0
+date fecha
+
+fecha = date(periodo)
+
+ini = date( "01/" + string(month(fecha)) +"/"+ string(year(fecha)))
+
+if month(ini) = 12 then
+	fin = date( "01/01/" + string(year(ini) + 1) )
+else
+	fin = date( "01/" + string(month(ini)+1) +"/"+ string(year(ini)))
+end if
+fin = RelativeDate(fin, -1)
+
+dw_vac = create DataStore
+dw_vac.DataObject = 'dw_vac_periodo'
+dw_vac.setTransObject(SQLCA)
+if dw_vac.Retrieve(tipodoc, documento, ini, fin) > 0 then
+	dias = dw_vac.getItemNumber(1, 'dias')
+end if
+
+return dias
+
+end function
+

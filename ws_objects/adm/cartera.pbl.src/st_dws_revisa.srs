@@ -1,0 +1,12 @@
+﻿$PBExportHeader$st_dws_revisa.srs
+global type st_dws_revisa from structure
+	datawindow		dw_fac
+	datawindow		dw_proc
+	datawindow		dw_item
+	singlelineedit		sle_parm
+	editmask		em_parm
+	Datawindow		dw_fg
+	datawindow		dw_pg
+	datawindow		dw_sg
+end type
+

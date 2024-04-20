@@ -1,0 +1,39 @@
+﻿$PBExportHeader$dw_det_aspecto.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=67108864 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no )
+header(height=0 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=20 color="536870912" )
+detail(height=768 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codplantilla dbname="atu_ficha_tecnica.codplantilla" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=codaspecto dbname="atu_ficha_tecnica.codaspecto" )
+ column=(type=char(100) update=yes updatewhereclause=yes name=aspecto dbname="atu_ficha_tecnica.aspecto" )
+ column=(type=char(255) update=yes updatewhereclause=yes name=descripcion dbname="atu_ficha_tecnica.descripcion" )
+ column=(type=char(255) update=yes updatewhereclause=yes name=valor dbname="atu_ficha_tecnica.valor" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=estado dbname="atu_ficha_tecnica.estado" )
+ retrieve="  SELECT  atu_ficha_tecnica.codplantilla ,    
+       atu_ficha_tecnica.codaspecto ,     
+      atu_ficha_tecnica.aspecto ,         
+  atu_ficha_tecnica.descripcion ,         
+  atu_ficha_tecnica.valor ,       
+    atu_ficha_tecnica.estado    
+ FROM atu_ficha_tecnica      WHERE ( atu_ficha_tecnica.codplantilla = :plantilla ) and          ( atu_ficha_tecnica.codaspecto = :aspecto )   " update="atu_ficha_tecnica" updatewhere=0 updatekeyinplace=yes arguments=(("plantilla", string),("aspecto", number)) )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="33554432" x="224" y="12" height="60" width="800" format="[general]" html.valueishtml="0"  name=aspecto visible="1" edit.limit=100 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="0" text="Aspecto" border="0" color="33554432" x="219" y="76" height="60" width="325" html.valueishtml="0"  name=aspecto_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="5" color="33554432" x="14" y="12" height="60" width="174" format="[general]" html.valueishtml="0"  name=codaspecto visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="0" text="Código" border="0" color="33554432" x="14" y="76" height="60" width="325" html.valueishtml="0"  name=t_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Descripción" border="0" color="33554432" x="14" y="216" height="60" width="325" html.valueishtml="0"  name=descripción_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=30 border="5" color="33554432" x="14" y="292" height="60" width="1001" format="[general]" html.valueishtml="0"  name=valor visible="1" edit.limit=255 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="0" text="Valor" border="0" color="33554432" x="14" y="356" height="60" width="325" html.valueishtml="0"  name=valor_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="5" color="33554432" x="14" y="164" height="52" width="1006" format="[general]" html.valueishtml="0"  name=descripcion visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

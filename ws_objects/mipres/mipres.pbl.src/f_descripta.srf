@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_descripta.srf
+global type f_descripta from function_object
+end type
+
+forward prototypes
+global function string f_descripta (string encriptada)
+end prototypes
+
+global function string f_descripta (string encriptada);long i,j,as,largo
+string pedazo,retorna,si
+si=''
+largo=len(encriptada)
+for j=1 to largo step 3
+	pedazo=mid(encriptada,j,3)
+	retorna=''
+	for i=1 to 3
+		as=asc(mid(pedazo,i,1))
+		retorna=retorna+string(as -1)
+	next
+	si=si+char(long(retorna))
+next
+return si
+end function
+

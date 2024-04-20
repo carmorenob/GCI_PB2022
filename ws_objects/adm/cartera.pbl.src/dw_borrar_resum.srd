@@ -1,0 +1,27 @@
+﻿$PBExportHeader$dw_borrar_resum.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no grid.lines=0 )
+header(height=80 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=char(2) update=yes updatewhereclause=yes key=yes name=clugar dbname="car_tipo.clugar" )
+ column=(type=char(4) update=yes updatewhereclause=yes key=yes name=coddoc dbname="car_tipo.coddoc" )
+ column=(type=number update=yes updatewhereclause=yes key=yes name=num_cobro dbname="car_tipo.num_cobro" )
+ column=(type=char(2) update=yes updatewhereclause=yes key=yes name=cartipo dbname="car_tipo.cartipo" )
+ retrieve="SELECT distinct CAR_COBRO_TOT.clugar, CAR_COBRO_TOT.coddoc, CAR_COBRO_TOT.num_cobro, CAR_COBRO_TOT.cartipo
+FROM car_tipo INNER JOIN (car_glosa_cpo INNER JOIN CAR_COBRO_TOT ON (car_glosa_cpo.num_cobro = CAR_COBRO_TOT.num_cobro) AND (car_glosa_cpo.coddoc_cob = CAR_COBRO_TOT.coddoc) AND (car_glosa_cpo.clugar_cob = CAR_COBRO_TOT.clugar)) ON car_tipo.cartipo = CAR_COBRO_TOT.cartipo
+WHERE (((car_glosa_cpo.CodDoc)=:cdoc) AND ((car_glosa_cpo.clugar)=:clug) AND ((car_glosa_cpo.NUM_GLOSA)=:ndoc) AND ((car_tipo.codtipo)='3') AND ((car_tipo.operacion)=:operacion))" update="car_cobro_tot" updatewhere=0 updatekeyinplace=yes arguments=(("cdoc", string),("clug", string),("ndoc", number),("operacion", number)) )
+text(band=header alignment="2" text="Clugar" border="0" color="33554432" x="9" y="8" height="64" width="169" html.valueishtml="0"  name=clugar_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Coddoc" border="0" color="33554432" x="187" y="8" height="64" width="201" html.valueishtml="0"  name=coddoc_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Num Cobro" border="0" color="33554432" x="398" y="8" height="64" width="329" html.valueishtml="0"  name=num_cobro_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cartipo" border="0" color="33554432" x="736" y="8" height="64" width="187" html.valueishtml="0"  name=cartipo_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="9" y="8" height="76" width="169" format="[general]" html.valueishtml="0"  name=clugar visible="1" edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="187" y="8" height="76" width="201" format="[general]" html.valueishtml="0"  name=coddoc visible="1" edit.limit=4 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="33554432" x="398" y="8" height="76" width="329" format="[general]" html.valueishtml="0"  name=num_cobro visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="33554432" x="736" y="8" height="76" width="187" format="[general]" html.valueishtml="0"  name=cartipo visible="1" edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

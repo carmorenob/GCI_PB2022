@@ -1,0 +1,51 @@
+﻿$PBExportHeader$traducefmla.srf
+global type traducefmla from function_object
+end type
+
+forward prototypes
+global function integer traducefmla (string st_fuente, ref string st_destino, string sintax)
+end prototypes
+
+global function integer traducefmla (string st_fuente, ref string st_destino, string sintax);string traducido, simbolf, simbold, buffer
+long inicio, posicion, i
+uo_datastore dw_trad
+dw_trad = CREATE uo_datastore
+dw_trad.DataObject = "dw_traduce"
+dw_trad.SetTransObject(SQLCA)
+//dw_historia.DataObject = "dw_historia"
+//dw_historia.SetTransObject(SQLCA)
+dw_trad.Retrieve()
+//dw_historia.Retrieve("","")
+
+st_destino = st_fuente
+for i = 1 to dw_trad.RowCount()
+	inicio = 1
+	IF sintax = 'EN' then
+		simbolf = dw_trad.GetItemString(i,'f_espanol')
+		simbold = dw_trad.GetItemString(i,'f_ingles')
+	elseif sintax = 'ES' then
+		simbolf = dw_trad.GetItemString(i,'f_ingles')
+		simbold = dw_trad.GetItemString(i,'f_espanol')
+	end if
+	posicion = pos(upper(st_destino), upper(simbolf), inicio)
+	do while posicion > 0
+		buffer = mid(upper(st_destino),inicio,posicion + len(simbolf) - inicio + 1)
+		if not (match(buffer, "[A-Za-z0-9_]" + upper(simbolf)) or match(buffer,upper(simbolf)+"[A-Za-z0-9_]") ) then
+			st_destino = replace(st_destino,posicion,len(simbolf),simbold)
+		end if
+		inicio = posicion + len(simbold)
+		posicion = pos(upper(st_destino), upper(simbolf), inicio)
+	loop
+next
+
+////st_destino = dw_historia.describe("Evaluate('" + verificar + "',1)")
+//if isNull(st_destino) then
+//	messageBox('Error','Alguno de los parametros resulto nulo')
+//	Return 1
+//elseif st_destino = "!" then
+//	messageBox('Error','Alguno de los items es inválido')
+//	Return -1
+//end if
+Return 0
+end function
+

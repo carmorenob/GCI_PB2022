@@ -1,0 +1,32 @@
+﻿$PBExportHeader$tes_op_com_cheques.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+header(height=60 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(150) updatewhereclause=yes name=desbanco dbname="tesocuentamovdet_cheque.desbanco" )
+ column=(type=char(150) updatewhereclause=yes name=numcuenta dbname="tesocuentamovdet_cheque.numcuenta" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_cuenta dbname="tesocuentamovdet_cheque.tipo_cuenta" )
+ column=(type=datetime updatewhereclause=yes name=fecha dbname="tesocuentamovdet_cheque.fecha" )
+ column=(type=number updatewhereclause=yes name=nro_cheque dbname="tesocuentamovdet_cheque.nro_cheque" )
+ retrieve="SELECT tesobancos.DesBanco, tesocuentasmovidet.numcuenta, tesocuentasmovidet.tipo_cuenta, tesotranscab.Fecha, tesocuentamovdet_cheque.nro_cheque
+
+FROM (tesotranscab INNER JOIN ((tesobancos INNER JOIN tesocuentasmovi ON tesobancos.CodBanco = tesocuentasmovi.CodBanco) INNER JOIN tesocuentasmovidet ON (tesocuentasmovi.item = tesocuentasmovidet.item) AND (tesocuentasmovi.numcuenta = tesocuentasmovidet.numcuenta) AND (tesocuentasmovi.tipo_cuenta = tesocuentasmovidet.tipo_cuenta) AND (tesocuentasmovi.CodBanco = tesocuentasmovidet.CodBanco)) ON (tesotranscab.ntransferencia = tesocuentasmovi.ntransferencia) AND (tesotranscab.CodDoc = tesocuentasmovi.coddoc_trans) AND (tesotranscab.CLugar = tesocuentasmovi.clugar_trans)) LEFT outer JOIN tesocuentamovdet_cheque ON (tesocuentasmovidet.subitem = tesocuentamovdet_cheque.subitem) AND (tesocuentasmovidet.item = tesocuentamovdet_cheque.item) AND (tesocuentasmovidet.numcuenta = tesocuentamovdet_cheque.numcuenta) AND (tesocuentasmovidet.tipo_cuenta = tesocuentamovdet_cheque.tipo_cuenta) AND (tesocuentasmovidet.CodBanco = tesocuentamovdet_cheque.codbanco)
+
+WHERE (((tesotranscab.CLugar)=:clug) AND ((tesotranscab.CodDoc)=:cdoc) AND ((tesotranscab.ntransferencia)=:npago))
+" arguments=(("clug", string),("cdoc", string),("NPAGO", number)) )
+text(band=header alignment="2" text="BANCO" border="2" color="33554432" x="9" y="8" height="48" width="695" html.valueishtml="0"  name=desbanco_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="NRO CUENTA" border="2" color="33554432" x="709" y="8" height="48" width="489" html.valueishtml="0"  name=numcuenta_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="FECHA" border="2" color="33554432" x="1207" y="8" height="48" width="274" html.valueishtml="0"  name=tipo_cuenta_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="NRO CHEQUE" border="2" color="33554432" x="1486" y="8" height="48" width="338" html.valueishtml="0"  name=num_che_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="2" color="0" x="9" y="4" height="52" width="695" format="[general]" html.valueishtml="0"  name=desbanco visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="2" color="0" x="709" y="4" height="52" width="489" format="[general]" html.valueishtml="0"  name=numcuenta visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="2" color="0" x="1207" y="4" height="52" width="274" format="dd/mm/yyyy" html.valueishtml="0"  name=fecha visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="2" tabsequence=32766 border="2" color="0" x="1486" y="4" height="52" width="338" format="[general]" html.valueishtml="0"  name=nro_cheque visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+ 

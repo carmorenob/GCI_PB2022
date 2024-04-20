@@ -1,0 +1,27 @@
+﻿$PBExportHeader$st_pa_evolucion.srs
+global type st_pa_evolucion from structure
+	singlelineedit		sle_proc
+	datawindow		dw_proc
+	string		campo_cant_proc
+	singlelineedit		sle_med
+	datawindow		dw_med
+	string		campo_cant_med
+	window		ventana
+	long		contador
+	string		clugar_his
+	long		nh
+	string		clug_hadm
+	string		tingres
+	string		profes
+	string		cesp
+	boolean		mostrar
+	string		emp
+	string		cont
+	picturebutton		nvorden
+	datawindow		dw_cab
+	singlelineedit		sle_otros
+	string		i_control
+	singlelineedit		sle_tiporep
+	singlelineedit		sle_kits
+end type
+

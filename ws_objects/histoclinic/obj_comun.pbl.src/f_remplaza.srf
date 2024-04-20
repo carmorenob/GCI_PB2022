@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_remplaza.srf
+global type f_remplaza from function_object
+end type
+
+forward prototypes
+global function string f_remplaza (string cadena, string busca, string por_este)
+end prototypes
+
+global function string f_remplaza (string cadena, string busca, string por_este);if pos(cadena,busca) = 0 then return cadena
+long j,k,largo
+j=1
+largo=len(cadena)
+do while j <= len(cadena)
+	k=pos(cadena,busca,j)
+	if k=0 then exit
+	cadena=replace(cadena,k,len(busca),por_este)
+	j= k + len(por_este)
+	largo+=len(por_este)
+loop
+return cadena
+
+end function
+

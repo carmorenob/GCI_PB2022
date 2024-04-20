@@ -1,0 +1,35 @@
+﻿$PBExportHeader$f_alm_de_apoyodx.srf
+global type f_alm_de_apoyodx from function_object
+end type
+
+forward prototypes
+global function string f_alm_de_apoyodx (string p_area)
+end prototypes
+
+global function string f_alm_de_apoyodx (string p_area);long cuantos
+string alm
+
+select count(*) into :cuantos from areaadx_almacen where (((codaadx)=:p_area));
+if sqlca.sqlcode=-1 then
+	messagebox('Error leyendo sumalmacen',sqlca.sqlerrtext)
+	return ''
+end if
+if cuantos=0 then
+	messagebox('Atención','No hay almacenes para e area  '+p_area)
+	return ''
+end if
+if cuantos=1 then 
+	select codalmacen into :alm  from areaadx_almacen where (((codaadx)=:p_area));
+	if sqlca.sqlcode=-1 then
+		messagebox('Error leyendo sumalmacen',sqlca.sqlerrtext)
+		return ''
+	end if
+	return alm
+end if
+st_uf_cc st
+st.coduf=p_area
+st.codcc='-'
+openwithparm(w_elige_alma,st)
+return message.stringparm
+end function
+

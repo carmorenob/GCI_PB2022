@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_dianumero.srf
+global type f_dianumero from function_object
+end type
+
+forward prototypes
+global function integer f_dianumero (date fecha)
+end prototypes
+
+global function integer f_dianumero (date fecha);int dia
+dia = dayNumber(fecha)
+if dia = 1 then
+	dia = 7
+else
+	dia = dia -1
+end if
+Return dia
+
+end function
+

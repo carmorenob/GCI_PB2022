@@ -1,0 +1,30 @@
+﻿$PBExportHeader$f_foto_paciente.srf
+global type f_foto_paciente from function_object
+end type
+
+forward prototypes
+global function integer f_foto_paciente (string l_tipodoc, string l_documen, string l_tmp_file)
+end prototypes
+
+global function integer f_foto_paciente (string l_tipodoc, string l_documen, string l_tmp_file);//para fotos impresion
+int  li_FileNum,l_i
+string  li_tempo, lerr, lstx, lret
+blob b_foto_pac
+
+selectblob fotografia into :b_foto_pac from pacientes
+where tipodoc=:l_tipodoc and documento=:l_documen;
+if SQLCA.SQLCode <> 0 then
+	MessageBox("SQL error",SQLCA.SQLErrText,Information!)
+	return -1
+end if
+if not isnull(b_foto_pac) then
+	li_FileNum = FileOpen(l_tmp_file, StreamMode!, Write!, LockWrite!, Replace!)
+	if isNull(li_FileNum) or li_FileNum < 1 then
+		MessageBox('Atención','Error creando archivo temporal de imágen')
+		Return -1
+	end if
+	FileWriteEx ( li_FileNum,  b_foto_pac)
+	FileClose(li_FileNum)
+end if
+end function
+

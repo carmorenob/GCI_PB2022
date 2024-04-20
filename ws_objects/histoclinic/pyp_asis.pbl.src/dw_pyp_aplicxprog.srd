@@ -1,0 +1,73 @@
+﻿$PBExportHeader$dw_pyp_aplicxprog.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no grid.lines=0 )
+header(height=64 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(2) updatewhereclause=yes name=codact dbname="codact" )
+ column=(type=char(2) updatewhereclause=yes name=codaret dbname="codaret" )
+ column=(type=char(2) updatewhereclause=yes name=codprog dbname="codprog" )
+ column=(type=char(2) updatewhereclause=yes name=item dbname="item" )
+ column=(type=char(50) updatewhereclause=yes name=descripcion dbname="descripcion" )
+ column=(type=char(1) updatewhereclause=yes name=estado dbname="estado" )
+ column=(type=char(1) updatewhereclause=yes name=getareo dbname="getareo" )
+ column=(type=long updatewhereclause=yes name=edadi dbname="edadi" )
+ column=(type=long updatewhereclause=yes name=edadf dbname="edadf" )
+ column=(type=char(1) updatewhereclause=yes name=sexo dbname="sexo" values="Masculino	M/Femenino	F/Todos	T/" )
+ column=(type=char(2) updatewhereclause=yes name=codcondicion dbname="codcondicion" )
+ column=(type=char(2) updatewhereclause=yes name=subitem dbname="subitem" )
+ column=(type=char(100) updatewhereclause=yes name=nombreaccion dbname="nombreaccion" )
+ column=(type=long updatewhereclause=yes name=edadinicio dbname="edadinicio" )
+ column=(type=long updatewhereclause=yes name=edadfin dbname="edadfin" )
+ column=(type=long updatewhereclause=yes name=cantidad dbname="cantidad" )
+ column=(type=long updatewhereclause=yes name=dosis dbname="dosis" )
+ column=(type=long updatewhereclause=yes name=intervalo dbname="intervalo" )
+ column=(type=long updatewhereclause=yes name=cantidaddosis dbname="cantidaddosis" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=tipodoc dbname="tipodoc" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=documento dbname="documento" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=cod_prodpyp dbname="cod_prodpyp" )
+ column=(type=long update=yes updatewhereclause=yes name=accion_item dbname="item" )
+ column=(type=long update=yes updatewhereclause=yes name=numatencion dbname="numatencion" )
+ column=(type=number update=yes updatewhereclause=yes name=nfact dbname="nfact" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=clugar_fact dbname="clugar_fact" )
+ column=(type=number update=yes updatewhereclause=yes name=contador dbname="contador" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=clugar_his dbname="clugar_his" )
+ column=(type=long update=yes updatewhereclause=yes name=nservicio dbname="nservicio" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha dbname="fecha" )
+ column=(type=long updatewhereclause=yes name=cantidad dbname="cantidad" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fechareporto dbname="fechareporto" )
+ column=(type=char(1) updatewhereclause=yes name=estado dbname="estado" )
+ retrieve="SELECT pyp_subprograma.codact, pyp_subprograma.codaret, pyp_subprograma.codprog, pyp_subprograma.item, 
+pyp_subprograma.descripcion, pyp_subprograma.estado, pyp_subprograma.getareo, pyp_subprograma.edadi, 
+pyp_subprograma.edadf, pyp_subprograma.sexo, pyp_subprograma.codcondicion, pyp_produ_subp.subitem, 
+pyp_produ_accion.nombreaccion, pyp_produ_accion.edadinicio, pyp_produ_accion.edadfin, 
+pyp_produ_accion.cantidad, pyp_produ_accion.dosis, pyp_produ_accion.intervalo, pyp_produ_accion.cantidaddosis, 
+pyp_progpaci.tipodoc, pyp_progpaci.documento, pyp_progpaci.cod_prodpyp, pyp_progpaci.item, pyp_progpaci.numatencion, 
+pyp_progpaci.nfact, pyp_progpaci.clugar_fact, pyp_progpaci.contador, pyp_progpaci.clugar_his, pyp_progpaci.nservicio, 
+pyp_progpaci.fecha, pyp_progpaci.cantidad, pyp_progpaci.fechareporto, pyp_progpaci.estado
+FROM (pyp_subprograma LEFT outer JOIN pyp_condicion ON pyp_subprograma.codcondicion = pyp_condicion.codcondicion) 
+INNER JOIN ((pyp_produ_subp 
+LEFT outer JOIN pyp_condicion AS pyp_condicion_1 ON pyp_produ_subp.codcondicion = pyp_condicion_1.codcondicion) 
+INNER JOIN (pyp_produ_accion 
+INNER JOIN pyp_progpaci ON (pyp_produ_accion.item = pyp_progpaci.item) AND (pyp_produ_accion.cod_prodpyp = pyp_progpaci.cod_prodpyp)) ON pyp_produ_subp.cod_prodpyp = pyp_produ_accion.cod_prodpyp) ON (pyp_subprograma.item = pyp_produ_subp.item) AND (pyp_subprograma.codprog = pyp_produ_subp.codprog) AND (pyp_subprograma.codaret = pyp_produ_subp.codaret) AND (pyp_subprograma.codact = pyp_produ_subp.codact)
+WHERE ((pyp_subprograma.codact=:codact) AND 
+(pyp_subprograma.codaret=:codaret) AND (pyp_subprograma.codprog=:codprog) AND 
+(pyp_subprograma.item=:item) AND (pyp_progpaci.tipodoc=:tipodoc) AND 
+(pyp_progpaci.documento=:documento));
+" arguments=(("tipodoc", string),("documento", string),("codact", string),("codaret", string),("codprog", string),("item", string)) )
+text(band=header alignment="2" text="Acción" border="6" color="0" x="9" y="4" height="56" width="530" html.valueishtml="0"  name=pyp_produ_accion_nombreaccion_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Atencion" border="6" color="0" x="549" y="4" height="56" width="247" html.valueishtml="0"  name=pyp_progpaci_numatencion_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Fecha" border="6" color="0" x="805" y="4" height="56" width="283" html.valueishtml="0"  name=pyp_progpaci_fecha_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Cantidad" border="6" color="0" x="1097" y="4" height="56" width="343" html.valueishtml="0"  name=pyp_progpaci_cantidad_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Estado" border="6" color="0" x="1449" y="4" height="56" width="261" html.valueishtml="0"  name=pyp_progpaci_estado_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=13 alignment="0" tabsequence=10 border="5" color="0" x="9" y="4" height="56" width="530" format="[general]" html.valueishtml="0"  name=nombreaccion visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0 edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=24 alignment="0" tabsequence=20 border="5" color="0" x="549" y="4" height="56" width="247" format="[general]" html.valueishtml="0"  name=numatencion visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=30 alignment="0" tabsequence=30 border="5" color="0" x="805" y="4" height="56" width="283" format="dd/mm/yyyy" html.valueishtml="0"  name=fecha visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=31 alignment="0" tabsequence=40 border="5" color="0" x="1097" y="4" height="56" width="343" format="[general]" html.valueishtml="0"  name=cantidad visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=33 alignment="0" tabsequence=50 border="5" color="0" x="1449" y="4" height="56" width="261" format="[general]" html.valueishtml="0"  name=estado visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

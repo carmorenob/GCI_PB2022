@@ -1,0 +1,9 @@
+﻿$PBExportHeader$st_sumgen.srs
+global type st_sumgen from structure
+	string		codalmacen
+	datawindow		dw_cb
+	datawindow		dw_cp
+	datawindow		dw_lt
+	datawindow		dw_rc
+end type
+

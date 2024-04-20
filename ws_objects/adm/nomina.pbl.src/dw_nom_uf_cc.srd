@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_nom_uf_cc.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=304 color="536870912" )
+table(column=(type=char(6) update=yes updatewhereclause=yes name=coduf dbname="centrocostos.coduf" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=codcc dbname="centrocostos.codcc" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"centrocostos~" ) COLUMN(NAME=~"centrocostos.coduf~") COLUMN(NAME=~"centrocostos.codcc~")) " )
+column(band=detail id=2 alignment="0" tabsequence=30 border="5" color="0" x="27" y="160" height="56" width="1056" format="[general]" html.valueishtml="0"  name=codcc visible="1" dddw.name=dw_lista_centrocosto dddw.displaycolumn=descripcion dddw.datacolumn=codcc dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.imemode=0 dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="0" text="Centro de Costos" border="0" color="0" x="27" y="232" height="56" width="462" html.valueishtml="0"  name=codcc_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=1 alignment="0" tabsequence=20 border="5" color="0" x="27" y="12" height="56" width="887" format="[general]" html.valueishtml="0"  name=coduf visible="1" dddw.name=dw_lista_ufuncional dddw.displaycolumn=desufuncional dddw.datacolumn=coduf dddw.percentwidth=150 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.imemode=0 dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="0" text="Unidad Funcional" border="0" color="0" x="27" y="84" height="56" width="457" html.valueishtml="0"  name=coduf_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

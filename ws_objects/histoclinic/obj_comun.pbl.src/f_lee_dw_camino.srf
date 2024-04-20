@@ -1,0 +1,38 @@
+﻿$PBExportHeader$f_lee_dw_camino.srf
+$PBExportComments$Lee desde un archivo y crea un datastore el parametro es el camino\nombre del archivo
+global type f_lee_dw_camino from function_object
+end type
+
+forward prototypes
+global function integer f_lee_dw_camino (string p_camino, uo_datastore p_ds)
+end prototypes
+
+global function integer f_lee_dw_camino (string p_camino, uo_datastore p_ds);long donde
+int archivo
+string carreta
+if not fileexists(p_camino) then
+	messagebox("Atención",'El archivo '+p_camino +' no existe ')
+	return -1
+end if
+archivo = fileopen(p_camino,TextMode!)
+if archivo= -1 then 
+	messagebox("Error","No se puede abrir el archivo "+p_camino)
+	fileclose(archivo)
+	return -1
+else
+	filereadex(archivo,carreta)
+	fileclose(archivo)
+	donde=pos(carreta,"release ",1)
+	carreta=right(carreta, len(carreta) - donde +1)
+//	if nom_regis="DEMO" then 
+//		todo="**** Licencia de DEMOSTRACION****"
+//	else
+//		todo=nom_regis
+//	end if
+//	carreta+='~r~ntext(band=footer alignment="0" text="'+todo+'" border="0" color="0" x="8" y="8" height="44" width="1600"  name=t_anti_robo  font.face="Small Fonts" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )'
+	if p_ds.create(carreta)=-1 then return -1 //si hay error ella misma muestra el error
+	p_ds.settransobject(sqlca)
+	return 1
+end if
+end function
+

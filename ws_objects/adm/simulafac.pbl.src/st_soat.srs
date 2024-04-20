@@ -1,0 +1,10 @@
+﻿$PBExportHeader$st_soat.srs
+global type st_soat from structure
+	string		newemp
+	string		newcont
+	long		nsoat
+	string		clug_soat
+	long		contador
+	string		clug_his
+end type
+

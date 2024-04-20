@@ -1,0 +1,6 @@
+﻿$PBExportHeader$st_filtros_hc.srs
+global type st_filtros_hc from structure
+	datawindow		dw_histo
+	datawindow		dw_vals
+end type
+

@@ -1,0 +1,6 @@
+﻿$PBExportHeader$st_xy.srs
+global type st_xy from structure
+	long		fila
+	long		col
+end type
+

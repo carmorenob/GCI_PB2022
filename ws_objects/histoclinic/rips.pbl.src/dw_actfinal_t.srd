@@ -1,0 +1,88 @@
+﻿$PBExportHeader$dw_actfinal_t.srd
+$PBExportComments$Trata odont terminados
+release 10.5;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no grid.lines=0 )
+header(height=80 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=number updatewhereclause=yes name=nradica dbname="cont_x_paq_act_fin.nradica" )
+ column=(type=char(2) updatewhereclause=yes name=clugar_rad dbname="cont_x_paq_act_fin.clugar_rad" )
+ column=(type=char(10) updatewhereclause=yes key=yes name=cod_activid dbname="cont_x_paq_act_fin.cod_activid" )
+ column=(type=datetime updatewhereclause=yes name=fnacimiento dbname="cont_x_paq_act_fin.fnacimiento" )
+ column=(type=datetime updatewhereclause=yes name=fechafin dbname="cont_x_paq_act_fin.fechafin" )
+ column=(type=number updatewhereclause=yes name=ntratamiento dbname="cont_x_paq_act_fin.ntratamiento" )
+ column=(type=char(2) updatewhereclause=yes name=clug_odon dbname="cont_x_paq_act_fin.clug_odon" )
+ column=(type=number updatewhereclause=yes name=nfact dbname="cont_x_paq_act_fin.nfact" )
+ column=(type=char(2) updatewhereclause=yes name=clug_fact dbname="cont_x_paq_act_fin.clug_fact" )
+ column=(type=decimal(2) updatewhereclause=yes name=valor dbname="cont_x_paq_act_fin.valor" )
+ column=(type=char(255) updatewhereclause=yes name=diag dbname="cont_x_paq_act_fin.diag" )
+ column=(type=char(1) updatewhereclause=yes name=sexo dbname="cont_x_paq_act_fin.sexo" )
+ column=(type=char(255) updatewhereclause=yes name=getar dbname="getar" )
+ column=(type=decimal(2) updatewhereclause=yes name=porcentaje dbname="cont_x_paq_act_fin.porcentaje" )
+ retrieve="SELECT FactCab.nradica, FactCab.clugar_rad, odontratacab.cod_activid, Pacientes.FNacimiento, odontratacab.fechafin, odontratacab.ntratamiento, 
+odontratacab.clugar as clug_odon , FactCab.NFact, FactCab.clugar as clug_fact, cont_x_paq_act_fin.valor,  diag_tot.diag,pacientes.sexo
+,'' as getar,cont_x_paq_act_fin.valor as porcentaje
+FROM cont_x_paq_act_fin INNER JOIN ((Pacientes INNER JOIN ((
+
+(SELECT odontratacab.ntratamiento, odontratacab.clugar, Max(FactCab.NFact) AS nfcat, Max(FactCab.clugar) AS clug_fact
+FROM odontratacab INNER JOIN (FactCab INNER JOIN (FactCpo INNER JOIN odontratacpo ON (FactCpo.clugar = odontratacpo.clugar_fac) 
+AND (FactCpo.NItem = odontratacpo.item_fac) AND (FactCpo.NFact = odontratacpo.nfact)) ON (FactCab.clugar = FactCpo.clugar) 
+AND (FactCab.NFact = FactCpo.NFact)) ON (odontratacab.clugar = odontratacpo.clugar) AND (odontratacab.ntratamiento = odontratacpo.ntratamiento)
+WHERE (((FactCab.clugar_rad)=:clug_rad) AND ((odontratacab.cod_activid) Is Not Null) AND ((FactCab.nradica)=:nrad))
+GROUP BY odontratacab.ntratamiento, odontratacab.clugar) AS max_fact_tot 
+
+INNER JOIN odontratacab ON (max_fact_tot.ntratamiento = odontratacab.ntratamiento) AND (max_fact_tot.clugar = odontratacab.clugar)) 
+INNER JOIN FactCab ON (max_fact_tot.nfcat = FactCab.NFact) AND (max_fact_tot.clug_fact = FactCab.clugar)) 
+ON (Pacientes.TipoDoc = odontratacab.tipodoc) AND (Pacientes.Documento = odontratacab.documento)) INNER JOIN 
+
+(SELECT odontratacab.ntratamiento, odontratacab.clugar, Min(ServiciosIngreso.diagprin) AS diag
+FROM ServiciosIngreso INNER JOIN (odontratacab INNER JOIN odontratacpo ON (odontratacab.clugar = odontratacpo.clugar) 
+AND (odontratacab.ntratamiento = odontratacpo.ntratamiento)) ON (ServiciosIngreso.Nservicio = odontratacpo.nservicio) 
+AND (ServiciosIngreso.CLugar = odontratacpo.clugar_his) AND (ServiciosIngreso.Contador = odontratacpo.contador)
+GROUP BY odontratacab.ntratamiento, odontratacab.clugar) as diag_tot 
+
+ON (odontratacab.ntratamiento = diag_tot.ntratamiento) AND (odontratacab.clugar = diag_tot.clugar)) 
+ON cont_x_paq_act_fin.cod_activid = odontratacab.cod_activid
+WHERE (((FactCab.nradica)=:nrad) AND ((FactCab.clugar_rad)=:clug_rad))" update="cont_x_paq_act_fin" updatewhere=0 updatekeyinplace=no arguments=(("nrad", number),("clug_rad", string),("cuantos", number))  sort="cod_activid A " )
+text(band=header alignment="0" text="Nradica" border="0" color="0" x="261" y="4" height="52" width="416" html.valueishtml="0"  name=nradica_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Clugar Rad" border="0" color="0" x="686" y="4" height="52" width="201" html.valueishtml="0"  name=clugar_rad_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cod Activid" border="0" color="0" x="901" y="4" height="52" width="315" html.valueishtml="0"  name=cod_activid_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Fnacimiento" border="0" color="0" x="1225" y="4" height="52" width="448" html.valueishtml="0"  name=fnacimiento_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Fechafin" border="0" color="0" x="1682" y="4" height="52" width="361" html.valueishtml="0"  name=fechafin_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Ntratamiento" border="0" color="0" x="2053" y="4" height="52" width="480" html.valueishtml="0"  name=ntratamiento_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Valor" border="0" color="0" x="2551" y="4" height="52" width="439" html.valueishtml="0"  name=valor_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Nfact" border="0" color="0" x="2999" y="4" height="52" width="471" html.valueishtml="0"  name=nfact_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Diag" border="0" color="0" x="3483" y="4" height="52" width="361" html.valueishtml="0"  name=diag_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Clug Fact" border="0" color="0" x="3858" y="4" height="52" width="242" html.valueishtml="0"  name=clug_fact_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Clug Odon" border="0" color="0" x="4110" y="4" height="52" width="334" html.valueishtml="0"  name=clug_odon_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Sexo" border="0" color="0" x="4640" y="4" height="76" width="343" html.valueishtml="0"  name=sexo_t visible="1"  font.face="Tahoma" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Getar" border="0" color="0" x="4992" y="4" height="76" width="238" html.valueishtml="0"  name=getar_t visible="1"  font.face="Tahoma" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Porcentaje" border="0" color="0" x="5239" y="4" height="76" width="247" html.valueishtml="0"  name=porcentaje_t visible="1"  font.face="Tahoma" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="265" y="0" height="76" width="411" format="[general]" html.valueishtml="0"  name=nradica visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="690" y="0" height="76" width="197" format="[general]" html.valueishtml="0"  name=clugar_rad visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="905" y="0" height="76" width="311" format="[general]" html.valueishtml="0"  name=cod_activid visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1230" y="0" height="76" width="443" format="[shortdate] [time]" html.valueishtml="0"  name=fnacimiento visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="1687" y="0" height="76" width="357" format="[shortdate] [time]" html.valueishtml="0"  name=fechafin visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="2057" y="0" height="76" width="475" format="[general]" html.valueishtml="0"  name=ntratamiento visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="2555" y="0" height="76" width="434" format="[general]" html.valueishtml="0"  name=valor visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="3003" y="0" height="76" width="466" format="[general]" html.valueishtml="0"  name=nfact visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="0" x="3488" y="0" height="76" width="357" format="[general]" html.valueishtml="0"  name=diag visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="3863" y="0" height="52" width="238" format="[general]" html.valueishtml="0"  name=clug_fact visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="4114" y="0" height="52" width="329" format="[general]" html.valueishtml="0"  name=clug_odon visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="daysafter( fnacimiento , fechafin )"border="0" color="0" x="4453" y="4" height="52" width="178" format="[GENERAL]" html.valueishtml="0"  name=edad visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="4645" y="0" height="52" width="338" format="[general]" html.valueishtml="0"  name=sexo visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="4997" y="0" height="52" width="233" format="[general]" html.valueishtml="0"  name=getar visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="5243" y="0" height="52" width="242" format="[general]" html.valueishtml="0"  name=porcentaje visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression=" cuantos +getrow()"border="0" color="0" x="5" y="4" height="76" width="251" format="[GENERAL]" html.valueishtml="0"  name=fila visible="1"  font.face="Tahoma" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

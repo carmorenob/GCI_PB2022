@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_aproxima_a.srf
+global type f_aproxima_a from function_object
+end type
+
+forward prototypes
+global function decimal f_aproxima_a (decimal numero, double multiplo)
+end prototypes
+
+global function decimal f_aproxima_a (decimal numero, double multiplo);double residuo,centena1
+decimal rs
+
+residuo=mod(numero,multiplo)
+if residuo=0 then 
+	rs=numero
+else
+	rs=numero + (multiplo - residuo)
+end if
+
+return rs
+end function
+

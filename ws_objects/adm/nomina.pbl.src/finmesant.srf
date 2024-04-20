@@ -1,0 +1,15 @@
+﻿$PBExportHeader$finmesant.srf
+global type finmesant from function_object
+end type
+
+forward prototypes
+global function datetime finmesant (datetime fecha)
+end prototypes
+
+global function datetime finmesant (datetime fecha);datetime fret
+fret = datetime(date("01/" + string(month(date(fecha))) + "/" + string(year(date(fecha))) ))
+fret = datetime(RelativeDate(date(fret), -1))
+return fret
+
+end function
+

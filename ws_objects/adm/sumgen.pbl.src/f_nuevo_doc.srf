@@ -1,0 +1,46 @@
+﻿$PBExportHeader$f_nuevo_doc.srf
+global type f_nuevo_doc from function_object
+end type
+
+forward prototypes
+global function double f_nuevo_doc (string coddoc)
+end prototypes
+
+global function double f_nuevo_doc (string coddoc);Double numdoc, inicial, final
+string msg
+
+select nActual, Numini, Numfin into :numdoc, :inicial, :final from documentos
+where coddoc = :coddoc and cLugar = :cLugar;
+IF SQLCA.SQLCode = -1 THEN 
+	msg = SQLCA.SQLErrText
+	Rollback;
+	MessageBox("SQL error", msg)
+	Return -1
+END IF
+IF SQLCA.SQLCode = 100 THEN 
+	Rollback;
+	MessageBox("Atención", 'No existe registro para '+coddoc+' en la tabla documentos')
+	Return -1
+END IF
+if numdoc < inicial then 
+	numdoc = inicial - 1
+elseif numdoc >= final then
+	Rollback;
+	messageBox('Aviso','Se ha alcanzado el tope maximo de documentos '+coddoc)
+	Return -1
+end if
+
+numdoc = numdoc + 1
+update documentos set nActual = :numdoc
+where coddoc = :coddoc and cLugar = :cLugar;
+IF SQLCA.SQLCode = -1 THEN 
+	msg = SQLCA.SQLErrText
+	Rollback;
+	MessageBox("SQL error", msg)
+	Return -1
+End If
+
+Return numdoc
+
+end function
+

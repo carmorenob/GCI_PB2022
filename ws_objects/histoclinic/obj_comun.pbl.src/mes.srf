@@ -1,0 +1,38 @@
+﻿$PBExportHeader$mes.srf
+global type mes from function_object
+end type
+
+forward prototypes
+global function string mes (integer cual, string formato)
+end prototypes
+
+global function string mes (integer cual, string formato);string este
+choose case cual
+	case 1
+		este="Enero"
+	case 2
+		este="Febrero"
+	case 3
+		este="Marzo"
+	case 4
+		este="Abril"
+	case 5
+		este="Mayo"
+	case 6
+		este="Junio"
+	case 7
+		este="Julio"
+	case 8
+		este="Agosto"
+	case 9
+		este="Septiembre"
+	case 10
+		este="Octubre"
+	case 11
+		este="Noviembre"
+	case 12
+		este="Diciembre"
+end choose
+return mid(este,1,len(formato))
+end function
+

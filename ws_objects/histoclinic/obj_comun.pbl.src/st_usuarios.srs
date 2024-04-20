@@ -1,0 +1,9 @@
+﻿$PBExportHeader$st_usuarios.srs
+global type st_usuarios from structure
+	string		usuario
+	date		ini
+	date		fin
+	string		clave
+	string		destino
+end type
+

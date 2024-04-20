@@ -1,0 +1,20 @@
+﻿$PBExportHeader$st_pa_proc.srs
+$PBExportComments$se utiliza para mandarselo como parametro de entrada a la ventana w_busca_proc
+global type st_pa_proc from structure
+	datawindow		dw
+	string		campo
+	singlelineedit		sle
+	picturebutton		pbut
+	integer		decual
+	string		emp
+	string		cont
+	boolean		p_qx
+	string		banco
+	uo_orden_formula		objeto
+	datawindow		dw_autoriza
+	string		t_ingreso
+	boolean		norden
+	boolean		tiempoqx
+	string		origen
+end type
+

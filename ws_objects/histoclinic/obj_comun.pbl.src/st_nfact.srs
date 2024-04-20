@@ -1,0 +1,6 @@
+﻿$PBExportHeader$st_nfact.srs
+global type st_nfact from structure
+	long		ndoc
+	integer		c_aut
+end type
+

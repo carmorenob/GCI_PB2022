@@ -1,0 +1,36 @@
+﻿$PBExportHeader$f_biometria_muestra_imagen.srf
+global type f_biometria_muestra_imagen from function_object
+end type
+
+forward prototypes
+global function string f_biometria_muestra_imagen (datawindow l_dw_huella, string l_td, string l_doc, integer l_contdedos, string origen)
+end prototypes
+
+global function string f_biometria_muestra_imagen (datawindow l_dw_huella, string l_td, string l_doc, integer l_contdedos, string origen);Int l_k,l_fila,l_sig
+string ls_test,q_dedos
+if origen='usuario' then
+	ls_test="usuario='"+l_doc+"' and dedo="+string(l_ContDedos)
+else
+	ls_test="tipodoc='"+l_td+"' and documento='"+l_doc+"' and dedo="+string(l_ContDedos)
+end if
+l_fila=l_dw_huella.find(ls_test,1,l_dw_huella.rowcount())
+for l_k=1 to l_dw_huella.rowcount()
+	q_dedos=q_dedos+'_'+string(l_dw_huella.getitemnumber(l_k,'dedo'))
+next
+if l_fila=0 and l_ContDedos<>0 then 
+	l_sig=pos(q_dedos,string(l_ContDedos - 1))
+	if l_sig=0 then
+		l_sig=pos(q_dedos,string(l_ContDedos + 1))
+		if l_sig<>0 then
+			q_dedos='_'+string(l_ContDedos)+q_Dedos
+		else
+			q_dedos=q_Dedos+'_'+string(l_ContDedos)
+		end if
+	else
+		q_dedos=Mid(q_dedos, 1, l_sig)+'_'+string(l_ContDedos)+Mid(q_dedos, l_sig+1, len(q_dedos))
+	end if
+end if
+return  'mano'+q_dedos	+'.png'	
+
+end function
+

@@ -1,0 +1,317 @@
+﻿$PBExportHeader$m_campopgc.srm
+forward
+global type m_campopgc from menu
+end type
+type m_insertarcampo from menu within m_campopgc
+end type
+type m_agregarfolder from menu within m_campopgc
+end type
+type m_- from menu within m_campopgc
+end type
+type m_insertarsubitem from menu within m_campopgc
+end type
+type m_insertarcampoalfinal from menu within m_campopgc
+end type
+type m_-0 from menu within m_campopgc
+end type
+type m_borrarcampo from menu within m_campopgc
+end type
+global type m_campopgc from menu
+m_insertarcampo m_insertarcampo
+m_agregarfolder m_agregarfolder
+m_- m_-
+m_insertarsubitem m_insertarsubitem
+m_insertarcampoalfinal m_insertarcampoalfinal
+m_-0 m_-0
+m_borrarcampo m_borrarcampo
+end type
+end forward
+
+global type m_campopgc from menu
+m_insertarcampo m_insertarcampo
+m_agregarfolder m_agregarfolder
+m_- m_-
+m_insertarsubitem m_insertarsubitem
+m_insertarcampoalfinal m_insertarcampoalfinal
+m_-0 m_-0
+m_borrarcampo m_borrarcampo
+end type
+global m_campopgc m_campopgc
+
+on m_campopgc.create
+m_campopgc=this
+call super::create
+this.text = "m_hcampos"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_insertarcampo=create m_insertarcampo
+this.m_agregarfolder=create m_agregarfolder
+this.m_-=create m_-
+this.m_insertarsubitem=create m_insertarsubitem
+this.m_insertarcampoalfinal=create m_insertarcampoalfinal
+this.m_-0=create m_-0
+this.m_borrarcampo=create m_borrarcampo
+this.Item[UpperBound(this.Item)+1]=this.m_insertarcampo
+this.Item[UpperBound(this.Item)+1]=this.m_agregarfolder
+this.Item[UpperBound(this.Item)+1]=this.m_-
+this.Item[UpperBound(this.Item)+1]=this.m_insertarsubitem
+this.Item[UpperBound(this.Item)+1]=this.m_insertarcampoalfinal
+this.Item[UpperBound(this.Item)+1]=this.m_-0
+this.Item[UpperBound(this.Item)+1]=this.m_borrarcampo
+end on
+
+on m_campopgc.destroy
+call super::destroy
+destroy(this.m_insertarcampo)
+destroy(this.m_agregarfolder)
+destroy(this.m_-)
+destroy(this.m_insertarsubitem)
+destroy(this.m_insertarcampoalfinal)
+destroy(this.m_-0)
+destroy(this.m_borrarcampo)
+end on
+
+type m_insertarcampo from menu within m_campopgc
+end type
+
+on m_insertarcampo.create
+call super::create
+this.text = "Insertar Folder"
+this.menuimage = "insert5!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_insertarcampo.destroy
+call super::destroy
+end on
+
+event clicked;w_grup_clinic.Insertcampo('insfolder')
+
+end event
+
+type m_agregarfolder from menu within m_campopgc
+end type
+
+event clicked;w_grup_clinic.Insertcampo('addfolder')
+end event
+
+on m_agregarfolder.create
+call super::create
+this.text = "Agregar Folder"
+this.menuimage = "setnextstatement!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_agregarfolder.destroy
+call super::destroy
+end on
+
+type m_- from menu within m_campopgc
+end type
+
+on m_-.create
+call super::create
+this.text = "-"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_-.destroy
+call super::destroy
+end on
+
+type m_insertarsubitem from menu within m_campopgc
+end type
+
+event clicked;w_grup_clinic.Insertcampo('insitem')
+end event
+
+on m_insertarsubitem.create
+call super::create
+this.text = "Insertar SubItem"
+this.menuimage = "datamanip!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_insertarsubitem.destroy
+call super::destroy
+end on
+
+type m_insertarcampoalfinal from menu within m_campopgc
+end type
+
+on m_insertarcampoalfinal.create
+call super::create
+this.text = "Insertar SubItem al Final"
+this.menuimage = "setnextstatement!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_insertarcampoalfinal.destroy
+call super::destroy
+end on
+
+event clicked;w_grup_clinic.Insertcampo('additem')
+end event
+
+type m_-0 from menu within m_campopgc
+end type
+
+on m_-0.create
+call super::create
+this.text = "-"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_-0.destroy
+call super::destroy
+end on
+
+type m_borrarcampo from menu within m_campopgc
+end type
+
+on m_borrarcampo.create
+call super::create
+this.text = "Borrar Folder/Campo"
+this.menuimage = "Clear!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_borrarcampo.destroy
+call super::destroy
+end on
+
+event clicked;w_grup_clinic.Insertcampo('Borra')
+end event
+

@@ -1,0 +1,20 @@
+﻿$PBExportHeader$st_xa_print_histo.srs
+$PBExportComments$pa mandarle el dw y los parametros del retrieve pa leerlo desde allá
+global type st_xa_print_histo from structure
+	uo_datastore		p_ds
+	long		p_contador
+	string		p_clug
+	string		p_cod_plant
+	string		p_campo
+	string		p_tdoc
+	string		p_docu
+	string		p_titulo
+	string		p_encab_ingreso
+	string		p_header
+	string		p_notaqx
+	string		p_detalle_qx
+	datetime		p_fecha
+	datetime		p_fechaf
+	string		p_ruta
+end type
+

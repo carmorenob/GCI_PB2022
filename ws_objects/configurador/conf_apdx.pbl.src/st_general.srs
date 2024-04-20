@@ -1,0 +1,11 @@
+﻿$PBExportHeader$st_general.srs
+global type st_general from structure
+	string		documento
+	double		numero
+	string		almacen
+	string		articulo
+	string		valor
+	datawindow		dw_obj
+	singlelineedit		sle_obj
+end type
+

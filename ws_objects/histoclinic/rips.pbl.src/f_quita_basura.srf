@@ -1,0 +1,32 @@
+﻿$PBExportHeader$f_quita_basura.srf
+global type f_quita_basura from function_object
+end type
+
+forward prototypes
+global function string f_quita_basura (string caden, integer numeros)
+end prototypes
+
+global function string f_quita_basura (string caden, integer numeros);caden=f_remplaza(caden,'.','')
+caden=f_remplaza(caden,'-','')
+caden=f_remplaza(caden,'#','')
+caden=f_remplaza(caden,'/','')
+caden=f_remplaza(caden,' ','')
+caden=f_remplaza(caden,'+','')
+caden=f_remplaza(caden,'°','')
+caden=f_remplaza(caden,'®','')
+caden=f_remplaza(caden,'º','')
+if numeros=1 then
+	caden=f_remplaza(caden,'0','')
+	caden=f_remplaza(caden,'1','')
+	caden=f_remplaza(caden,'2','')
+	caden=f_remplaza(caden,'3','')
+	caden=f_remplaza(caden,'4','')
+	caden=f_remplaza(caden,'5','')
+	caden=f_remplaza(caden,'6','')
+	caden=f_remplaza(caden,' 7','')
+	caden=f_remplaza(caden,'8','')
+	caden=f_remplaza(caden,'9','')
+end if
+return caden
+end function
+

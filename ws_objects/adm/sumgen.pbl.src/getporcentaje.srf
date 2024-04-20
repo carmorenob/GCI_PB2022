@@ -1,0 +1,22 @@
+﻿$PBExportHeader$getporcentaje.srf
+global type getporcentaje from function_object
+end type
+
+forward prototypes
+global function double getporcentaje (string cod_concep)
+end prototypes
+
+global function double getporcentaje (string cod_concep);double porcentaje
+if isNull(cod_concep) then Return 0
+select porcentaje into :porcentaje from cont_impuesto
+where cod_concep = :cod_concep;
+IF SQLCA.SQLCode = -1 THEN
+	MessageBox("SQL error", SQLCA.SQLErrText)
+	Return -1
+elseif SQLCA.SQLCode = 100 THEN
+	porcentaje = 0
+END IF
+Return porcentaje
+
+end function
+

@@ -1,0 +1,6 @@
+﻿$PBExportHeader$st_uf_cc.srs
+global type st_uf_cc from structure
+	string		coduf
+	string		codcc
+end type
+

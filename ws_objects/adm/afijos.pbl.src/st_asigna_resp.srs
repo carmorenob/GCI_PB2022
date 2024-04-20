@@ -1,0 +1,12 @@
+﻿$PBExportHeader$st_asigna_resp.srs
+global type st_asigna_resp from structure
+	string		coddoc
+	string		clugar
+	double		numdoc
+	long		item
+	string		codarticulo
+	string		codalmacen
+	string		codalmacen_target
+	double		cantidad
+end type
+

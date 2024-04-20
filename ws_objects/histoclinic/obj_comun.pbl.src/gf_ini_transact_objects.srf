@@ -1,0 +1,39 @@
+﻿$PBExportHeader$gf_ini_transact_objects.srf
+global type gf_ini_transact_objects from function_object
+end type
+
+forward prototypes
+global subroutine gf_ini_transact_objects (window aw_ventana)
+end prototypes
+
+global subroutine gf_ini_transact_objects (window aw_ventana);long j,k
+datawindow ldw_dw
+
+for j=1 to UpperBound(aw_ventana.CONTROL[])
+	
+		gf_set_trans_userobject(aw_ventana.CONTROL[j])
+		
+next
+
+ClassDefinition cd_windef
+VariableDefinition vard
+cd_windef = FindClassDefinition(aw_ventana.classname())
+
+/*FOR j = 1 to UpperBound(cd_windef.VariableList)
+	
+	vard = cd_windef.VariableList[j]
+	
+	if vard.Kind=VariableInstance! then
+		
+		if  vard.typeinfo.DataTypeOf="datawindowchild" then
+		
+			//vard.name ="t_doc" then
+			ls_ojo=string(vard.typeinfo.DataTypeOf)
+			ldwc_dwc=cd_windef.VariableList[j]
+
+	end if
+	
+   
+NEXT*/
+end subroutine
+

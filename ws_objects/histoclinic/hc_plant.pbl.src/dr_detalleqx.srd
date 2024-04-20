@@ -1,0 +1,128 @@
+﻿$PBExportHeader$dr_detalleqx.srd
+release 21;
+datawindow(units=2 timer_interval=0 color=1073741824 processing=7 print.printername ="" print.documentname="" print.orientation = 0 print.margin.left = 250 print.margin.right = 250 print.margin.top = 250 print.margin.bottom = 250 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes richtext.headerfooter=yes richtext.wordwrap=no richtext.popmenu=yes richtext.pictureframe=no richtext.inputfieldnamesvisible=no richtext.inputfieldsvisible=yes richtext.tabsvisible=no richtext.returnsvisible=no richtext.spacesvisible=no richtext.inputfieldbackcolor=1073741824 richtext.backcolor=1073741824 richtext.tabbar=no richtext.rulerbar=no richtext.toolbar=no richtext.displayonly=no )
+detail(text="{\rtf1\ansi\ansicpg1252\uc1\deff0{\fonttbl
+{\f0\fnil\fcharset0\fprq2 Arial;}
+{\f1\fswiss\fcharset0\fprq2 Tahoma;}
+{\f2\froman\fcharset2\fprq2 Symbol;}}
+{\colortbl;\red0\green0\blue0;\red255\green255\blue255;}
+{\stylesheet{\s0\itap0\nowidctlpar\f0\fs24 [Normal];}{\*\cs10\additive Default Paragraph Font;}}
+{\*\generator TX_RTF32 15.0.530.503;}
+\deftab1134\paperw12240\paperh15840\margl0\margt0\margr0\margb0\widowctrl\formshade\sectd
+\headery720\footery720\pgwsxn12240\pghsxn15840\marglsxn0\margtsxn0\margrsxn0\margbsxn0\pard\itap0\nowidctlpar\plain\f1\fs20 Dessala: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b00440045005300530041004c0041007d000000}{\*\txfieldtext \{DESSALA\}{\*\txfieldend}}\{DESSALA\}}\plain\f1\fs20\par Tipodoc: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b005400490050004f0044004f0043007d000000}{\*\txfieldtext \{TIPODOC\}{\*\txfieldend}}\{TIPODOC\}}\plain\f1\fs20\par Documento: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b0044004f00430055004d0045004e0054004f007d000000}{\*\txfieldtext \{DOCUMENTO\}{\*\txfieldend}}\{DOCUMENTO\}}\plain\f1\fs20\par Nombre1: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b004e004f004d0042005200450031007d000000}{\*\txfieldtext \{NOMBRE1\}{\*\txfieldend}}\{NOMBRE1\}}\plain\f1\fs20\par Nombre2: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b004e004f004d0042005200450032007d000000}{\*\txfieldtext \{NOMBRE2\}{\*\txfieldend}}\{NOMBRE2\}}\plain\f1\fs20\par Apellido1: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b004100500045004c004c00490044004f0031007d000000}{\*\txfieldtext \{APELLIDO1\}{\*\txfieldend}}\{APELLIDO1\}}\plain\f1\fs20\par Apellido2: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b004100500045004c004c00490044004f0032007d000000}{\*\txfieldtext \{APELLIDO2\}{\*\txfieldend}}\{APELLIDO2\}}\plain\f1\fs20\par Fnacimiento: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b0046004e004100430049004d00490045004e0054004f007d000000}{\*\txfieldtext \{FNACIMIENTO\}{\*\txfieldend}}\{FNACIMIENTO\}}\plain\f1\fs20\par Direccion: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b0044004900520045004300430049004f004e007d000000}{\*\txfieldtext \{DIRECCION\}{\*\txfieldend}}\{DIRECCION\}}\plain\f1\fs20\par Sexo: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b005300450058004f007d000000}{\*\txfieldtext \{SEXO\}{\*\txfieldend}}\{SEXO\}}\plain\f1\fs20\par Notas Ane: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b004e004f005400410053005f0041004e0045007d000000}{\*\txfieldtext \{NOTAS_ANE\}{\*\txfieldend}}\{NOTAS_ANE\}}\plain\f1\fs20\par Consecutivo: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b0043004f004e0053004500430055005400490056004f007d000000}{\*\txfieldtext \{CONSECUTIVO\}{\*\txfieldend}}\{CONSECUTIVO\}}\plain\f1\fs20\par Proccups: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b00500052004f00430043005500500053007d000000}{\*\txfieldtext \{PROCCUPS\}{\*\txfieldend}}\{PROCCUPS\}}\plain\f1\fs20\par Descups: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b0044004500530043005500500053007d000000}{\*\txfieldtext \{DESCUPS\}{\*\txfieldend}}\{DESCUPS\}}\plain\f1\fs20\par Especialista: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b0045005300500045004300490041004c0049005300540041007d000000}{\*\txfieldtext \{ESPECIALISTA\}{\*\txfieldend}}\{ESPECIALISTA\}}\plain\f1\fs20\par Anestesiologo: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b0041004e004500530054004500530049004f004c004f0047004f007d000000}{\*\txfieldtext \{ANESTESIOLOGO\}{\*\txfieldend}}\{ANESTESIOLOGO\}}\plain\f1\fs20\par Auxiliarqx: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b0041005500580049004c00490041005200510058007d000000}{\*\txfieldtext \{AUXILIARQX\}{\*\txfieldend}}\{AUXILIARQX\}}\plain\f1\fs20\par Circulante: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b00430049005200430055004c0041004e00540045007d000000}{\*\txfieldtext \{CIRCULANTE\}{\*\txfieldend}}\{CIRCULANTE\}}\plain\f1\fs20\par Instrumentador: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b0049004e0053005400520055004d0045004e005400410044004f0052007d000000}{\*\txfieldtext \{INSTRUMENTADOR\}{\*\txfieldend}}\{INSTRUMENTADOR\}}\plain\f1\fs20\par Cproced: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b004300500052004f004300450044007d000000}{\*\txfieldtext \{CPROCED\}{\*\txfieldend}}\{CPROCED\}}\plain\f1\fs20\par Desmanual: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b004400450053004d0041004e00550041004c007d000000}{\*\txfieldtext \{DESMANUAL\}{\*\txfieldend}}\{DESMANUAL\}}\plain\f1\fs20\par Diagrel1: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b004400490041004700520045004c0031007d000000}{\*\txfieldtext \{DIAGREL1\}{\*\txfieldend}}\{DIAGREL1\}}\plain\f1\fs20\par\pard\itap0\nowidctlpar Diagprinci\plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b004400490041004700520045004c0034007d000000}{\*\txfieldtext \{DIAGREL4\}{\*\txfieldend}}\{DIAGREL4\}}\plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b004400490041004700520045004c0032007d000000}{\*\txfieldtext \{DIAGREL2\}{\*\txfieldend}}\{DIAGREL2\}}\plain\f1\fs20 pal: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b0044004900410047005000520049004e0043004900500041004c007d000000}{\*\txfieldtext \{DIAGPRINCIPAL\}{\*\txfieldend}}\{DIAGPRINCIPAL\}}\plain\f1\fs20 Diagprincipal: Tel: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b00540045004c007d000000}{\*\txfieldtext \{TEL\}{\*\txfieldend}}\{TEL\}}\plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b0046004500430048004100460049004e007d000000}{\*\txfieldtext \{FECHAFIN\}{\*\txfieldend}}\{FECHAFIN\}}\plain\f1\fs20 C\plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b004400450053004300490055004400410044007d000000}{\*\txfieldtext \{DESCIUDAD\}{\*\txfieldend}}\{DESCIUDAD\}}\plain\f1\fs20 odigosala: \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b0043004f004400490047004f00530041004c0041007d000000}{\*\txfieldtext \{CODIGOSALA\}{\*\txfieldend}}\{CODIGOSALA\}}}")
+header(text="{\rtf1\ansi\ansicpg1252\uc1\deff0{\fonttbl
+{\f0\fnil\fcharset0\fprq2 Arial;}
+{\f1\fswiss\fcharset0\fprq2 Tahoma;}
+{\f2\froman\fcharset2\fprq2 Symbol;}}
+{\colortbl;\red0\green0\blue0;\red255\green255\blue255;}
+{\stylesheet{\s0\itap0\nowidctlpar\f0\fs24 [Normal];}{\*\cs10\additive Default Paragraph Font;}}
+{\*\generator TX_RTF32 15.0.530.503;}
+\deftab1134\paperw12240\paperh15840\margl0\margt0\margr0\margb0\widowctrl\formshade\sectd
+\headery720\footery720\pgwsxn12240\pghsxn15840\marglsxn0\margtsxn0\margrsxn0\margbsxn0\pard\itap0\nowidctlpar\plain\f1\fs20}")
+footer(text="{\rtf1\ansi\ansicpg1252\uc1\deff0{\fonttbl
+{\f0\fnil\fcharset0\fprq2 Arial;}
+{\f1\fswiss\fcharset0\fprq2 Tahoma;}
+{\f2\froman\fcharset2\fprq2 Symbol;}}
+{\colortbl;\red0\green0\blue0;\red255\green255\blue255;}
+{\stylesheet{\s0\itap0\nowidctlpar\f0\fs24 [Normal];}{\*\cs10\additive Default Paragraph Font;}}
+{\*\generator TX_RTF32 15.0.530.503;}
+\deftab1134\paperw12240\paperh15840\margl0\margt0\margr0\margb0\widowctrl\formshade\sectd
+\headery720\footery720\pgwsxn12240\pghsxn15840\marglsxn0\margtsxn0\margrsxn0\margbsxn0\pard\itap0\nowidctlpar\plain\f1\fs20}")table(column=(type=char(3) updatewhereclause=yes name=codigosala dbname="codigosala" )
+ column=(type=char(80) updatewhereclause=yes name=dessala dbname="dessala" )
+ column=(type=char(3) updatewhereclause=yes name=tipodoc dbname="tipodoc" )
+ column=(type=char(15) updatewhereclause=yes name=documento dbname="documento" )
+ column=(type=char(60) updatewhereclause=yes name=nombre1 dbname="nombre1" )
+ column=(type=char(60) updatewhereclause=yes name=nombre2 dbname="nombre2" )
+ column=(type=char(60) updatewhereclause=yes name=apellido1 dbname="apellido1" )
+ column=(type=char(60) updatewhereclause=yes name=apellido2 dbname="apellido2" )
+ column=(type=datetime updatewhereclause=yes name=fnacimiento dbname="fnacimiento" )
+ column=(type=char(60) updatewhereclause=yes name=direccion dbname="direccion" )
+ column=(type=char(1) updatewhereclause=yes name=sexo dbname="sexo" )
+ column=(type=char(15) updatewhereclause=yes name=tel dbname="tel" )
+ column=(type=char(50) updatewhereclause=yes name=desciudad dbname="desciudad" )
+ column=(type=char(50) updatewhereclause=yes name=desdeparta dbname="desdeparta" )
+ column=(type=datetime updatewhereclause=yes name=fechainicio dbname="fechainicio" )
+ column=(type=datetime updatewhereclause=yes name=horainicio dbname="horainicio" )
+ column=(type=number updatewhereclause=yes name=numero_ingre dbname="numero_ingre" )
+ column=(type=char(2) updatewhereclause=yes name=clugar dbname="clugar" )
+ column=(type=datetime updatewhereclause=yes name=fechafin dbname="fechafin" )
+ column=(type=datetime updatewhereclause=yes name=horafin dbname="horafin" )
+ column=(type=char(32766) updatewhereclause=no name=notasqx dbname="notasqx" )
+ column=(type=char(32766) updatewhereclause=no name=notas_ane dbname="notas_ane" )
+ column=(type=long updatewhereclause=yes name=consecutivo dbname="consecutivo" )
+ column=(type=char(15) updatewhereclause=yes name=proccups dbname="proccups" )
+ column=(type=char(255) updatewhereclause=yes name=descups dbname="descups" )
+ column=(type=char(255) updatewhereclause=yes name=especialista dbname="especialista" )
+ column=(type=char(255) updatewhereclause=yes name=anestesiologo dbname="anestesiologo" )
+ column=(type=char(255) updatewhereclause=yes name=auxiliarqx dbname="auxiliarqx" )
+ column=(type=char(255) updatewhereclause=yes name=circulante dbname="circulante" )
+ column=(type=char(255) updatewhereclause=yes name=instrumentador dbname="instrumentador" )
+ column=(type=char(15) updatewhereclause=yes name=cproced dbname="cproced" )
+ column=(type=char(255) updatewhereclause=yes name=desmanual dbname="desmanual" )
+ column=(type=char(200) updatewhereclause=yes name=diagprincipal dbname="diagprincipal" )
+ column=(type=char(200) updatewhereclause=yes name=diagrel1 dbname="diagrel1" )
+ column=(type=char(200) updatewhereclause=yes name=diagrel2 dbname="diagrel2" )
+ column=(type=char(200) updatewhereclause=yes name=diagrel4 dbname="diagrel4" )
+ column=(type=char(50) updatewhereclause=yes name=tipoanestesia dbname="tipoanestesia" )
+ retrieve="SELECT 
+	qxcabacto.codigosala, qxsala.Descripcion AS dessala, qxcabacto.TipoDoc, qxcabacto.Documento, pacientes.Nombre1, pacientes.Nombre2, 
+	pacientes.Apellido1, pacientes.Apellido2, pacientes.FNacimiento, pacientes.Direccion, pacientes.Sexo, pacientes.Tel, Ciudades.DesCiudad, 
+	Departamentos.Nombre AS desdeparta, qxcabacto.FechaInicio, qxcabacto.HoraInicio, qxcabacto.Numero_ingre, qxcabacto.clugar, 
+	qxcabacto.FechaFin, qxcabacto.HoraFin, qxcabacto.notasqx, qxcabacto.notas_ane, qxcpacto.consecutivo, qxcpacto.proccups, 
+	proced.Descripcion AS descups, 
+	profe.nombre1+ case when profe.nombre2  is null then ' ' else  '  '+profe.nombre2 end +' '+ 
+	profe.apellido1+ case when profe.apellido2 is null then ' ' else  '  '+profe.apellido2 end as especialista, 
+	profe_1.nombre1+ case when profe_1.nombre2  is null then ' ' else  '  '+profe_1.nombre2 end +' '+ 
+ 	profe_1.apellido1+ case when profe_1.apellido2 is null then ' ' else  '  '+profe_1.apellido2 end as anestesiologo, 
+ 	profe_2.nombre1+ case when profe_2.nombre2  is null then ' ' else  '  '+profe_2.nombre2 end +' '+ 
+ 	profe_2.apellido1+ case when profe_2.apellido2 is null then ' ' else  '  '+profe_2.apellido2 end  AS auxiliarqx, 
+	profe_3.nombre1+ case when profe_3.nombre2  is null then ' ' else  '  '+profe_3.nombre2 end +' '+ 
+	profe_3.apellido1+ case when profe_3.apellido2 is null then ' ' else  '  '+profe_3.apellido2 end as circulante, 
+ 	profe_4.nombre1+ case when profe_4.nombre2  is null then ' ' else  '  '+profe_4.nombre2 end +' '+ 
+ 	profe_4.apellido1+ case when profe_4.apellido2 is null then ' ' else  '  '+profe_4.apellido2 end as instrumentador, 
+	qxcpacto.CProced, serviciosman.descripcion AS desmanual, 
+	diags.DesDiag AS DiagPrincipal, diags_1.DesDiag AS diagrel1, diags_2.DesDiag AS diagrel2, diags_3.DesDiag AS diagrel4, qxtipoanest.Descripcion AS tipoanestesia
+FROM ((((qxcabacto LEFT JOIN pacientes ON (qxcabacto.Documento = pacientes.Documento) AND (qxcabacto.TipoDoc = pacientes.TipoDoc)) LEFT JOIN qxsala ON qxcabacto.codigosala = qxsala.CodigoSala) LEFT JOIN Departamentos ON pacientes.CDepto = Departamentos.CodDepar) LEFT JOIN Ciudades ON (pacientes.CCiudad = Ciudades.CodCiudad) AND (pacientes.CDepto = Ciudades.CDepto)) LEFT JOIN (((((((((((((qxcpacto LEFT JOIN profe ON qxcpacto.Especialista = profe.CodProf) LEFT JOIN profe AS profe_1 ON qxcpacto.Anestesiologo = profe_1.CodProf) LEFT JOIN profe AS profe_2 ON qxcpacto.AuxiliarQX = profe_2.CodProf) LEFT JOIN profe AS profe_3 ON qxcpacto.circulante = profe_3.CodProf) LEFT JOIN profe AS profe_4 ON qxcpacto.instrumenta = profe_4.CodProf) LEFT JOIN proced ON qxcpacto.proccups = proced.CodProced) LEFT JOIN serviciosman ON (qxcpacto.cmanual = serviciosman.CodManual) AND (qxcpacto.CProced = serviciosman.codservicio)) LEFT JOIN serviciosingreso ON (qxcpacto.Nservicio = serviciosingreso.Nservicio) AND (qxcpacto.clugar_ser = serviciosingreso.CLugar) AND (qxcpacto.Contador = serviciosingreso.Contador)) LEFT JOIN diags AS diags_1 ON serviciosingreso.diagrel1 = diags_1.CodGeral) LEFT JOIN diags ON serviciosingreso.diagprin = diags.CodGeral) LEFT JOIN diags AS diags_2 ON serviciosingreso.diagrel2 = diags_2.CodGeral) LEFT JOIN diags AS diags_3 ON serviciosingreso.diagrel3 = diags_3.CodGeral) LEFT JOIN qxtipoanest ON qxcpacto.TipoAnestecia = qxtipoanest.CodTipoAnestesia) ON (qxcabacto.clugar = qxcpacto.clugar) AND (qxcabacto.Numero_ingre = qxcpacto.numero)
+WHERE (((qxcpacto.Numero)=:numingreso) AND ((qxcpacto.clugar)=:lugar))
+ORDER BY qxcabacto.Numero_ingre, qxcabacto.clugar, qxcpacto.consecutivo
+" arguments=(("numingreso", number),("lugar", string)) )
+column(name=codigosala id=1 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=dessala id=2 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=tipodoc id=3 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=documento id=4 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=nombre1 id=5 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=nombre2 id=6 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=apellido1 id=7 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=apellido2 id=8 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=fnacimiento id=9 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[shortdate] [time]" )
+column(name=direccion id=10 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=sexo id=11 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=tel id=12 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=desciudad id=13 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=desdeparta id=14 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=fechainicio id=15 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[shortdate] [time]" )
+column(name=horainicio id=16 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[shortdate] [time]" )
+column(name=numero_ingre id=17 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=clugar id=18 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=fechafin id=19 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[shortdate] [time]" )
+column(name=horafin id=20 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[shortdate] [time]" )
+column(name=notasqx id=21 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=notas_ane id=22 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=consecutivo id=23 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=proccups id=24 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=descups id=25 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=especialista id=26 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=anestesiologo id=27 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=auxiliarqx id=28 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=circulante id=29 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=instrumentador id=30 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=cproced id=31 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=desmanual id=32 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=diagprincipal id=33 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=diagrel1 id=34 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=diagrel2 id=35 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=diagrel4 id=36 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=tipoanestesia id=37 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()

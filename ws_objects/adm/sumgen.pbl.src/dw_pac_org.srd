@@ -1,0 +1,152 @@
+﻿$PBExportHeader$dw_pac_org.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no grid.lines=0 )
+header(height=68 color="536870912" )
+summary(height=8 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(15) update=yes updatewhereclause=yes key=yes name=codalmacen dbname="sumpaccpo.codalmacen" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=ano dbname="sumpaccpo.ano" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=item dbname="sumpaccpo.item" )
+ column=(type=char(15) update=yes updatewhereclause=yes key=yes name=codgenerico dbname="sumpaccpo.codgenerico" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha dbname="sumpaccpo.fecha" )
+ column=(type=long update=yes updatewhereclause=yes name=mes1 dbname="sumpaccpo.mes1" )
+ column=(type=long update=yes updatewhereclause=yes name=con1 dbname="sumpaccpo.consumomes1" )
+ column=(type=long update=yes updatewhereclause=yes name=mes2 dbname="sumpaccpo.mes2" )
+ column=(type=long update=yes updatewhereclause=yes name=con2 dbname="sumpaccpo.consumomes2" )
+ column=(type=long update=yes updatewhereclause=yes name=mes3 dbname="sumpaccpo.mes3" )
+ column=(type=long update=yes updatewhereclause=yes name=con3 dbname="sumpaccpo.consumomes3" )
+ column=(type=long update=yes updatewhereclause=yes name=mes4 dbname="sumpaccpo.mes4" )
+ column=(type=long update=yes updatewhereclause=yes name=con4 dbname="sumpaccpo.consumomes4" )
+ column=(type=long update=yes updatewhereclause=yes name=mes5 dbname="sumpaccpo.mes5" )
+ column=(type=long update=yes updatewhereclause=yes name=con5 dbname="sumpaccpo.consumomes5" )
+ column=(type=long update=yes updatewhereclause=yes name=mes6 dbname="sumpaccpo.mes6" )
+ column=(type=long update=yes updatewhereclause=yes name=con6 dbname="sumpaccpo.consumomes6" )
+ column=(type=long update=yes updatewhereclause=yes name=mes7 dbname="sumpaccpo.mes7" )
+ column=(type=long update=yes updatewhereclause=yes name=con7 dbname="sumpaccpo.consumomes7" )
+ column=(type=long update=yes updatewhereclause=yes name=mes8 dbname="sumpaccpo.mes8" )
+ column=(type=long update=yes updatewhereclause=yes name=con8 dbname="sumpaccpo.consumomes8" )
+ column=(type=long update=yes updatewhereclause=yes name=mes9 dbname="sumpaccpo.mes9" )
+ column=(type=long update=yes updatewhereclause=yes name=con9 dbname="sumpaccpo.consumomes9" )
+ column=(type=long update=yes updatewhereclause=yes name=mes10 dbname="sumpaccpo.mes10" )
+ column=(type=long update=yes updatewhereclause=yes name=con10 dbname="sumpaccpo.consumomes10" )
+ column=(type=long update=yes updatewhereclause=yes name=mes11 dbname="sumpaccpo.mes11" )
+ column=(type=long update=yes updatewhereclause=yes name=con11 dbname="sumpaccpo.consumomes11" )
+ column=(type=long update=yes updatewhereclause=yes name=mes12 dbname="sumpaccpo.mes12" )
+ column=(type=long update=yes updatewhereclause=yes name=con12 dbname="sumpaccpo.consumomes12" )
+ column=(type=char(1) updatewhereclause=yes name=restringepac dbname="sumalmacen.restringepac" )
+ retrieve="  SELECT sumpaccpo.codalmacen,   
+         sumpaccpo.ano,   
+         sumpaccpo.item,   
+         sumpaccpo.codgenerico,   
+         sumpaccpo.fecha,   
+         sumpaccpo.mes1,   
+         sumpaccpo.consumomes1,   
+         sumpaccpo.mes2,   
+         sumpaccpo.consumomes2,   
+         sumpaccpo.mes3,   
+         sumpaccpo.consumomes3,   
+         sumpaccpo.mes4,   
+         sumpaccpo.consumomes4,   
+         sumpaccpo.mes5,   
+         sumpaccpo.consumomes5,   
+         sumpaccpo.mes6,   
+         sumpaccpo.consumomes6,   
+         sumpaccpo.mes7,   
+         sumpaccpo.consumomes7,   
+         sumpaccpo.mes8,   
+         sumpaccpo.consumomes8,   
+         sumpaccpo.mes9,   
+         sumpaccpo.consumomes9,   
+         sumpaccpo.mes10,   
+         sumpaccpo.consumomes10,   
+         sumpaccpo.mes11,   
+         sumpaccpo.consumomes11,   
+         sumpaccpo.mes12,   
+         sumpaccpo.consumomes12,   
+         sumalmacen.restringepac  
+    FROM sumpaccab,   
+         sumpaccpo,   
+         sumalmacen  
+   WHERE ( sumpaccab.codalmacen = sumpaccpo.codalmacen ) and  
+         ( sumpaccab.ano = sumpaccpo.ano ) and  
+         ( sumpaccab.item = sumpaccpo.item ) and  
+         ( sumpaccab.codalmacen = sumalmacen.codalmacen ) and  
+         ( ( sumpaccab.codalmacen = :codalmacen ) AND  
+         ( sumpaccab.ano = :ano ) AND  
+         ( sumpaccpo.codgenerico = :codgenerico ) AND  
+         ( sumpaccab.estado = 'A' or sumpaccab.estado = 'M'  ) )    
+" update="sumpaccpo" updatewhere=0 updatekeyinplace=yes arguments=(("codalmacen", string),("ano", number),("codgenerico", string)) )
+text(band=header alignment="2" text="Mes1" border="0" color="0" x="9" y="8" height="56" width="210" html.valueishtml="0"  name=sumpaccpo_mes1_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Con1" border="0" color="0" x="229" y="8" height="56" width="201" html.valueishtml="0"  name=sumpaccpo_consumomes1_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Mes2" border="0" color="0" x="439" y="8" height="56" width="265" html.valueishtml="0"  name=sumpaccpo_mes2_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Con2" border="0" color="0" x="713" y="8" height="56" width="261" html.valueishtml="0"  name=sumpaccpo_consumomes2_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Mes3" border="0" color="0" x="983" y="8" height="56" width="274" html.valueishtml="0"  name=sumpaccpo_mes3_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Con3" border="0" color="0" x="1266" y="8" height="56" width="256" html.valueishtml="0"  name=sumpaccpo_consumomes3_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Mes4" border="0" color="0" x="1531" y="8" height="56" width="274" html.valueishtml="0"  name=sumpaccpo_mes4_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Con4" border="0" color="0" x="1815" y="8" height="56" width="265" html.valueishtml="0"  name=sumpaccpo_consumomes4_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Mes5" border="0" color="0" x="2089" y="8" height="56" width="261" html.valueishtml="0"  name=sumpaccpo_mes5_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Con5" border="0" color="0" x="2359" y="8" height="56" width="293" html.valueishtml="0"  name=sumpaccpo_consumomes5_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Mes6" border="0" color="0" x="2661" y="8" height="56" width="265" html.valueishtml="0"  name=sumpaccpo_mes6_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Con6" border="0" color="0" x="2935" y="8" height="56" width="338" html.valueishtml="0"  name=sumpaccpo_consumomes6_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Mes7" border="0" color="0" x="3282" y="8" height="56" width="247" html.valueishtml="0"  name=sumpaccpo_mes7_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Con7" border="0" color="0" x="3538" y="8" height="56" width="325" html.valueishtml="0"  name=sumpaccpo_consumomes7_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Mes8" border="0" color="0" x="3872" y="8" height="56" width="265" html.valueishtml="0"  name=sumpaccpo_mes8_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Con8" border="0" color="0" x="4146" y="8" height="56" width="338" html.valueishtml="0"  name=sumpaccpo_consumomes8_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Mes9" border="0" color="0" x="4494" y="8" height="56" width="274" html.valueishtml="0"  name=sumpaccpo_mes9_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Con9" border="0" color="0" x="4777" y="8" height="56" width="338" html.valueishtml="0"  name=sumpaccpo_consumomes9_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Mes10" border="0" color="0" x="5125" y="8" height="56" width="265" html.valueishtml="0"  name=sumpaccpo_mes10_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Con10" border="0" color="0" x="5399" y="8" height="56" width="361" html.valueishtml="0"  name=sumpaccpo_consumomes10_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Mes11" border="0" color="0" x="5769" y="8" height="56" width="261" html.valueishtml="0"  name=sumpaccpo_mes11_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Con11" border="0" color="0" x="6039" y="8" height="56" width="334" html.valueishtml="0"  name=sumpaccpo_consumomes11_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Mes12" border="0" color="0" x="6382" y="8" height="56" width="247" html.valueishtml="0"  name=sumpaccpo_mes12_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Con12" border="0" color="0" x="6638" y="8" height="56" width="293" html.valueishtml="0"  name=sumpaccpo_consumomes12_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Codalmacen" border="0" color="0" x="6939" y="4" height="56" width="334" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Ano" border="0" color="0" x="7282" y="4" height="56" width="183" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Item" border="0" color="0" x="7474" y="4" height="56" width="197" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Codgenerico" border="0" color="0" x="7680" y="4" height="56" width="334" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Fecha" border="0" color="0" x="8023" y="4" height="56" width="279" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Restringepac" border="0" color="0" x="8311" y="4" height="56" width="366" html.valueishtml="0"  name=restringepac_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="9" y="4" height="60" width="210" format="[general]" html.valueishtml="0"  name=mes1 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="229" y="4" height="60" width="201" format="[general]" html.valueishtml="0"  name=con1 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="439" y="4" height="60" width="265" format="[general]" html.valueishtml="0"  name=mes2 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="713" y="4" height="60" width="261" format="[general]" html.valueishtml="0"  name=con2 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="0" color="0" x="983" y="4" height="60" width="274" format="[general]" html.valueishtml="0"  name=mes3 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="0" color="0" x="1266" y="4" height="60" width="256" format="[general]" html.valueishtml="0"  name=con3 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="1" tabsequence=32766 border="0" color="0" x="1531" y="4" height="60" width="274" format="[general]" html.valueishtml="0"  name=mes4 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="1" tabsequence=32766 border="0" color="0" x="1815" y="4" height="60" width="265" format="[general]" html.valueishtml="0"  name=con4 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="1" tabsequence=32766 border="0" color="0" x="2089" y="4" height="60" width="261" format="[general]" html.valueishtml="0"  name=mes5 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="1" tabsequence=32766 border="0" color="0" x="2359" y="4" height="60" width="293" format="[general]" html.valueishtml="0"  name=con5 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="1" tabsequence=32766 border="0" color="0" x="2661" y="4" height="60" width="265" format="[general]" html.valueishtml="0"  name=mes6 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="1" tabsequence=32766 border="0" color="0" x="2935" y="4" height="60" width="338" format="[general]" html.valueishtml="0"  name=con6 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="1" tabsequence=32766 border="0" color="0" x="3282" y="4" height="60" width="247" format="[general]" html.valueishtml="0"  name=mes7 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="1" tabsequence=32766 border="0" color="0" x="3538" y="4" height="60" width="325" format="[general]" html.valueishtml="0"  name=con7 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=20 alignment="1" tabsequence=32766 border="0" color="0" x="3872" y="4" height="60" width="265" format="[general]" html.valueishtml="0"  name=mes8 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=21 alignment="1" tabsequence=32766 border="0" color="0" x="4146" y="4" height="60" width="338" format="[general]" html.valueishtml="0"  name=con8 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="0" x="4494" y="4" height="60" width="274" format="[general]" html.valueishtml="0"  name=mes9 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=23 alignment="1" tabsequence=32766 border="0" color="0" x="4777" y="4" height="60" width="338" format="[general]" html.valueishtml="0"  name=con9 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=24 alignment="1" tabsequence=32766 border="0" color="0" x="5125" y="4" height="60" width="265" format="[general]" html.valueishtml="0"  name=mes10 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="0" x="5399" y="4" height="60" width="361" format="[general]" html.valueishtml="0"  name=con10 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="1" tabsequence=32766 border="0" color="0" x="5769" y="4" height="60" width="261" format="[general]" html.valueishtml="0"  name=mes11 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=27 alignment="1" tabsequence=32766 border="0" color="0" x="6039" y="0" height="60" width="334" format="[general]" html.valueishtml="0"  name=con11 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=28 alignment="1" tabsequence=32766 border="0" color="0" x="6382" y="4" height="60" width="247" format="[general]" html.valueishtml="0"  name=mes12 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=29 alignment="1" tabsequence=32766 border="0" color="0" x="6638" y="4" height="60" width="293" format="[general]" html.valueishtml="0"  name=con12 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="6939" y="0" height="56" width="334" format="[general]" html.valueishtml="0"  name=codalmacen visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="7282" y="0" height="56" width="183" format="[general]" html.valueishtml="0"  name=ano visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="7474" y="0" height="56" width="197" format="[general]" html.valueishtml="0"  name=item visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="7680" y="0" height="56" width="334" format="[general]" html.valueishtml="0"  name=codgenerico visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="8023" y="0" height="56" width="279" format="[shortdate] [time]" html.valueishtml="0"  name=fecha visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=30 alignment="0" tabsequence=32766 border="0" color="0" x="8311" y="0" height="56" width="366" format="[general]" html.valueishtml="0"  name=restringepac visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="mes1 + mes2 + mes3 + mes4 + mes5 + mes6 + mes7 + mes8 + mes9 + mes10 + mes11 + mes12"border="0" color="0" x="8686" y="4" height="56" width="251" format="[GENERAL]" html.valueishtml="0"  name=t_meses visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="con1 + con2 + con3 + con4 + con5 + con6 + con7 + con8 + con9 + con10 + con11 + con12"border="0" color="0" x="8946" y="4" height="56" width="178" format="[GENERAL]" html.valueishtml="0"  name=t_cons visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

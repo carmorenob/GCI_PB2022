@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_trae_string_num.srf
+global type f_trae_string_num from function_object
+end type
+
+forward prototypes
+global function string f_trae_string_num (string texto, integer numero, string separa)
+end prototypes
+
+global function string f_trae_string_num (string texto, integer numero, string separa);long recorre,cuantos,va,otro
+string pedazo
+cuantos=f_count_text(texto,separa)+1
+if cuantos=0 then return ""
+if numero>cuantos then return ""
+if numero=1 then return mid(texto,1,pos(texto,separa)-1)
+recorre=1
+va=1
+DO WHILE recorre < len(texto)
+	recorre=pos(texto,separa,recorre)+len(separa)	
+	va++
+	otro=pos(texto,separa,recorre)
+	if otro=0 then otro=len(texto)+1
+	if va=numero then return mid(texto,recorre,otro -recorre)
+LOOP
+end function
+

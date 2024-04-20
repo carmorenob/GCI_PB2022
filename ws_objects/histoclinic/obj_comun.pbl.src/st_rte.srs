@@ -1,0 +1,13 @@
+﻿$PBExportHeader$st_rte.srs
+global type st_rte from structure
+	string		c_prof
+	string		codplantilla
+	integer		numcampo
+	string		ventana
+	richtextedit		rte
+	string		empresa
+	datawindow		dw_pac
+	datawindow		dw_data
+	string		c_otro
+end type
+

@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_escog_consult.srd
+release 7;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=132 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codgc dbname="consulgcita.codgc" )
+ column=(type=char(10) update=yes updatewhereclause=yes key=yes name=cconsultorio dbname="consulgcita.cconsultorio" )
+ column=(type=long update=yes updatewhereclause=yes name=duracion dbname="consulgcita.duracion" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"consulgcita~" ) COLUMN(NAME=~"consulgcita.codgc~") COLUMN(NAME=~"consulgcita.cconsultorio~") COLUMN(NAME=~"consulgcita.duracion~")) " update="consulgcita" updatewhere=1 updatekeyinplace=no )
+column(band=detail id=1 alignment="0" tabsequence=10 border="5" color="33554432" x="32" y="8" height="68" width="1143" format="[general]"  name=codgc dddw.name=dw_grupcita dddw.displaycolumn=descripcion dddw.datacolumn=codgc dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="5" color="33554432" x="1193" y="8" height="68" width="974" format="[general]"  name=cconsultorio dddw.name=dw_consulxgcita dddw.displaycolumn=consultorio_descripcion dddw.datacolumn=cconsultorio dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=3 alignment="1" tabsequence=30 border="5" color="33554432" x="2185" y="8" height="68" width="197" format="[general]"  name=duracion edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="0" text="Grupo de Cita" border="0" color="0" x="27" y="88" height="44" width="439"  name=t_1  font.face="Small Fonts" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=detail alignment="0" text="Consultorio" border="0" color="0" x="1184" y="88" height="44" width="439"  name=t_2  font.face="Small Fonts" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=detail alignment="0" text="T. Sugerido" border="0" color="0" x="2135" y="92" height="44" width="293"  name=t_3  font.face="Small Fonts" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" )

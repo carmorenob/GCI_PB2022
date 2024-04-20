@@ -1,0 +1,43 @@
+﻿$PBExportHeader$f_descripta_new.srf
+global type f_descripta_new from function_object
+end type
+
+forward prototypes
+global function string f_descripta_new (string encriptada, string tipodes)
+end prototypes
+
+global function string f_descripta_new (string encriptada, string tipodes);Blob lblb_data
+Blob lblb_sha
+Blob lblb_key
+Blob lblb_iv
+Blob lblb_dencrypt
+String retorna
+
+if g_motor<>'postgres' then
+	CrypterObject lnv_CrypterObject
+	CoderObject lnv_CoderObject
+	
+	lnv_CoderObject = Create CoderObject
+	lnv_CrypterObject = Create CrypterObject
+	
+	if tipodes='1' then
+		lblb_data = lnv_CoderObject.HexDecode(encriptada)
+		lblb_key = Blob(gs_key, EncodingANSI!)
+		lblb_iv = Blob(gs_inv, EncodingANSI!)
+	
+		lblb_dencrypt = lnv_CrypterObject.SymmetricDecrypt(AES!,lblb_data,lblb_key, OperationModeCBC!, lblb_iv, PKCSPadding!)
+		retorna =string(lblb_dencrypt, EncodingANSI!)
+	else
+		retorna =f_descripta(encriptada)
+	end if
+	destroy lnv_CoderObject 
+	destroy lnv_CrypterObject 
+else
+	select 
+		convert_from(decrypt_iv(decode(:encriptada, 'hex'), :gs_key,:gs_inv,'aes-cbc/pad:pkcs'), 'UTF8') into:retorna
+	from ips;
+end if
+return retorna
+
+end function
+

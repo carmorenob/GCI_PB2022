@@ -1,0 +1,40 @@
+﻿$PBExportHeader$f_retrieve_dw_campos.srf
+global type f_retrieve_dw_campos from function_object
+end type
+
+forward prototypes
+global subroutine f_retrieve_dw_campos (datawindow dw_campos_encuesta, string cod_plant, integer tipo_estadist_index)
+end prototypes
+
+global subroutine f_retrieve_dw_campos (datawindow dw_campos_encuesta, string cod_plant, integer tipo_estadist_index);string tipo
+long i,j,numcampo,padre
+
+dw_campos_encuesta.retrieve(cod_plant)	//retrieve del dw campos de la Encuesta
+
+if tipo_estadist_index=1 or tipo_estadist_index=3 then //or tipo_estadist_index=4 then	//Generales, Tablas cruzadas, histogramas
+	for i=dw_campos_encuesta.rowcount( ) to 1 step -1
+		tipo=dw_campos_encuesta.getitemstring( i, "tipo")
+		if tipo='U' then 
+			numcampo=dw_campos_encuesta.getitemnumber( i, 'numcampo')
+			for  j=dw_campos_encuesta.rowcount( ) to 1 step -1
+				padre=dw_campos_encuesta.getitemnumber( j, 'padre')
+				if padre=numcampo then dw_campos_encuesta.deleterow( j)
+			next
+		end if
+	next
+elseif tipo_estadist_index=2 then	//Descriptivas
+	for i=dw_campos_encuesta.rowcount( ) to 1 step -1
+		tipo=dw_campos_encuesta.getitemstring( i, "tipo")
+		if tipo='U' then 
+			numcampo=dw_campos_encuesta.getitemnumber( i, 'numcampo')
+			for  j=dw_campos_encuesta.rowcount( ) to 1 step -1
+				padre=dw_campos_encuesta.getitemnumber( j, 'padre')
+				if padre=numcampo then dw_campos_encuesta.deleterow( j)
+			next
+		elseif tipo='T' or tipo='R' or tipo='F' then
+			dw_campos_encuesta.deleterow( i)
+		end if
+	next
+end if
+end subroutine
+

@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_tipo_concep.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=1 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(4) updatewhereclause=yes name=cod_tipo_concep dbname="nom_tip_concep.cod_tipo_concep" )
+ column=(type=char(50) updatewhereclause=yes name=des_tip_concecp dbname="nom_tip_concep.des_tip_concecp" )
+ column=(type=char(1) updatewhereclause=yes name=tercero dbname="nom_tip_concep.tercero" )
+ column=(type=char(1) updatewhereclause=yes name=parafiscal dbname="nom_tip_concep.parafiscal" )
+ column=(type=char(1) updatewhereclause=yes name=patronal dbname="nom_tip_concep.patronal" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"nom_tip_concep~" ) COLUMN(NAME=~"nom_tip_concep.cod_tipo_concep~") COLUMN(NAME=~"nom_tip_concep.des_tip_concecp~") COLUMN(NAME=~"nom_tip_concep.tercero~") COLUMN(NAME=~"nom_tip_concep.parafiscal~") COLUMN(NAME=~"nom_tip_concep.patronal~")) ORDER(NAME=~"nom_tip_concep.des_tip_concecp~" ASC=yes ) " )
+text(band=header alignment="2" text="Des Tip Concecp" border="0" color="33554432" x="9" y="4" height="56" width="1399" html.valueishtml="0"  name=des_tip_concecp_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="9" y="4" height="56" width="1399" format="[general]" html.valueishtml="0"  name=des_tip_concecp visible="1" edit.limit=50 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

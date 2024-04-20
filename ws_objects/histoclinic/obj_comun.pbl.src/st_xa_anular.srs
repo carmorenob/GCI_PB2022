@@ -1,0 +1,8 @@
+﻿$PBExportHeader$st_xa_anular.srs
+global type st_xa_anular from structure
+	string		tipo		descriptor "comment" = "Saber tipo de para filtro"
+	string		motivo		descriptor "comment" = "codigo anulacion"
+	string		observacion		descriptor "comment" = "justifica"
+	string		nombre
+end type
+

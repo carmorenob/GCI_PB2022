@@ -1,2 +1,2 @@
-# GCI_PB2022
-Fuentes Gestión Clínica PB v2022
+# GCI_PB
+Fuentes PB Gestión Clínica

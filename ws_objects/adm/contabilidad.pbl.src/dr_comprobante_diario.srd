@@ -1,0 +1,95 @@
+﻿$PBExportHeader$dr_comprobante_diario.srd
+release 7;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=312 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=char(4) updatewhereclause=yes name=cod_empresa dbname="cod_empresa" )
+ column=(type=long updatewhereclause=yes name=ano dbname="ano" )
+ column=(type=long updatewhereclause=yes name=mes dbname="mes" )
+ column=(type=datetime updatewhereclause=yes name=fecha dbname="fecha" )
+ column=(type=char(2) updatewhereclause=yes name=cdoc dbname="cdoc" )
+ column=(type=char(60) updatewhereclause=yes name=desdoc dbname="desdoc" )
+ column=(type=number updatewhereclause=yes name=ndoc dbname="ndoc" )
+ column=(type=long updatewhereclause=yes name=secuencia dbname="secuencia" )
+ column=(type=char(50) updatewhereclause=yes name=cuenta dbname="cuenta" )
+ column=(type=char(200) updatewhereclause=yes name=descrip dbname="descrip" )
+ column=(type=char(1) updatewhereclause=yes name=movimiento dbname="movimiento" )
+ column=(type=char(1) updatewhereclause=yes name=tercero dbname="tercero" )
+ column=(type=char(3) updatewhereclause=yes name=tipodoc dbname="tipodoc" )
+ column=(type=char(15) updatewhereclause=yes name=nit dbname="nit" )
+ column=(type=char(1) updatewhereclause=yes name=dverificacion dbname="dverificacion" )
+ column=(type=char(20) updatewhereclause=yes name=nombre1 dbname="nombre1" )
+ column=(type=char(20) updatewhereclause=yes name=nombre2 dbname="nombre2" )
+ column=(type=char(20) updatewhereclause=yes name=apellido1 dbname="apellido1" )
+ column=(type=char(20) updatewhereclause=yes name=apellido2 dbname="apellido2" )
+ column=(type=char(250) updatewhereclause=yes name=razon_social dbname="razon_social" )
+ column=(type=number updatewhereclause=yes name=valordeb dbname="valordeb" )
+ column=(type=number updatewhereclause=yes name=valorcred dbname="valorcred" )
+ column=(type=char(2) updatewhereclause=yes name=cdocr dbname="cdocr" )
+ column=(type=char(40) updatewhereclause=yes name=desdoc_1 dbname="desdoc" )
+ column=(type=number updatewhereclause=yes name=ndocr dbname="ndocr" )
+ retrieve="SELECT 
+CONT_DOC_CAB.COD_EMPRESA, CONT_DOC_CAB.Ano, CONT_DOC_CAB.Mes, 
+CONT_DOC_CAB.fecha, CONT_DOC_CAB.CDoc, CONT_DOCU.DesDoc, 
+CONT_DOC_CP.ndoc, CONT_DOC_CP.secuencia, CONT_DOC_CP.Cuenta, 
+CONT_PLAN.descrip, CONT_PLAN.movimiento, CONT_PLAN.tercero, 
+CONT_DOC_CP.tipodoc, CONT_DOC_CP.nit, CONT_DOC_CP.Dverificacion, 
+TERCEROS.nombre1, TERCEROS.nombre2, TERCEROS.apellido1, 
+TERCEROS.APELLIDO2, TERCEROS.razon_social, CONT_DOC_CP.valordeb, 
+CONT_DOC_CP.valorcred, CONT_DOC_CP.CDocR, Documentos.DesDoc, CONT_DOC_CP.ndocR
+FROM 
+((((CONT_DOC_CAB LEFT outer JOIN CONT_DOC_CP ON (CONT_DOC_CAB.ndoc = CONT_DOC_CP.ndoc) AND 
+(CONT_DOC_CAB.CDoc = CONT_DOC_CP.CDoc) AND (CONT_DOC_CAB.Ano = CONT_DOC_CP.Ano) AND 
+(CONT_DOC_CAB.COD_EMPRESA = CONT_DOC_CP.COD_EMPRESA)) LEFT outer JOIN CONT_DOCU ON 
+(CONT_DOC_CAB.CDoc = CONT_DOCU.CodDoc) AND 
+(CONT_DOC_CAB.COD_EMPRESA = CONT_DOCU.COD_EMPRESA)) 
+LEFT outer JOIN TERCEROS ON (CONT_DOC_CP.nit = TERCEROS.documento) AND 
+(CONT_DOC_CP.tipodoc = TERCEROS.TipoDoc)) LEFT outer JOIN CONT_PLAN ON 
+(CONT_DOC_CP.Cuenta = CONT_PLAN.CodTotal) AND 
+(CONT_DOC_CP.COD_EMPRESA = CONT_PLAN.COD_EMPRESA)) 
+LEFT outer JOIN Documentos ON (CONT_DOC_CP.CDocR = Documentos.CodDoc) AND 
+(CONT_DOC_CP.CLugar_doc = Documentos.clugar)
+WHERE 
+(CONT_DOC_CAB.Ano=:ano) AND 
+(CONT_DOC_CAB.mes Between :Mes1 And :Mes2) and 
+(CONT_DOC_CAB.CDoc Like :Cualdoc) 
+order by 
+CONT_DOC_CAB.COD_EMPRESA, CONT_DOC_CAB.Ano, CONT_DOC_CAB.Mes, 
+CONT_DOC_CAB.CDoc, CONT_DOC_CP.ndoc, CONT_DOC_CP.secuencia, CONT_DOC_CP.Cuenta, 
+CONT_DOC_CP.tipodoc, CONT_DOC_CP.nit, CONT_DOC_CP.Dverificacion
+" arguments=(("ano", number),("mes1", number),("mes2", number),("cualdoc", number)) )
+group(level=1 header.height=96 trailer.height=0 by=("cdoc" ) header.color="536870912" trailer.color="536870912" )
+group(level=2 header.height=168 trailer.height=0 by=("ndoc" ) header.color="536870912" trailer.color="536870912" )
+group(level=3 header.height=64 trailer.height=0 by=("cuenta" ) header.color="536870912" trailer.color="536870912" )
+text(band=header alignment="2" text="HOSPITAL DE GCI" border="0" color="0" x="0" y="24" height="132" width="3726"  name=t_1  font.face="Arial" font.height="-20" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Comprobante Contable" border="0" color="0" x="0" y="184" height="96" width="992"  name=t_2  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="210" y="4" height="60" width="110" format="[general]"  name=tipodoc visible="1~tif( tercero ='1',1,0)" edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="329" y="4" height="60" width="370" format="[general]"  name=nit visible="1~tif( tercero ='1',1,0)" edit.limit=15 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="713" y="4" height="60" width="55" format="[general]"  name=dverificacion visible="1~tif( tercero ='1',1,0)" edit.limit=1 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=20 alignment="0" tabsequence=32766 border="0" color="0" x="782" y="4" height="60" width="1134" format="[general]"  name=razon_social visible="1~tif( tercero ='1',1,0)" edit.limit=250 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="0" x="1929" y="4" height="60" width="297" format="[general]"  name=ndocr edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=24 alignment="0" tabsequence=32766 border="0" color="0" x="2240" y="4" height="60" width="800" format="[general]"  name=desdoc_1 edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="41" y="4" height="60" width="155" format="[general]"  name=secuencia edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=21 alignment="1" tabsequence=32766 border="0" color="0" x="3054" y="8" height="60" width="379" format="##,##0.00"  name=valordeb edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="0" x="3438" y="8" height="60" width="379" format="##,##0.00"  name=valorcred edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.3 id=9 alignment="0" tabsequence=32766 border="0" color="0" x="41" y="4" height="56" width="539" format="[general]"  name=cuenta edit.limit=50 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+column(band=header.3 id=10 alignment="0" tabsequence=0 border="0" color="0" x="594" y="4" height="56" width="2437"  name=descrip  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+text(band=header.2 alignment="2" text="Reg." border="6" color="0" x="41" y="104" height="56" width="155"  name=t_3  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header.2 alignment="2" text="Crédito" border="6" color="0" x="3438" y="104" height="56" width="375"  name=t_9  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header.2 alignment="2" text="Documento" border="6" color="0" x="215" y="104" height="56" width="553"  name=t_4  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header.2 alignment="2" text="Razon Social" border="6" color="0" x="786" y="104" height="56" width="1111"  name=t_5  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header.2 alignment="2" text="No" border="6" color="0" x="1915" y="104" height="56" width="306"  name=t_6  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header.2 alignment="2" text="Descripción" border="6" color="0" x="2240" y="104" height="56" width="795"  name=t_7  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header.2 alignment="2" text="Débito" border="6" color="0" x="3054" y="104" height="56" width="370"  name=t_8  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header.2 alignment="1" text="Documento No:" border="0" color="0" x="37" y="12" height="64" width="443"  name=t_10  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="1" expression="sum(valordeb for group 2)"border="0" color="0" x="3058" y="12" height="64" width="379" format="##,##0.00"  name=compute_1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header.2 alignment="1" expression="sum(valorcred for group 2)"border="0" color="0" x="3442" y="12" height="64" width="379" format="##,##0.00"  name=compute_2  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.2 id=7 alignment="1" tabsequence=32766 border="0" color="0" x="489" y="12" height="64" width="329" format="[general]"  name=ndoc edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.2 id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1184" y="12" height="64" width="402" format="[shortdate] "  name=fecha edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.2 alignment="1" text="Elaborado:" border="0" color="0" x="855" y="12" height="64" width="315"  name=t_11  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=5 alignment="0" tabsequence=32766 border="0" color="0" x="50" y="12" height="76" width="155" format="[general]"  name=cdoc edit.limit=2 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+column(band=header.1 id=6 alignment="0" tabsequence=32766 border="0" color="0" x="219" y="12" height="76" width="1673" format="[general]"  name=desdoc edit.limit=60 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" )

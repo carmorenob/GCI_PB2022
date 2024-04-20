@@ -1,0 +1,14 @@
+﻿$PBExportHeader$f_titulos_vent.srf
+global type f_titulos_vent from function_object
+end type
+
+forward prototypes
+global subroutine f_titulos_vent (window p_wind, string p_cod_vent)
+end prototypes
+
+global subroutine f_titulos_vent (window p_wind, string p_cod_vent);//lleva el codigo de la ventana porque aveces no es el mismo del nombre
+string titu
+select titulo into :titu from modulos_ventana where cod_ventana=:p_cod_vent;
+if not isnull(titu) and titu <>'' then p_wind.title=titu
+end subroutine
+

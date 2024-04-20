@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_dw_error.srf
+global type f_dw_error from function_object
+end type
+
+forward prototypes
+global function integer f_dw_error (long sqldbcode, string sqlsyntax, string sqlerrtext, string p_nombre)
+end prototypes
+
+global function integer f_dw_error (long sqldbcode, string sqlsyntax, string sqlerrtext, string p_nombre);string erro
+erro=sqlca.sqlerrtext
+rollback;
+st_error i_st
+i_st.ds_nombre=p_nombre
+if isNull(sqlsyntax) then sqlsyntax=' '
+if sqlerrtext='' or trim(lower(sqlerrtext))='select error:' then
+	i_st.msgerror='SqlDbCode: '+string(sqldbcode)+'~r~n~r~nSINTAXIS:~r~n'+sqlsyntax+'~r~n~r~nERROR:~r~n'+erro
+else
+	i_st.msgerror='SqlDbCode: '+string(sqldbcode)+'~r~n~r~nSINTAXIS:~r~n'+sqlsyntax+'~r~n~r~nERROR:~r~n'+sqlerrtext
+end if
+openwithparm(w_error_ds,i_st)
+return 1
+//se utiliza el return 1 para que en el dw donde se utilize no muestre el mensaje de error 
+//(con return 0 se muestra el error allá)
+end function
+

@@ -1,0 +1,32 @@
+﻿$PBExportHeader$f_titulos_dw.srf
+global type f_titulos_dw from function_object
+end type
+
+forward prototypes
+global function string f_titulos_dw (datawindow p_dw, string p_cod_vent)
+end prototypes
+
+global function string f_titulos_dw (datawindow p_dw, string p_cod_vent);string obj 
+obj=p_dw.classname()
+uo_datastore ds_cols
+ds_cols=create uo_datastore
+ds_cols.dataobject='dw_cols_dw'
+ds_cols.settransobject(sqlca)
+if ds_cols.retrieve(p_cod_vent,obj)>0 then
+	if ds_cols.getitemstring(1,'obj_visible')='0' then
+		p_dw.visible=false 
+		return ''
+	end if
+	long j
+	string modif
+	for j=1 to ds_cols.rowcount()
+		modif+=ds_cols.getitemstring(j,'cod_col')+".visible='"+ds_cols.getitemstring(j,'visible')+"' "+ds_cols.getitemstring(j,'cod_col')+"_t.text='"+ds_cols.getitemstring(j,'titulo')+"' "
+	next
+	p_dw.modify(modif)
+	return ds_cols.getitemstring(1,'obj_texto')
+else
+	return ''
+end if
+
+end function
+

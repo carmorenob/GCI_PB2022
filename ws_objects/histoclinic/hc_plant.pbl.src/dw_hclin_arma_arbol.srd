@@ -1,0 +1,60 @@
+﻿$PBExportHeader$dw_hclin_arma_arbol.srd
+release 21;
+datawindow(units=0 timer_interval=0 color=1073741824 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=72 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=char(6) update=yes updatewhereclause=yes name=codplantilla dbname="pm_instrumentos_hc.codplantilla" dbalias=".codplantilla" )
+ column=(type=long update=yes updatewhereclause=yes name=numcampo dbname="pm_instrumentos_hc.numcampo" dbalias=".numcampo" )
+ column=(type=long update=yes updatewhereclause=yes name=padre dbname="pm_instrumentos_hc.padre" dbalias=".padre" )
+ column=(type=long update=yes updatewhereclause=yes name=orden dbname="pm_instrumentos_hc.orden" dbalias=".orden" )
+ column=(type=char(255) update=yes updatewhereclause=yes name=label dbname="pm_instrumentos_hc.descampo" dbalias=".descampo" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=tipo dbname="pm_instrumentos_hc.tipo" dbalias=".tipo" )
+ column=(type=long updatewhereclause=yes name=hijos dbname="hijos" )
+ column=(type=long updatewhereclause=yes name=nivel dbname="nivel" )
+ column=(type=char(8190) updatewhereclause=yes name=estado dbname="estado" initial="1" )
+ column=(type=long updatewhereclause=yes name=visible dbname="visible" initial="1" )
+ column=(type=long updatewhereclause=yes name=fila dbname="fila" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_memo dbname="pm_instrumentos_hc.tipo_memo" dbalias=".tipo_memo" )
+ column=(type=char(1) updatewhereclause=yes name=obligatorio dbname="pm_instrumentos_hc.obligatorio" dbalias=".obligatorio" values="*	1/	0/" )
+ column=(type=char(1) updatewhereclause=yes name=sexo dbname="pm_instrumentos_hc.sexo" dbalias=".sexo" )
+ column=(type=long updatewhereclause=yes name=captura dbname="captura" )
+ column=(type=char(3) updatewhereclause=yes name=varia_salud dbname="pm_instrumentos_hc.varia_salud" dbalias=".varia_salud" )
+ column=(type=char(1) updatewhereclause=yes name=ant dbname="pm_instrumentos_hc.ant" dbalias=".ant" )
+ column=(type=char(4) updatewhereclause=yes name=cod_ant dbname="pm_instrumentos_hc.cod_ant" dbalias=".cod_ant" )
+ column=(type=char(1) updatewhereclause=yes name=alergia dbname="pm_instrumentos_hc.alergia" dbalias=".alergia" )
+ column=(type=char(4) updatewhereclause=yes key=yes name=cod_inst dbname="pm_instrumentos_hc.cod_inst" dbalias=".cod_inst" )
+ retrieve="SELECT 
+ 	hclin_plantcampo_a.codplantilla, hclin_plantcampo_a.numcampo, hclin_plantcampo_a.padre, hclin_plantcampo_a.orden,
+	 hclin_plantcampo_a.descampo, hclin_plantcampo_a.tipo, 0 AS hijos, 0 AS nivel, '1' AS estado, 
+	 1 AS visible, 0 AS fila, hclin_plantcampo_a.tipo_memo, hclin_plantcampo_a.obligatorio, hclin_plantcampo_a.sexo, 0 AS captura, 
+	 hclin_plantcampo_a.varia_salud, hclin_plantcampo_a.ant, hclin_plantcampo_a.cod_ant, TIPO_ANTECEDENTE.ALERGIA, 
+	 hclin_plantcampo_a.cod_inst
+FROM 
+	(hclin_plantcampo AS hclin_plantcampo_a 
+	LEFT JOIN TIPO_ANTECEDENTE ON hclin_plantcampo_a.COD_ANT = TIPO_ANTECEDENTE.COD_TIPOA) 
+	LEFT JOIN pm_instrumentos_hc ON hclin_plantcampo_a.cod_inst = pm_instrumentos_hc.cod_inst
+WHERE 
+	(((hclin_plantcampo_a.codplantilla)=:cplant) AND ((hclin_plantcampo_a.padre)=:padre) 
+	AND ((hclin_plantcampo_a.tipo) In ('E','M')) AND ((hclin_plantcampo_a.estado)='1') AND ((hclin_plantcampo_a.sexo) In (:ind_sexo,'0')))
+order by hclin_plantcampo_a.orden" update="pm_instrumentos_hc" updatewhere=0 updatekeyinplace=no arguments=(("cplant", string),("padre", number),("ind_sexo", string))  sort="orden A " )
+column(band=detail id=5 alignment="0" tabsequence=10 border="0" color="33554432~tif(  captura=0  and  obligatorio ='1' ,  rgb(0,0,0),if ( currentrow()=getrow() , rgb (255,255,255) , 0)) " x="192~t192 + nivel*82" y="4" height="60" width="969~t38*len(label)" format=" [general]" html.valueishtml="0"  name=label visible="1" edit.limit=255 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="536870912~tif(  captura=0  and  obligatorio ='1' ,  rgb (220,192,192),if ( currentrow()=getrow() , rgb (0,0,125) , rgb(255,255,255)))" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="0" expression="bitmap( if (hijos=0 , '',
+if ( estado='0' , 'arb_mas.bmp' , 'arb_menos.bmp')))"border="0" color="33554432" x="9~t15 + nivel*78" y="8" height="36" width="41" format="[GENERAL]" html.valueishtml="0"  name=mas visible="1~tvisible"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="0" expression="bitmap(case(  tipo
+      when 'E' then if ( estado='1' , 'hc_open.bmp', 'hc_close.bmp') 
+      when 'M' then 'hcmemo.bmp' ))
+"border="0" color="33554432" x="59~t59 + nivel*82" y="4" height="64" width="73" format="[GENERAL]" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="255" x="151~t151 + nivel*82" y="4" height="56" width="23" format="[general]" html.valueishtml="0"  name=obligatorio visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.codetable=yes  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
+export.xhtml()
+ 

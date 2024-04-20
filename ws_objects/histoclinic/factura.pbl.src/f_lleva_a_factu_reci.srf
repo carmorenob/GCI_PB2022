@@ -1,0 +1,123 @@
+﻿$PBExportHeader$f_lleva_a_factu_reci.srf
+global type f_lleva_a_factu_reci from function_object
+end type
+
+forward prototypes
+global function integer f_lleva_a_factu_reci (long p_fila, datawindow pdw_factura, datawindow pdw_factura_cpo, datawindow pdw_desde, datawindow pdw_qx_det, string p_desde, string p_descont)
+end prototypes
+
+global function integer f_lleva_a_factu_reci (long p_fila, datawindow pdw_factura, datawindow pdw_factura_cpo, datawindow pdw_desde, datawindow pdw_qx_det, string p_desde, string p_descont);long donde,k
+string tdoc,doc,emp,cont
+
+donde=pdw_factura.insertrow(0)
+if p_desde='G' then
+	tdoc=pdw_desde.getitemstring(p_fila,"tipodoc")
+	doc=pdw_desde.getitemstring(p_fila,"documento")
+else
+	tdoc=tipdoc
+	doc=docu
+end if
+pdw_factura.setitem(donde,"tipo_proc",pdw_desde.getitemstring(p_fila,"tiposervicio"))
+if pdw_desde.getitemstring(p_fila,"tiposervicio")="Q" then
+	pdw_factura.setitem(donde,"grupo",pdw_desde.getitemstring(p_fila,"grupo"))
+	pdw_factura.setitem(donde,"puntos",pdw_desde.getitemnumber(p_fila,"puntos"))
+	for k=1 to pdw_qx_det.rowcount()
+		pdw_factura_cpo.insertrow(1)
+		pdw_factura_cpo.setitem(1,"num_padre",donde)
+		pdw_factura_cpo.setitem(1,"numero",pdw_qx_det.getitemnumber(k,"nsubitem"))
+		pdw_factura_cpo.setitem(1,"tipo_proc",'2')
+		pdw_factura_cpo.setitem(1,"cproced",pdw_qx_det.getitemstring(k,"cproced"))
+		pdw_factura_cpo.setitem(1,"valor",pdw_qx_det.getitemnumber(k,"vproced"))
+		pdw_factura_cpo.setitem(1,"cantidad",1)
+		pdw_factura_cpo.setitem(1,"cod_manual",pdw_desde.getitemstring(p_fila,"man_reci"))
+		pdw_factura_cpo.setitem(1,"nombre",pdw_qx_det.getitemstring(k,"descripcion"))
+		pdw_factura_cpo.setitem(1,"mieiv",100)
+		pdw_factura_cpo.setitem(1,"miedv",100)
+		pdw_factura_cpo.setitem(1,"mdeiv",100)
+		pdw_factura_cpo.setitem(1,"mdedv",100)
+	next
+end if
+pdw_factura.setitem(donde,"cproc",pdw_desde.getitemstring(p_fila,"cprocedeq"))
+if pdw_desde.getitemstring(p_fila,"tiposervicio")="M" then 
+	pdw_factura.setitem(donde,"es_medica","1")
+	pdw_factura.setitem(donde,"cproc",pdw_desde.getitemstring(p_fila,"cproced"))
+else
+	pdw_factura.setitem(donde,"proccups",pdw_desde.getitemstring(p_fila,"cproced"))
+end if
+pdw_factura.setitem(donde,"desde",p_desde)
+pdw_factura.setitem(donde,"descripcion",pdw_desde.getitemstring(p_fila,"descripcion"))
+pdw_factura.setitem(donde,"vp_unit",pdw_desde.getitemnumber(p_fila,"vproc"))
+pdw_factura.setitem(donde,"numero",donde)
+pdw_factura.setitem(donde,"plan",pdw_desde.getitemstring(p_fila,"plan_reci"))
+pdw_factura.setitem(donde,"rips",pdw_desde.getitemstring(p_fila,"rips"))
+
+string quepaga='nada',copago,cuotamode,cuotarecu,pagopart,plan
+
+emp=pdw_desde.getitemstring(p_fila,"cemp")
+cont=pdw_desde.getitemstring(p_fila,"ccontrato")
+plan=pdw_desde.getitemstring(p_fila,"cplan")
+
+SELECT Copago,CuotaMode,CuotaRecu, PagoPart
+INTO :copago,:cuotamode,:cuotarecu,:pagopart
+FROM ContratoDet
+WHERE 
+(((ContratoDet.CEmp)=:emp) AND ((ContratoDet.CContrato)=:cont) AND 
+((ContratoDet.Cplan)=:plan) AND ((ContratoDet.CodTIngre)='1'));
+
+//fila_c=dw_contdet.find("cplan='"+pdw_desde.getitemstring(p_fila,"plan_reci")+"'",1,dw_contdet.rowcount())
+//if fila_c=0 then fila_c=1
+//pdw_factura.setitem(donde,"por_manual",dw_contdet.getitemnumber(fila_c,"pormanual")/100)
+if Copago='1' then quepaga="Copago"
+if CuotaMode='1' then quepaga="Cuota Mode."
+if CuotaRecu='1' then quepaga="Cuota Recu."
+if PagoPart='1' then quepaga="particular"
+
+pdw_factura.setitem(donde,"que_paga",quepaga)
+pdw_factura.setitem(donde,"coduf",pdw_desde.getitemstring(p_fila,"cufuncional"))
+pdw_factura.setitem(donde,"codcc",pdw_desde.getitemstring(p_fila,"cccosto"))
+pdw_factura.setitem(donde,"cod_concep",pdw_desde.getitemstring(p_fila,"codconcepto"))
+
+pdw_factura.setitem(donde,"areaadx",pdw_desde.getitemstring(p_fila,"codaadx"))
+pdw_factura.setitem(donde,"nserv_cita",pdw_desde.getitemnumber(p_fila,"nserv_turno"))
+pdw_factura.setitem(donde,"ncita",pdw_desde.getitemnumber(p_fila,"ncita"))
+pdw_factura.setitem(donde,"clug_cita",pdw_desde.getitemstring(p_fila,"clugar_cita"))
+pdw_factura.setitem(donde,"sec_cant_cita",pdw_desde.getitemnumber(p_fila,"sec_cant"))
+
+
+pdw_factura.setitem(donde,"cod_manual",pdw_desde.getitemstring(p_fila,"man_reci"))
+pdw_factura.setitem(donde,"cemp",emp)
+pdw_factura.setitem(donde,"ccontrato",cont)
+if p_descont='' then
+	select descontrato into :p_descont from contratos where codemp=:emp and codcontrato=:cont;
+end if	
+pdw_factura.setitem(donde,"tipodoc",tdoc)
+pdw_factura.setitem(donde,"docu",doc)
+pdw_factura.setitem(donde,"des_cont",p_descont)
+long contador,nserv
+string clug
+contador=pdw_desde.getitemnumber(p_fila,"contador")
+nserv=pdw_desde.getitemnumber(p_fila,"nservicio")
+clug=pdw_desde.getitemstring(p_fila,"clugar")
+if contador=0 then setnull(contador)
+if nserv=0 then setnull(nserv)
+if clug='' then setnull(clug)
+pdw_factura.setitem(donde,"contador",contador)
+pdw_factura.setitem(donde,"clugar_his",clug)
+pdw_factura.setitem(donde,"nserv",nserv)
+pdw_factura.setitem(donde,"nrcaj",pdw_desde.getitemnumber(p_fila,"nrcaj"))
+pdw_factura.setitem(donde,"clugar_rec",pdw_desde.getitemstring(p_fila,"clugar_rec"))
+pdw_factura.setitem(donde,"items",pdw_desde.getitemnumber(p_fila,"items"))
+pdw_factura.setitem(donde,"cantidad",pdw_desde.getitemnumber(p_fila,"cantidad"))
+pdw_factura.setitem(donde,"autoriza",pdw_desde.getitemstring(p_fila,"nautoriza"))
+pdw_factura.setitem(donde,"vt_proc",pdw_desde.getitemnumber(p_fila,"vproc"))
+pdw_factura.setitem(donde,"vt_emp", pdw_desde.getitemnumber(p_fila,"vemp") )
+pdw_factura.setitem(donde,"vt_pac", pdw_desde.getitemnumber(p_fila,"v_pac") )
+if pdw_desde.getitemnumber(p_fila,"v_pac")=0 then
+	pdw_factura.setitem(donde,"percent_pac",0)
+else
+	pdw_factura.setitem(donde,"percent_pac",pdw_desde.getitemnumber(p_fila,"vproc")/pdw_desde.getitemnumber(p_fila,"v_pac") )
+end if
+if pdw_desde.getitemnumber(p_fila,"nro_insumo") <>0 then  pdw_factura.setitem(donde,"nro_insumo", pdw_desde.getitemnumber(p_fila,"nro_insumo") )
+return 1
+end function
+

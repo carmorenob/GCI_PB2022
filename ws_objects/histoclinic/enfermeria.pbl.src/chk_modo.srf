@@ -1,0 +1,29 @@
+﻿$PBExportHeader$chk_modo.srf
+global type chk_modo from function_object
+end type
+
+forward prototypes
+global function integer chk_modo (double contador, string lugar, double nsolicitud, long item)
+end prototypes
+
+global function integer chk_modo (double contador, string lugar, double nsolicitud, long item);long cuenta, solicitado, suministrado, prog, cant_si
+
+select solicitada, suministrada into :solicitado, :suministrado from oscuerpo
+where contador=:contador and clugar=:lugar and nsolicitud=:nsolicitud and item=:item;
+
+select count(*) into :prog from enf_ctr_medica
+where contador=:contador and clugar=:lugar and nsolicitud=:nsolicitud and item=:item;
+
+select count(*) into :cuenta from serviciosIngreso
+where conta_orden=:contador and clug_orden=:lugar and norden_serv=:nsolicitud and item_orden=:item;
+if prog > 0 then Return 2
+if cuenta = 0 then Return 0
+
+if cuenta > 0 then // y prog = 0 (no programado)
+	select sum(cantidad) into :cant_si from serviciosIngreso
+	where conta_orden=:contador and clug_orden=:lugar and norden_serv=:nsolicitud and item_orden=:item;
+end if
+Return 0
+
+end function
+

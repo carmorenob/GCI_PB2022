@@ -1,0 +1,56 @@
+﻿$PBExportHeader$f_resultado_hc_apdx_numero.srf
+global type f_resultado_hc_apdx_numero from function_object
+end type
+
+forward prototypes
+global function double f_resultado_hc_apdx_numero (string p_cups, string p_tipdoc, string p_docu, string p_instr)
+end prototypes
+
+global function double f_resultado_hc_apdx_numero (string p_cups, string p_tipdoc, string p_docu, string p_instr);double retorna
+
+SELECT 
+	resultadosval.resultado2 into :retorna
+FROM 
+	((((resultadoscab INNER JOIN resultadoscpo 
+	ON (resultadoscab.coddoc = resultadoscpo.coddoc) 
+	AND (resultadoscab.clugar = resultadoscpo.clugar) 
+	AND (resultadoscab.nrepor = resultadoscpo.nrepor)) 
+	INNER JOIN resultadosval ON (resultadoscpo.coddoc = resultadosval.coddoc) 
+	AND (resultadoscpo.clugar = resultadosval.clugar) 
+	AND (resultadoscpo.nrepor = resultadosval.nrepor) 
+	AND (resultadoscpo.item = resultadosval.item)) 
+	INNER JOIN proced ON resultadoscpo.codproced = proced.codproced) 
+	INNER JOIN campopgc ON (resultadosval.codproced = campopgc.codproced) 
+	AND (resultadosval.consecampo = campopgc.consecampo)) 
+	INNER JOIN pm_cups_version ON proced.cod_version = pm_cups_version.cod_version
+WHERE 
+	(((proced.cod_cups)=:p_cups) AND 
+	 ((resultadoscab.nrepor)=
+		(
+			SELECT 
+				Max(rcp.nrepor) 
+			FROM 
+				((resultadoscab AS rc INNER JOIN resultadoscpo AS rcp 
+				ON (rc.nrepor = rcp.nrepor) AND (rc.clugar = rcp.clugar) 
+				AND (rc.coddoc = rcp.coddoc)) 
+				INNER JOIN proced ON rcp.codproced = proced.codproced) 
+				INNER JOIN pm_cups_version 
+				ON proced.cod_version = pm_cups_version.cod_version
+			WHERE 
+				(((rc.tipodoc)=:p_tipdoc) 
+				AND ((rc.documento)=:p_docu) 
+				AND ((proced.cod_cups)=:p_cups) 
+				AND ((rc.estado)='1') 
+				AND ((pm_cups_version.valido_hasta)>=getdate()))
+		)) 
+	 AND ((resultadoscab.tipodoc)=:p_tipdoc) 
+	 AND ((resultadoscab.documento)=:p_docu) 
+	 AND ((campopgc.cod_inst)=:p_instr)
+	 AND ((resultadoscab.estado)='1')
+	 AND ((campopgc.codgc)=resultadoscpo.codgc)
+	 AND ((pm_cups_version.valido_hasta)>=getdate())
+	);
+
+return retorna
+end function
+

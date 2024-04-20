@@ -1,0 +1,15 @@
+﻿$PBExportHeader$f_titulos_dw_gb.srf
+global type f_titulos_dw_gb from function_object
+end type
+
+forward prototypes
+global function integer f_titulos_dw_gb (datawindow p_dw, string p_cod_vent, groupbox p_gb)
+end prototypes
+
+global function integer f_titulos_dw_gb (datawindow p_dw, string p_cod_vent, groupbox p_gb);string obj,ls_temp
+obj=p_dw.classname()
+ls_temp=f_titulos_dw(p_dw,p_cod_vent)
+if ls_temp<>'' then p_gb.text=ls_temp
+return 1
+end function
+

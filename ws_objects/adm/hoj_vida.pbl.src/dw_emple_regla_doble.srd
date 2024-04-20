@@ -1,0 +1,22 @@
+﻿$PBExportHeader$dw_emple_regla_doble.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=160 color="536870912" )
+table(column=(type=char(15) update=yes updatewhereclause=yes name=documento dbname="empleados.documento" )
+ column=(type=char(3) updatewhereclause=yes name=tipodoc dbname="empleados.tipodoc" )
+ column=(type=char(20) updatewhereclause=yes name=nombre1 dbname="terceros.nombre1" )
+ column=(type=char(20) updatewhereclause=yes name=nombre2 dbname="terceros.nombre2" )
+ column=(type=char(20) updatewhereclause=yes name=apellido1 dbname="terceros.apellido1" )
+ column=(type=char(20) updatewhereclause=yes name=apellido2 dbname="terceros.apellido2" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"empleados~" )  TABLE(NAME=~"terceros~" ) COLUMN(NAME=~"empleados.documento~") COLUMN(NAME=~"empleados.tipodoc~") COLUMN(NAME=~"terceros.nombre1~") COLUMN(NAME=~"terceros.nombre2~") COLUMN(NAME=~"terceros.apellido1~") COLUMN(NAME=~"terceros.apellido2~")    JOIN (LEFT=~"empleados.tipodoc~"    OP =~"=~"RIGHT=~"terceros.tipodoc~" )    JOIN (LEFT=~"empleados.documento~"    OP =~"=~"RIGHT=~"terceros.documento~" )WHERE(    EXP1 =~"empleados.tipodoc~"   OP =~"=~"    EXP2 =~":tipodoc~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"empleados.documento~"   OP =~"=~"    EXP2 =~":documento~" ) ) ARG(NAME = ~"tipodoc~" TYPE = string)  ARG(NAME = ~"documento~" TYPE = string) " arguments=(("tipodoc", string),("documento", string)) )
+text(band=detail alignment="0" text="Documento" border="0" color="0" x="443" y="84" height="56" width="315" html.valueishtml="0"  name=documento_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Empleado" border="0" color="0" x="896" y="88" height="56" width="261" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Tipo Doc." border="0" color="0" x="14" y="84" height="56" width="283" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=10 border="5" color="0" x="18" y="12" height="56" width="379" format="[general]" html.valueishtml="0"  name=tipodoc visible="1" dddw.name=dw_tipodoc dddw.displaycolumn=destipoident dddw.datacolumn=codtipoident dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=no dddw.case=any dddw.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=20 border="5" color="0" x="425" y="12" height="56" width="439" format="[general]" html.valueishtml="0"  name=documento visible="1" edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="apellido1 + ' ' + if(isnull(apellido2),'', apellido2) + ' ' + nombre1 + ' ' +
+ if(isnull(nombre2), '', nombre2)"border="5" color="0" x="901" y="12" height="56" width="1065" format="[GENERAL]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

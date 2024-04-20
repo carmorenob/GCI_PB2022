@@ -1,0 +1,79 @@
+﻿$PBExportHeader$dr_evol_orde_org.srd
+release 11.5;
+datawindow(units=2 timer_interval=0 color=1073741824 processing=7 print.printername ="" print.documentname="" print.orientation = 0 print.margin.left = 250 print.margin.right = 250 print.margin.top = 250 print.margin.bottom = 250 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes richtext.headerfooter=yes richtext.wordwrap=no richtext.popmenu=yes richtext.pictureframe=no richtext.inputfieldnamesvisible=no richtext.inputfieldsvisible=yes richtext.tabsvisible=no richtext.returnsvisible=no richtext.spacesvisible=no richtext.inputfieldbackcolor=1073741824 richtext.backcolor=1073741824 richtext.tabbar=no richtext.rulerbar=no richtext.toolbar=no richtext.displayonly=no )
+detail(text="{\rtf1\ansi\ansicpg1252\uc1\deff0{\fonttbl
+{\f0\fswiss\fcharset0\fprq2 Arial;}
+{\f1\fswiss\fcharset0\fprq2 Tahoma;}
+{\f2\froman\fcharset2\fprq2 Symbol;}}
+{\colortbl;\red0\green0\blue0;\red255\green255\blue255;}
+{\stylesheet{\s0\itap0\nowidctlpar\f0\fs24 [Normal];}{\*\cs10\additive Default Paragraph Font;}}
+{\*\generator TX_RTF32 13.0.501.501;}
+\deftab1134\paperw12240\paperh15840\margl0\margt0\margr0\margb0\widowctrl
+{\*\background{\shp{\*\shpinst\shpleft0\shptop0\shpright0\shpbottom0\shpfhdr0\shpbxmargin\shpbxignore\shpbymargin\shpbyignore\shpwr0\shpwrk0\shpfblwtxt1\shplid1025{\sp{\sn shapeType}{\sv 1}}{\sp{\sn fFlipH}{\sv 0}}{\sp{\sn fFlipV}{\sv 0}}{\sp{\sn fillColor}{\sv 16777215}}{\sp{\sn fFilled}{\sv 1}}{\sp{\sn lineWidth}{\sv 0}}{\sp{\sn fLine}{\sv 0}}{\sp{\sn fBackground}{\sv 1}}{\sp{\sn fLayoutInCell}{\sv 1}}}}}\pard\itap0\nowidctlpar\plain\f1\fs20\b{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b00480043004c0049004e005f005200450047005f00560041004c004f0052005f00440045005300430041004d0050004f007d000000}{\*\txfieldtext \{HCLIN_REG_VALOR_DESCAMPO\}}{\field\fldlock{\*\fldinst { MERGEFIELD \{HCLIN_REG_VALOR_DESCAMPO\}}}{\fldrslt{\{HCLIN_REG_VALOR_DESCAMPO\}}}}}\plain\f1\fs20 :\plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b00480043004c0049004e005f005200450047005f00560041004c004f0052005f0054004500580054004f007d000000}{\*\txfieldtext \{HCLIN_REG_VALOR_TEXTO\}}{\field\fldlock{\*\fldinst { MERGEFIELD \{HCLIN_REG_VALOR_TEXTO\}}}{\fldrslt{\{HCLIN_REG_VALOR_TEXTO\}}}}}\plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b00480043004c0049004e005f005200450047005f00560041004c004f0052005f00530049004e004f007d000000}{\*\txfieldtext \{HCLIN_REG_VALOR_SINO\}}{\field\fldlock{\*\fldinst { MERGEFIELD \{HCLIN_REG_VALOR_SINO\}}}{\fldrslt{\{HCLIN_REG_VALOR_SINO\}}}}}\plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b00480043004c0049004e005f005200450047005f00560041004c004f0052005f004e0055004d00450052004f007d000000}{\*\txfieldtext \{HCLIN_REG_VALOR_NUMERO\}}{\field\fldlock{\*\fldinst { MERGEFIELD \{HCLIN_REG_VALOR_NUMERO\}}}{\fldrslt{\{HCLIN_REG_VALOR_NUMERO\}}}}}\plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b00480043004c0049004e005f005200450047005f00560041004c004f0052005f004c004f004e0047005f0054004500580054004f007d000000}{\*\txfieldtext \{HCLIN_REG_VALOR_LONG_TEXTO\}}{\field\fldlock{\*\fldinst { MERGEFIELD \{HCLIN_REG_VALOR_LONG_TEXTO\}}}{\fldrslt{\{HCLIN_REG_VALOR_LONG_TEXTO\}}}}}\plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b00480043004c0049004e005f005200450047005f00560041004c004f0052005f00460045004300480041007d000000}{\*\txfieldtext \{HCLIN_REG_VALOR_FECHA\}}{\field\fldlock{\*\fldinst { MERGEFIELD \{HCLIN_REG_VALOR_FECHA\}}}{\fldrslt{\{HCLIN_REG_VALOR_FECHA\}}}}}\plain\f1\fs20\par\pard\itap0\nowidctlpar}")
+header(text="{\rtf1\ansi\ansicpg1252\uc1\deff0{\fonttbl
+{\f0\fswiss\fcharset0\fprq2 Arial;}
+{\f1\fswiss\fcharset0\fprq2 Tahoma;}
+{\f2\froman\fcharset2\fprq2 Symbol;}}
+{\colortbl;\red0\green0\blue0;\red255\green255\blue255;}
+{\stylesheet{\s0\itap0\nowidctlpar\f0\fs24 [Normal];}{\*\cs10\additive Default Paragraph Font;}}
+{\*\generator TX_RTF32 13.0.501.501;}
+\deftab1134\paperw12240\paperh15840\margl0\margt0\margr0\margb0\widowctrl
+{\*\background{\shp{\*\shpinst\shpleft0\shptop0\shpright0\shpbottom0\shpfhdr0\shpbxmargin\shpbxignore\shpbymargin\shpbyignore\shpwr0\shpwrk0\shpfblwtxt1\shplid1025{\sp{\sn shapeType}{\sv 1}}{\sp{\sn fFlipH}{\sv 0}}{\sp{\sn fFlipV}{\sv 0}}{\sp{\sn fillColor}{\sv 16777215}}{\sp{\sn fFilled}{\sv 1}}{\sp{\sn lineWidth}{\sv 0}}{\sp{\sn fLine}{\sv 0}}{\sp{\sn fBackground}{\sv 1}}{\sp{\sn fLayoutInCell}{\sv 1}}}}}\pard\itap0\nowidctlpar\plain\f1\fs20}")
+footer(text="{\rtf1\ansi\ansicpg1252\uc1\deff0{\fonttbl
+{\f0\fswiss\fcharset0\fprq2 Arial;}
+{\f1\fswiss\fcharset0\fprq2 Tahoma;}
+{\f2\froman\fcharset2\fprq2 Symbol;}}
+{\colortbl;\red0\green0\blue0;\red255\green255\blue255;}
+{\stylesheet{\s0\itap0\nowidctlpar\f0\fs24 [Normal];}{\*\cs10\additive Default Paragraph Font;}}
+{\*\generator TX_RTF32 13.0.501.501;}
+\deftab1134\paperw12240\paperh15840\margl0\margt0\margr0\margb0\widowctrl
+{\*\background{\shp{\*\shpinst\shpleft0\shptop0\shpright0\shpbottom0\shpfhdr0\shpbxmargin\shpbxignore\shpbymargin\shpbyignore\shpwr0\shpwrk0\shpfblwtxt1\shplid1025{\sp{\sn shapeType}{\sv 1}}{\sp{\sn fFlipH}{\sv 0}}{\sp{\sn fFlipV}{\sv 0}}{\sp{\sn fillColor}{\sv 16777215}}{\sp{\sn fFilled}{\sv 1}}{\sp{\sn lineWidth}{\sv 0}}{\sp{\sn fLine}{\sv 0}}{\sp{\sn fBackground}{\sv 1}}{\sp{\sn fLayoutInCell}{\sv 1}}}}}\pard\itap0\nowidctlpar\plain\f1\fs20}")table(column=(type=datetime updatewhereclause=yes name=hclin_registro_fecha dbname="hclin_registro.fecha" )
+ column=(type=char(85) updatewhereclause=yes name=profe_desprof dbname="desprof" )
+ column=(type=char(100) updatewhereclause=yes name=hclin_registro_desplantilla dbname="hclin_registro.desplantilla" )
+ column=(type=long updatewhereclause=yes name=hclin_registro_nregistro dbname="hclin_registro.nregistro" )
+ column=(type=long updatewhereclause=yes name=hclin_reg_valor_orden dbname="hclin_reg_valor.orden" )
+ column=(type=char(255) updatewhereclause=yes name=hclin_reg_valor_descampo dbname="hclin_reg_valor.descampo" )
+ column=(type=char(1) updatewhereclause=yes name=hclin_reg_valor_tipo dbname="hclin_reg_valor.tipo" )
+ column=(type=char(1) updatewhereclause=yes name=hclin_reg_valor_tipo_memo dbname="hclin_reg_valor.tipo_memo" )
+ column=(type=char(255) updatewhereclause=yes name=hclin_reg_valor_texto dbname="hclin_reg_valor.texto" )
+ column=(type=char(1) updatewhereclause=yes name=hclin_reg_valor_sino dbname="hclin_reg_valor.sino" )
+ column=(type=decimal(2) updatewhereclause=yes name=hclin_reg_valor_numero dbname="hclin_reg_valor.numero" )
+ column=(type=char(32766) updatewhereclause=no name=hclin_reg_valor_long_texto dbname="hclin_reg_valor.long_texto" )
+ column=(type=datetime updatewhereclause=yes name=hclin_reg_valor_fecha dbname="hclin_reg_valor.fecha" )
+ column=(type=long updatewhereclause=yes name=hclin_reg_valor_item dbname="hclin_reg_valor.item" )
+ column=(type=datetime updatewhereclause=yes name=hclin_registro_fecha_reg dbname="hclin_registro.fecha_reg" )
+ retrieve="  SELECT  
+	hclin_registro.fecha ,            profe.nombre1+ case when profe.nombre2  is null then ' ' else  '  '+profe.nombre2 end +' '+ 
+ profe.apellido1+ case when profe.apellido2 is null then ' ' else  '  '+profe.apellido2 end as desprof,           hclin_registro.desplantilla ,           hclin_registro.nregistro ,           
+	hclin_reg_valor.orden ,           hclin_reg_valor.descampo ,           hclin_reg_valor.tipo ,           
+	hclin_reg_valor.tipo_memo ,           hclin_reg_valor.texto ,           hclin_reg_valor.sino ,           
+	hclin_reg_valor.numero ,           hclin_reg_valor.long_texto ,           hclin_reg_valor.fecha ,           
+	hclin_reg_valor.item ,           hclin_registro.fecha_reg     
+FROM 
+	(hclin_registro INNER JOIN hclin_reg_valor ON (hclin_registro.nregistro = hclin_reg_valor.nregistro) AND 
+	(hclin_registro.clugar = hclin_reg_valor.clugar) AND (hclin_registro.contador = hclin_reg_valor.CONTADOR)) INNER JOIN 
+	profe ON hclin_registro.codprof = profe.CodProf
+WHERE ( hclin_registro.contador = hclin_reg_valor.contador ) and          ( hclin_registro.clugar = hclin_reg_valor.clugar ) and          
+	( hclin_registro.nregistro = hclin_reg_valor.nregistro ) and          ( hclin_registro.codprof = profe.codprof ) and          
+((hclin_registro.contador = :contador And          ( hclin_registro.clugar = :clug ) And          ( hclin_registro.tipo = :tipo) ) or          
+	(hclin_registro.tipo = 'R' And          ( hclin_registro.tipo = 'H' ) And          ( hclin_registro.ingreso = 'I' ) And          ( hclin_reg_valor.tipo = 'M' ) And          
+( hclin_reg_valor.tipo_memo = 'C' ) And          ( hclin_registro.contador = :contador ) And          ( hclin_registro.clugar = :clug)) )
+" arguments=(("contador", number),("clug", string),("tipo", string))  sort="hclin_registro_nregistro D hclin_reg_valor_orden A " )
+column(name=hclin_registro_fecha id=1 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[shortdate] [time]" )
+column(name=profe_desprof id=2 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=hclin_registro_desplantilla id=3 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=hclin_registro_nregistro id=4 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=hclin_reg_valor_orden id=5 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=hclin_reg_valor_descampo id=6 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=hclin_reg_valor_tipo id=7 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=hclin_reg_valor_tipo_memo id=8 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=hclin_reg_valor_texto id=9 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=hclin_reg_valor_sino id=10 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=hclin_reg_valor_numero id=11 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=hclin_reg_valor_long_texto id=12 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=hclin_reg_valor_fecha id=13 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[shortdate] [time]" )
+column(name=hclin_reg_valor_item id=14 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=hclin_registro_fecha_reg id=15 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()

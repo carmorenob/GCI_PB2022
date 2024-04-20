@@ -1,0 +1,32 @@
+﻿$PBExportHeader$f_rtf_a_txt.srf
+global type f_rtf_a_txt from function_object
+end type
+
+forward prototypes
+global function string f_rtf_a_txt (string pe_rtf)
+end prototypes
+
+global function string f_rtf_a_txt (string pe_rtf);//Lipia cadenas de RFT dejando texto a partir de datawinow con data
+
+string salida
+int l_c,l_la,l_ta
+uo_datastore dw
+
+dw=create uo_datastore
+dw.dataobject='dw_rtf_txt'
+dw.settransobject(sqlca)
+
+If (isnull(pe_rtf) or pe_rtf= "" ) then return "-1"
+dw.retrieve()
+salida=pe_rtf
+for l_c=1 to dw.rowcount()
+	l_ta=len(salida) 
+	salida=f_remplaza(salida,dw.getitemstring(l_c,'cadena'), dw.getitemstring(l_c,'cambio'))
+	if len(pe_rtf)<>len(salida) and l_ta<>len(salida) then
+		l_c=l_c
+	end if
+next
+salida=mid(salida,1,len(salida)-1)
+return salida
+end function
+

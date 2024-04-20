@@ -1,0 +1,9 @@
+﻿$PBExportHeader$trae_ord.srs
+global type trae_ord from structure
+	long		contador
+	string		lugar
+	integer		solicitud
+	integer		item
+	string		profe
+end type
+

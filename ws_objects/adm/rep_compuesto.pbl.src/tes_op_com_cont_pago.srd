@@ -1,0 +1,58 @@
+﻿$PBExportHeader$tes_op_com_cont_pago.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+header(height=68 color="536870912" )
+summary(height=72 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(50) updatewhereclause=yes name=cod_total dbname="cod_total" )
+ column=(type=decimal(2) updatewhereclause=yes name=tneto dbname="tneto" )
+ column=(type=char(1) updatewhereclause=yes name=naturaleza dbname="naturaleza" )
+ column=(type=long updatewhereclause=yes name=tipo dbname="Tipo" )
+ retrieve="SELECT 
+	TesoRelFact_concep.cod_total, TesoRelFactCpo.tneto, 
+	CONT_PLAN.naturaleza, 1 as Tipo 
+FROM 
+(CONT_PLAN INNER JOIN TesoRelFact_concep ON 
+(CONT_PLAN.CodTotal = TesoRelFact_concep.cod_total) AND 
+(CONT_PLAN.COD_EMPRESA = TesoRelFact_concep.cod_empresa)) INNER JOIN 
+(TesoRelFactCpo INNER JOIN tesotranscpo ON (TesoRelFactCpo.item = tesotranscpo.item_rel) AND 
+(TesoRelFactCpo.nrelacion = tesotranscpo.nrelacion) AND 
+(TesoRelFactCpo.CodDoc = tesotranscpo.CodDoc_rel) AND 
+(TesoRelFactCpo.CLugar = tesotranscpo.clugar_rel)) ON 
+TesoRelFact_concep.cod_rel = TesoRelFactCpo.cod_rel
+WHERE (((tesotranscpo.CLugar)=:clug) AND ((tesotranscpo.CodDoc)=:cdoc) AND 
+((tesotranscpo.ntransferencia)=:npago))
+
+union all
+SELECT 
+	tesocuentasban.CodTotal, tesocuentasmovi.valor, 
+	CONT_PLAN.naturaleza,2 as tipo
+FROM (tesocuentasban INNER JOIN (tesotranscab INNER JOIN tesocuentasmovi ON 
+(tesotranscab.ntransferencia = tesocuentasmovi.ntransferencia) AND 
+(tesotranscab.CodDoc = tesocuentasmovi.coddoc_trans) AND 
+(tesotranscab.CLugar = tesocuentasmovi.clugar_trans)) ON 
+(tesocuentasban.numcuenta = tesocuentasmovi.numcuenta) AND 
+(tesocuentasban.tipo_cuenta = tesocuentasmovi.tipo_cuenta) AND 
+(tesocuentasban.CodBanco = tesocuentasmovi.CodBanco)) LEFT JOIN CONT_PLAN ON 
+(tesocuentasban.CodTotal = CONT_PLAN.CodTotal) AND 
+(tesocuentasban.COD_EMPRESA = CONT_PLAN.COD_EMPRESA)
+WHERE (((tesotranscab.CLugar)=:clug) AND ((tesotranscab.CodDoc)=:cdoc) AND 
+((tesotranscab.ntransferencia)=:npago))
+
+" arguments=(("clug", string),("cdoc", string),("npago", number)) )
+text(band=header alignment="2" text="Cuenta" border="6" color="33554432" x="5" y="8" height="52" width="357" html.valueishtml="0"  name=cod_total_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="DEBITO" border="6" color="33554432" x="384" y="8" height="52" width="407" html.valueishtml="0"  name=t_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="CREDITO" border="6" color="33554432" x="809" y="8" height="52" width="411" html.valueishtml="0"  name=t_2 visible="1"  font.face="Tahoma" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="5" y="8" height="56" width="357" format="[general]" html.valueishtml="0"  name=cod_total visible="1" edit.limit=255 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression=" IF (  tipo =1 ,tneto,0) "border="0" color="33554432" x="384" y="8" height="52" width="407" format="#,##0.00" html.valueishtml="0"  name=v_cred visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression=" IF ( tipo=2,tneto,0) "border="0" color="33554432" x="809" y="8" height="52" width="411" format="#,##0.00" html.valueishtml="0"  name=v_deb visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=summary alignment="0" text="Totales" border="0" color="33554432" x="5" y="8" height="52" width="357" html.valueishtml="0"  name=t_3 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(v_cred)"border="0" color="33554432" x="384" y="8" height="52" width="407" format="#,##0.00" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Tahoma" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(v_deb)"border="0" color="33554432" x="809" y="8" height="52" width="411" format="#,##0.00" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+ 

@@ -1,0 +1,80 @@
+﻿$PBExportHeader$f_valida_usuario.srf
+global type f_valida_usuario from function_object
+end type
+
+forward prototypes
+global function integer f_valida_usuario (string l_usuario, string password)
+end prototypes
+
+global function integer f_valida_usuario (string l_usuario, string password);int l_largo_clave
+string retorno, l_mayus_min,l_pass_alfa
+
+////Valida minimo de caracteres
+SELECT ENTERO into :l_largo_clave
+FROM parametros_gen
+WHERE (((codigo_para)=8));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 8')
+	return -1
+end if
+
+if isnull(l_largo_clave) then l_largo_clave=4
+
+if len(password)<l_largo_clave then
+		Messagebox('Atención','La longitud minima de la contraseña es de :'+string(l_largo_clave))
+		return -1
+	end if
+	
+///Password alfanumerico 
+SELECT cadena into :l_pass_alfa
+FROM parametros_gen
+WHERE (((codigo_para)=4));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 4')
+	return -1
+end if
+boolean  lb_mayus,lb_minus, lb_alfanumerico
+int l_j
+
+if isnull(l_pass_alfa) then l_pass_alfa='0'
+	
+for l_j=1 to len(password)
+	IF Asc(mid(password,l_j,1)) > 64 and Asc(mid(password,l_j,1)) < 91 THEN lb_mayus=true
+next
+for l_j=1 to len(password)
+	IF Asc(mid(password,l_j,1)) > 96 and Asc(mid(password,l_j,1)) < 123 THEN lb_minus=true
+next
+	
+if l_pass_alfa='1' then
+	for l_j=0 to 9
+		if pos(password,string(l_j))>0 then lb_alfanumerico=true
+	next
+	if not lb_alfanumerico then 
+		Messagebox('Atención','La contraseña debe contener caracteres numéricos')
+		return -1
+	end if
+	if (not lb_mayus) and (not lb_minus) then
+			Messagebox('Atención','La contraseña no puede ser solo numerica')
+			return -1
+		end if 
+	end if
+	
+
+SELECT cadena into :l_mayus_min
+FROM parametros_gen
+WHERE (((codigo_para)=5));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 5')
+	return -1
+end if
+
+if isnull(l_mayus_min) then l_mayus_min='0'
+if l_mayus_min='1' then
+	if (not lb_mayus) or (not lb_minus) then
+		Messagebox('Atención','La contraseña debe contener caracteres en mayusculas y minusculas')
+		return -1
+	end if
+end if
+return 0
+end function
+

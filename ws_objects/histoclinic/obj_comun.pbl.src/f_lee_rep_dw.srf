@@ -1,0 +1,36 @@
+﻿$PBExportHeader$f_lee_rep_dw.srf
+global type f_lee_rep_dw from function_object
+end type
+
+forward prototypes
+global function integer f_lee_rep_dw (string cod_doc, string c_lugar, string descrip_doc, datawindow dw)
+end prototypes
+
+global function integer f_lee_rep_dw (string cod_doc, string c_lugar, string descrip_doc, datawindow dw);blob reporte
+string carreta,err
+long donde
+sqlca.autocommit=true
+SELECTblob reporte into :reporte FROM Documentos WHERE Documentos.CodDoc=:cod_doc and clugar=:c_lugar; 
+err=sqlca.sqlerrtext
+sqlca.autocommit=false
+if sqlca.sqlcode=-1 then
+	messagebox("Error leyendo la tabla documentos Documentos",err)
+	return -1
+end if
+if sqlca.sqlnrows=0  then
+	messagebox("Error","El documento: "+descrip_doc+" ("+cod_doc+") no existe en la tabla documentos")
+	return -1
+end if
+if isnull(reporte) or string(reporte)='' then
+	messagebox("Error","El documento: "+descrip_doc+" ("+cod_doc+") no es válido")
+	return -1
+end if
+carreta=string(reporte)
+donde=pos(carreta,"release ",1)
+carreta=right(carreta, len(carreta) - donde +1)
+if dw.create(carreta)=-1 then return -1 //si hay error ella misma muestra el error
+dw.settransobject(sqlca)
+
+return 1
+end function
+

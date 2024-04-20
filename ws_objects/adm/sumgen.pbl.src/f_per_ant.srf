@@ -1,0 +1,29 @@
+﻿$PBExportHeader$f_per_ant.srf
+global type f_per_ant from function_object
+end type
+
+forward prototypes
+global function st_anomes f_per_ant (string codalmacen, long ano, long mes)
+end prototypes
+
+global function st_anomes f_per_ant (string codalmacen, long ano, long mes);long periodo, f
+uo_datastore dw_p
+st_anomes st_p
+dw_p = Create uo_datastore
+dw_p.DataObject = 'dw_sum_periodo_all'
+dw_p.SetTransObject(SQLCA)
+
+dw_p.Retrieve(codalmacen)
+f = dw_p.Find("ano="+string(ano)+" and mes="+string(mes),1,dw_p.RowCount())
+if f > 1 then
+	st_p.ano = dw_p.GetItemNumber(f - 1,'ano')
+	st_p.mes = dw_p.GetItemNumber(f - 1,'mes')
+else
+	st_p.ano = 0
+	st_p.mes = 0
+end if
+
+Return st_p
+
+end function
+

@@ -1,0 +1,11 @@
+﻿$PBExportHeader$f_abrir_rep_gral.srf
+global type f_abrir_rep_gral from function_object
+end type
+
+forward prototypes
+global subroutine f_abrir_rep_gral (uo_report p_rep)
+end prototypes
+
+global subroutine f_abrir_rep_gral (uo_report p_rep);opensheetwithparm(w_reporte_gral,p_rep,w_principal,7)
+end subroutine
+

@@ -1,0 +1,8 @@
+﻿$PBExportHeader$st_placa.srs
+global type st_placa from structure
+	string		busqueda
+	string		filtro
+	datawindow		dw_obj
+	singlelineedit		sle_obj
+end type
+

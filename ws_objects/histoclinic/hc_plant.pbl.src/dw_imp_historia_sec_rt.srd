@@ -1,0 +1,128 @@
+﻿$PBExportHeader$dw_imp_historia_sec_rt.srd
+release 22;
+datawindow(units=2 timer_interval=0 color=1073741824 processing=7 print.printername ="" print.documentname="" print.orientation = 0 print.margin.left = 250 print.margin.right = 250 print.margin.top = 250 print.margin.bottom = 250 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes richtext.headerfooter=yes richtext.wordwrap=no richtext.popmenu=yes richtext.pictureframe=no richtext.inputfieldnamesvisible=no richtext.inputfieldsvisible=yes richtext.tabsvisible=no richtext.returnsvisible=no richtext.spacesvisible=no richtext.inputfieldbackcolor=1073741824 richtext.backcolor=1073741824 richtext.tabbar=no richtext.rulerbar=no richtext.toolbar=no richtext.displayonly=no )
+detail(text="{\rtf1\ansi\ansicpg1252\uc1\deff0\adeff0\deflang0\deflangfe0\adeflang0{\fonttbl
+{\f0\fswiss\fcharset0\fprq2{\*\panose 020B0604020202020204}Arial;}
+{\f1\fswiss\fcharset0\fprq2{\*\panose 020B0604030504040204}Tahoma;}
+{\f2\froman\fcharset2\fprq2{\*\panose 05050102010706020507}Symbol;}}
+{\colortbl;\red0\green0\blue0;}
+{\stylesheet{\s0\ltrpar\itap0\nowidctlpar\ql\li0\ri0\lin0\rin0\cbpat0\rtlch\af0\afs24\ltrch\f0\fs24\lang3082\langnp3082\langfe3082\langfenp3082 Normal;}{\*\cs10\additive Default Paragraph Font;}}
+{\info
+{\*\txInfo{\txVer 30.0.810.500}}}
+\paperw12240\paperh15840\margl0\margt0\margr0\margb0\deftab1134\widowctrl\trackmoves0\trackformatting1\lytexcttp\formshade\sectd
+\headery567\footery567\pgwsxn12240\pghsxn15840\marglsxn0\margtsxn0\margrsxn0\margbsxn0\pgbrdropt32\pard\ltrpar\itap0\nowidctlpar\ql\li0\ri0\lin0\rin0\plain\rtlch\af1\afs18\alang3082\ltrch\f1\fs18\lang3082\langnp3082\langfe3082\langfenp3082{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b005400410042007d000000}{\*\txfieldtext \{TAB\}{\*\txfieldend}}\{TAB\}}\plain\rtlch\af1\afs18\alang3082\ab\acf1\ltrch\f1\fs18\lang3082\langnp3082\langfe3082\langfenp3082\b\cf1{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b00440045005300430041004d0050004f007d000000}{\*\txfieldtext \{DESCAMPO\}{\*\txfieldend}}\{DESCAMPO\}}\plain\rtlch\af1\afs18\alang3082\ltrch\f1\fs18\lang3082\langnp3082\langfe3082\langfenp3082   \plain\rtlch\af1\afs18\alang3082\ltrch\f1\fs18\lang3082\langnp3082\langfe3082\langfenp3082{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b0054005800540031007d000000}{\*\txfieldtext \{TXT1\}{\*\txfieldend}}\{TXT1\}}\plain\rtlch\af1\afs20\alang3082\ltrch\f1\fs20\lang3082\langnp3082\langfe3082\langfenp3082{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b004e004e007d000000}{\*\txfieldtext \{NN\}{\*\txfieldend}}\{NN\}}\plain\rtlch\af1\afs20\alang3082\ltrch\f1\fs20\lang3082\langnp3082\langfe3082\langfenp3082{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b0046004500430058007d000000}{\*\txfieldtext \{FECX\}{\*\txfieldend}}\{FECX\}}\plain\rtlch\af1\afs20\alang3082\ltrch\f1\fs20\lang3082\langnp3082\langfe3082\langfenp3082{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b0053004e007d000000}{\*\txfieldtext \{SN\}{\*\txfieldend}}\{SN\}}\plain\rtlch\af1\afs18\alang3082\ltrch\f1\fs18\lang3082\langnp3082\langfe3082\langfenp3082  \plain\rtlch\af1\afs20\alang3082\ltrch\f1\fs20\lang3082\langnp3082\langfe3082\langfenp3082{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b005200540058007d000000}{\*\txfieldtext \{RTX\}{\*\txfieldend}}\{RTX\}}\plain\rtlch\af1\afs20\alang3082\ltrch\f1\fs20\lang3082\langnp3082\langfe3082\langfenp3082{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b00460049004e007d000000}{\*\txfieldtext \{FIN\}{\*\txfieldend}}\{FIN\}}\plain\rtlch\af1\afs20\alang3082\ltrch\f1\fs20\lang3082\langnp3082\langfe3082\langfenp3082 }")
+header(text="{\rtf1\ansi\ansicpg1252\uc1\deff0\adeff0\deflang0\deflangfe0\adeflang0{\fonttbl
+{\f0\fswiss\fcharset0\fprq2{\*\panose 020B0604020202020204}Arial;}
+{\f1\fswiss\fcharset0\fprq2{\*\panose 020B0604030504040204}Tahoma;}
+{\f2\froman\fcharset2\fprq2{\*\panose 05050102010706020507}Symbol;}}
+{\colortbl;\red0\green0\blue0;}
+{\stylesheet{\s0\ltrpar\itap0\nowidctlpar\ql\li0\ri0\lin0\rin0\cbpat0\rtlch\af0\afs24\ltrch\f0\fs24\lang3082\langnp3082\langfe3082\langfenp3082 Normal;}{\*\cs10\additive Default Paragraph Font;}}
+{\info
+{\*\txInfo{\txVer 30.0.810.500}}}
+\paperw12240\paperh15840\margl0\margt0\margr0\margb0\deftab1134\widowctrl\trackmoves0\trackformatting1\lytexcttp\formshade\sectd
+\headery567\footery567\pgwsxn12240\pghsxn15840\marglsxn0\margtsxn0\margrsxn0\margbsxn0\pgbrdropt32\pard\ltrpar\itap0\nowidctlpar\ql\li0\ri0\lin0\rin0\plain\rtlch\af1\afs20\alang3082\ltrch\f1\fs20\lang3082\langnp3082\langfe3082\langfenp3082 }")
+footer(text="{\rtf1\ansi\ansicpg1252\uc1\deff0\adeff0\deflang0\deflangfe0\adeflang0{\fonttbl
+{\f0\fswiss\fcharset0\fprq2{\*\panose 020B0604020202020204}Arial;}
+{\f1\fswiss\fcharset0\fprq2{\*\panose 020B0604030504040204}Tahoma;}
+{\f2\froman\fcharset2\fprq2{\*\panose 05050102010706020507}Symbol;}}
+{\colortbl;\red0\green0\blue0;}
+{\stylesheet{\s0\ltrpar\itap0\nowidctlpar\ql\li0\ri0\lin0\rin0\cbpat0\rtlch\af0\afs24\ltrch\f0\fs24\lang3082\langnp3082\langfe3082\langfenp3082 Normal;}{\*\cs10\additive Default Paragraph Font;}}
+{\info
+{\*\txInfo{\txVer 30.0.810.500}}}
+\paperw12240\paperh15840\margl0\margt0\margr0\margb0\deftab1134\widowctrl\trackmoves0\trackformatting1\lytexcttp\formshade\sectd
+\headery567\footery567\pgwsxn12240\pghsxn15840\marglsxn0\margtsxn0\margrsxn0\margbsxn0\pgbrdropt32\pard\ltrpar\itap0\nowidctlpar\ql\li0\ri0\lin0\rin0\plain\rtlch\af1\afs20\alang3082\ltrch\f1\fs20\lang3082\langnp3082\langfe3082\langfenp3082 }")table(column=(type=long updatewhereclause=yes name=nregistro dbname="HISTORIAL.nregistro" )
+ column=(type=long updatewhereclause=yes name=item dbname="HISTORIAL.item" )
+ column=(type=char(100) updatewhereclause=yes name=desplantilla dbname="HISTORIAL.desplantilla" )
+ column=(type=char(1) updatewhereclause=yes name=otipo dbname="HISTORIAL.otipo" )
+ column=(type=char(1) updatewhereclause=yes name=codtingre dbname="HISTORIAL.codtingre" )
+ column=(type=char(1) updatewhereclause=yes name=ingreso dbname="HISTORIAL.ingreso" )
+ column=(type=datetime updatewhereclause=yes name=fecha_reg dbname="HISTORIAL.fecha_reg" )
+ column=(type=long updatewhereclause=yes name=orden dbname="HISTORIAL.orden" )
+ column=(type=char(255) updatewhereclause=yes name=descampo dbname="HISTORIAL.descampo" )
+ column=(type=char(1) updatewhereclause=no name=tipo dbname="tipo" )
+ column=(type=char(4000) updatewhereclause=no name=textos dbname="textos" )
+ column=(type=char(2) updatewhereclause=no name=sinob dbname="sinob" )
+ column=(type=decimal(2) updatewhereclause=yes name=numero dbname="HISTORIAL.numero" )
+ column=(type=datetime updatewhereclause=yes name=fecha dbname="HISTORIAL.fecha" )
+ column=(type=char(85) updatewhereclause=no name=desprof dbname="desprof" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_memo dbname="HISTORIAL.tipo_memo" )
+ column=(type=char(100) updatewhereclause=yes name=desesp dbname="HISTORIAL.DesEsp" )
+ column=(type=char(15) updatewhereclause=yes name=registro dbname="HISTORIAL.registro" )
+ column=(type=char(15) updatewhereclause=yes name=medida dbname="HISTORIAL.medida" )
+ column=(type=long updatewhereclause=yes name=padre dbname="HISTORIAL.padre" )
+ column=(type=char(32766) updatewhereclause=no name=long_texto dbname="HISTORIAL.long_texto" )
+ retrieve="SELECT 
+	hclin_reg_valor.nregistro, hclin_reg_valor.item, hclin_registro.desplantilla, hclin_registro.tipo as otipo, HISTORIAL.INDAPDX as codtingre, hclin_registro.ingreso, 
+	hclin_registro.fecha AS fecha_reg, hclin_reg_valor.orden, hclin_reg_valor.descampo, 
+	CASE WHEN hclin_reg_valor.tipo ='S' THEN 'T' else hclin_reg_valor.tipo end  as tipo, 
+	CASE WHEN hclin_reg_valor.tipo ='S' THEN  CASE WHEN hclin_reg_valor.texto is not null THEN 'SI' else 'NO' end else hclin_reg_valor.texto end textos, 
+	CASE WHEN hclin_reg_valor.sino is not null then case when hclin_reg_valor.sino='1' then 'SI' else 'NO' end else hclin_reg_valor.sino end as sinob, 
+	hclin_reg_valor.numero, hclin_reg_valor.fecha, 
+	profe.nombre1+case when profe.nombre2  is null then ' ' else  '  '+profe.nombre2 end+' '+
+	profe.apellido1+ case when profe.apellido2 is null then ' ' else  '  '+profe.apellido2 end as desprof, 
+	hclin_reg_valor.tipo_memo, Especialidades.DesEsp, Profe.registro, hclin_plantcampo.medida,hclin_reg_valor.padre,
+	hclin_reg_valor.long_texto
+FROM 
+	((((hclin_registro INNER JOIN Profe ON hclin_registro.CodProf = Profe.CodProf) 
+	INNER JOIN Especialidades ON hclin_registro.CEsp = Especialidades.CodEsp) 
+	INNER JOIN hclin_reg_valor ON (hclin_registro.Contador = hclin_reg_valor.Contador) AND (hclin_registro.clugar = hclin_reg_valor.clugar) 
+	AND (hclin_registro.nregistro = hclin_reg_valor.nregistro)) 
+	LEFT JOIN hclin_plantcampo ON (hclin_plantcampo.padre = hclin_reg_valor.padre) AND (hclin_plantcampo.numcampo = hclin_reg_valor.item) 
+	AND (hclin_registro.codplantilla = hclin_plantcampo.codplantilla)) 
+	INNER JOIN HISTORIAL ON (hclin_registro.CLUGAR = HISTORIAL.CLUGAR) AND (hclin_registro.CONTADOR = HISTORIAL.CONTADOR)
+WHERE 
+	(((hclin_registro.Contador)=250516) AND ((hclin_reg_valor.clugar)='03') AND ((hclin_registro.codplantilla)='QX2'))
+ORDER BY
+	HISTORIAL.INDAPDX,hclin_registro.ingreso,
+	case when hclin_registro.tipo='H' then  
+	  case when hclin_registro.ingreso ='I' then  0  else  10 end  
+    else 
+        case when hclin_registro.tipo='E' then 1 
+        else case when hclin_registro.tipo='R' then 2  
+        else case when hclin_registro.tipo='Q' then 3 
+        else case when hclin_registro.tipo='F' then 4 
+        else case when hclin_registro.tipo='L' then 5 
+        else case when hclin_registro.tipo='P' then 6  
+    end end end end end end end,
+	hclin_registro.fecha, hclin_reg_valor.nregistro, hclin_reg_valor.item" )
+compute(name=rtx visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" format="[general]" expression="if( tipo ='M', long_texto ,' ')" )
+compute(name=fin visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" format="[general]" expression="if ( tipo='E' or  tipo='M',
+  if( tipo[-1]='M','~~r~~n', 
+      if(tipo='E' or (tipo='N' and len( descampo )>20),'~~r~~n','~~r~~n')
+    ),
+if( tipo = 'S' or tipo='L' or tipo='N' or tipo='R' or tipo='F' or tipo='T',
+if(tipo='N' and len( descampo )>30,'~~r~~n',' '),'~~r~~n'))" )
+compute(name=fecx visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" format="[general]" expression="If( tipo ='F' or tipo ='X', string(fecha,'dd/mm/yyyy') ,' ' )" )
+compute(name=nn visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" format="[general]" expression="if( tipo ='R' or tipo='C' , string(numero) ,' ') " )
+compute(name=txt1 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" format="[general]" expression="if(tipo='T' or tipo='L' or tipo='A',textos  ,' ')" )
+compute(name=tab visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" format="[general]" expression="if( tipo='S' or tipo='L' or tipo='N' or tipo='R' or tipo='F' or tipo='T' or tipo='M',
+  if ( isnull(tipo[-1]),'~~r~~n', 
+     if ( tipo[-1]='E'  or tipo [-1]='M' or ( tipo [-1]='N' and len( descampo[-1] )>20),'','~~r~~n')
+),
+  if( tipo='E' and ( padre =padre[-1]),'~~r~~n','~~r~~n' ) 
+)" )
+compute(name=sn visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" format="[general]" expression="if(tipo='N',sinob,' ')" )
+column(name=nregistro id=1 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=item id=2 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=desplantilla id=3 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=otipo id=4 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=codtingre id=5 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=ingreso id=6 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=fecha_reg id=7 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[shortdate] [time]" )
+column(name=orden id=8 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=descampo id=9 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=tipo id=10 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=textos id=11 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=sinob id=12 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=numero id=13 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=fecha id=14 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[shortdate] [time]" )
+column(name=desprof id=15 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=tipo_memo id=16 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=desesp id=17 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=registro id=18 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=medida id=19 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=padre id=20 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=long_texto id=21 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()

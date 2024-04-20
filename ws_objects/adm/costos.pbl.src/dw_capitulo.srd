@@ -1,0 +1,22 @@
+﻿$PBExportHeader$dw_capitulo.srd
+$PBExportComments$para filtrar procediminetos en w_busca_proc
+release 9;
+datawindow(units=0 timer_interval=0 color=80269524 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=496 color="536870912" )
+table(column=(type=char(2) update=yes updatewhereclause=yes name=cd_capitulo dbname="capitulos.cd_capitulo" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=cd_seccion dbname="capitulos.cd_seccion" )
+ column=(type=char(2) updatewhereclause=yes name=cd_grupo dbname="pgrupos.cd_grupo" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"capitulos~" )  TABLE(NAME=~"pgrupos~" ) COLUMN(NAME=~"capitulos.cd_capitulo~") COLUMN(NAME=~"capitulos.cd_seccion~") COLUMN(NAME=~"pgrupos.cd_grupo~")    JOIN (LEFT=~"capitulos.cd_capitulo~"    OP =~"=~"RIGHT=~"pgrupos.cd_capitulo~" )WHERE(    EXP1 =~"capitulos.cd_seccion~"   OP =~"=~"    EXP2 =~":codseccion~" ) ) ARG(NAME = ~"codseccion~" TYPE = string) " arguments=(("codseccion", string)) )
+text(band=detail alignment="0" text="&Capítulo:" border="0" color="0" x="18" y="252" height="56" width="219" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=detail alignment="0" text="&Sección:" border="0" color="0" x="18" y="88" height="56" width="210" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+column(band=detail id=2 alignment="0" tabsequence=10 border="5" color="0" x="18" y="12" height="72" width="1911" format="[general]" html.valueishtml="0"  name=cd_seccion visible="1" accelerator="s" dddw.name=dw_secciones dddw.displaycolumn=de_seccion dddw.datacolumn=cd_seccion dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.imemode=0 dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="0" text="Buscar por &Grupo:" border="0" color="0" x="18" y="412" height="56" width="457" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="5" color="0" x="18" y="344" height="64" width="1902" format="[general]" html.valueishtml="0"  name=cd_grupo visible="1" accelerator="g" dddw.name=dw_pgrupo dddw.displaycolumn=de_grupo dddw.datacolumn=cd_grupo dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.imemode=0 dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=20 border="5" color="0" x="18" y="184" height="72" width="1906" format="[general]" html.valueishtml="0"  name=cd_capitulo visible="1" accelerator="c" dddw.name=dw_cap_peq dddw.displaycolumn=de_capitulo dddw.datacolumn=cd_capitulo dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.imemode=0 dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

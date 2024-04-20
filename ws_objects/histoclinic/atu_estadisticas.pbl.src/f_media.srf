@@ -1,0 +1,59 @@
+﻿$PBExportHeader$f_media.srf
+global type f_media from function_object
+end type
+
+forward prototypes
+global function string f_media (string codplant, integer item, string tipo_dato, datastore dw_datos, string fecha1, string fecha2, string lugar)
+end prototypes
+
+global function string f_media (string codplant, integer item, string tipo_dato, datastore dw_datos, string fecha1, string fecha2, string lugar);long dato_texto,i,dato
+boolean long_texto
+string media_fecha,media_numero
+
+long_texto=true
+
+if tipo_dato = 'S' or tipo_dato='N' or tipo_dato='T' or tipo_dato='L' or tipo_dato='R' or tipo_dato='F' then
+//	dw_datos.retrieve(codplant,item,datetime(string (date(fecha1),'yyyy-mm-dd')),datetime(string (date(fecha2),'yyyy-mm-dd')))
+	dw_datos.retrieve(codplant,lugar,item,datetime(string (date(fecha1),'yyyy-mm-dd')),datetime(date(fecha2),time("23:59")))
+	if tipo_dato='S' or tipo_dato='N' or tipo_dato='T' /* or tipo_dato='F' */ then	//si el dato es seleccion, si o no, texto
+		return 'N.A'
+	elseif  tipo_dato='L' then	//si el tipo de dato es lista, se mira si los items de la lista son numeros
+		for i = 1 to dw_datos.rowcount()
+			dato_texto=dw_datos.getitemnumber(i,'comp_long_texto')
+			if dato_texto = 0 then long_texto=false
+		next
+		if long_texto=false then 
+			return 'N.A'
+		else
+			return dw_datos.getitemstring(1,'comp_media_txt')
+		end if
+	elseif tipo_dato='R' then	//si el tipo de dato es numerico
+		media_numero=dw_datos.getitemstring(1,'comp_media_numero')
+		return media_numero
+	elseif tipo_dato='F' then // Si el tipo es Fecha
+		dw_datos.retrieve(codplant,lugar,item,datetime(string (date(fecha1),'yyyy-mm-dd')),datetime(date(fecha2),time("23:59")))	
+		for i = 1 to dw_datos.rowcount()
+			media_fecha=string(dw_datos.getitemdatetime(i,'fecha'),'dd/mm/yyyy')
+			media_numero=string(f_fecha_numero(date(media_fecha)))
+			dw_datos.setitem( i,'com_fecha_numero',long(media_numero))
+		next
+		dato=long(dw_datos.getitemstring(1,'com_fec_med'))
+		return string(dato)
+	end if
+elseif tipo_dato='U' then	//si el tipo de dato es seleccion múltiple
+	dw_datos.retrieve(codplant,lugar,item,datetime(string (date(fecha1),'yyyy-mm-dd')),datetime(date(fecha2),time("23:59")))
+	//dw_datos.retrieve(codplant,item,datetime(string (date(fecha1),'yyyy-mm-dd')),datetime(string (date(fecha2),'yyyy-mm-dd')))
+	for i = 1 to dw_datos.rowcount()
+		dato_texto=dw_datos.getitemnumber(i,'comp_long_texto')
+		if dato_texto = 0 then long_texto=false
+	next
+	if long_texto=false then 
+		return 'N.A'
+	else
+		return dw_datos.getitemstring(1,'comp_media_txt')
+	end if
+end if
+
+
+end function
+

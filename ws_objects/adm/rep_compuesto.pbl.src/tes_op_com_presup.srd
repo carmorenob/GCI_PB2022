@@ -1,0 +1,58 @@
+﻿$PBExportHeader$tes_op_com_presup.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=104 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=real updatewhereclause=yes name=vigencia_reser dbname="vigencia_reser" )
+ column=(type=real updatewhereclause=yes name=nro_reser dbname="nro_reser" )
+ column=(type=char(50) updatewhereclause=yes name=codtotal dbname="codtotal" )
+ column=(type=real updatewhereclause=yes name=vigencia_disp dbname="vigencia_disp" )
+ column=(type=real updatewhereclause=yes name=nro_disp dbname="nro_disp" )
+ column=(type=number updatewhereclause=yes name=valor dbname="valor" )
+ column=(type=char(4) updatewhereclause=yes name=dreser dbname="Dreser" )
+ column=(type=char(100) updatewhereclause=yes name=vigres dbname="Vigres" )
+ column=(type=char(100) updatewhereclause=yes name=vigdis dbname="Vigdis" )
+ column=(type=char(4) updatewhereclause=yes name=ddisp dbname="ddisp" )
+ retrieve="SELECT 
+	pre_docu_cb_1.cod_vigencia AS vigencia_reser, pre_docu_cb_1.consecutivo AS nro_reser, 
+	pre_docu_cp_1.codtotal, pre_docu_cb.cod_vigencia AS vigencia_disp, 
+	pre_docu_cb.consecutivo AS nro_disp, mod_Relacion_origen.valor, 
+	 pre_docu_cp_1.coddoc AS Dreser, pre_vigencia_1.descripcion AS Vigres, 
+	pre_vigencia.descripcion AS Vigdis,pre_docu_cb.coddoc as ddisp
+FROM 
+	((pre_vigencia INNER JOIN pre_docu_cb ON pre_vigencia.cod_vigencia = pre_docu_cb.cod_vigencia) INNER JOIN 
+	pre_docu_cp ON (pre_docu_cb.numdoc = pre_docu_cp.numdoc) AND (pre_docu_cb.clugar = pre_docu_cp.clugar) AND 
+	(pre_docu_cb.coddoc = pre_docu_cp.coddoc)) INNER JOIN ((pre_vigencia AS pre_vigencia_1 INNER JOIN 
+	(pre_docu_cp AS pre_docu_cp_1 INNER JOIN pre_docu_cb AS pre_docu_cb_1 ON 
+	(pre_docu_cp_1.numdoc = pre_docu_cb_1.numdoc) AND (pre_docu_cp_1.clugar = pre_docu_cb_1.clugar) AND 
+	(pre_docu_cp_1.coddoc = pre_docu_cb_1.coddoc)) ON pre_vigencia_1.cod_vigencia = pre_docu_cb_1.cod_vigencia) 
+	INNER JOIN mod_Relacion_origen ON (pre_docu_cp_1.clugar = mod_Relacion_origen.char_orig2) AND 
+	(pre_docu_cp_1.coddoc = mod_Relacion_origen.char_orig1) AND (pre_docu_cp_1.item = mod_Relacion_origen.num_orig2) 
+	AND (pre_docu_cp_1.numdoc = mod_Relacion_origen.num_orig1)) ON (pre_docu_cp.item = pre_docu_cp_1.item_orig) AND 
+	(pre_docu_cp.numdoc = pre_docu_cp_1.numdoc_orig) AND (pre_docu_cp.clugar = pre_docu_cp_1.clugar_orig) AND 
+	(pre_docu_cp.coddoc = pre_docu_cp_1.coddoc_orig)
+WHERE 
+	(((mod_Relacion_origen.char_doc1)=:clug) AND ((mod_Relacion_origen.char_doc2)=:cdoc) 
+	AND ((mod_Relacion_origen.num_doc1)=:nrecep) AND ((mod_Relacion_origen.num_doc2)=:item))
+" arguments=(("clug", string),("cdoc", string),("nrecep", number),("item", number))  sort="vigencia_disp A nro_disp A " )
+group(level=1 header.height=76 trailer.height=0 by=("vigencia_disp" , "nro_disp" ) header.color="536870912" trailer.color="536870912" )
+text(band=header alignment="0" text="IMPUTACIÓN PRESUPUESTAL" border="0" color="0" x="37" y="0" height="64" width="891" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header.1 alignment="0" text="C.D.P:" border="6" color="0" x="27" y="12" height="48" width="183" html.valueishtml="0"  name=t_2 visible="1"  font.face="Tahoma" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+
+compute(band=header.1 alignment="0" expression=" ddisp + '  - '+ nro_disp +' - ' +vigdis "border="6" color="33554432" x="215" y="12" height="48" width="663" format="[GENERAL]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="2" text="Nro Reser" border="6" color="33554432" x="901" y="12" height="52" width="667" html.valueishtml="0"  name=nro_reser_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="2" text="Codtotal" border="6" color="33554432" x="1591" y="12" height="52" width="439" html.valueishtml="0"  name=codtotal_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="2" text="Valor" border="6" color="33554432" x="2034" y="12" height="52" width="462" html.valueishtml="0"  name=valor_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression=" dreser  + '  - '+  nro_reser  +' - ' + vigres "border="6" color="33554432" x="901" y="8" height="52" width="667" format="[GENERAL]" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="6" color="33554432" x="1591" y="8" height="52" width="439" format="[general]" html.valueishtml="0"  name=codtotal visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression=" valor "border="6" color="33554432" x="2034" y="8" height="52" width="462" format="#,00.00" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=footer x1="32" y1="4" x2="3442" y2="4"  name=l_1 visible="1" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="1073741824" )
+text(band=footer alignment="0" text="DEDUCCIONES CAUSADAS" border="0" color="33554432" x="32" y="24" height="72" width="969" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-11" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+ 

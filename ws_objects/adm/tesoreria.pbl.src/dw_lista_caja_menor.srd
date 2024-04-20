@@ -1,0 +1,72 @@
+﻿$PBExportHeader$dw_lista_caja_menor.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=80269524 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no grid.lines=0 )
+header(height=68 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=76 color="536870912" )
+table(column=(type=char(2) update=yes updatewhereclause=yes key=yes name=clugar dbname="tesocajamenor.clugar" )
+ column=(type=char(4) update=yes updatewhereclause=yes key=yes name=codcaja dbname="tesocajamenor.codcaja" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=descripcion dbname="tesocajamenor.descripcion" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=responsable dbname="tesocajamenor.responsable" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha_crea dbname="tesocajamenor.fecha_crea" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=usuario dbname="tesocajamenor.usuario" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=estado dbname="tesocajamenor.estado" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha_anula dbname="tesocajamenor.fecha_anula" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=efectivo dbname="tesocajamenor.efectivo" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=base dbname="tesocajamenor.base" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=resolucion dbname="tesocajamenor.resolucion" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=activa dbname="tesocajamenor.activa" values="Activa	1/Inactiva	0/" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=cod_empresa dbname="tesocajamenor.cod_empresa" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=codtotal dbname="tesocajamenor.codtotal" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=destino_pres dbname="tesocajamenor.destino_pres" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=presupuesto dbname="tesocajamenor.presupuesto" values="SI	1/No	0/" )
+ retrieve="SELECT  tesocajamenor.clugar ,
+           tesocajamenor.codcaja ,
+           tesocajamenor.descripcion ,
+           tesocajamenor.responsable ,
+           tesocajamenor.fecha_crea ,
+           tesocajamenor.usuario ,
+           tesocajamenor.estado ,
+           tesocajamenor.fecha_anula ,
+           tesocajamenor.efectivo ,
+           tesocajamenor.base ,
+           tesocajamenor.resolucion ,
+           tesocajamenor.activa ,
+           tesocajamenor.cod_empresa ,
+           tesocajamenor.codtotal ,
+           tesocajamenor.destino_pres ,
+           tesocajamenor.presupuesto     
+        FROM tesocajamenor      
+        WHERE ( tesocajamenor.clugar = :lugarcaja )   " update="tesocajamenor" updatewhere=0 updatekeyinplace=yes arguments=(("lugarcaja", string)) )
+text(band=header alignment="2" text="Caja" border="6" color="0" x="9" y="8" height="52" width="169" html.valueishtml="0"  name=codcaja_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Descripcion" border="6" color="0" x="187" y="8" height="52" width="896" html.valueishtml="0"  name=descripcion_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Responsable" border="6" color="0" x="1093" y="8" height="52" width="823" html.valueishtml="0"  name=responsable_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Creada" border="6" color="0" x="1925" y="8" height="52" width="279" html.valueishtml="0"  name=fecha_crea_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Estado" border="6" color="0" x="2213" y="8" height="52" width="197" html.valueishtml="0"  name=estado_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Base" border="6" color="0" x="2418" y="8" height="52" width="379" html.valueishtml="0"  name=t_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Resolucion" border="6" color="0" x="3214" y="8" height="52" width="293" html.valueishtml="0"  name=t_2 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Activa" border="6" color="0" x="3515" y="8" height="52" width="229" html.valueishtml="0"  name=t_3 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Cod Empresa" border="6" color="0" x="3753" y="8" height="52" width="741" html.valueishtml="0"  name=t_4 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Cod Contable" border="6" color="0" x="4503" y="8" height="52" width="672" html.valueishtml="0"  name=t_5 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Destino Pres" border="6" color="0" x="5184" y="8" height="52" width="334" html.valueishtml="0"  name=t_6 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Presupuesto" border="6" color="0" x="5527" y="8" height="52" width="293" html.valueishtml="0"  name=t_7 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Efectivo" border="6" color="0" x="2807" y="8" height="52" width="398" html.valueishtml="0"  name=efectivo_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=2 alignment="0" tabsequence=10 border="5" color="0" x="9" y="8" height="60" width="169" format="[general]" html.valueishtml="0"  name=codcaja visible="1" edit.limit=4 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=20 border="5" color="0" x="187" y="8" height="60" width="896" format="[general]" html.valueishtml="0"  name=descripcion visible="1" edit.limit=50 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=30 border="5" color="0" x="1093" y="8" height="60" width="823" format="[general]" html.valueishtml="0"  name=responsable visible="1" dddw.name=dw_usuarios dddw.displaycolumn=nombre dddw.datacolumn=usuario dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.imemode=0 dddw.hscrollbar=yes dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=40 border="5" color="0" x="1925" y="8" height="60" width="279" format="[shortdate] " html.valueishtml="0"  name=fecha_crea visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="0" tabsequence=50 border="5" color="0" x="2213" y="8" height="60" width="197" format="[general]" html.valueishtml="0"  name=estado visible="1" edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=10 alignment="0" tabsequence=60 border="5" color="0" x="2418" y="8" height="60" width="379" format="##,##0.00" html.valueishtml="0"  name=base visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=11 alignment="0" tabsequence=80 border="5" color="0" x="3214" y="8" height="60" width="293" format="[general]" html.valueishtml="0"  name=resolucion visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=12 alignment="0" tabsequence=90 border="5" color="0" x="3515" y="8" height="60" width="229" format="[general]" html.valueishtml="0"  name=activa visible="1" ddlb.limit=0 ddlb.allowedit=no ddlb.case=any ddlb.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=13 alignment="0" tabsequence=100 border="5" color="0" x="3753" y="8" height="60" width="741" format="[general]" html.valueishtml="0"  name=cod_empresa visible="1" dddw.name=dw_cont_empresa dddw.displaycolumn=compute_1 dddw.datacolumn=cod_empresa dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=no dddw.case=any dddw.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=14 alignment="0" tabsequence=110 border="5" color="0" x="4503" y="8" height="60" width="672" format="[general]" html.valueishtml="0"  name=codtotal visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=15 alignment="0" tabsequence=120 border="5" color="0" x="5184" y="8" height="60" width="334" format="[general]" html.valueishtml="0"  name=destino_pres visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=16 alignment="2" tabsequence=130 border="5" color="0" x="5527" y="8" height="60" width="293" format="[general]" html.valueishtml="0"  name=presupuesto visible="1" ddlb.limit=0 ddlb.allowedit=no ddlb.case=any ddlb.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=9 alignment="1" tabsequence=70 border="5" color="0" x="2807" y="8" height="60" width="398" format="#,##0.00" html.valueishtml="0"  name=efectivo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

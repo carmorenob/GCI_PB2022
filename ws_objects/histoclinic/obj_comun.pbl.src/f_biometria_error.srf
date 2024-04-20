@@ -1,0 +1,96 @@
+﻿$PBExportHeader$f_biometria_error.srf
+global type f_biometria_error from function_object
+end type
+
+forward prototypes
+global function string f_biometria_error (integer codigo_error)
+end prototypes
+
+global function string f_biometria_error (integer codigo_error);string l_devuelve
+Integer  &
+	GR_ERROR_INITIALIZE_FAIL 			= -1 /* Initialization failed */, &
+	GR_ERROR_NOT_INITIALIZED 			= -2 /* GrFinger isn't initialized */, &
+	GR_ERROR_FAIL_LICENSE_READ  		= -3 /* GrFinger couldn't read the license file */, &
+	GR_ERROR_NO_VALID_LICENSE 		= -4 /* No valid license found */, &
+	GR_ERROR_NULL_ARGUMENT 			= -5 /* A null parameter was supplied */, &
+	GR_ERROR_FAIL 							= -6 /* Unexpected failure */, &
+	GR_ERROR_ALLOC 						= -7 /* Memory allocation failure */, &
+	GR_ERROR_PARAMETERS 				= -8 /* An incorrect parameter was supplied */, &				
+																																																				&
+	/*Extraction and Matching Error Codes */&
+	GR_ERROR_WRONG_USE 					= -107 /* Function can't be called at this time */, &
+	GR_ERROR_EXTRACT 						= -108 /* Error extracting template */, &
+	GR_ERROR_SIZE_OFF_RANGE				= -109 /* Image size is too big */, &
+	GR_ERROR_RES_OFF_RANGE				= -110 /* Image resolution is out of the valid range */, &
+	GR_ERROR_CONTEXT_NOT_CREATED	= -111 /* Context couldn't be created */, &
+	GR_ERROR_INVALID_CONTEXT 			= -112 /* Context isn't valid */, &
+	GR_ERROR_ERROR							= -113 /* General, unexpected or unknown error */, &
+	GR_ERROR_NOT_ENOUGH_SPACE			= -114 /* Supplied template buffer is too small to hold the template */, &	
+																																																								&
+	/* Capture Error Codes */&
+	GR_ERROR_CONNECT_SENSOR 			= -201 /* Error connecting to the fingerprint reader  */, &
+	GR_ERROR_CAPTURING						= -202 /* Error while acquiring image  */, &
+	GR_ERROR_CANCEL_CAPTURING 			= -203 /* Capture has been canceled  */, &
+	GR_ERROR_INVALID_ID_SENSOR 			= -204 /* Invalid fingerprint reader ID  */, &
+	GR_ERROR_SENSOR_NOT_CAPTURING	= -205 /* Capture wasn't started on the fingerprint reader  */, &
+	GR_ERROR_INVALID_EXT					= -206 /* Invalid file extension  */, &
+	GR_ERROR_INVALID_FILENAME			= -207 /* Invalid filename  */, &
+	GR_ERROR_INVALID_FILETYPE				= -208 /* Invalid file type  */, &
+	GR_ERROR_SENSOR							= -209 /* Fingerprint reader error */,&
+	GR_ERROR_INVALID_TEMPLATE 			= -997
+
+CHOOSE CASE codigo_error
+	CASE GR_ERROR_INITIALIZE_FAIL
+        l_devuelve="Error al Iniciar GrFingerX. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_NOT_INITIALIZED
+        l_devuelve="La Biblioteca de Clases no Ha Sido inicialiuzada. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_FAIL_LICENSE_READ
+         l_devuelve="Falla de Licencia. Verifique el manual (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_NO_VALID_LICENSE
+   		l_devuelve="La Licencia no es Válida. Verifique el Manual. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_NULL_ARGUMENT
+		l_devuelve="El Parámetro tiene un Valor Nulo. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_FAIL
+		l_devuelve="Error Creando Imagen. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_ALLOC
+		l_devuelve="Error Creando El Contexto. Volcado de Memoria. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_PARAMETERS
+		l_devuelve="Uno o Mas Parametros Está fuera de Rango. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_WRONG_USE
+		l_devuelve="No Se Puede Inicializar esta Funcion en este Momento. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_EXTRACT
+		l_devuelve="Falló al Obtener Template. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_SIZE_OFF_RANGE
+		l_devuelve="La Imagen Obtenida es Demasiado Grande o Pequeña.  (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_RES_OFF_RANGE
+		l_devuelve="La Imagen Tiene Muy Alta o Muy Baja resolution. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_CONTEXT_NOT_CREATED
+		l_devuelve="No se Pudo Crear el Contexto. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_INVALID_CONTEXT
+		l_devuelve="El Contexto No Existe. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_CONNECT_SENSOR
+		l_devuelve="Ocurrio un Error Cuando se Inicializaba el Lector. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_CAPTURING
+		l_devuelve="Error de Captura. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_CANCEL_CAPTURING
+		l_devuelve="Error al Finalizar Captura. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_INVALID_ID_SENSOR
+		l_devuelve="El idSensor es Invalido. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_SENSOR_NOT_CAPTURING
+		l_devuelve="El Sensor no está Capturando. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_INVALID_EXT
+		l_devuelve="El archivo Tiene una Extension Desconocida. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_INVALID_FILENAME
+		l_devuelve="El Nombre del Archivo es Inválido. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_INVALID_FILETYPE
+		l_devuelve="El Tipo de Archivo es Inválido. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_SENSOR
+		l_devuelve="El Lector Arrojó Un Error. (Error:" + string(codigo_error) + ")"
+	CASE GR_ERROR_INVALID_TEMPLATE
+		l_devuelve="Template Invalido. (Error:" + string(codigo_error) + ")"
+	CASE ELSE
+          l_devuelve=string(codigo_error)
+END CHOOSE
+return l_devuelve
+end function
+

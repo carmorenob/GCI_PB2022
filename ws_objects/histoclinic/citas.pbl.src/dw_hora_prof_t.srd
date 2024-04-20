@@ -1,0 +1,35 @@
+﻿$PBExportHeader$dw_hora_prof_t.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no grid.lines=1 )
+header(height=76 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=long update=yes updatewhereclause=yes key=yes name=dia dbname="horario_suge.dia" )
+ column=(type=datetime update=yes updatewhereclause=yes key=yes name=horaini dbname="horario_suge.horaini" )
+ column=(type=datetime update=yes updatewhereclause=yes key=yes name=horafin dbname="horario_suge.horafin" )
+ column=(type=char(10) update=yes updatewhereclause=yes key=yes name=prof dbname="horario_suge.prof" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=cesp dbname="horario_suge.cesp" )
+ column=(type=long update=yes updatewhereclause=yes name=cada dbname="horario_suge.cada" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"horario_suge~" ) COLUMN(NAME=~"horario_suge.dia~") COLUMN(NAME=~"horario_suge.horaini~") COLUMN(NAME=~"horario_suge.horafin~") COLUMN(NAME=~"horario_suge.prof~") COLUMN(NAME=~"horario_suge.cesp~") COLUMN(NAME=~"horario_suge.cada~")WHERE(    EXP1 =~"horario_suge.prof~"   OP =~"=~"    EXP2 =~":prof ~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"horario_suge.cesp~"   OP =~"=~"    EXP2 =~":cesp ~" ) ) ARG(NAME = ~"prof~" TYPE = string)  ARG(NAME = ~"cesp~" TYPE = string) " update="horario_suge" updatewhere=0 updatekeyinplace=no arguments=(("prof", string),("cesp", string)) )
+text(band=header alignment="2" text="Día" border="6" color="0" x="9" y="8" height="60" width="366" html.valueishtml="0"  name=t_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Inicia" border="6" color="0" x="384" y="8" height="60" width="197" html.valueishtml="0"  name=t_3 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Termina" border="6" color="0" x="590" y="8" height="60" width="206" html.valueishtml="0"  name=t_4 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+compute(band=detail alignment="0" expression="case( dia 
+when 1 then ~"Domingo~"
+when 2 then ~"Lunes~"
+when 3 then ~"Martes~"
+when 4 then ~"Miercoles~"
+when 5 then ~"Jueves~"
+when 6 then ~"Viernes~"
+when 7 then ~"Sábado~"
+)"border="0" color="0" x="9" y="4" height="56" width="366" format="[GENERAL]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="2" tabsequence=10 border="0" color="0" x="384" y="4" height="56" width="197" format="[shortdate] [time]" html.valueishtml="0" protect="0~t1"  name=horaini visible="1" editmask.mask="hh:mm" editmask.imemode=0 editmask.focusrectangle=no  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="2" tabsequence=20 border="0" color="0" x="590" y="4" height="56" width="206" format="[shortdate] [time]" html.valueishtml="0" protect="0~t1"  name=horafin visible="1" editmask.mask="hh:mm" editmask.imemode=0 editmask.focusrectangle=no  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="min(SecondsAfter(time(~"00:00~"), time(horaini) ))"border="0" color="0" x="805" y="4" height="52" width="146" format="[GENERAL]" html.valueishtml="0"  name=menor visible="1~t0"  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="max(SecondsAfter(time(~"00:00~"), time(horafin) ))+cada*60"border="0" color="0" x="960" y="4" height="56" width="261" format="[GENERAL]" html.valueishtml="0"  name=mayor visible="1~t0"  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

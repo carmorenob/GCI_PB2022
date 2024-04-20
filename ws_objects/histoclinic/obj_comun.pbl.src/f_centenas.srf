@@ -1,0 +1,114 @@
+﻿$PBExportHeader$f_centenas.srf
+global type f_centenas from function_object
+end type
+
+forward prototypes
+global function string f_centenas (integer numero)
+end prototypes
+
+global function string f_centenas (integer numero);string centena,decena,unidad,let_num
+let_num=""
+centena=string(int(numero/100))
+decena=string(int(long(numero)/10)-long(centena)*10)
+unidad=string(long(numero)- long(centena)*100 -long(decena)*10)
+choose case centena 
+	case "1"
+		if decena="0" and unidad="0" then
+			return "cien"
+		else
+			let_num+="ciento "
+		end if
+	case "2"
+		let_num+="doscientos "
+	case "3"
+		let_num+="trescientos "
+	case "4"
+		let_num+="cuatrocientos "
+	case "5"
+		let_num+="quinientos "
+	case "6"
+		let_num+="seiscientos "
+	case "7"
+		let_num+="setecientos "
+	case "8"
+		let_num+="ochocientos "
+	case "9"
+		let_num+="novecientos "	
+end choose
+choose case decena
+	case "1"
+		choose case unidad
+			case "1"
+				let_num+="once "
+			case "2"
+				let_num+="doce " 
+			case "3"
+				let_num+="trece "
+			case "4"
+				let_num+="catorce "
+			case "5"
+				let_num+="quince "
+			case "6"
+				let_num+="dieciseis "
+			case "7"
+				let_num+="diecisiete "
+			case "8"
+				let_num+="dieciocho "
+			case "9"
+				let_num+="diecinueve "
+			case "0"
+				let_num+="diez "
+		end choose
+		return let_num
+	case "2"
+		if unidad<>"0" then
+			let_num+="veinti"
+		else
+			let_num+="veinte "
+			return let_num
+		end if
+	case "3"
+		let_num+="treinta "
+		if unidad<>"0" then let_num+="y "
+	case "4"
+		let_num+="cuarenta "
+		if unidad<>"0" then let_num+="y "
+	case "5"
+		let_num+="cincuenta "
+		if unidad<>"0" then let_num+="y "
+	case "6"
+		let_num+="sesenta "
+		if unidad<>"0" then let_num+="y "
+	case "7"
+		let_num+="setenta "
+		if unidad<>"0" then let_num+="y "
+	case "8"
+		let_num+="ochenta "
+		if unidad<>"0" then let_num+="y "
+	case "9"
+		let_num+="noventa "
+		if unidad<>"0" then let_num+="y "
+end choose
+choose case unidad
+	case "1"
+		let_num+="uno "
+	case "2"
+		let_num+="dos "
+	case "3"
+		let_num+="tres "
+	case "4"
+		let_num+="cuatro "
+	case "5"
+		let_num+="cinco "
+	case "6"
+		let_num+="seis "
+	case "7"
+		let_num+="siete "
+	case "8"
+		let_num+="ocho "
+	case "9"
+		let_num+="nueve "
+end choose
+return let_num
+end function
+

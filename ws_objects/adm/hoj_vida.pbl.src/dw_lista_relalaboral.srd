@@ -1,0 +1,15 @@
+﻿$PBExportHeader$dw_lista_relalaboral.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=1 )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=52 color="536870912" )
+table(column=(type=char(3) updatewhereclause=yes name=codrela dbname="nom_relalaboral.codrela" )
+ column=(type=char(25) updatewhereclause=yes name=nombre dbname="nom_relalaboral.nombre" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"nom_relalaboral~" ) COLUMN(NAME=~"nom_relalaboral.codrela~") COLUMN(NAME=~"nom_relalaboral.nombre~")) " )
+column(band=detail id=1 alignment="0" tabsequence=0 border="0" color="0" x="9" y="4" height="56" width="87" html.valueishtml="0"  name=codrela visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Codrela" border="0" color="0" x="5" y="4" height="56" width="91" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=0 border="0" color="0" x="110" y="4" height="56" width="791" html.valueishtml="0"  name=nombre visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Nombre" border="0" color="0" x="105" y="4" height="56" width="795" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

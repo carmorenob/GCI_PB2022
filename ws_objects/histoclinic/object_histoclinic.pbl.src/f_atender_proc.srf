@@ -1,0 +1,208 @@
+﻿$PBExportHeader$f_atender_proc.srf
+global type f_atender_proc from function_object
+end type
+
+forward prototypes
+global function integer f_atender_proc (string p_codproc, readonly double p_conta, string p_lugar, ref integer p_cant, string p_tingre, double p_orden, integer p_item, string p_profe, ref string p_espe)
+end prototypes
+
+global function integer f_atender_proc (string p_codproc, readonly double p_conta, string p_lugar, ref integer p_cant, string p_tingre, double p_orden, integer p_item, string p_profe, ref string p_espe);uo_datastore dw_empac,dw_segrespon,dw_cont_det,dw_rias
+datawindowchild idw_ufun,idw_cc
+
+
+string tipo_afil,codcc,coduf,plan,des_cont,cemp,ccont,finali,crips
+string i_nautoriza,i_causaext,i_cdiaging,i_fin_consulta,i_tipodx,i_tingreso
+string cod_rips,des_diag,cc,uf,ambito
+int nserv,z,k,donde,busca,j
+boolean yapaso=false
+
+select cemp,ccontrato,autoriza,causaexterna,diagingre,FIN_CONSULTA, TIPODIAGPRIN,codtingre
+into :cemp,:ccont,:i_nautoriza,:i_causaext,:i_cdiaging,:i_fin_consulta,:i_tipodx,:i_tingreso
+from hospadmi where contador=:p_conta and clugar_his=:p_lugar and codtingre=:p_tingre;
+if i_fin_consulta='' then setnull( i_fin_consulta)
+if i_cdiaging<>'' then
+	select cod_rips , desdiag into :cod_rips,:des_diag from diags where codgeral=:i_cdiaging;
+end if
+dw_rias= create uo_datastore
+dw_rias.dataobject='dw_rips_os'
+dw_rias.setTransObject(SQLCA)
+
+dw_cont_det= create uo_datastore
+dw_cont_det.dataobject='dw_cont_deta'
+dw_cont_det.setTransObject(SQLCA)
+dw_cont_det.retrieve(cemp,ccont,p_tingre)
+
+dw_empac= create uo_datastore
+dw_empac.dataobject='dw_emp_pac'
+dw_empac.setTransObject(SQLCA)
+dw_empac.retrieve(cemp,ccont,tipdoc,docu)
+if dw_empac.rowcount()=0 then
+	messagebox("Atención","El paciente no tiene asignada la empresa de ese ingreso, revise el responsable de ese ingreso")
+	return -1
+end if
+tipo_afil=dw_empac.getitemstring(1,"codta")
+
+dw_segrespon= create uo_datastore
+dw_segrespon.dataobject='dw_segrespon'
+dw_segrespon.setTransObject(SQLCA)
+dw_segrespon.retrieve(cemp,ccont,tipo_afil)
+select max(nservicio) into :nserv from serviciosingreso where contador=:p_conta and clugar=:p_lugar;
+if isnull(nserv) then nserv=0
+nserv ++
+setnull(codcc)
+setnull(coduf)
+DO // pa poder revisar en todos los responsables
+	if dw_segrespon.rowcount()>0 then des_cont=dw_segrespon.getitemstring(1,"descontrato")
+	if dw_cont_det.rowcount()=0 then 
+		messagebox("Error de Configuración","El contrato "+dw_segrespon.getitemstring(1,"descontrato")+" de la empresa "+dw_segrespon.getitemstring(1,"desemp")+" no tiene planes")
+		return -1
+	end if	
+	/// viene lo duro	
+	for z=1 to dw_cont_det.rowcount() // de aquí tiene que salir cuando encuentre los valores
+		plan=dw_cont_det.getitemstring(z,"cplan")
+		if f_proc_plan(p_codproc,plan) then goto salio
+	next
+	/// fin de viene lo duro
+		
+	if yapaso then 
+		messagebox("Error en configuración de contratos","No se puede encontrar responsable de este procedimiento, revise incluso la empresa Particular")
+		return -1
+	end if
+	if dw_segrespon.getitemstring(1,"segrespon")<>"" and dw_segrespon.getitemstring(1,"contsegrespon")<>"" then
+		cemp=dw_segrespon.getitemstring(1,"segrespon")
+		ccont=dw_segrespon.getitemstring(1,"contsegrespon")
+		dw_segrespon.retrieve(cemp,ccont,tipo_afil)
+	else
+		cemp='0'
+		ccont='1'
+		yapaso=true
+	end if
+	dw_cont_det.retrieve(cemp,ccont,p_tingre)
+LOOP WHILE true
+salio:
+///// fin revisa a quien le van a cargar esto
+setnull(plan)
+
+long hasta,cantidad
+cantidad=1
+hasta=p_cant
+for k=1 to hasta
+	donde=dw_rias.insertrow(0)
+	dw_rias.setitem(donde,"cproced",p_codproc)
+	dw_rias.setitem(donde,"usuario",usuario)
+	select tipoproc,rips into :finali,:crips from proced where codproced=:p_codproc;
+	if isnull(finali) then finali='3'
+	dw_rias.setitem(donde,"rips_descripcion",crips)
+	dw_rias.setitem(donde,"rips",crips)
+	dw_rias.setitem(donde,"facturar",1)
+	dw_rias.setitem(donde,"s_fecha",datetime(today(),time(string(now()))))
+	dw_rias.setitem(donde,"s_cantidad",cantidad)
+	dw_rias.setitem(donde,"contador",p_conta)
+	dw_rias.setitem(donde,"cemp",cemp)
+	dw_rias.setitem(donde,"cplan",plan)
+	dw_rias.setitem(donde,"ccontrato",ccont)
+	dw_rias.setitem(donde,"clugar",p_lugar)
+	dw_rias.setitem(donde,"nservicio",nserv)
+	dw_rias.setitem(donde,"nautoriza",i_nautoriza)
+	choose case crips
+	case '1'
+		dw_rias.setitem(donde,"s_causaexterna",i_causaext)
+		dw_rias.setitem(donde,"s_diagprin_",cod_rips)
+		dw_rias.setitem(donde,"s_diagprin",i_cdiaging)
+		dw_rias.setitem(donde,"s_fin_consulta",i_fin_consulta)
+		dw_rias.setitem(donde,"s_tipodiagprin",i_tipodx)
+	case '2'
+		dw_rias.setitem(donde,"s_diagprin_",cod_rips)
+		dw_rias.setitem(donde,"s_diagprin",i_cdiaging)
+		dw_rias.setitem(donde,"s_finalidadproced",finali)
+	case '8'
+		dw_rias.setitem(donde,"s_causaexterna",i_causaext)	
+		dw_rias.setitem(donde,"s_diagprin_",cod_rips)
+		dw_rias.setitem(donde,"s_diagprin",i_cdiaging)
+	case '9'
+		dw_rias.setitem(donde,"s_finalidadproced",finali)
+	end choose
+	setnull(cc)
+	uf=cc
+	if idw_ufun.retrieve(p_codproc,p_tingre)> 0 then
+		if idw_ufun.rowcount()=1 then 
+			uf=idw_ufun.getitemstring(1,'coduf')
+		else
+			busca=idw_ufun.find("coduf='"+coduf+"'",1,idw_ufun.rowcount())
+			if busca<>0 then uf=coduf//debe dejar el de la cama
+		end if
+		if idw_cc.retrieve(p_codproc,p_tingre,uf)>0 then
+			if idw_cc.rowcount()=1 then
+				cc=idw_cc.getitemstring(1,'codcc')
+			else
+				busca=idw_cc.find("codcc='"+codcc+"'",1,idw_cc.rowcount())
+				if busca<>0 then cc=codcc
+			end if
+		end if
+		if isnull(uf) or isnull(cc) then//porque a veces uno de los dos no es null
+			setnull(uf)
+			setnull(cc)
+		end if
+	end if
+	dw_rias.setitem(donde,"cufuncional",uf)
+	dw_rias.setitem(donde,"cccosto",cc)
+	dw_rias.setitem(donde,"tipo_orden",'H')
+	if 	crips = '2' or crips = '9' then 
+		choose case p_tingre
+			case '2' 
+				ambito='3'
+			case '1'
+				ambito='1'
+			case '3','4','7'
+				ambito='2'
+		end choose
+		dw_rias.setitem(donde,"s_ambitoproced",ambito)
+	end if
+	dw_rias.setitem(donde,"cprof",p_profe)
+	dw_rias.setitem(donde,"s_codespecialidad",p_espe)
+	dw_rias.setitem(donde,"conta_orden",p_conta)
+	dw_rias.setitem(donde,"clug_orden",p_lugar)
+	dw_rias.setitem(donde,"norden_serv",p_orden)
+	dw_rias.setitem(donde,"item_orden",p_item)
+	dw_rias.setitem(donde,"estria",'1')
+	nserv ++
+next
+dw_rias.accepttext()
+//string nv_est,estr
+//
+//for k=1 to dw_rias.rowcount()
+//	nv_est=dw_rias.getitemstring(k,'estado')
+//	if nv_est<>"Anulado" then 
+//		choose case nv_est
+//			case "Completo"
+//				estr="1"
+//			case "Incompleto"
+//				estr="2"
+//		end choose
+//		dw_rias.setitem(k,"estria",estr)
+//	end if
+//next
+	
+if dw_rias.update() = 1 then 
+	commit;
+end if
+
+update oscuerpo set suministrada=:cantidad,estado='2'
+where contador=:p_conta and clugar=:p_lugar and nsolicitud=:p_orden and item=:p_item;
+commit;
+	
+select count(item) into :j from oscuerpo
+where contador=:p_conta and clugar=:p_lugar and nsolicitud=:p_orden and estado='1';
+if j=0 then 
+	update oscabeza set estado='2' 
+	where contador=:p_conta and clugar=:p_lugar and nsolicitud=:p_orden;
+	if sqlca.sqlcode=-1 then
+		messagebox("Error actualizando estado de orden de servicio",sqlca.sqlerrtext)
+		rollback;
+		return -1
+	end if
+end if
+commit;
+return 0
+end function
+

@@ -1,0 +1,75 @@
+﻿$PBExportHeader$asis_esta_min_citologias.srd
+$PBExportComments$Numero de citologias informe minsterio
+release 10.5;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=4 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no  crosstab.dynamic = yes grid.lines=0 grid.columnmove=no selected.mouse=no )
+header[1](height=0 color="536870912" )
+header[2](height=56 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=88 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=row_column dbname="row_column" )
+ column=(type=number updatewhereclause=yes name=val dbname="val" )
+ retrieve="SELECT Year(serviciosingreso.fecha) AS anyo, serviciosingreso.cemp, 
+serviciosingreso.ccontrato, 
+contratos.ctreg, serviciosingreso.cproced
+FROM serviciosingreso LEFT JOIN contratos ON 
+(serviciosingreso.ccontrato = contratos.codcontrato) AND 
+(serviciosingreso.cemp = contratos.codemp)
+WHERE 
+Year(serviciosingreso.fecha)=:anyo and (
+Month(serviciosingreso.fecha) Between :mes1 And :mes2 ) and  
+(serviciosingreso.cproced= '898005' or serviciosingreso.cproced= '890201'
+or serviciosingreso.cproced= '890301'or serviciosingreso.cproced= '890302'
+or serviciosingreso.cproced= '890202' or serviciosingreso.cproced= '890701'
+or serviciosingreso.cproced = '735980' or serviciosingreso.cproced = '735931'
+or serviciosingreso.cproced = '735930' or serviciosingreso.cproced = '735910'
+or serviciosingreso.cproced = '735300' or serviciosingreso.cproced = '732201'
+or serviciosingreso.cproced = '721002'or serviciosingreso.cproced = '721001'
+or serviciosingreso.cproced = '740300' or serviciosingreso.cproced = '740200'
+or serviciosingreso.cproced = '740100'
+or serviciosingreso.cproced like '90%' or serviciosingreso.cproced like '87%'
+)" arguments=(("anyo", number),("mes1", number),("mes2", number))  sort="row_column A " )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="9" y="4" height="76" width="768" format="[general]" html.valueishtml="0"  name=row_column visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="33554432" x="786" y="4" height="76" width="343" format="#,##0" html.valueishtml="0"  name=val visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes crosstab.repeat=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="crosstabsum(1)"border="0" color="33554432" x="1138" y="4" height="76" width="274" format="#,##0" html.valueishtml="0"  name=grand_count_val visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header[2] alignment="2" text="INDICADOR" border="0" color="0" x="9" y="4" height="52" width="768" html.valueishtml="0"  name=row_column_t visible="1"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header[2] alignment="2" text="@col" border="0" color="0" x="786" y="4" height="52" width="343" html.valueishtml="0"  name=val_t visible="1"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header[2] alignment="2" text="TOTAL" border="0" color="0" x="1138" y="4" height="52" width="274" html.valueishtml="0"  name=grand_count_val_t visible="1"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+ crosstab(band = foreground  crosstabonly = yes 
+ columns = "case( ctreg when '1' then 'Contributivo' 
+when '2' then 'Subsidiado' 
+when '3' then 'Vinculado'
+when '12' then 'No POSS'
+else 'Otro')" rows = "if(cproced like '90%', 'Laboratorio clinico',if(cproced like '87%', 'Imagenes diagnosticas',
+case( cproced when '898005' then  'Citologias' 
+
+when '890201' then 'Medicina general'
+when '890301' then 'Medicina general'
+when '890701' then 'Consulta Urgencias'
+when '890202' then 'Medicina especializada'
+when '890302' then 'Medicina especializada'
+when '740300' then 'Partos por cesarea'
+when '740200' then 'Partos por cesarea'
+when '740100' then 'Partos por cesarea'
+ else 'Partos vaginales')))" values = "count(if(cproced like '90%', 'Laboratorio clinico',if(cproced like '87%', 'Imagenes diagnosticas',
+case( cproced when '898005' then  'Citologias' 
+
+when '890201' then 'Medicina general'
+when '890301' then 'Medicina general'
+when '890701' then 'Consulta Urgencias'
+when '890202' then 'Medicina especializada'
+when '890302' then 'Medicina especializada'
+when '740300' then 'Partos por cesarea'
+when '740200' then 'Partos por cesarea'
+when '740100' then 'Partos por cesarea'
+ else 'Partos vaginales'))) for crosstab)" sourcenames = "anyo, cemp, ccontrato, ctreg, cproced")htmltable(border="0" cellpadding="1" cellspacing="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

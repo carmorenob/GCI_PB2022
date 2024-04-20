@@ -1,0 +1,6 @@
+﻿$PBExportHeader$st_anomes.srs
+global type st_anomes from structure
+	long		ano
+	long		mes
+end type
+

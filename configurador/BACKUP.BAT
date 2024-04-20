@@ -1,0 +1,1 @@
+xcopy d:\gci_v10.5\configurador\*.pbl f:\back\gci_v10.5\configurador\ /y

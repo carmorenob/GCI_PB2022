@@ -1,0 +1,47 @@
+﻿$PBExportHeader$dw_act_tarifas.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no grid.lines=0 )
+header(height=68 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(2) update=yes updatewhereclause=yes key=yes name=codmanual dbname="manuales.codmanual" dbalias=".codmanual" )
+ column=(type=char(15) update=yes updatewhereclause=yes key=yes name=c_medica dbname="manuales.c_medica" dbalias=".c_medica" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=valor dbname="manuales.valor" dbalias=".valor" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=iva dbname="manuales.iva" dbalias=".iva" )
+ column=(type=number updatewhereclause=yes name=porc_venta dbname="manuales.porc_venta" dbalias=".porc_venta" )
+ column=(type=char(10) update=yes updatewhereclause=yes key=yes name=codarticulo dbname="manuales.codarticulo" dbalias=".codarticulo" )
+ retrieve="SELECT 
+	tarifa_medica.codmanual, tarifa_medica.c_medica, tarifa_medica.valor, tarifa_medica.iva
+	, sumarticulo.porc_venta, tarifa_medica.codarticulo
+FROM 
+	manuales INNER JOIN ((sumgenerico INNER JOIN sumarticulo ON sumgenerico.codgenerico = sumarticulo.codgenerico) INNER JOIN 
+	tarifa_medica ON (sumgenerico.c_medica = tarifa_medica.c_medica) AND (sumarticulo.codArticulo = tarifa_medica.codarticulo)) ON 
+	manuales.CodManual = tarifa_medica.CodManual
+WHERE 
+	(((sumarticulo.porc_venta)>0) AND ((sumgenerico.codgenerico)=:codgenerico) AND ((manuales.actualiza_sum)='1') AND 
+	((sumarticulo.codArticulo)=:codarticulo))
+" update="tarifa_medica" updatewhere=0 updatekeyinplace=yes arguments=(("codgenerico", string),("codarticulo", string)) )
+text(band=header alignment="0" text="Codmanual" border="0" color="0" x="5" y="4" height="52" width="59" html.valueishtml="0"  name=codmanual_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="C Medica" border="0" color="0" x="73" y="4" height="52" width="475" html.valueishtml="0"  name=c_medica_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Valor" border="0" color="0" x="558" y="4" height="52" width="2523" html.valueishtml="0"  name=valor_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Iva" border="0" color="0" x="3090" y="4" height="52" width="2523" html.valueishtml="0"  name=iva_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Porc Venta" border="0" color="0" x="5623" y="4" height="52" width="2523" html.valueishtml="0"  name=porc_venta_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Codarticulo" border="0" color="0" x="8155" y="4" height="52" width="315" html.valueishtml="0"  name=codarticulo_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="0" height="76" width="55" format="[general]" html.valueishtml="0"  name=codmanual visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="78" y="0" height="76" width="471" format="[general]" html.valueishtml="0"  name=c_medica visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="562" y="0" height="76" width="2519" format="[general]" html.valueishtml="0"  name=valor visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="3095" y="0" height="76" width="2519" format="[general]" html.valueishtml="0"  name=iva visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="5627" y="0" height="76" width="2519" format="[general]" html.valueishtml="0"  name=porc_venta visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="8160" y="0" height="76" width="311" format="[general]" html.valueishtml="0"  name=codarticulo visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

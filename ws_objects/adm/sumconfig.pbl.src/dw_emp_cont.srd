@@ -1,0 +1,21 @@
+﻿$PBExportHeader$dw_emp_cont.srd
+release 7;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=char(4) update=yes updatewhereclause=yes key=yes name=cod_empresa dbname="cont_empresa.cod_empresa" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=tipodoc dbname="cont_empresa.tipodoc" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=documento dbname="cont_empresa.documento" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=dverificacion dbname="cont_empresa.dverificacion" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=persona dbname="cont_empresa.persona" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=nombre1 dbname="cont_empresa.nombre1" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=nombre2 dbname="cont_empresa.nombre2" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=apellido1 dbname="cont_empresa.apellido1" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=apellido2 dbname="cont_empresa.apellido2" )
+ column=(type=char(250) update=yes updatewhereclause=yes name=razon_social dbname="cont_empresa.razon_social" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"cont_empresa~" ) COLUMN(NAME=~"cont_empresa.cod_empresa~") COLUMN(NAME=~"cont_empresa.tipodoc~") COLUMN(NAME=~"cont_empresa.documento~") COLUMN(NAME=~"cont_empresa.dverificacion~") COLUMN(NAME=~"cont_empresa.persona~") COLUMN(NAME=~"cont_empresa.nombre1~") COLUMN(NAME=~"cont_empresa.nombre2~") COLUMN(NAME=~"cont_empresa.apellido1~") COLUMN(NAME=~"cont_empresa.apellido2~") COLUMN(NAME=~"cont_empresa.razon_social~")) " update="cont_empresa" updatewhere=1 updatekeyinplace=no )
+compute(band=detail alignment="0" expression="if( persona ='N',  apellido1 + ' ' + if(isnull(apellido2),'', apellido2) + ' ' + nombre1 + ' ' +
+ if(isnull(nombre2), '', nombre2) , razon_social )"border="0" color="0" x="9" y="4" height="56" width="1303" format="[GENERAL]"  name=compute_1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" )

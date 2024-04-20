@@ -1,0 +1,46 @@
+﻿$PBExportHeader$time_intersec.srf
+global type time_intersec from function_object
+end type
+
+forward prototypes
+global function st_interfec time_intersec (st_interfec fec1, st_interfec fec2)
+end prototypes
+
+global function st_interfec time_intersec (st_interfec fec1, st_interfec fec2);st_interfec ret
+if isNull(fec1.x) then fec1.x = dateTime(date("01/01/1000"))
+if isNull(fec1.y) then fec1.y = dateTime(date("31/12/3000"))
+if isNull(fec2.x) then fec2.x = dateTime(date("01/01/1000"))
+if isNull(fec2.y) then fec2.y = dateTime(date("31/12/3000"))
+
+if fec1.x > fec1.y or fec2.x > fec2.y then	
+	setNull(ret.x)
+	setNull(ret.y)
+	Return ret
+end if
+
+if fec2.x >= fec1.x then
+	ret.x = fec2.x
+	if fec1.y < ret.x then
+		setNull(ret.x)
+		setNull(ret.y)     // Caso 1
+	elseif fec2.y <= fec1.y then
+		ret.y = fec2.y     // Caso 5 , 7 , 8
+	else
+		ret.y = fec1.y     // Caso 2
+	end if
+else
+	ret.x = fec1.x
+	if fec2.y < ret.x then
+		setNull(ret.x)
+		setNull(ret.y)     // Caso 4
+	elseif fec2.y <= fec1.y then
+		ret.y = fec2.y     // Caso 3
+	else
+		ret.y = fec1.y     // Caso 6
+	end if
+end if
+
+return ret
+
+end function
+

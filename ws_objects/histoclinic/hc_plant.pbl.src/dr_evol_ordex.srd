@@ -1,0 +1,83 @@
+﻿$PBExportHeader$dr_evol_ordex.srd
+release 11.5;
+datawindow(units=2 timer_interval=0 color=1073741824 processing=7 print.printername ="" print.documentname="" print.orientation = 0 print.margin.left = 250 print.margin.right = 250 print.margin.top = 250 print.margin.bottom = 250 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes richtext.headerfooter=yes richtext.wordwrap=no richtext.popmenu=yes richtext.pictureframe=no richtext.inputfieldnamesvisible=no richtext.inputfieldsvisible=yes richtext.tabsvisible=no richtext.returnsvisible=no richtext.spacesvisible=no richtext.inputfieldbackcolor=1073741824 richtext.backcolor=1073741824 richtext.tabbar=no richtext.rulerbar=no richtext.toolbar=no richtext.displayonly=no )
+detail(text="{\rtf1\ansi\ansicpg1252\uc1\deff0{\fonttbl
+{\f0\fswiss\fcharset0\fprq2 Arial;}
+{\f1\fswiss\fcharset0\fprq2 Tahoma;}
+{\f2\froman\fcharset2\fprq2 Symbol;}}
+{\colortbl;\red0\green0\blue0;\red255\green255\blue255;}
+{\stylesheet{\s0\itap0\nowidctlpar\f0\fs24 [Normal];}{\*\cs10\additive Default Paragraph Font;}}
+{\*\generator TX_RTF32 13.0.501.501;}
+\deftab1134\paperw12240\paperh15840\margl0\margt0\margr0\margb0\widowctrl
+{\*\background{\shp{\*\shpinst\shpleft0\shptop0\shpright0\shpbottom0\shpfhdr0\shpbxmargin\shpbxignore\shpbymargin\shpbyignore\shpwr0\shpwrk0\shpfblwtxt1\shplid1025{\sp{\sn shapeType}{\sv 1}}{\sp{\sn fFlipH}{\sv 0}}{\sp{\sn fFlipV}{\sv 0}}{\sp{\sn fillColor}{\sv 16777215}}{\sp{\sn fFilled}{\sv 1}}{\sp{\sn lineWidth}{\sv 0}}{\sp{\sn fLine}{\sv 0}}{\sp{\sn fBackground}{\sv 1}}{\sp{\sn fLayoutInCell}{\sv 1}}}}}\pard\itap0\nowidctlpar\plain\f1\fs20\ul ORDENADO POR: \plain\f1\fs20\ul{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b00500052004f00460045005f00440045005300500052004f0046007d000000}{\*\txfieldtext \{PROFE_DESPROF\}}{\field\fldlock{\*\fldinst { MERGEFIELD \{PROFE_DESPROF\}}}{\fldrslt{\{PROFE_DESPROF\}}}}}\plain\f1\fs20\ul  - (\plain\f1\fs20\ul{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b004400450053004500530050007d000000}{\*\txfieldtext \{DESESP\}}{\field\fldlock{\*\fldinst { MERGEFIELD \{DESESP\}}}{\fldrslt{\{DESESP\}}}}}\plain\f1\fs20\ul ) FECHA: \plain\f1\fs20\ul{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b004600450043004800410047007d000000}{\*\txfieldtext \{FECHAG\}}{\field\fldlock{\*\fldinst { MERGEFIELD \{FECHAG\}}}{\fldrslt{\{FECHAG\}}}}}\plain\f1\fs20\ul  \plain\f1\fs20\par\pard\itap0\nowidctlpar\plain\f1\fs20\b{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b00440045005300430041004d0050004f007d000000}{\*\txfieldtext \{DESCAMPO\}}{\field\fldlock{\*\fldinst { MERGEFIELD \{DESCAMPO\}}}{\fldrslt{\{DESCAMPO\}}}}}\plain\f1\fs20\b  \plain\f1\fs20  \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b0054004500580054004f007d000000}{\*\txfieldtext \{TEXTO\}}{\field\fldlock{\*\fldinst { MERGEFIELD \{TEXTO\}}}{\fldrslt{\{TEXTO\}}}}}\plain\f1\fs20  \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b00530049004e004f007d000000}{\*\txfieldtext \{SINO\}}{\field\fldlock{\*\fldinst { MERGEFIELD \{SINO\}}}{\fldrslt{\{SINO\}}}}}\plain\f1\fs20  \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b004e0055004d00450052004f007d000000}{\*\txfieldtext \{NUMERO\}}{\field\fldlock{\*\fldinst { MERGEFIELD \{NUMERO\}}}{\fldrslt{\{NUMERO\}}}}}\plain\f1\fs20   \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b004c004f004e0047005f0054004500580054004f007d000000}{\*\txfieldtext \{LONG_TEXTO\}}{\field\fldlock{\*\fldinst { MERGEFIELD \{LONG_TEXTO\}}}{\fldrslt{\{LONG_TEXTO\}}}}}\plain\f1\fs20  \plain\f1\fs20{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b00460045004300480041007d000000}{\*\txfieldtext \{FECHA\}}{\field\fldlock{\*\fldinst { MERGEFIELD \{FECHA\}}}{\fldrslt{\{FECHA\}}}}}\plain\f1\fs20  }")
+header(text="{\rtf1\ansi\ansicpg1252\uc1\deff0{\fonttbl
+{\f0\fswiss\fcharset0\fprq2 Arial;}
+{\f1\fswiss\fcharset0\fprq2 Tahoma;}
+{\f2\froman\fcharset2\fprq2 Symbol;}}
+{\colortbl;\red0\green0\blue0;\red255\green255\blue255;}
+{\stylesheet{\s0\itap0\nowidctlpar\f0\fs24 [Normal];}{\*\cs10\additive Default Paragraph Font;}}
+{\*\generator TX_RTF32 13.0.501.501;}
+\deftab1134\paperw12240\paperh15840\margl0\margt0\margr0\margb0\widowctrl
+{\*\background{\shp{\*\shpinst\shpleft0\shptop0\shpright0\shpbottom0\shpfhdr0\shpbxmargin\shpbxignore\shpbymargin\shpbyignore\shpwr0\shpwrk0\shpfblwtxt1\shplid1025{\sp{\sn shapeType}{\sv 1}}{\sp{\sn fFlipH}{\sv 0}}{\sp{\sn fFlipV}{\sv 0}}{\sp{\sn fillColor}{\sv 16777215}}{\sp{\sn fFilled}{\sv 1}}{\sp{\sn lineWidth}{\sv 0}}{\sp{\sn fLine}{\sv 0}}{\sp{\sn fBackground}{\sv 1}}{\sp{\sn fLayoutInCell}{\sv 1}}}}}\pard\itap0\nowidctlpar\plain\f1\fs20}")
+footer(text="{\rtf1\ansi\ansicpg1252\uc1\deff0{\fonttbl
+{\f0\fswiss\fcharset0\fprq2 Arial;}
+{\f1\fswiss\fcharset0\fprq2 Tahoma;}
+{\f2\froman\fcharset2\fprq2 Symbol;}}
+{\colortbl;\red0\green0\blue0;\red255\green255\blue255;}
+{\stylesheet{\s0\itap0\nowidctlpar\f0\fs24 [Normal];}{\*\cs10\additive Default Paragraph Font;}}
+{\*\generator TX_RTF32 13.0.501.501;}
+\deftab1134\paperw12240\paperh15840\margl0\margt0\margr0\margb0\widowctrl
+{\*\background{\shp{\*\shpinst\shpleft0\shptop0\shpright0\shpbottom0\shpfhdr0\shpbxmargin\shpbxignore\shpbymargin\shpbyignore\shpwr0\shpwrk0\shpfblwtxt1\shplid1025{\sp{\sn shapeType}{\sv 1}}{\sp{\sn fFlipH}{\sv 0}}{\sp{\sn fFlipV}{\sv 0}}{\sp{\sn fillColor}{\sv 16777215}}{\sp{\sn fFilled}{\sv 1}}{\sp{\sn lineWidth}{\sv 0}}{\sp{\sn fLine}{\sv 0}}{\sp{\sn fBackground}{\sv 1}}{\sp{\sn fLayoutInCell}{\sv 1}}}}}\pard\itap0\nowidctlpar\plain\f1\fs20}")table(column=(type=datetime updatewhereclause=yes name=fechag dbname="especialidades.fechag" dbalias=".fechag" )
+ column=(type=char(85) updatewhereclause=yes name=profe_desprof dbname="desprof" )
+ column=(type=char(100) updatewhereclause=yes name=desplantilla dbname="especialidades.desplantilla" dbalias=".desplantilla" )
+ column=(type=long updatewhereclause=yes name=nregistro dbname="especialidades.nregistro" dbalias=".nregistro" )
+ column=(type=long updatewhereclause=yes name=orden dbname="especialidades.orden" dbalias=".orden" )
+ column=(type=char(255) updatewhereclause=yes name=descampo dbname="especialidades.descampo" dbalias=".descampo" )
+ column=(type=char(1) updatewhereclause=yes name=tipo dbname="especialidades.tipo" dbalias=".tipo" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_memo dbname="especialidades.tipo_memo" dbalias=".tipo_memo" )
+ column=(type=char(255) updatewhereclause=yes name=texto dbname="especialidades.texto" dbalias=".texto" )
+ column=(type=char(1) updatewhereclause=yes name=sino dbname="especialidades.sino" dbalias=".sino" )
+ column=(type=decimal(2) updatewhereclause=yes name=numero dbname="especialidades.numero" dbalias=".numero" )
+ column=(type=char(32766) updatewhereclause=no name=long_texto dbname="especialidades.long_texto" dbalias=".long_texto" )
+ column=(type=datetime updatewhereclause=yes name=fecha dbname="especialidades.fecha" dbalias=".fecha" )
+ column=(type=long updatewhereclause=yes name=item dbname="especialidades.item" dbalias=".item" )
+ column=(type=datetime updatewhereclause=yes name=fecha_reg dbname="especialidades.fecha_reg" dbalias=".fecha_reg" )
+ column=(type=char(15) updatewhereclause=yes name=registro dbname="especialidades.registro" dbalias=".registro" )
+ column=(type=char(100) updatewhereclause=yes name=desesp dbname="especialidades.desesp" dbalias=".desesp" )
+ retrieve="  SELECT  
+	hclin_registro.fecha as fechag,            profe.nombre1+ case when profe.nombre2  is null then ' ' else  '  '+profe.nombre2 end +' '+ 
+ profe.apellido1+ case when profe.apellido2 is null then ' ' else  '  '+profe.apellido2 end as desprof,           hclin_registro.desplantilla ,           hclin_registro.nregistro ,           
+	hclin_reg_valor.orden ,           hclin_reg_valor.descampo ,           hclin_reg_valor.tipo ,           
+	hclin_reg_valor.tipo_memo ,           hclin_reg_valor.texto ,           hclin_reg_valor.sino ,           
+	hclin_reg_valor.numero ,           hclin_reg_valor.long_texto ,           hclin_reg_valor.fecha  ,           
+	hclin_reg_valor.item ,           hclin_registro.fecha_reg  , profe.REGISTRO, ESPECIALIDADES.DESESP  
+FROM 
+	((hclin_registro INNER JOIN hclin_reg_valor ON (hclin_registro.nregistro = hclin_reg_valor.nregistro) AND 
+	(hclin_registro.clugar = hclin_reg_valor.clugar) AND (hclin_registro.contador = hclin_reg_valor.CONTADOR)) INNER JOIN 
+	profe ON hclin_registro.codprof = profe.CodProf) INNER JOIN ESPECIALIDADES ON hclin_registro.CESP = ESPECIALIDADES.CODESP
+WHERE ( hclin_registro.contador = hclin_reg_valor.contador ) and          ( hclin_registro.clugar = hclin_reg_valor.clugar ) and          
+	( hclin_registro.nregistro = hclin_reg_valor.nregistro ) and          ( hclin_registro.codprof = profe.codprof ) and          
+((hclin_registro.contador = :contador And          ( hclin_registro.clugar = :clug ) And          ( hclin_registro.tipo = :tipo) ) or          
+	(hclin_registro.tipo = 'R' And          ( hclin_registro.tipo = 'H' ) And          ( hclin_registro.ingreso = 'I' ) And          ( hclin_reg_valor.tipo = 'M' ) And          
+( hclin_reg_valor.tipo_memo = 'C' ) And          ( hclin_registro.contador = :contador ) And          ( hclin_registro.clugar = :clug)) )
+" arguments=(("contador", number),("clug", string),("tipo", string)) )
+column(name=fechag id=1 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=profe_desprof id=2 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=desplantilla id=3 visible="0" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=nregistro id=4 visible="0" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=orden id=5 visible="0" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=descampo id=6 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=tipo id=7 visible="0" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=tipo_memo id=8 visible="0" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=texto id=9 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=sino id=10 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=numero id=11 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=long_texto id=12 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=fecha id=13 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=item id=14 visible="0" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=fecha_reg id=15 visible="0" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=registro id=16 visible="0" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=desesp id=17 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()

@@ -1,0 +1,10 @@
+﻿$PBExportHeader$qr_config.srs
+global type qr_config from structure
+	integer		version
+	integer		tamanyo
+	integer		marcas_alineacion[]
+	integer		data
+	rs_blocks		blocks[]
+	st_xy		reservados[]
+end type
+

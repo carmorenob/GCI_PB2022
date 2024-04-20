@@ -1,0 +1,9 @@
+﻿$PBExportHeader$st_xa_elegir.srs
+global type st_xa_elegir from structure
+	string		dw_object
+	string		titulo
+	long		ancho
+	long		alto
+	string		codplantilla
+end type
+

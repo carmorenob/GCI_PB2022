@@ -1,0 +1,45 @@
+﻿$PBExportHeader$f_mes.srf
+global type f_mes from function_object
+end type
+
+forward prototypes
+global function string letras (real numero)
+global function string f_mes (readonly integer numero)
+end prototypes
+
+global function string letras (real numero);return ""
+end function
+
+global function string f_mes (readonly integer numero);string let_num
+
+choose case numero
+	case 1
+		let_num='ENERO'
+	case 2
+		let_num='FEBRERO'
+	case 3
+		let_num='MARZO'
+	case 4
+		let_num='ABRIL'
+	case 5
+		let_num='MAYO'
+	case 6
+		let_num='JUNIO'
+	case 7
+		let_num='JULIO'
+	case 8
+		let_num='AGOSTO'
+	case 9
+		let_num='SEPTIEMBRE'
+	case 10
+		let_num='OCTUBRE'
+	case 11
+		let_num='NOVIEMBRE'
+	case 12
+		let_num='DICIEMBRE'
+end choose
+
+
+return trim(let_num)
+end function
+

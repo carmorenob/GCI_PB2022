@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_titu_vent.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=67108864 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=140 color="536870912" )
+table(column=(type=char(4) update=yes updatewhereclause=yes key=yes name=cod_ventana dbname="modulos_ventana.cod_ventana" )
+ column=(type=char(4) update=yes updatewhereclause=yes key=yes name=codmodulo dbname="modulos_ventana.codmodulo" )
+ column=(type=char(80) update=yes updatewhereclause=yes key=yes name=titulo dbname="modulos_ventana.titulo" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"modulos_ventana~" ) COLUMN(NAME=~"modulos_ventana.cod_ventana~") COLUMN(NAME=~"modulos_ventana.codmodulo~") COLUMN(NAME=~"modulos_ventana.titulo~")WHERE(    EXP1 =~"modulos_ventana.cod_ventana~"   OP =~"=~"    EXP2 =~":c_vent~"    LOGIC =~"And~" ) WHERE(    EXP1 =~"modulos_ventana.codmodulo~"   OP =~"=~"    EXP2 =~":c_mod~" ) ) ARG(NAME = ~"c_mod~" TYPE = string)  ARG(NAME = ~"c_vent~" TYPE = string) " update="modulos_ventana" updatewhere=0 updatekeyinplace=yes arguments=(("c_mod", string),("c_vent", string)) )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="33554432" x="18" y="72" height="56" width="1321" format="[general]" html.valueishtml="0"  name=titulo visible="1" edit.limit=80 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="0" text="Titulo:" border="0" color="33554432" x="14" y="8" height="52" width="361" html.valueishtml="0"  name=titulo_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

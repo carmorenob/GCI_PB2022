@@ -1,0 +1,27 @@
+﻿$PBExportHeader$str_proc.srs
+$PBExportComments$Se utiliza para que la funcion f_busca_cups retorne ahi todos los valores
+global type str_proc from structure
+	string		cproc
+	string		descripcion
+	string		agrupser
+	string		rips
+	string		codadx
+	string		tipoproc
+	real		valor
+	decimal { 2 }		iva
+	string		especial
+	string		sexo
+	double		edadini
+	double		edadfin
+	string		codesp
+	integer		tiempoqx
+	string		cod_tsubempaq
+	string		cod_banco
+	string		descrip_tipo
+	string		cups
+	string		version
+	string		pos
+	string		remision
+	string		odonconsul
+end type
+

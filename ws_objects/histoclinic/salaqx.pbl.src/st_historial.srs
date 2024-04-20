@@ -1,0 +1,8 @@
+﻿$PBExportHeader$st_historial.srs
+global type st_historial from structure
+	long		contador
+	string		clugar
+	string		cemp
+	string		ccont
+end type
+

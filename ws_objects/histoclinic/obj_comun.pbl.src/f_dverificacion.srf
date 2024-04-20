@@ -1,0 +1,36 @@
+﻿$PBExportHeader$f_dverificacion.srf
+global type f_dverificacion from function_object
+end type
+
+forward prototypes
+global function string f_dverificacion (string p_docu)
+end prototypes
+
+global function string f_dverificacion (string p_docu);int residuo,nums[15]
+long suma
+if pos(p_docu,'.')>0 then return '?'
+if pos(p_docu,',')>0 then return '?'
+if pos(p_docu,'-')>0 then return '?'
+if not isnumber(p_docu) then return '?'
+if len(p_docu)>15 then return '?'
+nums[1]=long(right(p_docu,1))*3
+if len(p_docu)-1 >0 then nums[2]=long(mid(p_docu,len(p_docu)-1,1))*7
+if len(p_docu)-2 >0 then nums[3]=long(mid(p_docu,len(p_docu)-2,1))*13
+if len(p_docu)-3 >0 then nums[4]=long(mid(p_docu,len(p_docu)-3,1))*17
+if len(p_docu)-4 >0 then nums[5]=long(mid(p_docu,len(p_docu)-4,1))*19
+if len(p_docu)-5 >0 then nums[6]=long(mid(p_docu,len(p_docu)-5,1))*23
+if len(p_docu)-6 >0 then nums[7]=long(mid(p_docu,len(p_docu)-6,1))*29
+if len(p_docu)-7 >0 then nums[8]=long(mid(p_docu,len(p_docu)-7,1))*37
+if len(p_docu)-8 >0 then nums[9]=long(mid(p_docu,len(p_docu)-8,1))*41
+if len(p_docu)-9 >0 then nums[10]=long(mid(p_docu,len(p_docu)-9,1))*43
+if len(p_docu)-10 >0 then nums[11]=long(mid(p_docu,len(p_docu)-10,1))*47
+if len(p_docu)-11 >0 then nums[12]=long(mid(p_docu,len(p_docu)-11,1))*53
+if len(p_docu)-12 >0 then nums[13]=long(mid(p_docu,len(p_docu)-12,1))*59
+if len(p_docu)-13 >0 then nums[14]=long(mid(p_docu,len(p_docu)-13,1))*67
+if len(p_docu)-14 >0 then nums[15]=long(mid(p_docu,len(p_docu)-14,1))*71
+suma=nums[1]+nums[2]+nums[3]+nums[4]+nums[5]+nums[6]+nums[7]+nums[8]+nums[9]+nums[10]+nums[11]+nums[12]+nums[13]+nums[14]+nums[15]
+residuo=mod(suma,11)
+if residuo=0 or residuo=1 then return string(residuo)
+return string(11 - residuo)
+end function
+

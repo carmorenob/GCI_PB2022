@@ -1,0 +1,46 @@
+﻿$PBExportHeader$dw_emp_lote.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no grid.lines=0 )
+header(height=68 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=108 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=codemp dbname="empresa.codemp" )
+ column=(type=char(120) updatewhereclause=yes name=desemp dbname="empresa.desemp" )
+ column=(type=long updatewhereclause=yes name=nro_arc dbname="nro_arc" )
+ column=(type=long updatewhereclause=yes name=todos dbname="todos" initial="0" values="	1/	0/	2" )
+ column=(type=long updatewhereclause=yes name=nro_con dbname="nro_con" )
+ retrieve="SELECT Empresa.CodEmp, Empresa.DesEmp, 0 AS nro_arc ,0 as todos , count(Empresa.CodEmp) as nro_con
+FROM Empresa INNER JOIN Contratos ON Empresa.CodEmp = Contratos.CodEmp
+where contratos.estado like :estad
+group by Empresa.CodEmp, Empresa.DesEmp
+" arguments=(("estad", string))  sort="desemp A " )
+text(band=header alignment="2" text="# Arcs" border="6" color="33554432" x="155" y="8" height="52" width="133" html.valueishtml="0"  name=nro_arc_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="# Cont" border="6" color="0" x="297" y="8" height="52" width="142" html.valueishtml="0"  name=nro_con_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Empresa" border="6" color="33554432" x="448" y="8" height="52" width="1381" html.valueishtml="0"  name=desemp_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+button(band=header text="Todas" enabled=yes action="0" border="0" color="0" x="5" y="4" height="64" width="142" vtextalign="0" htextalign="0"  name=b_1 pointer="HyperLink!" visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+column(band=detail id=3 alignment="2" tabsequence=20 border="0" color="33554432" x="155" y="4" height="56" width="133" format="[general]" html.valueishtml="0"  name=nro_arc visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=3 edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tIf ( currentrow()=getrow() , 700 , 400)"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tIf ( currentrow()=getrow() , 1 , 0)"  background.mode="0" background.color="536870912~tcase( todos
+when 0 then rgb(192,192,192) 
+when 1 then rgb(255,255,255)
+when 2 then rgb(230,230,230))" )
+column(band=detail id=5 alignment="2" tabsequence=30 border="0" color="33554432" x="297" y="4" height="56" width="142" format="[general]" html.valueishtml="0"  name=nro_con visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0 edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tIf ( currentrow()=getrow() , 700 , 400)"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tIf ( currentrow()=getrow() , 1 , 0)"  background.mode="0" background.color="553648127~tcase( todos
+when 0 then rgb(192,192,192) 
+when 1 then rgb(255,255,255)
+when 2 then rgb(230,230,230))" )
+column(band=detail id=2 alignment="0" tabsequence=40 border="0" color="33554432" x="448" y="4" height="56" width="1381" format="[general]" html.valueishtml="0"  name=desemp visible="1" edit.limit=120 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes edit.imemode=3 edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tIf ( currentrow()=getrow() , 700 , 400)"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tIf ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="553648127~tcase( todos
+when 0 then rgb(192,192,192) 
+when 1 then rgb(255,255,255)
+when 2 then rgb(230,230,230))" )
+column(band=detail id=4 alignment="2" tabsequence=10 border="0" color="33554432" x="9" y="4" height="56" width="137" format="[general]" html.valueishtml="0"  name=todos visible="1" checkbox.text="" checkbox.on="1" checkbox.off="0" checkbox.other="2" checkbox.scale=no checkbox.threed=yes  font.face="Tahoma" font.height="-8" font.weight="400~tIf ( currentrow()=getrow() , 700 , 400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="553648127~tcase( todos
+when 0 then rgb(192,192,192) 
+when 1 then rgb(255,255,255)
+when 2 then rgb(230,230,230))" )
+compute(band=footer alignment="2" expression="sum ( if (  todos <>0 , 1,0) for all)"border="0" color="0" x="9" y="0" height="56" width="137" format="[GENERAL]" html.valueishtml="0"  name=t_emp visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="Total Archivos a Radicar" border="0" color="0" x="448" y="56" height="52" width="1381" html.valueishtml="0"  name=t_2 visible="1"  font.face="Tahoma" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="2" expression="sum( nro_arc  for all)"border="0" color="0" x="155" y="56" height="52" width="133" format="[GENERAL]" html.valueishtml="0"  name=t_arch visible="1"  font.face="Tahoma" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="'Empresas Seleccionadas de ' + rowcount()"border="0" color="0" x="448" y="0" height="52" width="1381" format="[GENERAL]" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

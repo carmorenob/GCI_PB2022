@@ -1,0 +1,40 @@
+﻿$PBExportHeader$verificakardex_lote.srf
+global type verificakardex_lote from function_object
+end type
+
+forward prototypes
+global function integer verificakardex_lote (string codalmacen, string codarticulo)
+end prototypes
+
+global function integer verificakardex_lote (string codalmacen, string codarticulo);Double cantk, cantl
+string vence
+select vence into :vence from sumarticulo
+where codarticulo = :codarticulo;
+IF SQLCA.SQLCode = -1 THEN 
+	MessageBox("SQL error", SQLCA.SQLErrText)
+	Return -1
+END IF
+if isNull(vence) or vence = '0' then Return 0
+
+select saldoactual into :cantk from sum_kardex
+where codalmacen=:codalmacen and codarticulo=:codarticulo;
+IF SQLCA.SQLCode = -1 THEN 
+	MessageBox("SQL error", SQLCA.SQLErrText)
+	Return -1
+END IF
+
+select sum(cantidad) into :cantl from sum_lote
+where codalmacen=:codalmacen and codarticulo=:codarticulo;
+IF SQLCA.SQLCode = -1 THEN 
+	MessageBox("SQL error", SQLCA.SQLErrText)
+	Return -1
+END IF
+
+if cantk = cantl then
+	Return 0
+else
+	Return -1
+end if
+
+end function
+

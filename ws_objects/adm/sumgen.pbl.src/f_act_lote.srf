@@ -1,0 +1,127 @@
+﻿$PBExportHeader$f_act_lote.srf
+global type f_act_lote from function_object
+end type
+
+forward prototypes
+global function integer f_act_lote (string codalmacen, string codarticulo, double cantidad, string coddoc, string lugar, double numdoc, double item, string lote, datetime fecha_venc, integer signo, string codalmacendes, string convenio)
+end prototypes
+
+global function integer f_act_lote (string codalmacen, string codarticulo, double cantidad, string coddoc, string lugar, double numdoc, double item, string lote, datetime fecha_venc, integer signo, string codalmacendes, string convenio);long i, fila, f, j
+uo_dataStore dw_lote, dwa_lote,dw_mov, dwa_mov
+dw_lote = CREATE uo_dataStore
+dw_mov = CREATE uo_dataStore
+dw_lote.DataObject = "dw_lote"
+dw_mov.DataObject = "dw_lote_mov"
+dw_lote.SetTransObject(SQLCA)
+dw_mov.SetTransObject(SQLCA)
+
+if isNull(cantidad) then
+	Rollback;
+	MessageBox('Atención','La cantidad es nula para el articulo '+codarticulo)
+	Return -1
+end if
+if cantidad=0 then return 0
+if isNull(lote) then
+	Rollback;
+	MessageBox('Atención','El lote es nulo para el articulo '+codarticulo)
+	Return -1
+end if
+
+dw_lote.Retrieve(codalmacen, codarticulo)
+//modifique
+//fila = dw_lote.find("lote='" + lote + "' and convenio='"+convenio+"'", 1, dw_lote.RowCount())
+//fila = dw_lote.find("upper(lote)='" + upper(lote) + "' and upper(convenio)='"+upper(convenio)+"'", 1, dw_lote.RowCount())
+fila = dw_lote.find("upper(lote)='" + upper(lote) + "' and upper(convenio)='"+upper(convenio)+"'"+ " and date(fecha_venc)=date('"+string(fecha_venc,'dd/mm/yyyy')+"')", 1, dw_lote.RowCount())
+if fila = 0 then
+	fila = dw_lote.InsertRow(0)
+	dw_lote.SetItem(fila,'codalmacen',codalmacen)
+	dw_lote.SetItem(fila,'codarticulo',codarticulo)
+	dw_lote.SetItem(fila,'lote',lote)
+	dw_lote.SetItem(fila,'fecha_venc',fecha_venc)
+	dw_lote.SetItem(fila,'cantidad',cantidad * signo)
+	dw_lote.SetItem(fila,'convenio',convenio)
+elseif fila > 0 then
+	dw_lote.SetItem(fila,'cantidad',(dw_lote.GetItemNumber(fila,'cantidad') + (signo * cantidad)) )
+end if
+if dw_lote.GetItemNumber(fila,'cantidad') < 0 then
+	Rollback;
+	messageBox('Error','La cantidad para el lote del articulo '+codarticulo+' Lote ' + lote+ ' es negativa')
+	Return -1
+end if
+if dw_lote.Update() = -1 then
+	Rollback;
+	Return -1
+end if
+
+fila = dw_mov.InsertRow(0)
+dw_mov.SetItem(fila,'codalmacen',codalmacen)
+dw_mov.SetItem(fila,'codarticulo',codarticulo)
+dw_mov.SetItem(fila,'coddoc',coddoc)
+//dw_mov.SetItem(fila,'cLugar',cLugar)
+dw_mov.SetItem(fila,'cLugar',lugar)
+dw_mov.SetItem(fila,'numdoc',numdoc)
+dw_mov.SetItem(fila,'item',item)
+dw_mov.SetItem(fila,'lote',lote)
+dw_mov.SetItem(fila,'fecha_venc',fecha_venc)
+dw_mov.SetItem(fila,'cantidad',cantidad)
+dw_mov.SetItem(fila,'signo', signo)
+dw_mov.SetItem(fila,'estado','1')
+dw_mov.SetItem(fila,'convenio',convenio)
+
+if dw_mov.Update() = -1 then
+	Rollback;
+	Return -1
+end if
+
+if coddoc = 'ST' then //TRASLADO
+	dw_lote.Retrieve(codalmacendes, codarticulo)
+//	fila = dw_lote.find("lote='" + lote + "' and convenio='"+convenio+"'", 1, dw_lote.RowCount())
+//	fila = dw_lote.find("upper(lote)='" + upper(lote) + "' and upper(convenio)='"+upper(convenio)+"'"+ " and fecha_vence='"+string(fecha_venc)+"'", 1, dw_lote.RowCount())
+	fila = dw_lote.find("upper(lote)='" + upper(lote) + "' and upper(convenio)='"+upper(convenio)+"'"+ " and date(fecha_venc)=date('"+string(fecha_venc,'dd/mm/yyyy')+"')", 1, dw_lote.RowCount())
+	if fila = 0 then
+		fila = dw_lote.InsertRow(0)
+		dw_lote.SetItem(fila,'codalmacen',codalmacendes)
+		dw_lote.SetItem(fila,'codarticulo',codarticulo)
+		dw_lote.SetItem(fila,'lote',lote)
+		dw_lote.SetItem(fila,'fecha_venc',fecha_venc)
+		dw_lote.SetItem(fila,'cantidad',cantidad * signo * -1)
+		dw_lote.SetItem(fila,'convenio',convenio)
+	elseif fila > 0 then
+		dw_lote.SetItem(fila,'cantidad',dw_lote.GetItemNumber(fila,'cantidad') + cantidad * signo * -1 )
+	end if
+	if dw_lote.GetItemNumber(fila,'cantidad') < 0 then
+		Rollback;
+		messageBox('Error','Almacen destino - La cantidad para el lote  ' + lote + ' es negativa. Articulo '+codarticulo)
+		Return -1
+	end if
+	
+	fila = dw_mov.InsertRow(0)
+	dw_mov.SetItem(fila,'codalmacen',codalmacendes)
+	dw_mov.SetItem(fila,'codarticulo',codarticulo)
+	dw_mov.SetItem(fila,'coddoc',coddoc)
+//	dw_mov.SetItem(fila,'cLugar',cLugar)
+	dw_mov.SetItem(fila,'cLugar',Lugar)	
+	dw_mov.SetItem(fila,'numdoc',numdoc)
+	dw_mov.SetItem(fila,'item',item)
+	dw_mov.SetItem(fila,'fecha_venc',fecha_venc)
+	dw_mov.SetItem(fila,'lote',lote)
+	dw_mov.SetItem(fila,'cantidad',cantidad)
+	dw_mov.SetItem(fila,'signo', signo * -1)
+	dw_mov.SetItem(fila,'estado','1')
+	dw_mov.SetItem(fila,'convenio',convenio)
+	if dw_lote.Update() = -1 then
+		Rollback;
+		Return -1
+	end if	
+
+	if dw_mov.Update() = -1 then
+		Rollback;
+		Return -1
+	end if	
+
+end if
+
+Return 0
+
+end function
+

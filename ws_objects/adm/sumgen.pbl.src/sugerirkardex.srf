@@ -1,0 +1,80 @@
+﻿$PBExportHeader$sugerirkardex.srf
+global type sugerirkardex from function_object
+end type
+
+forward prototypes
+global function integer sugerirkardex (string codalmacen, datawindow dw_c, datawindow dw_l)
+end prototypes
+
+global function integer sugerirkardex (string codalmacen, datawindow dw_c, datawindow dw_l);uo_datastore dw_k, dw_lt
+long c, fl, flo, k
+double cant
+
+dw_k = Create uo_datastore
+dw_k.DataObject = 'dw_kardex'
+dw_k.SetTransObject(SQLCA)
+dw_lt = Create uo_datastore
+dw_lt.DataObject = 'dw_lote'
+dw_lt.SetTransObject(SQLCA)
+dw_lt.SetFilter("cantidad > 0")
+dw_lt.Filter()
+
+for c = 1 to dw_c.RowCount()
+	dw_c.ScrolltoRow(c)
+	k = dw_k.Retrieve(codalmacen,dw_c.GetItemString(c,'codarticulo'))
+	if dw_c.GetItemString(c,'vence') = '1' then
+		if dw_lt.Retrieve(codalmacen,dw_c.GetItemString(c,'codarticulo')) > 0 then
+			cant = dw_c.GetItemNumber(c,'cantidad')
+			fl = 1
+			do while cant > 0 and fl <= dw_lt.RowCount()
+//				if dw_l.Find("lote='"+dw_lt.GetItemString(fl,'lote')+"' and convenio='"+dw_lt.GetItemString(fl,'convenio')+"'", 1, dw_l.RowCount()) = 0 then
+//				if dw_l.Find("upper(lote)='"+upper(dw_lt.GetItemString(fl,'lote'))+"' and convenio='"+dw_lt.GetItemString(fl,'convenio')+"'", 1, dw_l.RowCount()) = 0 then
+				if dw_l.find("upper(lote)='" + upper(dw_lt.GetItemString(fl,'lote')) + "' and upper(convenio)='"+upper(dw_lt.GetItemString(fl,'convenio'))+"'"+ " and date(fecha_venc)=date('"+string(dw_lt.GetItemDateTime(fl,'fecha_venc'),'dd/mm/yyyy')+"')", 1, dw_l.RowCount())= 0 then
+					flo = dw_l.InsertRow(0)
+					dw_l.SetItem(flo,'codalmacen',codalmacen)
+					dw_l.SetItem(flo,'codarticulo',dw_c.GetItemString(c,'codarticulo'))
+					dw_l.SetItem(flo,'coddoc',dw_c.GetItemString(c,'coddoc'))
+					dw_l.SetItem(flo,'clugar',dw_c.GetItemString(c,'clugar'))
+					dw_l.SetItem(flo,'numdoc',dw_c.GetItemNumber(c,'numdoc'))
+					dw_l.SetItem(flo,'item',dw_c.GetItemNumber(c,'item'))
+					dw_l.SetItem(flo,'fecha_venc',dw_lt.GetItemDateTime(fl,'fecha_venc'))
+					dw_l.SetItem(flo,'signo',-1)
+					dw_l.SetItem(flo,'estado','1')					
+					dw_l.SetItem(flo,'lote',dw_lt.GetItemString(fl,'lote'))
+					dw_l.SetItem(flo,'convenio',dw_lt.GetItemString(fl,'convenio'))
+					dw_l.SetItem(flo,'saldo_lote',dw_lt.GetItemNumber(fl,'cantidad'))
+				end if
+				if cant > dw_lt.GetItemNumber(fl,'cantidad') then
+					dw_l.SetItem(flo,'cantidad',dw_lt.GetItemNumber(fl,'cantidad'))
+					cant = cant - dw_lt.GetItemNumber(fl,'cantidad')
+				else
+					dw_l.SetItem(flo,'cantidad',cant)
+					cant = 0
+				end if
+				fl = fl + 1
+			loop
+			dw_c.SetItem(c,'cantidad',double(dw_l.Describe("Evaluate('sum(cantidad)',0)")))
+		else  // No hay saldo en Lotes
+			dw_c.SetItem(c,'cantidad',0)
+		end if
+	else // No vence
+		if k = 1 then
+			cant = dw_c.GetItemNumber(c,'cantidad')		
+			if cant > dw_k.GetItemNumber(1,'saldoactual') then
+				dw_c.SetItem(c,'cantidad',dw_k.GetItemNumber(1,'saldoactual'))
+			else
+				dw_c.SetItem(c,'cantidad',cant)
+			end if
+		else // No hay saldo en Kardex
+			dw_c.SetItem(c,'cantidad',0)
+		end if
+	end if
+	if k = 1 then
+		dw_c.SetItem(c,'valor_unit',dw_k.GetItemNumber(1,'costoprom'))
+	end if
+next
+
+Return 0
+
+end function
+

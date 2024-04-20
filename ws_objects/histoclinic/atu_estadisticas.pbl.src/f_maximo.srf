@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_maximo.srf
+global type f_maximo from function_object
+end type
+
+forward prototypes
+global function string f_maximo (string codplant, integer item, string tipo_dato, datastore dw_datos, string fecha1, string fecha2, string lugar)
+end prototypes
+
+global function string f_maximo (string codplant, integer item, string tipo_dato, datastore dw_datos, string fecha1, string fecha2, string lugar);string max_numero,max_fecha
+
+dw_datos.retrieve(codplant,lugar,item,datetime(string (date(fecha1),'yyyy-mm-dd')),datetime(date(fecha2),time("23:59")))
+
+if tipo_dato='S' or tipo_dato='N' or tipo_dato='T' or tipo_dato='L' then	//si el dato es seleccion, si o no, texto, lista
+	return 'N.A'
+elseif tipo_dato='R' then	//si el tipo de dato es numerico
+	max_numero=dw_datos.getitemstring(1,'comp_max_numero')
+	return max_numero
+elseif tipo_dato='F' then	//si el tipo de dato es fecha
+	max_fecha=dw_datos.getitemstring(1,'comp_max_fecha')
+	return max_fecha
+elseif tipo_dato='U' then	//si el tipo de dato es seleccion múltiple
+	return 'N.A'
+end if
+
+end function
+

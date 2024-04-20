@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_coloca_esp.srf
+global type f_coloca_esp from function_object
+end type
+
+forward prototypes
+global function string f_coloca_esp (string p_string)
+end prototypes
+
+global function string f_coloca_esp (string p_string);string largo
+long j
+p_string=upper(p_string)
+for j=1 to len(p_string)
+	largo+=mid(p_string,j,1)+' '
+next
+return largo
+end function
+

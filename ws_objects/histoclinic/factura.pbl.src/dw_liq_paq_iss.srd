@@ -1,0 +1,58 @@
+﻿$PBExportHeader$dw_liq_paq_iss.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no grid.lines=0 )
+header(height=76 color="536870912" )
+summary(height=68 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=char(15) updatewhereclause=yes name=codservicio dbname="serviciosman.codservicio" )
+ column=(type=char(255) updatewhereclause=yes name=descripcion dbname="serviciosman.descripcion" )
+ column=(type=real updatewhereclause=yes name=valor dbname="serviciosman.valor" )
+ column=(type=real updatewhereclause=yes name=vunit dbname="serviciosman.vunit" )
+ column=(type=char(1) updatewhereclause=yes name=tiposervicio dbname="serviciosman.tiposervicio" )
+ column=(type=long updatewhereclause=yes name=desde dbname="liquvr.desde" )
+ column=(type=long updatewhereclause=yes name=normal dbname="liquvr.normal" )
+ column=(type=long updatewhereclause=yes name=incruento dbname="liquvr.incruento" )
+ column=(type=long updatewhereclause=yes name=bilateral dbname="liquvr.bilateral" )
+ column=(type=long updatewhereclause=yes name=mieiv dbname="liquvr.mieiv" )
+ column=(type=long updatewhereclause=yes name=mieivhasta dbname="liquvr.mieivhasta" )
+ column=(type=long updatewhereclause=yes name=miedv dbname="liquvr.miedv" )
+ column=(type=long updatewhereclause=yes name=miedvhasta dbname="liquvr.miedvhasta" )
+ column=(type=long updatewhereclause=yes name=mdeiv dbname="liquvr.mdeiv" )
+ column=(type=long updatewhereclause=yes name=mdeivhasta dbname="liquvr.mdeivhasta" )
+ column=(type=long updatewhereclause=yes name=mdedv dbname="liquvr.mdedv" )
+ column=(type=long updatewhereclause=yes name=mdedvhasta dbname="liquvr.mdedvhasta" )
+ retrieve="  SELECT serviciosman.codservicio,   
+         serviciosman.descripcion,   
+         serviciosman.valor,   
+         valor as vunit,   
+         serviciosman.tiposervicio,   
+         liquvr.desde,   
+         liquvr.normal,   
+         liquvr.incruento,   
+         liquvr.bilateral,   
+         liquvr.mieiv,   
+         liquvr.mieivhasta,   
+         liquvr.miedv,   
+         liquvr.miedvhasta,   
+         liquvr.mdeiv,   
+         liquvr.mdeivhasta,   
+         liquvr.mdedv,   
+         liquvr.mdedvhasta  
+    FROM liquvr  LEFT OUTER JOIN serviciosman  ON liquvr.codmanual = serviciosman.codmanual AND liquvr.codservicio = serviciosman.codservicio
+   WHERE ( serviciosman.codservicio = :proced ) AND  
+         ( serviciosman.codmanual = :manual )    
+" arguments=(("proced", string),("manual", string)) )
+text(band=summary alignment="1" text="TOTAL:    " border="0" color="0" x="229" y="4" height="52" width="1408" html.valueishtml="0"  name=t_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="sum(valor for all) "border="0" color="0" x="1646" y="4" height="56" width="352" format="#,##0.00" html.valueishtml="0"  name=vtotal visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Código" border="6" color="0" x="9" y="8" height="60" width="210" html.valueishtml="0"  name=serviciosman_codservicio_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Descripción" border="6" color="0" x="229" y="8" height="60" width="1408" html.valueishtml="0"  name=serviciosman_descripcion_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Valor" border="6" color="0" x="1646" y="8" height="60" width="352" html.valueishtml="0"  name=serviciosman_valor_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="0" x="9" y="4" height="60" width="210" format="[general]" html.valueishtml="0"  name=codservicio visible="1" edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0 edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="0" color="0" x="229" y="4" height="60" width="1408" format="[general]" html.valueishtml="0"  name=descripcion visible="1" edit.limit=250 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0 edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=30 border="0" color="0" x="1646" y="4" height="60" width="352" format="#,##0.00" html.valueishtml="0"  name=valor visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0 edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

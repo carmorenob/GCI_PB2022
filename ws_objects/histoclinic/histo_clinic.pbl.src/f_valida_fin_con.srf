@@ -1,0 +1,107 @@
+﻿$PBExportHeader$f_valida_fin_con.srf
+global type f_valida_fin_con from function_object
+end type
+
+forward prototypes
+global function integer f_valida_fin_con (string finalidad, string causa, string sex, double dias, string diagnos)
+end prototypes
+
+global function integer f_valida_fin_con (string finalidad, string causa, string sex, double dias, string diagnos);int devuelve=1, l_cuant
+long edi_s0,edf_s0,edi_s1,edf_s1,edi_s2,edf_s2
+string salida,sexo_pac,gen0,gen1,gen2
+
+if sex="F" then sexo_pac ='2'
+if sex="M" then sexo_pac ='1'
+if isnull(finalidad) then return -1
+
+choose case finalidad
+	case '10'
+//		if left(diagnos,1)='Z' then
+//			messagebox('Atención','Finalidad 10 No puede tener Diagnostico con código Z')
+//			return -1
+//		end if	  //cambios noramtivos lineamiento del 2019
+	case '01','02','03','04','05','06','07','08'
+		if causa <>'15' and not isnull(causa) then
+			messagebox('Atención','Causa externa debe ser 15 para esa Finalidad por ser actividad de PyP')
+			return -1
+		end if
+end choose
+
+setnull(l_cuant)
+SELECT  
+    min(EDADI_S0) as EDADI_S0, max(EDADF_S0) as EDADF_S0, max(GEN0) as GEN0,
+    min(EDADI_S1) as EDADI_S1, max(EDADF_S1) as EDADF_S1, max(GEN1)as GEN1,
+    min(EDADI_S2)as EDADI_S2, max(EDADF_S2)as EDADF_S2, max(GEN2)as GEN2
+	into :edi_s0,:edf_s0,:gen0,:edi_s1,:edf_s1,:gen1,:edi_s2,:edf_s2,:gen2
+FROM 
+(
+SELECT  
+    case when FINCONSULTA_EDAD.INDSEXO='0' THEN CASE WHEN FINCONSULTA_EDAD.EDADINI>365 THEN (FINCONSULTA_EDAD.EDADINI/365) ELSE FINCONSULTA_EDAD.EDADINI END END as EDADI_S0,
+    case when FINCONSULTA_EDAD.INDSEXO='0' THEN CASE WHEN FINCONSULTA_EDAD.EDADFIN>365 THEN (FINCONSULTA_EDAD.EDADFIN/365) ELSE FINCONSULTA_EDAD.EDADFIN END END as EDADF_S0,
+    case when FINCONSULTA_EDAD.INDSEXO='0' THEN 'AMBOS GENEROS' END GEN0,
+    case when FINCONSULTA_EDAD.INDSEXO='2' THEN CASE WHEN FINCONSULTA_EDAD.EDADINI>365 THEN (FINCONSULTA_EDAD.EDADINI/365) ELSE FINCONSULTA_EDAD.EDADINI END END  as EDADI_S1,
+    case when FINCONSULTA_EDAD.INDSEXO='2' THEN CASE WHEN FINCONSULTA_EDAD.EDADFIN>365 THEN (FINCONSULTA_EDAD.EDADFIN/365) ELSE FINCONSULTA_EDAD.EDADFIN END END as EDADF_S1,
+    case when FINCONSULTA_EDAD.INDSEXO='2' THEN 'SOLO MUJER' END GEN1,
+    case when FINCONSULTA_EDAD.INDSEXO='1' THEN CASE WHEN FINCONSULTA_EDAD.EDADINI>365 THEN (FINCONSULTA_EDAD.EDADINI/365) ELSE FINCONSULTA_EDAD.EDADINI END END as EDADI_S2,
+    case when FINCONSULTA_EDAD.INDSEXO='1' THEN CASE WHEN FINCONSULTA_EDAD.EDADFIN>365 THEN (FINCONSULTA_EDAD.EDADFIN/365) ELSE FINCONSULTA_EDAD.EDADFIN END END as EDADF_S2,
+    case when FINCONSULTA_EDAD.INDSEXO='1' THEN 'SOLO HOMBRES' END GEN2
+FROM 
+	FINCONSULTA_EDAD
+WHERE 
+	(FINCONSULTA_EDAD.CODFIN=:finalidad) 
+) as todos;
+if sqlca.sqlcode=-1 then
+	messagebox("Error leyendo tabla Diag_finalidad_edad valida",sqlca.sqlerrtext)
+	return - 1
+end if
+
+SELECT 
+	count(1) into  :l_cuant
+FROM 
+	FINCONSULTA_EDAD
+WHERE 
+	(((FINCONSULTA_EDAD.CODFIN)=:finalidad) AND (:dias between FINCONSULTA_EDAD.EDADINI AND FINCONSULTA_EDAD.EDADFIN) 
+	AND ((FINCONSULTA_EDAD.INDSEXO) In ('0',:sexo_pac)));
+if sqlca.sqlcode=-1 then
+	messagebox("Error leyendo tabla Diag_finalidad_edad",sqlca.sqlerrtext)
+	return - 1
+end if
+if isnull(l_cuant) or l_cuant=0 then
+	if not isnull(gen0) then
+		salida="Finalidad aplica entre "+string(edi_s0)+ ' Y '+ string(edf_s0) +' ' +gen0
+	end if
+	if not isnull(gen1) then
+		salida="Finalidad aplica entre "+string(edi_s1)+ ' Y '+ string(edf_s1)+'  ' + gen1
+	end if
+	if not isnull(gen2) then
+		if isnull(salida) then
+			salida="Finalidad aplica entre "+string(edi_s2)+ ' Y '+ string(edf_s2) +' ' + gen2
+		else
+			salida+=" Al Igual que entre "+string(edi_s2)+ ' Y '+ string(edf_s2) +' '+ gen2
+		end if
+	end if
+	messagebox('Atención', salida )
+	return -1
+end if
+
+setnull(l_cuant)
+if finalidad<>'10' and not isnull(diagnos) then
+	SELECT Count(1) into :l_cuant
+	FROM Diag_finalidad
+	WHERE (((Diag_finalidad.cod_rips)=:diagnos) AND ((Diag_finalidad.CODFIN)=:finalidad));
+	if sqlca.sqlcode=-1 then
+		messagebox("Error leyendo tabla Diag_finalidad",sqlca.sqlerrtext)
+		return - 1
+	end if
+	if isnull(l_cuant) or l_cuant=0 then
+		messagebox('Atención','Diagnostico no valido para la finalidad')
+		devuelve=-1
+	end if
+end if
+if devuelve=-1 then 
+	return -1
+else
+	return 1
+end if
+end function
+

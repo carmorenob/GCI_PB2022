@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_encripta_new.srf
+global type f_encripta_new from function_object
+end type
+
+forward prototypes
+global function string f_encripta_new (string contrasena)
+end prototypes
+
+global function string f_encripta_new (string contrasena);Blob lblb_data
+Blob lblb_key
+Blob lblb_iv
+Blob lblb_encrypt
+String retorna
+Coderobject lnv_code
+CrypterObject lnv_CrypterObject
+
+lnv_CrypterObject = Create CrypterObject
+Lnv_code = create coderobject
+
+if g_motor<>'postgres' then
+	lblb_data = Blob(contrasena, EncodingANSI!)
+	lblb_key = Blob(gs_key, EncodingANSI!)
+	lblb_iv = Blob(gs_inv, EncodingANSI!)
+	lblb_encrypt = lnv_CrypterObject.SymmetricEncrypt(AES!, lblb_data, lblb_key, OperationModeCBC!, lblb_iv, PKCSPadding!)
+	retorna = lnv_code.hexencode(lblb_encrypt)
+	destroy lnv_CrypterObject
+	destroy Lnv_code
+else
+	select encode(encrypt_iv(:contrasena,:gs_key,:gs_inv,'aes'),'hex') into :retorna from ips;
+end if
+return retorna
+end function
+

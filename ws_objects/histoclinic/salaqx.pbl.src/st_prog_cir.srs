@@ -1,0 +1,8 @@
+﻿$PBExportHeader$st_prog_cir.srs
+global type st_prog_cir from structure
+	datawindow		dw_qxcita
+	datawindow		dw_qxcita_cir
+	datawindow		dw_cirprofe
+	datawindowchild		idw_profe
+end type
+

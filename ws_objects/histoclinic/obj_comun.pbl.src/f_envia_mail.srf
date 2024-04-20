@@ -1,0 +1,65 @@
+﻿$PBExportHeader$f_envia_mail.srf
+global type f_envia_mail from function_object
+end type
+
+forward prototypes
+global function string f_envia_mail (string p_servidor, string p_puerto, string p_usuario, string p_clave, string p_autentica, string p_conexion, string p_email, string p_asunto, string p_nombre_envia, string p_nombre_destino, string p_archivo, readonly string p_cuerpo)
+end prototypes
+
+global function string f_envia_mail (string p_servidor, string p_puerto, string p_usuario, string p_clave, string p_autentica, string p_conexion, string p_email, string p_asunto, string p_nombre_envia, string p_nombre_destino, string p_archivo, readonly string p_cuerpo);int li_rc , li_Success
+string retorna
+nvo_generic_ole_object loo_Mailman , loo_Email
+
+loo_Mailman = create nvo_generic_ole_object
+li_rc = loo_Mailman.ConnectToNewObject("Chilkat_9_5_0.MailMan")
+if li_rc < 0 then
+    destroy loo_Mailman
+    MessageBox("Error","Connecting to COM object failed")
+    return  '-1'
+end if
+
+if not isnull(p_servidor)  then
+// Set the SMTP server.	
+	loo_Mailman.SmtpHost = p_servidor
+	loo_Mailman.SmtpUsername =p_usuario
+	string  is_clave_email
+	is_clave_email=f_descripta_new(p_clave,'1')
+	loo_Mailman.SmtpPassword =is_clave_email
+	loo_Mailman.SmtpPort = p_puerto
+	loo_Mailman.SmtpSsl = 1
+
+// Create a new email object	
+	loo_Email = create nvo_generic_ole_object
+	li_rc = loo_Email.ConnectToNewObject("Chilkat_9_5_0.Email")
+	
+	loo_Email.Subject = p_asunto
+	loo_Email.Body = p_cuerpo
+	loo_Email.From = " Cuenta<"+p_email+">"
+	li_Success = loo_Email.AddTo(p_nombre_envia,p_email)
+	loo_Email.AddFileAttachment(p_archivo)
+	li_Success = loo_Mailman.SendEmail(loo_Email)
+	if li_Success <> 1 then
+		string ls_jaer
+		ls_jaer=string( loo_Mailman.LastErrorText)
+		messagebox("Error Enviando Correo of_enviar_correo",string( loo_Mailman.LastErrorText))
+		destroy loo_Mailman
+		destroy loo_Email
+		return '-1'
+	end if
+		
+	li_Success = loo_Mailman.CloseSmtpConnection()
+	if li_Success <> 1 then
+		 messagebox("Error cerrando conexion a correo", "Connection to SMTP server not closed cleanly.")
+	else
+		retorna='Correo Enviado Satisfactoriamente'
+	end if
+	
+	destroy loo_Mailman
+	destroy loo_Email
+else
+	retorna='Debe especificar Servidor en Configuración'
+End If
+	
+return retorna
+end function
+

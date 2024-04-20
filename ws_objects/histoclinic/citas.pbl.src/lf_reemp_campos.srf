@@ -1,0 +1,67 @@
+﻿$PBExportHeader$lf_reemp_campos.srf
+global type lf_reemp_campos from function_object
+end type
+
+forward prototypes
+global function string lf_reemp_campos (string p_todo, uo_datastore p_dw, richtextedit p_rte1)
+end prototypes
+
+global function string lf_reemp_campos (string p_todo, uo_datastore p_dw, richtextedit p_rte1);long num_object,largo,k,numeroingreso,j
+string objects,cual,coltype,reemp,apegar,clug
+blob trae
+
+datastore ds_objects
+ds_objects=create datastore
+ds_objects.dataobject='dw_campos_de_rtfs'
+num_object=f_objects_ds(p_dw,ds_objects)
+f_sel_rtf(p_rte1)
+p_rte1.clearall()
+f_sel_rtf(p_rte1)
+p_rte1.clearall()
+for j=1 to p_dw.rowcount()
+	p_dw.setrow(j)
+	f_pega_a_rtf(p_rte1,p_todo,2)
+	for k=1 to ds_objects.rowcount()
+		cual=ds_objects.getitemstring(k,'nombre')
+		reemp=p_rte1.InputFieldLocate ( first! , cual )
+		do while reemp<>'' and reemp=cual
+			p_rte1.InputFieldDeleteCurrent ( )
+			choose case ds_objects.getitemstring(k,'tipo')
+				case 'column','compute'
+					choose case ds_objects.getitemstring(k,'coltype')
+						case 'char'
+							apegar=p_dw.getitemstring(j,cual)
+						case 'long','number','real'
+							long ojo
+							ojo=p_dw.getitemnumber(j,cual)
+							apegar=string(ojo)
+						case 'decimal'
+							apegar=string(p_dw.getitemdecimal(j,cual))
+						case 'datetime'
+							choose case cual
+								case 'fechainicio','fechafin', 'fecha_nace'
+									apegar=string(p_dw.getitemdatetime(j,cual),'dd/mm/yyyy')
+								case 'horainicio','horafin'
+									apegar=string(p_dw.getitemdatetime(j,cual),'HH:mm')
+								case else
+									apegar=string(p_dw.getitemdatetime(j,cual))
+							end choose
+						case 'date'
+							apegar=string(p_dw.getitemdate(j,cual))
+						case 'time'
+							apegar=string(p_dw.getitemtime(j,cual))
+					end choose
+			end choose
+			if isnull(apegar) then apegar=''
+			f_pega_a_rtf(p_rte1,apegar,1)
+			reemp=p_rte1.InputFieldLocate ( next! , cual )
+			setnull(apegar)
+		loop
+	next
+next
+
+destroy ds_objects
+reemp=p_rte1.copyrtf(false,detail!)
+return reemp
+end function
+

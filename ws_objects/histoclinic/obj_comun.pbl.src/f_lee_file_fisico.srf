@@ -1,0 +1,29 @@
+﻿$PBExportHeader$f_lee_file_fisico.srf
+$PBExportComments$Lee desde un archivo y lo retorna en un string
+global type f_lee_file_fisico from function_object
+end type
+
+forward prototypes
+global function blob f_lee_file_fisico (string p_camino)
+end prototypes
+
+global function blob f_lee_file_fisico (string p_camino);long tamanyo,donde
+int archivo
+blob todo
+if not fileexists(p_camino) then
+	messagebox("Atención",'El archivo '+p_camino +' no existe ')
+	return blob('!')
+end if
+tamanyo = FileLength(p_camino)
+archivo = FileOpen(p_camino, textMode!, Read!, LockRead!)
+if archivo= -1 then 
+	messagebox("Error","No se puede abrir el archivo "+p_camino)
+	fileclose(archivo)
+	return blob('!')
+else
+	filereadex(archivo,todo)
+	fileclose(archivo)
+	return todo
+end if
+end function
+

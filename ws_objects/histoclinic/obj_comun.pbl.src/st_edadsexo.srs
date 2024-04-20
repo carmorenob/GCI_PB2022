@@ -1,0 +1,8 @@
+﻿$PBExportHeader$st_edadsexo.srs
+global type st_edadsexo from structure
+	string		sexo
+	double		edad
+	string		antece
+	boolean		saltar_validacion		descriptor "comment" = "poner en true si no es necesario validar edades o sexo"
+end type
+

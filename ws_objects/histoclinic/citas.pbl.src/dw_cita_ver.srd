@@ -1,0 +1,69 @@
+﻿$PBExportHeader$dw_cita_ver.srd
+release 22;
+datawindow(units=0 timer_interval=0 color=1073741824 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=64 color="553648127" transparency="0" gradient.color="67108864" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=60 color="15793151" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=number updatewhereclause=yes name=ncita dbname="proced.ncita" )
+ column=(type=char(2) updatewhereclause=yes name=clugar dbname="proced.clugar" )
+ column=(type=char(3) updatewhereclause=yes name=tipodoc dbname="proced.tipodoc" )
+ column=(type=char(15) updatewhereclause=yes name=documento dbname="proced.documento" )
+ column=(type=char(60) updatewhereclause=yes name=nombre1 dbname="proced.nombre1" )
+ column=(type=char(60) updatewhereclause=yes name=nombre2 dbname="proced.nombre2" )
+ column=(type=char(60) updatewhereclause=yes name=apellido1 dbname="proced.apellido1" )
+ column=(type=char(60) updatewhereclause=yes name=apellido2 dbname="proced.apellido2" )
+ column=(type=number updatewhereclause=yes name=nrcaj dbname="proced.nrcaj" )
+ column=(type=number updatewhereclause=yes name=nfact dbname="proced.nfact" )
+ column=(type=char(10) updatewhereclause=yes name=control dbname="proced.control" )
+ column=(type=char(15) updatewhereclause=yes name=cod_cups dbname="proced.cod_cups" )
+ column=(type=long updatewhereclause=yes name=nservicio dbname="proced.nservicio" )
+ column=(type=char(255) updatewhereclause=yes name=descripcion dbname="proced.descripcion" )
+ retrieve="SELECT 
+	citasasig.ncita, citasasig.clugar, pacientes.tipodoc, pacientes.documento, pacientes.nombre1, 
+	pacientes.nombre2, pacientes.apellido1, pacientes.apellido2, serciosturno.nrcaj, 
+	serciosturno.nfact, serciosturno.control, 
+	proced.cod_cups, serciosturno.nservicio, 
+	proced.descripcion
+FROM 
+	(((citasasig INNER JOIN sercioscita ON (citasasig.clugar = sercioscita.clugar) AND (citasasig.ncita = sercioscita.ncita)) 
+	INNER JOIN serciosturno ON (sercioscita.nservicio = serciosturno.nservicio) AND (sercioscita.clugar = serciosturno.clugar) 
+	AND (sercioscita.ncita = serciosturno.ncita)) 
+	INNER JOIN pacientes ON (citasasig.documento = pacientes.documento) AND (citasasig.tipodoc = pacientes.tipodoc)) 
+	LEFT JOIN proced ON serciosturno.cproced = proced.codproced
+WHERE 
+	(((citasasig.ncita)=:nc) AND ((citasasig.clugar)=:lug));
+" arguments=(("nc", number),("lug", string))  sort="ncita A clugar A nservicio A " )
+text(band=header alignment="0" text="Ncita:" border="6" color="33554432" x="5" y="4" height="52" width="165" html.valueishtml="0"  name=ncita_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="15780518~trgb( 220 , 220, 192 )" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=header id=1 alignment="0" tabsequence=32766 border="6" color="255" x="169" y="4" height="52" width="197" format="[general]" html.valueishtml="0"  name=ncita visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="15780518~trgb( 220 , 220, 192 )" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=header alignment="0" expression="nombre1+ if ( not isnull( nombre2 ),' '+ nombre2,' ') +' '+ apellido1 + 
+ if ( not isnull( apellido2 ), ' '+ apellido2,' ') "border="6" color="0" x="370" y="4" height="52" width="1001" format="[GENERAL]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="15780518~trgb( 220 , 220, 192 )" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=header alignment="2" expression=" '****'+case ( control 
+when  '1' then 'VIGENTE'
+when '2' then 'ATENDIDA'
+when '3' then 'NO ASISTIO'
+when '4' then 'TRASLADADA'
+when '5' then 'CONFIRMADA'
+else 'ANULADA'
+)+'****'+ if(isnull(nfact ) and isnull(nrcaj),'SIN FACTURAR','FACTURADA') "border="0" color="0" x="1390" y="4" height="56" width="1271" format="[GENERAL]" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="15780518~tcase( control
+when '1' then if(isnull( nfact ) and isnull( nrcaj ) ,rgb(255,219,202),rgb(255,255,255))
+when '2' then  if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(255,254,177),rgb(211,227,235))
+when '3' then rgb(228,201,201)
+when '4' then rgb(240,240,240)
+when '5' then if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(204,255,204),rgb(226,239,226))
+else rgb(240,240,240)
+)
+" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="0" expression=" nservicio "border="0" color="0" x="9" y="4" height="52" width="55" format="[General]" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="0" expression="'('+ cod_cups +') '+ descripcion "border="6" color="0" x="78" y="4" height="52" width="2578" format="[GENERAL]" html.valueishtml="0"  name=compute_4 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=2 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
+export.xhtml()
+ 

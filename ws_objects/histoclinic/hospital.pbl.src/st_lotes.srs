@@ -1,0 +1,20 @@
+﻿$PBExportHeader$st_lotes.srs
+global type st_lotes from structure
+	long		cant
+	string		cmedica
+	string		alm
+	datawindow		dw_lote_mov
+	long		item
+	string		cdoc
+	string		clug
+	long		secuencia
+	long		contador_os
+	string		clugar_os
+	long		nsolicitud_os
+	long		item_os
+	long		prog_os
+	string		usu
+	long		nserv
+	string		autoriza
+end type
+

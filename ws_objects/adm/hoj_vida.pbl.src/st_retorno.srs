@@ -1,0 +1,12 @@
+﻿$PBExportHeader$st_retorno.srs
+$PBExportComments$Proxy imported from EAServer using EAServer Proxy generator.
+global type st_retorno from structure
+  public:
+    Integer		retorno
+    String		texto
+    ResultSet		grid
+    Long		l_retorno
+    Blob		blob_dw
+    DateTime		fecha
+end type
+

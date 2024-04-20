@@ -1,0 +1,7 @@
+﻿$PBExportHeader$st_citas_os.srs
+global type st_citas_os from structure
+	string		grupo
+	datawindow		dw_os
+	datawindow		dw_sercios
+end type
+

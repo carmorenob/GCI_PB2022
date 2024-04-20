@@ -1,0 +1,38 @@
+﻿$PBExportHeader$f_hay_contrato.srf
+global type f_hay_contrato from function_object
+end type
+
+forward prototypes
+global function boolean f_hay_contrato (long p_contador, string p_lugar, string p_cups, string p_ingreso)
+end prototypes
+
+global function boolean f_hay_contrato (long p_contador, string p_lugar, string p_cups, string p_ingreso);string ls_emp
+
+SELECT 
+	serviciosingreso.cemp into :ls_emp
+FROM 
+	serviciosingreso
+WHERE 
+	(((serviciosingreso.contador)=:p_contador) AND ((serviciosingreso.clugar)=:p_lugar) 
+	AND ((serviciosingreso.nservicio)=
+		(select max(nservicio) from serviciosingreso as sig
+		where sig.contador=serviciosingreso.contador and sig.clugar=serviciosingreso.clugar)));
+if sqlca.sqlnrows=0 then 
+	return false
+end if		
+
+SELECT DISTINCT 
+	v_cups_plan.codproced into :ls_emp
+FROM 
+	(contratodet INNER JOIN v_cups_plan ON contratodet.cplan = v_cups_plan.codplan) 
+	INNER JOIN tipoingreso ON contratodet.codtingre = tipoingreso.codtingre
+WHERE 
+	(((tipoingreso.codtingre)=:p_ingreso) 
+	AND ((contratodet.cemp)=:ls_emp) AND ((contratodet.ccontrato) Like '%') AND ((v_cups_plan.codproced)=:p_cups));
+if sqlca.sqlnrows=0 then 
+	return false
+end if		
+
+return true
+end function
+

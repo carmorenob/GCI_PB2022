@@ -1,0 +1,29 @@
+﻿$PBExportHeader$f_demo.srf
+global type f_demo from function_object
+end type
+
+forward prototypes
+global function boolean f_demo (string parametro)
+end prototypes
+
+global function boolean f_demo (string parametro);if not g_demo then return true
+long cuantos,contra
+choose case parametro
+	case 'pac'
+		contra=5
+		select count(*) into :cuantos from pacientes;
+	case 'ter'
+		contra=3
+		select count(*) into :cuantos from terceros;
+end choose
+if sqlca.sqlcode=-1 then
+	messagebox("Error leyendo tablas",sqlca.sqlerrtext)
+	return false
+end if
+if cuantos>contra then 
+	messagebox("Atención",'Esta es una versión demo, no puede crear registros adicionales ya que llegó al tope máximo de Pacientes o Terceros')
+	return false
+end if
+return true
+end function
+

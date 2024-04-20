@@ -1,0 +1,12 @@
+﻿$PBExportHeader$st_graph_atu.srs
+global type st_graph_atu from structure
+	datawindow		dw_obj
+	string		dw_syntax
+	string		consulta
+	string		condicion
+	u_parm		args
+	string		dato
+	st_graf_data		st_data
+	any		parm[]
+end type
+

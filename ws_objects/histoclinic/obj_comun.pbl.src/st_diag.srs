@@ -1,0 +1,9 @@
+﻿$PBExportHeader$st_diag.srs
+global type st_diag from structure
+	string		codgeral
+	string		codrip
+	string		descripcion
+	string		guia
+	string		antecedente
+end type
+

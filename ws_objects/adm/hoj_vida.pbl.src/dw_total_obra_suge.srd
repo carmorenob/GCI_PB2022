@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_total_obra_suge.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=79741120 processing=1 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+summary(height=92 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=0 color="536870912" )
+table(column=(type=char(15) updatewhereclause=yes name=documento dbname="obrasujerida.documento" )
+ column=(type=long updatewhereclause=yes name=ncargo dbname="obrasujerida.ncargo" )
+ column=(type=datetime updatewhereclause=yes name=horaini dbname="obrasujerida.horaini" )
+ column=(type=datetime updatewhereclause=yes name=horafin dbname="obrasujerida.horafin" )
+ column=(type=char(3) updatewhereclause=yes name=tipodoc dbname="obrasujerida.tipodoc" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"obrasujerida~" ) COLUMN(NAME=~"obrasujerida.documento~") COLUMN(NAME=~"obrasujerida.ncargo~") COLUMN(NAME=~"obrasujerida.horaini~") COLUMN(NAME=~"obrasujerida.horafin~") COLUMN(NAME=~"obrasujerida.tipodoc~")WHERE(    EXP1 =~"obrasujerida.tipodoc~"   OP =~"=~"    EXP2 =~":tipodoc~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"obrasujerida.documento~"   OP =~"=~"    EXP2 =~":documento~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"obrasujerida.ncargo~"   OP =~"=~"    EXP2 =~":ncargo~" ) ) ARG(NAME = ~"tipodoc~" TYPE = string)  ARG(NAME = ~"documento~" TYPE = string)  ARG(NAME = ~"ncargo~" TYPE = number) " arguments=(("tipodoc", string),("documento", string),("ncargo", number)) )
+text(band=header alignment="0" text="Tipodoc" border="0" color="0" x="347" y="4" height="76" width="87" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="secondsafter( TIME( horaini) , TIME(horafin ) )/3600"border="0" color="0" x="9" y="64" height="76" width="329" format="[GENERAL]" html.valueishtml="0"  name=compute_1 visible="1~t0"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="347" y="0" height="76" width="87" format="[general]" html.valueishtml="0"  name=tipodoc visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum(  compute_1  for all )"border="5" color="0" x="9" y="4" height="76" width="329" format="[GENERAL]" html.valueishtml="0"  name=totales visible="1"  font.face="Arial" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

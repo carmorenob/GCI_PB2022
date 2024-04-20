@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_lee_ruta.srf
+global type f_lee_ruta from function_object
+end type
+
+forward prototypes
+global function string f_lee_ruta (string nombre_arch)
+end prototypes
+
+global function string f_lee_ruta (string nombre_arch);string carreta,todo
+long archivo,tamanyo,donde
+tamanyo = FileLength(nombre_arch)
+archivo = fileopen(nombre_arch,textMode!)
+if archivo= -1 then 
+	messagebox("Error","No se puede leer el archivo de reporte o no se encuentra")
+	return ""
+else
+	todo = ""
+	filereadex(archivo,todo)
+	fileclose(archivo)
+	carreta=""
+	donde=pos(todo,"release ",1)
+	carreta=right(todo, len(todo) - donde +1)
+	if nom_regis="DEMO" then 
+		todo="**** Licencia de DEMOSTRACION****"
+	else
+		todo=nom_regis
+	end if
+	carreta+='~r~ntext(band=footer alignment="0" text="'+todo+'" border="0" color="0" x="8" y="8" height="44" width="1600"  name=t_anti_robo  font.face="Small Fonts" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )'
+
+	return carreta
+end if
+end function
+

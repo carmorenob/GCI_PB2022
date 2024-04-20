@@ -1,0 +1,10 @@
+﻿$PBExportHeader$st_dw_xa_funciones.srs
+global type st_dw_xa_funciones from structure
+	datawindow		dw
+	dwobject		dwo
+	long		row
+	string		color_fondo
+	datawindow		dw_cab
+	boolean		solobuscar
+end type
+

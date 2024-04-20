@@ -1,0 +1,59 @@
+﻿$PBExportHeader$f_med_plan.srf
+global type f_med_plan from function_object
+end type
+
+forward prototypes
+global function boolean f_med_plan (string plan, string c_medica)
+end prototypes
+
+global function boolean f_med_plan (string plan, string c_medica);string esmedica,tincluir,pos,si
+setnull(esmedica)
+setnull(tincluir)
+select es_medica, t_incluirmed into :esmedica,:tincluir from planes where codplan=:plan;
+if isnull(esmedica) then return false
+if esmedica="0" then return false
+choose case tincluir
+	case "1"
+		return true
+	case "2"
+		setnull(pos)
+		select pos into :pos from medicamentos where c_medica=:c_medica;
+		if isnull(pos) then
+			messagebox("Error","No se puede encontrar este código en la tabla Medicamentos")
+			return false
+		end if
+		if pos="1" then 
+			return true
+		else
+			return false
+		end if
+	case "3"
+		setnull(pos)
+		select pos into :pos from medicamentos where c_medica=:c_medica;
+		if isnull(pos) then
+			messagebox("Error","No se puede encontrar este código en la tabla Medicamentos")
+			return false
+		end if
+		if pos="1" then 
+			return false
+		else
+			return true
+		end if
+		
+	case "4"
+		setnull(si)
+		select c_medica into :si from plan_medica where codplan=:plan and c_medica=:c_medica;
+		if sqlca.sqlcode=-1 then
+			messagebox('Error leyendo plan_medica en la funcion f_med_plan',sqlca.sqlerrtext)
+			return false
+		end if
+		if not isnull(si) then
+			return true
+		else
+			return false
+		end if
+	case else
+		return false
+end choose
+end function
+

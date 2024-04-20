@@ -1,0 +1,46 @@
+﻿$PBExportHeader$dw_act_getareo.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no grid.lines=0 )
+header(height=144 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=char(10) updatewhereclause=yes name=cod_activid dbname="cont_paq_geta_act.cod_activid" dbalias=".cod_activid" )
+ column=(type=char(3) updatewhereclause=yes name=codgetareo dbname="cont_paq_geta_act.codgetareo" dbalias=".codgetareo" )
+ column=(type=decimal(2) updatewhereclause=yes name=porcentaje dbname="cont_paq_geta_act.porcentaje" dbalias=".porcentaje" )
+ column=(type=number updatewhereclause=yes name=edmax dbname="grupoetareo.edmax" dbalias=".edmax" )
+ column=(type=number updatewhereclause=yes name=edmin dbname="grupoetareo.edmin" dbalias=".edmin" )
+ column=(type=char(1) updatewhereclause=yes name=sexo dbname="grupoetareo.sexo" dbalias=".sexo" )
+ column=(type=long updatewhereclause=yes name=prioridad dbname="cont_paq_geta_act.prioridad" dbalias=".prioridad" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"cont_paq_geta_act~" )  TABLE(NAME=~"grupoetareo~" ) COLUMN(NAME=~"cont_paq_geta_act.cod_activid~") COLUMN(NAME=~"cont_paq_geta_act.codgetareo~") COLUMN(NAME=~"cont_paq_geta_act.porcentaje~") COLUMN(NAME=~"grupoetareo.edmax~") COLUMN(NAME=~"grupoetareo.edmin~") COLUMN(NAME=~"grupoetareo.sexo~") COLUMN(NAME=~"cont_paq_geta_act.prioridad~")    JOIN (LEFT=~"cont_paq_geta_act.codgetareo~"    OP =~"=~"RIGHT=~"grupoetareo.codgetareo~" )) "  sort="prioridad A " )
+text(band=header alignment="2" text="Cont Paq Geta Act
+Cod Activid" border="0" color="33554432" x="14" y="8" height="128" width="503" html.valueishtml="0"  name=cont_paq_geta_act_cod_activid_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cont Paq Geta Act
+Codgetareo" border="0" color="33554432" x="530" y="8" height="128" width="503" html.valueishtml="0"  name=cont_paq_geta_act_codgetareo_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cont Paq Geta Act
+Porcentaje" border="0" color="33554432" x="1047" y="8" height="128" width="503" html.valueishtml="0"  name=cont_paq_geta_act_porcentaje_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Grupoetareo
+Edmax" border="0" color="33554432" x="1563" y="8" height="128" width="329" html.valueishtml="0"  name=grupoetareo_edmax_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Grupoetareo
+Edmin" border="0" color="33554432" x="1906" y="8" height="128" width="329" html.valueishtml="0"  name=grupoetareo_edmin_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Grupoetareo
+Sexo" border="0" color="33554432" x="2249" y="8" height="128" width="329" html.valueishtml="0"  name=grupoetareo_sexo_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="14" y="8" height="76" width="503" format="[general]" html.valueishtml="0"  name=cod_activid visible="1" edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="530" y="8" height="76" width="503" format="[general]" html.valueishtml="0"  name=codgetareo visible="1" edit.limit=3 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="33554432" x="1047" y="8" height="76" width="503" format="[general]" html.valueishtml="0"  name=porcentaje visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="33554432" x="1563" y="8" height="76" width="329" format="[general]" html.valueishtml="0"  name=edmax visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="33554432" x="1906" y="8" height="76" width="329" format="[general]" html.valueishtml="0"  name=edmin visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="33554432" x="2249" y="8" height="76" width="329" format="[general]" html.valueishtml="0"  name=sexo visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=0 border="0" color="33554432" x="2592" y="0" height="64" width="421" html.valueishtml="0"  name=prioridad visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Cont Paq Geta Act Prioridad" border="0" color="0" x="2587" y="4" height="76" width="425" html.valueishtml="0"  name=cont_paq_geta_act_prioridad_t visible="1"  font.face="Tahoma" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

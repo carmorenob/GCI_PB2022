@@ -1,0 +1,12 @@
+﻿$PBExportHeader$st_notas.srs
+global type st_notas from structure
+	double		contador
+	string		clugar
+	string		profe
+	string		asunto
+	datawindow		dw_pac
+	datawindow		dw_acc
+	string		empresa
+	string		ventana
+end type
+

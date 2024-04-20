@@ -1,0 +1,39 @@
+﻿$PBExportHeader$f_tiempo_dif.srf
+global type f_tiempo_dif from function_object
+end type
+
+forward prototypes
+global function long f_tiempo_dif (datetime inicial, datetime final)
+end prototypes
+
+global function long f_tiempo_dif (datetime inicial, datetime final);decimal ldec_hora=0,ldec_min=0,ldec_seg=0,ldec_paso=0
+long ll_dias,ls_tiempo=0
+
+ 
+IF ISNULL(Inicial) OR ISNULL(final) THEN  
+  RETURN 0
+End if
+ 
+ll_dias= DaysAfter( date(Inicial), date(final) ) 
+ldec_paso =  SecondsAfter( time(Inicial), time(final)) 
+ 
+if ldec_paso<> abs(ldec_paso) and ll_dias<>0 then 
+ll_dias = ll_dias - 1                        //se resta el dia no trancurrido
+     ldec_paso = (24*60*60) + ldec_paso //se ajusta la diferencia de horas
+end if
+ 
+ldec_seg = round(Mod(ldec_paso,60),2)         // se obtienen el residuo en egundos con el total de segundos.
+ 
+ldec_paso = Truncate(round(ldec_paso/60,2),0) // quitas el residuo anterior y quedan en segundos completos para formar minutos y horas(son multiplos).
+ 
+ldec_min = round(Mod(ldec_paso,60),2)          // se obtienen el residuo en minutos.
+ 
+ldec_hora = Truncate(round(ldec_paso/60,2),0)  // quitas el residuo anterior y formas las horas.
+//aqui se pueden continuar desglozando las operaciones para obtener dias,mes,años...
+ 
+//concatena cadena a retornar
+ls_tiempo =ll_dias+ldec_hora+ldec_min
+ 
+return ls_tiempo
+end function
+

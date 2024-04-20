@@ -1,0 +1,13 @@
+﻿$PBExportHeader$st_fact.srs
+global type st_fact from structure
+	singlelineedit		sle_proced
+	singlelineedit		sle_autoriza
+	string		filtro
+	datawindow		dw_source
+	datawindow		dw_obj
+	double		contador
+	string		lugar
+	double		servicio
+	picturebutton		pb_1
+end type
+

@@ -1,0 +1,51 @@
+﻿$PBExportHeader$dw_odonsug.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no grid.lines=0 )
+header(height=68 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=item dbname="odongrama.item" )
+ column=(type=long updatewhereclause=yes name=codigo_cuadrante dbname="odongrama.codigo_cuadrante" )
+ column=(type=long updatewhereclause=yes name=codigo_pieza dbname="odongrama.codigo_pieza" )
+ column=(type=long updatewhereclause=yes name=codigo_super dbname="odongrama.codigo_super" )
+ column=(type=long updatewhereclause=yes name=cod_conven dbname="odongrama.cod_conven" )
+ column=(type=char(1) updatewhereclause=yes name=superficie dbname="superficie" )
+ column=(type=char(1) updatewhereclause=yes name=realizado dbname="odongrama.realizado" )
+ column=(type=long updatewhereclause=yes name=conven_cambio dbname="odongrama.conven_cambio" )
+ retrieve="SELECT odongrama.item,   
+         odongrama.codigo_cuadrante,   
+         odongrama.codigo_pieza,   
+         odongrama.codigo_super,   
+         odongrama.cod_conven,   
+         'r' as superficie,   
+         odontratacpo.realizado,   
+         odonconvenproced.conven_cambio  
+FROM odongrama LEFT OUTER JOIN ((odontratacpo LEFT OUTER JOIN odontratacab ON (odontratacpo.clugar = odontratacab.clugar) AND (odontratacpo.ntratamiento = odontratacab.ntratamiento)) LEFT OUTER JOIN odonconvenproced ON (odontratacpo.cod_conven = odonconvenproced.cod_conven) AND (odontratacpo.codigo_pieza = odonconvenproced.codigo_pieza) AND (odontratacpo.codigo_cuadrante = odonconvenproced.codigo_cuadrante) AND (odontratacpo.codproced = odonconvenproced.codproced)) ON (odongrama.cod_conven = odontratacpo.cod_conven) AND (odongrama.codigo_super = odontratacpo.codigo_super) AND (odongrama.codigo_pieza = odontratacpo.codigo_pieza) AND (odongrama.codigo_cuadrante = odontratacpo.codigo_cuadrante)
+WHERE ( odongrama.nodontograma = :nodongrama ) AND  
+         ( odongrama.clugar = :clugar ) AND  
+         (odontratacab.nodontograma is NULL OR  
+         odontratacab.nodontograma = :nodongrama)  " arguments=(("nodongrama", number),("clugar", string))  sort="codigo_cuadrante A codigo_pieza A " )
+text(band=header alignment="2" text="Cod Cuadrante" border="0" color="33554432" x="9" y="4" height="56" width="320" html.valueishtml="0"  name=odongrama_codigo_cuadrante_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Cod Pieza" border="0" color="33554432" x="338" y="4" height="56" width="265" html.valueishtml="0"  name=odongrama_codigo_pieza_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Codigo Super" border="0" color="33554432" x="613" y="4" height="56" width="302" html.valueishtml="0"  name=odongrama_codigo_super_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Cod Conven" border="0" color="33554432" x="923" y="4" height="56" width="329" html.valueishtml="0"  name=odongrama_cod_conven_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Superficie" border="0" color="0" x="1522" y="4" height="56" width="256" html.valueishtml="0"  name=superficie_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Item" border="0" color="0" x="1787" y="4" height="56" width="142" html.valueishtml="0"  name=odongrama_item_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="conv Def" border="0" color="0" x="1262" y="8" height="56" width="251" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Realizado" border="0" color="0" x="1938" y="4" height="76" width="384" html.valueishtml="0"  name=realizado_t visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Conven Cambio" border="0" color="0" x="2331" y="4" height="76" width="978" html.valueishtml="0"  name=conven_cambio_t visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="33554432" x="9" y="4" height="56" width="320" format="[general]" html.valueishtml="0"  name=codigo_cuadrante visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="33554432" x="338" y="4" height="56" width="265" format="[general]" html.valueishtml="0"  name=codigo_pieza visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="33554432" x="613" y="4" height="56" width="302" format="[general]" html.valueishtml="0"  name=codigo_super visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="33554432" x="923" y="4" height="56" width="329" format="[general]" html.valueishtml="0"  name=cod_conven visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="if(  isNull(realizado), cod_conven, if(  realizado ='2', conven_cambio,  cod_conven  ) )"border="0" color="0" x="1262" y="4" height="56" width="251" format="[General]" html.valueishtml="0"  name=convencion visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="33554432" x="1522" y="4" height="56" width="256" format="[general]" html.valueishtml="0"  name=superficie visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="1787" y="4" height="56" width="142" format="[general]" html.valueishtml="0"  name=item visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="33554432" x="1938" y="0" height="56" width="384" format="[general]" html.valueishtml="0"  name=realizado visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="33554432" x="2331" y="0" height="56" width="978" format="[general]" html.valueishtml="0"  name=conven_cambio visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

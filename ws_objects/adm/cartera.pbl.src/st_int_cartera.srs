@@ -1,0 +1,7 @@
+﻿$PBExportHeader$st_int_cartera.srs
+global type st_int_cartera from structure
+	string		tdoc
+	string		docu
+	string		origen
+end type
+

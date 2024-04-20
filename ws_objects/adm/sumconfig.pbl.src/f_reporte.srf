@@ -1,0 +1,38 @@
+﻿$PBExportHeader$f_reporte.srf
+global type f_reporte from function_object
+end type
+
+forward prototypes
+global function integer f_reporte (string coddoc, string titulo, any param[10])
+end prototypes
+
+global function integer f_reporte (string coddoc, string titulo, any param[10]);//string carreta, archivo
+//long fila
+//archivo = ""
+//carreta = f_lee_archivo(coddoc,titulo,archivo,cLugar)
+//opensheet (w_reporte_gral,w_main_adm,4,original!)
+//w_reporte_gral.title = titulo
+////w_reporte_gral.dw_rep.create(carreta)
+//w_reporte_gral.i_coddoc = coddoc
+//w_reporte_gral.inicialize('DO',coddoc,titulo)
+//
+////w_reporte_gral.dw_rep.settransobject(sqlca)
+//w_reporte_gral.dw_rep.retrieve(param[1],param[2],param[3],param[4],param[5],param[6],param[7],param[8],param[9],param[10])
+//w_reporte_gral.colocapagin()
+
+uo_report i_rep
+i_rep=create uo_report
+i_rep.tipo_rep='documento!'
+i_rep.cod_rep=coddoc
+i_rep.nombre_rep=titulo
+if i_rep.inicia()=-1 then return -1
+
+i_rep.v_preliminar=true
+i_rep.dialogo=false
+i_rep.cambiar_prop=false
+i_rep.imprimir(param,'','0')
+
+return 0
+
+end function
+

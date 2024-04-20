@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_dias_ultimo_pagado.srf
+global type f_dias_ultimo_pagado from function_object
+end type
+
+forward prototypes
+global function double f_dias_ultimo_pagado (string tipodoc, string documento, string concepto)
+end prototypes
+
+global function double f_dias_ultimo_pagado (string tipodoc, string documento, string concepto);double  dias
+
+SELECT NOM_CPO.CANTIDAD_AC into :dias
+FROM 
+	NOM_CAB INNER JOIN (NOM_CPO INNER JOIN NOM_CONCEP ON NOM_CPO.COD_CONCEP = NOM_CONCEP.COD_CONCEP) 
+	ON NOM_CAB.NUM_NOMINA = NOM_CPO.NUM_NOMINA
+WHERE 
+	(((NOM_CPO.TIPODOC)=:tipodoc) AND ((NOM_CPO.DOCUMENTO)=:documento) AND ((NOM_CONCEP.SIGLA)=:concepto) 
+	AND ((NOM_CAB.estado)='1') AND ((NOM_CAB.NUM_NOMINA)=
+	(
+		SELECT 
+			Max(NOM_CAB.NUM_NOMINA) 
+		FROM 
+			NOM_CAB INNER JOIN (NOM_CPO INNER JOIN NOM_CONCEP ON NOM_CPO.COD_CONCEP = NOM_CONCEP.COD_CONCEP) 
+			ON NOM_CAB.NUM_NOMINA = NOM_CPO.NUM_NOMINA
+		WHERE 
+			(((NOM_CPO.TIPODOC)=:tipodoc) AND ((NOM_CPO.DOCUMENTO)=:documento) AND ((NOM_CONCEP.SIGLA)=:concepto) 
+			AND ((NOM_CAB.estado)='1'))))
+		);
+
+if isNull(dias) then dias=0
+Return dias
+
+end function
+

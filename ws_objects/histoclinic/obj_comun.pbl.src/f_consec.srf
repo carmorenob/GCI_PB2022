@@ -1,0 +1,44 @@
+﻿$PBExportHeader$f_consec.srf
+global type f_consec from function_object
+end type
+
+forward prototypes
+global function integer f_consec (long cod_vigencia, string coddocumento, string lugar)
+end prototypes
+
+global function integer f_consec (long cod_vigencia, string coddocumento, string lugar);long consecutivo
+string msg
+
+select consecutivo into :consecutivo from pre_consecs
+where cod_vigencia=:cod_vigencia and coddoc = :codDocumento and cLugar = :Lugar;
+IF SQLCA.SQLCode = -1 THEN 
+	msg = SQLCA.SQLErrText
+	Rollback;
+	MessageBox("SQL error", msg)
+	Return -1
+elseif SQLCA.SQLCode = 100 THEN 
+	consecutivo = 0
+	Insert into pre_consecs (cod_vigencia, coddoc, clugar, consecutivo)
+	values(:cod_vigencia,:codDocumento,:lugar,0);
+	IF SQLCA.SQLCode = -1 THEN 
+		msg = SQLCA.SQLErrText
+		Rollback;
+		MessageBox("SQL error", msg)
+		Return -1
+	end if
+END IF
+
+consecutivo = consecutivo + 1
+
+update pre_consecs set consecutivo = :consecutivo
+where cod_vigencia=:cod_vigencia and coddoc = :codDocumento and cLugar = :Lugar;
+IF SQLCA.SQLCode = -1 THEN 
+	msg = SQLCA.SQLErrText
+	Rollback;
+	MessageBox("SQL error", msg)
+	Return -1
+End If
+Return consecutivo
+
+end function
+

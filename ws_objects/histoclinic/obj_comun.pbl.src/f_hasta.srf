@@ -1,0 +1,12 @@
+﻿$PBExportHeader$f_hasta.srf
+global type f_hasta from function_object
+end type
+
+forward prototypes
+global function boolean f_hasta ()
+end prototypes
+
+global function boolean f_hasta ();return f_entrar('asi',ls_pro)
+
+end function
+

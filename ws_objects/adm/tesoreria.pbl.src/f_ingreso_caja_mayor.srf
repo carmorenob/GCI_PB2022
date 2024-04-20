@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_ingreso_caja_mayor.srf
+global type f_ingreso_caja_mayor from function_object
+end type
+
+forward prototypes
+global function long f_ingreso_caja_mayor (string p_caja, string p_clug_caja, string p_concepto, string p_cod_concep, datetime p_fecha, decimal p_valor, string p_tipo_arq)
+end prototypes
+
+global function long f_ingreso_caja_mayor (string p_caja, string p_clug_caja, string p_concepto, string p_cod_concep, datetime p_fecha, decimal p_valor, string p_tipo_arq);long ning
+string err
+ning=f_trae_ndoc('IM',p_clug_caja,'Ingreso a Caja Mayor')
+if ning=-1 then return -1
+INSERT INTO tesocajaingreso ( codcaja, CLugar, CodDoc, ningreso, concepto, cartipo, fecha_ingreso, valor, arqueo, usuario,contabil )
+values (:p_caja,:p_clug_caja,'IM',:ning,:p_concepto,:p_cod_concep,:p_fecha,:p_valor,:p_tipo_arq,:usuario,'P');
+if sqlca.sqlcode= -1 then
+	err=sqlca.sqlerrtext
+	rollback;
+	messagebox("Error insertando en tesocajaingreso",err)
+	return -1
+end if
+return ning
+end function
+

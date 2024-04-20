@@ -1,0 +1,49 @@
+﻿$PBExportHeader$nom_vaca1.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no )
+header(height=0 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=240 color="536870912" )
+table(column=(type=char(3) updatewhereclause=yes key=yes name=tipodoc dbname="terceros.TIPODOC" dbalias=".TIPODOC" )
+ column=(type=char(15) updatewhereclause=yes key=yes name=documento dbname="terceros.DOCUMENTO" dbalias=".DOCUMENTO" )
+ column=(type=datetime updatewhereclause=yes name=inicia dbname="terceros.INICIA" dbalias=".INICIA" )
+ column=(type=datetime updatewhereclause=yes name=termina dbname="terceros.TERMINA" dbalias=".TERMINA" )
+ column=(type=char(6) updatewhereclause=yes name=cod_concep dbname="terceros.COD_CONCEP" dbalias=".COD_CONCEP" )
+ column=(type=char(50) updatewhereclause=yes name=des_concep dbname="terceros.DES_CONCEP" dbalias=".DES_CONCEP" )
+ column=(type=decimal(2) updatewhereclause=yes name=pagado dbname="terceros.Pagado" dbalias=".Pagado" )
+ column=(type=decimal(2) updatewhereclause=yes name=cantidad_ac dbname="terceros.Cantidad_Ac" dbalias=".Cantidad_Ac" )
+ column=(type=char(20) updatewhereclause=yes name=nombre1 dbname="terceros.nombre1" dbalias=".nombre1" )
+ column=(type=char(20) updatewhereclause=yes name=nombre2 dbname="terceros.nombre2" dbalias=".nombre2" )
+ column=(type=char(20) updatewhereclause=yes name=apellido1 dbname="terceros.apellido1" dbalias=".apellido1" )
+ column=(type=char(20) updatewhereclause=yes name=apellido2 dbname="terceros.apellido2" dbalias=".apellido2" )
+ column=(type=char(9) updatewhereclause=yes name=ret dbname="ret" )
+ retrieve="SELECT 
+	NOM_CPO.TIPODOC, NOM_CPO.DOCUMENTO, NOM_CAB.INICIA, 
+	NOM_CAB.TERMINA, NOM_CONCEP.COD_CONCEP, NOM_CONCEP.DES_CONCEP, 
+	NOM_CPO.Pagado, NOM_CPO.Cantidad_Ac, terceros.nombre1, terceros.nombre2, 
+	terceros.apellido1, terceros.apellido2, :reintegro as ret
+FROM 
+	terceros INNER JOIN (NOM_CONCEP INNER JOIN (NOM_CAB INNER JOIN NOM_CPO ON 
+	NOM_CAB.NUM_NOMINA = NOM_CPO.NUM_NOMINA) ON NOM_CONCEP.COD_CONCEP = NOM_CPO.COD_CONCEP) ON 
+	(terceros.documento = NOM_CPO.DOCUMENTO) AND (terceros.tipodoc = NOM_CPO.TIPODOC)
+WHERE 
+	(((NOM_CONCEP.vac)='1' or (NOM_CONCEP.vac)='3')) AND (NOM_CAB.ESTADO='1') AND
+	NOM_CPO.TIPODOC = :tipd  AND  NOM_CPO.DOCUMENTO=:docu and
+	:fecha Between NOM_CAB.INICIA and NOM_CAB.TERMINA and  NOM_CONCEP.COD_CONCEP='37'
+
+" update="terceros" updatewhere=1 updatekeyinplace=no arguments=(("tipd", string),("docu", string),("Fecha", date),("Reintegro", date)) )
+text(band=detail alignment="0" text="ARTICULO PRIMERO" border="0" color="33554432" x="32" y="12" height="68" width="690" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="3" expression="'Reconocer y ordenar pagar a favor de ' +  nombre1 + IF ( ISNULL(nombre2 ), '  ', '  ' +nombre2+'  '   )+ apellido1  + IF ( ISNULL( apellido2 ),  '  ' ,'  ' +apellido2   )+' identificado con ' +   tipd   +'  No.' +  docu   + ' la suma de $'+  string(  pagado,'#,##0.00'  )+', correspondientes a '  +string(cantidad_ac) +' dias de vacaciones, debe reintegrarse a sus labores el dia, ' + string(   Reintegro ,'dd-mm-yyyy')"border="0" color="33554432" x="763" y="12" height="204" width="2359" format="[GENERAL]" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Arial" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="33554432" x="3122" y="0" height="76" width="288" format="[general]" html.valueishtml="0"  name=ret visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

@@ -1,0 +1,41 @@
+﻿$PBExportHeader$f_edad_texto.srf
+global type f_edad_texto from function_object
+end type
+
+forward prototypes
+global function string f_edad_texto (datetime ldat_fecha_ini, datetime ldat_fecha_fin)
+end prototypes
+
+global function string f_edad_texto (datetime ldat_fecha_ini, datetime ldat_fecha_fin);double ld_diferencia=0,ld_anyo=0,ld_mes=0,ld_dia=0 
+string ls_cadena,ls_años=' Año ',ls_mes=' Mes ',ls_dia=' Día'
+
+ld_diferencia =DaysAfter(date(ldat_fecha_ini),date(ldat_fecha_fin))
+ld_anyo=  int(ld_diferencia/ 365 )
+If ld_anyo>1 then 
+	ls_años=' Años '
+end if
+ld_diferencia=mod(ld_diferencia,365 )
+ld_mes=  int(ld_diferencia/ 30 )
+if ld_mes>1 then 
+	ls_mes=' Meses '
+end if
+ld_dia = mod(ld_diferencia ,30)
+if ld_dia>=0 then 
+	ls_dia=' Días'
+end if
+
+If ld_anyo>0 then 
+	ls_cadena= string(ld_anyo)+ls_años
+end if
+
+if ld_mes>0 then 
+	ls_cadena=ls_cadena+  string(ld_mes) +ls_mes 
+end if
+if ld_dia>=0 then
+		ls_cadena=  ls_cadena+ string(ld_dia) + ls_dia
+end If
+
+return ls_cadena
+
+end function
+

@@ -1,0 +1,11 @@
+﻿$PBExportHeader$f_microhelp.srf
+global type f_microhelp from function_object
+end type
+
+forward prototypes
+global subroutine f_microhelp (string p_micro)
+end prototypes
+
+global subroutine f_microhelp (string p_micro);if not isnull(p_micro)  then w_principal.setmicrohelp(p_micro)
+end subroutine
+

@@ -1,0 +1,28 @@
+﻿$PBExportHeader$f_con_val_ref_quimberlab.srf
+global type f_con_val_ref_quimberlab from function_object
+end type
+
+forward prototypes
+global function string f_con_val_ref_quimberlab (string cadena)
+end prototypes
+
+global function string f_con_val_ref_quimberlab (string cadena);long posi
+string ls_valor
+
+setnull(ls_valor)
+if isnull(cadena) then 
+	return ls_valor
+else
+	posi=Pos(cadena, ",")
+	if posi>0 then
+		ls_valor =Replace(cadena, posi, 1, ".")
+	else
+		if IsNumber(cadena) then
+			ls_valor=cadena
+		end if
+	end if
+	return ls_valor
+end if
+
+end function
+

@@ -1,0 +1,51 @@
+﻿$PBExportHeader$dw_nom_contra_rfc.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no grid.lines=0 )
+header(height=68 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=num_nomina dbname="terceros.num_nomina" dbalias=".num_nomina" )
+ column=(type=char(3) updatewhereclause=yes key=yes name=tipodoc dbname="terceros.tipodoc" dbalias=".tipodoc" )
+ column=(type=char(15) updatewhereclause=yes key=yes name=documento dbname="terceros.documento" dbalias=".documento" )
+ column=(type=decimal(2) updatewhereclause=yes name=tbruto dbname="sumadepagado" )
+ column=(type=char(20) updatewhereclause=yes name=nombre1 dbname="terceros.nombre1" dbalias=".nombre1" )
+ column=(type=char(20) updatewhereclause=yes name=nombre2 dbname="terceros.nombre2" dbalias=".nombre2" )
+ column=(type=char(20) updatewhereclause=yes name=apellido1 dbname="terceros.apellido1" dbalias=".apellido1" )
+ column=(type=char(20) updatewhereclause=yes name=apellido2 dbname="terceros.apellido2" dbalias=".apellido2" )
+ column=(type=char(250) updatewhereclause=yes name=razon_social dbname="terceros.razon_social" dbalias=".razon_social" )
+ retrieve="SELECT nom_contra.NUM_NOMINA, nom_contra.TIPODOC, nom_contra.DOCUMENTO, Sum(NOM_CPO.Pagado) AS SumaDePagado, terceros.nombre1, terceros.nombre2, terceros.apellido1, terceros.apellido2, terceros.razon_social
+FROM ((   
+(SELECT DISTINCT NOM_CAB.NUM_NOMINA, NOM_CPO.TIPODOC, NOM_CPO.DOCUMENTO, NOM_CAB.ANO, NOM_CAB.MES, NOM_CAB.INICIA, NOM_CAB.TERMINA
+FROM NOM_CPO INNER JOIN NOM_CAB ON NOM_CPO.NUM_NOMINA = NOM_CAB.NUM_NOMINA
+WHERE (NOM_CPO.ano Is Not Null) AND (NOM_CPO.presupuesto='0') AND (NOM_CAB.ESTADO='1') and (nom_cpo.num_nomina = :nomi)
+) as nom_contra 
+INNER JOIN NOM_CPO ON (nom_contra.DOCUMENTO = NOM_CPO.DOCUMENTO) AND (nom_contra.TIPODOC = NOM_CPO.TIPODOC) AND (nom_contra.NUM_NOMINA = NOM_CPO.NUM_NOMINA)) 
+INNER JOIN NOM_CONCEP ON NOM_CPO.COD_CONCEP = NOM_CONCEP.COD_CONCEP) 
+INNER JOIN terceros ON (NOM_CPO.DOCUMENTO = terceros.documento) AND (NOM_CPO.TIPODOC = terceros.tipodoc)
+WHERE (NOM_CONCEP.TIPO='0')
+GROUP BY nom_contra.NUM_NOMINA, nom_contra.TIPODOC, nom_contra.DOCUMENTO, terceros.nombre1, terceros.nombre2, terceros.apellido1, terceros.apellido2, terceros.razon_social
+" update="terceros" updatewhere=0 updatekeyinplace=no arguments=(("nomi", number)) )
+text(band=header alignment="2" text="Tipodoc" border="6" color="0" x="9" y="4" height="56" width="187" html.valueishtml="0"  name=tipodoc_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Documento" border="6" color="0" x="206" y="4" height="56" width="475" html.valueishtml="0"  name=documento_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Total Bruto" border="6" color="0" x="690" y="4" height="56" width="389" html.valueishtml="0"  name=t_2 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Empleado" border="6" color="0" x="1088" y="4" height="56" width="1010" html.valueishtml="0"  name=t_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+compute(band=detail alignment="0" expression="if ( isnull(  nombre1 ) , '' ,  nombre1 )+
+if ( isnull(  nombre2 ) , '' ,  ' '+nombre2 )+
+if ( isnull(   apellido1 ) , '' ,  ' '+  apellido1 )+
+if ( isnull(   apellido2 ) , '' ,  ' '+  apellido2 )+
+if ( isnull(   razon_social ) , '' ,  ' ('+  razon_social +')' )"border="0" color="0" x="1088" y="4" height="56" width="1010" format="[GENERAL]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="if(isNull(tbruto),0,tbruto)"border="0" color="0" x="690" y="4" height="56" width="389" format="[General]" html.valueishtml="0"  name=tot_bruto visible="1"  font.face="Tahoma" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="14" y="4" height="56" width="183" format="[general]" html.valueishtml="0"  name=tipodoc visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="210" y="4" height="56" width="471" format="[general]" html.valueishtml="0"  name=documento visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

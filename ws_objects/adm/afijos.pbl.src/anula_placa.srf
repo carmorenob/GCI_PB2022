@@ -1,0 +1,39 @@
+﻿$PBExportHeader$anula_placa.srf
+global type anula_placa from function_object
+end type
+
+forward prototypes
+global function string anula_placa (string placa)
+end prototypes
+
+global function string anula_placa (string placa);long cuenta, i
+string t_placa, rayas=''
+
+for i = 1 to 20 - len(placa)
+	rayas = rayas + '-'
+next
+
+t_placa = '-' + placa
+select count(*) into :cuenta from af_registro_cpo
+where placa = :t_placa;
+IF SQLCA.SQLCode = -1 THEN
+	MessageBox("SQL error", SQLCA.SQLErrText)
+	Return ''
+END IF
+do while cuenta > 0 and t_placa <> (rayas + placa)
+	t_placa = '-' + t_placa
+	select count(*) into :cuenta from af_registro_cpo
+	where placa = :t_placa;
+	IF SQLCA.SQLCode = -1 THEN
+		MessageBox("SQL error", SQLCA.SQLErrText)
+		Return ''
+	END IF
+loop
+if t_placa = (rayas + placa) then
+	t_placa = '+'+placa
+	MessageBox('Atención','Es la última anulación posible para la placa.')
+end if
+Return t_placa
+
+end function
+

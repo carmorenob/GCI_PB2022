@@ -1,0 +1,33 @@
+﻿$PBExportHeader$dw_cols_dw.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no grid.lines=0 )
+header(height=144 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=char(255) updatewhereclause=yes name=obj_descripcion dbname="modulos_vent_obj.descripcion" )
+ column=(type=char(1) updatewhereclause=yes name=obj_visible dbname="modulos_vent_obj.visible" )
+ column=(type=char(20) updatewhereclause=yes name=cod_col dbname="modulos_cols_dw.cod_col" )
+ column=(type=char(15) updatewhereclause=yes name=titulo dbname="modulos_cols_dw.titulo" )
+ column=(type=char(1) updatewhereclause=yes name=visible dbname="modulos_cols_dw.visible" )
+ column=(type=char(50) updatewhereclause=yes name=obj_texto dbname="modulos_vent_obj.texto" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"modulos_cols_dw~" )  TABLE(NAME=~"modulos_vent_obj~" ) COLUMN(NAME=~"modulos_vent_obj.descripcion~") COLUMN(NAME=~"modulos_vent_obj.visible~") COLUMN(NAME=~"modulos_cols_dw.cod_col~") COLUMN(NAME=~"modulos_cols_dw.titulo~") COLUMN(NAME=~"modulos_cols_dw.visible~") COLUMN(NAME=~"modulos_vent_obj.texto~")    JOIN (LEFT=~"modulos_vent_obj.cod_ventana~"    OP =~"=~"RIGHT=~"modulos_cols_dw.cod_ventana~"    OUTER1 =~"modulos_vent_obj.cod_ventana~" )    JOIN (LEFT=~"modulos_vent_obj.cod_obj~"    OP =~"=~"RIGHT=~"modulos_cols_dw.cod_obj~"    OUTER1 =~"modulos_vent_obj.cod_obj~" )WHERE(    EXP1 =~"modulos_vent_obj.cod_ventana~"   OP =~"=~"    EXP2 =~":cod_vent~"    LOGIC =~"And~" ) WHERE(    EXP1 =~"modulos_vent_obj.cod_obj~"   OP =~"=~"    EXP2 =~":co_obj~" ) ) ARG(NAME = ~"cod_vent~" TYPE = string)  ARG(NAME = ~"co_obj~" TYPE = string) " arguments=(("cod_vent", string),("co_obj", string)) )
+text(band=header alignment="2" text="Modulos Vent Obj
+Visible" border="0" color="33554432" x="9" y="8" height="128" width="475" html.valueishtml="0"  name=modulos_vent_obj_visible_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Modulos Cols Dw
+Cod Col" border="0" color="33554432" x="494" y="8" height="128" width="576" html.valueishtml="0"  name=modulos_cols_dw_cod_col_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Modulos Cols Dw
+Titulo" border="0" color="33554432" x="1079" y="8" height="128" width="462" html.valueishtml="0"  name=modulos_cols_dw_titulo_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Modulos Cols Dw
+Visible" border="0" color="33554432" x="1550" y="8" height="128" width="215" html.valueishtml="0"  name=modulos_cols_dw_visible_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="9" y="8" height="76" width="475" format="[general]" html.valueishtml="0"  name=obj_visible visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="33554432" x="494" y="12" height="76" width="576" format="[general]" html.valueishtml="0"  name=cod_col visible="1" edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="33554432" x="1079" y="8" height="76" width="462" format="[general]" html.valueishtml="0"  name=titulo visible="1" edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="33554432" x="1550" y="8" height="76" width="215" format="[general]" html.valueishtml="0"  name=visible visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=0 border="0" color="33554432" x="1778" y="0" height="64" width="1339" html.valueishtml="0"  name=obj_texto visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Modulos Vent Obj Texto" border="0" color="33554432" x="1774" y="4" height="64" width="1344" html.valueishtml="0"  name=modulos_vent_obj_texto_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

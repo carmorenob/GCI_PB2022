@@ -1,0 +1,50 @@
+﻿$PBExportHeader$f_remision.srf
+global type f_remision from function_object
+end type
+
+forward prototypes
+global function multilineedit f_remision (double p_contador, ref string p_lugar, readonly richtextedit p_rte, multilineedit p_mle)
+end prototypes
+
+global function multilineedit f_remision (double p_contador, ref string p_lugar, readonly richtextedit p_rte, multilineedit p_mle);long ll_reg,ll_contador
+blob lb_motivo
+
+clipboard('')
+select 
+	min(nregistro) into :ll_reg 
+from 
+	(hclin_registro inner join hclin_plant on hclin_registro.codplantilla = hclin_plant.codplantilla) 
+	inner join hclin_plantcampo on hclin_plant.codplantilla = hclin_plantcampo.codplantilla
+where 
+	(((hclin_registro.contador)=:p_contador) and ((hclin_registro.clugar)=:p_lugar) and ((hclin_plantcampo.remision)='1'));
+IF SQLCA.SQLCode = -1 THEN
+	MessageBox("No pudo recuperarse información de la planilla para conocer campo remision.", SQLCA.SQLErrText)
+	p_mle.text='no'
+	return p_mle
+END IF
+
+selectblob
+	hclin_reg_valor.long_texto into :lb_motivo
+FROM 
+	((hclin_plant INNER JOIN hclin_plantcampo ON hclin_plant.codplantilla = hclin_plantcampo.codplantilla) 
+	INNER JOIN hclin_reg_valor ON hclin_plantcampo.numcampo = hclin_reg_valor.item) 
+	INNER JOIN hclin_registro ON (hclin_plant.codplantilla = hclin_registro.codplantilla) AND (hclin_reg_valor.contador = hclin_registro.contador) 
+	AND (hclin_reg_valor.clugar = hclin_registro.clugar)
+WHERE 
+	(((hclin_plantcampo.remision)='1') AND ((hclin_reg_valor.contador)=:p_contador) AND ((hclin_registro.clugar)=:p_lugar) 
+	AND ((hclin_registro.nregistro)=:ll_reg ));
+
+IF SQLCA.SQLCode = -1 THEN
+	MessageBox("No pudo recuperarse información de la planilla para conocer el motivo del ingreso (hclin_reg_valor).", SQLCA.SQLErrText)
+	p_mle.text='no'
+	return p_mle
+END IF
+f_pega_a_rtf(p_rte,string(lb_motivo),3)
+p_rte.selectTextAll(Detail!)
+p_rte.Copy()
+p_mle.paste()
+clipboard('')
+return p_mle
+
+end function
+

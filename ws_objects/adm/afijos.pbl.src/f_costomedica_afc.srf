@@ -1,0 +1,29 @@
+﻿$PBExportHeader$f_costomedica_afc.srf
+global type f_costomedica_afc from function_object
+end type
+
+forward prototypes
+global function integer f_costomedica_afc (string codgenerico, string codarticulo, decimal vr_unit)
+end prototypes
+
+global function integer f_costomedica_afc (string codgenerico, string codarticulo, decimal vr_unit);uo_datastore dw_t
+long i
+
+dw_t = Create uo_datastore
+dw_t.DataObject = 'dw_act_tarifas'
+dw_t.SetTransObject(SQLCA)
+
+if dw_t.Retrieve(codgenerico,codarticulo) = -1 then Return -1
+
+for i = 1 to dw_t.RowCount()
+	dw_t.SetItem(i,'valor',round(vr_unit * dw_t.GetItemNumber(i,'porc_venta'),2))
+next
+
+if dw_t.Update() = -1 then
+	MessageBox('Atención','No se puede actualizar tarifas para '+codgenerico+ ' y articulo '+codarticulo)
+	Return -1
+end if
+Return 0
+
+end function
+

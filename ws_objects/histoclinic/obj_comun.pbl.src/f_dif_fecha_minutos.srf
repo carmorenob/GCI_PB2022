@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_dif_fecha_minutos.srf
+global type f_dif_fecha_minutos from function_object
+end type
+
+forward prototypes
+global function long f_dif_fecha_minutos (datetime afechai, datetime afechaf)
+end prototypes
+
+global function long f_dif_fecha_minutos (datetime afechai, datetime afechaf);double minutos
+if isnull(afechai) then return 0
+if isnull(afechaf) then return 0
+
+minutos=DaysAfter(date(afechai),date(afechaf)) * 1140
+minutos+=SecondsAfter (time(afechai),time(afechaf))/60
+
+return minutos
+end function
+

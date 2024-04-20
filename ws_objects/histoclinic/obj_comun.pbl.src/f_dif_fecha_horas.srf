@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_dif_fecha_horas.srf
+global type f_dif_fecha_horas from function_object
+end type
+
+forward prototypes
+global function long f_dif_fecha_horas (datetime afechai, datetime afechaf)
+end prototypes
+
+global function long f_dif_fecha_horas (datetime afechai, datetime afechaf);double segundos
+if isnull(afechai) then return 0
+if isnull(afechaf) then return 0
+
+segundos=DaysAfter(date(afechai),date(afechaf)) * 24
+segundos+=SecondsAfter (time(afechai),time(afechaf))/60
+
+
+return segundos
+end function
+

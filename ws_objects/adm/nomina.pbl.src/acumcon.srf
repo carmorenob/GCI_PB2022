@@ -1,0 +1,20 @@
+﻿$PBExportHeader$acumcon.srf
+global type acumcon from function_object
+end type
+
+forward prototypes
+global function double acumcon (string tipodoc, string documento, string concepto, datetime fecini, datetime fecfin)
+end prototypes
+
+global function double acumcon (string tipodoc, string documento, string concepto, datetime fecini, datetime fecfin);double valor
+
+select sum(valor_c) into :valor 
+FROM (nom_cab AS c INNER JOIN nom_cpo AS p ON c.num_nomina = p.num_nomina) INNER JOIN nom_concep AS cp ON p.cod_concep = cp.cod_concep
+where c.estado = '1' and p.tipodoc = :tipodoc and p.documento = :documento
+and p.cod_concep = cp.cod_concep and cp.sigla = :concepto 
+and (c.inicia >= :fecini and c.inicia <= :fecfin);
+if isNull(valor) then valor = 0
+Return valor
+
+end function
+

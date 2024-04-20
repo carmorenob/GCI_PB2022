@@ -1,0 +1,66 @@
+﻿$PBExportHeader$f_revisa_clasif_cta.srf
+global type f_revisa_clasif_cta from function_object
+end type
+
+forward prototypes
+global subroutine f_revisa_clasif_cta (string cemp)
+end prototypes
+
+global subroutine f_revisa_clasif_cta (string cemp);uo_datastore revisa
+revisa=create uo_datastore
+revisa.dataobject='dw_clasif_cuenta'
+revisa.settransobject(sqlca)
+revisa.retrieve(cemp)
+long j,donde
+string nulo
+boolean guardar=false
+setnull(nulo)
+for j=0 to 9
+	if revisa.find("mayor='"+string(j)+"'",1,revisa.rowcount())=0 then
+		donde=revisa.insertrow(0)
+		revisa.setitem(donde,'cod_empresa',cemp)
+		revisa.setitem(donde,'mayor',string(j))
+		choose case j
+		case 0,1,2,3,8,9
+				revisa.setitem(donde,'t_estado','B')
+				revisa.setitem(donde,'t_pyg',nulo)
+			case 4
+				revisa.setitem(donde,'t_estado','R')
+				revisa.setitem(donde,'t_pyg','I')
+			case 5,6,7
+				revisa.setitem(donde,'t_estado','R')
+				revisa.setitem(donde,'t_pyg','G')
+		end choose
+		guardar=true
+	end if
+next
+for j=1 to revisa.rowcount()
+	choose case revisa.getitemstring(j,'mayor')
+		case '0','1','2','3','8','9'
+			if isnull(revisa.getitemstring(j,'t_estado')) or revisa.getitemstring(j,'t_estado')='' or (revisa.getitemstring(j,'t_estado')<>'B' and revisa.getitemstring(j,'t_estado')<>'R') then
+				guardar=true
+				revisa.setitem(j,'t_estado','B')
+				revisa.setitem(j,'t_pyg',nulo)
+			end if
+		case '4'
+			if isnull(revisa.getitemstring(j,'t_estado')) or revisa.getitemstring(j,'t_estado')='' or (revisa.getitemstring(j,'t_estado')<>'B' and revisa.getitemstring(j,'t_estado')<>'R') then
+				guardar=true
+				revisa.setitem(j,'t_estado','R')
+				revisa.setitem(j,'t_pyg','I')
+			end if
+		case '5','6','7'
+			if isnull(revisa.getitemstring(j,'t_estado')) or revisa.getitemstring(j,'t_estado')='' or (revisa.getitemstring(j,'t_estado')<>'B' and revisa.getitemstring(j,'t_estado')<>'R') then
+				guardar=true
+				revisa.setitem(j,'t_estado','R')
+				revisa.setitem(j,'t_pyg','G')
+			end if
+	end choose
+next
+if not guardar then return
+if revisa.update()=-1 then
+	rollback;
+else
+	commit;
+end if
+end subroutine
+

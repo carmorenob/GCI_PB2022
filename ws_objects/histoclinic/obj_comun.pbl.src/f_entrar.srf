@@ -1,0 +1,190 @@
+﻿$PBExportHeader$f_entrar.srf
+global type f_entrar from function_object
+end type
+
+forward prototypes
+global function boolean f_entrar (string aplicativ, integer nbits)
+end prototypes
+
+global function boolean f_entrar (string aplicativ, integer nbits);string esta,lice_adm[8],hasta_adm[8]
+if nbits=32 then
+	RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "NROLICEN", Regstring!, lice)
+	RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "CLAVE", Regstring!, activacion)
+	RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "CLIENTE", Regstring!, nom_regis)
+	RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "APLICATIVO", Regstring!, aplicativo)
+	RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "HASTA", Regstring!, val_hasta)
+	Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "LIC_CONT", regstring!, lice_adm[1])
+	Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "HASTA_CONT", regstring!, hasta_adm[1])
+	Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "LIC_TESO", regstring!, lice_adm[2])
+	Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "HASTA_TESO", regstring!, hasta_adm[2])
+	Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "LIC_SUMI", regstring!, lice_adm[3])
+	Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "HASTA_SUMI", regstring!, hasta_adm[3])
+	Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "LIC_CART", regstring!, lice_adm[4])
+	Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "HASTA_CART", regstring!, hasta_adm[4])
+	Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "LIC_ACTI", regstring!, lice_adm[5])
+	Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "HASTA_ACTI", regstring!, hasta_adm[5])
+	Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "LIC_NOMI", regstring!, lice_adm[6])
+	Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "HASTA_NOMI", regstring!, hasta_adm[6])
+	Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "LIC_COST", regstring!, lice_adm[7])
+	Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "HASTA_COST", regstring!, hasta_adm[7])
+	Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "LIC_PRES", regstring!, lice_adm[8])
+	Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "HASTA_PRES", regstring!, hasta_adm[8])
+end If
+if nbits=64 then
+	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "NROLICEN", Regstring!, lice)
+	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "CLAVE", Regstring!, activacion)
+	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "CLIENTE", Regstring!, nom_regis)
+	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "APLICATIVO", Regstring!, aplicativo)
+	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "HASTA", Regstring!, val_hasta)
+	Registryget ( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "LIC_CONT", regstring!, lice_adm[1])
+	Registryget ( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "HASTA_CONT", regstring!, hasta_adm[1])
+	Registryget ( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "LIC_TESO", regstring!, lice_adm[2])
+	Registryget ( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "HASTA_TESO", regstring!, hasta_adm[2])
+	Registryget ( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "LIC_SUMI", regstring!, lice_adm[3])
+	Registryget ( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "HASTA_SUMI", regstring!, hasta_adm[3])
+	Registryget ( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "LIC_CART", regstring!, lice_adm[4])
+	Registryget ( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "HASTA_CART", regstring!, hasta_adm[4])
+	Registryget ( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "LIC_ACTI", regstring!, lice_adm[5])
+	Registryget ( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "HASTA_ACTI", regstring!, hasta_adm[5])
+	Registryget ( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "LIC_NOMI", regstring!, lice_adm[6])
+	Registryget ( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "HASTA_NOMI", regstring!, hasta_adm[6])
+	Registryget ( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "LIC_COST", regstring!, lice_adm[7])
+	Registryget ( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "HASTA_COST", regstring!, hasta_adm[7])
+	Registryget ( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "LIC_PRES", regstring!, lice_adm[8])
+	Registryget ( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "HASTA_PRES", regstring!, hasta_adm[8])
+end If
+choose case aplicativ
+	case 'histo_clinic'
+		if long(lice)<=0 then
+			messagebox ("Atención","No compró licencias del Aplicativo Asistencial")
+			return false
+		end if
+		if val_hasta<>'0000/00' and date(long(left(val_hasta,4)),long(right(val_hasta,2)),10)<today() then
+			messagebox("Atención","El periodo de validez del Aplicativo Asistencial ha caducado, comuníquese con GCI Ltda. para su reactivación")
+			return false
+		end if	
+	case 'c'
+		if long(lice_adm[1])<=0 then
+			messagebox ("Atención","No compró licencias de Contabilidad")
+			return false
+		end if
+		if hasta_adm[1]<>'0000/00' and date(long(left(hasta_adm[1],4)),long(right(hasta_adm[1],2)),10)<today() then
+			messagebox("Atención","El periodo de validez de Contabilidad ha caducado, comuníquese con GCI Ltda. para su reactivación")
+			return false
+		end if	
+	case 't'
+		if long(lice_adm[2])<=0 then
+			messagebox ("Atención","No compró licencias de Tesorería")
+			return false
+		end if
+		if hasta_adm[2]<>'0000/00' and date(long(left(hasta_adm[2],4)),long(right(hasta_adm[2],2)),10)<today() then
+			messagebox("Atención","El periodo de validez de Tesorería ha caducado, comuníquese con GCI Ltda. para su reactivación")
+			return false
+		end if
+	case 's'
+		if long(lice_adm[3])<=0 then
+			messagebox ("Atención","No compró licencias de Suministros")
+			return false
+		end if
+		if hasta_adm[3]<>'0000/00' and date(long(left(hasta_adm[3],4)),long(right(hasta_adm[3],2)),10)<today() then
+			messagebox("Atención","El periodo de validez de Suministros ha caducado, comuníquese con GCI Ltda. para su reactivación")
+			return false
+		end if
+	case 'n'
+		if long(lice_adm[6])<=0 then
+			messagebox ("Atención","No compró licencias de Nómina")
+			return false
+		end if
+		if hasta_adm[6]<>'0000/00' and date(long(left(hasta_adm[6],4)),long(right(hasta_adm[6],2)),10)<today() then
+			messagebox("Atención","El periodo de validez de Nómina ha caducado, comuníquese con GCI Ltda. para su reactivación")
+			return false
+		end if
+	case 'a'
+		if long(lice_adm[5])<=0 then
+			messagebox ("Atención","No compró licencias de Activos Fijos")
+			return false
+		end if
+		if hasta_adm[5]<>'0000/00' and date(long(left(hasta_adm[5],4)),long(right(hasta_adm[5],2)),10)<today() then
+			messagebox("Atención","El periodo de validez de Activos Fijos ha caducado, comuníquese con GCI Ltda. para su reactivación")
+			return false
+		end if
+	case 'r'
+		if long(lice_adm[4])<=0 then
+			messagebox ("Atención","No compró licencias de Cartera")
+			return false
+		end if
+		if hasta_adm[4]<>'0000/00' and date(long(left(hasta_adm[4],4)),long(right(hasta_adm[4],2)),10)<today() then
+			messagebox("Atención","El periodo de validez de Cartera ha caducado, comuníquese con GCI Ltda. para su reactivación")
+			return false
+		end if
+	case 'o'
+		if long(lice_adm[7])<=0 then
+			messagebox ("Atención","No compró licencias de Costos")
+			return false
+		end if
+		if hasta_adm[7]<>'0000/00' and date(long(left(hasta_adm[7],4)),long(right(hasta_adm[7],2)),10)<today() then
+			messagebox("Atención","El periodo de validez de Costos ha caducado, comuníquese con GCI Ltda. para su reactivación")
+			return false
+		end if
+	case 'p'
+		if long(lice_adm[8])<=0 then
+			messagebox ("Atención","No compró licencias de Presupuesto")
+			return false
+		end if
+		if hasta_adm[8]<>'0000/00' and date(long(left(hasta_adm[8],4)),long(right(hasta_adm[8],2)),10)<today() then
+			messagebox("Atención","El periodo de validez de Presupuesto ha caducado, comuníquese con GCI Ltda. para su reactivación")
+			return false
+		end if
+	case else
+end choose
+
+if nom_regis="" or isnull(nom_regis) then
+	Messagebox("Error","GCI no está instalado correctamente, por favor configurelo o licencielo adecuadamente")
+	return false
+end if
+esta=nom_regis
+u_version u_vers
+u_vers=create u_version
+boolean v_s=false
+choose case aplicativ
+	case 'histo_clinic'
+		u_vers.i_version_asis=g_version
+		v_s=true
+	case 'gci_adm'
+		u_vers.i_version_adm=g_version
+		v_s=true
+	case 'conf_apdx'
+		u_vers.i_vers_conf=g_version
+		v_s=true
+end choose
+
+if long(lice)>0 then 
+	esta+=lice+aplicativo
+	esta+=left(u_vers.i_version_asis,5)
+	if val_hasta<>"0000/00" then esta+=val_hasta
+end if
+esta+=lice_adm[1]
+if lice_adm[1]<>'0' and hasta_adm[1]<>'0000/00' then esta+=hasta_adm[1]
+esta+=lice_adm[2]
+if lice_adm[2]<>'0' and hasta_adm[2]<>'0000/00' then esta+=hasta_adm[2]
+esta+=lice_adm[3]
+if lice_adm[3]<>'0' and hasta_adm[3]<>'0000/00' then esta+=hasta_adm[3]
+esta+=lice_adm[4]
+if lice_adm[4]<>'0' and hasta_adm[4]<>'0000/00' then esta+=hasta_adm[4]
+esta+=lice_adm[5]
+if lice_adm[5]<>'0' and hasta_adm[5]<>'0000/00' then esta+=hasta_adm[5]
+esta+=lice_adm[6]
+if lice_adm[6]<>'0' and hasta_adm[6]<>'0000/00' then esta+=hasta_adm[6]
+esta+=lice_adm[7]
+if lice_adm[7]<>'0' and hasta_adm[7]<>'0000/00' then esta+=hasta_adm[7]
+esta+=lice_adm[8]
+if lice_adm[8]<>'0' and hasta_adm[8]<>'0000/00' then esta+=hasta_adm[8]
+if lice_adm[1]<>'0' or lice_adm[2]<>'0' or lice_adm[3]<>'0' or lice_adm[4]<>'0' or lice_adm[5]<>'0' or lice_adm[6]<>'0' or lice_adm[7]<>'0' or lice_adm[8]<>'0' then esta+=left(u_vers.i_version_adm,5)
+if f_checksum(esta,f_descripta(activacion))=false then
+	messagebox("Error","Este programa no esta debidamente licenciado o el número de licencias es incorrecto.~r~nReconfigure el programa con el utilitario de configuración")
+	return false
+end if
+return true
+
+end function
+

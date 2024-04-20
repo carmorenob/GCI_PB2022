@@ -1,0 +1,8 @@
+﻿$PBExportHeader$st_parm.srs
+global type st_parm from structure
+	long		informe
+	string		datawindow
+	string		camino
+	datawindow		dw_obj
+end type
+

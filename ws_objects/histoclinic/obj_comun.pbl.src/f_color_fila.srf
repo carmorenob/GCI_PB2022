@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_color_fila.srf
+global type f_color_fila from function_object
+end type
+
+forward prototypes
+global function long f_color_fila (long al_fila, long al_actual, string as_estado)
+end prototypes
+
+global function long f_color_fila (long al_fila, long al_actual, string as_estado);
+if al_fila=al_actual then
+	if as_estado='A' or as_estado='1' then
+		return rgb(188,193,224)
+	else
+		return rgb(180,180,180)
+	end if
+else
+	if as_estado='A' or as_estado='1'then
+		return rgb(255,255,255)
+	else
+		return rgb(220,220,220)
+	end if
+end if
+
+end function
+

@@ -1,0 +1,85 @@
+﻿$PBExportHeader$f_proc_plan.srf
+global type f_proc_plan from function_object
+end type
+
+forward prototypes
+global function boolean f_proc_plan (string p_proced, string p_plan)
+end prototypes
+
+global function boolean f_proc_plan (string p_proced, string p_plan);//revisa si un procedimiento está cubierto por un plan
+string f_grupo,f_subgrp,f_categ,f_todos,f_tincluye,f_version
+
+/*SELECT Proced.Cd_Grupo, Proced.Cd_SubGrupo, Proced.Cd_Categoria
+into :f_grupo, :f_subgrp , :f_categ
+FROM Proced INNER JOIN PM_CUPS_VERSION ON Proced.COD_VERSION = PM_CUPS_VERSION.COD_VERSION
+WHERE (((Proced.CodProced)=:p_proced) AND ((PM_CUPS_VERSION.VALIDO_HASTA)>=getdate()));
+if isnull(f_grupo) or f_grupo="" then */
+	SELECT Proced.Cd_Grupo, Proced.Cd_SubGrupo, Proced.Cd_Categoria,proced.cod_version
+	into :f_grupo, :f_subgrp , :f_categ, :f_version
+	FROM Proced
+	WHERE Proced.CodProced=:p_proced;
+	if isnull(f_grupo) or f_grupo="" then 
+		messagebox("Error","Este procedimiento no existe, o no puede ser encontrado por f_proc_plan")
+		return false
+	end if
+//end if
+
+SELECT Planes.todos, Planes.t_incluir
+into :f_todos, :f_tincluye
+FROM Planes
+WHERE Planes.CodPlan=:p_plan;
+
+if f_todos="1" then return true
+setnull(f_todos)
+/*SELECT PlanGrupo.todos into :f_todos
+FROM PlanGrupo INNER JOIN PM_CUPS_VERSION ON PlanGrupo.COD_VERSION = PM_CUPS_VERSION.COD_VERSION
+WHERE (((PlanGrupo.CodPlan)=:p_plan) AND ((PlanGrupo.Cd_Grupo)=:f_grupo) AND ((PM_CUPS_VERSION.VALIDO_HASTA)>=getdate()));
+if (isnull(f_todos) or f_todos="") then*/
+	SELECT todos into :f_todos
+	FROM PlanGrupo
+	WHERE CodPlan=:p_plan AND Cd_Grupo=:f_grupo and cod_version=:F_version;
+//end if
+if (isnull(f_todos) or f_todos="") and f_tincluye='1' then return false
+if (isnull(f_todos) or f_todos="") and f_tincluye='2' then return true
+if f_todos="1" and f_tincluye="1" then return true
+if f_todos="1" and f_tincluye="2" then return false
+
+setnull(f_todos)
+/*SELECT PlanSubGrupo.todos into :f_todos
+FROM PlanSubGrupo INNER JOIN PM_CUPS_VERSION ON PlanSubGrupo.COD_VERSION = PM_CUPS_VERSION.COD_VERSION
+WHERE (((PlanSubGrupo.CodPlan)=:p_plan) AND ((PlanSubGrupo.Cd_Grupo)=:f_grupo) AND ((PlanSubGrupo.Cd_SubGrupo)=:f_subgrp) AND ((PM_CUPS_VERSION.VALIDO_HASTA)>=getdate()));
+if (isnull(f_todos) or f_todos="") then*/
+	SELECT todos into :f_todos
+	FROM PlanSubGrupo
+	WHERE CodPlan=:p_plan AND Cd_Grupo=:f_grupo AND Cd_SubGrupo=:f_subgrp and cod_version=:f_version;
+//end if
+if (isnull(f_todos) or f_todos="") and f_tincluye='1' then return false
+if (isnull(f_todos) or f_todos="") and f_tincluye='2' then return true
+if f_todos="1" and f_tincluye="1" then return true
+if f_todos="1" and f_tincluye="2" then return false
+
+setnull(f_todos)
+/*SELECT PlanCate.todos into :f_todos
+FROM PlanCate INNER JOIN PM_CUPS_VERSION ON PlanCate.COD_VERSION = PM_CUPS_VERSION.COD_VERSION
+WHERE (((PlanCate.CodPlan)=:p_plan) AND ((PlanCate.Cd_Grupo)=:f_grupo) AND ((PlanCate.Cd_SubGrupo)=:f_subgrp) AND ((PlanCate.Cd_Categoria)=:f_categ) AND ((PM_CUPS_VERSION.VALIDO_HASTA)>=getdate()));
+if (isnull(f_todos) or f_todos="") then*/
+	SELECT todos into :f_todos
+	FROM PlanCate
+	WHERE CodPlan=:p_plan AND Cd_Grupo=:f_grupo AND Cd_SubGrupo=:f_subgrp AND Cd_Categoria=:f_categ AND cod_version=:f_version;
+//end if
+if (isnull(f_todos) or f_todos="") and f_tincluye='1' then return false
+if (isnull(f_todos) or f_todos="") and f_tincluye='2' then return true
+if f_todos="1" and f_tincluye="1" then return true
+if f_todos="1" and f_tincluye="2" then return false
+	
+setnull(f_todos)
+SELECT CodProced into :f_todos
+FROM PlanProced
+WHERE CodProced=:p_proced AND CodPlan=:p_plan;
+if (isnull(f_todos) or f_todos="") and f_tincluye='2' then return true
+if (isnull(f_todos) or f_todos="") and f_tincluye='1' then return false
+if not isnull(f_todos) and f_tincluye="1" then return true
+if not isnull(f_todos) and f_tincluye="2" then return false
+return false
+end function
+

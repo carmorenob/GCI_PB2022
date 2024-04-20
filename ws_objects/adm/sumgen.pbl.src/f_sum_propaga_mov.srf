@@ -1,0 +1,88 @@
+﻿$PBExportHeader$f_sum_propaga_mov.srf
+global type f_sum_propaga_mov from function_object
+end type
+
+forward prototypes
+global function integer f_sum_propaga_mov (string codalmacen, string codarticulo, double cantidad, decimal costo, datetime fecha, integer signo)
+end prototypes
+
+global function integer f_sum_propaga_mov (string codalmacen, string codarticulo, double cantidad, decimal costo, datetime fecha, integer signo);uo_datastore dw_p, dw_kd //periodos Kardex_Deta
+long ano, mes, f, i, ret
+decimal cPromAnt
+string msg
+
+dw_p = Create uo_datastore
+dw_p.DataObject = 'dw_sum_periodo_all'
+dw_p.SetTransObject(SQLCA)
+dw_kd = Create uo_datastore
+dw_kd.DataObject = 'dw_kardexdeta'
+dw_kd.SetTransObject(SQLCA)
+
+if isNull(fecha) then
+	Rollback;
+	MessageBox('Error parámetro f_sum_propaga_mov','El parámetro fecha es nulo. Articulo '+codarticulo)
+	Return -1
+end if
+ano = year(date(fecha))
+mes = month(date(fecha))
+dw_p.Retrieve()
+f = dw_p.Find("ano="+string(ano)+" and mes="+string(mes),1,dw_p.RowCount())
+if f = 0 then
+	Rollback;
+	MessageBox('Atención','El periodo no existe. Articulo:'+codarticulo+" Ano:"+string(ano)+" Mes:"+String(mes))
+	Return -1
+end if
+
+dw_kd.Retrieve(codalmacen,codarticulo,ano,mes)
+if dw_kd.RowCount() = 0 then
+	rollback;
+	Return -1
+end if
+cPromAnt = round(dw_kd.GetItemNumber(1,'costoProm'),2)
+
+if f = dw_p.RowCount() then
+	update sum_kardex set costoProm=:cPromAnt
+	where codalmacen=:codalmacen and codarticulo=:codarticulo;
+	IF SQLCA.SQLCode = -1 THEN
+		msg = SQLCA.SQLErrText
+		Rollback;
+		MessageBox("SQL error", msg)
+		Return -1
+	END IF
+	Return 0
+end if
+for i = f+1 to dw_p.RowCount()
+	dw_kd.Retrieve(codalmacen,codarticulo,dw_p.GetItemNumber(i,'ano'),dw_p.GetItemNumber(i,'mes'))
+	if dw_kd.RowCount() > 0 then 
+		dw_kd.SetItem(1,'saldoinicial',dw_kd.GetItemNumber(1,'saldoinicial') + cantidad*signo)
+		if dw_kd.GetItemNumber(1,'saldoinicial') < 0 then
+			rollback;
+			MessageBox('Atención','Registraría saldoInicial negativo. Articulo:'+codarticulo+' Mes:'+string(dw_p.GetItemNumber(i,'mes')))
+			Return -1
+		end if
+		dw_kd.SetItem(1,'costoprominicial',cPromAnt)
+		if (dw_kd.GetItemNumber(1,'saldoinicial')+dw_kd.GetItemNumber(1,'entradascant')-dw_kd.GetItemNumber(1,'salidascant')) > 0 then
+			dw_kd.SetItem(1,'costoprom', (dw_kd.GetItemNumber(1,'saldoinicial')*dw_kd.GetItemNumber(1,'costoprominicial') + dw_kd.GetItemNumber(1,'entradasvalor') - dw_kd.GetItemNumber(1,'salidasvalor')) / (dw_kd.GetItemNumber(1,'saldoinicial')+dw_kd.GetItemNumber(1,'entradascant')-dw_kd.GetItemNumber(1,'salidascant')) )
+		end if
+		cPromAnt = round(dw_kd.GetItemNumber(1,'costoprom'),2)
+		if dw_kd.Update() = -1 then
+			Rollback;
+			Return -1
+		end if
+	end if
+	if i = dw_p.RowCount() then
+		update sum_kardex set costoProm=:cPromAnt
+		where codalmacen=:codalmacen and codarticulo=:codarticulo;
+		IF SQLCA.SQLCode = -1 THEN
+			msg = SQLCA.SQLErrText
+			rollback;
+			MessageBox("SQL error", msg)
+			Return -1
+		END IF
+	end if
+next
+
+Return 0
+
+end function
+

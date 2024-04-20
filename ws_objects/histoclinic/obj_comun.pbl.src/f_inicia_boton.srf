@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_inicia_boton.srf
+global type f_inicia_boton from function_object
+end type
+
+forward prototypes
+global function integer f_inicia_boton (picturebutton p_boton, string p_cod_vent)
+end prototypes
+
+global function integer f_inicia_boton (picturebutton p_boton, string p_cod_vent);string cod_obj
+cod_obj=p_boton.classname()
+uo_datastore ds_boton
+ds_boton=create uo_datastore
+ds_boton.dataobject='dw_mod_vent_boton'
+ds_boton.settransobject(sqlca)
+if ds_boton.retrieve(p_cod_vent,cod_obj)>0 then
+	if ds_boton.getitemstring(1,'obj_visible')='0' then
+		p_boton.visible=false
+		return 1
+	end if
+	p_boton.text='       &'+ds_boton.getitemstring(1,'obj_acelera')
+	p_boton.powertiptext=ds_boton.getitemstring(1,'obj_texto')+' [Alt+'+upper(ds_boton.getitemstring(1,'obj_acelera'))+']'
+	p_boton.tag=ds_boton.getitemstring(1,'obj_permiso')
+end if
+return 1
+end function
+

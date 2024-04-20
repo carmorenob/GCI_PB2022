@@ -1,0 +1,8 @@
+﻿$PBExportHeader$st_caja_menor.srs
+global type st_caja_menor from structure
+	string		caja
+	datawindow		dw_intf
+	boolean		ppto
+	string		clug
+end type
+

@@ -1,0 +1,54 @@
+﻿$PBExportHeader$f_pega_a_rtf.srf
+global type f_pega_a_rtf from function_object
+end type
+
+forward prototypes
+global function long f_pega_a_rtf (richtextedit p_rte, string p_texto, integer p_donde)
+end prototypes
+
+global function long f_pega_a_rtf (richtextedit p_rte, string p_texto, integer p_donde);long cuantos
+boolean disp_onl
+if isnull(p_rte.displayonly) then disp_onl=true
+disp_onl=p_rte.displayonly
+if disp_onl then p_rte.displayonly=false
+p_rte.setredraw(false)
+if pos(p_texto,'{\rtf')=0 then //se supone que no es rtf
+	choose case p_donde
+		case 0 //al principio
+			p_rte.selecttext(1,1,0,0 ,detail!)
+			cuantos= p_rte.replacetext(p_texto)
+		case 1 //en el cursor o lo que está seleccionado
+			cuantos= p_rte.replacetext(p_texto)
+		case 2 //al final
+			p_rte.selecttext(9999999,9999,0,0 ,detail!)
+			cuantos=p_rte.replacetext(p_texto)
+			p_rte.SelectText ( 9999999, 9999, 0, 0 ,detail! )
+		case 3 //reemplazar todo
+			f_sel_rtf(p_rte)
+			p_rte.clearall()
+			cuantos=p_rte.replacetext(p_texto)
+			p_rte.SelectText ( 9999999, 9999, 0, 0 ,detail! )
+	end choose
+else
+	choose case p_donde
+		case 0
+			p_rte.selecttext(1,1,0,0,Detail!)
+			cuantos=p_rte.pastertf(p_texto,Detail!)
+		case 1
+			cuantos=p_rte.pastertf(p_texto,Detail!)
+		case 2
+			p_rte.selecttext(9999999,9999,0,0,Detail!)
+			cuantos=p_rte.pastertf(p_texto,Detail!)
+			p_rte.SelectText ( 9999999, 9999, 0, 0 ,Detail! )
+		case 3
+			p_rte.clearall()
+			f_sel_rtf(p_rte)
+			cuantos=p_rte.pastertf(p_texto,detail!)
+			p_rte.SelectText ( 9999999, 9999, 0, 0 ,Detail! )
+	end choose
+end if
+p_rte.setredraw(true)
+p_rte.displayonly=disp_onl
+return cuantos
+end function
+

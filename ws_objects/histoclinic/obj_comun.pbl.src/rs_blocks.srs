@@ -1,0 +1,7 @@
+﻿$PBExportHeader$rs_blocks.srs
+global type rs_blocks from structure
+	integer		cantidad
+	integer		n
+	integer		k
+end type
+

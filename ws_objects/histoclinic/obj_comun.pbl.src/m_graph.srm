@@ -1,0 +1,1226 @@
+﻿$PBExportHeader$m_graph.srm
+$PBExportComments$Generalized menu to be used to set graph attributes.
+forward
+global type m_graph from menu
+end type
+type m_file from menu within m_graph
+end type
+type m_abrir from menu within m_file
+end type
+type m_nuevo from menu within m_file
+end type
+type m_guardar from menu within m_file
+end type
+type m_guardarcomo from menu within m_file
+end type
+type m_close from menu within m_file
+end type
+type m_-2 from menu within m_file
+end type
+type m_exit from menu within m_file
+end type
+type m_file from menu within m_graph
+m_abrir m_abrir
+m_nuevo m_nuevo
+m_guardar m_guardar
+m_guardarcomo m_guardarcomo
+m_close m_close
+m_-2 m_-2
+m_exit m_exit
+end type
+type m_edit from menu within m_graph
+end type
+type m_60 from menu within m_edit
+end type
+type m_-4 from menu within m_edit
+end type
+type m_openclipboard from menu within m_edit
+end type
+type m_edit from menu within m_graph
+m_60 m_60
+m_-4 m_-4
+m_openclipboard m_openclipboard
+end type
+type m_options from menu within m_graph
+end type
+type m_parámetros from menu within m_options
+end type
+type m_consultasql from menu within m_options
+end type
+type m_graphtype from menu within m_options
+end type
+type m_campos from menu within m_options
+end type
+type m_changetitle from menu within m_options
+end type
+type m_color from menu within m_options
+end type
+type m_spacing from menu within m_options
+end type
+type m_options from menu within m_graph
+m_parámetros m_parámetros
+m_consultasql m_consultasql
+m_graphtype m_graphtype
+m_campos m_campos
+m_changetitle m_changetitle
+m_color m_color
+m_spacing m_spacing
+end type
+type m_options1 from menucascade within m_graph
+end type
+type m_ordenarvertical from menu within m_options1
+end type
+type m_ordenarhorizontal from menu within m_options1
+end type
+type m_capas from menu within m_options1
+end type
+type m_cascada from menu within m_options1
+end type
+type m_-1 from menu within m_options1
+end type
+type m_ordenariconos from menu within m_options1
+end type
+type m_options1 from menucascade within m_graph
+m_ordenarvertical m_ordenarvertical
+m_ordenarhorizontal m_ordenarhorizontal
+m_capas m_capas
+m_cascada m_cascada
+m_-1 m_-1
+m_ordenariconos m_ordenariconos
+end type
+type m_help from menu within m_graph
+end type
+type m_contents from menu within m_help
+end type
+type m_help from menu within m_graph
+m_contents m_contents
+end type
+global type m_graph from menu
+m_file m_file
+m_edit m_edit
+m_options m_options
+m_options1 m_options1
+m_help m_help
+end type
+end forward
+
+global type m_graph from menu
+m_file m_file
+m_edit m_edit
+m_options m_options
+m_options1 m_options1
+m_help m_help
+end type
+global m_graph m_graph
+
+on m_graph.create
+m_graph=this
+call super::create
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_file=create m_file
+this.m_edit=create m_edit
+this.m_options=create m_options
+this.m_options1=create m_options1
+this.m_help=create m_help
+this.Item[UpperBound(this.Item)+1]=this.m_file
+this.Item[UpperBound(this.Item)+1]=this.m_edit
+this.Item[UpperBound(this.Item)+1]=this.m_options
+this.Item[UpperBound(this.Item)+1]=this.m_options1
+this.Item[UpperBound(this.Item)+1]=this.m_help
+end on
+
+on m_graph.destroy
+call super::destroy
+destroy(this.m_file)
+destroy(this.m_edit)
+destroy(this.m_options)
+destroy(this.m_options1)
+destroy(this.m_help)
+end on
+
+type m_file from menu within m_graph
+m_abrir m_abrir
+m_nuevo m_nuevo
+m_guardar m_guardar
+m_guardarcomo m_guardarcomo
+m_close m_close
+m_-2 m_-2
+m_exit m_exit
+end type
+
+on m_file.create
+call super::create
+this.text = "&Archivo"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_abrir=create m_abrir
+this.m_nuevo=create m_nuevo
+this.m_guardar=create m_guardar
+this.m_guardarcomo=create m_guardarcomo
+this.m_close=create m_close
+this.m_-2=create m_-2
+this.m_exit=create m_exit
+this.Item[UpperBound(this.Item)+1]=this.m_abrir
+this.Item[UpperBound(this.Item)+1]=this.m_nuevo
+this.Item[UpperBound(this.Item)+1]=this.m_guardar
+this.Item[UpperBound(this.Item)+1]=this.m_guardarcomo
+this.Item[UpperBound(this.Item)+1]=this.m_close
+this.Item[UpperBound(this.Item)+1]=this.m_-2
+this.Item[UpperBound(this.Item)+1]=this.m_exit
+end on
+
+on m_file.destroy
+call super::destroy
+destroy(this.m_abrir)
+destroy(this.m_nuevo)
+destroy(this.m_guardar)
+destroy(this.m_guardarcomo)
+destroy(this.m_close)
+destroy(this.m_-2)
+destroy(this.m_exit)
+end on
+
+type m_abrir from menu within m_file
+end type
+
+on m_abrir.create
+call super::create
+this.text = "A&brir"
+this.toolbaritemname = "abrir.ico"
+this.toolbaritemtext = "Abrir"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_abrir.destroy
+call super::destroy
+end on
+
+event clicked;//ParentWindow.GetActiveSheet().TriggerEvent ("openFile")
+w_graph_gral.TriggerEvent ("openFile")
+
+end event
+
+type m_nuevo from menu within m_file
+end type
+
+event clicked;//ParentWindow.GetActiveSheet().TriggerEvent ("nuevo")
+w_graph_gral.TriggerEvent ("nuevo")
+
+end event
+
+on m_nuevo.create
+call super::create
+this.text = "&Nuevo"
+this.microhelp = "Crear Nuevo reporte Gráfico"
+this.toolbaritemname = "graph9.ico"
+this.toolbaritemtext = "Crear Nuevo reporte Gráfico"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_nuevo.destroy
+call super::destroy
+end on
+
+type m_guardar from menu within m_file
+end type
+
+on m_guardar.create
+call super::create
+this.text = "&Guardar"
+this.microhelp = "Guardar actual reporte"
+this.toolbaritemname = "guardar.ico"
+this.toolbaritemtext = "Guardar actual reporte"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_guardar.destroy
+call super::destroy
+end on
+
+event clicked;//ParentWindow.GetActiveSheet().TriggerEvent ("guardar")
+w_graph_gral.TriggerEvent ("guardar")
+
+end event
+
+type m_guardarcomo from menu within m_file
+end type
+
+event clicked;//ParentWindow.GetActiveSheet().TriggerEvent ("guardarcomo")
+w_graph_gral.TriggerEvent ("guardarcomo")
+
+end event
+
+on m_guardarcomo.create
+call super::create
+this.text = "G&uardar Como..."
+this.microhelp = "G&uardar Como..."
+this.toolbaritemname = "guardar_como.ico"
+this.toolbaritemtext = "G&uardar como ..."
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_guardarcomo.destroy
+call super::destroy
+end on
+
+type m_close from menu within m_file
+event destroy ( )
+end type
+
+on m_close.destroy
+call super::destroy
+end on
+
+event clicked;//close the active sheet
+//Close(ParentWindow.GetActiveSheet())
+close(w_graph_gral)
+end event
+
+on m_close.create
+call super::create
+this.text = "&Cerrar Ventana~tCtrl+F4"
+this.shortcut = 371
+this.microhelp = "Close sheet"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+type m_-2 from menu within m_file
+event destroy ( )
+end type
+
+on m_-2.destroy
+call super::destroy
+end on
+
+on m_-2.create
+call super::create
+this.text = "-"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+type m_exit from menu within m_file
+event destroy ( )
+end type
+
+on m_exit.destroy
+call super::destroy
+end on
+
+event clicked;//Close Mdi Frame (EXIT)  All sheets will be closed also
+
+//window lw_win
+//lw_win = ParentWindow.GetActiveSheet( )
+//if isvalid(lw_win) then  // if there is a sheet then get it's parent
+//	lw_win = parentwindow(lw_win)
+//else  // otherwise close the frame
+//	lw_win = parentwindow
+//end if
+//Close(lw_win)
+Close(ParentWindow)
+end event
+
+on m_exit.create
+call super::create
+this.text = "&Salir"
+this.microhelp = "Exit this Example"
+this.toolbaritemname = "oofl.ico"
+this.toolbaritemtext = "Salir de Reportes Gráficos"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+type m_edit from menu within m_graph
+m_60 m_60
+m_-4 m_-4
+m_openclipboard m_openclipboard
+end type
+
+on m_edit.create
+call super::create
+this.text = "&Edición"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_60=create m_60
+this.m_-4=create m_-4
+this.m_openclipboard=create m_openclipboard
+this.Item[UpperBound(this.Item)+1]=this.m_60
+this.Item[UpperBound(this.Item)+1]=this.m_-4
+this.Item[UpperBound(this.Item)+1]=this.m_openclipboard
+end on
+
+on m_edit.destroy
+call super::destroy
+destroy(this.m_60)
+destroy(this.m_-4)
+destroy(this.m_openclipboard)
+end on
+
+type m_60 from menu within m_edit
+event destroy ( )
+end type
+
+on m_60.destroy
+call super::destroy
+end on
+
+event clicked;
+//ParentWindow.GetActiveSheet().triggerevent("Copy_To_Clipboard")
+w_graph_gral.TriggerEvent ("copy_to_clipboard")
+
+end event
+
+on m_60.create
+call super::create
+this.text = "&Copiar~tCtrl+C"
+this.shortcut = 323
+this.microhelp = "Copiar gráfica al clipboard"
+this.toolbaritemname = "copiar.ico"
+this.toolbaritemtext = "&Copiar"
+this.toolbaritemspace = 1
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+type m_-4 from menu within m_edit
+event destroy ( )
+end type
+
+on m_-4.destroy
+call super::destroy
+end on
+
+on m_-4.create
+call super::create
+this.visible = false
+this.text = "-"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+type m_openclipboard from menu within m_edit
+event destroy ( )
+end type
+
+on m_openclipboard.destroy
+call super::destroy
+end on
+
+on clicked;Run ("clipbrd.exe")
+end on
+
+on m_openclipboard.create
+call super::create
+this.text = "Abrir Clip&Board..."
+this.microhelp = "Abre visor de clipboard"
+this.toolbaritemname = "clipboard.ico"
+this.toolbaritemtext = "Abrir Clip&Board..."
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+type m_options from menu within m_graph
+m_parámetros m_parámetros
+m_consultasql m_consultasql
+m_graphtype m_graphtype
+m_campos m_campos
+m_changetitle m_changetitle
+m_color m_color
+m_spacing m_spacing
+end type
+
+on m_options.create
+call super::create
+this.text = "&Estilo"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_parámetros=create m_parámetros
+this.m_consultasql=create m_consultasql
+this.m_graphtype=create m_graphtype
+this.m_campos=create m_campos
+this.m_changetitle=create m_changetitle
+this.m_color=create m_color
+this.m_spacing=create m_spacing
+this.Item[UpperBound(this.Item)+1]=this.m_parámetros
+this.Item[UpperBound(this.Item)+1]=this.m_consultasql
+this.Item[UpperBound(this.Item)+1]=this.m_graphtype
+this.Item[UpperBound(this.Item)+1]=this.m_campos
+this.Item[UpperBound(this.Item)+1]=this.m_changetitle
+this.Item[UpperBound(this.Item)+1]=this.m_color
+this.Item[UpperBound(this.Item)+1]=this.m_spacing
+end on
+
+on m_options.destroy
+call super::destroy
+destroy(this.m_parámetros)
+destroy(this.m_consultasql)
+destroy(this.m_graphtype)
+destroy(this.m_campos)
+destroy(this.m_changetitle)
+destroy(this.m_color)
+destroy(this.m_spacing)
+end on
+
+type m_parámetros from menu within m_options
+end type
+
+event clicked;//ParentWindow.GetActiveSheet().TriggerEvent ("setparms")
+w_graph_gral.TriggerEvent ("setparms")
+
+end event
+
+on m_parámetros.create
+call super::create
+this.text = "Parámetros"
+this.microhelp = "Parámetros del reporte"
+this.toolbaritemname = "param.ico"
+this.toolbaritemtext = "Parámetros"
+this.toolbaritemspace = 1
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_parámetros.destroy
+call super::destroy
+end on
+
+type m_consultasql from menu within m_options
+end type
+
+event clicked;//ParentWindow.GetActiveSheet().TriggerEvent ("setConsulta")
+w_graph_gral.TriggerEvent ("setConsulta")
+
+end event
+
+on m_consultasql.create
+call super::create
+this.text = "Consul&ta SQL"
+this.toolbaritemname = "SQL.ico"
+this.toolbaritemtext = "Consul&ta SQL"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_consultasql.destroy
+call super::destroy
+end on
+
+type m_graphtype from menu within m_options
+end type
+
+event clicked;// Tell the sheet to take care of setting the graph type. This is
+// done in the "graph_type" event of the sheet
+//ParentWindow.GetActiveSheet().TriggerEvent ("graph_type")
+w_graph_gral.TriggerEvent ("graph_type")
+
+end event
+
+on m_graphtype.create
+call super::create
+this.text = "Ti&po de gráfica..."
+this.microhelp = "Cambiar tipo de gráfica"
+this.toolbaritemname = "Grafico.ico"
+this.toolbaritemtext = "Type"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_graphtype.destroy
+call super::destroy
+end on
+
+type m_campos from menu within m_options
+end type
+
+event clicked;//ParentWindow.GetActiveSheet().TriggerEvent ( "setFields")
+w_graph_gral.TriggerEvent ("setFields")
+
+end event
+
+on m_campos.create
+call super::create
+this.text = "Ca&mpos"
+this.microhelp = "Cambiar campos, valores, series ..."
+this.toolbaritemname = "campos.ico"
+this.toolbaritemtext = "Ca&mpos"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_campos.destroy
+call super::destroy
+end on
+
+type m_changetitle from menu within m_options
+event destroy ( )
+end type
+
+on m_changetitle.destroy
+call super::destroy
+end on
+
+event clicked;// Tell the sheet to take care of setting the title. This is done in
+// the "graph_title" event of the active sheet
+//ParentWindow.GetActiveSheet().TriggerEvent ( "graph_title")
+w_graph_gral.TriggerEvent ("graph_title")
+
+end event
+
+on m_changetitle.create
+call super::create
+this.text = "&Títulos..."
+this.microhelp = "Cambiar Título"
+this.toolbaritemname = "titulo.ico"
+this.toolbaritemtext = "&Títulos"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+type m_color from menu within m_options
+event destroy ( )
+end type
+
+on m_color.destroy
+call super::destroy
+end on
+
+event clicked;// Tell the sheet to take care of setting the graph color. This is
+// done in the "graph_color" event of the sheet 
+//ParentWindow.GetActiveSheet().TriggerEvent ( "graph_color")
+w_graph_gral.TriggerEvent ("graph_color")
+
+end event
+
+on m_color.create
+call super::create
+this.text = "&Color..."
+this.microhelp = "Cambiar colores en la gráfica"
+this.toolbaritemname = "colores.ico"
+this.toolbaritemtext = "&Colores"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+type m_spacing from menu within m_options
+end type
+
+event clicked;// Tell the sheet to take care of setting the graph spacing. This is
+// done in the "spacing" event of the sheet 
+//ParentWindow.GetActiveSheet().TriggerEvent ("spacing", 0, 0)
+w_graph_gral.TriggerEvent ("spacing",0,0)
+
+
+end event
+
+on m_spacing.create
+call super::create
+this.text = "E&spaciado..."
+this.microhelp = "Cambia Espaciado en la gráfica"
+this.toolbaritemname = "espacio.ico"
+this.toolbaritemtext = "E&spaciado"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_spacing.destroy
+call super::destroy
+end on
+
+type m_options1 from menucascade within m_graph
+m_ordenarvertical m_ordenarvertical
+m_ordenarhorizontal m_ordenarhorizontal
+m_capas m_capas
+m_cascada m_cascada
+m_-1 m_-1
+m_ordenariconos m_ordenariconos
+end type
+
+on m_options1.create
+call super::create
+this.text = "&Ventana"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_ordenarvertical=create m_ordenarvertical
+this.m_ordenarhorizontal=create m_ordenarhorizontal
+this.m_capas=create m_capas
+this.m_cascada=create m_cascada
+this.m_-1=create m_-1
+this.m_ordenariconos=create m_ordenariconos
+this.Item[UpperBound(this.Item)+1]=this.m_ordenarvertical
+this.Item[UpperBound(this.Item)+1]=this.m_ordenarhorizontal
+this.Item[UpperBound(this.Item)+1]=this.m_capas
+this.Item[UpperBound(this.Item)+1]=this.m_cascada
+this.Item[UpperBound(this.Item)+1]=this.m_-1
+this.Item[UpperBound(this.Item)+1]=this.m_ordenariconos
+end on
+
+on m_options1.destroy
+call super::destroy
+destroy(this.m_ordenarvertical)
+destroy(this.m_ordenarhorizontal)
+destroy(this.m_capas)
+destroy(this.m_cascada)
+destroy(this.m_-1)
+destroy(this.m_ordenariconos)
+end on
+
+type m_ordenarvertical from menu within m_options1
+event destroy ( )
+end type
+
+on m_ordenarvertical.destroy
+call super::destroy
+end on
+
+on clicked;//click script for m_tile
+
+ParentWindow.ArrangeSheets(Tile!)
+end on
+
+on m_ordenarvertical.create
+call super::create
+this.text = "Ordenar &Vertical"
+this.microhelp = "Arregla ventanas verticalmente"
+this.toolbaritemname = "Tile.ico"
+this.toolbaritemtext = "Tile Vertical"
+this.toolbaritemspace = 1
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+type m_ordenarhorizontal from menu within m_options1
+event destroy ( )
+end type
+
+on m_ordenarhorizontal.destroy
+call super::destroy
+end on
+
+on clicked;ParentWindow.ArrangeSheets (TileHorizontal!)
+end on
+
+on m_ordenarhorizontal.create
+call super::create
+this.text = "Ordenar &Horizontal"
+this.microhelp = "Arregla ventanas horizontalmente"
+this.toolbaritemname = "Horizontal.ico"
+this.toolbaritemtext = "Tile Horizontal"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+type m_capas from menu within m_options1
+event destroy ( )
+end type
+
+on m_capas.destroy
+call super::destroy
+end on
+
+on clicked;//click script for m_layer
+ParentWindow.ArrangeSheets(Layer!)
+end on
+
+on m_capas.create
+call super::create
+this.text = "&Capas"
+this.microhelp = "Arregla ventanas por capas"
+this.toolbaritemname = "Layer.ico"
+this.toolbaritemtext = "Layer"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+type m_cascada from menu within m_options1
+event destroy ( )
+end type
+
+on m_cascada.destroy
+call super::destroy
+end on
+
+on clicked;//clicked script for m_cascade
+ParentWindow.ArrangeSheets(Cascade!)
+end on
+
+on m_cascada.create
+call super::create
+this.text = "Casca&da"
+this.microhelp = "Arregla ventanas en cascada"
+this.toolbaritemname = "Cascade.ico"
+this.toolbaritemtext = "Cascade"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+type m_-1 from menu within m_options1
+event destroy ( )
+end type
+
+on m_-1.destroy
+call super::destroy
+end on
+
+on m_-1.create
+call super::create
+this.text = "-"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+type m_ordenariconos from menu within m_options1
+event destroy ( )
+end type
+
+on m_ordenariconos.destroy
+call super::destroy
+end on
+
+on clicked;//Arrange any minimized icons in mdi frame
+ParentWindow.ArrangeSheets(Icons!)
+end on
+
+on m_ordenariconos.create
+call super::create
+this.text = "Ordenar &Iconos"
+this.toolbaritemname = "icons.ico"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+type m_help from menu within m_graph
+m_contents m_contents
+end type
+
+on m_help.create
+call super::create
+this.text = "A&yuda"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_contents=create m_contents
+this.Item[UpperBound(this.Item)+1]=this.m_contents
+end on
+
+on m_help.destroy
+call super::destroy
+destroy(this.m_contents)
+end on
+
+type m_contents from menu within m_help
+event destroy ( )
+end type
+
+on m_contents.destroy
+call super::destroy
+end on
+
+event clicked;
+ShowHelp(dir_insta + "GCIltda.hlp", KeyWord!, "gráficas")
+
+end event
+
+on m_contents.create
+call super::create
+this.text = "&Contenido...~tF1"
+this.shortcut = 112
+this.microhelp = "Muestra ayuda para esta ventana"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+

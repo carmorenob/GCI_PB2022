@@ -1,0 +1,11 @@
+﻿$PBExportHeader$st_otrosi.srs
+global type st_otrosi from structure
+	datawindow		dw_cab
+	datawindow		dw_obj
+	boolean		nuevo
+	string		coddoc
+	string		codalmacen
+	datawindow		dw_lote
+	datawindow		dw_ppto
+end type
+

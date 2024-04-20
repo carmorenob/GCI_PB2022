@@ -1,0 +1,78 @@
+﻿$PBExportHeader$dw_rfc_reser.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no )
+header(height=68 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=char(2) updatewhereclause=yes name=clugar_rfc dbname="pre_dispo_ter.clugar_rfc" dbalias=".clugar_rfc" )
+ column=(type=char(4) updatewhereclause=yes name=coddoc_rfc dbname="pre_dispo_ter.coddoc_rfc" dbalias=".coddoc_rfc" )
+ column=(type=number updatewhereclause=yes name=nrelacion dbname="pre_dispo_ter.nrelacion" dbalias=".nrelacion" )
+ column=(type=long updatewhereclause=yes name=item dbname="pre_dispo_ter.item" dbalias=".item" )
+ column=(type=datetime updatewhereclause=yes name=fecha_rel dbname="pre_dispo_ter.fecha_rel" dbalias=".fecha_rel" )
+ column=(type=char(12) updatewhereclause=yes name=cod_flujo dbname="pre_dispo_ter.cod_flujo" dbalias=".cod_flujo" )
+ column=(type=decimal(2) updatewhereclause=yes name=val_bruto dbname="pre_dispo_ter.val_bruto" dbalias=".val_bruto" )
+ column=(type=decimal(2) updatewhereclause=yes name=tbruto dbname="pre_dispo_ter.tbruto" dbalias=".tbruto" )
+ column=(type=decimal(2) updatewhereclause=yes name=tneto dbname="pre_dispo_ter.tneto" dbalias=".tneto" )
+ column=(type=char(4) updatewhereclause=yes name=coddoc dbname="pre_dispo_ter.coddoc" dbalias=".coddoc" )
+ column=(type=char(2) updatewhereclause=yes name=clugar dbname="pre_dispo_ter.clugar" dbalias=".clugar" )
+ column=(type=number updatewhereclause=yes name=numdoc dbname="pre_dispo_ter.numdoc" dbalias=".numdoc" )
+ column=(type=number updatewhereclause=yes name=consecutivo dbname="pre_dispo_ter.consecutivo" dbalias=".consecutivo" )
+ column=(type=number updatewhereclause=yes name=cod_vigencia dbname="pre_dispo_ter.cod_vigencia" dbalias=".cod_vigencia" )
+ column=(type=char(100) updatewhereclause=yes name=des_vigencia dbname="pre_dispo_ter.descripcion" dbalias=".descripcion" )
+ column=(type=char(3) updatewhereclause=yes name=tipodoc dbname="pre_dispo_ter.tipodoc" dbalias=".tipodoc" )
+ column=(type=char(15) updatewhereclause=yes name=documento dbname="pre_dispo_ter.documento" dbalias=".documento" )
+ column=(type=char(20) updatewhereclause=yes name=nombre1 dbname="pre_dispo_ter.nombre1" dbalias=".nombre1" )
+ column=(type=char(20) updatewhereclause=yes name=nombre2 dbname="pre_dispo_ter.nombre2" dbalias=".nombre2" )
+ column=(type=char(20) updatewhereclause=yes name=apellido1 dbname="pre_dispo_ter.apellido1" dbalias=".apellido1" )
+ column=(type=char(20) updatewhereclause=yes name=apellido2 dbname="pre_dispo_ter.apellido2" dbalias=".apellido2" )
+ column=(type=char(250) updatewhereclause=yes name=razon_social dbname="pre_dispo_ter.razon_social" dbalias=".razon_social" )
+ column=(type=decimal(2) updatewhereclause=yes name=monto_acumul dbname="pre_dispo_ter.monto_acumul" dbalias=".monto_acumul" )
+ retrieve="SELECT Receps.clugar_rfc, Receps.coddoc_rfc, Receps.nrelacion, Receps.item, Receps.fecha_rel, Receps.cod_flujo, Receps.val_bruto, Receps.tbruto, 
+Receps.tneto, Receps.coddoc, Receps.clugar, Receps.numdoc, Receps.Consecutivo, Receps.cod_vigencia, pre_vigencia.descripcion, terceros.tipodoc, terceros.documento, 
+terceros.nombre1, terceros.nombre2, terceros.apellido1, terceros.apellido2, terceros.razon_social, pre_dispo_ter.monto_reser AS monto_acumul
+FROM ((
+    (SELECT DISTINCT tesorelfact.CLugar as clugar_rfc, tesorelfact.CodDoc as coddoc_rfc, tesorelfact.nrelacion, tesorelfactcpo.item, tesorelfact.fecha_rel, tesorelfactcpo.tipodoc, tesorelfactcpo.documento, tesorelfact.cod_flujo, tesorelfactcpo.val_bruto, tesorelfactcpo.tbruto, tesorelfactcpo.tneto, pre_docu_cb.coddoc, pre_docu_cb.clugar, pre_docu_cb.numdoc, pre_docu_cb.consecutivo, pre_docu_cb.cod_vigencia, mod_relacion_origen.codigo
+    FROM ((tesorelfact INNER JOIN tesorelfactcpo ON (tesorelfact.CLugar = tesorelfactcpo.clugar) AND (tesorelfact.CodDoc = tesorelfactcpo.coddoc) AND (tesorelfact.nrelacion = tesorelfactcpo.nrelacion)) INNER JOIN mod_relacion_origen ON (tesorelfactcpo.clugar = mod_relacion_origen.char_doc1) AND (tesorelfactcpo.coddoc = mod_relacion_origen.char_doc2) AND (tesorelfactcpo.nrelacion = mod_relacion_origen.num_doc1) AND (tesorelfactcpo.item = mod_relacion_origen.num_doc2)) INNER JOIN pre_docu_cb ON (mod_relacion_origen.char_orig2 = pre_docu_cb.clugar) AND (mod_relacion_origen.char_orig1 = pre_docu_cb.coddoc) AND (mod_relacion_origen.num_orig1 = pre_docu_cb.numdoc)
+    WHERE ((tesorelfact.nrelacion>=:desde and tesorelfact.nrelacion<=:hasta) AND ((tesorelfact.estado) Is Null) AND ((tesorelfact.definitivo)='1') AND ((tesorelfactcpo.v_pagado)=0) AND ((pre_docu_cb.estado)='1'))
+) AS Receps 
+INNER JOIN pre_vigencia ON Receps.cod_vigencia = pre_vigencia.cod_vigencia) 
+INNER JOIN terceros ON (Receps.tipodoc = terceros.tipodoc) AND (Receps.documento = terceros.documento)) 
+INNER JOIN pre_dispo_ter ON (Receps.clugar = pre_dispo_ter.clugar) AND (Receps.coddoc = pre_dispo_ter.coddocu) AND 
+(Receps.tipodoc = pre_dispo_ter.tipodoc) AND (Receps.documento = pre_dispo_ter.documento) AND (Receps.numdoc = pre_dispo_ter.numdoc)
+order by 3
+" arguments=(("desde", number),("hasta", number)) )
+text(band=header alignment="0" text="RFC" border="0" color="33554432" x="9" y="4" height="56" width="169" html.valueishtml="0"  name=nrelacion_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Fecha Rel:" border="0" color="33554432" x="206" y="4" height="56" width="261" html.valueishtml="0"  name=fecha_rel_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Tercero" border="0" color="33554432" x="485" y="4" height="56" width="201" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Tbruto:" border="0" color="33554432" x="1664" y="4" height="56" width="389" html.valueishtml="0"  name=tbruto_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Tneto:" border="0" color="33554432" x="2071" y="4" height="56" width="398" html.valueishtml="0"  name=tneto_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Reserva" border="0" color="33554432" x="2482" y="4" height="56" width="210" html.valueishtml="0"  name=numdoc_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Monto Acumul" border="0" color="33554432" x="2720" y="4" height="56" width="389" html.valueishtml="0"  name=monto_reser_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Vigencia" border="0" color="33554432" x="3127" y="4" height="56" width="215" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="33554432" x="14" y="8" height="56" width="174" format="[general]" html.valueishtml="0"  name=nrelacion visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="33554432" x="585" y="8" height="56" width="320" format="[general]" html.valueishtml="0"  name=documento visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="33554432" x="210" y="8" height="56" width="261" format="[shortdate] [time]" html.valueishtml="0"  name=fecha_rel visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="33554432" x="489" y="8" height="56" width="82" format="[general]" html.valueishtml="0"  name=tipodoc visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="if(not isNull(razon_social),razon_social +' ','') +
+if(isNull(nombre1),'',nombre1) +' ' + 
+if(isNull(nombre2),'',nombre2) + ' ' +
+if(isNull(apellido2),'',apellido1) + ' ' + 
+if(isNull(apellido2),'',apellido2)
+"border="0" color="33554432" x="923" y="8" height="56" width="731" format="[GENERAL]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="33554432" x="1669" y="8" height="56" width="389" format="#,##0.00" html.valueishtml="0"  name=tbruto visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="33554432" x="2075" y="8" height="56" width="398" format="#,##0.00" html.valueishtml="0"  name=tneto visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=23 alignment="1" tabsequence=32766 border="0" color="33554432" x="2725" y="12" height="56" width="393" format="#,##0.00" html.valueishtml="0"  name=monto_acumul visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="33554432" x="3136" y="12" height="56" width="590" format="[general]" html.valueishtml="0"  name=des_vigencia visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="2" tabsequence=0 border="0" color="33554432" x="2487" y="8" height="56" width="219" html.valueishtml="0"  name=consecutivo visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

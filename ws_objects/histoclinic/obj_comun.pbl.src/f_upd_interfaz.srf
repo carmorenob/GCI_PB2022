@@ -1,0 +1,431 @@
+﻿$PBExportHeader$f_upd_interfaz.srf
+global type f_upd_interfaz from function_object
+end type
+
+forward prototypes
+global function integer f_upd_interfaz (string cod_flujo, datawindow dw_fr)
+end prototypes
+
+global function integer f_upd_interfaz (string cod_flujo, datawindow dw_fr);string co1,co2,co3,cd1,cd2,cd3,msg,valor, co1_j,co2_j
+double no1,no2,no3,nd1,nd2,nd3,no1_j
+int i
+
+if isNull(cod_flujo) or cod_flujo = '-' then Return 0
+
+choose case cod_flujo
+	case 'PDIOCPR' //Disponibilidad desde Orden Compra para Reserva
+		for i = 1 to dw_fr.RowCount()
+			co1 = dw_fr.GetItemString(i,'char_orig1')
+			co2 = dw_fr.GetItemString(i,'char_orig2')
+			no1 = dw_fr.GetItemNumber(i,'num_orig1')
+			select en_destino into :valor from sum_mvto_cab
+			where coddoc=:co1 and clugar=:co2 and numdoc=:no1;
+			IF SQLCA.SQLCode = -1 or SQLCA.SQLCode = 100 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+			if valor = '1' then
+				Rollback;
+				MessageBox('Error Interfaz '+cod_flujo,'La interfaz encontró bandera en 1 - '+co1+'-'+co2+'-'+string(no1))
+				Return -1
+			end if
+			update sum_mvto_cab set en_destino = '1'
+			where coddoc=:co1 and clugar=:co2 and numdoc=:no1;
+			IF SQLCA.SQLCode = -1 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+		next
+	case 'PROCSCT' //Reserva desde Orden Compra para Contrato
+		for i = 1 to dw_fr.RowCount()
+			co1 = dw_fr.GetItemString(i,'char_orig1')
+			co2 = dw_fr.GetItemString(i,'char_orig2')
+			no1 = dw_fr.GetItemNumber(i,'num_orig1')
+			select en_destino into :valor from sum_mvto_cab
+			where coddoc=:co1 and clugar=:co2 and numdoc=:no1;
+			IF SQLCA.SQLCode = -1 or SQLCA.SQLCode = 100 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+			if valor = '1' then
+				Rollback;
+				MessageBox('Error Interfaz '+cod_flujo,'La interfaz encontró bandera en 1 - '+co1+'-'+co2+'-'+string(no1))
+				Return -1
+			end if
+			update sum_mvto_cab set en_destino = '1'
+			where coddoc=:co1 and clugar=:co2 and numdoc=:no1;
+			IF SQLCA.SQLCode = -1 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+		next
+	case 'PRSCTRFC' , 'PRSCTPT' // Reserva desde Contrato para Recepcion de Factura // Reserva desde Contrato para Pago Terceros//
+		for i = 1 to dw_fr.RowCount()
+			no1 = dw_fr.GetItemNumber(i,'num_orig1')
+			no2 = dw_fr.GetItemNumber(i,'num_orig2')
+			no3 = dw_fr.GetItemNumber(i,'num_orig3')
+			select en_destino into :valor from contra
+			where ano=:no1 and ncontrato=:no2 and otrosi=:no3;
+			IF SQLCA.SQLCode = -1 or SQLCA.SQLCode = 100 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+			if valor = '1' then
+				Rollback;
+				MessageBox('Error Interfaz '+cod_flujo,'La interfaz encontró bandera en 1 - '+string(no1)+'-'+string(no2)+'-'+string(no3))
+				Return -1
+			end if
+			update contra set en_destino = '1'
+			where ano=:no1 and ncontrato=:no2 and otrosi=:no3;
+			IF SQLCA.SQLCode = -1 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+		next
+	case 'PGPT-' //Giro desde Orden pago 
+		for i = 1 to dw_fr.RowCount()
+			co1 = dw_fr.GetItemString(i,'char_orig1')
+			co2 = dw_fr.GetItemString(i,'char_orig2')
+			no1 = dw_fr.GetItemNumber(i,'num_orig1')
+			select en_destino into :valor from tesotranscab
+			where coddoc=:co1 and clugar=:co2 and ntransferencia=:no1;
+			IF SQLCA.SQLCode = -1 or SQLCA.SQLCode = 100 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+			if valor = '1' then
+				Rollback;
+				MessageBox('Error Interfaz '+cod_flujo,'La interfaz encontró bandera en 1 - '+co1+'-'+co2+'-'+string(no1))
+				Return -1
+			end if
+			update tesotranscab set en_destino = '1'
+			where coddoc=:co1 and clugar=:co2 and ntransferencia=:no1;
+			IF SQLCA.SQLCode = -1 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+		next
+	case 'PGRFCPT' //Giro desde Recepcion de factura para orden de pago 
+		for i = 1 to dw_fr.RowCount()
+			co1 = dw_fr.GetItemString(i,'char_orig1')
+			co2 = dw_fr.GetItemString(i,'char_orig2')
+			no1 = dw_fr.GetItemNumber(i,'num_orig1')
+			no2 = dw_fr.GetItemNumber(i,'num_orig2')
+			select en_destino into :valor from tesorelfactcpo
+			where coddoc=:co1 and clugar=:co2 and nrelacion=:no1 and item=:no2;
+			IF SQLCA.SQLCode = -1 or SQLCA.SQLCode = 100 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+			if valor = '1' then
+				Rollback;
+				MessageBox('Error Interfaz '+cod_flujo,'La interfaz encontró bandera en 1 - '+co1+'-'+co2+'-'+string(no1)+'-'+string(no2))
+				Return -1
+			end if
+			update tesorelfactcpo set en_destino = '1'
+			where coddoc=:co1 and clugar=:co2 and nrelacion=:no1 and item=:no2;
+			IF SQLCA.SQLCode = -1 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+		next
+	case 'SCTPDIPR' //Contrato desde Disponibilidad para reserva 
+		for i = 1 to dw_fr.RowCount()
+			co1 = dw_fr.GetItemString(i,'char_orig1')
+			co2 = dw_fr.GetItemString(i,'char_orig2')
+			no1 = dw_fr.GetItemNumber(i,'num_orig1')
+			select en_destino into :valor from pre_docu_cb
+			where coddoc=:co1 and clugar=:co2 and numdoc=:no1;
+			IF SQLCA.SQLCode = -1 or SQLCA.SQLCode = 100 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+			if valor = '1' then
+				Rollback;
+				MessageBox('Error Interfaz '+cod_flujo,'La interfaz encontró bandera en 1 - '+co1+'-'+co2+'-'+string(no1))
+				Return -1
+			end if
+			update pre_docu_cb set en_destino = '1'
+			where coddoc=:co1 and clugar=:co2 and numdoc=:no1;
+			IF SQLCA.SQLCode = -1 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+		next
+	case 'PRCINGPI' // Reconocimiento desde Ingreso para Recaudo
+		for i = 1 to dw_fr.RowCount()
+			co1 = dw_fr.GetItemString(i,'char_orig1')
+			co2 = dw_fr.GetItemString(i,'char_orig2')
+			co3 = dw_fr.GetItemString(i,'char_orig3')
+			no1 = dw_fr.GetItemNumber(i,'num_orig1')
+			select presupuesto into :valor from tesocajaingreso
+			where codcaja=:co1 and clugar=:co2 and coddoc=:co3 and ningreso=:no1;
+			IF SQLCA.SQLCode = -1 or SQLCA.SQLCode = 100 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+			if valor = '1' then
+				Rollback;
+				MessageBox('Error Interfaz '+cod_flujo,'La interfaz encontró bandera en 1 - '+co1+'-'+co2+'-'+co3+'-'+string(no1))
+				Return -1
+			end if
+			update tesocajaingreso set presupuesto = '1'
+			where codcaja=:co1 and clugar=:co2 and coddoc=:co3 and ningreso=:no1;
+			IF SQLCA.SQLCode = -1 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+		next
+	case 'PRCCXCPI' // Reconocimiento desde Ingreso por Pago de Cartera
+		for i = 1 to dw_fr.RowCount()
+			co1 = dw_fr.GetItemString(i,'char_orig1')
+			co2 = dw_fr.GetItemString(i,'char_orig2')
+			co3 = dw_fr.GetItemString(i,'char_orig3')
+			no1 = dw_fr.GetItemNumber(i,'num_orig1')
+			no2 = dw_fr.GetItemNumber(i,'num_orig2')
+			select presupuesto into :valor from car_cobro_cpo
+			where clugar=:co1 and coddoc=:co2 and num_cobro=:no1 and cartipo=:co3 and item=:no2;
+			IF SQLCA.SQLCode = -1 or SQLCA.SQLCode = 100 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+			if valor = '1' then
+				Rollback;
+				MessageBox('Error Interfaz '+cod_flujo,'La interfaz encontró bandera en 1 - '+co1+'-'+co2+'-'+co3+'-'+string(no1)+'-'+string(no2))
+				Return -1
+			end if
+			update car_cobro_cpo set presupuesto = '1'
+			where clugar=:co1 and coddoc=:co2 and num_cobro=:no1 and cartipo=:co3 and item=:no2;
+			IF SQLCA.SQLCode = -1 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+		next
+	case 'PRCRADPI' // Reconocimiento desde Radicación para Recaudo
+		for i = 1 to dw_fr.RowCount()
+			no1 = dw_fr.GetItemNumber(i,'num_orig1')
+			co1 = dw_fr.GetItemString(i,'char_orig1')
+			select presupuesto into :valor from ripsradica
+			where num_radicacion=:no1 and clugar=:co1;
+			IF SQLCA.SQLCode = -1 or SQLCA.SQLCode = 100 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+			if valor = '1' then
+				Rollback;
+				MessageBox('Error Interfaz '+cod_flujo,'La interfaz encontró bandera en 1 - '+co1+'-'+co2+'-'+co3+'-'+string(no1))
+				Return -1
+			end if
+			update ripsradica set presupuesto = '1'
+			where num_radicacion=:no1 and clugar=:co1;
+			IF SQLCA.SQLCode = -1 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+		next
+	case 'OCPDIPR', 'OCPDISCT'  //Orden de Compra desde Disponibilidad para Reserva
+		co1_j = dw_fr.GetItemString(1,'char_orig1')
+		co2_j = dw_fr.GetItemString(1,'char_orig2')
+		no1_j = dw_fr.GetItemNumber(1,'num_orig1')
+		for i = 1 to dw_fr.RowCount()
+			co1 = dw_fr.GetItemString(i,'char_orig1')
+			co2 = dw_fr.GetItemString(i,'char_orig2')
+			no1 = dw_fr.GetItemNumber(i,'num_orig1')
+			select en_destino into :valor from pre_docu_cb
+			where coddoc=:co1 and clugar=:co2 and numdoc=:no1;
+			IF SQLCA.SQLCode = -1 or SQLCA.SQLCode = 100 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+			if valor = '1' then
+				Rollback;
+				MessageBox('Error Interfaz '+cod_flujo,'La interfaz encontró bandera en 1 - '+co1+'-'+co2+'-'+string(no1))
+				Return -1
+			end if
+			
+			If co1_j<>co1 and co2_j<>co2 and no1_j<>no1 then
+				update pre_docu_cb set en_destino = '1'
+				where coddoc=:co1 and clugar=:co2 and numdoc=:no1;
+				IF SQLCA.SQLCode = -1 THEN
+					msg = SQLCA.SQLErrText
+					Rollback;
+					MessageBox("SQL error", msg)
+					Return -1
+				END IF
+			else
+				co1_j=co1
+				co2_j=co2
+				no1_j=no1
+			end if
+	   next
+	    update pre_docu_cb set en_destino = '1'
+		where coddoc=:co1 and clugar=:co2 and numdoc=:no1;
+		IF SQLCA.SQLCode = -1 THEN
+			msg = SQLCA.SQLErrText
+			Rollback;
+			MessageBox("SQL error", msg)
+			Return -1
+		END IF
+
+		
+	case 'PICXC-' // Recaudo desde CXC (y reconocimientos)
+		for i = 1 to dw_fr.RowCount()
+			co1 = dw_fr.GetItemString(i,'char_orig1')
+			co2 = dw_fr.GetItemString(i,'char_orig2')
+			co3 = dw_fr.GetItemString(i,'char_orig3')
+			no1 = dw_fr.GetItemNumber(i,'num_orig1')
+			no2 = dw_fr.GetItemNumber(i,'num_orig2')
+			select presupuesto into :valor from car_cobro_cpo
+			where coddoc=:co1 and clugar=:co2 and cartipo=:co3 and num_cobro=:no1 and item=:no2;
+			IF SQLCA.SQLCode = -1 or SQLCA.SQLCode = 100 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+			if valor = '1' then
+				Rollback;
+				MessageBox('Error Interfaz '+cod_flujo,'La interfaz encontró bandera en 1 - '+co1+'-'+co2+'-'+string(no1))
+				Return -1
+			end if
+			update car_cobro_cpo set presupuesto = '1'
+			where coddoc=:co1 and clugar=:co2 and cartipo=:co3 and num_cobro=:no1 and item=:no2;
+			IF SQLCA.SQLCode = -1 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("SQL error", msg)
+				Return -1
+			END IF
+		next
+	case 'PRNMRFC'//si viene de nómina nom_cpo no debe actualizar nada porque el control se hace es con los monto de la dispo
+					  //si viene de nom_aportes se debe actualizar allá en el campo reserv por tercero
+//		for i = 1 to dw_fr.RowCount()
+//			if isnull(dw_fr.getItemstring(i,'char_orig3')) then continue
+//			
+//			no1=dw_fr.getItemnumber(i,'num_orig1')//numnomina
+//			co1=dw_fr.getItemstring(i,'char_orig1')//tdoc
+//			co2=dw_fr.getItemstring(i,'char_orig2')//docu
+//			co3=dw_fr.GetItemstring(i,'char_orig3')//concep
+//			update nom_aportes set reserv='1' where tipodoc_ter=:co1 and documento_ter=:co2 and cod_concep=:co3
+//				and num_nomina=:no1;
+//			IF SQLCA.SQLCode = -1 or SQLCA.SQLCode = 100 THEN
+//				msg = SQLCA.SQLErrText
+//				Rollback;
+//				MessageBox("Error actualizando nom_aportes.reserv", msg)
+//				Return -1
+//			END IF
+//		next
+	case 'PDINMPR'
+		
+		for i = 1 to dw_fr.RowCount()
+			no1 = dw_fr.GetItemNumber(i,'num_orig1')
+			co1=dw_fr.GetItemstring(i,'char_orig1')//concepto
+			co2=dw_fr.GetItemstring(i,'char_orig2')//tipo cargo
+			co3=dw_fr.GetItemstring(i,'char_orig3')//tipodoc_ter
+			cd3=dw_fr.GetItemstring(i,'char_doc3')//documento_ter
+			SELECT max(NOM_CPO.presupuesto) into :valor
+			FROM CARGOS INNER JOIN (EMPLECARGO INNER JOIN NOM_CPO ON (EMPLECARGO.NCARGO = NOM_CPO.NCARGO) 
+			AND (EMPLECARGO.documento = NOM_CPO.DOCUMENTO) AND (EMPLECARGO.TipoDoc = NOM_CPO.TIPODOC)) 
+			ON CARGOS.cargo = EMPLECARGO.cargo
+			WHERE (((NOM_CPO.NUM_NOMINA)=:no1) AND ((NOM_CPO.COD_CONCEP)=:co1) AND ((CARGOS.tipo_cargo)=:co2));
+			
+			IF SQLCA.SQLCode = -1 or SQLCA.SQLCode = 100 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("Error leyendo nom_cpo.presupuesto", msg)
+				Return -1
+			END IF
+//			if valor = '1' then //no debe ir por lo que se abrio la dispo en los rubros de privado y publico
+//				Rollback;
+//				MessageBox('Error Interfaz Nómina '+cod_flujo,'La interfaz encontró bandera en 1 en nom_cpo - numdoc '+string(no1)+'-'+co1+'-'+co2)
+//				Return -1
+//			end if
+			if isNull(cd3) then
+				choose case sqlca.dbms
+				case 'ODBC'
+					if g_motor='postgres' then
+						UPDATE NOM_CPO SET presupuesto = '1'  
+						FROM (NOM_CPO as NCPPO INNER JOIN EMPLECARGO ON (NCPPO.ncargo = EMPLECARGO.ncargo) AND (NCPPO.tipodoc = EMPLECARGO.tipodoc) AND (NCPPO.documento = EMPLECARGO.documento)) INNER JOIN CARGOS ON EMPLECARGO.cargo = CARGOS.cargo
+						WHERE (((NOM_CPO.NUM_NOMINA)=:no1) AND ((NOM_CPO.COD_CONCEP)=:co1) AND ((CARGOS.tipo_cargo)=:co2));
+					else
+						UPDATE CARGOS INNER JOIN (EMPLECARGO INNER JOIN NOM_CPO ON (EMPLECARGO.NCARGO = NOM_CPO.ncargo) AND (EMPLECARGO.documento = NOM_CPO.DOCUMENTO) AND (EMPLECARGO.TipoDoc = NOM_CPO.TIPODOC)) ON CARGOS.cargo = EMPLECARGO.cargo SET NOM_CPO.presupuesto = '1'
+						WHERE (((NOM_CPO.NUM_NOMINA)=:no1) AND ((NOM_CPO.COD_CONCEP)=:co1) AND ((CARGOS.tipo_cargo)=:co2));						
+					end if
+				case 'SYC Adaptive Server Enterprise','MSS Microsoft SQL Server','OLE DB'
+					UPDATE nom_cpo SET NOM_CPO.presupuesto = '1' 
+					from CARGOS INNER JOIN (EMPLECARGO INNER JOIN NOM_CPO ON (EMPLECARGO.NCARGO = NOM_CPO.ncargo) AND (EMPLECARGO.documento = NOM_CPO.DOCUMENTO) AND (EMPLECARGO.TipoDoc = NOM_CPO.TIPODOC)) ON CARGOS.cargo = EMPLECARGO.cargo
+					WHERE (((NOM_CPO.NUM_NOMINA)=:no1) AND ((NOM_CPO.COD_CONCEP)=:co1) AND ((CARGOS.tipo_cargo)=:co2));
+				end choose
+			else
+				choose case sqlca.dbms
+				case 'ODBC'
+					if g_motor='postgres' then
+						UPDATE NOM_CPO SET presupuesto = '1'  
+						FROM (NOM_CPO as NCPPO INNER JOIN EMPLECARGO ON (NCPPO.ncargo = EMPLECARGO.ncargo) AND (NCPPO.tipodoc = EMPLECARGO.tipodoc) AND (NCPPO.documento = EMPLECARGO.documento)) INNER JOIN CARGOS ON EMPLECARGO.cargo = CARGOS.cargo
+						WHERE (((NOM_CPO.NUM_NOMINA)=:no1) AND ((NOM_CPO.COD_CONCEP)=:co1) AND ((CARGOS.tipo_cargo)=:co2));
+					else
+						UPDATE CARGOS INNER JOIN ((NOM_CPO LEFT JOIN NOM_CLASE_TERCERO ON (NOM_CPO.item_clase = NOM_CLASE_TERCERO.item) AND (NOM_CPO.cod_clase = NOM_CLASE_TERCERO.cod_clase) AND (NOM_CPO.documento_clase = NOM_CLASE_TERCERO.documento) AND (NOM_CPO.TipoDoc_clase = NOM_CLASE_TERCERO.TipoDoc)) 
+						INNER JOIN EMPLECARGO ON (NOM_CPO.ncargo = EMPLECARGO.NCARGO) AND (NOM_CPO.DOCUMENTO = EMPLECARGO.documento) AND (NOM_CPO.TIPODOC = EMPLECARGO.TipoDoc)) ON CARGOS.cargo = EMPLECARGO.cargo 
+						SET NOM_CPO.presupuesto = '1'
+						WHERE (((NOM_CPO.NUM_NOMINA)=:no1) AND ((NOM_CPO.COD_CONCEP)=:co1) AND ((CARGOS.tipo_cargo)=:co2) AND 
+						((NOM_CLASE_TERCERO.TipoDoc_TER)=:co3) AND ((NOM_CLASE_TERCERO.documento_TER)=:cd3));
+					end if
+				case 'SYC Adaptive Server Enterprise','MSS Microsoft SQL Server','OLE DB'
+					UPDATE nom_cpo SET NOM_CPO.presupuesto = '1'
+					from CARGOS INNER JOIN ((NOM_CPO LEFT JOIN NOM_CLASE_TERCERO ON (NOM_CPO.item_clase = NOM_CLASE_TERCERO.item) AND (NOM_CPO.cod_clase = NOM_CLASE_TERCERO.cod_clase) AND (NOM_CPO.documento_clase = NOM_CLASE_TERCERO.documento) AND (NOM_CPO.TipoDoc_clase = NOM_CLASE_TERCERO.TipoDoc)) 
+					INNER JOIN EMPLECARGO ON (NOM_CPO.ncargo = EMPLECARGO.NCARGO) AND (NOM_CPO.DOCUMENTO = EMPLECARGO.documento) AND (NOM_CPO.TIPODOC = EMPLECARGO.TipoDoc)) ON CARGOS.cargo = EMPLECARGO.cargo 
+					WHERE (((NOM_CPO.NUM_NOMINA)=:no1) AND ((NOM_CPO.COD_CONCEP)=:co1) AND ((CARGOS.tipo_cargo)=:co2));
+				end choose
+			end if
+			IF SQLCA.SQLCode = -1 THEN
+				msg = SQLCA.SQLErrText
+				Rollback;
+				MessageBox("Error actualizando presupuesto en Nom_cpo", msg)
+				Return -1
+			END IF
+
+		next
+		
+end choose
+Return 0
+
+end function
+

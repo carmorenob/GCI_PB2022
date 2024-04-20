@@ -1,0 +1,85 @@
+﻿$PBExportHeader$f_trae_n_emp.srf
+global type f_trae_n_emp from function_object
+end type
+
+forward prototypes
+global function long f_trae_nconsec_emp (string p_cdoc, string p_clug, string p_desdoc)
+global function long f_trae_n_emp (string p_emp, string p_cont)
+end prototypes
+
+global function long f_trae_nconsec_emp (string p_cdoc, string p_clug, string p_desdoc);long ndoc,n_ini,n_fin
+string err,por_lug
+select por_lugar,numini,numfin,nactual into :por_lug,:n_ini,:n_fin,:ndoc from documentos_gral where coddoc=:p_cdoc;
+if sqlca.sqlcode=-1 then 
+	err=sqlca.sqlerrtext
+	rollback;
+	messagebox('Error leyendo documentos_gral',err)
+	return -1
+end if
+if sqlca.sqlnrows=0 then
+	rollback;
+	messagebox('Atención','El Documento ('+p_cdoc+')'+p_desdoc+' no existe en la tabla Documentos_gral, debe crearlo para continuar')
+	return -1
+end if
+if isnull(ndoc) then ndoc=0
+if por_lug='1' then
+	select nactual,numini,numfin into :ndoc ,:n_ini ,:n_fin from documentos where coddoc=:p_cdoc and clugar=:p_clug;
+	if sqlca.sqlcode=-1 then 
+		err=sqlca.sqlerrtext
+		rollback;
+		messagebox('Error leyendo documentos',err)
+		return -1
+	end if
+	if sqlca.sqlnrows=0 then
+		rollback;
+		messagebox('Atención','El Documento ('+p_cdoc+')'+p_desdoc+' no existe en la tabla Documentos, debe crearlo para continuar')
+		return -1
+	end if
+	if isnull(ndoc) then ndoc=0
+end if
+ndoc++
+if ndoc<n_ini or ndoc>n_fin then
+	rollback;
+	messagebox('Atención','El número que se generará no está dentro del rando definido para el documento: '+p_cdoc)
+	return -1
+end if
+if por_lug='1' then
+	update documentos set nactual=:ndoc where coddoc=:p_cdoc and clugar=:p_clug and nactual=:ndoc -1 ;
+else
+	update documentos_gral set nactual=:ndoc where coddoc=:p_cdoc and nactual=:ndoc -1 ;
+end if
+if sqlca.sqlcode=-1 then
+	err=sqlca.sqlerrtext
+	rollback;
+	messagebox('Error actualizando documentos',err)
+	return -1
+end if
+if sqlca.sqlnrows=0 then
+	rollback;
+	messagebox('Error generando nuevo Documento','Es posible que el número ya haya sido utilizado, intente nuevamente')
+	return -1
+end if
+return ndoc
+end function
+
+global function long f_trae_n_emp (string p_emp, string p_cont);long ndoc
+string err
+SELECT consec into :ndoc  FROM Contratos WHERE (((Contratos.CodEmp)=:p_emp) AND ((Contratos.CodContrato)=:p_cont));
+if sqlca.sqlcode=-1 then 
+	err=sqlca.sqlerrtext
+	rollback;
+	messagebox('Error leyendo empresa',err)
+	return -1
+end if
+if isnull(ndoc) then ndoc=0
+ndoc++
+update Contratos set consec=:ndoc WHERE (((Contratos.CodEmp)=:p_emp) AND ((Contratos.CodContrato)=:p_cont));
+if sqlca.sqlcode=-1 then
+	err=sqlca.sqlerrtext
+	rollback;
+	messagebox('Error actualizando Empresa',err)
+	return -1
+end if
+return ndoc
+end function
+

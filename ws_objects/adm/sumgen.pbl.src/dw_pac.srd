@@ -1,0 +1,75 @@
+﻿$PBExportHeader$dw_pac.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no grid.lines=0 )
+header(height=68 color="536870912" )
+summary(height=8 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(15) updatewhereclause=yes key=yes name=codalmacen dbname="codalmacen" )
+ column=(type=long updatewhereclause=yes key=yes name=ano dbname="ano" )
+ column=(type=long updatewhereclause=yes key=yes name=item dbname="item" )
+ column=(type=char(15) updatewhereclause=yes key=yes name=codgenerico dbname="codgenerico" )
+ column=(type=long updatewhereclause=yes key=yes name=mes dbname="mes" )
+ column=(type=long update=yes updatewhereclause=yes name=planeado dbname="planeado" )
+ column=(type=long update=yes updatewhereclause=yes name=consumo dbname="consumo" )
+ column=(type=char(1) updatewhereclause=yes name=restringepac dbname="restringepac" )
+ column=(type=long updatewhereclause=yes name=total_plan dbname="total_plan" )
+ column=(type=long updatewhereclause=yes name=total_cons dbname="total_cons" )
+ retrieve="SELECT 
+	sumpaccpo.codalmacen, sumpaccpo.ano, sumpaccpo.item, sumpaccpo.codgenerico, 
+	sumpaccpo.mes, sumpaccpo.planeado, sumpaccpo.consumo, sumalmacen.restringepac, 
+	Case when tpac.tp is null then 0 else tpac.tp end as total_plan, 
+	Case when tpac.tc is null then 0 else tpac.tc  end as total_cons
+FROM 
+	((sumpaccab INNER JOIN sumpaccpo ON (sumpaccab.CODALMACEN = sumpaccpo.CODALMACEN) AND (sumpaccab.ANO = sumpaccpo.ANO) AND 
+	(sumpaccab.ITEM = sumpaccpo.ITEM)) INNER JOIN sumalmacen ON sumpaccab.CODALMACEN = sumalmacen.CODALMACEN) LEFT  JOIN 
+(SELECT 
+	sumpaccpo.codalmacen, sumpaccpo.ano, sumpaccpo.item, 
+	sumpaccpo.codgenerico, Sum(sumpaccpo.planeado) AS tp, Sum(sumpaccpo.consumo) AS tc
+FROM 
+	(sumpaccab INNER JOIN sumpaccpo ON (sumpaccab.ITEM = sumpaccpo.ITEM) AND (sumpaccab.ANO = sumpaccpo.ANO) AND 
+	(sumpaccab.CODALMACEN = sumpaccpo.CODALMACEN)) INNER JOIN sumalmacen ON sumpaccab.CODALMACEN = sumalmacen.CODALMACEN
+WHERE (((sumpaccpo.mes)<:mes))
+GROUP BY 
+	sumpaccpo.codalmacen, sumpaccpo.ano, sumpaccpo.item, sumpaccpo.codgenerico, sumpaccab.estado
+HAVING 
+	(((sumpaccpo.codalmacen)=:codalmacen) AND ((sumpaccpo.ano)=:ano) AND ((sumpaccpo.codgenerico)=:codgenerico) AND 
+	((sumpaccab.estado)='A' Or (sumpaccab.estado)='M'))
+) AS 	tpac ON (sumpaccpo.codgenerico = tpac.codgenerico) AND (sumpaccpo.ITEM = tpac.item) AND (sumpaccpo.ANO = tpac.ano) AND 
+	(sumpaccpo.CODALMACEN = tpac.codalmacen)
+WHERE 
+	(((sumpaccpo.codgenerico)=:codgenerico) AND ((sumpaccpo.mes)=:mes) AND ((sumpaccab.codalmacen)=:codalmacen) AND 
+	((sumpaccab.ano)=:ano) AND ((sumpaccab.estado)='A' Or (sumpaccab.estado)='M'));
+
+" update="sumpaccpo" updatewhere=0 updatekeyinplace=no arguments=(("codalmacen", string),("ano", number),("mes", number),("codgenerico", string)) )
+text(band=header alignment="0" text="Codalmacen" border="0" color="0" x="9" y="4" height="52" width="334" html.valueishtml="0"  name=codalmacen_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Ano" border="0" color="0" x="352" y="4" height="52" width="347" html.valueishtml="0"  name=ano_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Item" border="0" color="0" x="709" y="4" height="52" width="325" html.valueishtml="0"  name=item_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Codgenerico" border="0" color="0" x="1042" y="4" height="52" width="334" html.valueishtml="0"  name=codgenerico_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Mes" border="0" color="0" x="1390" y="4" height="52" width="283" html.valueishtml="0"  name=mes_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Planeado" border="0" color="0" x="1682" y="4" height="52" width="274" html.valueishtml="0"  name=planeado_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Consumo" border="0" color="0" x="1966" y="4" height="52" width="343" html.valueishtml="0"  name=consumo_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Restringepac" border="0" color="0" x="2318" y="4" height="56" width="366" html.valueishtml="0"  name=restringepac_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Total Plan" border="0" color="0" x="2693" y="4" height="52" width="247" html.valueishtml="0"  name=total_plan_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Total Cons" border="0" color="0" x="2949" y="4" height="52" width="151" html.valueishtml="0"  name=total_cons_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="0" height="56" width="334" format="[general]" html.valueishtml="0"  name=codalmacen visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="352" y="0" height="56" width="347" format="[general]" html.valueishtml="0"  name=ano visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="709" y="0" height="56" width="325" format="[general]" html.valueishtml="0"  name=item visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1042" y="0" height="56" width="334" format="[general]" html.valueishtml="0"  name=codgenerico visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="1390" y="0" height="56" width="283" format="[general]" html.valueishtml="0"  name=mes visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="2" tabsequence=32766 border="0" color="0" x="1682" y="0" height="56" width="274" format="[general]" html.valueishtml="0"  name=planeado visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="2" tabsequence=32766 border="0" color="0" x="1966" y="0" height="56" width="343" format="[general]" html.valueishtml="0"  name=consumo visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="2" tabsequence=32766 border="0" color="0" x="2318" y="0" height="56" width="366" format="[general]" html.valueishtml="0"  name=restringepac visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="2" tabsequence=32766 border="0" color="0" x="2697" y="0" height="56" width="242" format="[general]" html.valueishtml="0"  name=total_plan visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="2" tabsequence=32766 border="0" color="0" x="2953" y="0" height="56" width="146" format="[general]" html.valueishtml="0"  name=total_cons visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

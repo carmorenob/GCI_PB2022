@@ -1,0 +1,60 @@
+﻿$PBExportHeader$dw_ingresos_bancos.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no grid.lines=0 )
+header(height=68 color="536870912" )
+summary(height=68 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=selec dbname="selec" values="	1/	0" )
+ column=(type=char(3) updatewhereclause=yes name=codbanco dbname="tesocuentas_tnota.CodBanco" dbalias=".CodBanco" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_cuenta dbname="tesocuentas_tnota.tipo_cuenta" dbalias=".tipo_cuenta" )
+ column=(type=char(150) updatewhereclause=yes name=numcuenta dbname="tesocuentas_tnota.numcuenta" dbalias=".numcuenta" )
+ column=(type=real updatewhereclause=yes name=item dbname="tesocuentas_tnota.item" dbalias=".item" )
+ column=(type=char(150) updatewhereclause=yes name=desbanco dbname="tesocuentas_tnota.DesBanco" dbalias=".DesBanco" )
+ column=(type=decimal(2) updatewhereclause=yes name=valor dbname="tesocuentas_tnota.valor" dbalias=".valor" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=valor_cartera dbname="tesocuentas_tnota.valor_cartera" dbalias=".valor_cartera" )
+ column=(type=char(3) updatewhereclause=yes name=tipodoc dbname="tesocuentas_tnota.TipoDoc" dbalias=".TipoDoc" )
+ column=(type=char(15) updatewhereclause=yes name=documento dbname="tesocuentas_tnota.documento" dbalias=".documento" )
+ column=(type=datetime updatewhereclause=yes name=fecha dbname="tesocuentas_tnota.fecha" dbalias=".fecha" )
+ column=(type=decimal(2) updatewhereclause=yes name=disponible dbname="disponible" )
+ retrieve="SELECT 1 as selec, tesocuentasmovi.CodBanco, tesocuentasmovi.tipo_cuenta, tesocuentasmovi.numcuenta, tesocuentasmovi.item, tesobancos.DesBanco, tesocuentasmovi.valor, tesocuentasmovi.valor_cartera, tesocuentasmovi.TipoDoc, tesocuentasmovi.documento, tesocuentasmovi.fecha, tesocuentasmovi.valor-tesocuentasmovi.valor_cartera AS disponible
+FROM tesocuentas_tnota INNER JOIN (tesocuentasmovi INNER JOIN tesobancos ON tesocuentasmovi.CodBanco = tesobancos.CodBanco) ON tesocuentas_tnota.cod_nota = tesocuentasmovi.cod_nota
+WHERE (((tesocuentasmovi.valor)>0) AND ((tesocuentasmovi.TipoDoc)=:tdoc) AND ((tesocuentasmovi.documento)=:docu) AND 
+((tesocuentasmovi.valor-tesocuentasmovi.valor_cartera)>0) AND ((tesocuentasmovi.usu_anula) Is Null) AND 
+((tesocuentas_tnota.de_transferencia)='0')) OR (((tesocuentasmovi.valor)>0) AND ((tesocuentasmovi.documento) Is Null) AND 
+((tesocuentasmovi.valor-tesocuentasmovi.valor_cartera)>0) AND ((tesocuentasmovi.usu_anula) Is Null) AND ((tesocuentas_tnota.de_transferencia)='0'))and 
+((tesocuentas_tnota.cartera)='1') and (tesocuentasmovi.recaudo is null ) and  tesocuentasmovi.valor_cartera = 0
+
+UNION ALL 
+SELECT 1 as selec, tesocuentasmovi.CodBanco, tesocuentasmovi.tipo_cuenta, tesocuentasmovi.numcuenta, tesocuentasmovi.item, tesobancos.DesBanco, tesocuentasmovi.valor, tesocuentasmovi.valor_cartera, tesocuentasmovi.TipoDoc, tesocuentasmovi.documento, tesocuentasmovi.fecha, tesocuentasmovi.valor-tesocuentasmovi.valor_cartera AS disponible
+FROM tesobancos INNER JOIN (tesocuentas_tnota INNER JOIN tesocuentasmovi ON tesocuentas_tnota.cod_nota = tesocuentasmovi.cod_nota) ON (tesocuentasmovi.documento = tesobancos.documento) AND (tesocuentasmovi.TipoDoc = tesobancos.tipodoc) AND (tesobancos.CodBanco = tesocuentasmovi.CodBanco)
+WHERE (((tesocuentasmovi.valor)>0) AND ((tesocuentasmovi.valor-tesocuentasmovi.valor_cartera)>0) AND ((tesocuentasmovi.usu_anula) Is Null) AND 
+((tesocuentas_tnota.de_transferencia)='0')) and ((tesocuentas_tnota.cartera)='1') and (tesocuentasmovi.recaudo is null ) and
+ tesocuentasmovi.valor_cartera = 0
+" arguments=(("tdoc", string),("docu", string))  sort="codbanco A fecha D " )
+text(band=header alignment="0" text="Desel." border="6" color="0" x="9" y="8" height="52" width="114" html.valueishtml="0"  name=selec_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Banco" border="6" color="33554432" x="133" y="8" height="52" width="448" html.valueishtml="0"  name=tesobancos_desbanco_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Numcuenta" border="6" color="0" x="590" y="8" height="52" width="361" html.valueishtml="0"  name=numcuenta_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Nro mov" border="6" color="0" x="960" y="8" height="52" width="219" html.valueishtml="0"  name=item_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Fecha" border="6" color="33554432" x="1189" y="8" height="52" width="270" html.valueishtml="0"  name=tesocuentas_notas_fecha_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Valor" border="6" color="33554432" x="1467" y="8" height="52" width="411" html.valueishtml="0"  name=tesocuentas_notas_valor_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Saldo Cartera" border="6" color="33554432" x="1888" y="8" height="52" width="411" html.valueishtml="0"  name=disponible_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=6 alignment="0" tabsequence=20 border="0" color="33554432" x="133" y="4" height="56" width="448" format="[general]" html.valueishtml="0"  name=desbanco visible="1" edit.limit=255 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+column(band=detail id=7 alignment="1" tabsequence=60 border="0" color="33554432" x="1467" y="4" height="56" width="411" format="#,##0.00" html.valueishtml="0"  name=valor visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+column(band=detail id=11 alignment="0" tabsequence=50 border="0" color="33554432" x="1189" y="4" height="56" width="270" format="[shortdate] [time]" html.valueishtml="0"  name=fecha visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+column(band=detail id=4 alignment="0" tabsequence=30 border="0" color="33554432" x="590" y="4" height="56" width="361" format="[general]" html.valueishtml="0"  name=numcuenta visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+column(band=detail id=5 alignment="2" tabsequence=40 border="0" color="33554432" x="960" y="4" height="56" width="219" format="[general]" html.valueishtml="0"  name=item visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+column(band=detail id=12 alignment="1" tabsequence=70 border="0" color="33554432" x="1888" y="4" height="56" width="411" format="#,##0.00" html.valueishtml="0"  name=disponible visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+column(band=detail id=1 alignment="2" tabsequence=10 border="0" color="33554432" x="9" y="4" height="56" width="114" format="[general]" html.valueishtml="0"  name=selec visible="1" checkbox.text="" checkbox.on="1" checkbox.off="0" checkbox.scale=no checkbox.threed=yes  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+compute(band=summary alignment="1" expression="sum(if(selec=1,valor,0) for all)"border="0" color="33554432" x="1467" y="8" height="52" width="411" format="[General]" html.valueishtml="0"  name=sumvalor visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+compute(band=summary alignment="1" expression="sum(disponible for all)"border="0" color="33554432" x="1888" y="8" height="52" width="411" format="#,##0.00" html.valueishtml="0"  name=sumdisponible visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()

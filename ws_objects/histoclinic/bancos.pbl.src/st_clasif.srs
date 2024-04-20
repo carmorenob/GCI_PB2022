@@ -1,0 +1,9 @@
+﻿$PBExportHeader$st_clasif.srs
+global type st_clasif from structure
+	string		tdoc
+	string		docu
+	string		banco
+	datawindow		dw
+	string		sexo
+end type
+

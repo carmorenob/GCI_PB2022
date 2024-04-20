@@ -1,0 +1,7 @@
+﻿$PBExportHeader$st_busca_apdx.srs
+global type st_busca_apdx from structure
+	string		cod_area
+	string		des_area
+	singlelineedit		sle
+end type
+

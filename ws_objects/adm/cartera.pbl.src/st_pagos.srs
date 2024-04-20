@@ -1,0 +1,15 @@
+﻿$PBExportHeader$st_pagos.srs
+global type st_pagos from structure
+	string		coddoc
+	string		clugar
+	double		num_cobro
+	double		nradica
+	string		clugar_rad
+	string		cartipo
+	long		item
+	datawindow		dw_pagos
+	string		origen
+	integer		decimales
+	string		tipo_rad
+end type
+

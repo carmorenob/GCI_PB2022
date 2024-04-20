@@ -1,0 +1,95 @@
+﻿$PBExportHeader$dw_trans_conta.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no grid.lines=0 )
+header(height=120 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=64 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=char(2) update=yes updatewhereclause=yes key=yes name=clugar dbname="tesotranscab.clugar" )
+ column=(type=char(4) update=yes updatewhereclause=yes key=yes name=coddoc dbname="tesotranscab.coddoc" )
+ column=(type=number update=yes updatewhereclause=yes key=yes name=ntransferencia dbname="tesotranscab.ntransferencia" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=item dbname="tesotranscab.item" )
+ column=(type=number update=yes updatewhereclause=yes key=yes name=registro dbname="tesotranscab.registro" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=coduf dbname="tesotranscab.coduf" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=codcc dbname="tesotranscab.codcc" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=cod_empre_d dbname="tesotranscab.cod_empre_d" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=codtotal_d dbname="tesotranscab.codtotal_d" validationmsg="'Cuenta no Válida: No existe,no es de Movimiento o no es Débito' " )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=valor_d dbname="tesotranscab.valor_d" initial="0" )
+ column=(type=char(1) updatewhereclause=yes name=ccosto dbname="tesotranscab.ccosto" )
+ column=(type=char(1) updatewhereclause=yes name=tercero dbname="tesotranscab.tercero" )
+ column=(type=char(200) updatewhereclause=yes name=descrip_d dbname="tesotranscab.descrip_d" )
+ column=(type=char(50) updatewhereclause=yes name=desccosto dbname="tesotranscab.descripcion" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=cod_concep dbname="tesotranscab.cod_concep" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=valor_c dbname="tesotranscab.valor_c" initial="0" )
+ column=(type=char(1) updatewhereclause=yes name=naturaleza dbname="tesotranscab.naturaleza" )
+ column=(type=char(12) updatewhereclause=yes name=cod_flujo dbname="tesotranscab.cod_flujo" )
+ column=(type=decimal(2) updatewhereclause=yes name=base dbname="tesotranscab.base" )
+ column=(type=decimal(2) updatewhereclause=yes name=base_desde dbname="tesotranscab.base_desde" )
+ column=(type=decimal(3) updatewhereclause=yes name=porcentaje dbname="tesotranscab.porcentaje" )
+ column=(type=char(1) updatewhereclause=yes name=accion dbname="tesotranscab.accion" )
+ column=(type=char(1) updatewhereclause=yes name=sobre dbname="tesotranscab.sobre" )
+ column=(type=char(255) updatewhereclause=yes name=asumar dbname="asumar" )
+ column=(type=char(4) updatewhereclause=yes name=cod_tipo dbname="tesotranscab.cod_tipo" )
+ retrieve="SELECT tesotranscpo_conta.CLugar, tesotranscpo_conta.CodDoc, tesotranscpo_conta.ntransferencia, 
+tesotranscpo_conta.item, tesotranscpo_conta.registro, tesotranscpo_conta.CodUF, tesotranscpo_conta.CodCC, 
+tesotranscpo_conta.COD_EMPRE_D, tesotranscpo_conta.CodTotal_D, tesotranscpo_conta.valor_d, CONT_PLAN.ccosto, 
+CONT_PLAN.tercero, CONT_PLAN.descrip AS descrip_d, CentroCostos.Descripcion, tesotranscpo_conta.cod_concep, 
+tesotranscpo_conta.valor_c, CONT_PLAN.naturaleza, tesotranscab.cod_flujo,tesotranscpo_conta.base, 
+CONT_IMPUESTO.BASE AS base_desde, CONT_IMPUESTO.PORCENTAJE, CONT_IMPUESTO.ACCION, CONT_IMPUESTO.SOBRE, '' AS asumar,
+cont_impuesto.cod_tipo
+FROM tesotranscab INNER JOIN (((tesotranscpo_conta 
+LEFT outer JOIN CONT_PLAN ON (tesotranscpo_conta.COD_EMPRE_D = CONT_PLAN.COD_EMPRESA) 
+	AND (tesotranscpo_conta.CodTotal_D = CONT_PLAN.CodTotal)) 
+LEFT outer JOIN CentroCostos ON (tesotranscpo_conta.CodUF = CentroCostos.CodUF) 
+	AND (tesotranscpo_conta.CodCC = CentroCostos.CodCC)) 
+LEFT outer JOIN CONT_IMPUESTO ON tesotranscpo_conta.cod_concep = CONT_IMPUESTO.COD_CONCEP) 
+	ON (tesotranscab.ntransferencia = tesotranscpo_conta.ntransferencia) 
+	AND (tesotranscab.CodDoc = tesotranscpo_conta.CodDoc) AND (tesotranscab.CLugar = tesotranscpo_conta.CLugar)
+
+WHERE tesotranscpo_conta.CLugar=:clugar AND tesotranscpo_conta.CodDoc=:coddoc 
+AND tesotranscpo_conta.ntransferencia=:ntrans" update="tesotranscpo_conta" updatewhere=0 updatekeyinplace=yes arguments=(("clugar", string),("coddoc", string),("ntrans", number)) )
+compute(band=header alignment="1" expression="sum( round(valor_d, 2)  )"border="0" color="0" x="1376" y="64" height="52" width="430" format="#,##0.00" html.valueishtml="0"  name=t_deb visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tif (dif_deb>0,rgb(220,240,220) , rgb(255,255,255))" )
+compute(band=header alignment="1" expression="sum( round(valor_c, 2)  )"border="0" color="0" x="1815" y="64" height="52" width="453" format="#,##0.00" html.valueishtml="0"  name=t_cred visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tif( dif_cred>0 ,rgb(240,220,220) , rgb(255,255,255))" )
+text(band=header alignment="2" text="Item" border="6" color="0" x="9" y="8" height="104" width="119" html.valueishtml="0"  name=item_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+text(band=header alignment="2" text="Registro" border="6" color="33554432" x="137" y="8" height="104" width="178" html.valueishtml="0"  name=registro_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Impuesto" border="6" color="0" x="325" y="8" height="104" width="571" html.valueishtml="0"  name=cod_concep_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Cuenta" border="6" color="33554432" x="905" y="8" height="104" width="462" html.valueishtml="0"  name=codtotal_d_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Débito" border="6" color="0" x="1376" y="8" height="44" width="430" html.valueishtml="0"  name=valor_d_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Crédito" border="6" color="0" x="1815" y="8" height="44" width="453" html.valueishtml="0"  name=valor_c_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+text(band=header alignment="2" text="Base" border="6" color="0" x="2277" y="8" height="104" width="448" html.valueishtml="0"  name=base_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Unidad Funcional" border="6" color="0" x="2734" y="8" height="104" width="645" html.valueishtml="0"  name=coduf_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Centro Costos" border="6" color="0" x="3387" y="8" height="104" width="841" html.valueishtml="0"  name=t_5 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=16 alignment="1" tabsequence=60 border="0" color="33554432" x="1815" y="4" height="56" width="453" format="#,##0.00" html.valueishtml="0" protect="0~tif ( not isnull(cod_concep) , 1 ,if (valor_d=0 and  isRowNew() and 
+( 
+   (cod_flujo='PT-PDI' ) or 
+   (cod_flujo<>'PT-PDI' and isnull(cod_concep) ) 
+)
+,0 , 1) )"  name=valor_c visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.nilisnull=yes edit.imemode=0  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="536870912~tif ( naturaleza='D' , rgb(240,255,240) , rgb(255,240,240) )" )
+column(band=detail id=4 alignment="2" tabsequence=10 border="0" color="0" x="9" y="4" height="56" width="119" format="[general]" html.valueishtml="0"  name=item visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0 edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tif ( naturaleza='D' , rgb(240,255,240) , rgb(255,240,240) )" )
+column(band=detail id=5 alignment="1" tabsequence=20 border="0" color="33554432" x="137" y="4" height="56" width="178" format="[general]" html.valueishtml="0"  name=registro visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0 edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="536870912~tif ( naturaleza='D' , rgb(240,255,240) , rgb(255,240,240) )" )
+column(band=detail id=15 alignment="0" tabsequence=30 border="0" color="33554432" x="325" y="4" height="56" width="571" format="[general]" html.valueishtml="0" protect="0~tIf ( isrownew() and cod_flujo='PT-PDI' , 0 , 1)"  name=cod_concep visible="1" dddw.name=dw_lista_impuestos dddw.displaycolumn=nombre dddw.datacolumn=cod_concep dddw.percentwidth=300 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=no dddw.case=any dddw.imemode=0 dddw.hscrollbar=yes dddw.vscrollbar=yes dddw.autoretrieve=no  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="536870912~tif ( naturaleza='D' , rgb(240,255,240) , rgb(255,240,240) )" )
+column(band=detail id=9 alignment="2" tabsequence=40 border="0" color="33554432" x="905" y="0" height="60" width="462" format="[general]" html.valueishtml="0" protect="0~tif ( isrownew(),0,1)"  name=codtotal_d visible="1" dddw.name=dw_lista_ctas_x_impu dddw.displaycolumn=codtotal dddw.datacolumn=codtotal dddw.percentwidth=400 dddw.lines=0 dddw.limit=0 dddw.allowedit=yes dddw.useasborder=no dddw.case=any dddw.imemode=0 dddw.hscrollbar=yes dddw.vscrollbar=yes dddw.autoretrieve=no  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="536870912~tif ( naturaleza='D' , rgb(240,255,240) , rgb(255,240,240) )" )
+column(band=detail id=10 alignment="1" tabsequence=50 border="0" color="33554432" x="1376" y="4" height="56" width="430" format="#,##0.00" html.valueishtml="0" protect="0~tif ( not isnull(cod_concep) , 1 ,if(valor_c=0 and  isRowNew() and 
+( 
+   (cod_flujo='PT-PDI' ) or 
+   (cod_flujo<>'PT-PDI' and isnull(cod_concep) ) 
+)
+,0 , 1) )"  name=valor_d visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.nilisnull=yes edit.imemode=0  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="536870912~tif ( naturaleza='D' , rgb(240,255,240) , rgb(255,240,240) )" )
+column(band=detail id=6 alignment="0" tabsequence=80 border="0" color="33554432" x="2734" y="0" height="60" width="645" format="[general]" html.valueishtml="0" protect="0~tif ( ccosto ='1',0,1)"  name=coduf visible="1" dddw.name=dw_ufuncional dddw.displaycolumn=compute_1 dddw.datacolumn=coduf dddw.percentwidth=200 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.imemode=0 dddw.hscrollbar=yes dddw.vscrollbar=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="536870912~tif ( ccosto ='1',if ( naturaleza='D' , rgb(240,255,240) , rgb(255,240,240) ),rgb(220,220,220))" )
+column(band=detail id=14 alignment="0" tabsequence=90 border="0" color="33554432" x="3387" y="0" height="60" width="841" format="[general]" html.valueishtml="0" protect="0~tif ( ccosto ='1',0,1)"  name=desccosto visible="1" dddw.name=dw_ccosto_x_uf dddw.displaycolumn=compute_1 dddw.datacolumn=descripcion dddw.percentwidth=200 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.imemode=0 dddw.vscrollbar=yes dddw.autoretrieve=no  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="536870912~tif ( ccosto ='1',if ( naturaleza='D' , rgb(240,255,240) , rgb(255,240,240) ),rgb(220,220,220))" )
+column(band=detail id=19 alignment="1" tabsequence=70 border="0" color="33554432" x="2277" y="4" height="56" width="448" format="#,##0.00" html.valueishtml="0" protect="0~tif (not isrownew() , 1, if ( (not isnull(cod_concep)) and (not isnull(codtotal_d)) and  sobre <>'O' and cod_flujo='PT-PDI',0,1))"  name=base visible="1" edit.limit=0 edit.case=any edit.format="#,##0.00" edit.autoselect=yes edit.imemode=0  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="536870912~tif (not isrownew() , rgb(220,220,220), if ( (not isnull(cod_concep)) and (not isnull(codtotal_d)) and  sobre <>'O',if ( naturaleza='D' , rgb(240,255,240) , rgb(255,240,240)),rgb(220,220,220)))
+
+" )
+compute(band=footer alignment="0" expression="sum ( long( tercero ))"border="0" color="33554432" x="905" y="0" height="56" width="462" format="[GENERAL]" html.valueishtml="0"  name=pideter visible="0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="0" expression="if (dif_deb>0,~"Débito mayor por:   ~", if ( dif_cred>0,~"Crédito Mayor por:   ~",~"~"))"border="0" color="0" x="325" y="0" height="52" width="571" format="[GENERAL]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="1" expression="round(t_deb,2)  - round(t_cred,2)"border="4" color="0" x="1376" y="4" height="52" width="430" format="#,##0.00" html.valueishtml="0"  name=dif_deb visible="1~tif (dif_deb <=0,0,1)"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~trgb(220,240,220)" )
+compute(band=footer alignment="1" expression="round(t_cred,2) - round(t_deb,2)"border="4" color="0" x="1815" y="4" height="52" width="453" format="#,##0.00" html.valueishtml="0"  name=dif_cred visible="1~tif (dif_cred <=0,0,1)"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~trgb(240,220,220) " )
+compute(band=footer alignment="0" expression="sum (if (Describe(~"evaluate('asumar',1)~")=cod_tipo , valor_d + valor_c , 0) for all)"border="0" color="0" x="1376" y="72" height="52" width="430" format="[GENERAL]" html.valueishtml="0"  name=suma visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="sum ( if (accion='1' , valor_d+valor_c,0) for all)"border="0" color="0" x="1376" y="132" height="52" width="430" format="[GENERAL]" html.valueishtml="0"  name=t_incrementa visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="sum ( if (accion='0' , valor_d+valor_c,0) for all)"border="0" color="0" x="1815" y="72" height="52" width="453" format="[GENERAL]" html.valueishtml="0"  name=t_retiene visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="sum ( if (accion='2' , valor_c+valor_d,0) for all)"border="0" color="0" x="1815" y="136" height="52" width="453" format="[GENERAL]" html.valueishtml="0"  name=t_descuenta visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

@@ -1,0 +1,6 @@
+﻿$PBExportHeader$st_time.srs
+global type st_time from structure
+	time		x
+	time		y
+end type
+

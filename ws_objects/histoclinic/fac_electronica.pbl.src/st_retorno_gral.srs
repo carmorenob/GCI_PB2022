@@ -1,0 +1,7 @@
+﻿$PBExportHeader$st_retorno_gral.srs
+global type st_retorno_gral from structure
+	integer		i_valor
+	string		s_valor
+	any		a_valor
+end type
+

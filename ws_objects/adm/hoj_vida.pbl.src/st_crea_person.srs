@@ -1,0 +1,11 @@
+﻿$PBExportHeader$st_crea_person.srs
+global type st_crea_person from structure
+	string		as_tdoc
+	string		as_docu
+	string		as_mevento
+	long		al_idperson
+	string		as_nombre
+	boolean		ab_foto
+	boolean		ab_ok
+end type
+

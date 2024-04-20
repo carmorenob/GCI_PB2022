@@ -1,0 +1,8 @@
+﻿$PBExportHeader$st_proced.srs
+global type st_proced from structure
+	string		interno
+	string		cups
+	string		version
+	string		descrip
+end type
+

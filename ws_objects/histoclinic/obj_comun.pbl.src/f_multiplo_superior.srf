@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_multiplo_superior.srf
+global type f_multiplo_superior from function_object
+end type
+
+forward prototypes
+global function decimal f_multiplo_superior (decimal numero, double multiplo)
+end prototypes
+
+global function decimal f_multiplo_superior (decimal numero, double multiplo);double residuo,centena
+decimal rs
+
+residuo=mod(numero,multiplo)
+if residuo>0 then  
+	centena=multiplo - residuo
+	rs=numero + centena
+else
+	rs=numero
+end if
+return rs
+end function
+

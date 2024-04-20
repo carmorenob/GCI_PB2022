@@ -1,0 +1,26 @@
+﻿$PBExportHeader$base_retefuente.srf
+global type base_retefuente from function_object
+end type
+
+forward prototypes
+global function decimal base_retefuente (decimal devengado, decimal pensionob, decimal pensionvol, decimal afc, decimal tope)
+end prototypes
+
+global function decimal base_retefuente (decimal devengado, decimal pensionob, decimal pensionvol, decimal afc, decimal tope);decimal base
+
+base = devengado - pensionob
+if pensionob + pensionvol > devengado * 0.3 then
+	base = base - devengado * 0.3
+else
+	base = base - pensionvol
+end if
+if base * 0.25 > tope then
+	base = base - tope
+else
+	base = base*0.75
+end if
+
+Return base
+
+end function
+

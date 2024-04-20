@@ -1,0 +1,56 @@
+﻿$PBExportHeader$dw_det_cuenta.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=67108864 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no )
+header(height=52 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=76 color="536870912" )
+table(column=(type=char(3) updatewhereclause=yes name=codbanco dbname="CodBanco" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_cuenta dbname="tipo_cuenta" )
+ column=(type=char(150) updatewhereclause=yes name=numcuenta dbname="numcuenta" )
+ column=(type=char(50) updatewhereclause=yes name=estado dbname="estado" values="Activa	1/Inactiva	0/" )
+ column=(type=char(1) updatewhereclause=yes name=tipocaja dbname="tipocaja" values="C. Mayor	0/C. Menor	1/" )
+ column=(type=char(50) updatewhereclause=yes name=descripcion dbname="descripcion" )
+ column=(type=decimal(2) updatewhereclause=yes name=saldo_inicial dbname="saldo_inicial" )
+ column=(type=decimal(2) updatewhereclause=yes name=movs dbname="movs" )
+ column=(type=char(4) updatewhereclause=yes name=codcajamayor dbname="codcajamayor" )
+ column=(type=char(1) updatewhereclause=yes name=chequera dbname="chequera" )
+ column=(type=char(4) updatewhereclause=yes name=cod_empresa dbname="COD_EMPRESA" )
+ column=(type=decimal(2) updatewhereclause=yes name=monto_sobregiro dbname="monto_sobregiro" )
+ retrieve="SELECT 
+	tesocuentasban.CodBanco, tesocuentasban.tipo_cuenta, tesocuentasban.numcuenta, tesocuentasban.estado, tesocuentasban.tipocaja, 
+	tesocajamayor.descripcion, tesocuentasban.saldo_inicial, 
+	case when teso.movs is null then 0 else teso.movs end as  movs , tesocuentasban.codcajamayor, 
+	tesocuentasban.chequera, tesocuentasban.COD_EMPRESA, tesocuentasban.monto_sobregiro
+FROM 
+	(tesocuentasban LEFT JOIN tesocajamayor ON (tesocuentasban.clugarmayor = tesocajamayor.CLugar) AND 
+	(tesocuentasban.codcajamayor = tesocajamayor.codcaja)) left JOIN 
+(SELECT tesocuentasmovi.CodBanco, tesocuentasmovi.tipo_cuenta, tesocuentasmovi.numcuenta, Sum(tesocuentasmovi.valor_notas+tesocuentasmovi.valor*tesocuentasmovi.signo-tesocuentasmovi.valor_posf*tesocuentasmovi.signo+tesocuentasmovi.valor_posf_pago*tesocuentasmovi.signo) AS movs
+FROM tesocuentasmovi
+WHERE (((tesocuentasmovi.usu_anula) Is Null))
+GROUP BY tesocuentasmovi.CodBanco, tesocuentasmovi.tipo_cuenta, tesocuentasmovi.numcuenta
+HAVING (((tesocuentasmovi.CodBanco)=:codbanco) AND ((tesocuentasmovi.tipo_cuenta)=:tipo) AND ((tesocuentasmovi.numcuenta)=:numcuenta))
+) as
+teso ON (tesocuentasban.numcuenta = teso.numcuenta) AND 	(tesocuentasban.tipo_cuenta = teso.tipo_cuenta) AND 
+(tesocuentasban.CodBanco = teso.CodBanco)
+WHERE (((tesocuentasban.CodBanco)=:codbanco) AND ((tesocuentasban.tipo_cuenta)=:tipo) AND ((tesocuentasban.numcuenta)=:numcuenta))" arguments=(("codbanco", string),("tipo", string),("numcuenta", string)) )
+text(band=header alignment="0" text="Saldo:" border="0" color="33554432" x="18" y="0" height="56" width="174" html.valueishtml="0"  name=tesocuentasban_saldo_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Monto sobregiro:" border="0" color="33554432" x="475" y="0" height="56" width="370" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Tipo Caja:" border="0" color="33554432" x="1207" y="0" height="60" width="215" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Caja:" border="0" color="33554432" x="1463" y="0" height="60" width="110" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Estado:" border="0" color="33554432" x="910" y="0" height="56" width="206" html.valueishtml="0"  name=tesocuentasban_estado_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="if(isnull( saldo_inicial),0,saldo_inicial) +  if( isnull(movs ) , 0 , movs)"border="5" color="33554432" x="14" y="8" height="60" width="439" format="#,##0.00" html.valueishtml="0"  name=saldo visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=12 alignment="1" tabsequence=32766 border="5" color="33554432" x="485" y="8" height="60" width="393" format="#,##0" html.valueishtml="0"  name=monto_sobregiro visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="5" color="33554432" x="910" y="8" height="60" width="233" format="[general]" html.valueishtml="0"  name=estado visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.displayonly=yes edit.codetable=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="5" color="33554432" x="1175" y="8" height="60" width="210" format="[general]" html.valueishtml="0"  name=tipocaja visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.displayonly=yes edit.codetable=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="  codcajamayor +' - ' + descripcion  "border="5" color="33554432" x="1417" y="8" height="60" width="485" format="[GENERAL]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()

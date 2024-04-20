@@ -1,0 +1,48 @@
+﻿$PBExportHeader$m_cargodw.srm
+forward
+global type m_cargodw from menu
+end type
+type m_insertarfila from menu within m_cargodw
+end type
+global type m_cargodw from menu
+m_insertarfila m_insertarfila
+end type
+end forward
+
+global type m_cargodw from menu
+m_insertarfila m_insertarfila
+end type
+global m_cargodw m_cargodw
+
+type variables
+datawindow dw_obj
+end variables
+
+on m_cargodw.create
+m_cargodw=this
+call super::create
+this.text = "m_cargodw"
+this.m_insertarfila=create m_insertarfila
+this.Item[UpperBound(this.Item)+1]=this.m_insertarfila
+end on
+
+on m_cargodw.destroy
+call super::destroy
+destroy(this.m_insertarfila)
+end on
+
+type m_insertarfila from menu within m_cargodw
+end type
+
+on m_insertarfila.create
+call super::create
+this.text = "Edición de Items"
+end on
+
+on m_insertarfila.destroy
+call super::destroy
+end on
+
+event clicked;dw_obj.TriggerEvent(doubleclicked!)
+end event
+

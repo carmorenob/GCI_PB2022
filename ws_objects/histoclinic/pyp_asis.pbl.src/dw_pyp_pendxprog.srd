@@ -1,0 +1,139 @@
+﻿$PBExportHeader$dw_pyp_pendxprog.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no grid.lines=0 )
+header(height=68 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(2) updatewhereclause=yes name=codact dbname="pyp_subprograma.codact" )
+ column=(type=char(2) updatewhereclause=yes name=codaret dbname="pyp_subprograma.codaret" )
+ column=(type=char(2) updatewhereclause=yes name=codprog dbname="pyp_subprograma.codprog" )
+ column=(type=char(2) updatewhereclause=yes name=item dbname="pyp_subprograma.item" )
+ column=(type=char(50) updatewhereclause=yes name=descripcion dbname="pyp_subprograma.descripcion" )
+ column=(type=char(1) updatewhereclause=yes name=estado dbname="pyp_subprograma.estado" )
+ column=(type=char(1) updatewhereclause=yes name=getareo dbname="pyp_subprograma.getareo" )
+ column=(type=long updatewhereclause=yes name=edadi dbname="pyp_subprograma.edadi" )
+ column=(type=long updatewhereclause=yes name=edadf dbname="pyp_subprograma.edadf" )
+ column=(type=char(1) updatewhereclause=yes name=sexo dbname="pyp_subprograma.sexo" values="Masculino	M/Femenino	F/Todos	T/" )
+ column=(type=char(2) updatewhereclause=yes name=subitem dbname="pyp_produ_subp.subitem" )
+ column=(type=char(15) updatewhereclause=yes name=proced dbname="pyp_produ_subp.proced" )
+ column=(type=char(2) updatewhereclause=yes name=codcondicion dbname="pyp_produ_subp.codcondicion" )
+ column=(type=char(10) updatewhereclause=yes name=cod_prodpyp dbname="pyp_produ_accion.cod_prodpyp" )
+ column=(type=long updatewhereclause=yes name=accion_item dbname="pyp_produ_accion.item" )
+ column=(type=char(100) updatewhereclause=yes name=nombreaccion dbname="pyp_produ_accion.nombreaccion" )
+ column=(type=real updatewhereclause=yes name=edadinicio dbname="pyp_produ_accion.edadinicio" )
+ column=(type=real updatewhereclause=yes name=edadfin dbname="pyp_produ_accion.edadfin" )
+ column=(type=real updatewhereclause=yes name=cantidad dbname="pyp_produ_accion.cantidad" )
+ column=(type=real updatewhereclause=yes name=dosis dbname="pyp_produ_accion.dosis" )
+ column=(type=real updatewhereclause=yes name=intervalo dbname="pyp_produ_accion.intervalo" )
+ column=(type=real updatewhereclause=yes name=cantidaddosis dbname="pyp_produ_accion.cantidaddosis" )
+ column=(type=long updatewhereclause=yes name=selec dbname="selec" values="	1/	0" )
+ column=(type=datetime updatewhereclause=yes name=fcondicion dbname="fcondicion" values="	1/	0" )
+ column=(type=char(1) updatewhereclause=yes name=cond_estado dbname="estado" )
+ column=(type=long updatewhereclause=yes name=duracion dbname="duracion" )
+ retrieve="SELECT pyp_subprograma.codact,   
+         pyp_subprograma.codaret,   
+         pyp_subprograma.codprog,   
+         pyp_subprograma.item,   
+         pyp_subprograma.descripcion,   
+         pyp_subprograma.estado,   
+         pyp_subprograma.getareo,   
+         pyp_subprograma.edadi,   
+         pyp_subprograma.edadf,   
+         pyp_subprograma.sexo,   
+         pyp_produ_subp.subitem,   
+         pyp_produ_subp.proced,   
+         pyp_produ_subp.codcondicion,   
+         pyp_produ_accion.cod_prodpyp,   
+         pyp_produ_accion.item,   
+         pyp_produ_accion.nombreaccion,   
+         pyp_produ_accion.edadinicio,   
+         pyp_produ_accion.edadfin,   
+         pyp_produ_accion.cantidad,   
+         pyp_produ_accion.dosis,   
+         pyp_produ_accion.intervalo,   
+         pyp_produ_accion.cantidaddosis,   
+         0 as selec,   
+         pyp_pac_condi.fcondicion,   
+         pyp_pac_condi.estado,   
+         pyp_condicion.duracion  
+    FROM pyp_subprograma,   
+         pyp_produ_subp,   
+         pyp_produ_accion,   
+         pyp_pac_condi,   
+         pyp_condicion  
+   WHERE pyp_subprograma.codact = :codact and
+         pyp_subprograma.codaret = :codaret and
+         pyp_subprograma.codprog = :codprog and
+         pyp_subprograma.item = :item and
+         ( pyp_produ_subp.codact = pyp_subprograma.codact ) and  
+         ( pyp_produ_subp.codaret = pyp_subprograma.codaret ) and  
+         ( pyp_produ_subp.codprog = pyp_subprograma.codprog ) and  
+         ( pyp_produ_subp.item = pyp_subprograma.item ) and  
+         ( pyp_produ_accion.cod_prodpyp = pyp_produ_subp.cod_prodpyp ) and  
+         ( pyp_produ_subp.codcondicion = pyp_pac_condi.codcondicion ) and  
+         ( pyp_pac_condi.codcondicion = pyp_condicion.codcondicion ) and  
+         (pyp_produ_accion.edadinicio <= :edad AND  
+         pyp_produ_accion.edadfin >= :edad) AND  
+         (pyp_subprograma.sexo = :sexo OR  
+         pyp_subprograma.sexo = 'T') AND  
+         pyp_pac_condi.tipodoc = :tipodoc AND  
+         pyp_pac_condi.documento = :documento
+UNION
+ SELECT pyp_subprograma.codact,   
+         pyp_subprograma.codaret,   
+         pyp_subprograma.codprog,   
+         pyp_subprograma.item,   
+         pyp_subprograma.descripcion,   
+         pyp_subprograma.estado,   
+         pyp_subprograma.getareo,   
+         pyp_subprograma.edadi,   
+         pyp_subprograma.edadf,   
+         pyp_subprograma.sexo,   
+         pyp_produ_subp.subitem,   
+         pyp_produ_subp.proced,   
+         pyp_produ_subp.codcondicion,   
+         pyp_produ_accion.cod_prodpyp,   
+         pyp_produ_accion.item,   
+         pyp_produ_accion.nombreaccion,   
+         pyp_produ_accion.edadinicio,   
+         pyp_produ_accion.edadfin,   
+         pyp_produ_accion.cantidad,   
+         pyp_produ_accion.dosis,   
+         pyp_produ_accion.intervalo,   
+         pyp_produ_accion.cantidaddosis,   
+         0 as selec,   
+         '01/01/1800' as fcondicion,   
+         '0' as estado,   
+         0 as duracion  
+    FROM pyp_subprograma,   
+         pyp_produ_subp,   
+         pyp_produ_accion  
+   WHERE pyp_subprograma.codact = :codact and
+         pyp_subprograma.codaret = :codaret and
+         pyp_subprograma.codprog = :codprog and
+         pyp_subprograma.item = :item and
+         ( pyp_produ_subp.codact = pyp_subprograma.codact ) and  
+         ( pyp_produ_subp.codaret = pyp_subprograma.codaret ) and  
+         ( pyp_produ_subp.codprog = pyp_subprograma.codprog ) and  
+         ( pyp_produ_subp.item = pyp_subprograma.item ) and  
+         ( pyp_produ_accion.cod_prodpyp = pyp_produ_subp.cod_prodpyp ) and  
+         (pyp_produ_accion.edadinicio <= :edad AND  
+         pyp_produ_accion.edadfin >= :edad) AND  
+         (pyp_subprograma.sexo = :sexo OR  
+         pyp_subprograma.sexo = 'T') AND  
+         pyp_subprograma.codcondicion is NULL
+" arguments=(("codact", string),("codaret", string),("codprog", string),("item", string),("edad", number),("sexo", string),("tipodoc", string),("documento", string)) )
+text(band=header alignment="2" text="Acción" border="6" color="0" x="9" y="4" height="56" width="663" html.valueishtml="0"  name=nombreaccion_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Cantidad" border="6" color="0" x="681" y="4" height="56" width="215" html.valueishtml="0"  name=pyp_produ_accion_cantidad_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Dosis" border="6" color="0" x="905" y="4" height="56" width="219" html.valueishtml="0"  name=pyp_produ_accion_dosis_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Intervalo" border="6" color="0" x="1134" y="4" height="56" width="206" html.valueishtml="0"  name=pyp_produ_accion_intervalo_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=20 alignment="0" tabsequence=30 border="5" color="0" x="681" y="4" height="56" width="215" format="[general]" html.valueishtml="0"  name=cantidad visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0 edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=21 alignment="0" tabsequence=40 border="5" color="0" x="905" y="4" height="56" width="219" format="[general]" html.valueishtml="0"  name=dosis visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0 edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=22 alignment="0" tabsequence=50 border="5" color="0" x="1134" y="4" height="56" width="206" format="[general]" html.valueishtml="0"  name=intervalo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0 edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=16 alignment="0" tabsequence=20 border="5" color="0" x="9" y="4" height="56" width="663" format="[general]" html.valueishtml="0"  name=nombreaccion visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0 edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="0" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

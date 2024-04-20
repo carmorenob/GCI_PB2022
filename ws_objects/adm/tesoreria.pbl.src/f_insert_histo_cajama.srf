@@ -1,0 +1,97 @@
+﻿$PBExportHeader$f_insert_histo_cajama.srf
+global type f_insert_histo_cajama from function_object
+end type
+
+forward prototypes
+global function integer f_insert_histo_cajama (string p_caja, string p_clug, datetime p_fecha, string p_cod_ing, long p_nro_ing, string p_cdoc_egr, long p_nro_egr, decimal p_valor)
+end prototypes
+
+global function integer f_insert_histo_cajama (string p_caja, string p_clug, datetime p_fecha, string p_cod_ing, long p_nro_ing, string p_cdoc_egr, long p_nro_egr, decimal p_valor);uo_datastore dw_histo
+dw_histo=create uo_datastore
+dw_histo.dataobject='dw_histo_caja'
+dw_histo.settransobject(sqlca)
+p_fecha=datetime(date(p_fecha))
+if dw_histo.retrieve(p_caja,p_clug,p_fecha)=-1 then return -1
+dec saldo
+long j,item
+string err
+if dw_histo.rowcount()=0 then
+	SELECT tesocajamayor.monto into :saldo
+	FROM tesocajamayor
+	WHERE codcaja=:p_caja and clugar=:p_clug;
+	if sqlca.sqlcode=-1 then
+		err=sqlca.sqlerrtext
+		rollback;
+		messagebox("Error leyendo TesocajaMayor",err)
+		return -1
+	end if
+	dw_histo.insertrow(1)
+	dw_histo.setitem(1,'codcaja',p_caja)
+	dw_histo.setitem(1,'clugar',p_clug)
+	dw_histo.setitem(1,'fecha',p_fecha)
+	dw_histo.setitem(1,'consec',1)
+	dw_histo.setitem(1,'cdoc_ing',p_cod_ing)
+	dw_histo.setitem(1,'ningreso',p_nro_ing)
+	dw_histo.setitem(1,'cdoc_egr',p_cdoc_egr)
+	dw_histo.setitem(1,'negreso',p_nro_egr)
+	dw_histo.setitem(1,'saldo_ini',saldo)
+	dw_histo.setitem(1,'valor',p_valor)
+	dw_histo.setitem(1,'saldo_fin',saldo + p_valor)
+else
+	dw_histo.setfilter('date(fecha)=date("'+string(p_fecha,'dd/mm/yyyy')+'")')
+	dw_histo.filter()
+	dw_histo.sort()
+	if dw_histo.rowcount()=0 then
+		dw_histo.setfilter('')
+		dw_histo.filter()
+		dw_histo.sort()
+		saldo=dw_histo.getitemnumber(1,'saldo_fin')
+		dw_histo.insertrow(1)
+		dw_histo.setitem(1,'codcaja',p_caja)
+		dw_histo.setitem(1,'clugar',p_clug)
+		dw_histo.setitem(1,'fecha',p_fecha)
+		dw_histo.setitem(1,'consec',1)
+		dw_histo.setitem(1,'cdoc_ing',p_cod_ing)
+		dw_histo.setitem(1,'ningreso',p_nro_ing)
+		dw_histo.setitem(1,'cdoc_egr',p_cdoc_egr)
+		dw_histo.setitem(1,'negreso',p_nro_egr)
+		dw_histo.setitem(1,'saldo_ini',saldo)
+		dw_histo.setitem(1,'valor',p_valor)
+		dw_histo.setitem(1,'saldo_fin',saldo + p_valor)
+		for j=2 to dw_histo.rowcount()
+			dw_histo.setitem(j,'saldo_ini',dw_histo.getitemnumber(j,'saldo_ini') + p_valor)
+			dw_histo.setitem(j,'saldo_fin',dw_histo.getitemnumber(j,'saldo_fin') + p_valor)
+		next
+	else
+		saldo=dw_histo.getitemnumber(dw_histo.rowcount(),'saldo_fin')
+		item=dw_histo.getitemnumber(dw_histo.rowcount(),'consec')
+		item ++
+		dw_histo.setfilter('date(fecha)>date("'+string(p_fecha,'dd/mm/yyyy')+'")')
+		dw_histo.filter()
+		dw_histo.sort()
+		dw_histo.insertrow(1)
+		dw_histo.setitem(1,'codcaja',p_caja)
+		dw_histo.setitem(1,'clugar',p_clug)
+		dw_histo.setitem(1,'fecha',p_fecha)
+		dw_histo.setitem(1,'consec',item)
+		dw_histo.setitem(1,'cdoc_ing',p_cod_ing)
+		dw_histo.setitem(1,'ningreso',p_nro_ing)
+		dw_histo.setitem(1,'cdoc_egr',p_cdoc_egr)
+		dw_histo.setitem(1,'negreso',p_nro_egr)
+		dw_histo.setitem(1,'saldo_ini',saldo)
+		dw_histo.setitem(1,'valor',p_valor)
+		dw_histo.setitem(1,'saldo_fin',saldo + p_valor)
+		for j=2 to dw_histo.rowcount()
+			dw_histo.setitem(j,'saldo_ini',dw_histo.getitemnumber(j,'saldo_ini') + p_valor)
+			dw_histo.setitem(j,'saldo_fin',dw_histo.getitemnumber(j,'saldo_fin') + p_valor)
+		next
+	end if
+end if
+if dw_histo.update()=-1 then
+	Messagebox("Error",'Error insertando en tesocuentas_histo')
+	return -1
+end if
+return 1
+
+end function
+

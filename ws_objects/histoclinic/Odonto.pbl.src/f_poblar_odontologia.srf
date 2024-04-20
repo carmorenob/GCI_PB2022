@@ -1,0 +1,29 @@
+﻿$PBExportHeader$f_poblar_odontologia.srf
+global type f_poblar_odontologia from function_object
+end type
+
+forward prototypes
+global subroutine f_poblar_odontologia ()
+end prototypes
+
+global subroutine f_poblar_odontologia ();//para poblar menu reportes
+long ll_i
+menu tt
+uo_datastore dw_odomenu
+
+dw_odomenu=create uo_datastore
+dw_odomenu.dataobject="dw_odoconv_menu"
+dw_odomenu.SetTransObject(SQLCA)
+dw_odomenu.retrieve()
+for ll_i=1 to dw_odomenu.rowcount()
+	tt=f_busca_menu(m_procedimientos,dw_odomenu.getitemstring(ll_i,'codmenu'))
+	if not isnull(tt) then
+		if dw_odomenu.getitemstring(ll_i,'estado')='0' then
+			tt.enabled=false
+		else
+			tt.enabled=true
+		end if
+	end if
+next
+end subroutine
+

@@ -1,0 +1,112 @@
+﻿$PBExportHeader$dr_kardex_detallado.srd
+release 7;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=160 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=char(15) updatewhereclause=yes name=expr1000 dbname="expr1000" )
+ column=(type=char(50) updatewhereclause=yes name=lugar_almacecn dbname="lugar_almacecn" )
+ column=(type=char(15) updatewhereclause=yes name=codalmacen dbname="codalmacen" )
+ column=(type=char(80) updatewhereclause=yes name=almacen dbname="almacen" )
+ column=(type=char(10) updatewhereclause=yes name=codarticulo dbname="codarticulo" )
+ column=(type=char(200) updatewhereclause=yes name=comercial dbname="comercial" )
+ column=(type=char(200) updatewhereclause=yes name=generico dbname="generico" )
+ column=(type=number updatewhereclause=yes name=stmax dbname="stmax" )
+ column=(type=number updatewhereclause=yes name=stmin dbname="stmin" )
+ column=(type=number updatewhereclause=yes name=saldoinicial dbname="saldoinicial" )
+ column=(type=number updatewhereclause=yes name=costoprominicial dbname="costoprominicial" )
+ column=(type=number updatewhereclause=yes name=costoprom dbname="costoprom" )
+ column=(type=number updatewhereclause=yes name=saldoactual dbname="saldoactual" )
+ column=(type=datetime updatewhereclause=yes name=fecha dbname="fecha" )
+ column=(type=char(4) updatewhereclause=yes name=coddocref dbname="coddocref" )
+ column=(type=char(2) updatewhereclause=yes name=clugarref dbname="clugarref" )
+ column=(type=char(50) updatewhereclause=yes name=lugar dbname="lugar" )
+ column=(type=long updatewhereclause=yes name=numdocref dbname="numdocref" )
+ column=(type=char(40) updatewhereclause=yes name=desdoc dbname="desdoc" )
+ column=(type=long updatewhereclause=yes name=entradacant dbname="entradacant" )
+ column=(type=long updatewhereclause=yes name=salidacant dbname="salidacant" )
+ column=(type=number updatewhereclause=yes name=valorunit dbname="valorunit" )
+ column=(type=long updatewhereclause=yes name=ano dbname="ano" )
+ column=(type=long updatewhereclause=yes name=mes dbname="mes" )
+ column=(type=number updatewhereclause=yes name=saldoinicial_1 dbname="saldoinicial" )
+ column=(type=number updatewhereclause=yes name=costoprominicial_2 dbname="costoprominicial" )
+ column=(type=number updatewhereclause=yes name=entradascant dbname="entradascant" )
+ column=(type=number updatewhereclause=yes name=entradasvalor dbname="entradasvalor" )
+ column=(type=number updatewhereclause=yes name=salidascant dbname="salidascant" )
+ column=(type=number updatewhereclause=yes name=salidasvalor dbname="salidasvalor" )
+ column=(type=number updatewhereclause=yes name=costoprom_3 dbname="costoprom" )
+ retrieve="SELECT SUM_KARDEX.CODALMACEN, 
+Lugar_1.Descripcion AS lugar_almacecn, 
+SUM_KARDEX.CODALMACEN, SUMALMACEN.DESCRIPCION AS ALMACEN, 
+SUM_KARDEX.CODARTICULO, SUMARTICULO.DESCRIPCION AS Comercial, 
+SUMGENERICO.descripcion AS Generico, SUM_KARDEX.STMAX, SUM_KARDEX.STMIN, 
+SUM_KARDEX.Saldoinicial, SUM_KARDEX.CostoPromInicial, SUM_KARDEX.CostoProm, 
+SUM_KARDEX.saldoactual, SUM_KARDEX_MOV.FECHA, SUM_KARDEX_MOV.CODDOCREF, 
+SUM_KARDEX_MOV.CLUGARREF, Lugar.Descripcion AS lugar, SUM_KARDEX_MOV.NUMDOCREF, 
+Documentos.DesDoc, SUM_KARDEX_MOV.ENTRADACANT, SUM_KARDEX_MOV.SALIDACANT, 
+SUM_KARDEX_MOV.VALORUNIT, SUM_KARDEX_DETA.ANO, SUM_KARDEX_DETA.MES, 
+SUM_KARDEX_DETA.Saldoinicial, SUM_KARDEX_DETA.CostoPromInicial, 
+SUM_KARDEX_DETA.EntradasCant, SUM_KARDEX_DETA.EntradasValor, 
+SUM_KARDEX_DETA.SalidasCant, SUM_KARDEX_DETA.SalidasValor, SUM_KARDEX_DETA.CostoProm
+FROM 
+((((((SUM_KARDEX LEFT outer JOIN (SUM_KARDEX_DETA LEFT outer JOIN SUM_KARDEX_MOV ON 
+(SUM_KARDEX_DETA.MES = SUM_KARDEX_MOV.MES) AND 
+(SUM_KARDEX_DETA.ANO = SUM_KARDEX_MOV.ANO) AND 
+(SUM_KARDEX_DETA.CODARTI = SUM_KARDEX_MOV.CODARTI) AND 
+(SUM_KARDEX_DETA.CODALMACEN = SUM_KARDEX_MOV.CODALMACEN)) ON 
+(SUM_KARDEX.CODARTICULO = SUM_KARDEX_DETA.CODARTI) AND 
+(SUM_KARDEX.CODALMACEN = SUM_KARDEX_DETA.CODALMACEN)) LEFT outer JOIN 
+SUMALMACEN ON SUM_KARDEX.CODALMACEN = SUMALMACEN.CODALMACEN) LEFT outer JOIN 
+SUMARTICULO ON SUM_KARDEX.CODARTICULO = SUMARTICULO.codArticulo) LEFT outer JOIN 
+SUMGENERICO ON SUMARTICULO.codgenerico = SUMGENERICO.codgenerico) LEFT outer JOIN 
+Documentos ON (SUM_KARDEX_MOV.CLUGARREF = Documentos.clugar) AND 
+(SUM_KARDEX_MOV.CODDOCREF = Documentos.CodDoc)) LEFT outer JOIN Lugar ON 
+Documentos.clugar = Lugar.CodLugar) LEFT outer JOIN Lugar AS Lugar_1 ON 
+SUMALMACEN.CODLUGAR = Lugar_1.CodLugar
+WHERE SUM_KARDEX.CODALMACEN = :codalmacen and SUM_KARDEX.CODARTICULO like :codarticulo;
+" arguments=(("codalmacen", string),("codarticulo", string))  sort="codalmacen A codarticulo A fecha A " )
+group(level=1 header.height=84 trailer.height=0 by=("codalmacen" ) header.color="536870912" trailer.color="536870912" )
+group(level=2 header.height=336 trailer.height=120 by=("codarticulo" ) header.color="536870912" trailer.color="536870912" )
+text(band=header alignment="0" text="KARDEX DETALLADO" border="0" color="8388608" x="37" y="24" height="100" width="1106"  name=t_4  font.face="Arial" font.height="-16" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+line(band=header x1="27" y1="148" x2="2638" y2="148"  name=l_1 pen.style="0" pen.width="18" pen.color="10789024"  background.mode="2" background.color="12632256" )
+line(band=header.1 x1="9" y1="76" x2="2642" y2="76"  name=l_2 pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="0" text="Almacen:" border="0" color="0" x="14" y="4" height="64" width="279"  name=t_5  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=2 alignment="0" tabsequence=32766 border="0" color="0" x="1490" y="4" height="64" width="1147" format="[general]"  name=lugar_almacecn edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="0" text="Lugar:" border="0" color="0" x="1294" y="4" height="64" width="187"  name=t_2  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=4 alignment="0" tabsequence=32766 border="0" color="0" x="302" y="4" height="64" width="978" format="[general]"  name=almacen edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.2 alignment="0" text="Comercial:" border="0" color="0" x="5" y="8" height="60" width="311"  name=codarticulo_t  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.2 alignment="0" text="Genérico:" border="0" color="0" x="5" y="92" height="60" width="315"  name=t_1  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.2 id=5 alignment="0" tabsequence=32766 border="0" color="0" x="343" y="12" height="64" width="320" format="[general]"  name=codarticulo edit.limit=15 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+column(band=header.2 id=7 alignment="0" tabsequence=32766 border="0" color="0" x="334" y="96" height="68" width="2313" format="[general]"  name=generico edit.limit=200 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+column(band=header.2 id=6 alignment="0" tabsequence=32766 border="0" color="0" x="677" y="12" height="64" width="1979" format="[general]"  name=comercial edit.limit=80 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+text(band=header.2 alignment="2" text="Fecha" border="6" color="0" x="5" y="268" height="56" width="242"  name=fecha_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.2 alignment="2" text="Documento de referencia" border="6" color="0" x="265" y="268" height="56" width="974"  name=coddocref_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.2 alignment="2" text="No Doc" border="6" color="0" x="1262" y="268" height="56" width="329"  name=numdocref_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.2 alignment="2" text="Entrada" border="6" color="0" x="1609" y="268" height="56" width="347"  name=entradacant_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.2 alignment="2" text="Salida" border="6" color="0" x="1975" y="268" height="56" width="329"  name=salidacant_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.2 alignment="2" text="Valor" border="6" color="0" x="2318" y="268" height="56" width="329"  name=valorunit_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.2 alignment="2" text="Stock max" border="0" color="0" x="0" y="180" height="56" width="293"  name=stmax_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.2 alignment="0" text="Stop min:" border="0" color="0" x="640" y="180" height="56" width="247"  name=stmin_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.2 alignment="2" text="Saldo inicial:" border="0" color="0" x="1280" y="180" height="56" width="315"  name=saldoinicial_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.2 alignment="2" text="Costo inicial:" border="0" color="0" x="1984" y="180" height="56" width="329"  name=costoprominicial_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.2 id=8 alignment="1" tabsequence=32766 border="5" color="0" x="288" y="180" height="56" width="329" format="##,##0.00"  name=stmax edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.2 id=9 alignment="1" tabsequence=32766 border="5" color="0" x="896" y="180" height="56" width="329" format="##,##0.00"  name=stmin edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.2 id=10 alignment="1" tabsequence=32766 border="5" color="0" x="1605" y="180" height="56" width="329" format="##,##0.00"  name=saldoinicial edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.2 id=11 alignment="1" tabsequence=32766 border="5" color="0" x="2322" y="180" height="56" width="329" format="##,##0.00"  name=costoprominicial edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="4" height="56" width="242" format="[shortdate]"  name=fecha edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="0" x="261" y="4" height="56" width="987" format="[general]"  name=desdoc edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="1" tabsequence=32766 border="0" color="0" x="1253" y="4" height="56" width="343" format="[general]"  name=numdocref edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="0" x="2322" y="4" height="56" width="329" format="##,##0.00"  name=valorunit edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=21 alignment="1" tabsequence=32766 border="0" color="0" x="1984" y="4" height="56" width="315" format="#,##0.00"  name=salidacant edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=20 alignment="1" tabsequence=32766 border="0" color="0" x="1609" y="4" height="56" width="357" format="[general]"  name=entradacant edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.2 x1="14" y1="8" x2="2647" y2="8"  name=l_3 pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="12632256" )
+line(band=trailer.2 x1="14" y1="108" x2="2647" y2="108"  name=l_4 pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="12632256" )
+column(band=trailer.2 id=12 alignment="1" tabsequence=32766 border="5" color="0" x="361" y="36" height="56" width="329" format="##,##0.00"  name=costoprom edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.2 id=13 alignment="1" tabsequence=32766 border="5" color="0" x="1042" y="36" height="56" width="329" format="[general]"  name=saldoactual edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="sum(entradacant for group 2)"border="5" color="0" x="1609" y="36" height="56" width="352" format="##,##0.00"  name=compute_1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="sum(salidacant for group 2)"border="5" color="0" x="1975" y="36" height="56" width="329" format="##,##0.00"  name=compute_2  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.2 alignment="0" text="Costo prom:" border="0" color="0" x="18" y="36" height="56" width="329"  name=costoprom_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.2 alignment="0" text="Saldo actual:" border="0" color="0" x="722" y="36" height="56" width="311"  name=saldoactual_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" )

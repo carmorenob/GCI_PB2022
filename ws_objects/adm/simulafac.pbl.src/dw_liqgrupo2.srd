@@ -1,0 +1,76 @@
+﻿$PBExportHeader$dw_liqgrupo2.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no grid.lines=0 )
+header(height=76 color="536870912" )
+summary(height=68 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=char(15) updatewhereclause=yes name=codservicio dbname="qxconfiguracion.codservicio" dbalias=".codservicio" )
+ column=(type=char(255) updatewhereclause=yes name=descripcion dbname="qxconfiguracion.descripcion" dbalias=".descripcion" )
+ column=(type=real updatewhereclause=yes name=valor dbname="qxconfiguracion.valor" dbalias=".valor" )
+ column=(type=long updatewhereclause=yes name=normal dbname="qxconfiguracion.normal" dbalias=".normal" )
+ column=(type=long updatewhereclause=yes name=incruento dbname="qxconfiguracion.incruento" dbalias=".incruento" )
+ column=(type=long updatewhereclause=yes name=bilateral dbname="qxconfiguracion.bilateral" dbalias=".bilateral" )
+ column=(type=long updatewhereclause=yes name=mieiv dbname="qxconfiguracion.mieiv" dbalias=".mieiv" )
+ column=(type=long updatewhereclause=yes name=miedv dbname="qxconfiguracion.miedv" dbalias=".miedv" )
+ column=(type=long updatewhereclause=yes name=mdeiv dbname="qxconfiguracion.mdeiv" dbalias=".mdeiv" )
+ column=(type=long updatewhereclause=yes name=mdedv dbname="qxconfiguracion.mdedv" dbalias=".mdedv" )
+ column=(type=char(1) updatewhereclause=yes name=esco dbname="esco" values="Si	1/Si	0" )
+ column=(type=real updatewhereclause=yes name=vunit dbname="qxconfiguracion.vunit" dbalias=".vunit" )
+ column=(type=char(1) updatewhereclause=yes name=obligatorio dbname="qxconfiguracion.obligatorio" dbalias=".obligatorio" )
+ column=(type=char(2) updatewhereclause=yes name=codigocobro dbname="qxconfiguracion.CodigoCobro" dbalias=".CodigoCobro" )
+ column=(type=char(1) updatewhereclause=yes name=esincruento dbname="qxconfiguracion.esincruento" dbalias=".esincruento" )
+ column=(type=char(1) updatewhereclause=yes name=esbilateral dbname="qxconfiguracion.esBilateral" dbalias=".esBilateral" )
+ column=(type=char(1) updatewhereclause=yes name=sexo dbname="qxconfiguracion.Sexo" dbalias=".Sexo" )
+ column=(type=char(1) updatewhereclause=yes name=configurado dbname="configurado" )
+ retrieve="SELECT serviciosman.codservicio, serviciosman.descripcion, serviciosman.valor, liqgrupo.normal, liqgrupo.incruento, 
+liqgrupo.bilateral, liqgrupo.mieiv, liqgrupo.miedv, liqgrupo.mdeiv, liqgrupo.mdedv, '0' AS esco, 
+serviciosman.valor AS vunit, qxconfiguradetalle.obligatorio, qxconfiguradetalle.CodigoCobro, 
+QxConfiguracion.Incruento AS esincruento, QxConfiguracion.Bilateral AS esBilateral, QxConfiguracion.Sexo , 'C' as configurado
+FROM ((liqgrupo LEFT outer JOIN serviciosman ON (liqgrupo.CodManual = serviciosman.CodManual) 
+AND (liqgrupo.Codservicio = serviciosman.codservicio)) 
+LEFT outer JOIN qxconfiguradetalle ON (serviciosman.codservicio = qxconfiguradetalle.proced_hijo) 
+AND (serviciosman.CodManual = qxconfiguradetalle.CodManual)) 
+LEFT outer JOIN QxConfiguracion ON (qxconfiguradetalle.Proced = QxConfiguracion.Proced) 
+AND (qxconfiguradetalle.CTLQX = QxConfiguracion.CTLQX) AND (qxconfiguradetalle.CodManual = QxConfiguracion.CodManual)
+WHERE (((liqgrupo.Grupo)=:grupo) AND ((liqgrupo.CodManual)=:manual) AND ((qxconfiguradetalle.Proced)=:cproced))
+and serviciosman.codservicio Is Not Null
+union 
+SELECT serviciosman.codservicio, serviciosman.descripcion, serviciosman.valor, liqgrupo.normal, 
+liqgrupo.incruento, liqgrupo.bilateral, liqgrupo.mieiv, liqgrupo.miedv, liqgrupo.mdeiv, liqgrupo.mdedv, 
+'0' AS esco, serviciosman.valor AS vunit, '0' AS obligatorio ,liqgrupo.CodCobro , '0' as esincruento , 
+'0' as esbilateral , 'A' as sexo, '' as configurado
+FROM liqgrupo 
+LEFT outer JOIN serviciosman ON (liqgrupo.Codservicio = serviciosman.codservicio) 
+AND (liqgrupo.CodManual = serviciosman.CodManual)
+WHERE (((liqgrupo.CodManual)=:manual) AND ((liqgrupo.Grupo)=:grupo))
+order by 1, 13 desc , 14 desc" arguments=(("manual", string),("grupo", string),("cproced", string))  sort="codservicio A obligatorio D codigocobro D " )
+group(level=1 header.height=0 trailer.height=0 by=("codservicio" ) header.color="536870912" trailer.color="536870912" )
+button(band=header text="Cobrar" filename="" enabled=yes action="0" border="0" color="0" x="5" y="4" height="68" width="229" vtextalign="0" htextalign="0"  name=b_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+text(band=header alignment="2" text="Código" border="6" color="0" x="242" y="8" height="56" width="219" html.valueishtml="0"  name=t_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Descripción Procedimiento" border="6" color="0" x="471" y="8" height="56" width="1513" html.valueishtml="0"  name=serviciosman_descripcion_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Valor" border="6" color="0" x="1993" y="8" height="56" width="315" html.valueishtml="0"  name=t_2 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Oblig." border="6" color="0" x="2318" y="8" height="56" width="155" html.valueishtml="0"  name=t_4 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=11 alignment="0" tabsequence=10 border="0" color="0" x="9" y="4" height="56" width="224" format="[general]" html.valueishtml="0" protect="0~tif (obligatorio='1' or ( sum( long( codigocobro ) for all )<>0 and  codigocobro ='0' ) , 1,0)"  name=esco visible="1" checkbox.text="Si" checkbox.on="1" checkbox.off="0" checkbox.scale=no checkbox.threed=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tif ( sum( long( codigocobro ) for all )<>0 and  codigocobro ='0'  ,  rgb(192,192,192),
+if(esco='1' and obligatorio='1', rgb(220,192,192),if( esco='1',rgb(255,192,192),rgb(255,255,255))))" )
+compute(band=detail alignment="2" expression="if ( obligatorio = '1','Si','No')"border="0" color="0" x="2318" y="4" height="56" width="155" format="[GENERAL]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="16777215~tif ( sum( long( codigocobro ) for all )<>0 and  codigocobro ='0'  ,  rgb(192,192,192),
+if( obligatorio='1',rgb(220,192,192), rgb(220,240,220)))" )
+column(band=detail id=1 alignment="0" tabsequence=20 border="0" color="0" x="242" y="4" height="56" width="219" format="[general]" html.valueishtml="0"  name=codservicio visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tif ( sum( long( codigocobro ) for all )<>0 and  codigocobro ='0'  ,  rgb(192,192,192),
+if(esco='1' and obligatorio='1', rgb(220,192,192),if( esco='1',rgb(255,192,192),rgb(255,255,255))))" )
+column(band=detail id=2 alignment="0" tabsequence=30 border="0" color="0" x="471" y="4" height="56" width="1513" format="[general]" html.valueishtml="0"  name=descripcion visible="1" edit.limit=250 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tif ( sum( long( codigocobro ) for all )<>0 and  codigocobro ='0'  ,  rgb(192,192,192),
+if(esco='1' and obligatorio='1', rgb(220,192,192),if( esco='1',rgb(255,192,192),rgb(255,255,255))))" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="1993" y="4" height="56" width="315" format="#,##0.00" html.valueishtml="0"  name=valor visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tif ( sum( long( codigocobro ) for all )<>0 and  codigocobro ='0'  ,  rgb(192,192,192),
+if(esco='1' and obligatorio='1', rgb(220,192,192),if( esco='1',rgb(255,192,192),rgb(255,255,255))))" )
+compute(band=summary alignment="1" expression="sum(if(esco='1',valor,0) for all)"border="0" color="0" x="1993" y="8" height="56" width="315" format="#,##0.00" html.valueishtml="0"  name=vtotal visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=summary alignment="1" text="TOTAL:       " border="0" color="0" x="471" y="8" height="52" width="1513" html.valueishtml="0"  name=t_3 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

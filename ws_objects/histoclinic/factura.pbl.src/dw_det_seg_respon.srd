@@ -1,0 +1,105 @@
+﻿$PBExportHeader$dw_det_seg_respon.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=1 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=cplan dbname="contratodet.cplan" )
+ column=(type=char(1) updatewhereclause=yes name=tipo dbname="contratodet.tipo" )
+ column=(type=long updatewhereclause=yes name=prioridad dbname="contratodet.prioridad" )
+ column=(type=char(1) updatewhereclause=yes name=copago dbname="contratodet.copago" )
+ column=(type=char(1) updatewhereclause=yes name=cuotamode dbname="contratodet.cuotamode" )
+ column=(type=char(1) updatewhereclause=yes name=cuotarecu dbname="contratodet.cuotarecu" )
+ column=(type=char(1) updatewhereclause=yes name=sexo dbname="grupoetareo.sexo" )
+ column=(type=char(1) updatewhereclause=yes name=tipoafil dbname="contratodet.tipoafil" )
+ column=(type=char(1) updatewhereclause=yes name=pagopart dbname="contratodet.pagopart" )
+ column=(type=char(2) updatewhereclause=yes name=codmanual dbname="contratodet.codmanual" )
+ column=(type=number updatewhereclause=yes name=pormanual dbname="contratodet.pormanual" )
+ column=(type=char(1) updatewhereclause=yes name=confirma dbname="contratoge.confirma" )
+ column=(type=char(50) updatewhereclause=yes name=desgetareo dbname="grupoetareo.desgetareo" )
+ column=(type=number updatewhereclause=yes name=cmval dbname="contratoestcm.cmval" )
+ column=(type=long updatewhereclause=yes name=cm_minimopor dbname="contratoestcm.cm_minimopor" )
+ column=(type=long updatewhereclause=yes name=cm_maximopor dbname="contratoestcm.cm_maximopor" )
+ column=(type=number updatewhereclause=yes name=cuotarecval dbname="contratoestcr.cuotarecval" )
+ column=(type=long updatewhereclause=yes name=cr_minimopor dbname="contratoestcr.cr_minimopor" )
+ column=(type=long updatewhereclause=yes name=cr_maximopor dbname="contratoestcr.cr_maximopor" )
+ column=(type=number updatewhereclause=yes name=copagoval dbname="contratoestc.copagoval" )
+ column=(type=long updatewhereclause=yes name=co_minimopor dbname="contratoestc.co_minimopor" )
+ column=(type=long updatewhereclause=yes name=co_maximopor dbname="contratoestc.co_maximopor" )
+ column=(type=char(1) updatewhereclause=yes name=ta_paga dbname="contratota.ta_paga" )
+ column=(type=real updatewhereclause=yes name=ta_valor dbname="contratota.ta_valor" )
+ column=(type=real updatewhereclause=yes name=ta_pormin dbname="contratota.ta_pormin" )
+ column=(type=real updatewhereclause=yes name=ta_pormaximo dbname="contratota.ta_pormaximo" )
+ column=(type=number updatewhereclause=yes name=tope dbname="contratotest.tope" )
+ retrieve="SELECT ContratoDet.Cplan, ContratoDet.Tipo, ContratoDet.Prioridad, ContratoDet.Copago, 
+ContratoDet.CuotaMode, ContratoDet.CuotaRecu, GrupoEtareo.Sexo, ContratoDet.tipoafil, 
+ContratoDet.PagoPart, ContratoDet.CodManual, ContratoDet.PorManual, ContratoGE.Confirma, 
+GrupoEtareo.DesGEtareo, ContratoEstCM.CMVal, ContratoEstCM.MinimoPor AS cm_MinimoPor, 
+ContratoEstCM.MaximoPor AS cm_MaximoPor, ContratoEstCR.CuotaRecVal, ContratoEstCR.MinimoPor 
+AS cr_MinimoPor, ContratoEstCR.MaximoPor AS cr_MaximoPor, ContratoEstC.CopagoVal, 
+ContratoEstC.MinimoPor AS co_MinimoPor, ContratoEstC.MaximoPor AS co_MaximoPor, 
+ContratoTA.paga AS ta_paga, ContratoTA.valor AS ta_valor, ContratoTA.pormin AS ta_pormin, 
+ContratoTA.pormaximo AS ta_pormaximo, ContratoTEst.Tope
+FROM (Planes INNER JOIN (((((ContratoDet LEFT outer JOIN ContratoEstC ON (ContratoDet.Tipo = 
+ContratoEstC.Tipo) AND (ContratoDet.CodTIngre = ContratoEstC.CodTIngre) AND 
+(ContratoDet.Cplan = ContratoEstC.Cplan) AND (ContratoDet.CContrato = 
+ContratoEstC.CContrato) AND (ContratoDet.CEmp = ContratoEstC.CEmp)) 
+LEFT outer JOIN ContratoEstCM ON (ContratoDet.Tipo = ContratoEstCM.Tipo) AND 
+(ContratoDet.CodTIngre = ContratoEstCM.CodTIngre) AND (ContratoDet.Cplan = 
+ContratoEstCM.Cplan) AND (ContratoDet.CContrato = ContratoEstCM.CContrato) AND 
+(ContratoDet.CEmp = ContratoEstCM.CEmp)) LEFT outer JOIN ContratoEstCR ON (ContratoDet.Tipo = 
+ContratoEstCR.Tipo) AND (ContratoDet.CodTIngre = ContratoEstCR.CodTIngre) AND 
+(ContratoDet.Cplan = ContratoEstCR.Cplan) AND (ContratoDet.CContrato = 
+ContratoEstCR.CContrato) AND (ContratoDet.CEmp = ContratoEstCR.CEmp)) LEFT outer JOIN (ContratoGE 
+LEFT outer JOIN GrupoEtareo ON ContratoGE.GEtareo = GrupoEtareo.CodGEtareo) ON 
+(ContratoDet.Tipo = ContratoGE.Tipo) AND (ContratoDet.CodTIngre = ContratoGE.CodTIngre) 
+AND (ContratoDet.Cplan = ContratoGE.Cplan) AND (ContratoDet.CContrato = ContratoGE.CContrato)
+AND (ContratoDet.CEmp = ContratoGE.CEmp)) LEFT outer JOIN ContratoTA ON (ContratoDet.Tipo = 
+ContratoTA.Tipo) AND (ContratoDet.CodTIngre = ContratoTA.CodTIngre) AND (ContratoDet.Cplan = 
+ContratoTA.Cplan) AND (ContratoDet.CContrato = ContratoTA.CContrato) AND (ContratoDet.CEmp = 
+ContratoTA.CEmp)) ON Planes.CodPlan = ContratoDet.Cplan) LEFT outer JOIN ContratoTEst ON 
+(ContratoDet.CContrato = ContratoTEst.CContrato) AND (ContratoDet.CEmp = ContratoTEst.CEmp)
+WHERE (((ContratoTEst.CEstrato) Is Null Or (ContratoTEst.CEstrato)=:estrato) AND 
+((ContratoDet.CEmp)=:emp) AND ((ContratoDet.CContrato)=:cont) AND 
+((ContratoDet.CodTIngre)=:tingres) AND ((Planes.es_medica)=:es_medica) 
+AND ((GrupoEtareo.EdMax) Is Null Or (GrupoEtareo.EdMax)<=:edad) AND ((GrupoEtareo.EdMin) 
+Is Null Or (GrupoEtareo.EdMin)>=:edad) AND ((ContratoTA.TAfil) Is Null Or 
+(ContratoTA.TAfil)=:tafil) AND ((ContratoEstCM.CEstrato) Is Null Or 
+(ContratoEstCM.CEstrato)=:estrato) AND ((ContratoEstCR.CEstrato) Is Null Or 
+(ContratoEstCR.CEstrato)=:estrato) AND ((ContratoTA.CEstrato) Is Null Or 
+(ContratoTA.CEstrato)=:estrato) AND ((ContratoEstC.CEstrato) Is Null Or 
+(ContratoEstC.CEstrato)=:estrato))
+ORDER BY ContratoDet.Prioridad
+
+" arguments=(("emp", string),("cont", string),("tingres", string),("es_medica", string),("edad", number),("tafil", string),("estrato", string)) )
+text(band=header alignment="0" text="Grupoetareo Desgetareo" border="0" color="33554432" x="8119" y="4" height="64" width="1339" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Contratotest Tope" border="0" color="0" x="9467" y="4" height="76" width="293" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="9" y="8" height="76" width="306" format="[general]" html.valueishtml="0"  name=cplan visible="1" edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="33554432" x="325" y="8" height="76" width="306" format="[general]" html.valueishtml="0"  name=copago visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="33554432" x="640" y="8" height="76" width="306" format="[general]" html.valueishtml="0"  name=cuotamode visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="33554432" x="955" y="8" height="76" width="306" format="[general]" html.valueishtml="0"  name=cuotarecu visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="33554432" x="1271" y="8" height="76" width="306" format="[general]" html.valueishtml="0"  name=tipoafil visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="33554432" x="1586" y="8" height="76" width="306" format="[general]" html.valueishtml="0"  name=pagopart visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="0" color="33554432" x="1902" y="8" height="76" width="329" format="[general]" html.valueishtml="0"  name=pormanual visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="2240" y="0" height="64" width="178" format="[general]" html.valueishtml="0"  name=tipo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="33554432" x="2427" y="0" height="64" width="265" format="[general]" html.valueishtml="0"  name=prioridad visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="33554432" x="2702" y="0" height="64" width="128" format="[general]" html.valueishtml="0"  name=sexo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="33554432" x="2839" y="0" height="64" width="169" format="[general]" html.valueishtml="0"  name=codmanual visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="33554432" x="3017" y="0" height="64" width="219" format="[general]" html.valueishtml="0"  name=confirma visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="33554432" x="3246" y="0" height="64" width="384" format="[general]" html.valueishtml="0"  name=cmval visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="33554432" x="3639" y="0" height="64" width="411" format="[general]" html.valueishtml="0"  name=cm_minimopor visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="33554432" x="4059" y="0" height="64" width="489" format="[general]" html.valueishtml="0"  name=cm_maximopor visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="33554432" x="4558" y="0" height="64" width="343" format="[general]" html.valueishtml="0"  name=cuotarecval visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="4910" y="0" height="64" width="343" format="[general]" html.valueishtml="0"  name=cr_minimopor visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="33554432" x="5262" y="0" height="64" width="407" format="[general]" html.valueishtml="0"  name=cr_maximopor visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=20 alignment="0" tabsequence=32766 border="0" color="33554432" x="5678" y="0" height="64" width="288" format="[general]" html.valueishtml="0"  name=copagoval visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+column(band=detail id=21 alignment="0" tabsequence=32766 border="0" color="33554432" x="5975" y="0" height="64" width="379" format="[general]" html.valueishtml="0"  name=co_minimopor visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+column(band=detail id=22 alignment="0" tabsequence=32766 border="0" color="33554432" x="6363" y="0" height="64" width="398" format="[general]" html.valueishtml="0"  name=co_maximopor visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+column(band=detail id=23 alignment="0" tabsequence=32766 border="0" color="33554432" x="6770" y="0" height="64" width="293" format="[general]" html.valueishtml="0"  name=ta_paga visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" )
+column(band=detail id=24 alignment="0" tabsequence=32766 border="0" color="33554432" x="7072" y="0" height="64" width="274" format="[general]" html.valueishtml="0"  name=ta_valor visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" )
+column(band=detail id=25 alignment="0" tabsequence=32766 border="0" color="33554432" x="7355" y="0" height="64" width="338" format="[general]" html.valueishtml="0"  name=ta_pormin visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" )
+column(band=detail id=26 alignment="0" tabsequence=32766 border="0" color="33554432" x="7703" y="0" height="64" width="407" format="[general]" html.valueishtml="0"  name=ta_pormaximo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="33554432" x="8119" y="0" height="64" width="1339" format="[general]" html.valueishtml="0"  name=desgetareo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=27 alignment="0" tabsequence=32766 border="0" color="33554432" x="9467" y="0" height="64" width="293" format="[general]" html.valueishtml="0"  name=tope visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

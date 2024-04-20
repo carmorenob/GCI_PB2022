@@ -1,0 +1,48 @@
+﻿$PBExportHeader$f_quita_espacio_rips.srf
+global type f_quita_espacio_rips from function_object
+end type
+
+forward prototypes
+global function integer f_quita_espacio_rips (string archivo)
+end prototypes
+
+global function integer f_quita_espacio_rips (string archivo);long narchivo,tamanyo,tam2,i=1
+string todo
+tamanyo = FileLength(archivo)
+tam2=tamanyo -1
+narchivo = fileopen(archivo,textMode!)
+if narchivo= -1 then 
+	if w_rias.is_decual='emp' then
+		messagebox("Error","No se pudo abrir el archivo "+archivo +' para quitarle el ultimo espacio, debe quitarselo manualmente')
+	else
+		filewrite(w_rias.i_numarc,"Error No se pudo abrir el archivo "+archivo +' para quitarle el ultimo espacio, debe quitarselo manualmente')
+	end if
+	return -1
+else
+	todo = ""
+
+	filereadex(narchivo,todo)
+
+	todo=left(todo,len(todo)-2)
+	fileclose(narchivo)
+	narchivo = fileopen(archivo,textMode!,write!,LockReadWrite! ,replace!)
+	if filewriteex(narchivo,todo)=-1 then
+		if w_rias.is_decual='emp' then
+			messagebox("Error","No se pudo escribir en el archivo "+archivo +' para quitarle el ultimo espacio, debe quitarselo manualmente')
+		else
+			filewrite(w_rias.i_numarc,"Error No se pudo escribir en el archivo "+archivo +' para quitarle el ultimo espacio, debe quitarselo manualmente')
+		end if
+		return -1
+	end if
+	if fileclose(narchivo)=-1 then
+		if w_rias.is_decual='emp' then
+			messagebox("Error","No se pudo cerrar el archivo "+archivo +' para quitarle el ultimo espacio, debe quitarselo manualmente')
+		else
+			filewrite(w_rias.i_numarc,"Error No se pudo cerrar el archivo "+archivo +' para quitarle el ultimo espacio, debe quitarselo manualmente')
+		end if
+		return -1
+	end if
+end if
+return 1
+end function
+

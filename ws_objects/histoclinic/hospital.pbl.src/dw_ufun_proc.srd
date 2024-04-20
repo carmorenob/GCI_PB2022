@@ -1,0 +1,38 @@
+﻿$PBExportHeader$dw_ufun_proc.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no grid.lines=0 )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=char(255) updatewhereclause=yes name=coduf dbname="ccproced.coduf" )
+ column=(type=char(255) updatewhereclause=yes name=desufuncional dbname="ufuncional.desufuncional" )
+ retrieve="SELECT ccproced.CodUF, ufuncional.DesUFuncional
+FROM ufuncional INNER JOIN (centrocostos INNER JOIN (((ccgrupo INNER JOIN ccsubgrupo ON (ccgrupo.Cd_Grupo = ccsubgrupo.Cd_Grupo) AND (ccgrupo.CodCC = ccsubgrupo.CodCC) AND (ccgrupo.CodUF = ccsubgrupo.CodUF)) INNER JOIN cccate ON (ccsubgrupo.Cd_SubGrupo = cccate.Cd_SubGrupo) AND (ccsubgrupo.Cd_Grupo = cccate.Cd_Grupo) AND (ccsubgrupo.CodCC = cccate.CodCC) AND (ccsubgrupo.CodUF = cccate.CodUF)) INNER JOIN ccproced ON (cccate.Cd_Categoria = ccproced.Cd_Categoria) AND (cccate.Cd_SubGrupo = ccproced.Cd_SubGrupo) AND (cccate.Cd_Grupo = ccproced.Cd_Grupo) AND (cccate.CodCC = ccproced.CodCC) AND (cccate.CodUF = ccproced.CodUF)) ON (centrocostos.CodCC = ccproced.CodCC) AND (centrocostos.CodUF = ccproced.CodUF)) ON ufuncional.CodUF = centrocostos.CodUF
+WHERE (((ccgrupo.Indicador)='2') AND ((ccsubgrupo.Indicador)='2') AND ((cccate.Indicador)='2') AND ((ccproced.CodProced)=:cproc) AND ((centrocostos.codtingre) Is Null Or (centrocostos.codtingre)=:tipoingres))
+and centrocostos.estado='1'
+union
+
+SELECT cccate.CodUF, ufuncional.DesUFuncional
+FROM Proced INNER JOIN ((ufuncional INNER JOIN centrocostos ON ufuncional.CodUF = centrocostos.CodUF) INNER JOIN ((ccgrupo INNER JOIN ccsubgrupo ON (ccgrupo.Cd_Grupo = ccsubgrupo.Cd_Grupo) AND (ccgrupo.CodCC = ccsubgrupo.CodCC) AND (ccgrupo.CodUF = ccsubgrupo.CodUF)) INNER JOIN cccate ON (ccsubgrupo.Cd_SubGrupo = cccate.Cd_SubGrupo) AND (ccsubgrupo.Cd_Grupo = cccate.Cd_Grupo) AND (ccsubgrupo.CodCC = cccate.CodCC) AND (ccsubgrupo.CodUF = cccate.CodUF)) ON (centrocostos.CodCC = cccate.CodCC) AND (centrocostos.CodUF = cccate.CodUF)) ON (Proced.Cd_Categoria = cccate.Cd_Categoria) AND (Proced.Cd_SubGrupo = cccate.Cd_SubGrupo) AND (Proced.Cd_Grupo = cccate.Cd_Grupo)
+WHERE (((ccgrupo.Indicador)='2') AND ((ccsubgrupo.Indicador)='2') AND ((cccate.Indicador)='1') AND ((centrocostos.codtingre) Is Null Or (centrocostos.codtingre)=:tipoingres) AND ((Proced.CodProced)=:cproc))
+and centrocostos.estado='1'
+union
+
+SELECT ccsubgrupo.CodUF, ufuncional.DesUFuncional
+FROM Proced INNER JOIN (ufuncional INNER JOIN (centrocostos INNER JOIN (ccgrupo INNER JOIN ccsubgrupo ON (ccgrupo.Cd_Grupo = ccsubgrupo.Cd_Grupo) AND (ccgrupo.CodCC = ccsubgrupo.CodCC) AND (ccgrupo.CodUF = ccsubgrupo.CodUF)) ON (centrocostos.CodCC = ccsubgrupo.CodCC) AND (centrocostos.CodUF = ccsubgrupo.CodUF)) ON ufuncional.CodUF = centrocostos.CodUF) ON (Proced.Cd_SubGrupo = ccsubgrupo.Cd_SubGrupo) AND (Proced.Cd_Grupo = ccsubgrupo.Cd_Grupo)
+WHERE (((ccgrupo.Indicador)='2') AND ((ccsubgrupo.Indicador)='1') AND ((centrocostos.codtingre) Is Null Or (centrocostos.codtingre)=:tipoingres) AND ((Proced.CodProced)=:cproc))
+and centrocostos.estado='1'
+union
+
+SELECT ccgrupo.CodUF, ufuncional.DesUFuncional
+FROM Proced INNER JOIN (ufuncional INNER JOIN (centrocostos INNER JOIN ccgrupo ON (centrocostos.CodCC = ccgrupo.CodCC) AND (centrocostos.CodUF = ccgrupo.CodUF)) ON ufuncional.CodUF = centrocostos.CodUF) ON Proced.Cd_Grupo = ccgrupo.Cd_Grupo
+WHERE (((ccgrupo.Indicador)='1') AND ((centrocostos.codtingre) Is Null Or (centrocostos.codtingre)=:tipoingres) AND ((Proced.CodProced)=:cproc))
+and centrocostos.estado='1'
+
+" arguments=(("cproc", string),("tipoingres", string)) )
+column(band=detail id=2 alignment="0" tabsequence=10 border="0" color="0" x="9" y="4" height="56" width="1033" format="[general]" html.valueishtml="0"  name=desufuncional visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0 edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

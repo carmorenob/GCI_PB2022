@@ -1,0 +1,71 @@
+﻿$PBExportHeader$m_gendw.srm
+forward
+global type m_gendw from menu
+end type
+type m_insertarfila from menu within m_gendw
+end type
+type m_borrarfila from menu within m_gendw
+end type
+global type m_gendw from menu
+m_insertarfila m_insertarfila
+m_borrarfila m_borrarfila
+end type
+end forward
+
+global type m_gendw from menu
+m_insertarfila m_insertarfila
+m_borrarfila m_borrarfila
+end type
+global m_gendw m_gendw
+
+type variables
+datawindow dw_obj
+end variables
+
+on m_gendw.create
+m_gendw=this
+call super::create
+this.text = "m_gendw"
+this.m_insertarfila=create m_insertarfila
+this.m_borrarfila=create m_borrarfila
+this.Item[UpperBound(this.Item)+1]=this.m_insertarfila
+this.Item[UpperBound(this.Item)+1]=this.m_borrarfila
+end on
+
+on m_gendw.destroy
+call super::destroy
+destroy(this.m_insertarfila)
+destroy(this.m_borrarfila)
+end on
+
+type m_insertarfila from menu within m_gendw
+end type
+
+on m_insertarfila.create
+call super::create
+this.text = "Insertar Fila"
+end on
+
+on m_insertarfila.destroy
+call super::destroy
+end on
+
+event clicked;dw_obj.TriggerEvent(doubleclicked!)
+end event
+
+type m_borrarfila from menu within m_gendw
+end type
+
+on m_borrarfila.create
+call super::create
+this.text = "Borrar Fila"
+end on
+
+on m_borrarfila.destroy
+call super::destroy
+end on
+
+event clicked;dw_obj.DeleteRow(dw_obj.GetRow())
+
+end event
+

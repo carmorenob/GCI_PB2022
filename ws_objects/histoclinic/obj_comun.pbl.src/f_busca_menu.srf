@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_busca_menu.srf
+global type f_busca_menu from function_object
+end type
+
+forward prototypes
+global function menu f_busca_menu (menu p_menu, string p_nom_menu)
+end prototypes
+
+global function menu f_busca_menu (menu p_menu, string p_nom_menu);if p_menu.classname()=p_nom_menu then
+	return p_menu
+else
+	menu tt
+	setnull(tt)
+	if upperbound(p_menu.item[])>0 then
+		long j
+		for j=1 to upperbound(p_menu.item[])
+			tt=f_busca_menu(p_menu.item[j],p_nom_menu)
+			if not isnull(tt) then exit
+		next
+	end if
+	return tt
+end if
+end function
+

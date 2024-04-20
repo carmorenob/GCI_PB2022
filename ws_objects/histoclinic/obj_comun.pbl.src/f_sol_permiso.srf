@@ -1,0 +1,36 @@
+﻿$PBExportHeader$f_sol_permiso.srf
+global type f_sol_permiso from function_object
+end type
+
+forward prototypes
+global function integer f_sol_permiso (picturebutton p_boton, string p_cod_vent)
+end prototypes
+
+global function integer f_sol_permiso (picturebutton p_boton, string p_cod_vent);//se utiliza en lo administrativo
+string cod_obj
+st_usuarios st_u
+
+cod_obj=p_boton.classname()
+uo_datastore ds_boton
+ds_boton=create uo_datastore
+ds_boton.dataobject='dw_permi_obj'
+ds_boton.settransobject(sqlca)
+if ds_boton.retrieve(p_cod_vent,cod_obj,usuario) > 0 then return 1
+
+st_u.usuario=usuario
+openwithparm(w_conecta_evol,st_u)
+st_ordenes st_p
+st_p = Message.PowerObjectParm
+if st_p.cprof= '!' then return 0
+if st_p.cesp= '!' then return 0
+if st_p.clugar= '!' then return 0
+if st_p.usu= '!' then return 0
+
+if ds_boton.retrieve(p_cod_vent,cod_obj, st_p.usu)=0 then 
+		messagebox("Atención",'Este Usuario tampoco tiene permiso para este botón')
+		return 0
+end if
+return 1
+
+end function
+

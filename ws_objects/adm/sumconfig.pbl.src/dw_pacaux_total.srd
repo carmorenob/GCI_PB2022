@@ -1,0 +1,72 @@
+﻿$PBExportHeader$dw_pacaux_total.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no grid.lines=0 )
+header(height=80 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=char(15) update=yes updatewhereclause=yes name=codalmacen dbname="sumgenerico.codalmacen" )
+ column=(type=long update=yes updatewhereclause=yes name=ano dbname="sumgenerico.ano" )
+ column=(type=long update=yes updatewhereclause=yes name=item dbname="sumgenerico.item" )
+ column=(type=char(15) update=yes updatewhereclause=yes key=yes name=codgenerico dbname="sumgenerico.codgenerico" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha dbname="sumgenerico.fecha" )
+ column=(type=long update=yes updatewhereclause=yes name=mes dbname="sumgenerico.mes" )
+ column=(type=long update=yes updatewhereclause=yes name=planeado dbname="sumgenerico.planeado" )
+ column=(type=long update=yes updatewhereclause=yes name=consumo dbname="sumgenerico.consumo" )
+ column=(type=char(200) update=yes updatewhereclause=yes name=descripcion dbname="sumgenerico.descripcion" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=estado dbname="sumgenerico.estado" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=codgenerico_rem dbname="sumgenerico.codgenerico_rem" )
+ retrieve="  SELECT sumpaccpo.codalmacen,   
+         sumpaccpo.ano,   
+         sumpaccpo.item,   
+         sumpaccpo.codgenerico,   
+         sumpaccpo.fecha,   
+         sumpaccpo.mes,   
+         sumpaccpo.planeado,   
+         sumpaccpo.consumo,   
+         sumgenerico.descripcion,   
+         sumpaccpo.estado,   
+         sumpaccpo.codgenerico_rem  
+FROM 
+	(SUMPACCAB INNER JOIN sumpaccpo ON (SUMPACCAB.ITEM = sumpaccpo.ITEM) AND (SUMPACCAB.ANO = sumpaccpo.ANO) AND 
+	(SUMPACCAB.CODALMACEN = sumpaccpo.CODALMACEN)) INNER JOIN sumgenerico ON sumpaccpo.codgenerico = sumgenerico.codgenerico
+WHERE 
+	(((SUMPACCAB.codalmacen)=:codalmacen) AND ((SUMPACCAB.ano)=:ano) AND ((SUMPACCAB.estado)<>'N'))
+ 	and ( sumpaccpo.codgenerico like :codgenerico ) 
+ORDER BY 
+	SUMPACCAB.ano DESC , 
+	sumpaccpo.item DESC , 
+sumgenerico.descripcion ASC" update="sumgenerico" updatewhere=1 updatekeyinplace=no arguments=(("codalmacen", string),("ano", number),("codgenerico", string)) )
+text(band=header alignment="2" text="Codalmacen" border="0" color="33554432" x="14" y="8" height="64" width="439" html.valueishtml="0"  name=codalmacen_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Ano" border="0" color="33554432" x="466" y="8" height="64" width="329" html.valueishtml="0"  name=ano_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Item" border="0" color="33554432" x="809" y="8" height="64" width="329" html.valueishtml="0"  name=item_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Codgenerico" border="0" color="33554432" x="1152" y="8" height="64" width="439" html.valueishtml="0"  name=codgenerico_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Fecha" border="0" color="33554432" x="1605" y="8" height="64" width="603" html.valueishtml="0"  name=fecha_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Mes" border="0" color="33554432" x="2222" y="8" height="64" width="329" html.valueishtml="0"  name=mes_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Planeado" border="0" color="33554432" x="2565" y="8" height="64" width="329" html.valueishtml="0"  name=planeado_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Consumo" border="0" color="33554432" x="2907" y="8" height="64" width="329" html.valueishtml="0"  name=consumo_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Descripcion" border="0" color="33554432" x="3250" y="8" height="64" width="4389" html.valueishtml="0"  name=descripcion_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Estado" border="0" color="33554432" x="7653" y="8" height="64" width="187" html.valueishtml="0"  name=estado_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Codgenerico Rem" border="0" color="33554432" x="7854" y="8" height="64" width="471" html.valueishtml="0"  name=codgenerico_rem_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="33554432" x="14" y="8" height="76" width="439" format="[general]" html.valueishtml="0"  name=codalmacen visible="1" edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=20 border="0" color="33554432" x="466" y="8" height="76" width="329" format="[general]" html.valueishtml="0"  name=ano visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=30 border="0" color="33554432" x="809" y="8" height="76" width="329" format="[general]" html.valueishtml="0"  name=item visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="33554432" x="1152" y="8" height="76" width="439" format="[general]" html.valueishtml="0"  name=codgenerico visible="1" edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=50 border="0" color="33554432" x="1605" y="8" height="76" width="603" format="[shortdate] [time]" html.valueishtml="0"  name=fecha visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=60 border="0" color="33554432" x="2222" y="8" height="76" width="329" format="[general]" html.valueishtml="0"  name=mes visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=70 border="0" color="33554432" x="2565" y="8" height="76" width="329" format="[general]" html.valueishtml="0"  name=planeado visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=80 border="0" color="33554432" x="2907" y="8" height="76" width="329" format="[general]" html.valueishtml="0"  name=consumo visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=90 border="0" color="33554432" x="3250" y="8" height="76" width="4389" format="[general]" html.valueishtml="0"  name=descripcion visible="1" edit.limit=200 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=100 border="0" color="33554432" x="7653" y="8" height="76" width="187" format="[general]" html.valueishtml="0"  name=estado visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=110 border="0" color="33554432" x="7854" y="8" height="76" width="471" format="[general]" html.valueishtml="0"  name=codgenerico_rem visible="1" edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

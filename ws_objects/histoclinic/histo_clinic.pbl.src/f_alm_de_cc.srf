@@ -1,0 +1,34 @@
+﻿$PBExportHeader$f_alm_de_cc.srf
+global type f_alm_de_cc from function_object
+end type
+
+forward prototypes
+global function string f_alm_de_cc (string p_uf, string p_cc)
+end prototypes
+
+global function string f_alm_de_cc (string p_uf, string p_cc);long cuantos
+string alm
+select count(*) into :cuantos from sumalmacen where codufun=:p_uf and codcencosto=:p_cc and codlugar=:clugar;
+if sqlca.sqlcode=-1 then
+	messagebox('Error leyendo sumalmacen',sqlca.sqlerrtext)
+	return ''
+end if
+if cuantos=0 then
+	messagebox('Atención','No hay almacenes para el centro de costo '+p_uf+'-'+p_cc)
+	return ''
+end if
+if cuantos=1 then 
+	select codalmacen into :alm from sumalmacen where codufun=:p_uf and codcencosto=:p_cc and codlugar=:clugar;
+	if sqlca.sqlcode=-1 then
+		messagebox('Error leyendo sumalmacen',sqlca.sqlerrtext)
+		return ''
+	end if
+	return alm
+end if
+st_uf_cc st
+st.coduf=p_uf
+st.codcc=p_cc
+openwithparm(w_elige_alma,st)
+return message.stringparm
+end function
+

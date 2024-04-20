@@ -1,0 +1,14 @@
+﻿$PBExportHeader$st_hosposd.srs
+global type st_hosposd from structure
+	string		cproc
+	long		norden
+	long		nitem
+	long		nhosp
+	string		clugar_hadm
+	long		facturar
+	long		conta_os
+	string		clug_os
+	double		nqx
+	string		lugar_qx
+end type
+

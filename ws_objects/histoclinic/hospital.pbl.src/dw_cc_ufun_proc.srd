@@ -1,0 +1,42 @@
+﻿$PBExportHeader$dw_cc_ufun_proc.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no grid.lines=0 )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=char(255) updatewhereclause=yes name=codcc dbname="ccproced.codcc" )
+ column=(type=char(255) updatewhereclause=yes name=descripcion dbname="centrocostos.descripcion" )
+ retrieve="SELECT ccproced.CodCC, centrocostos.Descripcion
+FROM (ccgrupo INNER JOIN ccsubgrupo ON (ccgrupo.Cd_Grupo = ccsubgrupo.Cd_Grupo) AND (ccgrupo.CodCC = ccsubgrupo.CodCC) AND (ccgrupo.CodUF = ccsubgrupo.CodUF)) INNER JOIN (cccate INNER JOIN (ufuncional INNER JOIN (centrocostos INNER JOIN ccproced ON (centrocostos.CodUF = ccproced.CodUF) AND (centrocostos.CodCC = ccproced.CodCC)) ON ufuncional.CodUF = centrocostos.CodUF) ON (cccate.Cd_Categoria = ccproced.Cd_Categoria) AND (cccate.Cd_SubGrupo = ccproced.Cd_SubGrupo) AND (cccate.Cd_Grupo = ccproced.Cd_Grupo) AND (cccate.CodCC = ccproced.CodCC) AND (cccate.CodUF = ccproced.CodUF)) ON (ccsubgrupo.Cd_SubGrupo = cccate.Cd_SubGrupo) AND (ccsubgrupo.Cd_Grupo = cccate.Cd_Grupo) AND (ccsubgrupo.CodCC = cccate.CodCC) AND (ccsubgrupo.CodUF = cccate.CodUF)
+WHERE (((ccgrupo.Indicador)='2') AND ((ccsubgrupo.Indicador)='2') AND ((cccate.Indicador)='2') AND ((ccproced.CodProced)=:cproc) AND ((centrocostos.codtingre) Is Null Or (centrocostos.codtingre)=:tipoingres) AND ((ccproced.CodUF)=:ufun))
+and centrocostos.estado='1'
+
+union
+
+SELECT cccate.CodCC, centrocostos.Descripcion
+FROM (ccgrupo INNER JOIN ccsubgrupo ON (ccgrupo.Cd_Grupo = ccsubgrupo.Cd_Grupo) AND (ccgrupo.CodCC = ccsubgrupo.CodCC) AND (ccgrupo.CodUF = ccsubgrupo.CodUF)) INNER JOIN (ufuncional INNER JOIN (Proced INNER JOIN (centrocostos INNER JOIN cccate ON (centrocostos.CodUF = cccate.CodUF) AND (centrocostos.CodCC = cccate.CodCC)) ON (Proced.Cd_Grupo = cccate.Cd_Grupo) AND (Proced.Cd_SubGrupo = cccate.Cd_SubGrupo) AND (Proced.Cd_Categoria = cccate.Cd_Categoria)) ON ufuncional.CodUF = centrocostos.CodUF) ON (ccsubgrupo.Cd_SubGrupo = cccate.Cd_SubGrupo) AND (ccsubgrupo.Cd_Grupo = cccate.Cd_Grupo) AND (ccsubgrupo.CodCC = cccate.CodCC) AND (ccsubgrupo.CodUF = cccate.CodUF)
+WHERE (((cccate.CodUF)=:ufun) AND ((ccgrupo.Indicador)='2') AND ((ccsubgrupo.Indicador)='2') AND ((cccate.Indicador)='1') AND ((centrocostos.codtingre) Is Null Or (centrocostos.codtingre)=:tipoingres) AND ((Proced.CodProced)=:cproc))
+and centrocostos.estado='1'
+
+union
+
+SELECT ccsubgrupo.CodCC, centrocostos.Descripcion
+FROM ccgrupo INNER JOIN (ufuncional INNER JOIN (Proced INNER JOIN (centrocostos INNER JOIN ccsubgrupo ON (centrocostos.CodUF = ccsubgrupo.CodUF) AND (centrocostos.CodCC = ccsubgrupo.CodCC)) ON (Proced.Cd_Grupo = ccsubgrupo.Cd_Grupo) AND (Proced.Cd_SubGrupo = ccsubgrupo.Cd_SubGrupo)) ON ufuncional.CodUF = centrocostos.CodUF) ON (ccgrupo.Cd_Grupo = ccsubgrupo.Cd_Grupo) AND (ccgrupo.CodCC = ccsubgrupo.CodCC) AND (ccgrupo.CodUF = ccsubgrupo.CodUF)
+WHERE (((ccsubgrupo.CodUF)=:ufun) AND ((ccgrupo.Indicador)='2') AND ((ccsubgrupo.Indicador)='1') AND ((centrocostos.codtingre) Is Null Or (centrocostos.codtingre)=:tipoingres) AND ((Proced.CodProced)=:cproc))
+and centrocostos.estado='1'
+
+union
+
+SELECT ccgrupo.CodCC, centrocostos.Descripcion
+FROM (ufuncional INNER JOIN centrocostos ON ufuncional.CodUF = centrocostos.CodUF) INNER JOIN (Proced INNER JOIN ccgrupo ON Proced.Cd_Grupo = ccgrupo.Cd_Grupo) ON (centrocostos.CodCC = ccgrupo.CodCC) AND (centrocostos.CodUF = ccgrupo.CodUF)
+WHERE (((ccgrupo.CodUF)=:ufun) AND ((ccgrupo.Indicador)='1') AND ((centrocostos.codtingre) Is Null Or (centrocostos.codtingre)=:tipoingres) AND ((Proced.CodProced)=:cproc))
+and centrocostos.estado='1'
+
+
+" arguments=(("cproc", string),("tipoingres", string),("ufun", string)) )
+column(band=detail id=2 alignment="0" tabsequence=10 border="0" color="0" x="9" y="4" height="56" width="937" format="[general]" html.valueishtml="0"  name=descripcion visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0 edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

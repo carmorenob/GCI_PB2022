@@ -1,0 +1,106 @@
+﻿$PBExportHeader$f_kardexsalanula.srf
+global type f_kardexsalanula from function_object
+end type
+
+forward prototypes
+global function integer f_kardexsalanula (string coddoc, string lugar, long numdoc, string codalm)
+end prototypes
+
+global function integer f_kardexsalanula (string coddoc, string lugar, long numdoc, string codalm);uo_dataStore dw_kardex, dw_kardexmov, dw_kardexdeta, dw_lote, dw_lote_mov
+decimal cProm, saldo, cPromIni, valor, cPromAnt, saldokd
+
+dw_kardex = Create uo_dataStore
+dw_kardex.DataObject = 'dw_kardex'
+dw_kardex.SetTransObject(SQLCA)
+//dw_kardexdeta = Create uo_dataStore
+//dw_kardexdeta.DataObject = 'dw_kardexdeta'
+//dw_kardexdeta.SetTransObject(SQLCA)
+dw_kardexmov = Create uo_dataStore
+dw_kardexmov.DataObject = 'dw_kardexmov'
+dw_kardexmov.SetTransObject(SQLCA)
+
+dw_lote = Create uo_dataStore
+dw_lote.DataObject = 'dw_lote'
+dw_lote.SetTransObject(SQLCA)
+dw_lote_mov = Create uo_dataStore
+dw_lote_mov.DataObject = 'dw_lote_mov_anula'
+dw_lote_mov.SetTransObject(SQLCA)
+
+// Reversa Salidas de Kardex
+string codarticulo
+long ano, mes, fila, i
+Datetime fec
+double cantidad
+
+dw_kardexmov.Retrieve(coddoc,Lugar,numdoc,codalm)
+for i =  1 to dw_kardexmov.RowCount()
+	codarticulo = dw_kardexmov.GetItemString(i,'codarti')
+	cantidad = dw_kardexmov.GetItemNumber(i,'salidacant')
+	fec = dw_kardexmov.GetItemDateTime(i,'fecha_anula')
+	if (cantidad = 0) or (not isNull(fec)) then Continue
+	ano = dw_kardexmov.GetItemNumber(i,'ano')
+	mes = dw_kardexmov.GetItemNumber(i,'mes')
+	cPromIni = dw_kardexmov.GetItemNumber(i,'valorunit')
+	dw_kardexmov.SetItem(i,'entradacant', cantidad)
+	dw_kardexmov.SetItem(i,'fecha_anula', datetime(today(),now()))
+	dw_kardexmov.SetItem(i,'usu_anula', usuario)
+
+	fila = dw_kardex.Retrieve(codalm,codarticulo) 
+	if fila = 1 then
+		if dw_kardex.GetItemNumber(fila,'saldoActual') + cantidad > 0 then
+			dw_kardex.SetItem(fila,'costoprom', round((dw_kardex.GetItemNumber(fila,'costoprom') * dw_kardex.GetItemNumber(fila,'saldoActual') + cPromIni*cantidad)/ (dw_kardex.GetItemNumber(fila,'saldoActual') + cantidad),2))
+		end if
+		dw_kardex.SetItem(1,'saldoactual',dw_kardex.GetItemNumber(1,'saldoActual') + cantidad)
+		if dw_kardex.Update() = -1 then
+			Rollback;
+			MessageBox('Atención','Error Actualizando Kardex. Art.'+codarticulo+'.' + SQLCA.SQLErrText)
+			Return -1
+		end if
+	else
+		Rollback;
+		messageBox('Error','Inconsistencia en Kardex con el artículo ' + codarticulo + ' en almacen ' + codalm )
+		Return -1
+	End if
+Next
+
+///////// Lote
+dw_lote_mov.Retrieve(coddoc, lugar, numdoc, codalm)
+
+for i = 1 to dw_lote_mov.RowCount()
+	if dw_lote_mov.GetItemNumber(i,'signo') = 1 then Continue // Es Entrada no salida
+	dw_lote.Retrieve(codalm, dw_lote_mov.GetItemString(i,'codarticulo'))
+	//fila = dw_lote.find("lote='" + dw_lote_mov.GetItemString(i,'lote') + "' and convenio='"+dw_lote_mov.GetItemString(i,'convenio')+"'", 1, dw_lote.RowCount())
+	//fila = dw_lote.find("upper(lote)='" + upper(dw_lote_mov.GetItemString(i,'lote')) + "' and upper(convenio)='"+upper(dw_lote_mov.GetItemString(i,'convenio'))+"'", 1, dw_lote.RowCount())
+	fila = dw_lote.find("upper(lote)='" + upper(dw_lote_mov.GetItemString(i,'lote')) + "' and upper(convenio)='"+upper(dw_lote_mov.GetItemString(i,'convenio'))+"'"+ " and date(fecha_venc)=date('"+string(dw_lote_mov.getitemdatetime(i,'fecha_venc'),'dd/mm/yyyy')+"')", 1, dw_lote.RowCount())
+	if fila = 0 then
+		Rollback;
+		messageBox('Error Lote','No se encuentra registro en SUM_LOTE para retirar articulos. Articulo:'+dw_lote_mov.GetItemString(i,'codarticulo'))
+		Return -1
+	else
+		dw_lote.SetItem(fila,'cantidad',dw_lote.GetItemNumber(fila,'cantidad') + dw_lote_mov.GetItemNumber(i,'cantidad') )
+	end if
+	if dw_lote.GetItemNumber(fila,'cantidad') < 0 then
+		Rollback;
+		messageBox('Error','La cantidad para el lote -'+dw_lote_mov.GetItemString(i,'lote')+'- del articulo con fecha ' + string(date(dw_lote_mov.GetItemDateTime(i,'fecha_venc')))+ 'es negativa')
+		Return -1
+	end if
+	if dw_lote.Update() = -1 then
+		Rollback;
+		messageBox('Error','No pueden grabarse modificaciones a SUM_LOTE')
+		Return -1
+	end if
+	dw_lote_mov.SetItem(i,'estado','2')
+next
+if dw_lote_mov.Update() = -1 then
+	Rollback;
+	Return -1
+end if
+	
+if dw_kardexmov.Update() = -1 then
+	Rollback;
+	Return -1
+end if
+Return 0
+
+end function
+

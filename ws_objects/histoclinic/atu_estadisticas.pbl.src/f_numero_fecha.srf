@@ -1,0 +1,88 @@
+﻿$PBExportHeader$f_numero_fecha.srf
+global type f_numero_fecha from function_object
+end type
+
+forward prototypes
+global function date f_numero_fecha (long numero)
+end prototypes
+
+global function date f_numero_fecha (long numero);long i,b,anyo,mes,dia,years,mounths,resta,jul
+date fecha
+
+//*****Divido el numero por 365 para obtener el año
+anyo=numero/365
+if anyo>=100 then
+	years=long('20'+mid(string(anyo),2,3))
+else
+	if anyo<=9 and anyo>=0 then
+		years=long('190'+string(anyo))
+	else
+		years=long('19'+string(anyo))
+	end if
+end if
+anyo=anyo*365
+
+resta=numero - anyo
+jul=0
+for b=1900 to years step 4
+	jul ++
+next
+resta=resta - jul
+//*****Si el resultado de año por 365 es igual al numero inicial restamos uno al año obtenido
+if resta<=0 then
+	anyo=(numero/365) - 1
+	if anyo>=100 then
+		years=long('20'+mid(string(anyo),2,3))
+	else
+		if anyo<=9 and anyo>=0 then
+			years=long('190'+string(anyo))
+		else
+			years=long('19'+string(anyo))
+		end if
+	end if
+	anyo=anyo*365
+	resta=numero - anyo
+	resta=resta - jul
+end if
+
+mes=resta/30
+if mid(string(mes),1,2)='.' then
+	if mes>=1 and mes<=9 then
+		mounths=long(mid(string(mes),1,1))+1
+	end if
+	mes=long(mid(string(mes),1,1))
+else
+	mounths=long(mid(string(mes),1,2))+1
+	mes=long(mid(string(mes),1,2))
+end if
+//*****Si el el mes es 12 restamos uno al mes
+if mes=12 then
+	mes --
+	mes=long(mid(string(mes),1,2))
+	mounths=long(mid(string(mes),1,2))+1
+end if
+mes=mes * 30
+dia=resta - mes 
+if mounths=1 or mounths=3 then dia=dia + 1
+if mounths=6 or mounths=7 then dia=dia - 1
+if mounths=8 then numero=dia - 2
+if mounths=9 or mounths=10 then dia=dia - 3
+if mounths=11 or mounths=12 then dia=dia - 4
+//*****Si el dia es 0 o un # negativo se le resta uno al mes y se recalcula
+if dia<=0 then
+	mes=resta/30
+	mounths=long(mid(string(mes),1,2))
+	mes=long(mid(string(mes),1,2))-1
+	mes=mes * 30
+	dia=resta - mes 
+	if mounths=6 or mounths=7 then dia=dia - 1
+	if mounths=8 then numero=dia - 2
+	if mounths=9 or mounths=10 then dia=dia - 3
+	if mounths=11 or mounths=12 then dia=dia - 4
+end if
+//fecha=date(string(dia)+'/'+string(mounths)+'/'+string(years))
+fecha=date(string(years)+'-'+string(mounths)+'-'+string(dia))
+return fecha
+//messagebox('Mio', string(fecha) )
+end function
+

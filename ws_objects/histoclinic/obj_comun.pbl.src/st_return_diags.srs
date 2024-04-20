@@ -1,0 +1,10 @@
+﻿$PBExportHeader$st_return_diags.srs
+global type st_return_diags from structure
+	string		descrip_diag
+	string		codgeral
+	long		vigila
+	string		plantilla
+	string		guia
+	string		antecedente
+end type
+

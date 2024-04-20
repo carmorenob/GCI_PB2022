@@ -1,0 +1,96 @@
+﻿$PBExportHeader$f_cargar_a.srf
+global type f_cargar_a from function_object
+end type
+
+forward prototypes
+global function st_cargar_a f_cargar_a (string cproc, string autoriza, ref boolean confirma_ge, string p_emp, string p_cont, string p_tipoing)
+end prototypes
+
+global function st_cargar_a f_cargar_a (string cproc, string autoriza, ref boolean confirma_ge, string p_emp, string p_cont, string p_tipoing);string tipo_afil,des_cont
+long j
+boolean yapaso=false
+uo_datastore ds_getareo,ds_segrespon,dw_cont_det
+dw_cont_det=create uo_datastore
+dw_cont_det.dataobject='dw_cont_deta'
+dw_cont_det.settransobject(sqlca)
+ds_getareo= create uo_datastore
+ds_segrespon= create uo_datastore
+ds_segrespon.dataobject='dw_segrespon'
+ds_getareo.dataobject='dw_getareo_cumple'
+ds_getareo.settransobject(sqlca)
+ds_segrespon.settransobject(sqlca)
+st_cargar_a st_c
+st_c.emp=p_emp
+st_c.cont=p_cont
+select codta into :tipo_afil from emppac where tipodoc=:tipdoc and documento=:docu and codemp=:p_emp and codcontrato=:p_cont;
+if ds_segrespon.retrieve(st_c.emp,st_c.cont,tipo_afil)=-1 then
+	messagebox("Error",'Error leyendo segrespon en funcion f_cargar_a')
+	setnull(st_c.emp)
+	return st_c
+end if
+if dw_cont_det.retrieve(p_emp,p_cont,p_tipoing)=-1 then
+	messagebox("Error",'Error leyendo dw_cont_det en funcion f_cargar_a')
+	setnull(st_c.emp)
+	return st_c
+end if
+DO // pa poder revisar en todos los responsables
+	if ds_segrespon.rowcount()>0 then des_cont=ds_segrespon.getitemstring(1,"descontrato")
+	if dw_cont_det.rowcount()=0 then
+		messagebox("Error de Configuración","El contrato "+ds_segrespon.getitemstring(1,"descontrato")+" de la empresa "+ds_segrespon.getitemstring(1,"desemp")+" no tiene planes")
+		setnull(st_c.emp)
+		return st_c
+	end if	
+	/// viene lo duro	
+	for j=1 to dw_cont_det.rowcount() // de aquí tiene que salir cuando encuentre los valores
+		st_c.plan=dw_cont_det.getitemstring(j,"cplan")
+		if f_proc_plan(cproc,st_c.plan) then
+			if dw_cont_det.getitemstring(j,"autorizacion")="1" and autoriza="" then
+				if messagebox("Atención","Este procedimiento requiere autorización, quiere continuar y cargárselo como particular ?",question!,yesno!,2)=2 then 
+					setnull(st_c.emp)
+					return st_c
+				end if
+				continue
+			end if
+			if dw_cont_det.getitemstring(j,"tipo")<>"2" then return st_c
+			edad_busca=w_principal.dw_1.getitemnumber(1,"anyos")
+			sex_busca=w_principal.dw_1.getitemstring(1,"sexo_t")
+			ds_getareo.retrieve(edad_busca,sex_busca,st_c.emp,st_c.cont,st_c.plan,p_tipoing,"2" /*tipo de plan 2:getareo*/)
+			if ds_getareo.rowcount()>0 then
+				string conf
+				if ds_getareo.rowcount()>1 then 
+					open(w_escoge_getareo)
+				ELSE
+					message.longparm=1
+				end if
+				if message.longparm>0 then
+					conf=ds_getareo.getitemstring(message.longparm,"confirma")
+					if conf="1" and confirma_ge then  ///confirma ge es una variable instance para no seguir preguntando en caso de que si
+						if messagebox("Atención","Está seguro que el paciente con documento: "+tipdoc+" "+docu+" con edad de :"+string(edad_busca)+" año(s) y sexo: "+sex_busca+" cumple con los requisitos de este grupo etareo ?",question!,yesno!,1)=2 then continue
+						confirma_ge=false
+						setnull(st_c.emp)
+						return st_c
+					end if
+				end if
+			end if
+		end if
+	next
+	/// fin de viene lo duro
+	if yapaso then 
+		messagebox("Error en configuración de contratos","No se puede encontrar responsable de este procedimiento, revise incluso la empresa Particular")
+		setnull(st_c.emp)
+		return st_c
+	end if
+	if ds_segrespon.getitemstring(1,"segrespon")<>"" and ds_segrespon.getitemstring(1,"contsegrespon")<>"" then
+		st_c.emp=ds_segrespon.getitemstring(1,"segrespon")
+		st_c.cont=ds_segrespon.getitemstring(1,"contsegrespon")
+		ds_segrespon.retrieve(st_c.emp,st_c.cont,tipo_afil)
+	else
+		if messagebox("Atención","Este procedimiento no es cubierto por la empresa, desea cargarlo como particular ?",question!,yesno!,1)=2 then return st_c
+		st_c.emp='0'
+		st_c.cont='1'
+		yapaso=true
+	end if
+	dw_cont_det.retrieve(st_c.emp,st_c.cont,"1"/*tipoingreso*/)
+LOOP WHILE true
+end function
+

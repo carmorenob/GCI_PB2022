@@ -1,0 +1,13 @@
+﻿$PBExportHeader$f_biometria_escribe_log.srf
+global type f_biometria_escribe_log from function_object
+end type
+
+forward prototypes
+global subroutine f_biometria_escribe_log (listbox log_biometria, string mensaje)
+end prototypes
+
+global subroutine f_biometria_escribe_log (listbox log_biometria, string mensaje);int l_fila_b
+l_fila_b =log_biometria.AddItem(mensaje)
+log_biometria.SetTop(l_fila_b)
+end subroutine
+

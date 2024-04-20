@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_vent_padre.srf
+global type f_vent_padre from function_object
+end type
+
+forward prototypes
+global function window f_vent_padre (powerobject p_obj)
+end prototypes
+
+global function window f_vent_padre (powerobject p_obj);window w_temp
+if p_obj.getparent().typeof()=window! then
+	w_temp=p_obj.getparent()
+else
+	w_temp=f_vent_padre(p_obj.getparent())
+end if
+return w_temp
+end function
+

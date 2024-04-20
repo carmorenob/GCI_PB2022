@@ -1,0 +1,63 @@
+﻿$PBExportHeader$f_anula_histo_cajama.srf
+global type f_anula_histo_cajama from function_object
+end type
+
+forward prototypes
+global function integer f_anula_histo_cajama (string p_caja, string p_clug, string p_cod_ing, long p_nro_ing, string p_cdoc_egr, long p_nro_egr)
+end prototypes
+
+global function integer f_anula_histo_cajama (string p_caja, string p_clug, string p_cod_ing, long p_nro_ing, string p_cdoc_egr, long p_nro_egr);uo_datastore dw_histo
+dw_histo=create uo_datastore
+datetime fech
+long consec
+string err
+if not isnull(p_nro_ing) then //es ingresos
+	SELECT tesocaja_historial.fecha, tesocaja_historial.consec
+	into :fech,:consec
+	FROM tesocaja_historial
+	WHERE tesocaja_historial.CodCaja=:p_caja AND tesocaja_historial.clugar=:p_clug 
+	AND tesocaja_historial.cdoc_ing=:p_cod_ing AND tesocaja_historial.ningreso=:p_nro_ing;
+	if sqlca.sqlcode=-1 then
+		err=sqlca.sqlerrtext
+		rollback;
+		messagebox('Error leyendo tesocuentas_historial',err)
+		return -1
+	end if
+else
+	SELECT tesocaja_historial.fecha, tesocaja_historial.consec
+	into :fech,:consec
+	FROM tesocaja_historial
+	WHERE tesocaja_historial.CodCaja=:p_caja AND tesocaja_historial.clugar=:p_clug 
+	AND tesocaja_historial.cdoc_egr=:p_cdoc_egr AND tesocaja_historial.negreso=:p_nro_egr;
+	if sqlca.sqlcode=-1 then
+		err=sqlca.sqlerrtext
+		rollback;
+		messagebox('Error leyendo tesocuentas_historial',err)
+		return -1
+	end if
+end if
+	
+dw_histo.dataobject='dw_histo_caja_anula'
+dw_histo.settransobject(sqlca)
+fech=datetime(date(fech))
+if dw_histo.retrieve(p_caja,p_clug,fech,consec)=0 then
+	messagebox('Atención','No se puede encontrar el movimiento en la tabla Historial de la Caja')
+	return -1
+end if
+long j,item
+dec valor
+valor=dw_histo.getitemnumber(1,'valor')
+valor *= -1
+for j=2 to dw_histo.rowcount()
+	dw_histo.setitem(j,'saldo_ini',dw_histo.getitemnumber(j,'saldo_ini') + valor )
+	dw_histo.setitem(j,'saldo_fin',dw_histo.getitemnumber(j,'saldo_fin') + valor )
+next
+dw_histo.deleterow(1)
+if dw_histo.update()=-1 then
+	Messagebox("Error",'Error modificando tesocaja_historial')
+	return -1
+end if
+return 1
+
+end function
+

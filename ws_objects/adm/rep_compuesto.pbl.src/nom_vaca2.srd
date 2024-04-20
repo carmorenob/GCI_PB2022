@@ -1,0 +1,39 @@
+﻿$PBExportHeader$nom_vaca2.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+header(height=96 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(3) update=yes updatewhereclause=yes name=tipodoc dbname="NOM_CONCEP.TIPODOC" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=documento dbname="NOM_CONCEP.DOCUMENTO" )
+ column=(type=datetime update=yes updatewhereclause=yes name=inicia dbname="NOM_CONCEP.INICIA" )
+ column=(type=datetime update=yes updatewhereclause=yes name=termina dbname="NOM_CONCEP.TERMINA" )
+ column=(type=char(6) update=yes updatewhereclause=yes key=yes name=cod_concep dbname="NOM_CONCEP.COD_CONCEP" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=des_concep dbname="NOM_CONCEP.DES_CONCEP" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=pagado dbname="NOM_CONCEP.Pagado" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=cantidad_ac dbname="NOM_CONCEP.Cantidad_Ac" )
+ retrieve="SELECT 
+	NOM_CPO.TIPODOC, NOM_CPO.DOCUMENTO, NOM_CAB.INICIA, 
+	NOM_CAB.TERMINA, NOM_CONCEP.COD_CONCEP, NOM_CONCEP.DES_CONCEP, 
+	NOM_CPO.Pagado, NOM_CPO.Cantidad_Ac
+FROM 
+	NOM_CONCEP INNER JOIN (NOM_CAB INNER JOIN NOM_CPO ON NOM_CAB.NUM_NOMINA = NOM_CPO.NUM_NOMINA) 
+	ON NOM_CONCEP.COD_CONCEP = NOM_CPO.COD_CONCEP
+WHERE 
+	(((NOM_CONCEP.vac)='1')) AND (NOM_CAB.ESTADO='1') AND
+	NOM_CPO.TIPODOC = :tipd  AND  NOM_CPO.DOCUMENTO=:docu and
+	:fecha Between NOM_CAB.INICIA and NOM_CAB.TERMINA
+
+" update="NOM_CONCEP" updatewhere=1 updatekeyinplace=no arguments=(("tipd", string),("docu", string),("Fecha", date)) )
+text(band=header alignment="0" text="ARTICULO SEGUNDO" border="0" color="33554432" x="37" y="20" height="68" width="690" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="3" expression="'La erogación del presente se hará con cargo '"border="0" color="33554432" x="768" y="20" height="84" width="2359" format="[GENERAL]" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Arial" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="33554432" x="773" y="0" height="52" width="1349" format="[general]" html.valueishtml="0"  name=des_concep visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="33554432" x="2199" y="0" height="52" width="430" format="#,##0.00" html.valueishtml="0"  name=pagado visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+
+ 

@@ -1,0 +1,14 @@
+﻿$PBExportHeader$st_xa_procs_hc.srs
+global type st_xa_procs_hc from structure
+	long		contador
+	string		clug
+	string		cesp
+	datawindow		dw_procs
+	long		ncampo
+	string		cprof
+	string		tingres
+	string		cemp
+	string		ccont
+	datetime		fecha
+end type
+

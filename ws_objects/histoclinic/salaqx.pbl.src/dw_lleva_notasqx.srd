@@ -1,0 +1,28 @@
+﻿$PBExportHeader$dw_lleva_notasqx.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+header(height=68 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912"  height.autosize=yes)
+table(column=(type=char(255) updatewhereclause=yes name=llevar dbname="llevar" values="Si	1/Si	0" )
+ column=(type=number updatewhereclause=yes key=yes name=numero_ingre dbname="qxcabacto.numero_ingre" )
+ column=(type=char(2) updatewhereclause=yes key=yes name=clugar dbname="qxcabacto.clugar" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=en_evol dbname="qxcabacto.en_evol" )
+ retrieve="  SELECT '0' as llevar,
+         qxcabacto.numero_ingre,   
+         qxcabacto.clugar,   
+         qxcabacto.en_evol 
+    FROM qxcabacto  
+   WHERE ( qxcabacto.en_evol = '0'  ) AND  
+         ( qxcabacto.nh = :nh  ) AND  
+         ( qxcabacto.clugar_hadm = :clug_hadm  )" update="qxcabacto" updatewhere=0 updatekeyinplace=yes arguments=(("nh", number),("clug_hadm", string)) )
+text(band=header alignment="2" text="Llevar" border="6" color="0" x="9" y="8" height="52" width="174" html.valueishtml="0"  name=obj_8363335 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="0" text="Ingreso QX" border="6" color="0" x="201" y="8" height="52" width="247" html.valueishtml="0"  name=t_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="0" x="9" y="4" height="52" width="174" format="[general]" html.valueishtml="0"  name=llevar visible="1" checkbox.text="Si" checkbox.on="1" checkbox.off="0" checkbox.scale=no checkbox.threed=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tif (llevar='1' , rgb(240,220,220), rgb(255,255,255))" )
+column(band=detail id=2 alignment="2" tabsequence=20 border="0" color="0" x="197" y="4" height="52" width="251" format="[general]" html.valueishtml="0"  name=numero_ingre visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="16777215~tif (llevar='1' , rgb(240,220,220), rgb(255,255,255))" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

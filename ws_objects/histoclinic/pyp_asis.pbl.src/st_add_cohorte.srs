@@ -1,0 +1,10 @@
+﻿$PBExportHeader$st_add_cohorte.srs
+global type st_add_cohorte from structure
+	string		id_getareo
+	string		descrip_getareo
+	string		observaciones
+	string		vitalicio
+	datetime		fecha_inicio
+	string		cod_anula
+end type
+

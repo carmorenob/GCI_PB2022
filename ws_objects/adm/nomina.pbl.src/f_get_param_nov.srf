@@ -1,0 +1,16 @@
+﻿$PBExportHeader$f_get_param_nov.srf
+global type f_get_param_nov from function_object
+end type
+
+forward prototypes
+global function string f_get_param_nov (string sigla, ref datawindow dw_historia)
+end prototypes
+
+global function string f_get_param_nov (string sigla, ref datawindow dw_historia);long nc
+nc = 1
+do while dw_historia.Describe("parm_"+string(nc)+"_t.text") <> 'parm_'+ sigla and nc <= 50
+	nc = nc + 1
+loop
+Return 'parm_'+string(nc)
+end function
+

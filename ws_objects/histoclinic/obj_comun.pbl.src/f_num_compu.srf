@@ -1,0 +1,235 @@
+﻿$PBExportHeader$f_num_compu.srf
+global type f_num_compu from function_object
+end type
+
+forward prototypes
+global function boolean f_num_compu (string aplicativ, string l_indica)
+end prototypes
+
+global function boolean f_num_compu (string aplicativ, string l_indica);if aplicativ = 'gci_adm' or aplicativ='conf_apdx' or aplicativ='greportes' then return true
+if f_entrar(aplicativ,ls_pro)=false then return false
+string lices
+choose case aplicativ
+	case 'histo_clinic'
+		if ls_pro=32 THEN
+			RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "NROLICEN", Regstring!, lices)
+		end If
+		if ls_pro=64 THEN
+			RegistryGet( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "NROLICEN", Regstring!, lices)
+		end if
+		aplicativ='HISTO_CLINIC'		
+	case 'c'
+		if ls_pro=32 THEN
+			RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "LIC_CONT", regstring!, lices)
+		end If
+		if ls_pro=64 THEN
+			RegistryGet( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "LIC_CONT", regstring!, lices)
+		end if
+		aplicativ='CONTABILIDAD'
+	case 't'
+		if ls_pro=32 THEN
+			Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "LIC_TESO", regstring!, lices)
+		end If
+		if ls_pro=64 THEN
+			RegistryGet( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "LIC_TESO", regstring!, lices)
+		end if
+		aplicativ='TESORERIA'
+	case 's'
+		if ls_pro=32 THEN
+			Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "LIC_SUMI", regstring!, lices)
+		end If
+		if ls_pro=64 THEN
+			RegistryGet( "HKEY_CURRENT_USER\SOFTWARE\GCI\",  "LIC_SUMI", regstring!, lices)
+		end if		
+		aplicativ='SUMINISTROS'
+	case 'n'
+		if ls_pro=32 THEN
+			Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "LIC_NOMI", regstring!, lices)
+		end If
+		if ls_pro=64 THEN
+			RegistryGet( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "LIC_NOMI", regstring!, lices)
+		end if				
+		aplicativ='NOMINA'
+	case 'a'
+		if ls_pro=32 THEN
+			Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "LIC_ACTI", regstring!, lices)
+		end If
+		if ls_pro=64 THEN
+			RegistryGet( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "LIC_ACTI", regstring!, lices)
+		end if		
+		aplicativ='ACTIVOS'
+	case 'r'
+		if ls_pro=32 THEN
+			Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "LIC_CART", regstring!, lices)
+		end If
+		if ls_pro=64 THEN
+			RegistryGet( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "LIC_CART", regstring!, lices)
+		end if				
+		aplicativ='CARTERA'
+	case 'o'
+		if ls_pro=32 THEN
+			Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "LIC_COST", regstring!, lices)
+		end If
+		if ls_pro=64 THEN
+			RegistryGet( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "LIC_COST", regstring!, lices)
+		end if		
+		aplicativ='COSTOS'
+	case 'p'
+		if ls_pro=32 THEN
+			Registryget ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "LIC_PRES", regstring!, lices)
+		end If
+		if ls_pro=64 THEN
+			RegistryGet( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "LIC_PRES", regstring!, lices)
+		end if	
+		aplicativ='PRESUPUESTO'
+	case else
+end choose
+
+/***************COLOCAR HORA SERVIDOR ***/
+datetime ld_fechaserver, ld_fechaeq
+string ls_comando
+string ls_ip4,ls_ip6, ls_ipaddress[]
+time lt_hora
+date ld_fec
+
+ld_fechaeq= datetime(today(),now())
+
+if g_motor='postgres' then
+	SELECT  ahora(),inet_client_addr () into :ld_fechaserver,:ls_ip4
+	FROM ips;
+else
+	SELECT GETDATE(),client_net_address,host_name() into :ld_fechaserver, :ls_ip4, :g_nequipo FROM sys.dm_exec_connections WHERE session_id = @@SPID; 
+end if
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay  Ahora')
+	return false
+end if
+
+if 	(daysafter(date(ld_fechaeq),date(ld_fechaserver))>0) or &
+	(secondsafter(time(ld_fechaeq),time(ld_fechaserver)) < -300) or &
+	(secondsafter(time(ld_fechaeq),time(ld_fechaserver)) > 300) then
+	
+	integer li_rc
+	OleObject ole_wsh
+	
+	ole_wsh = CREATE OleObject
+	li_rc = ole_wsh.ConnectToNewObject ( "WScript.Shell" )
+	
+	///Actualiza Zona Horaria
+	setnull(ls_comando)
+	ls_comando='cmd.exe /c TZUTIL /s "SA Pacific Standard Time_dstoff"'
+	li_rc = ole_wsh.Run (ls_comando,0,true)
+	
+	//Actualiza Fecha
+	setnull(ls_comando)
+	ld_fec=date(ld_fechaserver)
+	ls_comando='cmd.exe /c DATE '+string(date(year(ld_fec),month(ld_fec),day(ld_fec)),'dd-mm-yy')
+	li_rc= ole_wsh.Run (ls_comando,0,true)
+	
+	//Actualiza Time
+	setnull(ls_comando)
+	lt_hora=time(ld_fechaserver)
+	ls_comando='cmd.exe /c TIME '+string( time (Hour(lt_hora),minute(lt_hora),second(lt_hora)),'hh:mm:ss.81')
+	li_rc = ole_wsh.Run (ls_comando,0,true)
+	
+	destroy ole_wsh 
+	/***************FIN COLOCAR HORA SERVIDOR ***/
+end if
+
+uo_datastore control
+n_winsock gn_ws
+
+control = create uo_datastore
+control.dataobject="dw_control_red"
+control.settransobject(sqlca)
+control.retrieve(aplicativ)
+
+
+ ///Para sacar nombre maquina
+gn_ws = create n_winsock
+
+If Not gn_ws.of_Startup() Then
+	MessageBox("no se pudo winsock", gn_ws.of_GetLastError(), StopSign!)
+	Return false
+end if
+
+g_nequipo = gn_ws.of_GetHostName()
+
+destroy n_winsock
+
+
+
+long j,k
+//for j=1 to control.rowcount()
+//	if daysafter(date(control.getitemdatetime(j,2)),today())>0 then 
+//		control.deleterow(j)
+//		j --
+//	else
+//		if secondsafter(time(control.getitemdatetime(j,2)),now()) < -300 then
+//			messagebox("Atención","Los computadores en red no tienen fechas y horas iguales")
+//			return false
+//		end if
+//		if secondsafter(time(control.getitemdatetime(j,2)),now())>300 then 
+//			control.deleterow(j)
+//			j --
+//		end if
+//	end if
+//next
+//control.update()
+//commit;
+
+if l_indica= 'I' then
+	control.SetFilter("(nom_equipo like  '"+upper(g_nequipo)+"%') and (aplicativo='"+upper(aplicativ)+"')")
+	control.Filter( )
+	k=control.rowcount()
+	if control.rowcount() < long(lices) then
+		j=control.insertrow(0)
+		setnull( ls_comando)
+		ls_comando=g_nequipo+'%'
+		If k<>0 then
+			k=control.getitemnumber(1,'maximos')+1
+			g_nequipo=g_nequipo+'_x_'+string(k)
+		end if
+		control.setitem(j,"nom_equipo",upper(g_nequipo))
+		control.setitem(j,"fecha",datetime(today(),time(string(now()))))
+		control.setitem(j,"aplicativo",upper(aplicativ))
+		control.setitem(j,"ip_4",ls_ip4)
+		control.setitem(j,"ip_6",ls_ip6)
+		
+		control.update()
+		commit;
+		delete from control_red where nom_equipo like upper(:ls_comando) and aplicativo=upper(:aplicativ);
+		commit;		
+		return true
+	else
+		Messagebox("Error","Ya se encuentran trabajando el número de computadores licenciados en red")
+		return false
+	end if
+else
+	control.SetFilter("(nom_equipo ='"+upper(g_nequipo)+"') and (aplicativo='"+upper(aplicativ)+"')")
+	control.Filter( )
+	k=control.rowcount()
+	if k=0 then
+		k=control.insertrow(0)
+		control.setitem(k,"nom_equipo",upper(g_nequipo))
+		control.setitem(k,"fecha",datetime(today(),time(string(now()))))
+		control.setitem(k,"aplicativo",upper(aplicativ))
+		control.setitem(k,"ip_4",ls_ip4)
+		control.setitem(k,"ip_6",ls_ip6)		
+	else
+		control.setitem(k,"fecha",datetime(today(),time(string(now()))))
+		control.setitem(k,"ip_4",ls_ip4)
+		control.setitem(k,"ip_6",ls_ip6)		
+	end If
+	control.update()
+	commit;
+	if control.rowcount() > long(lices) then
+		Messagebox("Error","Ya se encuentran trabajando el número de computadores licenciados en red")
+		return false
+	else
+		return true
+	end if
+end if
+
+end function
+

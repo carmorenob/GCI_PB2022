@@ -1,0 +1,14 @@
+﻿$PBExportHeader$st_proc_comun.srs
+global type st_proc_comun from structure
+	richtextedit		rte
+	datawindow		dw_conducta
+	singlelineedit		sle_cant
+	singlelineedit		sle_proc
+	datawindow		dw_procs
+	string		col_cant_proc
+	singlelineedit		sle_med
+	datawindow		dw_meds
+	string		col_cant_med
+	string		carreta
+end type
+

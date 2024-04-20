@@ -1,0 +1,29 @@
+﻿$PBExportHeader$dw_trae_antes.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=88 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=number updatewhereclause=yes name=peso dbname="evolucionhc.peso" )
+ column=(type=number updatewhereclause=yes name=talla dbname="evolucionhc.talla" )
+ column=(type=char(7) updatewhereclause=yes name=diagegreso dbname="diags.cod_rips" )
+ column=(type=char(12) updatewhereclause=yes name=codgeral dbname="diags.codgeral" )
+ retrieve="SELECT evolucionhc.Peso, evolucionhc.Talla, diags.cod_rips,diags.codgeral
+FROM ((hospsali INNER JOIN hospadmi ON (hospsali.CodTIngre = hospadmi.CodTIngre) 
+AND (hospsali.clugar_hadm = hospadmi.clugar) AND (hospsali.NHosp = hospadmi.NH)) 
+INNER JOIN evolucionhc ON (hospadmi.clugar_his = evolucionhc.clugar) 
+AND (hospadmi.Contador = evolucionhc.Contador)) LEFT outer JOIN diags 
+ON hospsali.DiagEgreso = diags.CodGeral
+WHERE (((hospadmi.Contador)=:contador) AND ((hospadmi.clugar_his)=:clugar))
+" arguments=(("contador", number),("clugar", string)) )
+text(band=header alignment="2" text="Peso" border="0" color="0" x="9" y="8" height="64" width="329" html.valueishtml="0"  name=evolucionhc_peso_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Talla" border="0" color="0" x="347" y="8" height="64" width="329" html.valueishtml="0"  name=evolucionhc_talla_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Diags Cod Rips" border="0" color="0" x="686" y="4" height="76" width="178" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="9" y="8" height="76" width="329" format="[general]" html.valueishtml="0"  name=peso visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="347" y="8" height="76" width="329" format="[general]" html.valueishtml="0"  name=talla visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="686" y="0" height="64" width="178" format="[general]" html.valueishtml="0"  name=diagegreso visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=0 border="0" color="0" x="878" y="0" height="64" width="315" html.valueishtml="0"  name=codgeral visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Diags Codgeral" border="0" color="0" x="873" y="4" height="76" width="320" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

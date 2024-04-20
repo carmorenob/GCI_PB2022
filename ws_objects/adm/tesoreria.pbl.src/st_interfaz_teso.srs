@@ -1,0 +1,7 @@
+﻿$PBExportHeader$st_interfaz_teso.srs
+global type st_interfaz_teso from structure
+	string		flujo
+	string		tdoc
+	string		docu
+end type
+

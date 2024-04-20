@@ -1,0 +1,45 @@
+﻿$PBExportHeader$f_dias_licencia.srf
+global type f_dias_licencia from function_object
+end type
+
+forward prototypes
+global function long dias_licencia (string tipodoc, string documento, datetime inicio, datetime fin)
+global function long f_dias_licencia (string tipodoc, string documento, datetime inicio, datetime fin)
+end prototypes
+
+global function long dias_licencia (string tipodoc, string documento, datetime inicio, datetime fin);long dias
+
+Return dias
+end function
+
+global function long f_dias_licencia (string tipodoc, string documento, datetime inicio, datetime fin);long dias, i, dias_t
+st_interfec iaus, iret,ja
+uo_datastore dw_a
+
+dw_a = Create uo_datastore
+dw_a.DataObject = 'dw_ausentismo'
+dw_a.SetTransObject(SQLCA)
+
+iret.x = inicio
+iret.y = fin
+dw_a.Retrieve(tipodoc,documento,'LN',inicio,fin)
+for i = 1 to dw_a.RowCount()
+	dias_t =0
+	iaus.x = datetime(dw_a.GetItemDate(i,'fechaini'))
+	iaus.y = datetime(dw_a.GetItemDate(i,'fechafin'))
+	ja= interseccion(iaus,iret)
+	if (not isNull(ja.x)) and (not isNull(ja.y)) then
+		dias_t = f_dias_360(ja.x,ja.y) +1
+//		if day(date(iret.y)) = 31 then
+			//dias_t = DaysAfter(date(ja.x),date(ja.y))
+//		else
+//			dias_t = DaysAfter(date(ja.x),date(ja.y)) + 1
+//		end if
+	end if
+	dias = dias + dias_t
+next
+
+Return dias
+
+end function
+

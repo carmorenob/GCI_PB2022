@@ -1,0 +1,131 @@
+﻿$PBExportHeader$dr_result_postgres.srd
+release 22;
+datawindow(units=2 timer_interval=0 color=1073741824 processing=7 print.printername ="" print.documentname="" print.orientation = 0 print.margin.left = 250 print.margin.right = 250 print.margin.top = 250 print.margin.bottom = 250 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes richtext.headerfooter=yes richtext.wordwrap=no richtext.popmenu=yes richtext.pictureframe=no richtext.inputfieldnamesvisible=no richtext.inputfieldsvisible=yes richtext.tabsvisible=no richtext.returnsvisible=no richtext.spacesvisible=no richtext.inputfieldbackcolor=1073741824 richtext.backcolor=1073741824 richtext.tabbar=no richtext.rulerbar=no richtext.toolbar=no richtext.displayonly=no )
+detail(text="{\rtf1\ansi\ansicpg1252\uc1\deff0\adeff0\deflang0\deflangfe0\adeflang0{\fonttbl
+{\f0\fswiss\fcharset0\fprq2{\*\panose 020B0604020202020204}Arial;}
+{\f1\fswiss\fcharset0\fprq2{\*\panose 020B0604030504040204}Tahoma;}
+{\f2\froman\fcharset2\fprq2{\*\panose 05050102010706020507}Symbol;}}
+{\colortbl;\red0\green0\blue0;}
+{\stylesheet{\s0\ltrpar\itap0\nowidctlpar\ql\li0\ri0\lin0\rin0\cbpat0\rtlch\af0\afs24\ltrch\f0\fs24\lang9226\langnp9226\langfe9226\langfenp9226 Normal;}{\*\cs10\additive Default Paragraph Font;}}
+{\info
+{\*\txInfo{\txVer 30.0.810.500}}}
+\paperw12240\paperh15840\margl0\margt0\margr0\margb0\deftab1134\widowctrl\trackmoves0\trackformatting1\lytexcttp\formshade\sectd
+\headery567\footery567\pgwsxn12240\pghsxn15840\marglsxn0\margtsxn0\margrsxn0\margbsxn0\pgbrdropt32\pard\ltrpar\itap0\nowidctlpar\ql\li0\ri0\lin0\rin0\plain\rtlch\af1\afs18\alang0\ltrch\f1\fs18\lang0\langnp0\langfe0\langfenp0     \plain\rtlch\af1\afs18\alang0\ab\ltrch\f1\fs18\lang0\langnp0\langfe0\langfenp0\b{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b004e004f004d00420052004500430041004d0050004f007d000000}{\*\txfieldtext \{NOMBRECAMPO\}{\*\txfieldend}}\{NOMBRECAMPO\}}\plain\rtlch\af1\afs18\alang0\ab\ltrch\f1\fs18\lang0\langnp0\langfe0\langfenp0\b : \plain\rtlch\af1\afs20\alang0\ltrch\f1\fs20\lang0\langnp0\langfe0\langfenp0{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b0052004500530055004c005400410044004f0053007d000000}{\*\txfieldtext \{RESULTADOS\}{\*\txfieldend}}\{RESULTADOS\}}\plain\rtlch\af1\afs20\alang0\ltrch\f1\fs20\lang0\langnp0\langfe0\langfenp0  }")
+header(text="{\rtf1\ansi\ansicpg1252\uc1\deff0\adeff0\deflang0\deflangfe0\adeflang0{\fonttbl
+{\f0\fswiss\fcharset0\fprq2{\*\panose 020B0604020202020204}Arial;}
+{\f1\fswiss\fcharset0\fprq2{\*\panose 020B0604030504040204}Tahoma;}
+{\f2\froman\fcharset2\fprq2{\*\panose 05050102010706020507}Symbol;}}
+{\colortbl;\red0\green0\blue0;}
+{\stylesheet{\s0\ltrpar\itap0\nowidctlpar\ql\li0\ri0\lin0\rin0\cbpat0\rtlch\af0\afs24\ltrch\f0\fs24\lang9226\langnp9226\langfe9226\langfenp9226 Normal;}{\*\cs10\additive Default Paragraph Font;}}
+{\info
+{\*\txInfo{\txVer 30.0.810.500}}}
+\paperw12240\paperh15840\margl0\margt0\margr0\margb0\deftab1134\widowctrl\trackmoves0\trackformatting1\lytexcttp\formshade\sectd
+\headery567\footery567\pgwsxn12240\pghsxn15840\marglsxn0\margtsxn0\margrsxn0\margbsxn0\pgbrdropt32\pard\ltrpar\itap0\nowidctlpar\ql\li0\ri0\lin0\rin0\plain\rtlch\af1\afs20\alang0\ab\ltrch\f1\fs20\lang0\langnp0\langfe0\langfenp0\b PROCEDIMIENTO:\plain\rtlch\af1\afs20\alang0\ltrch\f1\fs20\lang0\langnp0\langfe0\langfenp0  \plain\rtlch\af1\afs20\alang0\ltrch\f1\fs20\lang0\langnp0\langfe0\langfenp0{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b0043004f0044005f0043005500500053007d000000}{\*\txfieldtext \{COD_CUPS\}{\*\txfieldend}}\{COD_CUPS\}}\plain\rtlch\af1\afs20\alang0\ltrch\f1\fs20\lang0\langnp0\langfe0\langfenp0  - \plain\rtlch\af1\afs20\alang0\ltrch\f1\fs20\lang0\langnp0\langfe0\langfenp0{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b004400450053004300520049005000430049004f004e007d000000}{\*\txfieldtext \{DESCRIPCION\}{\*\txfieldend}}\{DESCRIPCION\}}\plain\rtlch\af1\afs20\alang0\ltrch\f1\fs20\lang0\langnp0\langfe0\langfenp0    \plain\rtlch\af1\afs20\alang0\ab\ltrch\f1\fs20\lang0\langnp0\langfe0\langfenp0\b FECHA:\plain\rtlch\af1\afs20\alang0\ltrch\f1\fs20\lang0\langnp0\langfe0\langfenp0{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b004600450043004800410052004500530055004c007d000000}{\*\txfieldtext \{FECHARESUL\}{\*\txfieldend}}\{FECHARESUL\}}\plain\rtlch\af1\afs20\alang0\ltrch\f1\fs20\lang0\langnp0\langfe0\langfenp0\par\plain\rtlch\af1\afs20\alang0\ab\ltrch\f1\fs20\lang0\langnp0\langfe0\langfenp0\b PROFESIONAL:\plain\rtlch\af1\afs20\alang0\ltrch\f1\fs20\lang0\langnp0\langfe0\langfenp0  \plain\rtlch\af1\afs20\alang0\ltrch\f1\fs20\lang0\langnp0\langfe0\langfenp0{\txfielddef{\*\txfieldstart\txfieldtype0\txfieldflags152\txfielddata 7b00440045005300500052004f0046007d000000}{\*\txfieldtext \{DESPROF\}{\*\txfieldend}}\{DESPROF\}}\plain\rtlch\af1\afs20\alang0\ltrch\f1\fs20\lang0\langnp0\langfe0\langfenp0}")
+footer(text="{\rtf1\ansi\ansicpg1252\uc1\deff0\adeff0\deflang0\deflangfe0\adeflang0{\fonttbl
+{\f0\fswiss\fcharset0\fprq2{\*\panose 020B0604020202020204}Arial;}
+{\f1\fswiss\fcharset0\fprq2{\*\panose 020B0604030504040204}Tahoma;}
+{\f2\froman\fcharset2\fprq2{\*\panose 05050102010706020507}Symbol;}}
+{\colortbl;\red0\green0\blue0;}
+{\stylesheet{\s0\ltrpar\itap0\nowidctlpar\ql\li0\ri0\lin0\rin0\cbpat0\rtlch\af0\afs24\ltrch\f0\fs24\lang9226\langnp9226\langfe9226\langfenp9226 Normal;}{\*\cs10\additive Default Paragraph Font;}}
+{\info
+{\*\txInfo{\txVer 30.0.810.500}}}
+\paperw12240\paperh15840\margl0\margt0\margr0\margb0\deftab1134\widowctrl\trackmoves0\trackformatting1\lytexcttp\formshade\sectd
+\headery567\footery567\pgwsxn12240\pghsxn15840\marglsxn0\margtsxn0\margrsxn0\margbsxn0\pgbrdropt32\pard\ltrpar\itap0\nowidctlpar\ql\li0\ri0\lin0\rin0\plain\rtlch\af1\afs20\alang9226\ltrch\f1\fs20\lang9226\langnp9226\langfe9226\langfenp9226 }")table(column=(type=char(4) updatewhereclause=yes name=coddoc dbname="profe.coddoc" )
+ column=(type=char(2) updatewhereclause=yes name=clugar dbname="profe.clugar" )
+ column=(type=number updatewhereclause=yes name=nrepor dbname="profe.nrepor" )
+ column=(type=long updatewhereclause=yes name=item dbname="profe.item" )
+ column=(type=char(50) updatewhereclause=yes name=des_area dbname="profe.des_area" )
+ column=(type=char(150) updatewhereclause=yes name=descripciongc dbname="profe.descripciongc" )
+ column=(type=char(15) updatewhereclause=yes name=codproced dbname="profe.codproced" )
+ column=(type=char(30) updatewhereclause=yes name=descripcion dbname="descripcion" )
+ column=(type=datetime updatewhereclause=yes name=fecharesul dbname="profe.fecharesul" )
+ column=(type=long updatewhereclause=yes name=consecampo dbname="profe.consecampo" )
+ column=(type=char(100) updatewhereclause=yes name=nombrecampo dbname="profe.nombrecampo" )
+ column=(type=char(1) updatewhereclause=yes name=tipocampo dbname="profe.tipocampo" )
+ column=(type=char(100) updatewhereclause=yes name=resultado1 dbname="profe.resultado1" )
+ column=(type=number updatewhereclause=yes name=resultado2 dbname="profe.resultado2" )
+ column=(type=char(32766) updatewhereclause=no name=resultado3 dbname="profe.resultado3" )
+ column=(type=char(100) updatewhereclause=yes name=resultado4 dbname="profe.resultado4" )
+ column=(type=char(1) updatewhereclause=yes name=resultado5 dbname="profe.resultado5" )
+ column=(type=char(1) updatewhereclause=yes name=resultado6 dbname="profe.resultado6" )
+ column=(type=long updatewhereclause=yes name=orden dbname="profe.orden" )
+ column=(type=char(100) updatewhereclause=yes name=moda1 dbname="profe.moda1" )
+ column=(type=number updatewhereclause=yes name=moda2 dbname="profe.moda2" )
+ column=(type=char(32766) updatewhereclause=no name=moda3 dbname="profe.moda3" )
+ column=(type=char(100) updatewhereclause=yes name=moda4 dbname="profe.moda4" )
+ column=(type=char(1) updatewhereclause=yes name=moda5 dbname="profe.moda5" )
+ column=(type=char(1) updatewhereclause=yes name=moda6 dbname="profe.moda6" )
+ column=(type=number updatewhereclause=yes name=contador_hc dbname="profe.contador_hc" )
+ column=(type=char(2) updatewhereclause=yes name=clugar_hc dbname="profe.clugar_hc" )
+ column=(type=long updatewhereclause=yes name=nregistro_hc dbname="profe.nregistro_hc" )
+ column=(type=long updatewhereclause=yes name=item_hc dbname="profe.item_hc" )
+ column=(type=char(20) updatewhereclause=yes name=umedida dbname="profe.umedida" )
+ column=(type=long updatewhereclause=yes name=nro_decs dbname="profe.nro_decs" )
+ column=(type=char(85) updatewhereclause=yes name=desprof dbname="desprof" )
+ column=(type=char(15) updatewhereclause=yes name=cod_cups dbname="profe.cod_cups" )
+ retrieve="SELECT 
+	resultadoscpo.CodDoc, resultadoscpo.clugar, resultadoscpo.NRepor, resultadoscpo.Item, AreaADX.DescripcionGC AS des_area, gclinico.DescripcionGC, 
+	resultadoscpo.CodProced, left(proced.Descripcion,30) as descripcion, resultadoscpo.FechaResul, resultadosval.ConseCampo, campopgc.NombreCampo, campopgc.Tipocampo,
+	resultadosval.Resultado1, resultadosval.Resultado2, resultadosval.Resultado3, resultadosval.Resultado4, resultadosval.Resultado5, resultadosval.Resultado6,
+	campopgc.orden, campopgc.Moda1, campopgc.Moda2, campopgc.Moda3, campopgc.Moda4, campopgc.Moda5, campopgc.Moda6, resultadoscpo.Contador_hc,
+	resultadoscpo.clugar_hc, resultadoscpo.nregistro_hc, resultadoscpo.item_hc, campopgc.umedida,campopgc.nro_decs,
+	profe.nombre1|| case when profe.nombre2  is null then ' ' else  '  '||profe.nombre2 end ||' '|| profe.apellido1|| case when profe.apellido2 is null then ' ' else  '  '||profe.apellido2 end as desprof,
+	proced.COD_CUPS
+FROM 
+	(((resultadoscab INNER JOIN AreaADX ON resultadoscab.CodAADX = AreaADX.CodAADX) INNER JOIN (resultadoscpo LEFT JOIN gclinico ON 
+	resultadoscpo.CodGC = gclinico.CodGC) ON (resultadoscab.CodDoc = resultadoscpo.CodDoc) AND (resultadoscab.clugar = resultadoscpo.clugar) AND 
+	(resultadoscab.NRepor = resultadoscpo.NRepor)) INNER JOIN ((resultadosval INNER JOIN campopgc ON (resultadosval.CodProced = campopgc.CodProced) AND 
+	(resultadosval.ConseCampo = campopgc.ConseCampo)) INNER JOIN proced ON resultadosval.CodProced = proced.CodProced) ON 
+	(resultadoscpo.CodDoc = resultadosval.CodDoc) AND (resultadoscpo.clugar = resultadosval.clugar) AND (resultadoscpo.NRepor = resultadosval.NRepor) AND 
+	(resultadoscpo.Item = resultadosval.Item)) INNER JOIN Profe ON resultadoscpo.Profesional = Profe.CodProf
+WHERE 
+	( ((campopgc.Tipocampo)<>'7') 
+	AND ((resultadoscpo.Contador_hc)=:conta_hc) AND ((resultadoscpo.clugar_hc)=:clug_hc) AND ((resultadoscpo.nregistro_hc)=:nreg_hc) 
+	AND ((resultadoscpo.item_hc)=:item_hc) AND ((campopgc.imp_en_hc)='1')
+	AND (   case when( resultado1 is null or LENGTH(resultado1)=0) and (resultado2 is null) and (resultado3 is null) and 
+		(resultado4 is null) and (resultado5 is null) and ( resultado6 is null) THEN 1 else 0 end=0 ))
+	" arguments=(("conta_hc", number),("clug_hc", string),("nreg_hc", number),("item_hc", number))  sort="nrepor A item A codproced A orden A " )
+compute(name=resultados visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" format="[general]" expression="case( tipocampo 
+when '1' then resultado1
+when '2' then round(resultado2,  if(isnull(nro_decs),2,nro_decs) ) + if(isnull(umedida),'  ', ' '+umedida ) 
+when '3' then resultado3
+when '4' then resultado4
+when '5' then resultado5
+when '6' then resultado6 )+'~~n~~r'
+" )
+column(name=coddoc id=1 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=clugar id=2 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=nrepor id=3 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=item id=4 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=des_area id=5 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=descripciongc id=6 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=codproced id=7 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=descripcion id=8 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=fecharesul id=9 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=consecampo id=10 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=nombrecampo id=11 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=tipocampo id=12 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=resultado1 id=13 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=resultado2 id=14 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=resultado3 id=15 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=resultado4 id=16 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=resultado5 id=17 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=resultado6 id=18 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=orden id=19 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=moda1 id=20 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=moda2 id=21 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=moda3 id=22 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=moda4 id=23 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=moda5 id=24 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=moda6 id=25 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=contador_hc id=26 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=clugar_hc id=27 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=nregistro_hc id=28 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=item_hc id=29 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=umedida id=30 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=nro_decs id=31 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=desprof id=32 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+column(name=cod_cups id=33 visible="1" lineremove=no multiline=no width.autosize=yes width="0" alignment="0" tabsequence=0 format="[general]" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()

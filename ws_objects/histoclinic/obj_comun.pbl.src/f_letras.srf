@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_letras.srf
+global type f_letras from function_object
+end type
+
+forward prototypes
+global function string letras (real numero)
+global function string f_letras (readonly double numero, integer decima)
+end prototypes
+
+global function string letras (real numero);return ""
+end function
+
+global function string f_letras (readonly double numero, integer decima);double mil_millon,millones,miles,centenas
+string let_num
+ 
+if numero=0 then return "cero"
+let_num=""
+mil_millon=long(numero/1000000000)
+millones=long((numero -mil_millon*1000000000)/1000000)
+miles=long((numero -mil_millon*1000000000 -millones*1000000)/1000)
+centenas=long(numero -mil_millon*1000000000 -millones*1000000 - miles*1000)
+if mil_millon = 1 then let_num+=" MIL "
+if mil_millon > 1 then let_num+=f_centenas(mil_millon)+" MIL "
+if millones =1 then let_num+=" UN MILLON "
+if millones >1 then let_num+=f_centenas(millones)+" MILLONES "
+if miles=1 and millones>0 then let_num+=" UN "
+if miles=1  then let_num+=" MIL "
+if miles >1 then let_num+=f_centenas(miles)+" MIL "
+let_num+=f_centenas(centenas)
+if decima >0 then let_num+=+" CON " +f_centenas(double(decima))
+return trim(let_num)
+end function
+

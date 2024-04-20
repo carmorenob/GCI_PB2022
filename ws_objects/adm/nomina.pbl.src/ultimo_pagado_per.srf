@@ -1,0 +1,25 @@
+﻿$PBExportHeader$ultimo_pagado_per.srf
+global type ultimo_pagado_per from function_object
+end type
+
+forward prototypes
+global function decimal ultimo_pagado_per (string tipodoc, string documento, string concepto, datetime fecha_ini, datetime fecha_fin)
+end prototypes
+
+global function decimal ultimo_pagado_per (string tipodoc, string documento, string concepto, datetime fecha_ini, datetime fecha_fin);datetime fecha
+double valor
+
+SELECT Max(NOM_CAB.inicia) INTO :fecha
+FROM NOM_CAB INNER JOIN (NOM_CPO INNER JOIN NOM_CONCEP ON NOM_CPO.COD_CONCEP = NOM_CONCEP.COD_CONCEP) ON NOM_CAB.NUM_NOMINA = NOM_CPO.NUM_NOMINA
+WHERE 
+	(((NOM_CPO.TIPODOC)=:tipodoc) AND ((NOM_CPO.DOCUMENTO)=:documento) AND ((NOM_CONCEP.SIGLA)=:concepto)) and 
+	nom_cab.estado = '1' and NOM_CAB.inicia  between :fecha_ini and :fecha_fin;
+
+SELECT sum(nom_cpo.pagado) INTO :valor
+FROM NOM_CAB INNER JOIN (NOM_CPO INNER JOIN NOM_CONCEP ON NOM_CPO.COD_CONCEP = NOM_CONCEP.COD_CONCEP) ON NOM_CAB.NUM_NOMINA = NOM_CPO.NUM_NOMINA
+WHERE (((NOM_CPO.TIPODOC)=:tipodoc) AND ((NOM_CPO.DOCUMENTO)=:documento) AND ((NOM_CONCEP.SIGLA)=:concepto)) and nom_cab.inicia =:fecha and nom_cab.estado = '1';
+
+if isNull(valor) then valor = 0
+Return valor
+end function
+

@@ -1,0 +1,41 @@
+﻿$PBExportHeader$gf_set_trans_userobject.srf
+global type gf_set_trans_userobject from function_object
+end type
+
+forward prototypes
+global subroutine gf_set_trans_userobject (windowobject awo_object)
+end prototypes
+
+global subroutine gf_set_trans_userobject (windowobject awo_object);
+long j,k,l
+tab lt_tab
+datawindow ldw_dw
+userobject luo_uo
+
+	choose case typeof(awo_object)
+		
+		case datawindow!
+			ldw_dw=awo_object
+			ldw_dw.settransobject(sqlca)
+			
+		case tab!
+			
+			lt_tab=awo_object
+			for l= 1 to upperbound(lt_tab.control[])
+				
+				
+				for k=1 to upperbound(lt_tab.control[l].control[])
+					gf_set_trans_userobject(lt_tab.control[l].control[k])
+				next
+			next
+			
+		case userobject!
+			luo_uo=awo_object
+			for j=1 to upperbound(luo_uo.control[])
+			
+				gf_set_trans_userobject(luo_uo.control[j])
+			next
+	end choose
+	
+end subroutine
+

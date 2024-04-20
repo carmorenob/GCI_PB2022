@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_count_text.srf
+global type f_count_text from function_object
+end type
+
+forward prototypes
+global function integer f_count_text (string texto, string a_buscar)
+end prototypes
+
+global function integer f_count_text (string texto, string a_buscar);//busca una cadena dentro de otra y devuleve el número de veces que la encontró
+long cuantos,recorre,donde
+cuantos=0
+recorre=1 
+DO WHILE recorre< len(texto)
+	donde=pos(texto,a_buscar,recorre)
+	if donde=0 then exit
+	cuantos++
+	recorre=donde+len(a_buscar)
+LOOP
+return cuantos
+end function
+

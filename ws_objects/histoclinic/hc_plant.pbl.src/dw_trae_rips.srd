@@ -1,0 +1,77 @@
+﻿$PBExportHeader$dw_trae_rips.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no grid.lines=0 )
+header(height=144 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=char(15) updatewhereclause=yes name=codproced dbname="proced.codproced" )
+ column=(type=char(2) updatewhereclause=yes name=rips dbname="proced.rips" )
+ column=(type=char(255) updatewhereclause=yes name=descripcion dbname="proced.descripcion" )
+ column=(type=char(1) updatewhereclause=yes name=r_tipodiagprin dbname="rips.r_tipodiagprin" )
+ column=(type=char(1) updatewhereclause=yes name=r_diagprin dbname="rips.r_diagprin" )
+ column=(type=char(1) updatewhereclause=yes name=r_causaexterna dbname="rips.r_causaexterna" )
+ column=(type=char(1) updatewhereclause=yes name=r_fin_consulta dbname="rips.r_fin_consulta" )
+ column=(type=char(1) updatewhereclause=yes name=r_diagrel1 dbname="rips.r_diagrel1" )
+ column=(type=char(1) updatewhereclause=yes name=r_diagrel2 dbname="rips.r_diagrel2" )
+ column=(type=char(1) updatewhereclause=yes name=r_diagcompli dbname="rips.r_diagcompli" )
+ column=(type=char(1) updatewhereclause=yes name=r_tipo_actoqx dbname="rips.r_tipo_actoqx" )
+ column=(type=char(1) updatewhereclause=yes name=r_ambitoproced dbname="rips.r_ambitoproced" )
+ column=(type=char(1) updatewhereclause=yes name=r_finalidadproced dbname="rips.r_finalidadproced" )
+ retrieve="SELECT Proced.CodProced, Proced.RIPS, Proced.Descripcion, rips.tipodiagprin AS r_tipodiagprin, rips.diagprin AS r_diagprin, 
+rips.causaexterna AS r_causaexterna, rips.fin_consulta AS r_fin_consulta, rips.diagrel1 AS r_diagrel1, rips.diagrel2 AS r_diagrel2, 
+rips.diagcompli AS r_diagcompli, rips.tipo_actoqx AS r_tipo_actoqx, rips.ambitoProced AS r_ambitoProced, rips.finalidadProced AS r_finalidadProced
+FROM Proced INNER JOIN rips ON Proced.RIPS = rips.codrips
+WHERE Proced.CodProced=:proc
+
+" arguments=(("proc", string)) )
+text(band=header alignment="2" text="Proced
+Codproced" border="0" color="33554432" x="14" y="8" height="128" width="439" html.valueishtml="0"  name=proced_codproced_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Proced
+Rips" border="0" color="33554432" x="466" y="8" height="128" width="187" html.valueishtml="0"  name=proced_rips_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Proced
+Descripcion" border="0" color="33554432" x="667" y="8" height="128" width="1385" html.valueishtml="0"  name=proced_descripcion_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Rips
+R Tipodiagprin" border="0" color="33554432" x="2066" y="8" height="128" width="375" html.valueishtml="0"  name=rips_r_tipodiagprin_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Rips
+R Diagprin" border="0" color="33554432" x="2455" y="8" height="128" width="274" html.valueishtml="0"  name=rips_r_diagprin_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Rips
+R Causaexterna" border="0" color="33554432" x="2743" y="8" height="128" width="425" html.valueishtml="0"  name=rips_r_causaexterna_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Rips
+R Fin Consulta" border="0" color="33554432" x="3182" y="8" height="128" width="393" html.valueishtml="0"  name=rips_r_fin_consulta_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Rips
+R Diagrel1" border="0" color="33554432" x="3589" y="8" height="128" width="274" html.valueishtml="0"  name=rips_r_diagrel1_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Rips
+R Diagrel2" border="0" color="33554432" x="3877" y="8" height="128" width="274" html.valueishtml="0"  name=rips_r_diagrel2_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Rips
+R Diagcompli" border="0" color="33554432" x="4165" y="8" height="128" width="352" html.valueishtml="0"  name=rips_r_diagcompli_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Rips
+R Tipo Actoqx" border="0" color="33554432" x="4530" y="8" height="128" width="375" html.valueishtml="0"  name=rips_r_tipo_actoqx_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Rips
+R Ambitoproced" border="0" color="33554432" x="4919" y="8" height="128" width="425" html.valueishtml="0"  name=rips_r_ambitoproced_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Rips
+R Finalidadproced" border="0" color="33554432" x="5358" y="8" height="128" width="475" html.valueishtml="0"  name=rips_r_finalidadproced_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="14" y="8" height="76" width="439" format="[general]" html.valueishtml="0"  name=codproced visible="1" edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="466" y="8" height="76" width="187" format="[general]" html.valueishtml="0"  name=rips visible="1" edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="33554432" x="667" y="8" height="76" width="1385" format="[general]" html.valueishtml="0"  name=descripcion visible="1" edit.limit=255 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="33554432" x="2066" y="8" height="76" width="375" format="[general]" html.valueishtml="0"  name=r_tipodiagprin visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="33554432" x="2455" y="8" height="76" width="274" format="[general]" html.valueishtml="0"  name=r_diagprin visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="33554432" x="2743" y="8" height="76" width="425" format="[general]" html.valueishtml="0"  name=r_causaexterna visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="33554432" x="3182" y="8" height="76" width="393" format="[general]" html.valueishtml="0"  name=r_fin_consulta visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="33554432" x="3589" y="8" height="76" width="274" format="[general]" html.valueishtml="0"  name=r_diagrel1 visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="33554432" x="3877" y="8" height="76" width="274" format="[general]" html.valueishtml="0"  name=r_diagrel2 visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="33554432" x="4165" y="8" height="76" width="352" format="[general]" html.valueishtml="0"  name=r_diagcompli visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="33554432" x="4530" y="8" height="76" width="375" format="[general]" html.valueishtml="0"  name=r_tipo_actoqx visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="33554432" x="4919" y="8" height="76" width="425" format="[general]" html.valueishtml="0"  name=r_ambitoproced visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="33554432" x="5358" y="8" height="76" width="475" format="[general]" html.valueishtml="0"  name=r_finalidadproced visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

@@ -1,0 +1,31 @@
+﻿$PBExportHeader$f_calc_retfuente.srf
+global type f_calc_retfuente from function_object
+end type
+
+forward prototypes
+global function decimal f_calc_retfuente (decimal valor, decimal base, double uvt, string sobre, string concep, integer dec_gral)
+end prototypes
+
+global function decimal f_calc_retfuente (decimal valor, decimal base, double uvt, string sobre, string concep, integer dec_gral);decimal  rtf, valorRTF, porc_rtf, agr_rtf,valor_uvt,valor_in
+
+if valor <= 0 then Return 0.0
+if uvt= 0 or isnull(uvt) then Return 0.0
+valor_uvt =valor/uvt
+select porcentaje, valor_rete, agrega,valor_inicial into :porc_rtf, :valorRTF, :agr_rtf, :valor_in from nom_retefuente
+where  :valor_uvt>valor_inicial and  :valor_uvt<=valor_final and cod_concep=:concep;
+IF SQLCA.SQLCode = -1 THEN
+	MessageBox("SQL error", SQLCA.SQLErrText)
+	Return 0
+END IF
+if not isNull(porc_rtf) then
+	If sobre='V' then
+		valor_uvt=(((base  * porc_rtf/100)) + agr_rtf ) 
+	else
+		valor_uvt=f_aproxima_a((((((valor_uvt - valor_in) * porc_rtf/100) + agr_rtf ) * uvt)),1000)
+	end if
+else
+	valor_uvt=0
+end if
+Return valor_uvt
+end function
+

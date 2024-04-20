@@ -1,0 +1,51 @@
+﻿$PBExportHeader$f_valida_fecha.srf
+global type f_valida_fecha from function_object
+end type
+
+forward prototypes
+global function boolean f_valida_fecha (datetime ps_fecha, string p_tipo, integer p_cuantos, datetime ps_fecha_contra, string p_rango)
+end prototypes
+
+global function boolean f_valida_fecha (datetime ps_fecha, string p_tipo, integer p_cuantos, datetime ps_fecha_contra, string p_rango);/*
+	p_tipo 
+		D:dias
+		M:meses
+		A:años
+	p_rango
+		>:Solo mayor o igual
+		<:Solo menor o igual
+		Y:entre el rango
+*/
+date p_fecha,p_fecha_contra
+p_fecha=date(ps_fecha)
+p_fecha_contra=date(ps_fecha_contra)
+if abs(DaysAfter(p_fecha,p_fecha_contra))>7300 then 
+	messagebox('Atención' , 'Fecha no valida')
+	return false
+end if
+long cuantos
+choose case p_tipo
+	case 'D'
+		cuantos=p_cuantos
+	case 'M'
+		cuantos=30 * p_cuantos
+	case 'A'
+		cuantos=365 * p_cuantos
+end choose
+choose case p_rango
+	case 'Y'
+		if p_fecha<relativedate(p_fecha_contra,- cuantos)  or p_fecha>relativedate(p_fecha_contra, cuantos)  then
+			if messagebox('Atención' , 'La fecha no está dentro del rango permitido, desea continuar aún así ?',question!,yesno!,2)=2 then return false
+		end if
+	case '>'
+		if p_fecha < p_fecha_contra or p_fecha>relativedate(p_fecha_contra, cuantos) then
+			if messagebox('Atención' , 'La fecha no está dentro del rango permitido, desea continuar aún así ?',question!,yesno!,2)=2 then return false
+		end if
+	case '<'
+		if p_fecha > p_fecha_contra or p_fecha<relativedate(p_fecha_contra, -cuantos) then
+			if messagebox('Atención' , 'La fecha no está dentro del rango permitido, desea continuar aún así ?',question!,yesno!,2)=2 then return false
+		end if
+end choose
+return true
+end function
+

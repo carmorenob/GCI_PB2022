@@ -1,0 +1,91 @@
+﻿$PBExportHeader$dw_liq_uvr2.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no grid.lines=0 )
+header(height=72 color="536870912" )
+summary(height=68 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=char(1) updatewhereclause=yes name=escog dbname="escog" values="Si	1/Si	0" )
+ column=(type=char(15) updatewhereclause=yes name=codservicio dbname="serviciosman.codservicio" dbalias=".codservicio" )
+ column=(type=char(255) updatewhereclause=yes name=descripcion dbname="serviciosman.descripcion" dbalias=".descripcion" )
+ column=(type=real updatewhereclause=yes name=valor dbname="serviciosman.valor" dbalias=".valor" )
+ column=(type=real updatewhereclause=yes name=vunit dbname="serviciosman.vunit" dbalias=".vunit" )
+ column=(type=char(1) updatewhereclause=yes name=tiposervicio dbname="serviciosman.tiposervicio" dbalias=".tiposervicio" )
+ column=(type=long updatewhereclause=yes name=desde dbname="liquvr.DESDE" dbalias=".DESDE" )
+ column=(type=long updatewhereclause=yes name=normal dbname="liquvr.normal" dbalias=".normal" )
+ column=(type=long updatewhereclause=yes name=incruento dbname="liquvr.incruento" dbalias=".incruento" )
+ column=(type=long updatewhereclause=yes name=bilateral dbname="liquvr.bilateral" dbalias=".bilateral" )
+ column=(type=long updatewhereclause=yes name=mieiv dbname="liquvr.mieiv" dbalias=".mieiv" )
+ column=(type=long updatewhereclause=yes name=mieivhasta dbname="liquvr.mieivhasta" dbalias=".mieivhasta" )
+ column=(type=long updatewhereclause=yes name=miedv dbname="liquvr.miedv" dbalias=".miedv" )
+ column=(type=long updatewhereclause=yes name=miedvhasta dbname="liquvr.miedvhasta" dbalias=".miedvhasta" )
+ column=(type=long updatewhereclause=yes name=mdeiv dbname="liquvr.mdeiv" dbalias=".mdeiv" )
+ column=(type=long updatewhereclause=yes name=mdeivhasta dbname="liquvr.mdeivhasta" dbalias=".mdeivhasta" )
+ column=(type=long updatewhereclause=yes name=mdedv dbname="liquvr.mdedv" dbalias=".mdedv" )
+ column=(type=long updatewhereclause=yes name=mdedvhasta dbname="liquvr.mdedvhasta" dbalias=".mdedvhasta" )
+ column=(type=char(1) updatewhereclause=yes name=obligatorio dbname="obligatorio" )
+ column=(type=char(2) updatewhereclause=yes name=codigocobro dbname="liquvr.codigocobro" dbalias=".codigocobro" )
+ column=(type=char(1) updatewhereclause=yes name=esincruento dbname="esincruento" )
+ column=(type=char(1) updatewhereclause=yes name=esbilateral dbname="esbilateral" )
+ column=(type=char(1) updatewhereclause=yes name=sexo dbname="sexo" )
+ column=(type=char(1) updatewhereclause=yes name=configurado dbname="configurado" )
+ retrieve="SELECT '0' AS escog, serviciosman.codservicio, serviciosman.descripcion, serviciosman.valor, serviciosman.valor AS vunit,
+ serviciosman.tiposervicio, liquvr.DESDE, liquvr.normal, liquvr.incruento, liquvr.bilateral, liquvr.mieiv, 
+liquvr.mieivhasta, liquvr.miedv, liquvr.miedvhasta, liquvr.mdeiv, liquvr.mdeivhasta, liquvr.mdedv, liquvr.mdedvhasta, 
+'0' AS obligatorio, liquvr.CodCobro AS codigocobro, '0' AS esincruento, '0' AS esbilateral, 'A' AS sexo ,'' as configurado
+FROM liquvr 
+LEFT outer JOIN serviciosman ON (liquvr.Codservicio = serviciosman.codservicio) 
+AND (liquvr.CodManual = serviciosman.CodManual)
+WHERE (((serviciosman.tiposervicio)='I') AND ((liquvr.DESDE)<=:puntos) 
+AND ((serviciosman.iniciouvr)<=:puntos) AND ((serviciosman.finaluvr)>=:puntos) 
+AND ((serviciosman.CodManual)=:manual)) OR (((serviciosman.tiposervicio)='M') 
+AND ((liquvr.DESDE)<=:puntos) AND ((serviciosman.CodManual)=:manual))
+union
+SELECT '0' AS escog, serviciosman.codservicio, serviciosman.descripcion, serviciosman.valor, 
+serviciosman.valor AS vunit, serviciosman.tiposervicio, liquvr.DESDE, liquvr.normal, liquvr.incruento, 
+liquvr.bilateral, liquvr.mieiv, liquvr.mieivhasta, liquvr.miedv, liquvr.miedvhasta, liquvr.mdeiv, liquvr.mdeivhasta, 
+liquvr.mdedv, liquvr.mdedvhasta, qxconfiguradetalle.obligatorio, qxconfiguradetalle.CodigoCobro, 
+QxConfiguracion.Incruento AS esIncruento, QxConfiguracion.Bilateral AS esBilateral, QxConfiguracion.Sexo,
+'C' as configurado
+FROM ((liquvr LEFT outer JOIN serviciosman ON (liquvr.CodManual = serviciosman.CodManual) 
+AND (liquvr.Codservicio = serviciosman.codservicio)) 
+LEFT outer JOIN qxconfiguradetalle ON (serviciosman.CodManual = qxconfiguradetalle.CodManual) 
+AND (serviciosman.codservicio = qxconfiguradetalle.proced_hijo)) 
+LEFT outer JOIN QxConfiguracion ON (qxconfiguradetalle.Proced = QxConfiguracion.Proced) 
+AND (qxconfiguradetalle.CTLQX = QxConfiguracion.CTLQX) 
+AND (qxconfiguradetalle.CodManual = QxConfiguracion.CodManual)
+WHERE (((serviciosman.tiposervicio)='I') AND ((liquvr.DESDE)<=:puntos) 
+AND ((serviciosman.iniciouvr)<=:puntos) AND ((serviciosman.finaluvr)>=:puntos) 
+AND ((serviciosman.CodManual)=:manual) AND ((qxconfiguradetalle.Proced)=:proced)) 
+OR (((serviciosman.tiposervicio)='M') AND ((liquvr.DESDE)<=:puntos) AND ((serviciosman.CodManual)=:manual) 
+AND ((qxconfiguradetalle.Proced)=:proced)) and serviciosman.codservicio is not null
+order by 2, 19 desc , 20 desc" arguments=(("puntos", number),("manual", string),("proced", string)) )
+group(level=1 header.height=0 trailer.height=0 by=("codservicio" ) header.color="536870912" trailer.color="536870912" )
+button(band=header text="Cobrar" filename="" enabled=yes action="0" border="0" color="0" x="5" y="4" height="68" width="229" vtextalign="0" htextalign="0"  name=b_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+text(band=header alignment="2" text="Código" border="6" color="0" x="242" y="8" height="56" width="306" html.valueishtml="0"  name=serviciosman_codservicio_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Descripción" border="6" color="0" x="558" y="8" height="56" width="1408" html.valueishtml="0"  name=serviciosman_descripcion_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Valor" border="6" color="0" x="1975" y="8" height="56" width="352" html.valueishtml="0"  name=serviciosman_valor_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Oblig." border="6" color="0" x="2336" y="8" height="56" width="178" html.valueishtml="0"  name=t_4 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="0" x="9" y="4" height="60" width="224" format="[general]" html.valueishtml="0" protect="0~tif (obligatorio='1' or ( sum( long( codigocobro ) for all )<>0 and  codigocobro ='0' ) , 1,0)"  name=escog visible="1" checkbox.text="Si" checkbox.on="1" checkbox.off="0" checkbox.scale=no checkbox.threed=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tif ( sum( long( codigocobro ) for all )<>0 and  codigocobro ='0'  ,  rgb(192,192,192),
+if(escog='1' and obligatorio='1', rgb(220,192,192),if( escog='1',rgb(255,192,192),rgb(255,255,255))))" )
+compute(band=detail alignment="2" expression="if (obligatorio='1','Si','No')"border="0" color="0" x="2336" y="4" height="60" width="178" format="[GENERAL]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tif ( sum( long( codigocobro ) for all )<>0 and  codigocobro ='0'  ,  rgb(192,192,192),
+if( obligatorio='1',rgb(220,192,192), rgb(220,240,220)))" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="0" color="0" x="242" y="4" height="60" width="306" format="[general]" html.valueishtml="0"  name=codservicio visible="1" edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tif ( sum( long( codigocobro ) for all )<>0 and  codigocobro ='0'  ,  rgb(192,192,192),
+if(escog='1' and obligatorio='1', rgb(220,192,192),if( escog='1',rgb(255,192,192),rgb(255,255,255))))" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="0" color="0" x="558" y="4" height="60" width="1408" format="[general]" html.valueishtml="0"  name=descripcion visible="1" edit.limit=250 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tif ( sum( long( codigocobro ) for all )<>0 and  codigocobro ='0'  ,  rgb(192,192,192),
+if(escog='1' and obligatorio='1', rgb(220,192,192),if( escog='1',rgb(255,192,192),rgb(255,255,255))))" )
+column(band=detail id=4 alignment="1" tabsequence=40 border="0" color="0" x="1975" y="4" height="60" width="352" format="#,##0.00" html.valueishtml="0"  name=valor visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tif ( sum( long( codigocobro ) for all )<>0 and  codigocobro ='0'  ,  rgb(192,192,192),
+if(escog='1' and obligatorio='1', rgb(220,192,192),if( escog='1',rgb(255,192,192),rgb(255,255,255))))" )
+text(band=summary alignment="1" text="TOTAL:    " border="0" color="0" x="558" y="4" height="52" width="1408" html.valueishtml="0"  name=t_3 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="sum(if (escog='1',valor,0) for all)"border="0" color="0" x="1975" y="4" height="56" width="352" format="#,##0.00" html.valueishtml="0"  name=vtotal visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

@@ -1,0 +1,45 @@
+﻿$PBExportHeader$dw_banco_prueb_prelim.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=67108864 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=76 color="536870912" )
+table(column=(type=char(2) update=yes updatewhereclause=yes key=yes name=clugar dbname="banco_prueba_lista.clugar" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=nro_donacion dbname="banco_prueba_lista.nro_donacion" )
+ column=(type=char(4) update=yes updatewhereclause=yes key=yes name=cod_banco dbname="banco_prueba_lista.cod_banco" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=nro_examen dbname="banco_prueba_lista.nro_examen" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=nro_prueba dbname="banco_prueba_lista.nro_prueba" )
+ column=(type=long update=yes updatewhereclause=yes name=subitem dbname="banco_prueba_lista.subitem" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=si_no dbname="banco_prueba_lista.si_no" values="Si	1/No	0/" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=numero dbname="banco_prueba_lista.numero" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha dbname="banco_prueba_lista.fecha" )
+ column=(type=char(255) update=yes updatewhereclause=yes name=texto dbname="banco_prueba_lista.texto" )
+ column=(type=char(50) updatewhereclause=yes name=descrip_examen dbname="banco_prueba_lista.descrip_examen" )
+ column=(type=char(1) updatewhereclause=yes name=tipo dbname="banco_prueba_lista.tipo" initial="T" )
+ column=(type=char(50) updatewhereclause=yes name=descrip_lista dbname="banco_prueba_lista.descrip_lista" )
+ column=(type=char(1) updatewhereclause=yes name=riesgo dbname="banco_prueba_lista.riesgo" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha_prueba dbname="banco_prueba_lista.fecha_prueba" )
+ retrieve="SELECT Banco_resul_pruebas.clugar, Banco_resul_pruebas.nro_donacion, Banco_resul_pruebas.cod_banco, 
+Banco_resul_pruebas.nro_examen, Banco_resul_pruebas.nro_prueba, Banco_resul_pruebas.subitem, 
+Banco_resul_pruebas.si_no, Banco_resul_pruebas.numero, Banco_resul_pruebas.fecha, Banco_resul_pruebas.texto, 
+banco_prueba.descrip_examen, banco_prueba.tipo, banco_prueba_lista.descrip_lista, banco_prueba.riesgo,
+Banco_resul_pruebas.fecha_prueba
+FROM (banco_prueba INNER JOIN Banco_resul_pruebas ON (banco_prueba.nro_examen = Banco_resul_pruebas.nro_examen) 
+AND (banco_prueba.cod_banco = Banco_resul_pruebas.cod_banco)) 
+LEFT outer JOIN banco_prueba_lista ON (Banco_resul_pruebas.subitem = banco_prueba_lista.subitem) 
+AND (Banco_resul_pruebas.nro_examen = banco_prueba_lista.nro_examen) 
+AND (Banco_resul_pruebas.cod_banco = banco_prueba_lista.cod_banco)
+WHERE (((Banco_resul_pruebas.clugar)=:clug) AND ((Banco_resul_pruebas.nro_donacion)=:ndona))
+and banco_prueba.preliminar=:preliminar
+" update="Banco_resul_pruebas" updatewhere=0 updatekeyinplace=yes arguments=(("clug", string),("ndona", number),("preliminar", string))  sort="nro_examen A " )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="33554432" x="14" y="8" height="60" width="1294~tif ( len(  descrip_examen ) * 30 > 2500 , 2500 , len(  descrip_examen ) * 30 )" format="[general]" html.valueishtml="0"  name=descrip_examen visible="1" edit.limit=50 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=10 border="0" color="33554432" x="1330~tif ( len(  descrip_examen ) * 30 + 91 > 2620 , 2620 , if (len(  descrip_examen ) * 30 +91< 450 , 450 , len(  descrip_examen ) * 30  ) + 120)" y="8" height="60" width="302" format="[general]" html.valueishtml="0" protect="0~tif ( isrownew() , 0 , 1)"  name=si_no visible="1~tif ( tipo='S' , 1 , 0 )" radiobuttons.columns=2 radiobuttons.scale=no radiobuttons.threed=yes  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=20 border="5" color="0" x="1669~tif ( len(  descrip_examen ) * 30 + 91 > 2620 , 2620 , if (len(  descrip_examen ) * 30 +91< 450 , 450 , len(  descrip_examen ) * 30  ) + 120)" y="8" height="56" width="1070" format="[general]" html.valueishtml="0" protect="0~tif ( isrownew() , 0 , 1)"  name=descrip_lista visible="1~tif ( tipo='L' , 1 , 0 )" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=10 alignment="0" tabsequence=40 border="5" color="0" x="3063~tif ( len(  descrip_examen ) * 30 + 91 > 2620 , 2620 , if (len(  descrip_examen ) * 30 +91< 450 , 450 , len(  descrip_examen ) * 30  ) + 120)" y="8" height="56" width="1298" format="[general]" html.valueishtml="0" protect="0~tif ( isrownew() , 0 , 1)"  name=texto visible="1~tif ( tipo='T' , 1 , 0 )" edit.limit=255 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="1" tabsequence=50 border="5" color="0" x="4384~tif ( len(  descrip_examen ) * 30 + 91 > 2620 , 2620 , if (len(  descrip_examen ) * 30 +91< 450 , 450 , len(  descrip_examen ) * 30  ) + 120)" y="8" height="56" width="357" format="[general]" html.valueishtml="0" protect="0~tif ( isrownew() , 0 , 1)"  name=numero visible="1~tif ( tipo='N' , 1 , 0 )" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=9 alignment="0" tabsequence=30 border="5" color="0" x="2761~tif ( len(  descrip_examen ) * 30 + 91 > 2620 , 2620 , if (len(  descrip_examen ) * 30 +91< 450 , 450 , len(  descrip_examen ) * 30  ) + 120)" y="8" height="56" width="357" format="[shortdate] [time]" html.valueishtml="0" protect="0~tif ( isrownew() , 0 , 1)"  name=fecha visible="1~tif ( tipo='F' , 1 , 0 )" editmask.autoskip=yes editmask.spin=yes editmask.mask="dd/mm/yyyy" editmask.imemode=0 editmask.spinincr=1 editmask.focusrectangle=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

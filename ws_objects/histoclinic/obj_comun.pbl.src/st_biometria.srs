@@ -1,0 +1,6 @@
+﻿$PBExportHeader$st_biometria.srs
+global type st_biometria from structure
+	long		size
+	blob		template
+end type
+

@@ -1,0 +1,7 @@
+﻿$PBExportHeader$st_parips.srs
+global type st_parips from structure
+	long		contador
+	string		clugar_his
+	double		i_difs
+end type
+

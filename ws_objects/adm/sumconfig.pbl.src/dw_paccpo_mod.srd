@@ -1,0 +1,70 @@
+﻿$PBExportHeader$dw_paccpo_mod.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no )
+header(height=220 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=156 color="536870912" )
+detail(height=76 color="536870912" )
+table(column=(type=char(15) update=yes updatewhereclause=yes key=yes name=codalmacen dbname="codalmacen" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=ano dbname="ano" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=item dbname="item" )
+ column=(type=char(15) update=yes updatewhereclause=yes key=yes name=codgenerico dbname="codgenerico" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha dbname="fecha" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=mes dbname="mes" )
+ column=(type=long update=yes updatewhereclause=yes name=planeado dbname="planeado" )
+ column=(type=long updatewhereclause=yes name=consumo dbname="consumo" )
+ column=(type=char(200) updatewhereclause=yes name=descripcion dbname="descripcion" )
+ column=(type=char(1) updatewhereclause=yes name=estado dbname="estado" )
+ column=(type=long updatewhereclause=yes name=t_planeado dbname="t_planeado" )
+ column=(type=long updatewhereclause=yes name=t_consumo dbname="t_consumo" )
+ retrieve="SELECT 
+	sumpaccpo.codalmacen, sumpaccpo.ano, sumpaccpo.item, sumpaccpo.codgenerico, sumpaccpo.fecha, 
+	sumpaccpo.mes, sumpaccpo.planeado, sumpaccpo.consumo, sumgenerico.descripcion, sumpaccab.estado,
+	T_planeado,T_consumo
+FROM 
+(sumpaccab INNER JOIN (sumpaccpo INNER JOIN sumgenerico ON sumpaccpo.codgenerico = sumgenerico.codgenerico) ON 
+(sumpaccab.CODALMACEN = sumpaccpo.CODALMACEN) AND (sumpaccab.ANO = sumpaccpo.ANO) AND 
+(sumpaccab.ITEM = sumpaccpo.ITEM)) INNER JOIN 
+(
+SELECT 
+	SUMPACCPO.CODALMACEN, SUMPACCPO.ANO, SUMPACCPO.ITEM, SUMPACCPO.codgenerico, 
+	Sum(SUMPACCPO.planeado) AS T_planeado, Sum(SUMPACCPO.consumo) AS T_consumo
+FROM SUMPACCPO
+GROUP BY SUMPACCPO.CODALMACEN, SUMPACCPO.ANO, SUMPACCPO.ITEM, SUMPACCPO.codgenerico
+having
+(((sumpaccpo.codalmacen)=:codalmacen) AND ((sumpaccpo.ano)=:ano) AND ((sumpaccpo.item)=:item) AND 
+((sumpaccpo.codgenerico)=:codgenerico))
+
+)
+sumpco_tot ON (sumpaccpo.codgenerico = sumpco_tot.codgenerico) AND 
+(sumpaccpo.ITEM = sumpco_tot.ITEM) AND (sumpaccpo.ANO = sumpco_tot.ANO) AND 
+(sumpaccpo.CODALMACEN = sumpco_tot.CODALMACEN)
+WHERE (((sumpaccpo.codalmacen)=:codalmacen) AND ((sumpaccpo.ano)=:ano) AND ((sumpaccpo.item)=:item) AND 
+((sumpaccpo.codgenerico)=:codgenerico))
+ORDER BY sumgenerico.descripcion;
+" update="SUMPACCPO" updatewhere=0 updatekeyinplace=no arguments=(("codalmacen", string),("ano", number),("item", number),("codgenerico", string))  sort="mes A " )
+text(band=header alignment="2" text="Meses" border="6" color="0" x="18" y="152" height="56" width="498" html.valueishtml="0"  name=t_13 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+compute(band=header alignment="0" expression=" codgenerico "border="0" color="0" x="18" y="8" height="56" width="183" format="[GENERAL]" html.valueishtml="0"  name=compute_6 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression=" descripcion "border="0" color="0" x="229" y="8" height="120" width="850" format="[GENERAL]" html.valueishtml="0"  name=compute_7 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Planeado" border="6" color="0" x="553" y="152" height="56" width="247" html.valueishtml="0"  name=mes1_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+text(band=header alignment="2" text="Consumido" border="6" color="0" x="827" y="152" height="56" width="247" html.valueishtml="0"  name=consumomes1_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+compute(band=detail alignment="2" expression="f_mes(  mes )"border="6" color="0" x="18" y="0" height="56" width="503" format="[GENERAL]" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=7 alignment="1" tabsequence=10 border="5" color="0" x="553" y="4" height="56" width="270" format="#,##0" html.valueishtml="0"  name=planeado visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="5" color="0" x="827" y="4" height="56" width="247" format="#,##0" html.valueishtml="0"  name=consumo visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=footer alignment="2" text="Total Anterior" border="6" color="0" x="18" y="80" height="56" width="498" html.valueishtml="0"  name=t_14 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=footer alignment="2" text="Nuevo Total" border="6" color="0" x="18" y="8" height="56" width="498" html.valueishtml="0"  name=t_12 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+compute(band=footer alignment="1" expression="sum(   planeado  for all )"border="5" color="0" x="553" y="12" height="56" width="247" format="#,##0" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700~tif(currentRow()=getRow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+compute(band=footer alignment="1" expression="sum(  consumo  for all )"border="5" color="0" x="827" y="12" height="56" width="247" format="#,##0" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700~tif(currentRow()=getRow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+compute(band=footer alignment="1" expression=" t_planeado "border="5" color="0" x="553" y="84" height="56" width="247" format="#,##0" html.valueishtml="0"  name=total visible="1"  font.face="Arial" font.height="-8" font.weight="700~tif(currentRow()=getRow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+compute(band=footer alignment="1" expression=" t_consumo "border="5" color="0" x="827" y="84" height="56" width="247" format="#,##0" html.valueishtml="0"  name=totalconsumo visible="1"  font.face="Arial" font.height="-8" font.weight="700~tif(currentRow()=getRow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

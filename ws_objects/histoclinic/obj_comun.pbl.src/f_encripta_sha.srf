@@ -1,0 +1,45 @@
+﻿$PBExportHeader$f_encripta_sha.srf
+global type f_encripta_sha from function_object
+end type
+
+forward prototypes
+global function string f_encripta_sha (string cadena, string algo)
+end prototypes
+
+global function string f_encripta_sha (string cadena, string algo);Blob lblb_sha
+Blob lblb_encrypt
+String retorna
+Coderobject lnv_code
+CrypterObject lnv_CrypterObject
+
+lnv_CrypterObject = Create CrypterObject
+Lnv_code = create coderobject
+
+lblb_sha = Blob(cadena, EncodingANSI!)
+choose case algo
+	case 'SHA1'
+		lblb_encrypt = lnv_CrypterObject.SHA(SHA1!,lblb_sha)
+	case 'SHA224'
+		lblb_encrypt = lnv_CrypterObject.SHA(SHA224!,lblb_sha)
+	case 'SHA256'
+		lblb_encrypt = lnv_CrypterObject.SHA(SHA256!,lblb_sha)
+	case 'SHA384'
+		lblb_encrypt = lnv_CrypterObject.SHA(SHA384!,lblb_sha)
+	case 'SHA512'
+		lblb_encrypt = lnv_CrypterObject.SHA(SHA512!,lblb_sha)
+	case 'SHA3-224'
+		lblb_encrypt = lnv_CrypterObject.SHA(SHA3_224!,lblb_sha)
+	case 'SHA3-256'
+		lblb_encrypt = lnv_CrypterObject.SHA(SHA3_256!,lblb_sha)
+	case 'SHA3-384'
+		lblb_encrypt = lnv_CrypterObject.SHA(SHA3_384!,lblb_sha)
+	case 'SHA3-512'
+		lblb_encrypt = lnv_CrypterObject.SHA(SHA3_512!,lblb_sha)
+
+end choose
+retorna = lnv_code.hexencode(lblb_encrypt)
+destroy lnv_CrypterObject
+destroy Lnv_code 
+return retorna
+end function
+

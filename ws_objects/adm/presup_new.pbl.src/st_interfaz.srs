@@ -1,0 +1,15 @@
+﻿$PBExportHeader$st_interfaz.srs
+global type st_interfaz from structure
+	string		filtro
+	string		codmod
+	string		coddoc
+	datawindow		dw_obj
+	datawindow		dw_cab
+	datawindow		dw_ter
+	datawindow		dw_it
+	singlelineedit		sle
+	double		cod_vigencia
+	datawindow		dw_fte
+	string		otrosi
+end type
+

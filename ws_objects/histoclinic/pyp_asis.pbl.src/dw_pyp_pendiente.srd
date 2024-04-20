@@ -1,0 +1,150 @@
+﻿$PBExportHeader$dw_pyp_pendiente.srd
+release 11.5;
+datawindow(units=0 timer_interval=0 color=1073741824 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" grid.lines=0 )
+header(height=68 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=68 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=char(2) updatewhereclause=yes name=codact dbname="proced.codact" dbalias=".codact" )
+ column=(type=char(2) updatewhereclause=yes name=codaret dbname="proced.codaret" dbalias=".codaret" )
+ column=(type=char(2) updatewhereclause=yes name=codprog dbname="proced.codprog" dbalias=".codprog" )
+ column=(type=char(2) updatewhereclause=yes name=item dbname="proced.item" dbalias=".item" )
+ column=(type=char(50) updatewhereclause=yes name=descripcion dbname="proced.descripcion" dbalias=".descripcion" )
+ column=(type=char(1) updatewhereclause=yes name=estado dbname="proced.estado" dbalias=".estado" )
+ column=(type=char(1) updatewhereclause=yes name=getareo dbname="proced.getareo" dbalias=".getareo" )
+ column=(type=long updatewhereclause=yes name=edadi dbname="proced.edadi" dbalias=".edadi" )
+ column=(type=long updatewhereclause=yes name=edadf dbname="proced.edadf" dbalias=".edadf" )
+ column=(type=char(1) updatewhereclause=yes name=sexo dbname="proced.sexo" dbalias=".sexo" )
+ column=(type=char(2) updatewhereclause=yes name=subitem dbname="proced.subitem" dbalias=".subitem" )
+ column=(type=char(15) updatewhereclause=yes name=proced dbname="proced.proced" dbalias=".proced" )
+ column=(type=char(2) updatewhereclause=yes name=codcondicion dbname="proced.codcondicion" dbalias=".codcondicion" )
+ column=(type=char(10) updatewhereclause=yes name=cod_prodpyp dbname="proced.cod_prodpyp" dbalias=".cod_prodpyp" )
+ column=(type=long updatewhereclause=yes name=accion_item dbname="proced.accion_item" dbalias=".accion_item" )
+ column=(type=char(100) updatewhereclause=yes name=nombreaccion dbname="proced.nombreaccion" dbalias=".nombreaccion" )
+ column=(type=long updatewhereclause=yes name=edadinicio dbname="proced.edadinicio" dbalias=".edadinicio" )
+ column=(type=long updatewhereclause=yes name=edadfin dbname="proced.edadfin" dbalias=".edadfin" )
+ column=(type=long updatewhereclause=yes name=cantidad dbname="proced.cantidad" dbalias=".cantidad" )
+ column=(type=long updatewhereclause=yes name=dosis dbname="proced.dosis" dbalias=".dosis" )
+ column=(type=long updatewhereclause=yes name=intervalo dbname="proced.intervalo" dbalias=".intervalo" )
+ column=(type=long updatewhereclause=yes name=cantidaddosis dbname="proced.cantidaddosis" dbalias=".cantidaddosis" )
+ column=(type=long updatewhereclause=yes name=selec dbname="selec" values="	1/	0" )
+ column=(type=date updatewhereclause=yes name=fcondicion dbname="proced.fcondicion" dbalias=".fcondicion" )
+ column=(type=char(255) updatewhereclause=yes name=estado dbname="proced.estado" dbalias=".estado" )
+ column=(type=long updatewhereclause=yes name=duracion dbname="proced.duracion" dbalias=".duracion" )
+ column=(type=char(255) updatewhereclause=yes name=desproced dbname="proced.desproced" dbalias=".desproced" )
+ column=(type=char(200) updatewhereclause=yes name=medicamento dbname="proced.medicamento" dbalias=".medicamento" )
+ column=(type=char(15) updatewhereclause=yes name=c_medica dbname="proced.c_medica" dbalias=".c_medica" )
+ retrieve="SELECT pyp_subprograma.codact,   
+         pyp_subprograma.codaret,   
+         pyp_subprograma.codprog,   
+         pyp_subprograma.item,   
+         pyp_subprograma.descripcion,   
+         pyp_subprograma.estado,   
+         pyp_subprograma.getareo,   
+         pyp_subprograma.edadi,   
+         pyp_subprograma.edadf,   
+         pyp_subprograma.sexo,   
+         pyp_produ_subp.subitem,   
+         pyp_produ_subp.proced,   
+         pyp_produ_subp.codcondicion,   
+         pyp_produ_accion.cod_prodpyp,   
+         pyp_produ_accion.item as accion_item,   
+         pyp_produ_accion.nombreaccion,   
+         pyp_produ_accion.edadinicio,   
+         pyp_produ_accion.edadfin,   
+         pyp_produ_accion.cantidad,   
+         pyp_produ_accion.dosis,   
+         pyp_produ_accion.intervalo,   
+         pyp_produ_accion.cantidaddosis,   
+         0 as selec,   
+         pyp_pac_condi.fcondicion,   
+         pyp_pac_condi.estado,   
+         pyp_condicion.duracion,
+	     Proced.Descripcion as desproced,
+		medicamentos.medicamento,
+		pyp_produ_subp.c_medica
+ FROM 
+	(((((pyp_subprograma INNER JOIN pyp_produ_subp ON (pyp_subprograma.item = pyp_produ_subp.item) AND 
+	(pyp_subprograma.codprog = pyp_produ_subp.codprog) AND (pyp_subprograma.codaret = pyp_produ_subp.codaret) AND 
+	(pyp_subprograma.codact = pyp_produ_subp.codact)) INNER JOIN pyp_produ_accion ON 
+	pyp_produ_subp.cod_prodpyp = pyp_produ_accion.cod_prodpyp) INNER JOIN pyp_pac_condi ON 
+	pyp_produ_subp.codcondicion = pyp_pac_condi.codcondicion) INNER JOIN pyp_condicion ON 
+	pyp_pac_condi.codcondicion = pyp_condicion.des_condicion) LEFT JOIN medicamentos ON 
+	pyp_produ_subp.c_medica = medicamentos.c_medica) LEFT JOIN proced ON 
+	pyp_produ_subp.proced = proced.codproced
+WHERE 
+	(((pyp_subprograma.sexo)=:sexo Or (pyp_subprograma.sexo)='T') AND 
+	((pyp_produ_accion.edadinicio)<=:edad) AND ((pyp_produ_accion.edadfin)>=:edad) AND 
+	((pyp_pac_condi.tipodoc)=:tipodoc) AND ((pyp_pac_condi.documento)=:documento))
+
+UNION
+ SELECT pyp_subprograma.codact,   
+         pyp_subprograma.codaret,   
+         pyp_subprograma.codprog,   
+         pyp_subprograma.item,   
+         pyp_subprograma.descripcion,   
+         pyp_subprograma.estado,   
+         pyp_subprograma.getareo,   
+         pyp_subprograma.edadi,   
+         pyp_subprograma.edadf,   
+         pyp_subprograma.sexo,   
+         pyp_produ_subp.subitem,   
+         pyp_produ_subp.proced,   
+         pyp_produ_subp.codcondicion,   
+         pyp_produ_accion.cod_prodpyp,   
+         pyp_produ_accion.item,   
+         pyp_produ_accion.nombreaccion,   
+         pyp_produ_accion.edadinicio,   
+         pyp_produ_accion.edadfin,   
+         pyp_produ_accion.cantidad,   
+         pyp_produ_accion.dosis,   
+         pyp_produ_accion.intervalo,   
+         pyp_produ_accion.cantidaddosis,   
+         0 as selec,   
+         NULL as fcondicion,   
+         '0' as estado,   
+         0 as duracion,  
+		Proced.Descripcion as desproced,
+		medicamentos.medicamento,
+		 pyp_produ_subp.c_medica
+FROM 
+	(((pyp_subprograma INNER JOIN pyp_produ_subp ON (pyp_subprograma.codact = pyp_produ_subp.codact) AND 
+	(pyp_subprograma.codaret = pyp_produ_subp.codaret) AND (pyp_subprograma.codprog = pyp_produ_subp.codprog) AND 
+	(pyp_subprograma.item = pyp_produ_subp.item)) LEFT JOIN pyp_produ_accion ON pyp_produ_subp.cod_prodpyp = pyp_produ_accion.cod_prodpyp) 
+	LEFT JOIN Proced ON pyp_produ_subp.proced = Proced.CodProced) LEFT JOIN 
+	medicamentos ON pyp_produ_subp.c_medica = medicamentos.c_medica
+WHERE 
+	(((pyp_subprograma.sexo)=:sexo Or (pyp_subprograma.sexo)='T') AND 
+	((pyp_produ_accion.edadinicio)<=:edad) AND ((pyp_produ_accion.edadfin)>=:edad) AND ((pyp_subprograma.codcondicion) Is Null));
+" arguments=(("edad", number),("sexo", string),("tipodoc", string),("documento", string))  sort="codact A codaret A codprog A desproced A " )
+text(band=header alignment="0" text="" border="6" color="0" x="9" y="4" height="56" width="82" html.valueishtml="0"  name=selec_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Código" border="6" color="0" x="1253" y="4" height="56" width="238" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Descripcion" border="6" color="0" x="101" y="4" height="56" width="1143" html.valueishtml="0"  name=descripcion_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Actividad" border="6" color="0" x="1499" y="4" height="56" width="1248" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Acción" border="6" color="0" x="2757" y="4" height="56" width="370" html.valueishtml="0"  name=nombreaccion_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Edadinicio" border="6" color="0" x="3141" y="4" height="56" width="288" html.valueishtml="0"  name=edadinicio_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Edadfin" border="6" color="0" x="3438" y="4" height="56" width="256" html.valueishtml="0"  name=edadfin_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Cantidad" border="6" color="0" x="3703" y="4" height="56" width="242" html.valueishtml="0"  name=cantidad_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Dosis" border="6" color="0" x="3954" y="4" height="56" width="224" html.valueishtml="0"  name=dosis_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Condición" border="6" color="0" x="4187" y="4" height="56" width="320" html.valueishtml="0"  name=codcondicion_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="0" expression="if(isnull( proced ), medicamento ,  desproced  )"border="5" color="0" x="1499" y="4" height="56" width="1248" format="[GENERAL]" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=16 alignment="0" tabsequence=30 border="5" color="0" x="2761" y="4" height="56" width="366" format="[general]" html.valueishtml="0"  name=nombreaccion visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=13 alignment="0" tabsequence=100 border="5" color="0" x="4192" y="4" height="56" width="315" format="[general]" html.valueishtml="0"  name=codcondicion visible="1" dddw.name=dw_condiciones dddw.displaycolumn=des_condicion dddw.datacolumn=codcondicion dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=no dddw.case=any  font.face="Arial" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=23 alignment="2" tabsequence=10 border="5" color="0" x="9" y="4" height="56" width="82" format="[general]" html.valueishtml="0"  name=selec visible="1" checkbox.text="" checkbox.on="1" checkbox.off="0" checkbox.scale=no checkbox.threed=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="0" expression="if(isnull( proced ), c_medica , proced )"border="5" color="0" x="1253" y="4" height="56" width="238" format="[GENERAL]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=5 alignment="0" tabsequence=20 border="5" color="0" x="101" y="4" height="56" width="1143" format="[general]" html.valueishtml="0"  name=descripcion visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=17 alignment="2" tabsequence=60 border="5" color="0" x="3145" y="4" height="56" width="283" format="[general]" html.valueishtml="0"  name=edadinicio visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=18 alignment="2" tabsequence=70 border="5" color="0" x="3442" y="4" height="56" width="251" format="[general]" html.valueishtml="0"  name=edadfin visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=19 alignment="2" tabsequence=80 border="5" color="0" x="3707" y="4" height="56" width="238" format="[general]" html.valueishtml="0"  name=cantidad visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=20 alignment="2" tabsequence=90 border="5" color="0" x="3959" y="4" height="56" width="219" format="[general]" html.valueishtml="0"  name=dosis visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400~tif(currentrow()=getrow(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="0" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

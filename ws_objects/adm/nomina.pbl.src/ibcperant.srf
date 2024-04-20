@@ -1,0 +1,36 @@
+﻿$PBExportHeader$ibcperant.srf
+global type ibcperant from function_object
+end type
+
+forward prototypes
+global function integer ibcperant (string tipodoc, string documento, string cod_aporte, datetime fecini, datetime fecfin, decimal porcentaje)
+end prototypes
+
+global function integer ibcperant (string tipodoc, string documento, string cod_aporte, datetime fecini, datetime fecfin, decimal porcentaje);double total, sumconcep
+long i, mes
+string cod_concep
+
+select sum(pagado) into :sumconcep from nom_cab, nom_cpo, nom_concep
+where nom_cpo.num_nomina = nom_cab.num_nomina and nom_concep.cod_concep = nom_cpo.cod_concep and
+nom_cab.inicia >= :fecini and nom_cab.inicia <= :fecfin and
+nom_cpo.tipodoc=:tipodoc and nom_cpo.documento=:documento and nom_concep.sigla=:cod_aporte;
+if SQLCA.SQLCode = -1 then
+	MessageBox('SQL Error',SQLCA.SQLErrText)
+	Return -1
+end if
+if isNull(sumconcep) then sumconcep = 0
+sumconcep = sumconcep/porcentaje
+if year(date(fecfin)) - year(date(fecini)) > 1 then
+	mes = (year(date(fecfin)) - year(date(fecini)) - 1) * 12
+	mes = mes + month(date(fecfin)) + (12 - month(date(fecini)))
+elseif year(date(fecfin)) - year(date(fecini)) = 1 then
+	mes = month(date(fecfin)) + (12 - month(date(fecini)))
+else
+	mes = month(date(fecfin)) - month(date(fecini))
+end if
+if mes = 0 then Return sumconcep
+total = sumconcep / mes
+
+Return total
+end function
+

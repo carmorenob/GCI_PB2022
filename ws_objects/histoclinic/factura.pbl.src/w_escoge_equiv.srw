@@ -1,0 +1,205 @@
+﻿$PBExportHeader$w_escoge_equiv.srw
+forward
+global type w_escoge_equiv from window
+end type
+type st_3 from statictext within w_escoge_equiv
+end type
+type st_2 from statictext within w_escoge_equiv
+end type
+type pb_cancel from picturebutton within w_escoge_equiv
+end type
+type pb_aceptar from picturebutton within w_escoge_equiv
+end type
+type st_1 from statictext within w_escoge_equiv
+end type
+type dw_tarifa from datawindow within w_escoge_equiv
+end type
+end forward
+
+global type w_escoge_equiv from window
+integer width = 2478
+integer height = 1052
+boolean titlebar = true
+string title = "Facturación: Escoger Servicio"
+boolean controlmenu = true
+windowtype windowtype = response!
+long backcolor = 67108864
+string icon = "DosEdit5!"
+boolean clientedge = true
+boolean center = true
+st_3 st_3
+st_2 st_2
+pb_cancel pb_cancel
+pb_aceptar pb_aceptar
+st_1 st_1
+dw_tarifa dw_tarifa
+end type
+global w_escoge_equiv w_escoge_equiv
+
+type variables
+st_escoge_equiv st
+end variables
+
+on w_escoge_equiv.create
+this.st_3=create st_3
+this.st_2=create st_2
+this.pb_cancel=create pb_cancel
+this.pb_aceptar=create pb_aceptar
+this.st_1=create st_1
+this.dw_tarifa=create dw_tarifa
+this.Control[]={this.st_3,&
+this.st_2,&
+this.pb_cancel,&
+this.pb_aceptar,&
+this.st_1,&
+this.dw_tarifa}
+end on
+
+on w_escoge_equiv.destroy
+destroy(this.st_3)
+destroy(this.st_2)
+destroy(this.pb_cancel)
+destroy(this.pb_aceptar)
+destroy(this.st_1)
+destroy(this.dw_tarifa)
+end on
+
+event open;st = message.powerobjectparm
+dw_tarifa.settransobject(sqlca)
+dw_tarifa.retrieve(st.proccups,st.versi)
+dw_tarifa.setfilter("codmanual='"+st.manual+"'")
+dw_tarifa.filter()
+st_2.text=st.proccups
+st_3.text=st.desproc
+end event
+
+type st_3 from statictext within w_escoge_equiv
+integer x = 375
+integer y = 140
+integer width = 2034
+integer height = 72
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 67108864
+boolean border = true
+borderstyle borderstyle = stylelowered!
+boolean focusrectangle = false
+end type
+
+event constructor;text=st.desproc
+
+
+end event
+
+type st_2 from statictext within w_escoge_equiv
+integer x = 27
+integer y = 140
+integer width = 325
+integer height = 72
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 67108864
+boolean border = true
+borderstyle borderstyle = stylelowered!
+boolean focusrectangle = false
+end type
+
+event constructor;text=st.proccups
+
+
+end event
+
+type pb_cancel from picturebutton within w_escoge_equiv
+integer x = 1230
+integer y = 780
+integer width = 146
+integer height = 128
+integer taborder = 30
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+string text = "            &c"
+boolean cancel = true
+boolean originalsize = true
+string picturename = "cancelar.GIF"
+string disabledname = "d_cancelar.GIF"
+alignment htextalign = left!
+string powertiptext = "Cancelar [Alt+C]"
+end type
+
+event clicked;close(parent)
+end event
+
+type pb_aceptar from picturebutton within w_escoge_equiv
+integer x = 1070
+integer y = 780
+integer width = 146
+integer height = 128
+integer taborder = 20
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+string text = "          &a"
+boolean default = true
+boolean originalsize = true
+string picturename = "aceptar.GIF"
+string disabledname = "d_aceptar.GIF"
+alignment htextalign = left!
+string powertiptext = "Aceptar [Alt+A]"
+end type
+
+event clicked;dw_tarifa.triggerevent(doubleclicked!)
+end event
+
+type st_1 from statictext within w_escoge_equiv
+integer x = 23
+integer width = 2382
+integer height = 116
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 134217752
+string text = "Doble click o Aceptar sobre el procedimiento que va a facturar y que sea equivalente al procedimiento:"
+boolean border = true
+borderstyle borderstyle = stylelowered!
+boolean focusrectangle = false
+end type
+
+type dw_tarifa from datawindow within w_escoge_equiv
+integer x = 23
+integer y = 224
+integer width = 2395
+integer height = 536
+integer taborder = 10
+string title = "none"
+string dataobject = "dw_busca_equiv"
+boolean hscrollbar = true
+boolean vscrollbar = true
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event doubleclicked;if this.getrow()<1 then return
+closewithreturn(parent,getrow())
+end event
+

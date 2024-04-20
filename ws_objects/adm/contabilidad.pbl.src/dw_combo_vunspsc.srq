@@ -1,0 +1,2 @@
+﻿$PBExportHeader$dw_combo_vunspsc.srq
+PBSELECT( VERSION(400) TABLE(NAME="pm_ver_unspsc" ) COLUMN(NAME="pm_ver_unspsc.cod_ver") COLUMN(NAME="pm_ver_unspsc.des_ver")) 

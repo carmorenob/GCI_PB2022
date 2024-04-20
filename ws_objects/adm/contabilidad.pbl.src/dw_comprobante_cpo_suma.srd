@@ -1,0 +1,69 @@
+﻿$PBExportHeader$dw_comprobante_cpo_suma.srd
+release 21;
+datawindow(units=0 timer_interval=0 color=79741120 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" grid.lines=0 )
+header(height=68 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=68 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=char(4) updatewhereclause=yes name=cont_doc_cp_cod_empresa dbname="cont_plan.cod_empresa" )
+ column=(type=long updatewhereclause=yes name=cont_doc_cp_ano dbname="cont_plan.ano" )
+ column=(type=long updatewhereclause=yes name=cont_doc_cp_mes dbname="cont_plan.mes" )
+ column=(type=char(2) updatewhereclause=yes name=cont_doc_cp_cdoc dbname="cont_plan.cdoc" )
+ column=(type=number updatewhereclause=yes name=cont_doc_cp_ndoc dbname="cont_plan.ndoc" )
+ column=(type=long updatewhereclause=yes name=cont_doc_cp_secuencia dbname="cont_plan.secuencia" )
+ column=(type=char(50) updatewhereclause=yes name=cont_doc_cp_cuenta dbname="cont_plan.cuenta" )
+ column=(type=char(200) updatewhereclause=yes name=descrip dbname="cont_plan.descrip" )
+ column=(type=char(255) updatewhereclause=yes name=cont_doc_cp_detalle dbname="cont_plan.detalle" )
+ column=(type=char(3) updatewhereclause=yes name=cont_doc_cp_tipodoc dbname="cont_plan.tipodoc" )
+ column=(type=char(15) updatewhereclause=yes name=cont_doc_cp_nit dbname="cont_plan.nit" )
+ column=(type=char(1) updatewhereclause=yes name=cont_doc_cp_dverificacion dbname="cont_plan.dverificacion" )
+ column=(type=char(1) updatewhereclause=yes name=terceros_persona dbname="cont_plan.persona" )
+ column=(type=char(20) updatewhereclause=yes name=terceros_nombre1 dbname="nombre1" )
+ column=(type=char(20) updatewhereclause=yes name=terceros_nombre2 dbname="nombre2" )
+ column=(type=char(20) updatewhereclause=yes name=terceros_apellido1 dbname="apellido1" )
+ column=(type=char(20) updatewhereclause=yes name=terceros_apellido2 dbname="apellido2" )
+ column=(type=char(250) updatewhereclause=yes name=terceros_razon_social dbname="cont_plan.razon_social" )
+ column=(type=decimal(2) updatewhereclause=yes name=cont_doc_cp_valordeb dbname="cont_plan.valordeb" )
+ column=(type=decimal(2) updatewhereclause=yes name=cont_doc_cp_valorcred dbname="cont_plan.valorcred" )
+ column=(type=char(3) updatewhereclause=yes name=cont_doc_cp_clugar_doc dbname="cont_plan.clugar_doc" )
+ column=(type=char(2) updatewhereclause=yes name=cont_doc_cp_cdocr dbname="cont_plan.cdocr" )
+ column=(type=char(40) updatewhereclause=yes name=documentos_desdoc dbname="cont_plan.desdoc" )
+ column=(type=number updatewhereclause=yes name=cont_doc_cp_ndocr dbname="cont_plan.ndocr" )
+ retrieve="SELECT 
+	cont_doc_cp.COD_EMPRESA, cont_doc_cp.Ano, 
+	cont_doc_cp.Mes, cont_doc_cp.CDoc, 
+	cont_doc_cp.ndoc, cont_doc_cp.secuencia, 
+	cont_doc_cp.Cuenta, cont_plan.descrip, 
+	cont_doc_cp.detalle, cont_doc_cp.tipodoc, 
+	cont_doc_cp.nit, cont_doc_cp.Dverificacion, 
+	terceros.Persona, terceros.nombre1, terceros.nombre2, 
+	terceros.apellido1, terceros.APELLIDO2, 
+	terceros.razon_social, cont_doc_cp.valordeb, 
+	cont_doc_cp.valorcred, cont_doc_cp.CLugar_doc, 
+	cont_doc_cp.CDocR,DOCUMENTOS_GRAL.DESDOC, cont_doc_cp.ndocR
+FROM 
+	(((cont_doc_cp LEFT JOIN terceros ON (cont_doc_cp.tipodoc = terceros.TipoDoc) AND (cont_doc_cp.nit = terceros.documento)) 
+	LEFT JOIN documentos ON (cont_doc_cp.CDocR = documentos.CodDoc) AND (cont_doc_cp.CLugar_doc = documentos.clugar)) 
+	LEFT JOIN cont_plan ON (cont_doc_cp.COD_EMPRESA = cont_plan.COD_EMPRESA) AND (cont_doc_cp.Cuenta = cont_plan.CodTotal)) 
+	LEFT JOIN DOCUMENTOS_GRAL ON documentos.CODDOC = DOCUMENTOS_GRAL.CODDOC
+where 
+cont_doc_cp.COD_EMPRESA=:empre_cont and
+cont_doc_cp.Ano =:ano and
+cont_doc_cp.Mes =:mes1 and
+cont_doc_cp.CDoc=:comprobante  and
+cont_doc_cp.ndoc=:numcompro" arguments=(("empre_cont", string),("ano", number),("mes1", number),("comprobante", string),("numcompro", number),("dec_gral", number)) )
+compute(band=detail alignment="1" expression="sum( round(cont_doc_cp_valordeb, dec_gral)  )"border="5" color="0" x="9" y="4" height="56" width="631" format="#,##0.00" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tif( compute_1 > compute_2 ,rgb(220,255,220) , rgb(255,255,255))" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="1" expression="sum( round(cont_doc_cp_valorcred , dec_gral)  )"border="5" color="0" x="649" y="4" height="56" width="645" format="#,##0.00" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tif( compute_2 > compute_1 ,rgb(255,220,220) , rgb(255,255,255))" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Débito" border="0" color="0" x="9" y="4" height="56" width="631" html.valueishtml="0"  name=t_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Crédito" border="0" color="0" x="649" y="4" height="56" width="645" html.valueishtml="0"  name=t_2 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
+export.xhtml()
+ 

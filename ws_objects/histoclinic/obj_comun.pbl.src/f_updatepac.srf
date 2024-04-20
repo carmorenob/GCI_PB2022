@@ -1,0 +1,94 @@
+﻿$PBExportHeader$f_updatepac.srf
+global type f_updatepac from function_object
+end type
+
+forward prototypes
+global function integer f_updatepac (string codalmacen, string codarticulo, double cantidad, datetime fecha)
+end prototypes
+
+global function integer f_updatepac (string codalmacen, string codarticulo, double cantidad, datetime fecha);uo_DataStore dw_pac
+string codgenerico, msg
+long fila, item, ano, mes
+double diff
+
+ano = year(date(fecha))
+mes = month(date(fecha))
+dw_pac = Create uo_DataStore
+dw_pac.DataObject = 'dw_pac'
+dw_pac.SetTransObject(SQLCA)
+
+select codgenerico into :codgenerico
+from sumarticulo where codarticulo = :codarticulo;
+IF SQLCA.SQLCode = -1 THEN 
+	msg = SQLCA.SQLErrText
+	Rollback;
+	MessageBox("SQL error", msg)
+	Return -1
+elseIf SQLCA.SQLCode = 100 then
+	Rollback;
+	MessageBox("Error", 'No existe el generico del articulo '+codarticulo+' para actualizar PAC')
+	Return -1
+END IF
+fila = dw_pac.Retrieve(codalmacen,ano,mes,codgenerico)
+
+if fila > 1 then 
+	Rollback;
+	messageBox('Error','Error de consistencia - solo un registro PAC para el artículo debe estar activo')
+	Return -1
+elseif fila = 0 then
+//	select max(item) into :item from sumpaccab
+//	where codalmacen = :codalmacen and ano = :ano and estado = 'A';
+//
+//	IF SQLCA.SQLCode = -1 THEN 
+//		msg = SQLCA.SQLErrText
+//		Rollback;
+//		MessageBox("SQL error", msg)
+//		Return -1
+//	elseIf SQLCA.SQLCode = 100 then
+//	//	messageBox('Aviso','No existe PAC activo para adicionar item del genérico -'+codgenerico+', no se afectará PAC')
+//	//	Rollback;
+//		Return -2
+//	elseif isNull(item) then
+//	//	messageBox('Aviso','No existe PAC activo para adicionar item del genérico -'+codgenerico+', no se afectará PAC')
+//		Return -2		
+//	else
+//		fila = dw_pac.InsertRow(0)
+//		dw_pac.SetItem(fila,'codalmacen',codalmacen)
+//		dw_pac.SetItem(fila,'ano',ano)
+//		dw_pac.SetItem(fila,'item',item)
+//		dw_pac.SetItem(fila,'codgenerico',codgenerico)
+//		dw_pac.SetItem(fila,'fecha',fecha)
+//		dw_pac.SetItem(fila,'con' + string(mes), cantidad)
+//	end if
+elseif fila = 1 then
+//	if dw_pac.GetItemString(fila,'restringepac')='0' or isnull(dw_pac.GetItemString(fila,'restringepac')) then return 0
+	//diff = dw_pac.GetItemNumber(fila,'con' + string(mes)) + cantidad - dw_pac.GetItemNumber(fila,'mes' + string(mes))
+	diff = dw_pac.GetItemNumber(fila,'total_cons') + dw_pac.GetItemNumber(fila,'consumo') + cantidad -(dw_pac.GetItemNumber(fila,'total_plan')+ dw_pac.GetItemNumber(fila,'planeado' ))
+	if diff > 0 and dw_pac.GetItemString(fila,'restringepac') = '1' then
+		messageBox('Atención','Generico. '+codgenerico+' Rebasa la cantidad planeada para el mes en el PAC en '+string(diff))
+		Rollback;
+		Return -1
+	elseif dw_pac.GetItemNumber(fila,'consumo') + cantidad < 0 then
+		//if dw_pac.GetItemNumber(fila,'con' + string(mes)) + cantidad < 0 then
+		messageBox('Atención','Generico. '+codgenerico+' Registraría cantidades negativas en lo consumido para el mes en el PAC')
+		Rollback;
+		Return -1
+	end if
+	//dw_pac.SetItem(fila,'con' + string(mes), dw_pac.GetItemNumber(fila,'con' + string(mes)) + cantidad)
+	dw_pac.SetItem(fila,'consumo', dw_pac.GetItemNumber(fila,'consumo') + cantidad)
+else
+	MessageBox('Atención','Error recuperando PAC. Se continuará procesando sin afectar PAC')
+	Return -2
+end if
+if dw_pac.ModifiedCount() > 0 then
+	if dw_pac.Update() = -1 then
+		Rollback;
+		MessageBox('Atención','Error Actualizando PAC' + SQLCA.SQLErrText)
+		Return -1
+	end if
+end if
+Destroy dw_pac
+Return 0
+
+end function
+

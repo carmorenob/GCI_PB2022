@@ -1,0 +1,18 @@
+﻿$PBExportHeader$actualizador.srj
+EXE:actualizador.exe,,0,1,0,0,C:\Program Files (x86)\Appeon\Common\PowerBuilder\Runtime 22.0.0.1892
+CMP:0,0,0,2,0,0,1
+COM:GCI Ltda.
+DES:Gestión Clínica Integrada
+CPY:2000-2025
+PRD:GCI Actualizador
+PVS:2,0,0,3
+PVN:2,0,0,3
+FVS:2,0,0,3
+FVN:2,0,0,3
+MAN:0,asInvoker,0
+PBD:actualizador.pbl,,1
+OBJ:D:\gci\fuentes\repo_git\actualizador\actualizador.pbl,n_osversion,u
+OBJ:D:\gci\fuentes\repo_git\actualizador\actualizador.pbl,actualizador,a
+OBJ:D:\gci\fuentes\repo_git\actualizador\actualizador.pbl,f_descripta,f
+OBJ:D:\gci\fuentes\repo_git\actualizador\actualizador.pbl,dw_files,d
+OBJ:D:\gci\fuentes\repo_git\actualizador\actualizador.pbl,w_actualiza,w

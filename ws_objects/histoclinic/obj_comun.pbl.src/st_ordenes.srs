@@ -1,0 +1,12 @@
+﻿$PBExportHeader$st_ordenes.srs
+global type st_ordenes from structure
+	double		contador
+	string		clugar
+	double		norden
+	string		cprof
+	string		cesp
+	datawindow		dw_ord
+	string		i_est_hadm
+	string		usu
+end type
+

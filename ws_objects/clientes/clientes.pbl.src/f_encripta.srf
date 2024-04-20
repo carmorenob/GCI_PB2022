@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_encripta.srf
+global type f_encripta from function_object
+end type
+
+forward prototypes
+global function string f_encripta (string contrasenya)
+end prototypes
+
+global function string f_encripta (string contrasenya);string retorna,s_numero
+int i,j
+retorna=""
+for j = 1 to len(contrasenya)
+	s_numero=fill("0",3 -len(string(asc(mid(contrasenya,j,1))))) + string(asc(mid(contrasenya,j,1))) 
+	for i=1 to 3
+		retorna=retorna+char(long(mid(s_numero,i,1))+1)
+	next
+next
+return retorna
+end function
+

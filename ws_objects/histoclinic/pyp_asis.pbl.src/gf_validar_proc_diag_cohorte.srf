@@ -1,0 +1,118 @@
+﻿$PBExportHeader$gf_validar_proc_diag_cohorte.srf
+$PBExportComments$Revisa si un procedimiento o diagnóstico cumple con las condiciones para incluir un paciente en los registros de Cohortes
+global type gf_validar_proc_diag_cohorte from function_object
+end type
+
+forward prototypes
+global function integer gf_validar_proc_diag_cohorte (string as_tdoc, string as_docu, string as_sexo, long ai_edad_dias, string as_cproced, string as_iddiag, long al_contador, string as_clugar, string as_result)
+end prototypes
+
+global function integer gf_validar_proc_diag_cohorte (string as_tdoc, string as_docu, string as_sexo, long ai_edad_dias, string as_cproced, string as_iddiag, long al_contador, string as_clugar, string as_result);/*
+retorno:
+0 : cuando el procedimiento o el diagnóstico no cumple con algún regitro de pm_cohortes_trigger 
+1: cuando cumple con las condiciones y se inserta adecuadamente en las tablas
+-1: cuando cumple las condiciones pero hay algún error al insertar
+*/
+uo_datastore lds_cohorte
+
+lds_cohorte= create uo_datastore
+
+
+
+string ls_sexo,ls_estado,ls_id_grupo , ls_error
+integer li_cuantos
+long j, ll_id_cohorte , ll_consec ,ll_id_trigger
+
+if as_sexo='M' or as_sexo='1' then
+	ls_sexo='1'
+else
+	ls_sexo='2'
+end if
+
+if as_result='0' then
+	lds_cohorte.dataobject='dw_buscar_cohorte'
+	lds_cohorte.settransobject(sqlca)
+	lds_cohorte.retrieve(ls_sexo,ai_edad_dias,as_iddiag,as_cproced)
+else
+	lds_cohorte.dataobject='dw_buscar_cohorte_result'
+	lds_cohorte.settransobject(sqlca)
+	lds_cohorte.retrieve(as_tdoc,as_docu,as_cproced,as_sexo,ai_edad_dias)
+end if
+
+
+if lds_cohorte.rowcount()>0 then
+	for j=1 to lds_cohorte.rowcount()
+		ls_id_grupo=lds_cohorte.getitemstring(j,'codgetareo')
+		ll_id_trigger=lds_cohorte.getitemnumber(j,'id_trigger')
+		
+		select count(1),max(estado),max(id_cohorte_pac) into :li_cuantos,:ls_estado,:ll_id_cohorte 
+		from pacientes_cohortes where tipodoc=:as_tdoc and documento=:as_docu and id_grupoetareo=:ls_id_grupo;
+		
+		if sqlca.sqlcode=-1 then
+			messagebox("gf_validar_proc_diag_cohorte - Error de SQL línea 35", "Error leyendo paciente_cohortes: "+sqlca.sqlerrtext)
+			return -1
+		end if
+		
+		if li_cuantos>0 then
+			if ls_estado='1' then 
+				return 0
+			else
+				select coalesce(max(consecutivo), 0 ) +1 into :ll_consec from pacientes_cohortes_historial where id_cohorte_pac=:ll_id_cohorte;
+				if sqlca.sqlcode=-1 then
+					messagebox("gf_validar_proc_diag_cohorte - Error de SQL línea 45", "Error leyendo pacientes_cohortes_historial: "+sqlca.sqlerrtext)
+					return -1
+				end if
+				
+				INSERT INTO pacientes_cohortes_historial (id_cohorte_pac, consecutivo, id_trigger, contador, clugar, fecha)
+				VALUES (:ll_id_cohorte, :ll_consec, :ll_id_trigger, :al_contador, :as_clugar, current_timestamp);
+				if sqlca.sqlcode=-1 then
+					messagebox("gf_validar_proc_diag_cohorte - Error de SQL línea 50", "Error insertando en pacientes_cohortes_historial: "+sqlca.sqlerrtext)
+					return -1
+				end if
+				
+				
+				update pacientes_cohortes set estado='1' , fecha_inicio=current_timestamp where id_cohorte_pac=:ll_id_cohorte;
+				if sqlca.sqlcode=-1 then
+					ls_error=sqlca.sqlerrtext
+					rollback;
+					messagebox("gf_validar_proc_diag_cohorte - Error de SQL línea 59", "Error leyendo pacientes_cohortes_historial: "+ls_error)
+					return -1
+				end if
+				
+				commit;
+				return 1
+				
+			end if
+		else //no estaba , hay que crear el registro
+			
+			select coalesce( max(id_cohorte_pac) , 0 ) +1 into :ll_id_cohorte from pacientes_cohortes;
+			
+			INSERT INTO pacientes_cohortes (id_cohorte_pac, tipodoc, documento, id_grupoetareo, estado, fecha_inicio, fecha_registro, ingreso_externo)
+			VALUES (:ll_id_cohorte, :as_tdoc, :as_docu, :ls_id_grupo, '1', current_timestamp,  current_timestamp, '0');
+			
+			if sqlca.sqlcode<0 then
+				ls_error=sqlca.sqlerrtext
+				rollback;
+				messagebox("gf_validar_proc_diag_cohorte - Error de SQL línea 74", "Error insertando en paciente_cohortes: "+ls_error)
+				return -1
+			end if
+			
+			INSERT INTO pacientes_cohortes_historial (id_cohorte_pac, consecutivo, id_trigger, contador, clugar, fecha)
+			VALUES (:ll_id_cohorte, 1, :ll_id_trigger, :al_contador, :as_clugar,  current_timestamp);
+			if sqlca.sqlcode=-1 then
+				messagebox("gf_validar_proc_diag_cohorte - Error de SQL línea 84", "Error insertando en pacientes_cohortes_historial: "+sqlca.sqlerrtext)
+				return -1
+			end if
+			
+			commit;
+			
+			return 1
+			
+		end if
+		
+	next
+end if
+
+return 1
+end function
+

@@ -1,0 +1,9 @@
+﻿$PBExportHeader$st_graph.srs
+global type st_graph from structure
+	datawindow		dw_obj
+	string		dw_syntax
+	string		consulta
+	string		condicion
+	u_parm		args
+end type
+

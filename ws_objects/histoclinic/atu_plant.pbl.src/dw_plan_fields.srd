@@ -1,0 +1,72 @@
+﻿$PBExportHeader$dw_plan_fields.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no grid.lines=0 )
+header(height=80 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codplantilla dbname="atu_plantcampo.codplantilla" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=numcampo dbname="atu_plantcampo.numcampo" )
+ column=(type=long update=yes updatewhereclause=yes name=padre dbname="atu_plantcampo.padre" )
+ column=(type=long update=yes updatewhereclause=yes name=orden dbname="atu_plantcampo.orden" )
+ column=(type=char(255) update=yes updatewhereclause=yes name=descampo dbname="atu_plantcampo.descampo" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=tipo dbname="atu_plantcampo.tipo" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=estado dbname="atu_plantcampo.estado" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=medida dbname="atu_plantcampo.medida" )
+ column=(type=char(250) update=yes updatewhereclause=yes name=ayuda dbname="atu_plantcampo.ayuda" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=plantilla dbname="atu_plantcampo.plantilla" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha_cap dbname="atu_plantcampo.fecha_cap" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=num_min dbname="atu_plantcampo.num_min" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=num_max dbname="atu_plantcampo.num_max" )
+ retrieve=" SELECT  atu_plantcampo.codplantilla ,           
+		atu_plantcampo.numcampo ,       
+		atu_plantcampo.padre ,          
+		atu_plantcampo.orden ,           
+		atu_plantcampo.descampo ,        
+		atu_plantcampo.tipo ,         
+      	atu_plantcampo.estado ,           
+		atu_plantcampo.medida ,          
+		atu_plantcampo.ayuda ,                     
+		atu_plantcampo.plantilla ,             
+		atu_plantcampo.fecha_cap ,          
+		atu_plantcampo.num_min ,          
+		atu_plantcampo.num_max   
+ FROM atu_plantcampo     
+ WHERE ( atu_plantcampo.codplantilla = :codplantilla )" update="atu_plantcampo" updatewhere=1 updatekeyinplace=no arguments=(("codplantilla", string))  sort="orden A " )
+text(band=header alignment="2" text="Codplantilla" border="0" color="33554432" x="14" y="4" height="56" width="306" html.valueishtml="0"  name=codplantilla_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Numcampo" border="0" color="33554432" x="334" y="4" height="56" width="329" html.valueishtml="0"  name=numcampo_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Padre" border="0" color="33554432" x="677" y="4" height="56" width="329" html.valueishtml="0"  name=padre_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Orden" border="0" color="33554432" x="1019" y="4" height="56" width="329" html.valueishtml="0"  name=orden_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Descampo" border="0" color="33554432" x="1362" y="4" height="56" width="969" html.valueishtml="0"  name=descampo_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Tipo" border="0" color="33554432" x="2345" y="4" height="56" width="110" html.valueishtml="0"  name=tipo_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Estado" border="0" color="33554432" x="2473" y="4" height="56" width="187" html.valueishtml="0"  name=estado_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Medida" border="0" color="33554432" x="2674" y="4" height="56" width="302" html.valueishtml="0"  name=medida_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Ayuda" border="0" color="33554432" x="2990" y="4" height="56" width="859" html.valueishtml="0"  name=ayuda_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Plantilla" border="0" color="33554432" x="3867" y="4" height="56" width="645" html.valueishtml="0"  name=plantilla_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Fecha Cap" border="0" color="33554432" x="4530" y="4" height="56" width="603" html.valueishtml="0"  name=fecha_cap_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Num Min" border="0" color="33554432" x="5147" y="4" height="56" width="329" html.valueishtml="0"  name=num_min_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Num Max" border="0" color="33554432" x="5490" y="4" height="56" width="329" html.valueishtml="0"  name=num_max_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="33554432" x="14" y="4" height="56" width="306" format="[general]" html.valueishtml="0"  name=codplantilla visible="1" edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=20 border="0" color="33554432" x="334" y="4" height="56" width="329" format="[general]" html.valueishtml="0"  name=numcampo visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=30 border="0" color="33554432" x="677" y="4" height="56" width="329" format="[general]" html.valueishtml="0"  name=padre visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=40 border="0" color="33554432" x="1019" y="4" height="56" width="329" format="[general]" html.valueishtml="0"  name=orden visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=50 border="0" color="33554432" x="1362" y="4" height="56" width="969" format="[general]" html.valueishtml="0"  name=descampo visible="1" edit.limit=255 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=60 border="0" color="33554432" x="2345" y="4" height="56" width="110" format="[general]" html.valueishtml="0"  name=tipo visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=80 border="0" color="33554432" x="2473" y="4" height="56" width="187" format="[general]" html.valueishtml="0"  name=estado visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=90 border="0" color="33554432" x="2674" y="4" height="56" width="302" format="[general]" html.valueishtml="0"  name=medida visible="1" edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=100 border="0" color="33554432" x="2990" y="4" height="56" width="859" format="[general]" html.valueishtml="0"  name=ayuda visible="1" edit.limit=250 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=280 border="0" color="33554432" x="3867" y="4" height="56" width="645" format="[general]" html.valueishtml="0"  name=plantilla visible="1" edit.limit=32000 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=310 border="0" color="33554432" x="4530" y="4" height="56" width="603" format="[shortdate] [time]" html.valueishtml="0"  name=fecha_cap visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="1" tabsequence=320 border="0" color="33554432" x="5147" y="4" height="56" width="329" format="[general]" html.valueishtml="0"  name=num_min visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="1" tabsequence=330 border="0" color="33554432" x="5490" y="4" height="56" width="329" format="[general]" html.valueishtml="0"  name=num_max visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

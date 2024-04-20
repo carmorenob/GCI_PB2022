@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_entero_decimal.srf
+global type f_entero_decimal from function_object
+end type
+
+forward prototypes
+global function double f_entero_decimal (decimal numero)
+end prototypes
+
+global function double f_entero_decimal (decimal numero);long ll_mide,pos_punto
+long ll_decim
+ 
+ ll_mide= len(string(numero))
+ pos_punto=pos(STRING(numero), '.' )
+ ll_decim= long(right(string(numero), (ll_mide - pos_punto)) )
+ 
+ return ll_decim
+end function
+

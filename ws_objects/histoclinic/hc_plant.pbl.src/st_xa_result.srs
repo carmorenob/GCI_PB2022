@@ -1,0 +1,9 @@
+﻿$PBExportHeader$st_xa_result.srs
+global type st_xa_result from structure
+	long		nitem
+	datawindow		dw_results
+	string		tingres
+	double		contador
+	string		clugar
+end type
+

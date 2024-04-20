@@ -1,0 +1,10 @@
+﻿$PBExportHeader$st_contrato.srs
+global type st_contrato from structure
+	long		ano
+	long		ncontrato
+	long		otrosi
+	string		coddoc
+	long		fpago
+	boolean		DisplayOnly
+end type
+

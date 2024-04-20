@@ -1,0 +1,6 @@
+﻿$PBExportHeader$st_rango_edad.srs
+global type st_rango_edad from structure
+	double		edad1
+	double		edad2
+end type
+

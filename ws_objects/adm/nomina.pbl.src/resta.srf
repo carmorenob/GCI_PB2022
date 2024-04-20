@@ -1,0 +1,42 @@
+﻿$PBExportHeader$resta.srf
+global type resta from function_object
+end type
+
+forward prototypes
+global function st_interfec resta (st_interfec per1, st_interfec per2)
+end prototypes
+
+global function st_interfec resta (st_interfec per1, st_interfec per2);st_interfec ret, itr
+if isNull(per1.x) then per1.x = dateTime(date("01/01/1000"))
+if isNull(per1.y) then per1.y = dateTime(date("31/12/3000"))
+if isNull(per2.x) then per2.x = dateTime(date("01/01/1000"))
+if isNull(per2.y) then per2.y = dateTime(date("31/12/3000"))
+
+if per1.x > per1.y or per2.x > per2.y then	
+	setNull(ret.x)
+	setNull(ret.y)
+	Return ret
+end if
+
+itr = interseccion(per1,per2)
+if isNull(itr.x) or isNull(itr.y) then
+	return per1
+end if
+
+if itr.x = per1.x then
+	if itr.y >= per1.y then
+		setNull(ret.x)
+		setNull(ret.y)
+	elseif itr.y < per1.y then
+		ret.x = itr.y
+		ret.y = per1.y
+	end if
+else
+	ret.x = per1.x
+	ret.y = itr.x
+end if
+
+Return ret
+
+end function
+

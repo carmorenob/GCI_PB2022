@@ -1,0 +1,8 @@
+﻿$PBExportHeader$st_cambia_resp.srs
+$PBExportComments$Manda los dos datawindows que se necesitan en el cambio de responsable en Facturacion, recibos de caja y cotizacion. ~r~nTambien sirve para la ventana de recalcular grupos quirúrgicos
+global type st_cambia_resp from structure
+	datawindow		dw_factura
+	datawindow		dw_factura_cpo
+	datawindow		dw_acum_soat
+end type
+

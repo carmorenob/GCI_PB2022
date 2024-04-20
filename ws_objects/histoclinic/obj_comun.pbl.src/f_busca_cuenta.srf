@@ -1,0 +1,83 @@
+﻿$PBExportHeader$f_busca_cuenta.srf
+global type f_busca_cuenta from function_object
+end type
+
+forward prototypes
+global subroutine f_busca_cuenta (keycode p_key, string p_codemp, datawindow p_dw)
+end prototypes
+
+global subroutine f_busca_cuenta (keycode p_key, string p_codemp, datawindow p_dw);string este="!"
+choose case p_key
+	case KeyNumpad0!,key0!
+		este='0'
+	case KeyNumpad1!,key1!
+		este='1'
+	case KeyNumpad2!,key2!
+		este='2'
+	case KeyNumpad3!,key3!
+		este='3'
+	case KeyNumpad4!,key4!
+		este='4'
+	case KeyNumpad5!,key5!
+		este='5'
+	case KeyNumpad6!,key6!
+		este='6'
+	case KeyNumpad7!,key7!
+		este='7'
+	case KeyNumpad8!,key8!
+		este='8'
+	case KeyNumpad9!,key9!
+		este='9'
+	case KeyNumpad0!,key0!
+		este='0'
+	case keyback!
+		este=p_dw.gettext()
+		este=left(este, len(este) -1)
+		if not isnumber(este) and este<>"" then return
+		goto dd
+end choose
+if este<>"!" and isnumber(este) then
+	if not isnull(p_dw.gettext()) then este=p_dw.gettext()+este
+	goto dd
+else
+	return
+end if
+
+
+dd:
+if not isvalid(w_busca_cuenta) then 
+	st_xa_buscarcta st
+	st.dw=p_dw
+	st.codemp=p_codemp
+	openwithparm(w_busca_cuenta,st)
+	p_dw.setfocus()
+else
+	if w_busca_cuenta.windowstate=minimized! then return
+	w_busca_cuenta.dw_opc.setitem(1,'filtrar','0')
+	w_busca_cuenta.dw_opc.setitem(1,'movim','0')
+	w_busca_cuenta.dw_opc.setitem(1,'mostrar','0')
+	w_busca_cuenta.i_st.dw=p_dw
+	if w_busca_cuenta.i_st.codemp<>p_codemp then
+		w_busca_cuenta.i_st.codemp=p_codemp 
+		w_busca_cuenta.dw_1.retrieve(p_codemp)
+	end if
+end if
+if w_busca_cuenta.windowstate=minimized! then
+	w_busca_cuenta.windowstate=normal!
+	if isvalid(p_dw) then p_dw.setfocus()
+end if
+if isvalid(p_dw) then
+	if p_dw.getparent().classname() = 'w_comp_cont' then 
+		if w_busca_cuenta.x< 650 then w_busca_cuenta.x=650
+	end if
+end if
+if trim(lower(este))="" or isnull(este) then
+	w_busca_cuenta.dw_1.setfilter("")
+else
+	w_busca_cuenta.dw_1.setfilter("(lower(codtotal) like '"+lower(trim(este))+"%')")
+end if
+w_busca_cuenta.dw_2.setitem(1,1,este)
+w_busca_cuenta.dw_1.filter()
+w_busca_cuenta.dw_1.sort()
+end subroutine
+

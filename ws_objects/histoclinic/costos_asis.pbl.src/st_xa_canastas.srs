@@ -1,0 +1,17 @@
+﻿$PBExportHeader$st_xa_canastas.srs
+global type st_xa_canastas from structure
+	string		cproc
+	string		sexo
+	long		edad_dias
+	datawindow		dw_canasta
+	long		contador
+	string		clugar
+	long		norden
+	long		item
+	datawindow		dw_lote
+	string		alm
+	string		hosp_urg
+	string		control
+	long		nserv
+end type
+

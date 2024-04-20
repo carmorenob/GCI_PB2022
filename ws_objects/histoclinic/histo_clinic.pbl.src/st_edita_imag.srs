@@ -1,0 +1,8 @@
+﻿$PBExportHeader$st_edita_imag.srs
+global type st_edita_imag from structure
+	blob		image
+	blob		objetos
+	integer		nobjs
+	string		ruta
+end type
+

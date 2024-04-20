@@ -1,0 +1,6 @@
+﻿$PBExportHeader$st_triage.srs
+global type st_triage from structure
+	string		clasif
+	string		estado
+end type
+

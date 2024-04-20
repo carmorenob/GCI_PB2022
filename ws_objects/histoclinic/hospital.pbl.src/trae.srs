@@ -1,0 +1,15 @@
+﻿$PBExportHeader$trae.srs
+$PBExportComments$pa varios propósitos se utiliza para por ejemplo traer datos de numeros y clugar
+global type trae from structure
+	long		numero
+	string		lugar
+	string		otro
+	datawindow		dw_procs
+	datawindow		dw_meds
+	string		tingres
+	string		profe
+	string		est_hadm
+	string		tipo_orden
+	string		proc_costos
+end type
+

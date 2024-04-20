@@ -1,0 +1,6 @@
+﻿$PBExportHeader$st_result_poly.srs
+global type st_result_poly from structure
+	string		result_poly[]
+	integer		cant_data
+end type
+

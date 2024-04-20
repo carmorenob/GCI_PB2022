@@ -1,0 +1,7 @@
+﻿$PBExportHeader$st_interfec.srs
+global type st_interfec from structure
+	datetime		x
+	datetime		y
+	integer		dias
+end type
+

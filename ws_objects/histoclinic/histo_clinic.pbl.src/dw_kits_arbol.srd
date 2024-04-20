@@ -1,0 +1,103 @@
+﻿$PBExportHeader$dw_kits_arbol.srd
+release 22;
+datawindow(units=0 timer_interval=0 color=67108864 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=8 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=yes showbackcoloronxp=no picture.file="" )
+header(height=32 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=76 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" height.autosize=yes )
+table(column=(type=char(50) updatewhereclause=yes name=descripcion dbname="descripcion" )
+ column=(type=long updatewhereclause=yes name=item dbname="item" )
+ column=(type=char(255) updatewhereclause=yes name=descripp dbname="descripp" )
+ column=(type=char(8190) updatewhereclause=yes name=esco dbname="esco" initial="0" values="	1/	0" )
+ column=(type=long updatewhereclause=yes name=cantidad dbname="cantidad" )
+ column=(type=char(3) updatewhereclause=yes name=codarea dbname="codarea" )
+ column=(type=char(8190) updatewhereclause=yes name=carreta dbname="carreta" )
+ column=(type=char(8190) updatewhereclause=yes name=espe dbname="espe" )
+ column=(type=char(50) updatewhereclause=yes name=frecuen dbname="frecuen" )
+ column=(type=char(128) updatewhereclause=yes name=administracion dbname="administracion" )
+ column=(type=char(1) updatewhereclause=yes name=tipo dbname="tipo" )
+ column=(type=char(8190) updatewhereclause=yes name=orig dbname="orig" )
+ column=(type=char(255) updatewhereclause=yes name=especial dbname="especial" )
+ column=(type=char(15) updatewhereclause=yes name=proced dbname="proced" )
+ column=(type=decimal(0) updatewhereclause=yes name=fila dbname="fila" )
+ column=(type=char(255) updatewhereclause=yes name=cod_cups dbname="cod_cups" )
+ column=(type=char(255) updatewhereclause=yes name=cod_version dbname="cod_version" )
+ column=(type=char(255) updatewhereclause=yes name=codgenerico dbname="codgenerico" )
+ column=(type=char(1) updatewhereclause=yes name=veren dbname="veren" )
+ retrieve="SELECT
+	DESCRIPCION,ITEM,descripp,'0' AS esco,1 AS cantidad,CODAREA,carreta,espe,frecuen,administracion,
+	TIPO,:orig as orig,	ESPECIAL,PROCED,
+	ROW_NUMBER() OVER(ORDER BY DESCRIPCION ASC,tipo asc) AS fila,
+	cod_cups,cod_version,codgenerico,veren
+FROM 
+	(SELECT 
+		OSAREA.DESCRIPCION, OSAREADETA.ITEM, 
+		case when OSAREADETA.TIPO='K' then  OSAREADETA.ORDENMEDICA else OSAREADETA.DESCRIPCION end descripp,
+		osareadeta.CODAREA, '' AS carreta, '' as espe, osareadeta.frecuen, 
+		osareadeta.administracion,OSAREADETA.TIPO, '' as ESPECIAL, OSAREADETA.PROCED,'' as cod_cups, '' as cod_version, SUMGENERICO.CODGENERICO,
+		osarea.veren
+	FROM 
+		((OSAREA INNER JOIN OSAREADETA ON OSAREA.CODAREA = OSAREADETA.CODAREA) 
+		INNER JOIN MEDICAMENTOS ON OSAREADETA.PROCED = MEDICAMENTOS.C_MEDICA) 
+		INNER JOIN SUMGENERICO ON MEDICAMENTOS.C_MEDICA = SUMGENERICO.C_MEDICA
+	WHERE 
+		((MEDICAMENTOS.ESTADO='1') and (osarea.veren in ('0',:veren)))
+	UNION ALL
+	SELECT 
+		OSAREA.DESCRIPCION, OSAREADETA.ITEM, 
+		case when OSAREADETA.TIPO='K' then  OSAREADETA.ORDENMEDICA else OSAREADETA.DESCRIPCION end descripp,
+		osareadeta.CODAREA, '' AS carreta, '' as espe, osareadeta.frecuen, osareadeta.administracion,
+		OSAREADETA.TIPO, PROCED.ESPECIAL, OSAREADETA.PROCED,proced.cod_cups,proced.cod_version,'' as CODGENERICO,
+		osarea.veren
+	FROM 
+		((OSAREA INNER JOIN OSAREADETA ON OSAREA.CODAREA = OSAREADETA.CODAREA) 
+		INNER JOIN PROCED ON OSAREADETA.PROCED = PROCED.CODPROCED) 
+		INNER JOIN PM_CUPS_VERSION ON PROCED.COD_VERSION = PM_CUPS_VERSION.COD_VERSION
+	WHERE 
+		((PROCED.ESTADO='1') 
+		AND ((getdate()) Between PM_CUPS_VERSION.VALIDO_INICIO And PM_CUPS_VERSION.VALIDO_HASTA)
+		 and (osarea.veren in ('0',:veren)))
+	UNION ALL
+	SELECT 
+		OSAREA.DESCRIPCION, OSAREADETA.ITEM, 
+		case when OSAREADETA.TIPO='K' then  OSAREADETA.ORDENMEDICA else OSAREADETA.DESCRIPCION end descripp,
+		osareadeta.CODAREA, '' AS carreta, '' as espe, osareadeta.frecuen, osareadeta.administracion,
+		OSAREADETA.TIPO, '' as ESPECIAL, OSAREADETA.PROCED,'' as cod_cups,'' as cod_version,'' as CODGENERICO,
+		osarea.veren
+	FROM 
+		((OSAREA INNER JOIN OSAREADETA ON OSAREA.CODAREA = OSAREADETA.CODAREA)) 
+	WHERE 
+		((OSAREADETA.TIPO='K')  and (osarea.veren in ('0',:veren)))
+	) AS  TODO
+ORDER BY 
+	1,3
+" arguments=(("orig", string),("veren", string))  sort="descripcion A descripp A " )
+group(level=1 header.height=80 trailer.height=0 by=("descripcion" ) header.color="536870912" header.transparency="0" header.gradient.color="8421504" header.gradient.transparency="0" header.gradient.angle="0" header.brushmode="0" header.gradient.repetition.mode="0" header.gradient.repetition.count="0" header.gradient.repetition.length="100" header.gradient.focus="0" header.gradient.scale="100" header.gradient.spread="100" trailer.color="536870912" trailer.transparency="0" trailer.gradient.color="8421504" trailer.gradient.transparency="0" trailer.gradient.angle="0" trailer.brushmode="0" trailer.gradient.repetition.mode="0" trailer.gradient.repetition.count="0" trailer.gradient.repetition.length="100" trailer.gradient.focus="0" trailer.gradient.scale="100" trailer.gradient.spread="100" )
+compute(band=header.1 alignment="0" expression="bitmap('folder.gif')"border="0" color="33554432" x="128" y="8" height="60" width="59" format="[GENERAL]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+button(band=header.1 text="~tdescripcion" enabled=yes action="0" border="0" color="0" x="201" y="0" height="80" width="2752" vtextalign="0" htextalign="1"  name=b_2 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" background.transparency="0" background.gradient.color="15793151" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+groupbox(band=detail text=""border="6" color="0" x="197" y="0" height="264" width="2743"  name=gb_1 visible="1~tif ( (orig='os' or orig='qx') and esco='1',1,0)"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="0" expression="bitmap(case( tipo 
+when 'K' then 'kit.gif'
+when 'M' then 'kit_med.gif'
+when 'P' then 'kit_pro.gif'
+))"border="0" color="33554432" x="229" y="8" height="60" width="59" format="[GENERAL]" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=5 alignment="2" tabsequence=10 border="5~tif (  esco ='1' , 5,0)" color="33554432" x="407" y="8" height="60" width="91" format="[general]" html.valueishtml="0"  name=cantidad visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="536870912~tif (esco='1', rgb(239,228,176) ,553648127)" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=4 alignment="0" tabsequence=30 border="5" color="33554432" x="325" y="8" height="56" width="69" format="[general]" html.valueishtml="0"  name=esco visible="1" checkbox.text="" checkbox.on="1" checkbox.off="0" checkbox.scale=no checkbox.threed=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="0" expression="if(tipo='K','', proced )"border="5~tif (  esco ='1' , 5,0)" color="33554432" x="2235" y="12" height="56" width="183" format="[GENERAL]" html.valueishtml="0"  name=compute_3 visible="0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="0" text="Indicaciones:" border="0" color="0" x="229" y="80" height="52" width="288" html.valueishtml="0"  name=t_1 visible="1~tif ( (orig='os' or orig='qx') and esco='1',1,0)"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=7 alignment="0" tabsequence=40 border="5" color="33554432" x="539" y="88" height="156" width="1883" format="[general]" html.valueishtml="0"  name=carreta visible="1~tif ( orig='1' and esco='1' and  ( especial='0'  or isnull(especial)  and  tipo <>'K'), 1 , 0)" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=8 alignment="0" tabsequence=50 border="5" color="33554432" x="539" y="88" height="52" width="1888" format="[general]" html.valueishtml="0"  name=espe visible="1~tif (  especial ='1' and   esco ='1' , 1 , 0)" dddw.name=dw_lista_espe dddw.displaycolumn=compute_1 dddw.datacolumn=codesp dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.autofill=no dddw.useasborder=yes dddw.case=any  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+bitmap(band=detail filename="buscar2.gif" x="2848" y="16" height="52" width="50" border="6" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0"  name=p_1 visible="1~tif(  tipo ='K',1,0)" transparency="0" )
+compute(band=detail alignment="0" expression="~"(~"+if(isnull( cod_cups ),if(isnull( codgenerico ),'', codgenerico ), cod_cups )+~") ~"+ descripp "border="0" color="33554432" x="539" y="8" height="56" width="2286" format="[GENERAL]" html.valueishtml="0"  name=compute_4 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
+export.xhtml()
+tree(type=1 showconnectlines=yes showleafnodeconnectLines=yes  indent=128 showtreenodeicon=no defaultexpandtolevel=1 stateiconalignmode=0 selectnodebymouse=no rtollayout=no 
+) 

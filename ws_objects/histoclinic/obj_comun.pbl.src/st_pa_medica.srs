@@ -1,0 +1,16 @@
+﻿$PBExportHeader$st_pa_medica.srs
+global type st_pa_medica from structure
+	datawindow		dw
+	string		campo
+	singlelineedit		sle
+	picturebutton		pbut
+	string		valor
+	string		tipo
+	string		via
+	datawindow		dw_autoriza
+	string		alm_cext
+	datawindow		dw_alergia
+	string		origen
+	integer		cant
+end type
+

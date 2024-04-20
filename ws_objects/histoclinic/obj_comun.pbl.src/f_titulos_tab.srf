@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_titulos_tab.srf
+global type f_titulos_tab from function_object
+end type
+
+forward prototypes
+global subroutine f_titulos_tab (tab p_tab, string p_cvent)
+end prototypes
+
+global subroutine f_titulos_tab (tab p_tab, string p_cvent);string obj
+obj=p_tab.classname()
+uo_datastore ds_tab
+ds_tab=create uo_datastore
+ds_tab.dataobject='dw_prop_tabs'
+ds_tab.settransobject(sqlca)
+ds_tab.retrieve(p_cvent,obj)
+long j,ind
+string ls_temp
+for j=1 to ds_tab.rowcount()
+	ind=ds_tab.getitemnumber(j,'nro_tab')
+	if ind<=upperbound(p_tab.control[]) then
+		if ds_tab.getitemstring(j,'visible')='0' then
+			p_tab.control[ind].visible=false
+		else
+			p_tab.control[ind].visible=true
+			ls_temp=ds_tab.getitemstring(j,'titulo')
+			if not isnull(ls_temp) and ls_temp<>'' then p_tab.control[ind].text=ls_temp
+			ls_temp=ds_tab.getitemstring(j,'micro_ayuda')
+			if not isnull(ls_temp) and ls_temp<>'' then p_tab.control[ind].powertiptext=ls_temp
+		end if
+	end if
+next
+end subroutine
+

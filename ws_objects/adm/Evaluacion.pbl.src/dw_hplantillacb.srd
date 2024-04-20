@@ -1,0 +1,36 @@
+﻿$PBExportHeader$dw_hplantillacb.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=67108864 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=724 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codplantilla dbname="nom_plantilla.codplantilla" )
+ column=(type=char(100) update=yes updatewhereclause=yes name=desplantilla dbname="nom_plantilla.desplantilla" )
+ column=(type=char(255) update=yes updatewhereclause=yes name=reporte dbname="nom_plantilla.reporte" )
+ column=(type=char(250) update=yes updatewhereclause=yes name=ayuda dbname="nom_plantilla.ayuda" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=estado dbname="nom_plantilla.estado" values="Activo	1/Inactivo	0/" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=vista dbname="nom_plantilla.vista" initial="0" values="Arbol	0/Formulario	1/" )
+ retrieve="SELECT  nom_plantilla.codplantilla ,
+           nom_plantilla.desplantilla ,
+           nom_plantilla.reporte ,
+           nom_plantilla.ayuda ,
+           nom_plantilla.estado ,
+           nom_plantilla.vista     
+        FROM nom_plantilla      
+        WHERE ( nom_plantilla.codplantilla = :codplantilla )   " update="nom_plantilla" updatewhere=1 updatekeyinplace=yes arguments=(("codplantilla", string)) )
+text(band=detail alignment="0" text="Plantilla:" border="0" color="33554432" x="41" y="16" height="56" width="325" html.valueishtml="0"  name=desplantilla_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=10 border="5" color="33554432" x="41" y="92" height="56" width="2437" format="[general]" html.valueishtml="0"  name=desplantilla visible="1" edit.limit=100 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" )
+text(band=detail alignment="1" text="Estado:" border="0" color="33554432" x="27" y="196" height="56" width="325" html.valueishtml="0"  name=estado_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=70 border="5" color="33554432" x="379" y="196" height="56" width="251" format="[general]" html.valueishtml="0"  name=estado visible="1" ddlb.limit=0 ddlb.allowedit=no ddlb.case=any ddlb.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" )
+column(band=detail id=6 alignment="0" tabsequence=110 border="0" color="33554432" x="379" y="296" height="56" width="713" format="[general]" html.valueishtml="0"  name=vista visible="1" radiobuttons.columns=2 radiobuttons.scale=no radiobuttons.threed=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="1" text="Ver Como:" border="0" color="33554432" x="27" y="296" height="56" width="329" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Ayuda:" border="0" color="33554432" x="41" y="536" height="56" width="325" html.valueishtml="0"  name=ayuda_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=60 border="5" color="33554432" x="41" y="616" height="56" width="2437" format="[general]" html.valueishtml="0"  name=ayuda visible="1" edit.limit=250 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" )
+text(band=detail alignment="0" text="Reporte:" border="0" color="33554432" x="41" y="384" height="56" width="325" html.valueishtml="0"  name=reporte_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=50 border="5" color="33554432" x="41" y="456" height="56" width="2318" format="[general]" html.valueishtml="0"  name=reporte visible="1" edit.limit=255 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.autovscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" )
+button(band=detail text="" enabled=yes action="0" border="0" color="0" x="2395" y="448" height="72" width="82" vtextalign="0" htextalign="0"  name=b_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

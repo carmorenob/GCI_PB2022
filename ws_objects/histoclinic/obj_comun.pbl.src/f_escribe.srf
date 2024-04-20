@@ -1,0 +1,15 @@
+﻿$PBExportHeader$f_escribe.srf
+global type f_escribe from function_object
+end type
+
+forward prototypes
+global function integer f_escribe (integer li_fichero, string ls_linea, string ls_nombrefichero)
+end prototypes
+
+global function integer f_escribe (integer li_fichero, string ls_linea, string ls_nombrefichero);If FileWriteex (li_fichero, ls_linea) = -1 then 
+	MessageBox("Error", "Error al escribir en el fichero " + ls_nombreFichero, StopSign!) 
+	return 0
+End if 
+return 1
+end function
+

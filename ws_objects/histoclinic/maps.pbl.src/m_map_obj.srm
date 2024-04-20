@@ -1,0 +1,413 @@
+﻿$PBExportHeader$m_map_obj.srm
+forward
+global type m_map_obj from menu
+end type
+type m_insertarcampo from menu within m_map_obj
+end type
+type m_insertarcampoalfinal from menu within m_map_obj
+end type
+type m_borrarcampo from menu within m_map_obj
+end type
+type m_-0 from menu within m_map_obj
+end type
+type m_irmapapadre from menu within m_map_obj
+end type
+type m_vernavegador from menu within m_map_obj
+end type
+type m_verrangos from menu within m_map_obj
+end type
+type m_verparm from menu within m_map_obj
+end type
+type m_cambiarmapa from menu within m_map_obj
+end type
+global type m_map_obj from menu
+m_insertarcampo m_insertarcampo
+m_insertarcampoalfinal m_insertarcampoalfinal
+m_borrarcampo m_borrarcampo
+m_-0 m_-0
+m_irmapapadre m_irmapapadre
+m_vernavegador m_vernavegador
+m_verrangos m_verrangos
+m_verparm m_verparm
+m_cambiarmapa m_cambiarmapa
+end type
+end forward
+
+global type m_map_obj from menu
+m_insertarcampo m_insertarcampo
+m_insertarcampoalfinal m_insertarcampoalfinal
+m_borrarcampo m_borrarcampo
+m_-0 m_-0
+m_irmapapadre m_irmapapadre
+m_vernavegador m_vernavegador
+m_verrangos m_verrangos
+m_verparm m_verparm
+m_cambiarmapa m_cambiarmapa
+end type
+global m_map_obj m_map_obj
+
+on m_map_obj.create
+m_map_obj=this
+call super::create
+this.text = "m_hcampos"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_insertarcampo=create m_insertarcampo
+this.m_insertarcampoalfinal=create m_insertarcampoalfinal
+this.m_borrarcampo=create m_borrarcampo
+this.m_-0=create m_-0
+this.m_irmapapadre=create m_irmapapadre
+this.m_vernavegador=create m_vernavegador
+this.m_verrangos=create m_verrangos
+this.m_verparm=create m_verparm
+this.m_cambiarmapa=create m_cambiarmapa
+this.Item[UpperBound(this.Item)+1]=this.m_insertarcampo
+this.Item[UpperBound(this.Item)+1]=this.m_insertarcampoalfinal
+this.Item[UpperBound(this.Item)+1]=this.m_borrarcampo
+this.Item[UpperBound(this.Item)+1]=this.m_-0
+this.Item[UpperBound(this.Item)+1]=this.m_irmapapadre
+this.Item[UpperBound(this.Item)+1]=this.m_vernavegador
+this.Item[UpperBound(this.Item)+1]=this.m_verrangos
+this.Item[UpperBound(this.Item)+1]=this.m_verparm
+this.Item[UpperBound(this.Item)+1]=this.m_cambiarmapa
+end on
+
+on m_map_obj.destroy
+call super::destroy
+destroy(this.m_insertarcampo)
+destroy(this.m_insertarcampoalfinal)
+destroy(this.m_borrarcampo)
+destroy(this.m_-0)
+destroy(this.m_irmapapadre)
+destroy(this.m_vernavegador)
+destroy(this.m_verrangos)
+destroy(this.m_verparm)
+destroy(this.m_cambiarmapa)
+end on
+
+type m_insertarcampo from menu within m_map_obj
+end type
+
+event clicked;message.stringparm='insertar'
+
+end event
+
+on m_insertarcampo.create
+call super::create
+this.text = "Insertar Objeto"
+this.microhelp = "Insertar antes del actual"
+this.menuimage = "Insert5!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_insertarcampo.destroy
+call super::destroy
+end on
+
+type m_insertarcampoalfinal from menu within m_map_obj
+end type
+
+event clicked;message.stringparm='consultar'
+end event
+
+on m_insertarcampoalfinal.create
+call super::create
+this.text = "Consultar Objeto"
+this.microhelp = "Insertar Item al final del seleccionado"
+this.menuimage = "FullBuild!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_insertarcampoalfinal.destroy
+call super::destroy
+end on
+
+type m_borrarcampo from menu within m_map_obj
+end type
+
+event clicked;message.stringparm='borrar'
+end event
+
+on m_borrarcampo.create
+call super::create
+this.text = "Borrar Objeto"
+this.microhelp = "Borrar Campo"
+this.menuimage = "DeleteRow!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_borrarcampo.destroy
+call super::destroy
+end on
+
+type m_-0 from menu within m_map_obj
+end type
+
+on m_-0.create
+call super::create
+this.text = "-"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_-0.destroy
+call super::destroy
+end on
+
+type m_irmapapadre from menu within m_map_obj
+end type
+
+event clicked;message.stringparm='ir_mapa_padre'
+end event
+
+on m_irmapapadre.create
+call super::create
+this.text = "Ir Mapa Padre"
+this.menuimage = "Having!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_irmapapadre.destroy
+call super::destroy
+end on
+
+type m_vernavegador from menu within m_map_obj
+end type
+
+event clicked;message.stringparm='ver_navegador'
+end event
+
+on m_vernavegador.create
+call super::create
+this.text = "Ver Navegador"
+this.menuimage = "BrowseClasses!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_vernavegador.destroy
+call super::destroy
+end on
+
+type m_verrangos from menu within m_map_obj
+end type
+
+event clicked;message.stringparm='ver_rangos'
+end event
+
+on m_verrangos.create
+call super::create
+this.text = "Ver Rangos Indicador"
+this.menuimage = "CreateRuntime!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_verrangos.destroy
+call super::destroy
+end on
+
+type m_verparm from menu within m_map_obj
+end type
+
+on m_verparm.create
+call super::create
+this.text = "Ver Parámetros"
+this.menuimage = "editdatafreeform!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_verparm.destroy
+call super::destroy
+end on
+
+event clicked;message.stringparm='ver_parametros'
+end event
+
+type m_cambiarmapa from menu within m_map_obj
+end type
+
+on m_cambiarmapa.create
+call super::create
+this.text = "Cambiar Mapa"
+this.menuimage = "Browse!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_cambiarmapa.destroy
+call super::destroy
+end on
+
+event clicked;message.stringparm='cambiar_mapa'
+
+end event
+

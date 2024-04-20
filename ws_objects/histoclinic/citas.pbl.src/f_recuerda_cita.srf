@@ -1,0 +1,52 @@
+﻿$PBExportHeader$f_recuerda_cita.srf
+global type f_recuerda_cita from function_object
+end type
+
+forward prototypes
+global function string f_recuerda_cita (double p_ncita, string p_lugar, string p_tipo, string email, richtextedit p_rte, boolean p_confirma, string p_nombre)
+end prototypes
+
+global function string f_recuerda_cita (double p_ncita, string p_lugar, string p_tipo, string email, richtextedit p_rte, boolean p_confirma, string p_nombre);blob recuerda
+uo_datastore dw_rec
+string l_servidor, l_puerto,l_usuario,l_clave,l_autentica,l_conexion,l_desc,i_tempo, l_nombre,l_asunto
+
+dw_rec=create uo_datastore
+sqlca.autocommit=true
+choose case p_tipo
+	case 'G'//guarda
+		selectblob record_citas into :recuerda from lugar where codlugar=:p_lugar;
+		if sqlca.sqlcode=-1 then
+			messagebox('Error leyendo recordatorio citas ',sqlca.sqlerrtext)
+		end if
+		l_asunto='CONFIRMACIÓN ASIGNACIÓN CITA'
+	case 'A'//anula
+		selectblob recor_anul_cita into :recuerda from lugar where codlugar=:p_lugar;
+		if sqlca.sqlcode=-1 then
+			messagebox('Error leyendo recordatorio anula citas ',sqlca.sqlerrtext)
+		end if
+		l_asunto='CONFIRMACIÓN CANCELACIÓN CITA'
+end choose
+if g_motor='postgres' then
+	dw_rec.dataobject='dw_recuerda_cita_postgres'
+else
+	dw_rec.dataobject='dw_recuerda_cita'
+end if
+dw_rec.settransobject(sqlca)
+dw_rec.retrieve(p_ncita,p_lugar)
+sqlca.autocommit=false
+lf_reemp_campos(string(recuerda),dw_rec,p_rte)
+
+i_tempo="c:\windows\temp\"+string(p_ncita)+p_lugar+'.pdf'
+p_rte.savedocument(i_tempo,FileTypePDF! )
+
+SELECT servidor, puerto, usuario, clave, autentica, conexion,descripcion into 
+ 		  :l_servidor, :l_puerto,:l_usuario,:l_clave,:l_autentica,:l_conexion,:l_desc
+FROM lugar
+WHERE codlugar=:p_lugar;
+
+l_nombre=f_envia_mail(l_servidor, l_puerto,l_usuario,l_clave,l_autentica,l_conexion,email,l_asunto,l_desc,p_nombre,i_tempo,'')
+if p_confirma then MessageBox("Aviso", l_nombre)
+FileDelete(i_tempo )
+return l_nombre
+end function
+

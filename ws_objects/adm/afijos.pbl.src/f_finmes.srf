@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_finmes.srf
+global type f_finmes from function_object
+end type
+
+forward prototypes
+global function date f_finmes (date fecha)
+end prototypes
+
+global function date f_finmes (date fecha);date f_ret
+if month(fecha) = 12 then
+	f_ret = date(year(fecha) + 1, 1,1)
+else
+	f_ret = date(year(fecha), month(fecha) + 1,1)
+end if
+f_ret = RelativeDate(f_ret, -1)
+Return f_ret
+
+end function
+

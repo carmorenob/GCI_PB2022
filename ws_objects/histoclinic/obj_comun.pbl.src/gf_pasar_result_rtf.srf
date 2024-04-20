@@ -1,0 +1,81 @@
+﻿$PBExportHeader$gf_pasar_result_rtf.srf
+global type gf_pasar_result_rtf from function_object
+end type
+
+forward prototypes
+global function integer gf_pasar_result_rtf (datastore p_ds, richtextedit p_rte)
+end prototypes
+
+global function integer gf_pasar_result_rtf (datastore p_ds, richtextedit p_rte);string cual,coltype,apegar,reemp,encab,tipo_memo,cdoc,clug,cproc 
+//objects
+uo_datastore ds_objects
+long num_object,largo,k,j,nreg,item,nrep,item_rep,conscamp
+blob trae
+ds_objects=create uo_datastore 
+ds_objects.dataobject='dw_campos_de_rtfs'
+
+num_object=f_objects_ds(p_ds,ds_objects)
+setpointer(hourglass!)
+nreg=0
+for j=1 to p_ds.rowcount()//filas del sql(hojas del rtf)
+	cdoc=p_ds.getitemstring(j,'coddoc')
+	clug=p_ds.getitemstring(j,'clugar')
+	
+	cproc=p_ds.getitemstring(j,'codproced')
+	conscamp=p_ds.getitemnumber(j,'consecampo')
+	p_ds.setrow(j)
+	if item_rep<>p_ds.getitemnumber(j,'item')  or nrep<>p_ds.getitemnumber(j,'nrepor') then
+	//	f_pega_a_rtf(p_rte,'~r~n',2)  // 2007-02-27
+		f_pega_a_rtf(p_rte,p_ds.copyrtf(false,header!),2)
+	end if
+	nrep=p_ds.getitemnumber(j,'nrepor')
+	item_rep=p_ds.getitemnumber(j,'item')
+	GARBAGECOLLECT()
+	f_pega_a_rtf(p_rte,p_ds.copyrtf(false,detail!),2)
+	for k=1 to ds_objects.rowcount()
+		cual=ds_objects.getitemstring(k,'nombre')
+		reemp=p_rte.InputFieldLocate ( first! , cual )
+		do while reemp<>'' and reemp=cual
+			p_rte.InputFieldDeleteCurrent ( )
+			choose case ds_objects.getitemstring(k,'tipo')
+				case 'column','compute'
+					choose case ds_objects.getitemstring(k,'coltype')
+						case 'char'
+							if ds_objects.getitemnumber(k,'largo')>255 then
+								sqlca.autocommit=true
+								selectblob resultado3 into :trae from resultadosval 
+								where coddoc=:cdoc and clugar=:clug and nrepor=:nrep and item=:item_rep and codproced=:cproc and consecampo=:conscamp;
+								sqlca.autocommit=false
+								if sqlca.sqlcode=-1 then
+								end if
+								apegar=string(trae)
+								setnull(trae)
+							else//es menor a 255
+								apegar=p_ds.getitemstring(j,cual)
+							end if
+						case 'long','number','real'
+							long ojo
+							ojo=round(p_ds.getitemnumber(j,cual),2)
+							apegar=string(ojo,'#,##0.00')
+						case 'decimal(2)'
+							apegar=string(p_ds.getitemdecimal(j,cual),'#,##0.00')
+						case 'datetime'
+							apegar=string(p_ds.getitemdatetime(j,cual))
+						case 'date'
+							apegar=string(p_ds.getitemdate(j,cual))
+						case 'time'
+							apegar=string(p_ds.getitemtime(j,cual))
+					end choose
+			end choose
+			if isnull(apegar) then apegar=''
+			f_pega_a_rtf(p_rte,apegar,1)
+			reemp=p_rte.InputFieldLocate ( next! , cual )
+			setnull(apegar)
+		loop
+	next//objeto por objeto para irlo quitando
+	if j=p_ds.rowcount() then f_pega_a_rtf(p_rte,'~r~n',2)
+next//las filas del sql
+destroy ds_objects
+return 1
+end function
+

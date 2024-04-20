@@ -1,0 +1,57 @@
+﻿$PBExportHeader$dw_anula_rec.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no grid.lines=0 )
+header(height=80 color="536870912" )
+summary(height=92 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=number updatewhereclause=yes key=yes name=nrcaj dbname="tesorecajcab.nrcaj" )
+ column=(type=char(255) updatewhereclause=yes key=yes name=clugar dbname="tesorecajcab.clugar" )
+ column=(type=char(255) update=yes updatewhereclause=yes name=estado dbname="tesorecajcab.estado" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha_anula dbname="tesorecajcab.fecha_anula" )
+ column=(type=number updatewhereclause=yes name=narqueo dbname="tesorecajcab.narqueo" )
+ column=(type=number updatewhereclause=yes name=npagare dbname="tesorecajcab.npagare" )
+ column=(type=char(255) updatewhereclause=yes name=clugar_pag dbname="tesorecajcab.clugar_pag" )
+ column=(type=number updatewhereclause=yes name=abo_npag dbname="tesoabono.abo_npag" )
+ column=(type=char(255) updatewhereclause=yes name=clug_pagabo dbname="tesoabono.clug_pagabo" )
+ column=(type=decimal(2) updatewhereclause=yes name=tpago dbname="tesorecajcab.tpago" )
+ retrieve="SELECT tesorecajcab.nrcaj, tesorecajcab.CLugar, tesorecajcab.Estado, tesorecajcab.fecha_anula, 
+tesorecajcab.narqueo, tesorecajcab.Npagare, tesorecajcab.clugar_pag, tesoabono.npagare AS abo_npag, 
+tesoabono.clugar_pag AS clug_pagabo, tesorecajcab.tpago
+FROM tesorecajcab LEFT outer JOIN tesoabono ON (tesorecajcab.CLugar = tesoabono.clugar_rec) 
+AND (tesorecajcab.nrcaj = tesoabono.nrecibo)
+WHERE tesorecajcab.nrcaj=:nrec AND tesorecajcab.CLugar=:clug_rec
+union 
+SELECT tesorecajcab.nrcaj, tesorecajcab.CLugar, tesorecajcab.Estado, tesorecajcab.fecha_anula, 
+tesorecajcab.narqueo, tesorecajcab.Npagare, tesorecajcab.clugar_pag, Null AS abo_npag, Null AS clug_pagabo, 
+tesorecajcab.tpago
+FROM tesorecajcab INNER JOIN (tesopagarecab INNER JOIN tesoabono ON (tesopagarecab.clugar = tesoabono.clugar_pag) 
+AND (tesopagarecab.npagare = tesoabono.npagare)) ON (tesorecajcab.CLugar = tesoabono.clugar_rec) 
+AND (tesorecajcab.nrcaj = tesoabono.nrecibo)
+WHERE tesopagarecab.nrecibo=:nrec AND tesopagarecab.clugar_rec=:clug_rec" update="tesorecajcab" updatewhere=0 updatekeyinplace=yes arguments=(("nrec", number),("clug_rec", string)) )
+text(band=header alignment="2" text="Clugar" border="6" color="33554432" x="347" y="8" height="64" width="411" html.valueishtml="0"  name=clugar_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Estado" border="6" color="33554432" x="768" y="8" height="64" width="302" html.valueishtml="0"  name=estado_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Fecha Anula" border="6" color="33554432" x="1079" y="8" height="64" width="603" html.valueishtml="0"  name=fecha_anula_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Narqueo" border="6" color="33554432" x="1691" y="8" height="64" width="329" html.valueishtml="0"  name=narqueo_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Npagare" border="6" color="33554432" x="2030" y="8" height="64" width="329" html.valueishtml="0"  name=npagare_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Clugar Pag" border="6" color="33554432" x="2368" y="8" height="64" width="480" html.valueishtml="0"  name=clugar_pag_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nrcaj" border="6" color="33554432" x="9" y="8" height="64" width="329" html.valueishtml="0"  name=nrcaj_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Tesorecajcab Tpago" border="0" color="0" x="2857" y="4" height="76" width="1152" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Tesoabono Abo Npag" border="0" color="0" x="4018" y="4" height="76" width="1152" html.valueishtml="0"  name=tesoabono_abo_npag_t visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Tesoabono Clug Pagabo" border="0" color="0" x="5179" y="4" height="76" width="3502" html.valueishtml="0"  name=tesoabono_clug_pagabo_t visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="0" color="33554432" x="347" y="8" height="76" width="411" format="[general]" html.valueishtml="0"  name=clugar visible="1" edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="0" color="33554432" x="768" y="8" height="76" width="302" format="[general]" html.valueishtml="0"  name=estado visible="1" edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="33554432" x="1079" y="8" height="76" width="603" format="[shortdate] [time]" html.valueishtml="0"  name=fecha_anula visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=50 border="0" color="33554432" x="1691" y="8" height="76" width="329" format="[general]" html.valueishtml="0"  name=narqueo visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=60 border="0" color="33554432" x="2030" y="8" height="76" width="329" format="[general]" html.valueishtml="0"  name=npagare visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=70 border="0" color="33554432" x="2368" y="8" height="76" width="480" format="[general]" html.valueishtml="0"  name=clugar_pag visible="1" edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=10 border="0" color="33554432" x="9" y="8" height="76" width="329" format="[general]" html.valueishtml="0"  name=nrcaj visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="33554432" x="2857" y="0" height="64" width="1152" format="[general]" html.valueishtml="0"  name=tpago visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=80 border="0" color="33554432" x="4018" y="0" height="64" width="1152" format="[general]" html.valueishtml="0"  name=abo_npag visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=90 border="0" color="33554432" x="5179" y="0" height="64" width="3502" format="[general]" html.valueishtml="0"  name=clug_pagabo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(narqueo for all)"border="0" color="33554432" x="1691" y="4" height="64" width="329" format="[general]" html.valueishtml="0"  name=narq visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

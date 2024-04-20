@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_dias_habiles.srf
+global type f_dias_habiles from function_object
+end type
+
+forward prototypes
+global function integer f_dias_habiles (integer año, integer mes)
+global function date f_dias_habiles (date fecha_sel, integer dias)
+end prototypes
+
+global function integer f_dias_habiles (integer año, integer mes);return 0
+end function
+
+global function date f_dias_habiles (date fecha_sel, integer dias);uo_datastore dw_f
+long i,fest
+date fecha
+dw_f = Create uo_datastore
+dw_f.DataObject = 'dw_festivos'
+dw_f.SetTransObject(SQLCA)
+
+dw_f.Retrieve(year(fecha_sel),Month(fecha_sel))
+fest= dw_f.RowCount()
+if isnull(fest) then fest=0
+dias=dias+fest
+for i=1 to dias
+	fecha=relativedate(fecha_sel, i)
+	if DayNumber (fecha)=1 or DayNumber (fecha)=7 then
+		dias++
+	end if
+next
+
+return fecha
+end function
+

@@ -1,0 +1,61 @@
+﻿$PBExportHeader$f_proc_plan.srf
+global type f_proc_plan from function_object
+end type
+
+forward prototypes
+global function boolean f_proc_plan (string proced, string plan)
+end prototypes
+
+global function boolean f_proc_plan (string proced, string plan);//revisa si un procedimiento está cubierto por un plan
+string f_grupo,f_subgrp,f_categ,f_todos,f_tincluye
+SELECT Proced.Cd_Grupo, Proced.Cd_SubGrupo, Proced.Cd_Categoria
+into :f_grupo, :f_subgrp , :f_categ
+FROM Proced
+WHERE Proced.CodProced=:proced;
+if isnull(f_grupo) or f_grupo="" then 
+	messagebox("Error","Este procedimiento no existe, o no puede ser encontrado por f_proc_plan")
+	return false
+end if
+SELECT Planes.todos, Planes.t_incluir
+into :f_todos, :f_tincluye
+FROM Planes
+WHERE Planes.CodPlan=:plan;
+if f_todos="1" then return true
+setnull(f_todos)
+SELECT PlanGrupo.todos into :f_todos
+FROM PlanGrupo
+WHERE PlanGrupo.CodPlan=:plan AND PlanGrupo.Cd_Grupo=:f_grupo;
+if (isnull(f_todos) or f_todos="") and f_tincluye='1' then return false
+if (isnull(f_todos) or f_todos="") and f_tincluye='2' then return true
+if f_todos="1" and f_tincluye="1" then return true
+if f_todos="1" and f_tincluye="2" then return false
+
+setnull(f_todos)
+SELECT PlanSubGrupo.todos into :f_todos
+FROM PlanSubGrupo
+WHERE PlanSubGrupo.CodPlan=:plan AND PlanSubGrupo.Cd_Grupo=:f_grupo AND PlanSubGrupo.Cd_SubGrupo=:f_subgrp;
+if (isnull(f_todos) or f_todos="") and f_tincluye='1' then return false
+if (isnull(f_todos) or f_todos="") and f_tincluye='2' then return true
+if f_todos="1" and f_tincluye="1" then return true
+if f_todos="1" and f_tincluye="2" then return false
+
+setnull(f_todos)
+SELECT PlanCate.todos into :f_todos
+FROM PlanCate
+WHERE PlanCate.CodPlan=:plan AND PlanCate.Cd_Grupo=:f_grupo AND PlanCate.Cd_SubGrupo=:f_subgrp AND PlanCate.Cd_Categoria=:f_categ;
+if (isnull(f_todos) or f_todos="") and f_tincluye='1' then return false
+if (isnull(f_todos) or f_todos="") and f_tincluye='2' then return true
+if f_todos="1" and f_tincluye="1" then return true
+if f_todos="1" and f_tincluye="2" then return false
+	
+setnull(f_todos)
+SELECT PlanProced.CodProced into :f_todos
+FROM PlanProced
+WHERE PlanProced.CodProced=:proced AND PlanProced.CodPlan=:plan;
+if (isnull(f_todos) or f_todos="") and f_tincluye='2' then return true
+if (isnull(f_todos) or f_todos="") and f_tincluye='1' then return false
+if not isnull(f_todos) and f_tincluye="1" then return true
+if not isnull(f_todos) and f_tincluye="2" then return false
+return false
+end function
+

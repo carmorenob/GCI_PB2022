@@ -1,0 +1,8 @@
+﻿$PBExportHeader$st_edad_meses_dias.srs
+$PBExportComments$para devolver la edad en años , meses , dias
+global type st_edad_meses_dias from structure
+	integer		anyos
+	integer		meses
+	integer		dias
+end type
+

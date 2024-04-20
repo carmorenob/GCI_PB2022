@@ -1,0 +1,7 @@
+﻿$PBExportHeader$st_xa_buscar_pre.srs
+global type st_xa_buscar_pre from structure
+	datawindow		dw_vig
+	datawindow		dw_histo
+	string		cdoc
+end type
+

@@ -1,0 +1,55 @@
+﻿$PBExportHeader$dr_bal_general_utilidad.srd
+release 7;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=372 color="536870912" )
+summary(height=608 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=4 color="536870912"  height.autosize=yes)
+table(column=(type=char(4) updatewhereclause=yes name=cod_empresa dbname="cont_saldos.cod_empresa" )
+ column=(type=long updatewhereclause=yes name=ano dbname="cont_saldos.ano" )
+ column=(type=long updatewhereclause=yes name=mes dbname="cont_saldos.mes" )
+ column=(type=char(50) updatewhereclause=yes name=cuenta dbname="cont_saldos.cuenta" )
+ column=(type=char(1) updatewhereclause=yes name=movimiento dbname="cont_plan.movimiento" )
+ column=(type=char(200) updatewhereclause=yes name=cont_plan_descrip dbname="cont_plan.descrip" )
+ column=(type=char(1) updatewhereclause=yes name=naturaleza dbname="cont_plan.naturaleza" )
+ column=(type=number updatewhereclause=yes name=saldodebito dbname="cont_saldos.saldodebito" )
+ column=(type=number updatewhereclause=yes name=saldocredito dbname="cont_saldos.saldocredito" )
+ column=(type=number updatewhereclause=yes name=debito dbname="cont_saldos.debito" )
+ column=(type=number updatewhereclause=yes name=credito dbname="cont_saldos.credito" )
+ column=(type=number updatewhereclause=yes name=cierredebito dbname="cont_saldos.cierredebito" )
+ column=(type=number updatewhereclause=yes name=cierrecredito dbname="cont_saldos.cierrecredito" )
+ retrieve="SELECT 
+CONT_SALDOS.COD_EMPRESA, CONT_SALDOS.ano, 
+CONT_SALDOS.mes, 
+CONT_SALDOS.Cuenta, CONT_PLAN.movimiento, 
+CONT_PLAN.descrip, CONT_PLAN.naturaleza, 
+CONT_SALDOS.saldodebito, 
+CONT_SALDOS.saldocredito, CONT_SALDOS.Debito, 
+CONT_SALDOS.Credito, CONT_SALDOS.cierredebito, CONT_SALDOS.cierrecredito
+FROM 
+CONT_SALDOS LEFT outer JOIN CONT_PLAN ON 
+(CONT_SALDOS.COD_EMPRESA = CONT_PLAN.COD_EMPRESA) AND 
+(CONT_SALDOS.Cuenta = CONT_PLAN.CodTotal)
+WHERE 
+CONT_SALDOS.COD_EMPRESA=:empresa and
+CONT_SALDOS.ano=:ano AND CONT_SALDOS.mes=:mes1 and (
+CONT_SALDOS.Cuenta like '0' or CONT_SALDOS.Cuenta like '1' or 
+CONT_SALDOS.Cuenta like '2' or  
+CONT_SALDOS.Cuenta like '3' or CONT_SALDOS.Cuenta like '8' or 
+CONT_SALDOS.Cuenta like '9');
+
+" arguments=(("empresa", string),("ano", number),("mes1", number)) )
+compute(band=header alignment="0" expression="'Balance General ~~rcorrespondiente al mes ' + mes1 +' del año '+ ano "border="0" color="0" x="14" y="148" height="108" width="3186" format="[GENERAL]"  name=compute_1  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215"  height.autosize=yes)
+text(band=header alignment="2" text="HOSPITAL DE GCI" border="0" color="0" x="14" y="24" height="120" width="3186"  name=t_2  font.face="Arial" font.height="-18" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=summary x1="128" y1="12" x2="3008" y2="8"  name=l_1 pen.style="0" pen.width="18" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=summary x1="1367" y1="344" x2="3026" y2="344"  name=l_2 pen.style="0" pen.width="18" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=summary alignment="0" text="Activo:" border="0" color="0" x="137" y="32" height="96" width="302"  name=t_1  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum( if(cuenta='1',if(naturaleza='D', cierredebito - cierrecredito , cierrecredito - cierredebito ),0) for all )"border="0" color="0" x="453" y="32" height="96" width="805" format="##,##0.00"  name=compute_2  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum( if(cuenta='2' or cuenta ='3' ,if(naturaleza='D', cierredebito - cierrecredito , cierrecredito - cierredebito ),0) for all )"border="0" color="0" x="2203" y="404" height="96" width="805" format="##,##0.00"  name=compute_5  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum(if(cuenta='3',if(naturaleza='D', cierredebito - cierrecredito , cierrecredito - cierredebito ),0) for all )"border="0" color="0" x="2203" y="172" height="96" width="805" format="##,##0.00"  name=compute_4  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum( if(cuenta='2',if(naturaleza='D', cierredebito - cierrecredito , cierrecredito - cierredebito ),0) for all )"border="0" color="0" x="2203" y="32" height="96" width="805" format="##,##0.00"  name=compute_3  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+text(band=summary alignment="0" text="Pasivo:" border="0" color="0" x="1865" y="32" height="96" width="320"  name=t_3  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+text(band=summary alignment="0" text="Patrimonio:" border="0" color="0" x="1682" y="172" height="96" width="503"  name=t_4  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+text(band=summary alignment="0" text="Pasivo + Patrimonio:" border="0" color="0" x="1298" y="408" height="96" width="891"  name=t_5  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" )

@@ -1,0 +1,1548 @@
+﻿$PBExportHeader$m_procedimientos.srm
+forward
+global type m_procedimientos from menu
+end type
+type m_caries from menucascade within m_procedimientos
+end type
+type nocavitacional from menu within m_caries
+end type
+type cavitacional from menu within m_caries
+end type
+type m_caries from menucascade within m_procedimientos
+nocavitacional nocavitacional
+cavitacional cavitacional
+end type
+type m_obturacion from menucascade within m_procedimientos
+end type
+type m_amalgama from menu within m_obturacion
+end type
+type m_amalgamades from menu within m_obturacion
+end type
+type m_resinafotocurado from menu within m_obturacion
+end type
+type m_resinades from menu within m_obturacion
+end type
+type m_ionomero from menu within m_obturacion
+end type
+type m_obturacion from menucascade within m_procedimientos
+m_amalgama m_amalgama
+m_amalgamades m_amalgamades
+m_resinafotocurado m_resinafotocurado
+m_resinades m_resinades
+m_ionomero m_ionomero
+end type
+type m_corona from menucascade within m_procedimientos
+end type
+type m_coronahecha from menu within m_corona
+end type
+type m_coronades from menu within m_corona
+end type
+type m_nucleo from menu within m_corona
+end type
+type m_nucleopendiente from menu within m_corona
+end type
+type m_corona from menucascade within m_procedimientos
+m_coronahecha m_coronahecha
+m_coronades m_coronades
+m_nucleo m_nucleo
+m_nucleopendiente m_nucleopendiente
+end type
+type m_endodoncia from menucascade within m_procedimientos
+end type
+type m_endodonciahecha from menu within m_endodoncia
+end type
+type m_endodonciapend from menu within m_endodoncia
+end type
+type m_endodoncia from menucascade within m_procedimientos
+m_endodonciahecha m_endodonciahecha
+m_endodonciapend m_endodonciapend
+end type
+type m_rmdiagnostico from menu within m_procedimientos
+end type
+type m_extraccion from menucascade within m_procedimientos
+end type
+type m_extraido from menu within m_extraccion
+end type
+type m_extracpend from menu within m_extraccion
+end type
+type m_extraidot from menu within m_extraccion
+end type
+type m_extraccion from menucascade within m_procedimientos
+m_extraido m_extraido
+m_extracpend m_extracpend
+m_extraidot m_extraidot
+end type
+type m_inclusion from menucascade within m_procedimientos
+end type
+type m_incluido from menu within m_inclusion
+end type
+type m_enerupcion from menu within m_inclusion
+end type
+type m_sinerupcionar from menu within m_inclusion
+end type
+type m_inclusion from menucascade within m_procedimientos
+m_incluido m_incluido
+m_enerupcion m_enerupcion
+m_sinerupcionar m_sinerupcionar
+end type
+type m_desdentado from menu within m_procedimientos
+end type
+type m_placas from menucascade within m_procedimientos
+end type
+type m_placaycaries from menu within m_placas
+end type
+type m_placa from menu within m_placas
+end type
+type m_placas from menucascade within m_procedimientos
+m_placaycaries m_placaycaries
+m_placa m_placa
+end type
+type m_sano from menucascade within m_procedimientos
+end type
+type m_sellantefotocurado from menu within m_sano
+end type
+type m_sellanteautocurado from menu within m_sano
+end type
+type m_dientesano from menu within m_sano
+end type
+type m_sano from menucascade within m_procedimientos
+m_sellantefotocurado m_sellantefotocurado
+m_sellanteautocurado m_sellanteautocurado
+m_dientesano m_dientesano
+end type
+type m_ventana from menucascade within m_procedimientos
+end type
+type m_cascada from menu within m_ventana
+end type
+type m_ventana from menucascade within m_procedimientos
+m_cascada m_cascada
+end type
+global type m_procedimientos from menu
+m_caries m_caries
+m_obturacion m_obturacion
+m_corona m_corona
+m_endodoncia m_endodoncia
+m_rmdiagnostico m_rmdiagnostico
+m_extraccion m_extraccion
+m_inclusion m_inclusion
+m_desdentado m_desdentado
+m_placas m_placas
+m_sano m_sano
+m_ventana m_ventana
+end type
+end forward
+
+global type m_procedimientos from menu
+m_caries m_caries
+m_obturacion m_obturacion
+m_corona m_corona
+m_endodoncia m_endodoncia
+m_rmdiagnostico m_rmdiagnostico
+m_extraccion m_extraccion
+m_inclusion m_inclusion
+m_desdentado m_desdentado
+m_placas m_placas
+m_sano m_sano
+m_ventana m_ventana
+end type
+global m_procedimientos m_procedimientos
+
+type variables
+int iSeleccionado
+string sSeleccionado
+m_procedimientos m_actual
+end variables
+
+forward prototypes
+public function integer changetool (ref menu tool)
+end prototypes
+
+public function integer changetool (ref menu tool);int x,y,ret
+for x = 1 to UpperBound (this.item)
+	if (this.item[x].text = tool.text) then
+		if this.item[x].checked = TRUE then
+				this.item[x].checked = FALSE
+				ret = 0
+			else
+				this.item[x].checked = TRUE
+				ret = integer(this.item[x].tag)
+			end if
+		else
+			this.item[x].checked = FALSE
+		end if
+	for y = 1 to UpperBound (this.item[x].item)
+		if (this.item[x].item[y].text = tool.text) then
+			if this.item[x].item[y].checked = TRUE then
+				this.item[x].item[y].checked = FALSE
+				ret = 0
+			else
+				this.item[x].item[y].checked = TRUE
+				ret = integer(this.item[x].item[y].tag)
+			end if
+		else
+			this.item[x].item[y].checked = FALSE
+		end if
+	next 
+next 
+
+return ret
+end function
+
+on m_procedimientos.create
+m_procedimientos=this
+call super::create
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_caries=create m_caries
+this.m_obturacion=create m_obturacion
+this.m_corona=create m_corona
+this.m_endodoncia=create m_endodoncia
+this.m_rmdiagnostico=create m_rmdiagnostico
+this.m_extraccion=create m_extraccion
+this.m_inclusion=create m_inclusion
+this.m_desdentado=create m_desdentado
+this.m_placas=create m_placas
+this.m_sano=create m_sano
+this.m_ventana=create m_ventana
+this.Item[UpperBound(this.Item)+1]=this.m_caries
+this.Item[UpperBound(this.Item)+1]=this.m_obturacion
+this.Item[UpperBound(this.Item)+1]=this.m_corona
+this.Item[UpperBound(this.Item)+1]=this.m_endodoncia
+this.Item[UpperBound(this.Item)+1]=this.m_rmdiagnostico
+this.Item[UpperBound(this.Item)+1]=this.m_extraccion
+this.Item[UpperBound(this.Item)+1]=this.m_inclusion
+this.Item[UpperBound(this.Item)+1]=this.m_desdentado
+this.Item[UpperBound(this.Item)+1]=this.m_placas
+this.Item[UpperBound(this.Item)+1]=this.m_sano
+this.Item[UpperBound(this.Item)+1]=this.m_ventana
+end on
+
+on m_procedimientos.destroy
+call super::destroy
+destroy(this.m_caries)
+destroy(this.m_obturacion)
+destroy(this.m_corona)
+destroy(this.m_endodoncia)
+destroy(this.m_rmdiagnostico)
+destroy(this.m_extraccion)
+destroy(this.m_inclusion)
+destroy(this.m_desdentado)
+destroy(this.m_placas)
+destroy(this.m_sano)
+destroy(this.m_ventana)
+end on
+
+type m_caries from menucascade within m_procedimientos
+nocavitacional nocavitacional
+cavitacional cavitacional
+event create ( )
+event destroy ( )
+end type
+
+on m_caries.create
+call super::create
+this.text = "Caries"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.nocavitacional=create nocavitacional
+this.cavitacional=create cavitacional
+this.Item[UpperBound(this.Item)+1]=this.nocavitacional
+this.Item[UpperBound(this.Item)+1]=this.cavitacional
+end on
+
+on m_caries.destroy
+call super::destroy
+destroy(this.nocavitacional)
+destroy(this.cavitacional)
+end on
+
+type nocavitacional from menu within m_caries
+end type
+
+event clicked;iSeleccionado = changeTool(m_caries.nocavitacional)
+
+
+end event
+
+on nocavitacional.create
+call super::create
+this.tag = "5"
+this.text = "No Cavitacional"
+this.microhelp = "No Cavitacional"
+this.toolbaritemname = "caries16n.ico"
+this.toolbaritemtext = "NoCavitacional"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on nocavitacional.destroy
+call super::destroy
+end on
+
+type cavitacional from menu within m_caries
+end type
+
+event clicked;iSeleccionado = changeTool(m_caries.cavitacional)
+
+end event
+
+on cavitacional.create
+call super::create
+this.tag = "23"
+this.text = "Cavitacional"
+this.microhelp = "Cavitacional"
+this.toolbaritemname = "caries16.ico"
+this.toolbaritemtext = "Cavitacional"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on cavitacional.destroy
+call super::destroy
+end on
+
+type m_obturacion from menucascade within m_procedimientos
+m_amalgama m_amalgama
+m_amalgamades m_amalgamades
+m_resinafotocurado m_resinafotocurado
+m_resinades m_resinades
+m_ionomero m_ionomero
+end type
+
+on m_obturacion.create
+call super::create
+this.text = "Obturarados por Caries"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_amalgama=create m_amalgama
+this.m_amalgamades=create m_amalgamades
+this.m_resinafotocurado=create m_resinafotocurado
+this.m_resinades=create m_resinades
+this.m_ionomero=create m_ionomero
+this.Item[UpperBound(this.Item)+1]=this.m_amalgama
+this.Item[UpperBound(this.Item)+1]=this.m_amalgamades
+this.Item[UpperBound(this.Item)+1]=this.m_resinafotocurado
+this.Item[UpperBound(this.Item)+1]=this.m_resinades
+this.Item[UpperBound(this.Item)+1]=this.m_ionomero
+end on
+
+on m_obturacion.destroy
+call super::destroy
+destroy(this.m_amalgama)
+destroy(this.m_amalgamades)
+destroy(this.m_resinafotocurado)
+destroy(this.m_resinades)
+destroy(this.m_ionomero)
+end on
+
+type m_amalgama from menu within m_obturacion
+event clicked ( )
+end type
+
+event clicked;iSeleccionado = changeTool(m_obturacion.m_amalgama)
+end event
+
+on m_amalgama.create
+call super::create
+this.tag = "6"
+this.text = "Amalgama"
+this.microhelp = "Amalgama"
+this.toolbaritemname = "Amalgama16.ico"
+this.toolbaritemtext = "Amalgama"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_amalgama.destroy
+call super::destroy
+end on
+
+type m_amalgamades from menu within m_obturacion
+event clicked ( )
+end type
+
+event clicked;iSeleccionado = changeTool(m_obturacion.m_amalgamades)
+end event
+
+on m_amalgamades.create
+call super::create
+this.tag = "7"
+this.text = "Amalgama desadaptada"
+this.microhelp = "Amalgama desadaptada"
+this.toolbaritemname = "Amalgdes16.ico"
+this.toolbaritemtext = "Amalgama desadaptada"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_amalgamades.destroy
+call super::destroy
+end on
+
+type m_resinafotocurado from menu within m_obturacion
+end type
+
+event clicked;iSeleccionado = changeTool(m_obturacion.m_resinafotocurado)
+end event
+
+on m_resinafotocurado.create
+call super::create
+this.tag = "8"
+this.text = "Resina Fotocurado"
+this.microhelp = "Resina Fotocurado"
+this.toolbaritemname = "resinaFoto16.ico"
+this.toolbaritemtext = "Resina Fotocurado"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_resinafotocurado.destroy
+call super::destroy
+end on
+
+type m_resinades from menu within m_obturacion
+end type
+
+event clicked;iSeleccionado = changeTool(m_obturacion.m_resinades)
+end event
+
+on m_resinades.create
+call super::create
+this.tag = "9"
+this.text = "Resina Desadaptada"
+this.microhelp = "Resina Desadaptada"
+this.toolbaritemname = "Resinades16.ico"
+this.toolbaritemtext = "Resina Desadaptada"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_resinades.destroy
+call super::destroy
+end on
+
+type m_ionomero from menu within m_obturacion
+end type
+
+on m_ionomero.create
+call super::create
+this.tag = "24"
+this.text = "Ionomero"
+this.microhelp = "Ionomero"
+this.toolbaritemname = "ionomero.ico"
+this.toolbaritemtext = "Ionomero"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_ionomero.destroy
+call super::destroy
+end on
+
+event clicked;iSeleccionado = changeTool(m_obturacion.m_ionomero)
+end event
+
+type m_corona from menucascade within m_procedimientos
+m_coronahecha m_coronahecha
+m_coronades m_coronades
+m_nucleo m_nucleo
+m_nucleopendiente m_nucleopendiente
+end type
+
+on m_corona.create
+call super::create
+this.text = "Corona"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_coronahecha=create m_coronahecha
+this.m_coronades=create m_coronades
+this.m_nucleo=create m_nucleo
+this.m_nucleopendiente=create m_nucleopendiente
+this.Item[UpperBound(this.Item)+1]=this.m_coronahecha
+this.Item[UpperBound(this.Item)+1]=this.m_coronades
+this.Item[UpperBound(this.Item)+1]=this.m_nucleo
+this.Item[UpperBound(this.Item)+1]=this.m_nucleopendiente
+end on
+
+on m_corona.destroy
+call super::destroy
+destroy(this.m_coronahecha)
+destroy(this.m_coronades)
+destroy(this.m_nucleo)
+destroy(this.m_nucleopendiente)
+end on
+
+type m_coronahecha from menu within m_corona
+event clicked ( )
+event create ( )
+event destroy ( )
+end type
+
+event clicked;iSeleccionado = changeTool(m_corona.m_coronahecha)
+
+end event
+
+on m_coronahecha.create
+call super::create
+this.tag = "10"
+this.text = "Corona"
+this.microhelp = "Corona Hecha"
+this.toolbaritemname = "corona16.ico"
+this.toolbaritemtext = "Corona"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_coronahecha.destroy
+call super::destroy
+end on
+
+type m_coronades from menu within m_corona
+end type
+
+on m_coronades.create
+call super::create
+this.tag = "11"
+this.text = "Corona Desadaptada"
+this.microhelp = "Corona Desadaptada"
+this.toolbaritemname = "Coronades16.ico"
+this.toolbaritemtext = "Corona Pendiente"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_coronades.destroy
+call super::destroy
+end on
+
+event clicked;iSeleccionado = changeTool(m_corona.m_coronades)
+
+end event
+
+type m_nucleo from menu within m_corona
+end type
+
+event clicked;iSeleccionado = changeTool(m_corona.m_nucleo)
+
+end event
+
+on m_nucleo.create
+call super::create
+this.tag = "19"
+this.text = "Núcleo"
+this.microhelp = "Núcleo"
+this.toolbaritemname = "nucleo16.ico"
+this.toolbaritemtext = "Núcleo"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_nucleo.destroy
+call super::destroy
+end on
+
+type m_nucleopendiente from menu within m_corona
+end type
+
+event clicked;iSeleccionado = changeTool(m_corona.m_nucleopendiente)
+end event
+
+on m_nucleopendiente.create
+call super::create
+this.tag = "20"
+this.text = "Núcleo Pendiente"
+this.microhelp = "Núcleo Pendiente"
+this.toolbaritemname = "nucleopend16.ico"
+this.toolbaritemtext = "Núcleo Pendiente"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_nucleopendiente.destroy
+call super::destroy
+end on
+
+type m_endodoncia from menucascade within m_procedimientos
+m_endodonciahecha m_endodonciahecha
+m_endodonciapend m_endodonciapend
+end type
+
+on m_endodoncia.create
+call super::create
+this.text = "Endodoncia"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_endodonciahecha=create m_endodonciahecha
+this.m_endodonciapend=create m_endodonciapend
+this.Item[UpperBound(this.Item)+1]=this.m_endodonciahecha
+this.Item[UpperBound(this.Item)+1]=this.m_endodonciapend
+end on
+
+on m_endodoncia.destroy
+call super::destroy
+destroy(this.m_endodonciahecha)
+destroy(this.m_endodonciapend)
+end on
+
+type m_endodonciahecha from menu within m_endodoncia
+end type
+
+on m_endodonciahecha.create
+call super::create
+this.tag = "12"
+this.text = "Endodoncia"
+this.microhelp = "Endodoncia"
+this.toolbaritemname = "endodoncia16.ico"
+this.toolbaritemtext = "Endodoncia Hecha"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_endodonciahecha.destroy
+call super::destroy
+end on
+
+event clicked;iSeleccionado = changeTool(m_endodoncia.m_endodonciahecha)
+end event
+
+type m_endodonciapend from menu within m_endodoncia
+end type
+
+on m_endodonciapend.create
+call super::create
+this.tag = "13"
+this.text = "Endodoncia Indicada"
+this.microhelp = "Endodoncia Indicada"
+this.toolbaritemname = "endoind16.ico"
+this.toolbaritemtext = "Endodoncia Pendiente"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_endodonciapend.destroy
+call super::destroy
+end on
+
+event clicked;iSeleccionado = changeTool(m_endodoncia.m_endodonciapend)
+end event
+
+type m_rmdiagnostico from menu within m_procedimientos
+end type
+
+on m_rmdiagnostico.create
+call super::create
+this.tag = "-1"
+this.text = "Eliminar"
+this.microhelp = "Eliminar"
+this.toolbaritemname = "borrar_diente.ico"
+this.toolbaritemtext = "Eliminar Diagnostico"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_rmdiagnostico.destroy
+call super::destroy
+end on
+
+event clicked;iSeleccionado = changeTool(m_rmdiagnostico)
+end event
+
+type m_extraccion from menucascade within m_procedimientos
+m_extraido m_extraido
+m_extracpend m_extracpend
+m_extraidot m_extraidot
+end type
+
+on m_extraccion.create
+call super::create
+this.text = "Extracción"
+this.microhelp = "Extracción"
+this.toolbaritemorder = 2
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_extraido=create m_extraido
+this.m_extracpend=create m_extracpend
+this.m_extraidot=create m_extraidot
+this.Item[UpperBound(this.Item)+1]=this.m_extraido
+this.Item[UpperBound(this.Item)+1]=this.m_extracpend
+this.Item[UpperBound(this.Item)+1]=this.m_extraidot
+end on
+
+on m_extraccion.destroy
+call super::destroy
+destroy(this.m_extraido)
+destroy(this.m_extracpend)
+destroy(this.m_extraidot)
+end on
+
+type m_extraido from menu within m_extraccion
+event clicked ( )
+event create ( )
+event destroy ( )
+end type
+
+event clicked;iSeleccionado = changeTool(m_extraccion.m_extraido)
+
+
+end event
+
+on m_extraido.create
+call super::create
+this.tag = "1"
+this.text = "Perdido x caries"
+this.enabled = false
+this.microhelp = "Perdidos x caries"
+this.toolbaritemname = "perdidoc.ico"
+this.toolbaritemtext = "Extraido"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_extraido.destroy
+call super::destroy
+end on
+
+type m_extracpend from menu within m_extraccion
+event clicked ( )
+event create ( )
+event destroy ( )
+end type
+
+event clicked;iSeleccionado = changeTool(m_extraccion.m_extracpend)
+
+end event
+
+on m_extracpend.create
+call super::create
+this.tag = "2"
+this.text = "Extracción Indicada"
+this.microhelp = "Extracción por hacer"
+this.toolbaritemname = "extraind.ico"
+this.toolbaritemtext = "Extracción pendiente"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_extracpend.destroy
+call super::destroy
+end on
+
+type m_extraidot from menu within m_extraccion
+end type
+
+on m_extraidot.create
+call super::create
+this.tag = "28"
+this.text = "Perdido x Trauma"
+this.microhelp = "Perdido x Trauma"
+this.toolbaritemname = "perdidot.ico"
+this.toolbaritemtext = "Extraido Trauma"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_extraidot.destroy
+call super::destroy
+end on
+
+event clicked;iSeleccionado = changeTool(m_extraccion.m_extraidot)
+end event
+
+type m_inclusion from menucascade within m_procedimientos
+m_incluido m_incluido
+m_enerupcion m_enerupcion
+m_sinerupcionar m_sinerupcionar
+event create ( )
+event destroy ( )
+end type
+
+on m_inclusion.create
+call super::create
+this.text = "Inclusión"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_incluido=create m_incluido
+this.m_enerupcion=create m_enerupcion
+this.m_sinerupcionar=create m_sinerupcionar
+this.Item[UpperBound(this.Item)+1]=this.m_incluido
+this.Item[UpperBound(this.Item)+1]=this.m_enerupcion
+this.Item[UpperBound(this.Item)+1]=this.m_sinerupcionar
+end on
+
+on m_inclusion.destroy
+call super::destroy
+destroy(this.m_incluido)
+destroy(this.m_enerupcion)
+destroy(this.m_sinerupcionar)
+end on
+
+type m_incluido from menu within m_inclusion
+event create ( )
+event destroy ( )
+end type
+
+on m_incluido.create
+call super::create
+this.tag = "14"
+this.text = "Incluido"
+this.microhelp = "Incluido"
+this.toolbaritemname = "incluido16.ico"
+this.toolbaritemtext = "Incluido"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_incluido.destroy
+call super::destroy
+end on
+
+event clicked;iSeleccionado = changeTool(m_inclusion.m_incluido)
+end event
+
+type m_enerupcion from menu within m_inclusion
+event create ( )
+event destroy ( )
+end type
+
+on m_enerupcion.create
+call super::create
+this.tag = "4"
+this.text = "Diente en Erupción"
+this.microhelp = "Diente en Erupción"
+this.toolbaritemname = "erupcion16.ico"
+this.toolbaritemtext = "Diente en Erupción"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_enerupcion.destroy
+call super::destroy
+end on
+
+event clicked;iSeleccionado = changeTool(m_inclusion.m_enerupcion)
+end event
+
+type m_sinerupcionar from menu within m_inclusion
+event create ( )
+event destroy ( )
+end type
+
+on m_sinerupcionar.create
+call super::create
+this.tag = "3"
+this.text = "Sin Erupcionar"
+this.microhelp = "Sin Erupcionar"
+this.toolbaritemname = "sinErupcion16.ico"
+this.toolbaritemtext = "Sin Erupcionar"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_sinerupcionar.destroy
+call super::destroy
+end on
+
+event clicked;iSeleccionado = changeTool(m_inclusion.m_sinerupcionar)
+end event
+
+type m_desdentado from menu within m_procedimientos
+event create ( )
+event destroy ( )
+end type
+
+on m_desdentado.create
+call super::create
+this.tag = "18"
+this.text = "Desdentado"
+this.microhelp = "Desdentado"
+this.toolbaritemname = "desden16.ico"
+this.toolbaritemtext = "Desdentado"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_desdentado.destroy
+call super::destroy
+end on
+
+event clicked;iSeleccionado = changeTool(m_desdentado)
+end event
+
+type m_placas from menucascade within m_procedimientos
+m_placaycaries m_placaycaries
+m_placa m_placa
+end type
+
+on m_placas.create
+call super::create
+this.text = "Placa"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_placaycaries=create m_placaycaries
+this.m_placa=create m_placa
+this.Item[UpperBound(this.Item)+1]=this.m_placaycaries
+this.Item[UpperBound(this.Item)+1]=this.m_placa
+end on
+
+on m_placas.destroy
+call super::destroy
+destroy(this.m_placaycaries)
+destroy(this.m_placa)
+end on
+
+type m_placaycaries from menu within m_placas
+end type
+
+event clicked;iSeleccionado = changeTool(m_placas.m_placaycaries)
+
+end event
+
+on m_placaycaries.create
+call super::create
+this.tag = "22"
+this.text = "Placa y Caries"
+this.microhelp = "Placa y Caries"
+this.toolbaritemname = "placacaries16.ico"
+this.toolbaritemtext = "Placa y Caries"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_placaycaries.destroy
+call super::destroy
+end on
+
+type m_placa from menu within m_placas
+end type
+
+event clicked;iSeleccionado = changeTool(m_placas.m_placa)
+
+end event
+
+on m_placa.create
+call super::create
+this.tag = "21"
+this.text = "Placa"
+this.toolbaritemname = "placa16.ico"
+this.toolbaritemtext = "Placa"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_placa.destroy
+call super::destroy
+end on
+
+type m_sano from menucascade within m_procedimientos
+m_sellantefotocurado m_sellantefotocurado
+m_sellanteautocurado m_sellanteautocurado
+m_dientesano m_dientesano
+event create ( )
+event destroy ( )
+end type
+
+on m_sano.create
+call super::create
+this.text = "Sano"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_sellantefotocurado=create m_sellantefotocurado
+this.m_sellanteautocurado=create m_sellanteautocurado
+this.m_dientesano=create m_dientesano
+this.Item[UpperBound(this.Item)+1]=this.m_sellantefotocurado
+this.Item[UpperBound(this.Item)+1]=this.m_sellanteautocurado
+this.Item[UpperBound(this.Item)+1]=this.m_dientesano
+end on
+
+on m_sano.destroy
+call super::destroy
+destroy(this.m_sellantefotocurado)
+destroy(this.m_sellanteautocurado)
+destroy(this.m_dientesano)
+end on
+
+type m_sellantefotocurado from menu within m_sano
+event create ( )
+event destroy ( )
+end type
+
+on m_sellantefotocurado.create
+call super::create
+this.tag = "15"
+this.text = "Sellante Fotocurado"
+this.microhelp = "Sellante Fotocurado"
+this.toolbaritemname = "sellantefot16.ico"
+this.toolbaritemtext = "Sellante Fotocurado"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_sellantefotocurado.destroy
+call super::destroy
+end on
+
+event clicked;iSeleccionado = changeTool(m_sano.m_sellantefotocurado)
+end event
+
+type m_sellanteautocurado from menu within m_sano
+event create ( )
+event destroy ( )
+end type
+
+on m_sellanteautocurado.create
+call super::create
+this.tag = "16"
+this.visible = false
+this.text = "Sellante Autocurado"
+this.microhelp = "Sellante Autocurado"
+this.toolbaritemvisible = false
+this.toolbaritemname = "sellanteaut16.ico"
+this.toolbaritemtext = "Sellante Autocurado"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_sellanteautocurado.destroy
+call super::destroy
+end on
+
+event clicked;iSeleccionado = changeTool(m_sano.m_sellanteautocurado)
+end event
+
+type m_dientesano from menu within m_sano
+event create ( )
+event destroy ( )
+end type
+
+on m_dientesano.create
+call super::create
+this.tag = "17"
+this.text = "Diente Sano"
+this.microhelp = "Diente Sano"
+this.toolbaritemname = "dsano.ico"
+this.toolbaritemtext = "Diente Sano"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_dientesano.destroy
+call super::destroy
+end on
+
+event clicked;iSeleccionado = changeTool(m_sano.m_dientesano)
+end event
+
+type m_ventana from menucascade within m_procedimientos
+m_cascada m_cascada
+end type
+
+on m_ventana.create
+call super::create
+this.text = "Ventana"
+this.toolbaritemvisible = false
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_cascada=create m_cascada
+this.Item[UpperBound(this.Item)+1]=this.m_cascada
+end on
+
+on m_ventana.destroy
+call super::destroy
+destroy(this.m_cascada)
+end on
+
+type m_cascada from menu within m_ventana
+end type
+
+on m_cascada.create
+call super::create
+this.text = "Cascada"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_cascada.destroy
+call super::destroy
+end on
+

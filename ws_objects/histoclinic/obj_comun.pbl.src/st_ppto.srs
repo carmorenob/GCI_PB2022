@@ -1,0 +1,15 @@
+﻿$PBExportHeader$st_ppto.srs
+global type st_ppto from structure
+	long		cod_vigencia
+	long		periodo
+	string		filtro
+	singlelineedit		sle_1
+	datawindow		dw_obj
+	datawindow		dw_src
+	datawindow		dw_sle
+	string		campo
+	string		coddoc
+	string		flujo
+	integer		año
+end type
+

@@ -1,0 +1,17 @@
+﻿$PBExportHeader$redondeo.srf
+global type redondeo from function_object
+end type
+
+forward prototypes
+global function decimal redondeo (decimal valor, long decimales, long aproxima)
+end prototypes
+
+global function decimal redondeo (decimal valor, long decimales, long aproxima);decimal l_valor
+l_valor = round(valor,decimales)
+if decimales = 0 and aproxima > 0 then
+	l_valor = long(l_valor/aproxima) * aproxima
+end if
+Return l_valor
+
+end function
+

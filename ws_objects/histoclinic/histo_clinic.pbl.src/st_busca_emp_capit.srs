@@ -1,0 +1,11 @@
+﻿$PBExportHeader$st_busca_emp_capit.srs
+global type st_busca_emp_capit from structure
+	string		basedatos
+	string		usuario
+	string		clave
+	string		emp
+	string		cont
+	string		desemp
+	string		descon
+end type
+

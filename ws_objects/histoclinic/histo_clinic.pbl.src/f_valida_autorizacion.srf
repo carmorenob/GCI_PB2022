@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_valida_autorizacion.srf
+global type f_valida_autorizacion from function_object
+end type
+
+forward prototypes
+global function string f_valida_autorizacion (string tdocx, string docux, string autox)
+end prototypes
+
+global function string f_valida_autorizacion (string tdocx, string docux, string autox);double nf
+string cl, tp
+SELECT DISTINCT  FACTCAB.NFACT, FACTCAB.CLUGAR, FACTCAB.TIPO into :nf,:cl,:tp
+FROM FACTCAB INNER JOIN FACTCPO ON (FACTCAB.TIPO = FACTCPO.TIPO) AND (FACTCAB.CLUGAR = FACTCPO.CLUGAR) AND (FACTCAB.NFACT = FACTCPO.NFACT)
+WHERE (((FACTCAB.ESTADO) Is Null) AND ((FACTCPO.TIPODOC)=:tdocx) AND ((FACTCPO.DOCUMENTO)=:docux) AND ((FACTCPO.AUTORIZACION)=:autox));
+
+if isnull(cl) or cl="" then 
+	return '0'
+else
+	return string(nf)+'-'+cl+'-'+tp
+end if
+end function
+

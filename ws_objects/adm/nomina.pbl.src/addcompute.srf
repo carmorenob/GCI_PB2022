@@ -1,0 +1,82 @@
+﻿$PBExportHeader$addcompute.srf
+global type addcompute from function_object
+end type
+
+forward prototypes
+global function integer addcompute (datawindow dw_obj, string concep, string form_calculo)
+end prototypes
+
+global function integer addcompute (datawindow dw_obj, string concep, string form_calculo);long i,nc,ps,li_res
+uo_datastore dw_req
+string ret,novedad
+
+dw_req = CREATE uo_dataStore
+dw_req.DataObject = "dw_concep_req"
+dw_req.SetTransObject(SQLCA)
+//dw_req.retrieve(concep)
+dw_req.retrieve()
+li_res=dw_req.setfilter("sigla ='"+ concep+"'")
+li_res=dw_req.filter()
+li_res=dw_req.sort()
+for i = 1 to dw_req.RowCount()
+	if concep = dw_req.GetItemString(i,'sigla_req') then Return 2
+	if dw_obj.Describe(dw_req.GetItemString(i,'sigla_req') + '.Coltype') = "!" then
+		addcompute(dw_obj, dw_req.GetItemString(i,'sigla_req'), dw_req.GetItemString(i,'form_calculo'))
+	end if
+next
+if dw_obj.Describe(concep + '.Coltype') = "!" then
+	select novedad into :novedad from nom_concep
+	where sigla = :concep;
+	IF SQLCA.SQLCode = -1 THEN
+		novedad = SQLCA.SQLErrText
+		Rollback;
+		MessageBox("SQL error", novedad)
+		Return -1
+	END IF
+	ps = pos(form_calculo,'parm_novedad',1)
+	if novedad = '1' and ps > 0 then
+		nc = 1
+		do while dw_obj.Describe("parm_"+string(nc)+"_t.text") <> 'parm_'+string(nc) and nc <= 129
+			nc = nc + 1
+		loop
+		if nc > 129 then
+		//	MessageBox('Aviso','Insuficientes campos parm. No se crea campo parametro para novedad '+concep)
+		else
+			dw_obj.Modify("parm_"+string(nc)+"_t.text='parm_"+concep+"'") 
+			do while ps > 0
+				form_calculo = replace(form_calculo,ps,12,"parm_"+string(nc))
+				ps = pos(form_calculo,'parm_novedad',ps)
+			loop
+		end if
+	end if
+	ret = dw_obj.Modify("CREATE compute (band=detail alignment='0' expression='"+ form_calculo +"' border='0' color='0' x='6766' y='4' height='56' width='251' format='[GENERAL]' html.valueishtml='0'  name=" + concep + " visible='1'  font.face='Arial' font.height='-8' font.weight='400'  font.family='2' font.pitch='2' font.charset='0' background.mode='2' background.color='16777215')")		
+	if ret <> "" then Return -1
+//	ret = dw_obj.Modify("CREATE compute (band=detail alignment='0' expression='"+ string(0) +"' border='0' color='0' x='6766' y='4' height='56' width='251' format='[GENERAL]' html.valueishtml='0'  name=" + "ctr_"+concep + " visible='1'  font.face='Arial' font.height='-8' font.weight='400'  font.family='2' font.pitch='2' font.charset='0' background.mode='2' background.color='16777215')")		
+//	if ret <> "" then Return -1
+//	ret = dw_obj.Modify("CREATE compute (band=summary alignment='0' expression='sum("+ concep +")' border='0' color='0' x='"+dw_obj.Describe(concep+".x")+"' y='4' height='56' width='251' format='[GENERAL]' html.valueishtml='0'  name=sum_" + concep + " visible='1'  font.face='Arial' font.height='-8' font.weight='400'  font.family='2' font.pitch='2' font.charset='0' background.mode='2' background.color='16777215')")		
+//	if ret <> "" then Return -1
+else
+	if dw_obj.Describe(concep+".expression") = '0' then
+		ps = pos(form_calculo,'parm_novedad',1)
+		if ps > 0 then
+			nc = 1
+			do while dw_obj.Describe("parm_"+string(nc)+"_t.text") <> 'parm_'+ concep and nc <= 129
+				nc = nc + 1
+			loop
+			if nc > 129 then
+				MessageBox('Aviso','No encontro parametro para redefinir '+concep)
+			else
+				do while ps > 0
+					form_calculo = replace(form_calculo,ps,12,"parm_"+string(nc))
+					ps = pos(form_calculo,'parm_novedad',ps)
+				loop
+			end if
+		end if
+		ret = dw_obj.Modify(concep + ".expression='" + form_calculo + "'")
+	end if
+end if
+
+Return nc
+
+end function
+

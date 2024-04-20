@@ -1,0 +1,66 @@
+﻿$PBExportHeader$dw_4505_02.srd
+release 21;
+datawindow(units=0 timer_interval=0 color=1073741824 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" grid.lines=0 )
+header(height=80 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=92 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=char(160) updatewhereclause=yes name=tipo1 dbname="tipo1" )
+ retrieve="SELECT 
+ '1' +'|'+Empresa.CodSuper+'|'+ convert(varchar(10),ripsradica.fecha_inicial,111)+'|'+ convert(varchar(10),ripsradica.fecha_final,111)+'|'+ '0'  as tipo1
+FROM ripsradica INNER JOIN Empresa ON ripsradica.cemp = Empresa.CodEmp
+WHERE (((ripsradica.num_radicacion) in (:radica)))
+UNION ALL
+SELECT DISTINCT
+tipo +'|'+convert(varchar(3),item)  +'|'+c_supersalud +'|'+TipoDoc +'|'+Documento +'|'+apellido1 +'|'+Apellido2 +'|'+Nombre1 +'|'+nombre2 +'|'+convert(varchar(10),FNacimiento,111) +'|'+Sexo +'|'+etn  +'|'+ocup  +'|'+esco 
+
+
+from
+(
+SELECT DISTINCT
+'2' AS tipo,ips.c_supersalud, EmpPac.item, Pacientes.TipoDoc, Pacientes.Documento, Pacientes.Apellido1,
+case when Pacientes.Apellido2 is null then 'NONE' else Pacientes.Apellido2 end as apellido2, 
+ Pacientes.Nombre1, case when Pacientes.Nombre2 is null then 'NONE' else pacientes.Nombre2 end  as nombre2, 
+Pacientes.FNacimiento, Pacientes.Sexo, 
+case when Pacientes.GrupoAE is null then 'ND' else Pacientes.GrupoAE end  as etn,  
+case when Ocupaciones.codigo is null then '9999' else Ocupaciones.codigo end  as ocup, 
+case when Pacientes.escolaridad is null then '13' else Pacientes.escolaridad end as esco,
+datediff( day,Pacientes.FNacimiento,factcab.fecha) as edad,
+case when FactCpo.proccups='906317' and pacientes.sexo='F'  then left(convert(varchaR(19),factcab.fecha,120),10) else '1845-01-01' end as AHP_78,
+case when FactCpo.proccups='906916' and pacientes.sexo='F'  then left(convert(varchaR(19),factcab.fecha,120),10) else '1845-01-01' end as SIF_80,
+case when FactCpo.proccups='906249'  then left(convert(varchaR(19),factcab.fecha,120),10) else '1845-01-01' end as VIH_82,
+case when FactCpo.proccups='904903'  then left(convert(varchaR(19),factcab.fecha,120),10) else '1845-01-01' end as TSH_84,
+case when FactCpo.proccups='892901'  then left(convert(varchaR(19),factcab.fecha,120),10) else '1845-01-01' end as CIT_87,
+case when FactCpo.proccups='902213' or FactCpo.proccups='902211'  then left(convert(varchaR(19),factcab.fecha,120),10) else '1845-01-01' end as HEM_103,
+case when FactCpo.proccups='903841'  then left(convert(varchaR(19),factcab.fecha,120),10) else '1845-01-01' end as GLB_105,
+case when FactCpo.proccups='903825'  then left(convert(varchaR(19),factcab.fecha,120),10) else '1845-01-01' end as CRT_106,
+case when FactCpo.proccups='903426'  then left(convert(varchaR(19),factcab.fecha,120),10) else '1845-01-01' end as HGL_108,
+case when FactCpo.proccups='903026' or FactCpo.proccups='903027' or FactCpo.proccups='903028' or FactCpo.proccups='903029'  then left(convert(varchaR(19),factcab.fecha,120),10) else '1845-01-01' end as MAL_110,
+case when FactCpo.proccups='903815'  then left(convert(varchaR(19),factcab.fecha,120),10) else '1845-01-01' end as HDL_111,
+case when FactCpo.proccups='901101'  then left(convert(varchaR(19),factcab.fecha,120),10) else '1845-01-01' end as BAS_112
+FROM (((((((ripsradica INNER JOIN ips ON ripsradica.c_ips = ips.c_ips) INNER JOIN FactCab ON (ripsradica.clugar = FactCab.clugar_rad) AND (ripsradica.num_radicacion = FactCab.nradica)) INNER JOIN FactCpo ON (FactCab.clugar = FactCpo.clugar) AND (FactCab.NFact = FactCpo.NFact)) INNER JOIN Pacientes ON (FactCpo.Documento = Pacientes.Documento) AND (FactCpo.TipoDoc = Pacientes.TipoDoc)) LEFT JOIN Ocupaciones ON Pacientes.CodOcup = Ocupaciones.todo) LEFT JOIN GrupoAtenEspecial ON Pacientes.GrupoAE = GrupoAtenEspecial.CodGAE) INNER JOIN Empresa ON ripsradica.cemp = Empresa.CodEmp) INNER JOIN EmpPac ON (FactCpo.CContrato = EmpPac.CodContrato) AND (FactCpo.CEmp = EmpPac.CodEmp) AND (FactCpo.Documento = EmpPac.Documento) AND (FactCpo.TipoDoc = EmpPac.TipoDoc)
+WHERE (((ripsradica.num_radicacion) in (:radica)))
+) as detalle
+group by
+tipo ,
+item , 
+c_supersalud , 
+TipoDoc , Documento , 
+apellido1 , Apellido2 , Nombre1 , nombre2  ,
+convert(varchar(10),FNacimiento,111) , Sexo , etn ,  ocup , esco ,
+case when sexo='M' then '0' else case when edad<3600 then '0' else '21' end end ,
+case when sexo='M' then '0' else case when edad<=28  then '2' else '21' end end ,
+case when sexo='M' then '0' else case when edad<=3600  then '2' else '21' end end ;" arguments=(("radica", number)) )
+text(band=header alignment="2" text="Tipo1" border="0" color="33554432" x="9" y="8" height="64" width="4681" html.valueishtml="0"  name=tipo1_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="9" y="8" height="76" width="4681" format="[general]" html.valueishtml="0"  name=tipo1 visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
+export.xhtml()
+ 

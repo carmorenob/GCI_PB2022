@@ -1,0 +1,45 @@
+﻿$PBExportHeader$f_mueve_lote.srf
+global type f_mueve_lote from function_object
+end type
+
+forward prototypes
+global function integer f_mueve_lote (datawindow p_dw, long p_ndoc)
+end prototypes
+
+global function integer f_mueve_lote (datawindow p_dw, long p_ndoc);long j
+dec cant
+string codalm,codart,lote,err,convenio
+p_dw.setfilter('isnull(lote)')
+p_dw.filter()
+do while p_dw.rowcount()>0 //poruqe solo debe mover lote para los que son de lote
+	p_dw.deleterow(0)
+loop
+p_dw.setfilter('')
+p_dw.filter()
+for j=1 to p_dw.rowcount()
+	if p_dw.getitemstatus(j,0,primary!)=notmodified! then continue ///// ojo no debe volver a guardar los que ya se habian guardado
+	if p_ndoc>0 then //si es cero lo mando de facturación y ese número lo colocó allá
+		p_dw.setitem(j,'numdoc',p_ndoc) 
+		p_dw.setitem(j,'item',p_dw.getitemnumber(j,'item_fc')) 
+	end if
+	convenio=p_dw.getitemstring(j,'convenio')
+	codalm=p_dw.getitemstring(j,'codalmacen')
+	codart=p_dw.getitemstring(j,'codarticulo')
+	lote=p_dw.getitemstring(j,'lote')
+	cant=p_dw.getitemnumber(j,'cantidad')*p_dw.getitemnumber(j,'signo')
+	update sum_lote set cantidad = cantidad + :cant where
+	codalmacen=:codalm and codarticulo=:codart and upper(lote)=upper(:lote) and upper(convenio)=upper(:convenio);
+	if sqlca.sqlcode=-1 then
+		err=sqlca.sqlerrtext
+		rollback;
+		messagebox("Error Actualizando Sum_Lote",err)
+		return -1
+	end if
+next
+p_dw.modify('DataWindow.Table.UpdateTable = "sum_mvto_lote"')
+if p_dw.update(true,false)=-1 then return -1
+p_dw.modify('DataWindow.Table.UpdateTable = "sum_lote_mov"')
+if p_dw.update(true,false)=-1 then return -1
+return 1
+end function
+

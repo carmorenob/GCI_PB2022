@@ -1,0 +1,31 @@
+﻿$PBExportHeader$f_gen_cod_gr.srf
+global type f_gen_cod_gr from function_object
+end type
+
+forward prototypes
+global function string f_gen_cod_gr (string as_data, string as_file)
+end prototypes
+
+global function string f_gen_cod_gr (string as_data, string as_file);OleObject qr
+int return_code
+string RutaImagen,  tipo
+
+qr = CREATE OleObject
+return_code = qr.ConnectToNewObject("Facturador.Firma")
+
+IF return_code <> 0 THEN
+	destroy qr
+	Messagebox("Sistema",return_code)
+	RETURN RutaImagen
+ELSE
+	
+tipo = "PNG"
+RutaImagen = qr.codebarqr(as_file, as_data, tipo )
+qr.DisconnectObject()
+Destroy qr
+END IF 
+GarbageCollect ( ) 
+RETURN RutaImagen
+
+end function
+

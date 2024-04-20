@@ -1,0 +1,6 @@
+﻿$PBExportHeader$st_error.srs
+global type st_error from structure
+	string		ds_nombre
+	string		msgerror
+end type
+

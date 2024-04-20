@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_combo_ciruj_espe.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=67108864 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=88 color="536870912" )
+table(column=(type=char(10) updatewhereclause=yes name=codprof dbname="espprof.codprof" )
+ column=(type=char(5) updatewhereclause=yes name=cesp dbname="espprof.cesp" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"espprof~" ) COLUMN(NAME=~"espprof.codprof~") COLUMN(NAME=~"espprof.cesp~")) " )
+text(band=detail alignment="0" text="Profesional" border="0" color="33554432" x="9" y="0" height="52" width="251" html.valueishtml="0"  name=codprof_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="5" color="33554432" x="279" y="4" height="52" width="814" format="[general]" html.valueishtml="0"  name=codprof visible="1" dddw.name=dw_lista_cirujanos dddw.displaycolumn=compute_1 dddw.datacolumn=codprof dddw.percentwidth=200 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.imemode=0 dddw.hscrollbar=yes dddw.vscrollbar=yes  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="0" text="Especialidad" border="0" color="33554432" x="1202" y="4" height="52" width="265" html.valueishtml="0"  name=cesp_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="5" color="33554432" x="1481" y="4" height="52" width="814" format="[general]" html.valueishtml="0"  name=cesp visible="1" dddw.name=dw_espprof dddw.displaycolumn=desesp dddw.datacolumn=cesp dddw.percentwidth=200 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.imemode=0 dddw.hscrollbar=yes dddw.vscrollbar=yes dddw.autoretrieve=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

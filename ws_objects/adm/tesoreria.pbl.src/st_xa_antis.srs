@@ -1,0 +1,11 @@
+﻿$PBExportHeader$st_xa_antis.srs
+global type st_xa_antis from structure
+	datawindow		dw_cpo
+	datawindow		dw_intfaz
+	datawindow		dw_rten
+	double		ld_fila
+	string		ps_flujo
+	string		ps_tipodoc
+	string		ps_docu
+end type
+

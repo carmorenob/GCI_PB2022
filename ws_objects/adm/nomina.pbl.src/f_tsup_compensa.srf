@@ -1,0 +1,79 @@
+﻿$PBExportHeader$f_tsup_compensa.srf
+global type f_tsup_compensa from function_object
+end type
+
+forward prototypes
+global function integer f_tsup_compensa (string tipodoc, string documento, integer ano, integer mes, string codtsup, integer horas)
+end prototypes
+
+global function integer f_tsup_compensa (string tipodoc, string documento, integer ano, integer mes, string codtsup, integer horas);long f, item, h_comp
+datetime f_tmp
+string msg, cod_concep, cl, uf, cc
+uo_dataStore dw_def, dw_he
+
+dw_def = create uo_dataStore
+dw_def.DataObject = 'dw_tsup_def'
+dw_def.SetTransObject(SQLCA)
+dw_def.Retrieve(codtsup)
+
+dw_he = create uo_dataStore
+dw_he.DataObject = 'dw_tsup'
+dw_he.SetTransObject(SQLCA)
+select cod_concep into :cod_concep from NOM_HORAS_REF
+where codtsup = :codtsup and compensa = 1;
+IF SQLCA.SQLCode = -1 THEN
+	msg = SQLCA.SQLErrText
+	Rollback;
+	MessageBox("SQL error", msg)
+	Return -1
+END IF
+IF SQLCA.SQLCode = 100 THEN
+	msg = SQLCA.SQLErrText
+	Rollback;
+	MessageBox("Atención", 'No existe concepto para compensaciones. ' +msg)
+	Return 0
+END IF
+
+if horas > 0 then
+	select codlugar, ufuncional, ccosto into :cl, :uf, :cc from empleubica
+	where tipodoc=:tipodoc and documento=:documento and estado='1';
+	IF SQLCA.SQLCode = -1 THEN
+		msg = SQLCA.SQLErrText
+		Rollback;
+		MessageBox("SQL error", msg)
+		Return -1
+	END IF
+	select max(item) into :item from nom_tsup
+	where tipodoc=:tipodoc and documento=:documento and ano=:ano and mes=:mes;
+	IF SQLCA.SQLCode = -1 THEN
+		msg = SQLCA.SQLErrText
+		Rollback;
+		MessageBox("SQL error", msg)
+		Return -1
+	END IF
+	if isNull(item) then item = 0
+	item = item + 1
+	f = dw_he.InsertRow(0)
+	dw_he.SetItem(f,'tipodoc',tipodoc)
+	dw_he.SetItem(f,'documento',documento)
+	dw_he.SetItem(f,'ano',ano)
+	dw_he.SetItem(f,'mes',mes)
+	dw_he.SetItem(f,'item',item)
+	dw_he.SetItem(f,'horas',horas)
+	dw_he.SetItem(f,'clugar',cl)
+	dw_he.SetItem(f,'ufuncional',uf)
+	dw_he.SetItem(f,'ccosto',cc)
+	dw_he.SetItem(f,'cod_concep',cod_concep)
+	dw_he.SetItem(f,'estado','1')
+end if
+
+if dw_he.Update() = -1 then
+	Rollback;
+	Return -1
+end if
+
+commit;
+Return 0
+
+end function
+

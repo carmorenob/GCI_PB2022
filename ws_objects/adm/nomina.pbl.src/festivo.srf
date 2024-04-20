@@ -1,0 +1,33 @@
+﻿$PBExportHeader$festivo.srf
+global type festivo from function_object
+end type
+
+forward prototypes
+global function boolean festivo (datetime p_fecha)
+end prototypes
+
+global function boolean festivo (datetime p_fecha);boolean fest
+long cant
+string msg
+
+p_fecha = datetime(date(p_fecha))
+select count(*) into :cant
+from nom_festivos
+where fecha = :p_fecha;
+if SQLCA.SQLCode = -1 then
+	msg = SQLCA.SQLErrText
+	Rollback;
+	MessageBox("SQL error", msg)
+	Return FALSE
+end if
+
+if cant > 0 then
+	fest = TRUE
+else
+	fest = FALSE
+end if
+
+Return fest
+
+end function
+

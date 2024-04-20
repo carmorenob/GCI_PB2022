@@ -1,0 +1,47 @@
+﻿$PBExportHeader$f_salario_per.srf
+global type f_salario_per from function_object
+end type
+
+forward prototypes
+global function double f_salario_per (string tipodoc, string documento, datetime fecha_ini, datetime fecha_fin)
+end prototypes
+
+global function double f_salario_per (string tipodoc, string documento, datetime fecha_ini, datetime fecha_fin);double  salarios
+
+SELECT 
+	SUM(s_per.SALARIOS)  into:salarios
+FROM
+	(
+	SELECT DISTINCT 
+		EMPLESALARIO.SALARIO,
+		NOM_CAB.ANO, NOM_CAB.MES, EMPLEADOS.INGRE_EMPRE, EMPLEADOS.FECHA_RETIRO,
+		ROUND((
+		(EMPLESALARIO.SALARIO/30.0)
+		*  	
+		CASE WHEN EMPLEADOS.INGRE_EMPRE>NOM_CAB.INICIA OR  EMPLEADOS.FECHA_RETIRO IS NOT NULL THEN 
+			DBO.F_DIAS_360(CASE WHEN EMPLEADOS.INGRE_EMPRE>NOM_CAB.INICIA THEN EMPLEADOS.INGRE_EMPRE ELSE NOM_CAB.INICIA END
+			,
+			CASE WHEN EMPLEADOS.FECHA_RETIRO IS NULL THEN NOM_CAB.TERMINA ELSE EMPLEADOS.FECHA_RETIRO END
+			) ELSE 30 END 
+		- 
+		DBO.F_DIAS_LICENCIA(NOM_CPO.TIPODOC,NOM_CPO.DOCUMENTO,NOM_CAB.INICIA,NOM_CAB.TERMINA)),0)  
+		 AS SALARIOS
+	
+	FROM 
+		((NOM_CAB INNER JOIN NOM_CPO ON NOM_CAB.NUM_NOMINA = NOM_CPO.NUM_NOMINA) 
+		INNER JOIN EMPLESALARIO ON (NOM_CPO.NSALARIO = EMPLESALARIO.NSALARIO) 
+		AND (NOM_CPO.TIPODOC = EMPLESALARIO.TIPODOC) AND (NOM_CPO.DOCUMENTO = EMPLESALARIO.DOCUMENTO) 
+		AND (NOM_CPO.NCARGO = EMPLESALARIO.NCARGO)) 
+		INNER JOIN EMPLEADOS ON (NOM_CPO.DOCUMENTO = EMPLEADOS.DOCUMENTO) 
+		AND (NOM_CPO.TIPODOC = EMPLEADOS.TIPODOC)
+	WHERE 
+		((((NOM_CPO.TIPODOC)=:tipodoc) AND ((NOM_CPO.DOCUMENTO) =:documento)
+		AND ((NOM_CAB.FECHA) BETWEEN :fecha_ini AND :fecha_fin)) 
+		AND ((NOM_CAB.ESTADO)='1') AND ((NOM_CAB.TIPO)='N'))
+	) AS S_per;
+
+if isNull(salarios) then salarios=0
+Return salarios
+
+end function
+

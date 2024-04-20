@@ -1,0 +1,28 @@
+﻿$PBExportHeader$f_sin_identificacion.srf
+global type f_sin_identificacion from function_object
+end type
+
+forward prototypes
+global function string f_sin_identificacion ()
+end prototypes
+
+global function string f_sin_identificacion ();string ls_dips,ls_mips
+long ld_consec
+
+SELECT 
+	depto_ips, ciudad_ips into :ls_dips,:ls_mips
+FROM ips;
+if isnull(ls_dips) or isnull(ls_mips) then
+	return '-1'
+end if
+
+
+ld_consec=f_trae_ndoc('SID',clugar,'CONSECUTIVO INDOCUMENTADOS')
+
+ls_dips=ls_dips+ls_mips+right((fill('0',5)+string(ld_consec)),5)
+
+return ls_dips
+
+
+end function
+

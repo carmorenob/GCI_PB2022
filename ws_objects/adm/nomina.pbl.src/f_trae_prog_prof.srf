@@ -1,0 +1,65 @@
+﻿$PBExportHeader$f_trae_prog_prof.srf
+global type f_trae_prog_prof from function_object
+end type
+
+forward prototypes
+global function integer f_trae_prog_prof (string tipodoc, string documento, datetime desde, datetime hasta)
+end prototypes
+
+global function integer f_trae_prog_prof (string tipodoc, string documento, datetime desde, datetime hasta);uo_DataStore dw_ap, dw_hr 
+string prof
+long i,f,k, valor
+DateTime inicia, termina
+
+dw_ap = Create uo_DataStore
+dw_ap.DataObject = 'dw_agendaprof'
+dw_ap.SetTransObject(SQLCA)
+dw_hr = Create uo_DataStore
+dw_hr.DataObject = 'dw_programa_emp_new'
+dw_hr.SetTransObject(SQLCA)
+dw_ap.Retrieve(tipodoc,documento,desde,hasta)
+dw_hr.Retrieve(tipodoc,documento,date(desde))
+for i = 1 to dw_ap.RowCount()
+	if i = dw_ap.rowCount() or prof <> dw_ap.GetItemString(i,'prof') or termina <> DateTime(Date(dw_ap.GetItemDateTime(i,'fecha')),Time(dw_ap.GetItemDateTime(i,'hora'))) then
+		if prof <> '' then
+			valor=dw_hr.getitemnumber(1,'max_item')
+			if isnull(valor) then valor=0
+			f = dw_hr.InsertRow(0)
+			dw_hr.SetItem(f,'tipodoc',dw_ap.GetItemString(i,'tipodoc'))
+			dw_hr.SetItem(f,'documento',dw_ap.GetItemString(i,'documento'))
+			dw_hr.SetItem(f,'ncargo',dw_ap.GetItemNumber(i,'ncargo'))
+			dw_hr.SetItem(f,'clugar',dw_ap.GetItemString(i,'codlugar'))
+			dw_hr.SetItem(f,'ufuncional',dw_ap.GetItemString(i,'coduf'))
+			dw_hr.SetItem(f,'ccosto',dw_ap.GetItemString(i,'codcc'))
+			dw_hr.SetItem(f,'fecha_dom',RelativeDate(Date(dw_ap.GetItemDateTime(i,'fecha')),-1 * f_diaNumero(Date(dw_ap.GetItemDateTime(i,'fecha'))) + 1))
+			dw_hr.SetItem(f,'item',valor + 1)			
+			dw_hr.SetItem(f,'inicio',inicia)
+			termina = DateTime(date(termina),RelativeTime(time(termina), - 1))
+			dw_hr.SetItem(f,'fin',termina)
+			dw_hr.setitem(f,'Horas',Hour(time(termina)) - Hour(time(inicia)) + 1)
+			dw_hr.setitem(f,'agendaprof','1')
+			dw_hr.setitem(f,'hextra','0')
+			dw_hr.setitem(f,'compensa','0')
+			dw_hr.setitem(f,'usuario',usuario)
+			dw_hr.setitem(f,'fecha_modi',Today())
+		end if
+		prof = dw_ap.GetItemString(i,'prof')
+		inicia = DateTime(Date(dw_ap.GetItemDateTime(i,'fecha')),Time(dw_ap.GetItemDateTime(i,'hora')))
+		termina = inicia
+	end if 
+	dw_ap.setitem(i,'prog','1')
+	termina = DateTime(date(termina),RelativeTime(time(termina),dw_ap.GetItemNumber(i,'duracion')*60))
+next
+if dw_ap.Update() = -1 then
+	MessageBox("Atención","Error guardando Agenda desde programacion")
+	Return -1
+end if
+if dw_hr.Update() = -1 then
+	MessageBox("Atención","Error guardando programación.")
+	Return -1
+end if
+commit;
+Return 0
+
+end function
+

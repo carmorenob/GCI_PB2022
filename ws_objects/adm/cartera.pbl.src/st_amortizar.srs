@@ -1,0 +1,6 @@
+﻿$PBExportHeader$st_amortizar.srs
+global type st_amortizar from structure
+	datawindow		dw_cab
+	datawindow		dw_cpo
+end type
+

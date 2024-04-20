@@ -1,0 +1,14 @@
+﻿$PBExportHeader$dw_cuentarn.srd
+release 7;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=number update=yes updatewhereclause=yes key=yes name=nh dbname="hosprn.nh" )
+ column=(type=char(2) updatewhereclause=yes key=yes name=clugar dbname="hosprn.clugar" )
+ column=(type=char(1) update=yes updatewhereclause=yes key=yes name=codtingre dbname="hosprn.codtingre" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=nrn dbname="hosprn.nrn" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"hosprn~" ) COLUMN(NAME=~"hosprn.nh~") COLUMN(NAME=~"hosprn.clugar~") COLUMN(NAME=~"hosprn.codtingre~") COLUMN(NAME=~"hosprn.nrn~")WHERE(    EXP1 =~"hosprn.nh~"   OP =~"=~"    EXP2 =~":nh~"    LOGIC =~"And~" ) WHERE(    EXP1 =~"hosprn.codtingre~"   OP =~"=~"    EXP2 =~":tingres~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"hosprn.clugar~"   OP =~"=~"    EXP2 =~":clugar~" ) ) ARG(NAME = ~"nh~" TYPE = number)  ARG(NAME = ~"tingres~" TYPE = string)  ARG(NAME = ~"clugar~" TYPE = string) " update="hosprn" updatewhere=0 updatekeyinplace=yes arguments=(("nh", number),("tingres", string),("clugar", string)) )
+compute(band=detail alignment="2" expression="~"Producto ~" +getrow()  +~" de ~" +rowcount()"border="5" color="0" x="27" y="16" height="60" width="453" format="[GENERAL]"  name=compute_1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" )

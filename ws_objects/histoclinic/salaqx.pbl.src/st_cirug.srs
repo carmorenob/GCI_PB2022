@@ -1,0 +1,10 @@
+﻿$PBExportHeader$st_cirug.srs
+global type st_cirug from structure
+	string		proccups
+	string		cmanual
+	integer		tiempoqx
+	string		descrip
+	string		cesp
+	string		antecedente
+end type
+

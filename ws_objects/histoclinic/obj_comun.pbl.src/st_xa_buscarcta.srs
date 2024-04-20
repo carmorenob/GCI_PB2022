@@ -1,0 +1,6 @@
+﻿$PBExportHeader$st_xa_buscarcta.srs
+global type st_xa_buscarcta from structure
+	datawindow		dw
+	string		codemp
+end type
+

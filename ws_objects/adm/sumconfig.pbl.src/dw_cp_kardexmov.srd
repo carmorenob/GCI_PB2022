@@ -1,0 +1,119 @@
+﻿$PBExportHeader$dw_cp_kardexmov.srd
+release 10.5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no grid.lines=0 )
+header(height=68 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=char(15) update=yes updatewhereclause=yes key=yes name=codalmacen dbname="sum_kardex_mov.codalmacen" dbalias=".codalmacen" )
+ column=(type=char(10) update=yes updatewhereclause=yes key=yes name=codarti dbname="sum_kardex_mov.codarti" dbalias=".codarti" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=ano dbname="sum_kardex_mov.ano" dbalias=".ano" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=mes dbname="sum_kardex_mov.mes" dbalias=".mes" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=item dbname="sum_kardex_mov.item" dbalias=".item" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha dbname="sum_kardex_mov.fecha" dbalias=".fecha" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=usuario dbname="sum_kardex_mov.usuario" dbalias=".usuario" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=coddocref dbname="sum_kardex_mov.coddocref" dbalias=".coddocref" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=clugarref dbname="sum_kardex_mov.clugarref" dbalias=".clugarref" )
+ column=(type=number update=yes updatewhereclause=yes name=numdocref dbname="sum_kardex_mov.numdocref" dbalias=".numdocref" )
+ column=(type=long update=yes updatewhereclause=yes name=itemref dbname="sum_kardex_mov.itemref" dbalias=".itemref" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=entradacant dbname="sum_kardex_mov.entradacant" dbalias=".entradacant" initial="0" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=salidacant dbname="sum_kardex_mov.salidacant" dbalias=".salidacant" initial="0" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=valorunit dbname="sum_kardex_mov.valorunit" dbalias=".valorunit" initial="0" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=cos_prom_ant dbname="sum_kardex_mov.cos_prom_ant" dbalias=".cos_prom_ant" initial="0" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha_anula dbname="sum_kardex_mov.fecha_anula" dbalias=".fecha_anula" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=usu_anula dbname="sum_kardex_mov.usu_anula" dbalias=".usu_anula" )
+ column=(type=char(4) updatewhereclause=yes name=cod_impu dbname="sum_mvto_cpo.cod_impu" dbalias=".cod_impu" )
+ column=(type=char(15) updatewhereclause=yes name=codalmacen_target dbname="sum_mvto_cab.codalmacen_target" dbalias=".codalmacen_target" )
+ column=(type=decimal(2) updatewhereclause=yes name=valor_cpo dbname="sum_mvto_cpo.valor_unit" dbalias=".valor_unit" )
+ retrieve="  SELECT sum_kardex_mov.codalmacen,   
+         sum_kardex_mov.codarti,   
+         sum_kardex_mov.ano,   
+         sum_kardex_mov.mes,   
+         sum_kardex_mov.item,   
+         sum_kardex_mov.fecha,   
+         sum_kardex_mov.usuario,   
+         sum_kardex_mov.coddocref,   
+         sum_kardex_mov.clugarref,   
+         sum_kardex_mov.numdocref,   
+         sum_kardex_mov.itemref,   
+         sum_kardex_mov.entradacant,   
+         sum_kardex_mov.salidacant,   
+         sum_kardex_mov.valorunit,   
+         sum_kardex_mov.cos_prom_ant,   
+         sum_kardex_mov.fecha_anula,   
+         sum_kardex_mov.usu_anula,   
+         sum_mvto_cpo.cod_impu,   
+         sum_mvto_cab.codalmacen_target,   
+         sum_mvto_cpo.valor_unit
+    FROM sum_kardex_mov,   
+         sum_mvto_cpo,   
+         sum_mvto_cab  
+   WHERE ( sum_kardex_mov.coddocref = sum_mvto_cpo.coddoc ) and  
+         ( sum_kardex_mov.clugarref = sum_mvto_cpo.clugar ) and  
+         ( sum_kardex_mov.numdocref = sum_mvto_cpo.numdoc ) and  
+         ( sum_kardex_mov.itemref = sum_mvto_cpo.item ) and  
+         ( sum_mvto_cpo.coddoc = sum_mvto_cab.coddoc ) and  
+         ( sum_mvto_cpo.clugar = sum_mvto_cab.clugar ) and  
+         ( sum_mvto_cpo.numdoc = sum_mvto_cab.numdoc ) and  
+         ( ( sum_kardex_mov.codalmacen = :codalmacen) AND  
+         ( sum_kardex_mov.codarti = :codarticulo ) AND  
+         ( sum_kardex_mov.ano = :ano ) AND  
+         ( sum_kardex_mov.mes = :mes ) AND  
+         ( sum_kardex_mov.fecha_anula is null ) )    
+
+" update="sum_kardex_mov" updatewhere=0 updatekeyinplace=yes arguments=(("codalmacen", string),("codarticulo", string),("ano", number),("mes", number))  sort="date(fecha) A entradacant D " )
+text(band=header alignment="2" text="Codalmacen" border="0" color="0" x="9" y="4" height="56" width="320" html.valueishtml="0"  name=codalmacen_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Codarti" border="0" color="0" x="338" y="4" height="56" width="274" html.valueishtml="0"  name=codarti_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Ano" border="0" color="0" x="622" y="4" height="56" width="219" html.valueishtml="0"  name=ano_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Mes" border="0" color="0" x="850" y="4" height="56" width="174" html.valueishtml="0"  name=mes_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Item" border="0" color="0" x="1033" y="4" height="56" width="192" html.valueishtml="0"  name=item_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Fecha" border="0" color="0" x="1234" y="4" height="56" width="713" html.valueishtml="0"  name=fecha_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Usuario" border="0" color="0" x="1957" y="4" height="56" width="210" html.valueishtml="0"  name=usuario_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Coddocref" border="0" color="0" x="2176" y="4" height="56" width="265" html.valueishtml="0"  name=coddocref_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Clugarref" border="0" color="0" x="2450" y="4" height="56" width="233" html.valueishtml="0"  name=clugarref_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Numdocref" border="0" color="0" x="2693" y="4" height="56" width="329" html.valueishtml="0"  name=numdocref_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Valorunit" border="0" color="0" x="3374" y="4" height="56" width="283" html.valueishtml="0"  name=valorunit_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Entradacant" border="0" color="0" x="3666" y="4" height="56" width="306" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Salidacant" border="0" color="0" x="3982" y="4" height="56" width="283" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cos Prom Ant" border="0" color="0" x="3031" y="4" height="56" width="334" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Fecha Anula" border="0" color="0" x="4274" y="4" height="56" width="297" html.valueishtml="0"  name=fecha_anula_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Usu Anula" border="0" color="0" x="4581" y="4" height="56" width="261" html.valueishtml="0"  name=usu_anula_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Itemref" border="0" color="0" x="4850" y="4" height="56" width="311" html.valueishtml="0"  name=itemref_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cod Impu" border="0" color="0" x="5170" y="4" height="56" width="283" html.valueishtml="0"  name=cod_impu_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Porcentaje" border="0" color="0" x="5463" y="8" height="56" width="288" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Valortotal" border="0" color="0" x="5760" y="4" height="56" width="210" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Codalmacen Target" border="0" color="0" x="5979" y="4" height="56" width="334" html.valueishtml="0"  name=codalmacen_target_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Valor Unit Cpo" border="0" color="0" x="6322" y="4" height="56" width="402" html.valueishtml="0"  name=valor_cpo_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="0" x="9" y="4" height="56" width="320" format="[general]" html.valueishtml="0"  name=codalmacen visible="1" edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="0" color="0" x="338" y="4" height="56" width="274" format="[general]" html.valueishtml="0"  name=codarti visible="1" edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=30 border="0" color="0" x="622" y="4" height="56" width="219" format="[general]" html.valueishtml="0"  name=ano visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=40 border="0" color="0" x="850" y="4" height="56" width="174" format="[general]" html.valueishtml="0"  name=mes visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=50 border="0" color="0" x="1033" y="4" height="56" width="192" format="[general]" html.valueishtml="0"  name=item visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=60 border="0" color="0" x="1234" y="4" height="56" width="713" format="[shortdate] [time]" html.valueishtml="0"  name=fecha visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=70 border="0" color="0" x="1957" y="4" height="56" width="210" format="[general]" html.valueishtml="0"  name=usuario visible="1" edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=80 border="0" color="0" x="2176" y="4" height="56" width="265" format="[general]" html.valueishtml="0"  name=coddocref visible="1" edit.limit=4 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=90 border="0" color="0" x="2450" y="4" height="56" width="233" format="[general]" html.valueishtml="0"  name=clugarref visible="1" edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=100 border="0" color="0" x="2693" y="4" height="56" width="329" format="[general]" html.valueishtml="0"  name=numdocref visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="1" tabsequence=110 border="0" color="0" x="3374" y="4" height="56" width="283" format="[general]" html.valueishtml="0"  name=valorunit visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="3666" y="4" height="56" width="306" format="[general]" html.valueishtml="0"  name=entradacant visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="3982" y="4" height="56" width="283" format="[general]" html.valueishtml="0"  name=salidacant visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="3031" y="4" height="56" width="334" format="[general]" html.valueishtml="0"  name=cos_prom_ant visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="0" tabsequence=120 border="0" color="0" x="4274" y="4" height="56" width="297" format="[shortdate] [time]" html.valueishtml="0"  name=fecha_anula visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="0" tabsequence=130 border="0" color="0" x="4581" y="4" height="56" width="261" format="[general]" html.valueishtml="0"  name=usu_anula visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=140 border="0" color="0" x="4850" y="0" height="56" width="311" format="[general]" html.valueishtml="0"  name=itemref visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=150 border="0" color="0" x="5170" y="0" height="56" width="283" format="[general]" html.valueishtml="0"  name=cod_impu visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="if(not isNull( cod_impu ),getporcentaje(cod_impu),0)"border="0" color="0" x="5463" y="4" height="56" width="288" format="[GENERAL]" html.valueishtml="0"  name=porcentaje visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression=" if(coddocref='SE', valorunit * (1 + porcentaje/100),valorunit) "border="0" color="0" x="5760" y="4" height="56" width="210" format="[GENERAL]" html.valueishtml="0"  name=valortotal visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=19 alignment="0" tabsequence=160 border="0" color="0" x="5979" y="0" height="56" width="334" format="[general]" html.valueishtml="0"  name=codalmacen_target visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=20 alignment="0" tabsequence=170 border="0" color="0" x="6322" y="0" height="56" width="402" format="[general]" html.valueishtml="0"  name=valor_cpo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

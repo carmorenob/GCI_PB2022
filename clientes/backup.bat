@@ -1,0 +1,1 @@
+xcopy d:\gci_v10.5\clientes\*.* f:\back\gci_v10.5\clientes\ /y

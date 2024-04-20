@@ -1,0 +1,23 @@
+﻿$PBExportHeader$gf_add_segundos.srf
+global type gf_add_segundos from function_object
+end type
+
+forward prototypes
+global function datetime gf_add_segundos (datetime adt_datetime, long al_seconds_to_add)
+end prototypes
+
+global function datetime gf_add_segundos (datetime adt_datetime, long al_seconds_to_add);datetime ldt_result
+long ll_hasta_media_noche
+
+ll_hasta_media_noche=secondsafter(time(adt_datetime), time(23:59:59))+1
+
+if ll_hasta_media_noche>al_seconds_to_add then
+	ldt_result=datetime(date(adt_datetime), relativetime( time(adt_datetime) , al_seconds_to_add))
+else
+	ldt_result=datetime( relativedate(date(adt_datetime),1), relativetime( time("00:00:00"), al_seconds_to_add - ll_hasta_media_noche) )
+end if
+
+
+return ldt_result
+end function
+

@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_check_menu.srf
+global type f_check_menu from function_object
+end type
+
+forward prototypes
+global function boolean f_check_menu (string des_menu, string aplicacion)
+end prototypes
+
+global function boolean f_check_menu (string des_menu, string aplicacion);string permiso
+SELECT segpermisos.permiso  into :permiso
+FROM segpermisos,   
+        usugrupo  
+WHERE ( segpermisos.codgrupo = usugrupo.codgrupo ) and  
+         ( ( usugrupo.usuario = :usuario ) AND  
+         ( segpermisos.aplicacion = :aplicacion ) AND  
+         ( segpermisos.codmenu = :des_menu ));    
+if isnull(permiso) or permiso="" or permiso="1" then
+	return true
+else
+	return false
+end if
+end function
+

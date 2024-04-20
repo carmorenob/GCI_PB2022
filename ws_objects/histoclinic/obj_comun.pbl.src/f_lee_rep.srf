@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_lee_rep.srf
+$PBExportComments$Lee de Rep_Interno y crea el datasore que se le manda dependiendo del código
+global type f_lee_rep from function_object
+end type
+
+forward prototypes
+global function integer f_lee_rep (string p_codrep, string p_clug, string p_descrip, uo_datastore dw)
+end prototypes
+
+global function integer f_lee_rep (string p_codrep, string p_clug, string p_descrip, uo_datastore dw);// Mandar el codigo del reporte de rep_adm y el datawindow en el que se va a construir el datawindow 
+
+blob repo
+long archivo,tamanyo,donde
+sqlca.autocommit=true
+SELECTblob rep_interno.reporte into :repo FROM rep_interno WHERE rep_interno.Cod_rep=:p_codrep and rep_interno.clugar=:p_clug; 
+sqlca.autocommit=false
+if sqlca.sqlcode=-1 then
+	messagebox("Error leyendo la tabla rep_iterno",sqlca.sqlerrtext)
+	return -1
+end if
+if sqlca.sqlnrows=0 or isnull(repo) then
+	messagebox("Atención",'El reporte ('+p_codrep+') '+p_descrip+' no existe o está mal configurado. Revise la tabla Rep_Interno o en el configurador->Tablas Comunes->Reportes(Internos)')
+	return -1
+end if
+if dw.create(string(repo))=-1 then
+	messagebox('Atención', 'Sintaxis no válida del reporte '+p_codrep)
+	return -1
+end if
+return 1
+
+
+end function
+

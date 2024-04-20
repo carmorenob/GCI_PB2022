@@ -1,0 +1,13 @@
+﻿$PBExportHeader$st_cargar_a.srs
+$PBExportComments$devuelve la empresa contrato y plan al que se le puede cargar un procedimiento a un paciente dependiendo las empresas del paciente. ambien se utiliza en facturacion y recibos de caja para buscar un proc.
+global type st_cargar_a from structure
+	string		emp
+	string		cont
+	string		plan
+	singlelineedit		sle
+	string		tipoingreso
+	string		sexo
+	integer		edad
+	string		estrato
+end type
+

@@ -1,0 +1,38 @@
+﻿$PBExportHeader$dw_salida_med.srd
+release 11.5;
+datawindow(units=0 timer_interval=0 color=79741120 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=84 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=number update=yes updatewhereclause=yes key=yes name=nsalida dbname="HOSPSALI.nsalida" dbalias=".nsalida" )
+ column=(type=number update=yes updatewhereclause=yes key=yes name=nhosp dbname="HOSPSALI.nhosp" dbalias=".nhosp" )
+ column=(type=char(2) update=yes updatewhereclause=yes key=yes name=clugar_hadm dbname="HOSPSALI.clugar_hadm" dbalias=".clugar_hadm" )
+ column=(type=char(1) update=yes updatewhereclause=yes key=yes name=codtingre dbname="HOSPSALI.codtingre" dbalias=".codtingre" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=usuario dbname="HOSPSALI.usuario" dbalias=".usuario" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=estado dbname="HOSPSALI.estado" dbalias=".estado" )
+ column=(type=char(12) update=yes updatewhereclause=yes name=diagingre dbname="HOSPSALI.diagingre" dbalias=".diagingre" )
+ column=(type=long update=yes updatewhereclause=yes name=horasobserva dbname="HOSPSALI.horasobserva" dbalias=".horasobserva" initial="0" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fechaegreso dbname="HOSPSALI.fechaegreso" dbalias=".fechaegreso" )
+ column=(type=datetime update=yes updatewhereclause=yes name=horaegreso dbname="HOSPSALI.horaegreso" dbalias=".horaegreso" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=estadosalida dbname="HOSPSALI.estadosalida" dbalias=".estadosalida" initial="1" )
+ retrieve="SELECT  
+	hospsali.nsalida,hospsali.nhosp,hospsali.clugar_hadm,hospsali.codtingre,hospsali.usuario,hospsali.estado,hospsali.diagingre,
+	hospsali.horasobserva,hospsali.fechaegreso,hospsali.horaegreso,hospsali.estadosalida     
+FROM 
+	hospsali      
+WHERE 
+	( hospsali.NHosp = :nhosp ) and ( hospsali.clugar_hadm = :clugar ) and ( hospsali.codtingre = :tingr )   " update="hospsali" updatewhere=0 updatekeyinplace=yes arguments=(("nhosp", number),("clugar", string),("tingr", string)) )
+column(band=detail id=1 alignment="2" tabsequence=10 border="5" color="0" x="261" y="12" height="56" width="265" format="[general]" html.valueishtml="0"  name=nsalida visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="2" text="Nro Salida:" border="0" color="0" x="5" y="12" height="52" width="238" html.valueishtml="0"  name=t_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

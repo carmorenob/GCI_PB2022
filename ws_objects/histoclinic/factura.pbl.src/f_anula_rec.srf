@@ -1,0 +1,188 @@
+﻿$PBExportHeader$f_anula_rec.srf
+global type f_anula_rec from function_object
+end type
+
+forward prototypes
+global subroutine f_anula_rec ()
+end prototypes
+
+global subroutine f_anula_rec ();if w_busca_fact.dw_encuentra.getitemnumber(w_busca_fact.dw_encuentra.getrow(),"nfactus")>0 then
+	Messagebox("Atención",'Este recibo pertenece a una o varias facturas, para poder anularlo debe primero anular la(s) factura(s)')
+	return
+end if
+if messagebox("Atención","Está seguro que desea anular el recibo de caja ",question!,yesno!,2)=2 then return
+long nreci,cuantos,j,nnulo,k,npagare=0
+string clug_rec,snulo,clug_pag
+datetime ahora
+real acum
+ahora=datetime(today(),now())
+nreci = w_busca_fact.dw_encuentra.getitemnumber(w_busca_fact.dw_encuentra.getrow(),"nrcaj")
+clug_rec=w_busca_fact.dw_encuentra.getitemstring(w_busca_fact.dw_encuentra.getrow(),"clugar")
+setnull(nnulo)
+setnull(snulo)
+uo_datastore anula,anula1,revierte
+anula=create uo_datastore
+anula1=create uo_datastore
+revierte=create uo_datastore
+anula1.dataobject='dw_anula_rec'
+anula1.settransobject(sqlca)
+anula.dataobject='dw_anu_rescpo_rec'
+anula.settransobject(sqlca)
+revierte.dataobject='dw_actu_factu_con_abonos'
+revierte.settransobject(sqlca)
+
+anula1.retrieve(nreci,clug_rec)
+string contabil_entre
+for k=1 to anula1.rowcount()//puede traer varios recibos a anular si es un primer recibo
+									 //que tuvo pagare y luego se le hicieron abonos a ese pagare
+									 //entonces debe anular tambien esos recibitos
+	nreci=anula1.getitemnumber(k,'nrcaj')
+	clug_rec=anula1.getitemstring(k,'clugar')
+	
+	SELECT Min(sum_mvto_cab.contabil) into :contabil_entre
+	FROM sum_mvto_cab INNER JOIN sum_mvto_cpo ON (sum_mvto_cab.numdoc = sum_mvto_cpo.numdoc) AND (sum_mvto_cab.clugar = sum_mvto_cpo.clugar) AND (sum_mvto_cab.coddoc = sum_mvto_cpo.coddoc)
+	WHERE (((sum_mvto_cpo.nrcaj)=:nreci) AND ((sum_mvto_cpo.clug_rec)=:clug_rec));
+	if sqlca.sqlcode=-1 then
+		messagebox("Error revisando sum_mvto_cab para ver si ya fue contabilizada",sqlca.sqlerrtext)
+		rollback;
+		return
+	end if
+	if contabil_entre='C' then 
+		messagebox("Atención",'Una entrega de Medicamentos ya fue contabilizada no puede anular el recibo')
+		rollback;
+		return
+	end if
+	dec valor
+	select gastado into :valor from tesoabono where nrecibo=:nreci and clugar_rec=:clug_rec;
+	if valor >0 then
+		messagebox("Atención",'Alguno de los abonos anteriores ya se han gastado en facturas, no los puede anular')
+		rollback;
+		return
+	end if
+	if anula1.getitemnumber(1,'narq')>0 then
+		messagebox("Atención",'Alguno de los recibos involucrados ya se encuentra en un arqueo, no los puede anular')
+		rollback;
+		return
+	end if
+	if not isnull(anula1.getitemnumber(k,'abo_npag'))then
+		//la maricada de don jeffer de actualizar la cabeza de las facturas si tuvo abonos a pagares.
+		//debe volver a colocar los valores como si no hubiera abonos
+		if anula1.rowcount()=1 and revierte.retrieve(nreci,clug_rec)>0 then
+			acum=anula1.getitemnumber(k,'tpago')
+			for j=1 to revierte.rowcount()
+				if acum>revierte.getitemnumber(j,'vtpaciente') then
+					revierte.setitem(j,'vtcancelo',0)
+					revierte.setitem(j,'vtpagare',revierte.getitemnumber(j,'vtpaciente'))
+					acum -= revierte.getitemnumber(j,'vtpagare')
+				else
+					revierte.setitem(j,'vtcancelo',revierte.getitemnumber(j,'vtcancelo')-acum)
+					revierte.setitem(j,'vtpagare',revierte.getitemnumber(j,'vtpagare') +acum)
+					acum=0
+					exit
+				end if
+			next
+			if revierte.update()=-1 then
+				rollback;
+				return
+			end if
+		end if	
+		// es un recibo de abono a pagare, entonces debe borrarlo de tesopagaredet
+		npagare=anula1.getitemnumber(k,'abo_npag')
+		clug_pag=anula1.getitemstring(k,'clug_pagabo')
+//		delete from tesopagaredet where nrecibo=:nreci and clugar_rec=:clug_rec;
+//		if sqlca.sqlcode<>0 then
+//			messagebox("Error borrando de tesoPagareDet",sqlca.sqlerrtext)
+//			rollback;
+//			return
+//		end if
+		//actualizar estado de pagare a '0' (pendiente)
+		update tesopagarecab set estado='0' where npagare=:npagare and clugar=:clug_pag;
+		if sqlca.sqlcode<>0 then
+			messagebox("Error actualizando estado de Pagare",sqlca.sqlerrtext)
+			rollback;
+			return
+		end if
+	end if
+	if not isnull(anula1.getitemnumber(k,'npagare')) and anula1.getitemnumber(k,'npagare')<>npagare then
+		// es un recibo solo que tuvo pagaré y debe anular el pagaré
+		npagare=anula1.getitemnumber(k,'npagare')
+		clug_pag=anula1.getitemstring(k,'clugar_pag')
+		update tesopagarecab set estado='2', fecha_anula=:ahora where npagare=:npagare and clugar=:clug_pag;
+		if sqlca.sqlcode<>0 then
+			messagebox("Error actualizando estado de Pagare",sqlca.sqlerrtext)
+			rollback;
+			return
+		end if
+	end if
+	anula1.setitem(k,'estado',usuario)
+	anula1.setitem(k,'fecha_anula',ahora)
+	select count(contador) into :cuantos from serviciosingreso where nrcaj=:nreci and clugar_rec=:clug_rec;
+	if cuantos>0 then
+		if messagebox("Atención",'El recibo '+string(nreci)+'ya fue atendido, desea borrar esos servicios ?.',question!,yesno!,2)= 1 then
+			update serciosturno set contador=null, clugar_ser=null, nservicio_ingreso=null where nrcaj=:nreci and clugar_rec=:clug_rec;
+			if sqlca.sqlcode=-1 then 
+				messagebox("Error actualizando estado de Serciosturno",sqlca.sqlerrtext)
+				rollback;
+				return
+			end if
+			anula.retrieve(nreci,clug_rec)
+			//ahora en resultadoscpo hay una relación con recibos, entonces se debe colocar nulo para 
+			//luego poder borrar de serviciosingreso
+			for j=1 to anula.rowcount()
+				anula.setitem(j,'contador',nnulo)
+				anula.setitem(j,'clugar_ser',snulo)
+				anula.setitem(j,'nservicio',nnulo)
+			next
+			if anula.update()=-1 then 
+				rollback;
+				return
+			end if
+			update serviciosadx set estado='6' where nrcaj=:nreci and clugar_rec=:clug_rec;
+			if sqlca.sqlcode=-1 then 
+				messagebox("Error Actualizando ServiciosAdx",sqlca.sqlerrtext)
+				rollback;
+				return
+			end if
+			delete from serviciosingreso where nrcaj=:nreci and clugar_rec=:clug_rec;
+			if sqlca.sqlcode=-1 then 
+				messagebox("Error borrando de ServiciosIngreso",sqlca.sqlerrtext)
+				rollback;
+				return
+			end if
+		else  //el recibo ha sido atendido pero no se desan borrar los serviciosingreso
+			//de pronto para facturalos luego
+			update serviciosingreso set nrcaj=null,clugar_rec=null where nrcaj=:nreci and clugar_rec=:clug_rec;
+			if sqlca.sqlcode=-1 then 
+				messagebox("Error actualizando estado de ServiciosIngreso",sqlca.sqlerrtext)
+				rollback;
+				return
+			end if
+		end if
+	end if
+	update tesoabono set estado=:usuario , fecha_anula=:ahora where nrecibo=:nreci and clugar_rec=:clug_rec;
+	if sqlca.sqlcode=-1 then 
+		messagebox("Error actualizando estado de Tesoabono",sqlca.sqlerrtext)
+		rollback;
+		return
+	end if
+	///anulacion de citas si las dieron por este medio
+	UPDATE SerciosTurno SET nrcaj = Null, clugar_rec = Null, items = Null, nitem_rec = Null
+	WHERE (((nrcaj)=:nreci ) AND ((clugar_rec)=:clug_rec));
+	if sqlca.sqlcode<>0 then
+		messagebox("Error actualizando en SerciosTurno estado de recibo",sqlca.sqlerrtext)
+		return 
+	end if
+	
+	if f_anula_mov_kardex('RC',clug_rec,'nr',nreci)=-1 then
+		rollback;
+		return
+	end if
+next
+if anula1.update()=-1 then
+	rollback;
+	return
+end if
+commit;
+w_busca_fact.dw_encuentra.retrieve()
+end subroutine
+

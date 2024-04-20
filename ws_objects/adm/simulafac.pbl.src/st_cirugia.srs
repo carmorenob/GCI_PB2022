@@ -1,0 +1,22 @@
+﻿$PBExportHeader$st_cirugia.srs
+global type st_cirugia from structure
+	string		nuevo_edita
+	string		tiposerv
+	string		desproc
+	string		tipo_cir
+	real		pormanual
+	string		via
+	string		prof_cir
+	string		espe_cir
+	string		manual
+	string		grupo
+	string		codproc
+	datawindow		dw_factura
+	datawindow		dw_factura_cpo
+	real		valor
+	long		puntos
+	string		aneste
+	string		cod_auxqx
+	string		sexo
+end type
+

@@ -1,0 +1,132 @@
+﻿$PBExportHeader$m_pop_conta.srm
+forward
+global type m_pop_conta from menu
+end type
+type m_con_1 from menu within m_pop_conta
+end type
+type m_filtrarpor from menu within m_con_1
+end type
+type m_mostrartodo from menu within m_con_1
+end type
+type m_- from menu within m_con_1
+end type
+type m_editar from menu within m_con_1
+end type
+type m_con_1 from menu within m_pop_conta
+m_filtrarpor m_filtrarpor
+m_mostrartodo m_mostrartodo
+m_- m_-
+m_editar m_editar
+end type
+global type m_pop_conta from menu
+m_con_1 m_con_1
+end type
+end forward
+
+global type m_pop_conta from menu
+m_con_1 m_con_1
+end type
+global m_pop_conta m_pop_conta
+
+on m_pop_conta.create
+m_pop_conta=this
+call super::create
+this.text = "m_pog_conta"
+this.m_con_1=create m_con_1
+this.Item[UpperBound(this.Item)+1]=this.m_con_1
+end on
+
+on m_pop_conta.destroy
+call super::destroy
+destroy(this.m_con_1)
+end on
+
+type m_con_1 from menu within m_pop_conta
+m_filtrarpor m_filtrarpor
+m_mostrartodo m_mostrartodo
+m_- m_-
+m_editar m_editar
+end type
+
+on m_con_1.create
+call super::create
+this.visible = false
+this.text = "con_1"
+this.m_filtrarpor=create m_filtrarpor
+this.m_mostrartodo=create m_mostrartodo
+this.m_-=create m_-
+this.m_editar=create m_editar
+this.Item[UpperBound(this.Item)+1]=this.m_filtrarpor
+this.Item[UpperBound(this.Item)+1]=this.m_mostrartodo
+this.Item[UpperBound(this.Item)+1]=this.m_-
+this.Item[UpperBound(this.Item)+1]=this.m_editar
+end on
+
+on m_con_1.destroy
+call super::destroy
+destroy(this.m_filtrarpor)
+destroy(this.m_mostrartodo)
+destroy(this.m_-)
+destroy(this.m_editar)
+end on
+
+type m_filtrarpor from menu within m_con_1
+end type
+
+on m_filtrarpor.create
+call super::create
+this.text = "Filtrar por Selección"
+this.microhelp = "Filtrar por la selección actual"
+end on
+
+on m_filtrarpor.destroy
+call super::destroy
+end on
+
+event clicked;w_plan2.filtrar_1(0)
+end event
+
+type m_mostrartodo from menu within m_con_1
+end type
+
+on m_mostrartodo.create
+call super::create
+this.text = "Mostrar todo"
+this.microhelp = "Quitar filtro actual y mostrar todas las cuentas"
+end on
+
+on m_mostrartodo.destroy
+call super::destroy
+end on
+
+event clicked;w_plan2.filtrar_1(2)
+end event
+
+type m_- from menu within m_con_1
+end type
+
+on m_-.create
+call super::create
+this.text = "-"
+end on
+
+on m_-.destroy
+call super::destroy
+end on
+
+type m_editar from menu within m_con_1
+end type
+
+event clicked;w_plan2.tab_1.tabp_1.dw_2.triggerevent(doubleclicked!)
+end event
+
+on m_editar.create
+call super::create
+this.text = "Editar"
+this.microhelp = "Editar esta Cuenta"
+end on
+
+on m_editar.destroy
+call super::destroy
+end on
+

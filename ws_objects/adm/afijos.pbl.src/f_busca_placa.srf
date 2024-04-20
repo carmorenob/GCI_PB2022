@@ -1,0 +1,42 @@
+﻿$PBExportHeader$f_busca_placa.srf
+global type f_busca_placa from function_object
+end type
+
+forward prototypes
+global subroutine f_busca_placa (any control, keycode busca, string filtro)
+end prototypes
+
+global subroutine f_busca_placa (any control, keycode busca, string filtro);datawindow dw
+singleLineEdit sle
+st_placa st
+
+if mid(ClassName(control),1,2) = 'dw' then
+	dw = control
+	st.dw_obj = dw
+elseif mid(ClassName(control),1,3) = 'sle' then
+	sle = control
+	st.sle_obj = sle
+end if
+
+st.busqueda = dw.GetText()
+if busca = keyback! then
+	st.busqueda = left(st.busqueda, len(st.busqueda) -1)
+else
+	st.busqueda = st.busqueda + char(busca)
+end if		
+
+st.filtro = filtro
+if not isvalid(w_af_bplaca) then 
+	openwithparm(w_af_bplaca,st)
+	dw.setfocus()
+else
+	Message.PowerObjectParm = st
+	w_af_bplaca.Event Open()
+end if
+if w_af_bplaca.windowstate=minimized! then
+	w_af_bplaca.windowstate=normal!
+	if isvalid(dw) then dw.setfocus()
+end if
+
+end subroutine
+

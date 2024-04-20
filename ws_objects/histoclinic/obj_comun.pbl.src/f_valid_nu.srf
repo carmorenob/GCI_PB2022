@@ -1,0 +1,63 @@
+﻿$PBExportHeader$f_valid_nu.srf
+global type f_valid_nu from function_object
+end type
+
+forward prototypes
+global function boolean f_valid_nu (string p_tipdoc, string p_este, integer p_largo, string p_formato)
+end prototypes
+
+global function boolean f_valid_nu (string p_tipdoc, string p_este, integer p_largo, string p_formato);long nguion,j,donde
+string docu2,docu3,l_dpto,l_mcpio
+nguion=f_count_text(p_este,"-")
+docu2=p_este
+if len(docu2)>p_largo then
+	messagebox('Error','Supera el maximo de caracteres permitido para el documento '+ string(p_largo))
+	return false
+end if
+setnull(docu3)
+for j=1 to nguion
+	donde=pos(docu2,"-")
+	docu2=replace(docu2,donde,1,"")
+next
+if p_tipdoc='AS' or p_tipdoc='MS' then
+	l_dpto=mid(docu2,1,2)
+	l_mcpio=mid(docu2,3,3)
+	SELECT coddepar into :docu3
+	FROM departamentos 
+	WHERE coddepar=:l_dpto;
+	If isnull(docu3) then 
+		messagebox('Error','El departamento no existe:  Tipo documento '+ p_tipdoc +' exige Departamento Resolucion 2232 de 2015')
+		return false
+	Else
+		SELECT codciudad  into :docu3
+		FROM ciudades
+		WHERE cdepto=:l_dpto and codciudad=:l_mcpio;
+		If isnull(docu3) then 
+			messagebox('Error','El departamento no existe:  Tipo documento '+ p_tipdoc +' exige Municipio Resolucion 2232 de 2015')
+			return false
+		End if
+	End IF
+End if
+
+setnull(docu3)
+for j=1 to len(docu2)
+	if (asc(mid(docu2,j,1))>=65 and asc(mid(docu2,j,1))<=90 ) or (asc(mid(docu2,j,1))>=48 and asc(mid(docu2,j,1))<=57) then 
+		if asc(mid(docu2,j,1))>=48 and asc(mid(docu2,j,1))<=57 and (p_formato='N' or p_formato='A') then 
+			docu3+=mid(docu2,j,1)
+			continue
+		else
+			if asc(mid(docu2,j,1))>=65 and asc(mid(docu2,j,1))<=90 and p_formato='A' then
+			  docu3+=mid(docu2,j,1)
+			  continue
+		    else
+ 			  return false
+			end if
+		end if
+	end if
+	return false
+next
+
+if docu3='' then return false
+return true
+end function
+

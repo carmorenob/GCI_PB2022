@@ -1,0 +1,77 @@
+﻿$PBExportHeader$f_conecta_mipres.srf
+global type f_conecta_mipres from function_object
+end type
+
+forward prototypes
+global function integer f_conecta_mipres (transaction sqlba)
+end prototypes
+
+global function integer f_conecta_mipres (transaction sqlba);string dbparm2,nombre
+
+// de SQLCA
+RegistryGet ("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ComputerName\ComputerName", "ComputerName", Regstring!, nombre)
+if ls_pro=32 THEN
+	RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "DBMS_MIPRES", Regstring!, SQLBA.DBMS)
+	RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "DBPARM_MIPRES", Regstring!, SQLBA.DBPARM )
+	RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "DBPARM2_MIPRES", Regstring!, dbparm2)
+	RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "DATABASE_MIPRES", Regstring!, sqlba.Database)
+	RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "SERVERNAME_MIPRES", Regstring!, sqlba.servername)
+	RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "LOGID_MIPRES", Regstring!, sqlba.logid)
+	RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "LOGPASS_MIPRES", Regstring!, sqlba.logpass)
+end if
+if ls_pro=64 THEN
+	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "DBMS_MIPRES", Regstring!, SQLBA.DBMS)
+	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "DBPARM_MIPRES", Regstring!, SQLBA.DBPARM )
+	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "DBPARM2_MIPRES", Regstring!, dbparm2)
+	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "DATABASE_MIPRES", Regstring!, sqlba.Database)
+	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "SERVERNAME_MIPRES", Regstring!, sqlba.servername)
+	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "LOGID_MIPRES", Regstring!, sqlba.logid)
+	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "LOGPASS_MIPRES", Regstring!, sqlba.logpass)
+end if
+sqlba.logpass=f_descripta( sqlba.logpass)
+// fin de SQLCA
+
+sqlba.AutoCommit=false
+long aqui,hastaaqui
+string dsn,tipo
+aqui=pos(sqlba.dbparm,"DSN=",1)
+hastaaqui=pos(sqlba.dbparm,";",aqui)
+dsn=mid(sqlba.dbparm,aqui +4,hastaaqui - aqui -4)
+choose case sqlba.dbms
+	case "ODBC"
+		RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBC.INI\ODBC Data Sources", dsn, Regstring!, tipo)
+		if pos(lower(tipo),"anywhere",1)<>0 then //es anywhere
+			SQLBA.dbParm =SQLBA.dbParm+sqlba.logid+";PWD="+sqlba.logpass+"',DelimitIdentifier='No',OJSyntax='ANSI',DBTextLimit='1000000',Host='sistemas',Host='"+nombre+"',AppName='GCI As."+nombre+"',"
+		else
+			if pos(lower(tipo),"postgresql",1)<>0 then //es PostgreSQL Unicode
+				SQLBA.dbParm =SQLBA.dbParm+sqlba.logid+";UID="+sqlba.logid+";PWD="+sqlba.logpass+"',DisableBind=1,DelimitIdentifier='No',OJSyntax='ANSI',Host='"+nombre+"',AppName='GCI As."+nombre+"',"+"PBCatalogOwner='public',"
+			else
+//				SQLBA.dbParm =SQLBA.dbParm+usuario+";PWD=jorca',OJSyntax='ANSI',DBTextLimit='1000000',Host='"+nombre+"',AppName='GCI As."+nombre+"',"
+			end if
+		end if
+	case "MSS Microsoft SQL Server"
+		SQLBA.dbParm +="',DBTextLimit='1000000',OptSelectBlob=1,Secure=1,Host='"+nombre+"',AppName='GCI As. "+nombre+"',"
+	case "SYC Adaptive Server Enterprise"
+//		SQLBA.dbParm +="',DBTextLimit='1000000',Host='"+nombre+"',AppName='AsV"+g_version+' '+nombre+"',"
+	case 'OLE DB'
+		string provider,file_conex
+		if ls_pro=32 THEN
+			RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "PROVIDER_MIPRES", Regstring!, provider)
+			RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "OLE_FILE_MIPRES", Regstring!, file_conex)
+		end if
+		if ls_pro=64 THEN
+			RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "PROVIDER_MIPRES", Regstring!, provider)
+			RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "OLE_FILE_MIPRES", Regstring!, file_conex)
+		end if		
+		
+		sqlba.dbparm="PROVIDER='"+provider+"',DATALINK='"+file_conex+"',DelimitIdentifier='No',"
+end choose
+SQLBA.dbParm = SQLBA.dbParm + dbparm2
+connect using sqlba;
+if SQLBA.SQLCode = -1 then
+	messagebox('Error conectando a la base de Lab',sqlba.sqlerrtext)
+	return -1
+end if
+return 1
+end function
+

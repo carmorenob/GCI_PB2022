@@ -1,0 +1,8 @@
+﻿$PBExportHeader$st_anula.srs
+global type st_anula from structure
+	long		nfact
+	string		clugar_fac
+	string		de_donde
+	string		tipo_fac
+end type
+

@@ -1,0 +1,67 @@
+﻿$PBExportHeader$f_biometria_valida_paciente.srf
+global type f_biometria_valida_paciente from function_object
+end type
+
+forward prototypes
+global function any f_biometria_valida_paciente (st_biometria str_template, string tdoc, string docum, datawindow dw_huella_par, integer gr_match_par, olecustomcontrol huellas_par, string origen)
+end prototypes
+
+global function any f_biometria_valida_paciente (st_biometria str_template, string tdoc, string docum, datawindow dw_huella_par, integer gr_match_par, olecustomcontrol huellas_par, string origen);long ll_aux, ll_aux2,l_dedo
+integer	GR_DEFAULT_CONTEXT = 0,ll_score=0
+string l_td, l_doc,l_devuelve[2]
+st_biometria db_template
+l_devuelve[1]='-1'
+
+If origen='usuario' Then
+	dw_huella_par.Retrieve(docum)
+Else 
+	dw_huella_par.Retrieve(tdoc,docum)
+End If
+
+// Permite preparar el template que se envia para inciar la busqueda
+ll_aux = huellas_par.Object.IdentifyPrepare(Ref str_template.template, GR_DEFAULT_CONTEXT)
+If ll_aux < 0 Then
+	messagebox('Alerta F_biometria', 'Ocurrió un error al preparar la identificación: ' + String(ll_aux))
+	return l_devuelve
+End If
+
+For ll_aux2 = 1 to dw_huella_par.RowCount()
+	Setnull (db_template.template)
+	if origen='usuario' then
+		l_td='%'
+		l_doc=dw_huella_par.getitemstring(ll_aux2, 'usuario')
+		l_dedo=dw_huella_par.getitemnumber(ll_aux2, 'dedo')
+		SelectBlob  datos_huella into :db_template.template
+		From usuarios_biometria
+		Where usuario=:l_doc  and dedo=:l_dedo;
+	else
+		l_td=dw_huella_par.getitemstring(ll_aux2, 'tipodoc')
+		l_doc=dw_huella_par.getitemstring(ll_aux2, 'documento')
+		l_dedo=dw_huella_par.getitemnumber(ll_aux2, 'dedo')
+		SelectBlob  datos_huella into :db_template.template
+		From pacientes_biometria
+		Where tipodoc=:l_td and documento=:l_doc  and dedo=:l_dedo;
+	End If
+
+	IF not isnull (db_template.template) THEN
+		//compara el template de la base con el capturado
+		ll_aux =huellas_par.Object.Identify(db_template.Template,  ref ll_Score, GR_DEFAULT_CONTEXT)
+		If ll_aux < 0 Then
+			if ll_aux<>-8 then
+				Messagebox ('Atención', 'Se ha producido un error al identificar la huella'+ String(ll_aux), StopSign!)
+				return l_devuelve
+			End If
+		end if
+		If ll_aux = gr_match_par Then
+		//	Messagebox ('Encontrada', 'En Fila ' + string (ll_aux2 ) + ', Fiabilidad de ' + string (ll_score)+l_td+l_doc )
+			l_devuelve[1]=l_td
+			l_devuelve[2]=l_doc
+			return l_devuelve
+		End If
+	END IF
+Next
+Messagebox ('Atención', 'Fin de los registros. No se encontró la huella', stopsign!)
+return l_devuelve
+
+end function
+

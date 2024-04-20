@@ -1,0 +1,12 @@
+﻿$PBExportHeader$st_xa_sivigila.srs
+global type st_xa_sivigila from structure
+	long		contador
+	string		clug
+	string		cespe
+	string		cemp
+	string		ccont
+	string		cprof
+	string		tingres
+	string		plantilla
+end type
+

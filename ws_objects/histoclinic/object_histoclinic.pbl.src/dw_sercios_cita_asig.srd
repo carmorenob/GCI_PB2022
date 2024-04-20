@@ -1,0 +1,181 @@
+﻿$PBExportHeader$dw_sercios_cita_asig.srd
+release 22;
+datawindow(units=0 timer_interval=0 color=16777215 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" grid.lines=0 )
+header(height=64 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=60 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=number updatewhereclause=yes key=yes name=ncita dbname="factcpo.ncita" dbalias=".ncita" )
+ column=(type=char(2) updatewhereclause=yes key=yes name=clugar dbname="factcpo.clugar" dbalias=".clugar" )
+ column=(type=long updatewhereclause=yes key=yes name=nservicio dbname="factcpo.nservicio" dbalias=".nservicio" )
+ column=(type=long updatewhereclause=yes key=yes name=sec_cant dbname="factcpo.sec_cant" dbalias=".sec_cant" )
+ column=(type=char(10) updatewhereclause=yes key=yes name=prof dbname="factcpo.prof" dbalias=".prof" )
+ column=(type=datetime updatewhereclause=yes key=yes name=fecha dbname="factcpo.fecha" dbalias=".fecha" )
+ column=(type=datetime updatewhereclause=yes key=yes name=hora dbname="factcpo.hora" dbalias=".hora" )
+ column=(type=char(15) updatewhereclause=yes name=cproced dbname="factcpo.cproced" dbalias=".cproced" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=control dbname="factcpo.control" dbalias=".control" )
+ column=(type=number update=yes updatewhereclause=yes name=contador dbname="factcpo.contador" dbalias=".contador" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=clugar_ser dbname="factcpo.clugar_ser" dbalias=".clugar_ser" )
+ column=(type=long update=yes updatewhereclause=yes name=nservicio_ingreso dbname="factcpo.nservicio_ingreso" dbalias=".nservicio_ingreso" initial="null" )
+ column=(type=number updatewhereclause=yes name=nfact dbname="factcpo.nfact" dbalias=".nfact" )
+ column=(type=char(2) updatewhereclause=yes name=clugar_fac dbname="factcpo.clugar_fac" dbalias=".clugar_fac" )
+ column=(type=long updatewhereclause=yes name=nitem dbname="factcpo.nitem" dbalias=".nitem" )
+ column=(type=number updatewhereclause=yes name=nrcaj dbname="factcpo.nrcaj" dbalias=".nrcaj" )
+ column=(type=char(2) updatewhereclause=yes name=clugar_rec dbname="factcpo.clugar_rec" dbalias=".clugar_rec" )
+ column=(type=long updatewhereclause=yes name=items dbname="factcpo.items" dbalias=".items" )
+ column=(type=long updatewhereclause=yes name=nitem_rec dbname="factcpo.nitem_rec" dbalias=".nitem_rec" )
+ column=(type=number updatewhereclause=yes name=contador_os dbname="factcpo.contador_os" dbalias=".contador_os" )
+ column=(type=char(2) updatewhereclause=yes name=clugar_os dbname="factcpo.clugar_os" dbalias=".clugar_os" )
+ column=(type=long updatewhereclause=yes name=nsolicitud_os dbname="factcpo.nsolicitud_os" dbalias=".nsolicitud_os" )
+ column=(type=long updatewhereclause=yes name=item_os dbname="factcpo.item_os" dbalias=".item_os" )
+ column=(type=number updatewhereclause=yes name=ntratamiento dbname="factcpo.ntratamiento" dbalias=".ntratamiento" )
+ column=(type=char(2) updatewhereclause=yes name=clugar_tto dbname="factcpo.clugar_tto" dbalias=".clugar_tto" )
+ column=(type=long updatewhereclause=yes name=item_tto dbname="factcpo.item_tto" dbalias=".item_tto" )
+ column=(type=number updatewhereclause=yes name=grup_clinic dbname="factcpo.grup_clinic" dbalias=".grup_clinic" )
+ column=(type=char(255) updatewhereclause=yes name=descripcion dbname="factcpo.descripcion" dbalias=".descripcion" )
+ column=(type=char(8190) updatewhereclause=yes name=esco dbname="esco" values="Atender	1/Atender	0" validationmsg="~"Este procedimiento ya no se puede atender~"" )
+ column=(type=char(255) updatewhereclause=yes name=cemp dbname="factcpo.cemp" dbalias=".cemp" )
+ column=(type=char(255) updatewhereclause=yes name=ccontrato dbname="factcpo.ccontrato" dbalias=".ccontrato" )
+ column=(type=char(255) updatewhereclause=yes name=cplan dbname="factcpo.cplan" dbalias=".cplan" )
+ column=(type=char(255) updatewhereclause=yes name=cproceq dbname="factcpo.cproced" dbalias=".cproced" )
+ column=(type=char(255) updatewhereclause=yes name=codmanual dbname="factcpo.codmanual" dbalias=".codmanual" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_fac dbname="factcpo.tipo_fac" dbalias=".tipo_fac" )
+ column=(type=char(255) updatewhereclause=yes name=autorizacion dbname="factcpo.autorizacion" dbalias=".autorizacion" )
+ column=(type=char(4) updatewhereclause=yes name=cod_version dbname="factcpo.cod_version" dbalias=".cod_version" )
+ column=(type=char(15) updatewhereclause=yes name=cod_cups dbname="factcpo.cod_cups" dbalias=".cod_cups" )
+ column=(type=datetime updatewhereclause=yes key=yes name=fecha dbname="factcpo.fecha" dbalias=".fecha" )
+ column=(type=char(10) updatewhereclause=yes key=yes name=prof dbname="factcpo.prof" dbalias=".prof" )
+ retrieve="SELECT 
+	serciosturno.ncita,serciosturno.clugar,serciosturno.nservicio,serciosturno.sec_cant,   
+	serciosturno.prof,serciosturno.fecha,serciosturno.hora,serciosturno.cproced,   
+	serciosturno.control,serciosturno.contador,serciosturno.clugar_ser, 
+	serciosturno.nservicio_ingreso,serciosturno.nfact,serciosturno.clugar_fac,   
+	serciosturno.nitem,serciosturno.nrcaj,serciosturno.clugar_rec,serciosturno.items,   
+	serciosturno.nitem_rec,serciosturno.contador_os,serciosturno.clugar_os,
+	serciosturno.nsolicitud_os,serciosturno.item_os,SerciosTurno.ntratamiento, 
+	SerciosTurno.clugar_tto,SerciosTurno.item_tto,sercioscita.grup_clinic,   
+     proced.descripcion,'1' as esco,factcpo.cemp,factcpo.ccontrato,factcpo.cplan,   
+	factcpo.cproced,factcpo.codmanual,serciosturno.TIPO_FAC, 
+	factcpo.AUTORIZACION,proced.cod_version,proced.cod_cups,
+	serciosturno.fecha,serciosturno.prof
+FROM 
+	((sercioscita 
+	INNER JOIN proced ON sercioscita.cproced = proced.codproced) 
+	INNER JOIN serciosturno ON (sercioscita.ncita = serciosturno.ncita) AND (sercioscita.nservicio = serciosturno.nservicio) AND (sercioscita.clugar = serciosturno.clugar)) 
+	INNER JOIN factcpo ON (serciosturno.TIPO_FAC = factcpo.TIPO) AND (serciosturno.nfact = factcpo.nfact) AND (serciosturno.clugar_fac = factcpo.clugar) AND (serciosturno.nitem = factcpo.nitem)
+ WHERE 
+	(((serciosturno.ncita)=:ncita) AND ((serciosturno.clugar)=:clugar) AND ((serciosturno.fecha)=:fecha) AND ((serciosturno.hora)=:hora))
+ UNION   
+ SELECT 
+	serciosturno.ncita,serciosturno.clugar,serciosturno.nservicio,serciosturno.sec_cant,   
+	serciosturno.prof,serciosturno.fecha,serciosturno.hora,serciosturno.cproced,
+	serciosturno.control,serciosturno.contador,serciosturno.clugar_ser,
+	serciosturno.nservicio_ingreso,serciosturno.nfact,serciosturno.clugar_fac,   
+	serciosturno.nitem,serciosturno.nrcaj,serciosturno.clugar_rec,serciosturno.items,   
+	serciosturno.nitem_rec,serciosturno.contador_os,serciosturno.clugar_os,   
+	serciosturno.nsolicitud_os,serciosturno.item_os,SerciosTurno.ntratamiento, 
+	SerciosTurno.clugar_tto,SerciosTurno.item_tto,sercioscita.grup_clinic,   
+     proced.descripcion,'1' as esco,tesorecajcpo.cemp,tesorecajcpo.ccontrato,tesoredetalle.cplan,   
+	tesoredetalle.cproced,tesoredetalle.cmanual,serciosturno.TIPO_FAC,
+	tesoredetalle.AUTORIZACION,proced.cod_version,proced.cod_cups,
+	serciosturno.fecha,serciosturno.prof
+FROM 
+	(((sercioscita INNER JOIN proced ON sercioscita.cproced = proced.codproced) INNER JOIN serciosturno ON (sercioscita.clugar = serciosturno.clugar) AND 
+	(sercioscita.nservicio = serciosturno.nservicio) AND (sercioscita.ncita = serciosturno.ncita)) INNER JOIN tesoredetalle ON 
+	(serciosturno.nitem_rec = tesoredetalle.nitem) AND (serciosturno.items = tesoredetalle.items) AND (serciosturno.clugar_rec = tesoredetalle.clugar) AND 
+	(serciosturno.nrcaj = tesoredetalle.nrcaj)) INNER JOIN tesorecajcpo ON (tesoredetalle.items = tesorecajcpo.items) AND 
+	(tesoredetalle.clugar = tesorecajcpo.clugar) AND (tesoredetalle.nrcaj = tesorecajcpo.nrcaj)
+WHERE 
+	(((serciosturno.ncita)=:ncita) AND ((serciosturno.clugar)=:clugar) AND ((serciosturno.fecha)=:fecha) AND ((serciosturno.hora)=:hora))
+UNION   
+SELECT 
+	serciosturno.ncita,serciosturno.clugar,serciosturno.nservicio,serciosturno.sec_cant,   
+	serciosturno.prof,serciosturno.fecha,serciosturno.hora,serciosturno.cproced,
+	serciosturno.control,serciosturno.contador,serciosturno.clugar_ser,
+	serciosturno.nservicio_ingreso,serciosturno.nfact,serciosturno.clugar_fac,   
+	serciosturno.nitem,serciosturno.nrcaj,serciosturno.clugar_rec,serciosturno.items,   
+	serciosturno.nitem_rec,serciosturno.contador_os,serciosturno.clugar_os,   
+	serciosturno.nsolicitud_os,serciosturno.item_os,SerciosTurno.ntratamiento, 
+	SerciosTurno.clugar_tto,SerciosTurno.item_tto,sercioscita.grup_clinic,   
+     proced.descripcion,'1' as esco,null as cemp,null as ccontrato,null as cplan,   
+	null as cproced_t,null as codmanual  ,  serciosturno.TIPO_FAC, 
+	null as autorizacion,proced.cod_version,proced.cod_cups,
+	serciosturno.fecha,serciosturno.prof
+FROM 
+	(sercioscita INNER JOIN serciosturno ON (sercioscita.clugar = serciosturno.clugar) AND (sercioscita.nservicio = serciosturno.nservicio) AND 
+	(sercioscita.ncita = serciosturno.ncita)) INNER JOIN proced ON sercioscita.cproced = proced.codproced
+WHERE 
+	(((serciosturno.ncita)=:ncita) AND ((serciosturno.clugar)=:clugar) AND ((serciosturno.fecha)=:fecha) AND 
+	((serciosturno.hora)=:hora) AND ((serciosturno.nfact) Is Null) AND ((serciosturno.nrcaj) Is Null))" update="serciosturno" updatewhere=0 updatekeyinplace=yes arguments=(("ncita", number),("clugar", string),("fecha", datetime),("hora", datetime)) )
+text(band=header alignment="2" text="Escoger" border="0" color="0" x="9" y="4" height="56" width="357" html.valueishtml="0"  name=obj_15667258 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Procedimiento" border="0" color="0" x="791" y="4" height="56" width="2245" html.valueishtml="0"  name=proced_descripcion_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Estado" border="0" color="0" x="3045" y="4" height="56" width="434" html.valueishtml="0"  name=t_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Nfact" border="0" color="0" x="3488" y="4" height="56" width="306" html.valueishtml="0"  name=t_2 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Tipo_Fac" border="0" color="0" x="3803" y="4" height="56" width="251" html.valueishtml="0"  name=t_3 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Autorizacion" border="0" color="0" x="4064" y="4" height="56" width="334" html.valueishtml="0"  name=autorizacion_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Código" border="0" color="0" x="375" y="4" height="56" width="402" html.valueishtml="0"  name=cod_cups_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
+column(band=detail id=36 alignment="0" tabsequence=60 border="0" color="0" x="4064" y="0" height="52" width="334" format="[general]" html.valueishtml="0"  name=autorizacion visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tcase(control
+when ~"1~" then if ( esco='1' , rgb(220,192,192) , rgb(255,255,255))
+when ~"2~" then rgb(192,192,192)
+when ~"3~" then rgb(220,192,192)
+when ~"5~" then if ( esco='1' , rgb(220,192,192) , rgb(255,255,255))
+else rgb(220,220,220))
+" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="0" expression=" tipo_fac "border="0" color="0" x="3803" y="0" height="52" width="251" format="[GENERAL]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400~tIf ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tIf ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="16777215~tcase(control
+when ~"1~" then if ( esco='1' , rgb(220,192,192) , rgb(255,255,255))
+when ~"2~" then rgb(192,192,192)
+when ~"3~" then rgb(220,192,192)
+when ~"5~" then if ( esco='1' , rgb(220,192,192) , rgb(255,255,255))
+else rgb(220,220,220))
+" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="0" expression="case(control
+when ~"1~" then ~"Sin atender~"
+when ~"2~" then ~"Atendido~"
+when ~"3~" then ~"No asistió~"
+when ~"5~" then ~"Confirmada~"
+else ~"Anulada~")"border="0" color="0" x="3045" y="0" height="52" width="434" format="[GENERAL]" html.valueishtml="0"  name=control1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400~tIf ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tIf ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tcase(control
+when ~"1~" then if ( esco='1' , rgb(220,192,192) , rgb(255,255,255))
+when ~"2~" then rgb(192,192,192)
+when ~"3~" then rgb(220,192,192)
+when ~"5~" then if ( esco='1' , rgb(220,192,192) , rgb(255,255,255))
+else rgb(220,220,220))
+" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=13 alignment="0" tabsequence=50 border="0" color="0" x="3488" y="0" height="52" width="306" format="[general]" html.valueishtml="0"  name=nfact visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tIf ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tIf ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="16777215~tcase(control
+when ~"1~" then if ( esco='1' , rgb(220,192,192) , rgb(255,255,255))
+when ~"2~" then rgb(192,192,192)
+when ~"3~" then rgb(220,192,192)
+when ~"5~" then if ( esco='1' , rgb(220,192,192) , rgb(255,255,255))
+else rgb(220,220,220))
+" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=29 alignment="0" tabsequence=10 border="0" color="0" x="9" y="0" height="52" width="357" format="[general]" html.valueishtml="0"  name=esco visible="1" checkbox.text="Atender" checkbox.on="1" checkbox.off="0" checkbox.scale=no checkbox.threed=yes  font.face="Tahoma" font.height="-8" font.weight="400~tIf ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tIf ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tcase(control
+when ~"1~" then if ( esco='1' , rgb(220,192,192) , rgb(255,255,255))
+when ~"2~" then rgb(192,192,192)
+when ~"3~" then rgb(220,192,192)
+when ~"5~" then if ( esco='1' , rgb(220,192,192) , rgb(255,255,255))
+else rgb(220,220,220))
+" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=28 alignment="0" tabsequence=40 border="0" color="0" x="791" y="0" height="52" width="2245" format="[general]" html.valueishtml="0"  name=descripcion visible="1" edit.limit=255 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tIf ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tIf ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tcase(control
+when ~"1~" then if ( esco='1' , rgb(220,192,192) , rgb(255,255,255))
+when ~"2~" then rgb(192,192,192)
+when ~"3~" then rgb(220,192,192)
+when ~"5~" then if ( esco='1' , rgb(220,192,192) , rgb(255,255,255))
+else rgb(220,220,220))
+" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=38 alignment="0" tabsequence=20 border="0" color="0" x="375" y="0" height="52" width="402" format="[general]" html.valueishtml="0"  name=cod_cups visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400~tIf ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tIf ( currentrow()=getrow() ,1 , 0 )"  background.mode="0" background.color="16777215~tcase(control
+when ~"1~" then if ( esco='1' , rgb(220,192,192) , rgb(255,255,255))
+when ~"2~" then rgb(192,192,192)
+when ~"3~" then rgb(220,192,192)
+when ~"5~" then if ( esco='1' , rgb(220,192,192) , rgb(255,255,255))
+else rgb(220,220,220))
+" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
+export.xhtml()
+ 

@@ -1,0 +1,16 @@
+﻿$PBExportHeader$st_lote.srs
+global type st_lote from structure
+	string		codalmacen
+	string		codalmacendes
+	string		codarticulo
+	string		coddoc
+	string		clugar
+	double		numdoc
+	double		item
+	double		cantidad
+	string		c_itm
+	string		c_cant
+	datawindow		dw_obj
+	datawindow		dw_cpo
+end type
+

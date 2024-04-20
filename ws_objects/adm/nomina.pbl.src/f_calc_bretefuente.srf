@@ -1,0 +1,103 @@
+﻿$PBExportHeader$f_calc_bretefuente.srf
+global type f_calc_bretefuente from function_object
+end type
+
+forward prototypes
+global function decimal f_calc_bretefuente (decimal devengado, decimal seg_social, string rte_bene, decimal dedu_hijo, decimal deduciones, decimal uvt, decimal porce, integer topeuvt)
+end prototypes
+
+global function decimal f_calc_bretefuente (decimal devengado, decimal seg_social, string rte_bene, decimal dedu_hijo, decimal deduciones, decimal uvt, decimal porce, integer topeuvt);decimal ld_base,ld_dedu_dep,ld_rte
+decimal ld_ingreso_neto, ld_ingreso_neto_dedu
+decimal ld_exento,ld_dedu_max
+
+uo_datastore dw_rte
+dw_rte = create uo_datastore
+dw_rte.DataObject = 'dw_x_redondear'
+dw_rte.SetTransObject(SQLCA)
+
+dw_rte.insertrow(1)
+
+ld_ingreso_neto= (devengado - seg_social)
+
+if rte_bene='1' then
+	ld_dedu_dep=((devengado) * (dedu_hijo/100))
+	if 	ld_dedu_dep< ( uvt * 32 )  then
+		ld_dedu_dep=((devengado ) * (dedu_hijo/100))
+	else
+		ld_dedu_dep=(32*UVT)
+	end if
+else
+	ld_dedu_dep=0
+end if
+
+ld_ingreso_neto_dedu=(ld_ingreso_neto - ld_dedu_dep - deduciones)
+
+ld_exento=(ld_ingreso_neto_dedu *(porce /100))
+
+
+ld_dedu_max=(ld_exento + ld_dedu_dep + deduciones)
+
+if ld_dedu_max> (UVT*topeuvt) then
+	ld_rte=(UVT*topeuvt)
+else
+	ld_rte=ld_dedu_max
+end if
+
+ld_base= ld_ingreso_neto - ld_rte
+
+
+/*ld_sub1=round(dec(string(ld_sub1)), 2)
+dw_rte.setitem(1,'valor',ld_sub1)
+dw_rte.setitem(1,'frac',-3)
+ld_sub1=dw_rte.getitemnumber(1,'calculo')
+
+if rte_bene='1' then
+	ld_bene=((devengado/* - seg_social*/) * (dedu_hijo/100))
+	if 	ld_bene< ( uvt * 32 )  then
+		ld_dedub=((devengado /*- seg_social*/) * (dedu_hijo/100))
+	else
+		ld_dedub=(32*UVT)
+	end if
+else
+	ld_dedub=0
+end if
+
+ld_sub2=ld_sub1 - ld_dedub
+
+ld_sub3 =  ld_sub2 - deduciones
+
+calc1=ld_sub3*(porce /100)
+dw_rte.setitem(1,'valor',calc1)
+dw_rte.setitem(1,'frac',-3)
+calc1=dw_rte.getitemnumber(1,'calculo')
+
+calc2=UVT*topeuvt
+dw_rte.setitem(1,'valor',calc1)
+dw_rte.setitem(1,'frac',-3)
+calc2=dw_rte.getitemnumber(1,'calculo')
+
+if calc1> calc2 then
+	ld_rte=calc2
+else
+	ld_rte=calc1
+end if
+
+ld_resta=  ld_sub3 - ld_rte
+
+dw_rte.setitem(1,'valor',(ld_sub1)*(40/100))
+dw_rte.setitem(1,'frac',-3)
+
+ld_tope40= dw_rte.getitemnumber(1,'calculo')
+
+if (ld_rte) > ld_tope40 then
+	ld_base=ld_tope40
+else
+	ld_base=ld_rte
+end if
+ld_base=(devengado - seg_social - ld_base)
+*/
+destroy dw_rte
+
+return ld_base
+end function
+

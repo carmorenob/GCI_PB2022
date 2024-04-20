@@ -1,0 +1,10 @@
+﻿$PBExportHeader$st_uobject.srs
+global type st_uobject from structure
+	string		field
+	boolean		displayonly
+	string		svalor
+	decimal { 0 }		dvalor
+	string		edita
+	datetime		fecha
+end type
+

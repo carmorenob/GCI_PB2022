@@ -1,0 +1,8 @@
+﻿$PBExportHeader$st_copiar_urg.srs
+global type st_copiar_urg from structure
+	string		cplant
+	datawindow		dw_memos
+	datawindow		dw_datos
+	datawindow		dw_frm
+end type
+

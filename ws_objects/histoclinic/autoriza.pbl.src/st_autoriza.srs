@@ -1,0 +1,9 @@
+﻿$PBExportHeader$st_autoriza.srs
+global type st_autoriza from structure
+	double		contador
+	string		clugar
+	datawindow		dw_au
+	datawindow		dw_cpo
+	string		codproced
+end type
+

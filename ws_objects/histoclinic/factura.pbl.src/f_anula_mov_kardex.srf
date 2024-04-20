@@ -1,0 +1,136 @@
+﻿$PBExportHeader$f_anula_mov_kardex.srf
+global type f_anula_mov_kardex from function_object
+end type
+
+forward prototypes
+global function integer f_anula_mov_kardex (string cdoc_ref, string clug_doc, string tipo_doc, long ndocu)
+end prototypes
+
+global function integer f_anula_mov_kardex (string cdoc_ref, string clug_doc, string tipo_doc, long ndocu);//esta función deja el movimiento de sum_kardex_deta y sum_kardex_mov en el mes que se hizo la factura o el recibo
+//para poder dejar rastro de la anulada.
+uo_datastore dw_kard_mov,dw_anula_lote,dw_anu_cab
+dw_kard_mov = create uo_datastore
+dw_anula_lote=create uo_datastore
+dw_anu_cab=create uo_datastore
+long nfilas,j
+dec cantidad
+string err
+choose case cdoc_ref
+	case 'FC'
+		dw_anula_lote.dataobject='dw_lote_mov_anula_fc'
+		dw_kard_mov.dataobject="dw_kard_mov_anu_fc"
+		dw_anu_cab.dataobject='dw_anu_summovcab_fc'
+		
+	case 'RC'
+		dw_anula_lote.dataobject='dw_lote_mov_anula_rc'
+		dw_kard_mov.dataobject="dw_kard_mov_anu_rc"
+		dw_anu_cab.dataobject='dw_anu_summovcab_rc'
+case else
+		dw_anula_lote.dataobject='dw_lote_mov_anula_ot'
+		dw_kard_mov.dataobject="dw_kard_mov"
+end choose
+dw_anu_cab.settransobject(sqlca)
+dw_anu_cab.retrieve(ndocu,clug_doc,tipo_doc)
+for j=1 to dw_anu_cab.rowcount()
+	dw_anu_cab.setitem(j,'estado','2')
+	dw_anu_cab.setitem(j,'anulado',usuario)
+	dw_anu_cab.setitem(j,'fechaanula',datetime(today(),now()))
+next
+if dw_anu_cab.update()=-1 then
+	messagebox("Error actualizando sum_mvto_cab",sqlca.sqlerrtext)
+	return -1
+end if
+dw_anula_lote.settransobject(sqlca)
+dw_kard_mov.settransobject(sqlca)
+nfilas=dw_kard_mov.retrieve(cdoc_ref,clug_doc,tipo_doc,ndocu)
+////////anula lotes. No se utiliza f_mueve_lote porque necesita un datawindow en vez de un datastore
+if dw_anula_lote.retrieve(cdoc_ref,clug_doc,ndocu)>0 then
+	dec cant
+	string codalm,codart,lote,convenio
+	datetime fecha_ven
+	for j=1 to dw_anula_lote.rowcount()
+		dw_anula_lote.setitem(j,'estado','2')
+		codalm=dw_anula_lote.getitemstring(j,'codalmacen')
+		codart=dw_anula_lote.getitemstring(j,'codarticulo')
+		lote=dw_anula_lote.getitemstring(j,'lote')
+		fecha_ven=dw_anula_lote.getitemdatetime(j,'fecha_venc')
+		cant=dw_anula_lote.getitemnumber(j,'cantidad')
+		convenio=dw_anula_lote.getitemstring(j,'convenio')
+		update sum_lote set cantidad = cantidad + :cant where
+		codalmacen=:codalm and codarticulo=:codart and fecha_venc=:fecha_ven and upper(lote)=upper(:lote) and upper(convenio)=upper(:convenio);
+		if sqlca.sqlcode=-1 then
+			err=sqlca.sqlerrtext
+			rollback;
+			messagebox("Error Actualizando Sum_Lote",err)
+			return -1
+		end if	
+	next
+	if dw_anula_lote.update(true,false)=-1 then
+		messagebox("Error actualizando Sum_lote_Mov",sqlca.sqlerrtext)
+		return -1
+	end if
+	dw_anula_lote.modify('DataWindow.Table.UpdateTable = "sum_mvto_lote"')
+	if dw_anula_lote.update(true,false)=-1 then
+		messagebox("Error actualizando Sum_mvto_lote",sqlca.sqlerrtext)
+		return -1
+	end if
+	
+end if
+////////fin anula lotes
+if nfilas=0 then
+	return 1
+else
+	string almacen,articulo
+	int ano,mes
+	dec valorprom,valorunit,valorprom_ant,actual
+	long item
+	for j=1 to nfilas
+		almacen=dw_kard_mov.getitemstring(j,"codalmacen")
+		articulo=dw_kard_mov.getitemstring(j,"codarti")
+		cantidad=dw_kard_mov.getitemnumber(j,"salidacant")
+		ano=dw_kard_mov.getitemnumber(j,"ano")
+		mes=dw_kard_mov.getitemnumber(j,"mes")
+		valorunit=dw_kard_mov.getitemnumber(j,"valorunit")
+		/////
+		select costoprom,saldoactual into :valorprom_ant,:actual from sum_kardex where codalmacen=:almacen and codarticulo=:articulo;
+		if sqlca.sqlcode=-1 then
+			err=sqlca.sqlerrtext
+			rollback;
+			messagebox("Error leyendo costo promedio",err)
+			return -1
+		end if
+		valorprom= round(((valorprom_ant * actual)+(cantidad * valorunit))/(cantidad + actual),2)
+		update sum_kardex set costoprom=:valorprom, saldoactual = saldoactual + :cantidad 
+		where codalmacen=:almacen and codarticulo=:articulo ;
+		if sqlca.sqlcode=-1 then
+			err=sqlca.sqlerrtext
+			rollback;
+			messagebox("Error actualizando sum_kardex",err)
+			return -1
+		end if
+//		update sum_kardex_deta set costoprom=:valorprom,entradascant=entradascant + :cantidad , entradasvalor=entradasvalor + :cantidad * :valorunit 
+//		where codalmacen=:almacen and codarti=:articulo and ano=:ano and mes=:mes;
+//		if sqlca.sqlcode=-1 then
+//			err=sqlca.sqlerrtext
+//			rollback;
+//			messagebox("Error actualizando sum_kardex_deta",err)
+//			return -1
+//		end if
+//		if sqlca.sqlnrows<=0 then
+//			messagebox("Atención","No hay registros en sum_kardex_deta del articulo "+articulo+" para el año/mes "+string(ano)+"/"+string(mes))
+//			rollback;
+//			return -1
+//		end if
+		// se coloca en la otra columna del movimiento pa poder dejar rastro
+		dw_kard_mov.setitem(j,'entradacant',cantidad)
+		dw_kard_mov.setitem(j,'fecha_anula',datetime(today(),now()))
+		dw_kard_mov.setitem(j,'usu_anula',usuario)
+	next
+end if
+if dw_kard_mov.update()=-1 then
+	messagebox("Error actualizando Sum_Kardex_Mov",sqlca.sqlerrtext)
+	return -1
+end if
+return 1
+end function
+

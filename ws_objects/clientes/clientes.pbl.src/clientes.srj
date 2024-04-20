@@ -1,0 +1,24 @@
+﻿$PBExportHeader$clientes.srj
+EXE:clientes.exe,,0,0,0
+CMP:1,0,0,2,0,0,1
+COM:Sybase, Inc.
+DES:Sybase, Inc. Product File
+CPY:
+PRD:Powerbuilder Enterprise Series
+PVS:8.0.1.8004
+PVN:8,0,1,8004
+FVS:8.0.1.8004
+FVN:8,0,1,8004
+MAN:0,asInvoker,0
+PBD:clientes.pbl,,1
+PBD:..\histoclinic\obj_comun.pbl,,1
+OBJ:D:\gci\clientes\clientes.pbl,w_principal,w
+OBJ:D:\gci\clientes\clientes.pbl,w_conecta,w
+OBJ:D:\gci\clientes\clientes.pbl,clientes,a
+OBJ:D:\gci\clientes\clientes.pbl,m_principal,m
+OBJ:D:\gci\clientes\clientes.pbl,w_clientes,w
+OBJ:D:\gci\clientes\clientes.pbl,w_presenta,w
+OBJ:D:\gci\clientes\clientes.pbl,dw_clientes,d
+OBJ:D:\gci\clientes\clientes.pbl,f_descripta,f
+OBJ:D:\gci\clientes\clientes.pbl,dw_regla_cliente,d
+OBJ:D:\gci\clientes\clientes.pbl,dw_licencias,d

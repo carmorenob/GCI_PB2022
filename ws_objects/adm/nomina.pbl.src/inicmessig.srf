@@ -1,0 +1,18 @@
+﻿$PBExportHeader$inicmessig.srf
+global type inicmessig from function_object
+end type
+
+forward prototypes
+global function datetime inicmessig (datetime fecha)
+end prototypes
+
+global function datetime inicmessig (datetime fecha);datetime fret
+if month(date(fecha)) = 12 then
+	fret = datetime(date("01/01/" + string(year(date(fecha)) + 1)))
+else
+	fret = datetime(date("01/" + string(month(date(fecha)) + 1) + "/" +string(year(date(fecha))) ))
+end if
+return fret
+
+end function
+

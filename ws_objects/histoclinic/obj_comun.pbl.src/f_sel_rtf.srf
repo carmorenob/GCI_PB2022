@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_sel_rtf.srf
+global type f_sel_rtf from function_object
+end type
+
+forward prototypes
+global function long f_sel_rtf (ref richtextedit p_rte)
+end prototypes
+
+global function long f_sel_rtf (ref richtextedit p_rte);long cuantas,cuantos
+cuantas=p_rte.linecount()
+if cuantas<=100 then //aproximando porque el selecttextall solo retorna un numero entero y a veces se pifea y devuelve un negativo
+	cuantos=p_rte.selecttextall(detail!)
+else
+	cuantos=p_rte.selecttext(1,1,999999,9999,detail!)
+end if
+return cuantos
+end function
+

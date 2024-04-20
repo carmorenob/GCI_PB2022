@@ -1,0 +1,120 @@
+﻿$PBExportHeader$f_check_diag2.srf
+global type f_check_diag2 from function_object
+end type
+
+forward prototypes
+global function st_return_diags f_check_diag2 ()
+global function st_return_diags f_check_diag2 (string p_diagnos, string p_sexo_pac, double p_edad)
+end prototypes
+
+global function st_return_diags f_check_diag2 ();st_return_diags st
+
+return st
+end function
+
+global function st_return_diags f_check_diag2 (string p_diagnos, string p_sexo_pac, double p_edad);//devuelve Descripcion del diag si todo OK o "" si hubo error
+// la edad debe venir en dias
+// diagnos es el codigo que digita el medico
+// p_codgeral es codgeral
+long edad_ini,edad_fin,versions
+datetime ahora
+st_return_diags st
+string sexo,version,temp
+ahora=datetime(today())
+setnull(sexo)
+
+SELECT Count(Diags.CodGeral) into :versions
+FROM Diags, diags_version
+WHERE Diags.cod_rips=:p_diagnos AND Diags.c_version=diags_version.c_version AND diags_version.val_hasta>=:ahora and  Diags.estado='1';
+
+if sqlca.sqlcode=-1 then
+	messagebox("Error leyendo tabla diags6",sqlca.sqlerrtext)
+	st.descrip_diag=''
+	return st
+end if
+if versions=0 then
+	Messagebox("Atención","p_codgeral Diagnóstico no existe o su versión ya no es válida")
+	st.descrip_diag=''
+	return st
+end if
+if versions> 1 then
+	Messagebox("Atención","Hay más de una versión válida para p_codgeral diagnóstico, revise las versiones de diagnósticos")
+	st.descrip_diag=''
+	return st
+end if
+
+if g_motor='postgres' then
+	SELECT  
+		diags.c_version, diags.desdiag, diags.cod_vigila, diags_vigila.codplantilla, diags.guia, capdiags.antecedente
+	INTO :version , :st.descrip_diag,:st.vigila,:st.plantilla,:st.guia,:st.antecedente
+	FROM 
+		((diags LEFT JOIN diags_vigila ON diags.cod_vigila = diags_vigila.cod_vigila) 
+		INNER JOIN diags_version ON diags.c_version = diags_version.c_version) 
+		INNER JOIN capdiags ON (diags.ccap = capdiags.codcap) AND (diags.c_version = capdiags.c_version)
+	WHERE (Ccap || coddiag=:p_diagnos) and  (diags_version.val_hasta>=:ahora) and  Diags.estado='1';
+else
+	SELECT  
+		diags.c_version, diags.desdiag, diags.cod_vigila, diags_vigila.codplantilla, diags.guia, capdiags.antecedente
+	INTO :version , :st.descrip_diag,:st.vigila,:st.plantilla,:st.guia,:st.antecedente
+	FROM 
+		((diags LEFT JOIN diags_vigila ON diags.cod_vigila = diags_vigila.cod_vigila) 
+		INNER JOIN diags_version ON diags.c_version = diags_version.c_version) 
+		INNER JOIN capdiags ON (diags.ccap = capdiags.codcap) AND (diags.c_version = capdiags.c_version)
+	WHERE (Ccap + coddiag=:p_diagnos) and  (diags_version.val_hasta>=:ahora) and  Diags.estado='1';
+end if
+if sqlca.sqlcode=-1 then
+	messagebox("Error leyendo tabla diags7",sqlca.sqlerrtext)
+	st.descrip_diag=''
+	return st
+end if
+string cap,diag
+SELECT Diags.desdiag,Diags.c_version,Diags.ccap,Diags.coddiag into :st.descrip_diag,:version,:cap,:diag
+FROM Diags INNER JOIN diags_version ON Diags.c_version = diags_version.c_version
+WHERE Diags.cod_rips=:p_diagnos AND diags_version.val_hasta>=:ahora and  Diags.estado='1';
+if sqlca.sqlcode=-1 then
+	messagebox("Error leyendo tabla diags8",sqlca.sqlerrtext)
+	st.descrip_diag=''
+	return st
+end if
+st.codgeral=cap+diag+version
+
+SELECT DiagEdad.EdadIni, DiagEdad.EdadFin, DiagEdad.IndSexo
+INTO :edad_ini, :edad_fin, :sexo
+FROM DiagEdad
+WHERE DiagEdad.CodGeral=:st.codgeral;
+if sqlca.sqlcode=-1 then
+	messagebox("Error leyendo tabla diags9",sqlca.sqlerrtext)
+	st.descrip_diag=''
+	return st
+end if
+if isnull(sexo) then
+	messagebox("Atención","No se puede validar p_codgeral dianóstico, no está en la tabla DIAGEDAD")
+	st.descrip_diag=''
+	return st
+end if
+//edad=(int (daysafter( date(dw_1.getitemdatetime(1,"fnacimiento")),today() )/365 ))
+choose case sexo
+	case "1" //HOMBRE
+		if p_sexo_pac="F" then
+			Messagebox("Atención","p_codgeral diagnóstico no es válido para el sexo del paciente")
+			st.descrip_diag=''
+			return st
+		end if
+	case "2" //MUJER
+		if p_sexo_pac="M" then
+			Messagebox("Atención","p_codgeral diagnóstico no es válido para el sexo del paciente")
+			st.descrip_diag=''
+			return st
+		end if
+end choose
+if p_edad<edad_ini or p_edad>edad_fin then
+	if Messagebox("Atención","p_codgeral diagnóstico no es válido para la edad del paciente. Desea utilizarlo aún así?",question!,yesno!,2)=1 then
+		return st
+	else
+		st.descrip_diag=''
+		return st
+	end if
+end if
+return st
+end function
+

@@ -1,0 +1,102 @@
+﻿$PBExportHeader$f_mueve_kardex.srf
+global type f_mueve_kardex from function_object
+end type
+
+forward prototypes
+global function integer f_mueve_kardex (string p_almacen, datawindow pdw_mvto)
+end prototypes
+
+global function integer f_mueve_kardex (string p_almacen, datawindow pdw_mvto);//uo_datastore dw_kardexdeta
+//dw_kardexdeta = Create uo_DataStore
+//dw_kardexdeta.DataObject = 'dw_kardexdeta'
+//dw_kardexdeta.SetTransObject(SQLCA)
+long j,ndoc_ref,itemref
+dec cantidad
+string articulo,err,cdoc_ref,clug_doc_ref
+for j=1 to pdw_mvto.rowcount()
+	articulo=pdw_mvto.getitemstring(j,'codarticulo')
+	cantidad=pdw_mvto.getitemnumber(j,'cantidad')
+	cdoc_ref=pdw_mvto.getitemstring(j,'coddoc')
+	clug_doc_ref=pdw_mvto.getitemstring(j,'clugar') 
+	ndoc_ref=pdw_mvto.getitemnumber(j,'numdoc')
+	itemref=pdw_mvto.getitemnumber(j,'item')
+	update sum_kardex set saldoactual = saldoactual - :cantidad 
+	where codalmacen=:p_almacen and codarticulo=:articulo and saldoactual>= :cantidad;
+	if sqlca.sqlcode=-1 then 
+		err=sqlca.sqlerrtext
+		rollback;
+		messagebox('Error actualizando sum_kardex',err)
+		return -1
+	end if
+	if sqlca.sqlnrows<=0 then
+		messagebox("Atención","No hay existencias para el artículo "+articulo)
+		rollback;
+		return -1
+	end if
+	long item,fila
+	dec valorprom,valor,cants,saldo
+	select costoprom,saldoactual into :valorprom,:saldo from sum_kardex 
+	where codalmacen=:p_almacen and codarticulo=:articulo;
+	if sqlca.sqlcode=-1 then
+		err=sqlca.sqlerrtext
+		rollback;
+		messagebox("Error leyendo costo promedio",err)
+		return -1
+	end if
+	valorprom=round(valorprom,2)
+	int ano,mes
+	ano=year(today())
+	mes=month(today())
+	/////////
+	//Actualiza Kardex_Deta
+//	fila = dw_kardexdeta.Retrieve(p_almacen,articulo,ano,mes)
+//	if fila > 0 then
+//		cants = dw_kardexdeta.GetItemNumber(fila,'salidascant')
+//		if isNull(cants) then cants= 0
+//		dw_kardexdeta.SetItem(fila,'salidascant',cants + cantidad)
+//		
+//		valor = dw_kardexdeta.GetItemNumber(fila,'salidasvalor')
+//		if isNull(valor) then valor = 0
+//		dw_kardexdeta.SetItem(fila,'salidasvalor',round(valor + cantidad * valorprom,2))
+//	else
+//		fila = dw_kardexdeta.InsertRow(0)
+//		dw_kardexdeta.SetItem(fila,'codalmacen', p_almacen)
+//		dw_kardexdeta.SetItem(fila,'codarti', articulo)
+//		dw_kardexdeta.SetItem(fila,'ano', ano)
+//		dw_kardexdeta.SetItem(fila,'mes', mes)
+//		dw_kardexdeta.SetItem(fila,'salidascant', cantidad)
+//		dw_kardexdeta.SetItem(fila,'salidasvalor', round(cantidad * valorprom,2))
+//		dw_kardexdeta.SetItem(fila,'entradascant', 0)
+//		dw_kardexdeta.SetItem(fila,'entradasvalor', 0)
+//		dw_kardexdeta.SetItem(fila,'costoprom', valorprom)
+//		dw_kardexdeta.SetItem(fila,'saldoinicial', saldo+cantidad)
+//		dw_kardexdeta.SetItem(fila,'costoprominicial', valorprom)	
+//	end if
+//	if dw_kardexdeta.Update() = -1 then Return -1
+	//
+	setnull(item)
+	select max(item) into :item from sum_kardex_mov 
+	where CODALMACEN=:p_almacen and CODARTI=:articulo and ANO=:ano and MES=:mes;
+	if sqlca.sqlcode=-1 then
+		err=sqlca.sqlerrtext
+		rollback;
+		messagebox("Error leyendo item de sum_kardex_mov",err)
+		return -1
+	end if
+	datetime fecha
+	fecha=datetime(today(),now())
+	if isnull(item) then item =0
+	item ++
+	INSERT INTO sum_kardex_mov ( CODALMACEN, CODARTI, ANO, MES, ITEM, FECHA, USUARIO, CODDOCREF, CLUGARREF, NUMDOCREF, ENTRADACANT, SALIDACANT, VALORUNIT, COS_PROM_ANT,ITEMREF ) values
+	(:p_almacen,:articulo,:ano,:mes,:item,:fecha,:usuario,:cdoc_ref,:clug_doc_ref,:ndoc_ref,0,:cantidad,:valorprom,:valorprom,:itemref);
+	if sqlca.sqlcode=-1 then
+		err=sqlca.sqlerrtext
+		rollback;
+		messagebox("Error insertando en sum_kardex_mov",err)
+		return -1
+	end if
+	garbagecollect()
+next
+return 1
+end function
+

@@ -1,0 +1,7 @@
+﻿$PBExportHeader$st_cc.srs
+global type st_cc from structure
+	string		cups
+	string		ingreso
+	string		version
+end type
+

@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_dias_360.srf
+global type f_dias_360 from function_object
+end type
+
+forward prototypes
+global function integer f_dias_360 (datetime afechai, datetime afechaf)
+end prototypes
+
+global function integer f_dias_360 (datetime afechai, datetime afechaf);int dias_360
+date Fechai,FechaF
+fechai=date(afechai)
+fechaf=date(afechaf)
+if isnull(fechai) then return 0
+if isnull(fechaf) then return 0
+dias_360=((year(FechaF)-year( Fechai))*360)+(month(FechaF)-month( Fechai ))*30+(day(FechaF)-day(Fechai ))
+return dias_360 
+end function
+

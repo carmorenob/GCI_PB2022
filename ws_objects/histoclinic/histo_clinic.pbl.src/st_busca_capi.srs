@@ -1,0 +1,13 @@
+﻿$PBExportHeader$st_busca_capi.srs
+global type st_busca_capi from structure
+	string		usuario
+	string		valida
+	string		a1
+	string		a2
+	string		n1
+	string		n2
+	string		td
+	string		dc
+	datetime		fn
+end type
+

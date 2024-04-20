@@ -1,0 +1,19 @@
+﻿$PBExportHeader$st_xa_cambiar.srs
+global type st_xa_cambiar from structure
+	long		contador
+	string		clug
+	string		tipo
+	string		tingre
+	string		ing_sal
+	string		cesp
+	string		cemp
+	string		ccont
+	string		cprof
+	long		nacto
+	string		clug_qx
+	long		nreg
+	string		plant
+	datawindow		dw_hist
+	datawindow		dw_deta
+end type
+

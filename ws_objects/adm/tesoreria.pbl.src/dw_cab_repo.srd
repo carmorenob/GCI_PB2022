@@ -1,0 +1,44 @@
+﻿$PBExportHeader$dw_cab_repo.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=67108864 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=396 color="536870912" )
+table(column=(type=char(2) update=yes updatewhereclause=yes name=clugar dbname="tesocajareposicion.clugar" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=coddoc dbname="tesocajareposicion.coddoc" )
+ column=(type=number update=yes updatewhereclause=yes name=nreposicion dbname="tesocajareposicion.nreposicion" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=codcaja dbname="tesocajareposicion.codcaja" )
+ column=(type=char(2) updatewhereclause=yes name=clug_caja dbname="tesocajareposicion.clug_caja" )
+ column=(type=char(250) update=yes updatewhereclause=yes name=concepto dbname="tesocajareposicion.concepto" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha_recibo dbname="tesocajareposicion.fecha_recibo" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=valor dbname="tesocajareposicion.valor" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=usuario dbname="tesocajareposicion.usuario" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=en_destino dbname="tesocajareposicion.en_destino" initial="0" )
+ column=(type=char(12) updatewhereclause=yes name=cod_flujo dbname="tesocajareposicion.cod_flujo" )
+ retrieve="SELECT  tesocajareposicion.clugar ,
+           tesocajareposicion.coddoc ,
+           tesocajareposicion.nreposicion ,
+           tesocajareposicion.codcaja ,
+           tesocajareposicion.clug_caja ,
+           tesocajareposicion.concepto ,
+           tesocajareposicion.fecha_recibo ,
+           tesocajareposicion.valor ,
+           tesocajareposicion.usuario ,
+           tesocajareposicion.en_destino ,
+           tesocajareposicion.cod_flujo     
+        FROM tesocajareposicion      
+        WHERE ( tesocajareposicion.codcaja = :caja ) And          ( tesocajareposicion.clugar = :lug ) And          ( tesocajareposicion.nreposicion = :nrepo )   " arguments=(("caja", string),("lug", string),("nrepo", number)) )
+column(band=detail id=3 alignment="2" tabsequence=30 border="5" color="33554432" x="32" y="68" height="68" width="242" format="[general]" html.valueishtml="0"  name=nreposicion visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0 edit.displayonly=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+text(band=detail alignment="0" text="Nro:" border="0" color="33554432" x="27" y="136" height="56" width="123" html.valueishtml="0"  name=nreposicion_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="2" tabsequence=40 border="5" color="33554432" x="411" y="68" height="60" width="343" format="[shortdate] [time]" html.valueishtml="0" protect="0~tif ( isrownew(), 0,1)"  name=fecha_recibo visible="1" editmask.autoskip=yes editmask.spin=yes editmask.mask="mm/dd/yyyy" editmask.imemode=0 editmask.spinincr=1 editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" )
+text(band=detail alignment="0" text="Fecha Ingresó:" border="0" color="33554432" x="407" y="128" height="56" width="384" html.valueishtml="0"  name=fecha_recibo_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=50 border="5" color="33554432" x="933" y="72" height="60" width="398" format="###,##0.00" html.valueishtml="0" protect="0~tif ( isrownew(), 0,1)"  name=valor visible="1" edit.limit=0 edit.case=any edit.format="###,##0" edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" )
+text(band=detail alignment="0" text="Valor:" border="0" color="33554432" x="933" y="132" height="56" width="160" html.valueishtml="0"  name=valor_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=60 border="5" color="33554432" x="27" y="208" height="60" width="1307" format="[general]" html.valueishtml="0" protect="0~tif ( isrownew(), 0,1)"  name=concepto visible="1" edit.limit=250 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" )
+text(band=detail alignment="0" text="Concepto:" border="0" color="33554432" x="23" y="268" height="56" width="384" html.valueishtml="0"  name=concepto_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+groupbox(band=detail text="Detalle de la Reposición:"border="6" color="0" x="5" y="4" height="372" width="1344"  name=gb_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_copy_filas_sel.srf
+global type f_copy_filas_sel from function_object
+end type
+
+forward prototypes
+global function integer f_copy_filas_sel (datawindow dw, long pos)
+end prototypes
+
+global function integer f_copy_filas_sel (datawindow dw, long pos);long j
+for j=1 to dw.rowcount()
+	if dw.isselected(j) then
+		dw.RowsCopy(j, j, Primary!, dw, pos +1, Primary!)
+	end if
+next
+return 1
+end function
+

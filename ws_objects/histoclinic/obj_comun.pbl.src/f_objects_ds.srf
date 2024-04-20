@@ -1,0 +1,36 @@
+﻿$PBExportHeader$f_objects_ds.srf
+global type f_objects_ds from function_object
+end type
+
+forward prototypes
+global function long f_objects_ds (datastore p_ds_orig, datastore p_ds_dest)
+end prototypes
+
+global function long f_objects_ds (datastore p_ds_orig, datastore p_ds_dest);long j,num_object,largo
+string objects,cual,coltype
+objects=p_ds_orig.describe('datawindow.objects')
+if trim(objects)='' then return 0
+//número de veces que encontró (objects,'	')+1
+num_object=f_count_text(objects,'	')+1
+for j=1 to num_object
+	cual=f_trae_string_num (objects,j,'	')
+	coltype=p_ds_orig.describe(cual+'.coltype')
+	if cual='foto' then 
+		coltype='imagen'
+	end if
+	if coltype<>'?' then
+		p_ds_dest.insertrow(1)	
+		p_ds_dest.setitem(1,'nombre',cual)
+		p_ds_dest.setitem(1,'tipo',p_ds_orig.describe(cual+'.type'))
+		if left(coltype,4)='char' then
+			p_ds_dest.setitem(1,'coltype','char')
+			largo=long(mid(coltype,6,len(coltype) - 6))
+			p_ds_dest.setitem(1,'largo',largo)
+		else
+			p_ds_dest.setitem(1,'coltype',coltype)
+		end if
+	end if
+next
+return num_object
+end function
+

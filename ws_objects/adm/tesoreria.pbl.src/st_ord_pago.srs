@@ -1,0 +1,16 @@
+﻿$PBExportHeader$st_ord_pago.srs
+global type st_ord_pago from structure
+	string		tdoc
+	string		docu
+	datawindow		dw_cab
+	datawindow		dw_cpo
+	datawindow		dw_conta
+	string		cod_rfc
+	string		clu_rfc
+	double		num_rfc
+	string		coddoc
+	string		emp
+	integer		dgral
+	integer		agral
+end type
+

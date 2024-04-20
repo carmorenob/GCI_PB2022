@@ -1,0 +1,6 @@
+﻿$PBExportHeader$st_xa_desc_emp.srs
+global type st_xa_desc_emp from structure
+	datawindow		dw_empres
+	datawindow		dw_factcpo
+end type
+

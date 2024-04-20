@@ -1,0 +1,37 @@
+﻿$PBExportHeader$f_fecha_numero.srf
+global type f_fecha_numero from function_object
+end type
+
+forward prototypes
+global function string f_fecha_numero (date fecha)
+end prototypes
+
+global function string f_fecha_numero (date fecha);long i,b,numero, anyo,mes,dia,jul
+
+anyo=long(string(fecha,'yyyy'))
+mes=long(string(fecha,'mm'))
+dia=long(string(fecha,'dd'))
+if anyo>2099  then return ""
+if anyo>=2000 then 
+	anyo=long('1'+string(fecha,'yy'))
+else
+	anyo=long(string(fecha,'yy'))
+end if
+//*******Calcula número
+numero=anyo*365
+numero=numero + (mes - 1) * 30
+numero=numero + dia
+//*******Cuenta biciestos
+jul=0
+for b=1900 to long(string(fecha,'yyyy')) step 4
+	jul ++
+next
+numero=numero+jul
+if mes=6 or mes=7 then numero=numero+1
+if mes=8 then numero=numero+2
+if mes=9 or mes=10 then numero=numero+3
+if mes=11 or mes=12 then numero=numero+4
+return string(numero)
+//messagebox('',numero)
+end function
+

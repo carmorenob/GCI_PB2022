@@ -1,0 +1,10 @@
+﻿$PBExportHeader$st_ret_dian.srs
+global type st_ret_dian from structure
+	string		as_estado
+	string		as_filename
+	string		as_zipname
+	string		as_track_id
+	string		as_qrcode
+	string		as_cufe
+end type
+

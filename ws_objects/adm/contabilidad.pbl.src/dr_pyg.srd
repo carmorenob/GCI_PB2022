@@ -1,0 +1,127 @@
+﻿$PBExportHeader$dr_pyg.srd
+release 7;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=320 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=124 color="536870912" )
+detail(height=0 color="536870912"  height.autosize=yes)
+table(column=(type=char(4) updatewhereclause=yes name=cont_saldos_cod_empresa dbname="cod_empresa" )
+ column=(type=long updatewhereclause=yes name=cont_saldos_ano dbname="ano" )
+ column=(type=long updatewhereclause=yes name=cont_saldos_mes dbname="mes" )
+ column=(type=char(50) updatewhereclause=yes name=cont_saldos_cuenta dbname="cuenta" )
+ column=(type=char(200) updatewhereclause=yes name=descrip dbname="descrip" )
+ column=(type=char(1) updatewhereclause=yes name=cont_plan_movimiento dbname="movimiento" )
+ column=(type=char(1) updatewhereclause=yes name=cont_plan_naturaleza dbname="naturaleza" )
+ column=(type=number updatewhereclause=yes name=cont_saldos_saldodebito dbname="saldodebito" )
+ column=(type=number updatewhereclause=yes name=cont_saldos_saldocredito dbname="saldocredito" )
+ column=(type=number updatewhereclause=yes name=cont_saldos_debito dbname="debito" )
+ column=(type=number updatewhereclause=yes name=cont_saldos_credito dbname="credito" )
+ column=(type=number updatewhereclause=yes name=cont_saldos_cierredebito dbname="cierredebito" )
+ column=(type=number updatewhereclause=yes name=cont_saldos_cierrecredito dbname="cierrecredito" )
+ column=(type=long updatewhereclause=yes name=digitos dbname="digitos" )
+ retrieve="  SELECT cont_saldos.cod_empresa,   
+         cont_saldos.ano,   
+         cont_saldos.mes,   
+         cont_saldos.cuenta,   
+         cont_plan.descrip,   
+         cont_plan.movimiento,   
+         cont_plan.naturaleza,
+			cont_saldos.saldodebito,   
+         cont_saldos.saldocredito,
+			cont_saldos.debito,   
+         cont_saldos.credito,   
+         cont_saldos.cierredebito,   
+         cont_saldos.cierrecredito,   
+         :digitos as digitos  
+	FROM 
+			cont_saldos LEFT outer JOIN cont_plan ON 
+			(cont_saldos.Cuenta = cont_plan.CodTotal) AND 
+			(cont_saldos.COD_EMPRESA = cont_plan.COD_EMPRESA)
+   WHERE ( cont_plan.cod_empresa = :empresa ) AND  
+         ( cont_saldos.ano = :ano ) AND  
+         ( cont_saldos.mes = :mes )  and 
+			(len(cont_saldos.cuenta) Between 2 And :digitos) and
+			(cont_saldos.cuenta like '4%' Or cont_saldos.cuenta like '5%' Or 
+			cont_saldos.cuenta like '6%' Or cont_saldos.cuenta like '7%' )
+ORDER BY cont_saldos.cod_empresa ASC,   
+         cont_saldos.ano ASC,   
+         cont_saldos.mes ASC,
+			cont_saldos.cuenta ASC      
+        
+" arguments=(("empresa", string),("ano", number),("mes", number),("digitos", number))  sort="nivel A cont_saldos_cuenta A subnivel A exedente A " )
+group(level=1 header.height=0 trailer.height=0 by=("cont_saldos_cod_empresa" , "cont_saldos_ano" , "cont_saldos_mes" ) header.color="536870912" trailer.color="536870912" )
+group(level=2 header.height=0 trailer.height=108 by=("exedente" ) header.color="536870912" trailer.color="536870912" )
+group(level=3 header.height=128 trailer.height=0 by=("nivel" ) header.color="536870912" trailer.color="536870912"  sort="nivel A subnivel A exedente A " )
+text(band=header alignment="0" text="ESTADO DE ACTIVIDAD FINANCIERA, ECONOMICA Y SOCIAL" border="0" color="0" x="41" y="228" height="80" width="2162"  name=t_2  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="HOSPITAL DE GCI" border="0" color="0" x="46" y="16" height="80" width="690"  name=t_3  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.3 alignment="0" expression="case (nivel when 'A' then 'INGRESOS' WHEN 'B' THEN 'COSTO DE VENTAS' WHEN 'C' THEN 'COSTOS DE PRODUCCION' WHEN 'D' THEN 'GASTOS OPERACIONALES' WHEN 'E' THEN '')
+"border="0" color="0" x="50" y="28" height="96" width="1472" format="[GENERAL]"  name=compute_1  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header.3 x1="2400" y1="132" x2="3346" y2="132"  name=l_1 visible="1~tIF(NIVEL='E',1,0)" pen.style="0" pen.width="18" pen.color="0"  background.mode="2" background.color="16777215" )
+compute(band=header.3 alignment="1" expression="sum(if(Len( cont_saldos_cuenta )=2, if(nivel <>'E' ,if(subnivel =nivel +'0',netiado , -netiado ),0),0) FOR GROUP 3)
+"border="0" color="255" x="2505" y="12" height="112" width="837" format="##,##0.00"  name=compute_2  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="37" y="4" height="56" width="434" format="[general]"  name=cont_saldos_cuenta visible="1~tif(len( cont_saldos_cuenta )<=  digitos and len( cont_saldos_cuenta )>=2,1,0 )" height.autosize=yes edit.limit=50 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="Case (Left( cont_saldos_cuenta ,2) 
+when  '41' then  'A'  
+when  '42' then  'A'   
+when  '43' then  'A'   
+when  '57' then  'A'   
+when  '44' then  'A'   
+when  '45' then  'A'   
+when  '46' then  'A'   
+when  '47'  then  'A' 
+when  '62' then 'B' 
+when  '63' then 'B' 
+when  '71' then 'C'  
+when  '72' then 'C'  
+when  '73' then 'C'  
+when  '74' then 'C'  
+when  '75' then 'C'  
+when  '76' then 'C'  
+when  '76' then 'C' 
+when  '51' then 'D' 
+when  '52' then 'D' 
+when  '53' then 'D' 
+when  '54' then 'D' 
+when  '55' then 'D' 
+when  '48'  then 'E' 
+when  '58' then 'E' )
+"border="0" color="0" x="1682" y="72" height="64" width="114" format="[GENERAL]"  name=nivel visible="1~t0"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912"  height.autosize=yes)
+compute(band=detail alignment="0" expression="Case (Left( cont_saldos_cuenta ,2) 
+when '41', '42','43','47','44','45','46' then  'A0'  
+when  '57' then 'A1'
+when '62','63' then 'B0'
+when '71','72','73','74','75','76' then 'C0'
+when '51','52','53','54','55' then 'D0'
+when '48' then 'E0'
+when '58' then 'E1')"border="0" color="0" x="1810" y="76" height="64" width="114" format="[GENERAL]"  name=subnivel visible="1~t0"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912"  height.autosize=yes)
+compute(band=detail alignment="0" expression="Case (Left( cont_saldos_cuenta ,2)
+When '48','58' then 'B' else 'A')
+"border="0" color="0" x="1943" y="76" height="64" width="114" format="[GENERAL]"  name=exedente visible="1~t0"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912"  height.autosize=yes)
+compute(band=detail alignment="1" expression="If( cont_plan_naturaleza ='D', cont_saldos_saldodebito - cont_saldos_saldocredito + cont_saldos_debito - cont_saldos_credito, - cont_saldos_saldodebito + cont_saldos_saldocredito - cont_saldos_debito + cont_saldos_credito ) "border="0" color="0" x="2071" y="80" height="60" width="402" format="##,##0.00"  name=netiado visible="1~t0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="if(Len( cont_saldos_cuenta )=12,netiado,0)"border="0" color="0" x="2674" y="4" height="64" width="663" format="##,##0.00"  name=compute_3 visible="1~tif(Len( cont_saldos_cuenta )=12and len( cont_saldos_cuenta )<=  digitos ,1,0)"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912"  height.autosize=yes)
+compute(band=detail alignment="1" expression="if(Len( cont_saldos_cuenta )=9,netiado,0)"border="0" color="0" x="2674" y="4" height="56" width="663" format="##,##0.00"  name=compute_4 visible="1~tif(Len( cont_saldos_cuenta )=9 and len( cont_saldos_cuenta )<=  digitos ,1,0)"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912"  height.autosize=yes)
+compute(band=detail alignment="1" expression="if(Len( cont_saldos_cuenta )=6,netiado,0)"border="0" color="32768" x="2674" y="4" height="56" width="663" format="##,##0.00"  name=compute_5 visible="1~tif(Len( cont_saldos_cuenta )=6 and len( cont_saldos_cuenta )<=  digitos ,1,0)"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912"  height.autosize=yes)
+compute(band=detail alignment="1" expression="if(Len( cont_saldos_cuenta )=4,netiado,0)"border="0" color="8388608" x="2674" y="4" height="56" width="663" format="##,##0.00"  name=compute_6 visible="1~tif(Len( cont_saldos_cuenta )=4 and len( cont_saldos_cuenta )<=  digitos ,1,0)"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912"  height.autosize=yes)
+compute(band=detail alignment="1" expression="if(Len( cont_saldos_cuenta )=2,netiado,0)"border="0" color="8388608" x="2679" y="4" height="60" width="663" format="##,##0.00"  name=compute_7 visible="1~tif(Len( cont_saldos_cuenta )=2 and len( cont_saldos_cuenta )<=  digitos ,1,0)"  font.face="Arial" font.height="-11" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912"  height.autosize=yes)
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="485" y="8" height="56" width="2153" format="[general]"  name=descrip edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="0" expression="IF(EXEDENTE='A','EXCEDENTE (DEFICIT) OPERACIONAL','')"border="0" color="0" x="46" y="8" height="80" width="2176" format="[GENERAL]"  name=compute_8  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="Sum(
+IF(LEN(cont_saldos_cuenta)=2,
+   IF(EXEDENTE='A',
+IF(NIVEL='A', IF(SUBNIVEL=NIVEL + '0', netiado , - NETIADO) ,
+                      IF(SUBNIVEL=NIVEL + '0', -netiado, NETIADO)),
+0),0) FOR GROUP 2)
+"border="0" color="255" x="2505" y="4" height="80" width="846" format="[GENERAL]"  name=compute_9  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="1" expression="Sum(
+if(Len( cont_saldos_cuenta )=2,
+   if(EXEDENTE= 'A',
+     if(NIVEL= 'A',
+         if(SUBNIVEL = NIVEL + '0', netiado, -NETIADO),
+           if(SUBNIVEL = NIVEL + '0', -netiado, NETIADO)
+      ),
+   if(SUBNIVEL = NIVEL + '0', netiado, -NETIADO)
+   ),0)
+)"border="0" color="0" x="2496" y="12" height="56" width="841" format="##,##0.00"  name=compute_10  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="EXCEDENTE(DEFICIT) DEL EJERCICIO" border="0" color="0" x="709" y="16" height="80" width="1381"  name=t_1  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" )

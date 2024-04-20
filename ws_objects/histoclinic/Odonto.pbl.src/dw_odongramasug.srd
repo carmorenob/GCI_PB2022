@@ -1,0 +1,30 @@
+﻿$PBExportHeader$dw_odongramasug.srd
+release 7;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=112 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=item dbname="odontratacpo.item" )
+ column=(type=long updatewhereclause=yes name=codigo_cuadrante dbname="odontratacpo.codigo_cuadrante" )
+ column=(type=long updatewhereclause=yes name=codigo_pieza dbname="odontratacpo.codigo_pieza" )
+ column=(type=long updatewhereclause=yes name=codigo_super dbname="odontratacpo.codigo_super" )
+ column=(type=long updatewhereclause=yes name=cod_conven dbname="odonconvenproced.conven_cambio" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"odonconvenproced~" )  TABLE(NAME=~"odontratacab~" )  TABLE(NAME=~"odontratacpo~" ) COLUMN(NAME=~"odontratacpo.item~") COLUMN(NAME=~"odontratacpo.codigo_cuadrante~") COLUMN(NAME=~"odontratacpo.codigo_pieza~") COLUMN(NAME=~"odontratacpo.codigo_super~") COLUMN(NAME=~"odonconvenproced.conven_cambio~")    JOIN (LEFT=~"odontratacab.ntratamiento~"    OP =~"=~"RIGHT=~"odontratacpo.ntratamiento~" )    JOIN (LEFT=~"odontratacpo.codigo_cuadrante~"    OP =~"=~"RIGHT=~"odonconvenproced.codigo_cuadrante~" )    JOIN (LEFT=~"odontratacpo.codigo_pieza~"    OP =~"=~"RIGHT=~"odonconvenproced.codigo_pieza~" )    JOIN (LEFT=~"odontratacpo.cod_conven~"    OP =~"=~"RIGHT=~"odonconvenproced.cod_conven~" )    JOIN (LEFT=~"odontratacpo.codproced~"    OP =~"=~"RIGHT=~"odonconvenproced.codproced~" )    JOIN (LEFT=~"odontratacab.clugar~"    OP =~"=~"RIGHT=~"odontratacpo.clugar~" )WHERE(    EXP1 =~"odontratacab.nodontograma~"   OP =~"=~"    EXP2 =~":nodontograma~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"odontratacpo.realizado~"   OP =~"=~"    EXP2 =~"'2'~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"odontratacab.clugar_ocb~"   OP =~"=~"    EXP2 =~":clugar~" ) ) ARG(NAME = ~"nodontograma~" TYPE = number)  ARG(NAME = ~"clugar~" TYPE = string) " arguments=(("nodontograma", number),("clugar", string)) )
+text(band=header alignment="2" text="Odontratacpo
+Item" border="0" color="0" x="9" y="8" height="100" width="357"  name=odontratacpo_item_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Odontratacpo
+Codigo Cuadrante" border="0" color="0" x="375" y="8" height="100" width="471"  name=odontratacpo_codigo_cuadrante_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Odontratacpo
+Codigo Pieza" border="0" color="0" x="855" y="8" height="100" width="357"  name=odontratacpo_codigo_pieza_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Odontratacpo
+Codigo Super" border="0" color="0" x="1221" y="8" height="100" width="357"  name=odontratacpo_codigo_super_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Odonconvenproced
+Conven Cambio" border="0" color="0" x="1586" y="8" height="100" width="503"  name=odonconvenproced_conven_cambio_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="9" y="8" height="52" width="357" format="[general]"  name=item edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="375" y="8" height="52" width="471" format="[general]"  name=codigo_cuadrante edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="855" y="8" height="52" width="357" format="[general]"  name=codigo_pieza edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="1221" y="8" height="52" width="357" format="[general]"  name=codigo_super edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="1586" y="8" height="52" width="503" format="[general]"  name=cod_conven edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" )

@@ -1,0 +1,8 @@
+﻿$PBExportHeader$st_ausentismo_prorroga.srs
+global type st_ausentismo_prorroga from structure
+	string		tipodoc
+	string		documento
+	string		incap
+	integer		item
+end type
+

@@ -1,0 +1,19 @@
+﻿$PBExportHeader$anosdesde.srf
+global type anosdesde from function_object
+end type
+
+forward prototypes
+global function integer anosdesde (date fecha, date inicio, date fin)
+end prototypes
+
+global function integer anosdesde (date fecha, date inicio, date fin);date faux
+long anos
+double valor
+faux = date(day(fecha),month(fecha),year(inicio))
+if faux >= inicio and faux <= fin then
+	anos = year(inicio) - year(fecha)
+end if
+Return anos
+
+end function
+

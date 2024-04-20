@@ -1,0 +1,92 @@
+﻿$PBExportHeader$m_estado.srm
+forward
+global type m_estado from menu
+end type
+type m_anular from menu within m_estado
+end type
+type m_remplazar from menu within m_estado
+end type
+type m_ordendeservicio from menu within m_estado
+end type
+global type m_estado from menu
+m_anular m_anular
+m_remplazar m_remplazar
+m_ordendeservicio m_ordendeservicio
+end type
+end forward
+
+global type m_estado from menu
+m_anular m_anular
+m_remplazar m_remplazar
+m_ordendeservicio m_ordendeservicio
+end type
+global m_estado m_estado
+
+on m_estado.create
+m_estado=this
+call super::create
+this.m_anular=create m_anular
+this.m_remplazar=create m_remplazar
+this.m_ordendeservicio=create m_ordendeservicio
+this.Item[UpperBound(this.Item)+1]=this.m_anular
+this.Item[UpperBound(this.Item)+1]=this.m_remplazar
+this.Item[UpperBound(this.Item)+1]=this.m_ordendeservicio
+end on
+
+on m_estado.destroy
+call super::destroy
+destroy(this.m_anular)
+destroy(this.m_remplazar)
+destroy(this.m_ordendeservicio)
+end on
+
+type m_anular from menu within m_estado
+end type
+
+on m_anular.create
+call super::create
+this.text = "&Anular"
+end on
+
+on m_anular.destroy
+call super::destroy
+end on
+
+event clicked;w_atiendetto.estadotto('3')
+end event
+
+type m_remplazar from menu within m_estado
+end type
+
+on m_remplazar.create
+call super::create
+this.text = "&Remplazar"
+end on
+
+on m_remplazar.destroy
+call super::destroy
+end on
+
+event clicked;w_atiendetto.estadotto('4')
+
+end event
+
+type m_ordendeservicio from menu within m_estado
+end type
+
+on m_ordendeservicio.create
+call super::create
+this.text = "&Orden de Servicio"
+end on
+
+on m_ordendeservicio.destroy
+call super::destroy
+end on
+
+event clicked;if w_atiendetto.ordenserv()=-1 then
+	rollback;
+else
+	commit;
+end if
+end event
+

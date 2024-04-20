@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_checksum.srf
+global type f_checksum from function_object
+end type
+
+forward prototypes
+global function boolean f_checksum (string validar, string envian)
+end prototypes
+
+global function boolean f_checksum (string validar, string envian);long largo,i,semilla,acumulado,cociente,residuo
+string generado
+largo=len(validar)
+semilla=int((asc(validar) + largo)/2)
+acumulado=0
+for i= 1 to largo
+	acumulado+=i*asc(mid(validar,i,1))
+next
+cociente=int(acumulado/semilla)
+residuo=acumulado - cociente*semilla
+generado=string(len(string(semilla)))+string(semilla)+string(len(string(cociente)))+string(cociente)+string(len(string(residuo)))+string(residuo)
+if envian <> generado then
+	return false
+else
+	return true
+end if
+end function
+

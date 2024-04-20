@@ -1,0 +1,32 @@
+﻿$PBExportHeader$f_docu_cartera.srf
+global type f_docu_cartera from function_object
+end type
+
+forward prototypes
+global function integer f_docu_cartera (datetime pa_fecha)
+end prototypes
+
+global function integer f_docu_cartera (datetime pa_fecha);int l_ano,l_mes
+
+uo_datastore dw_cierres
+dw_cierres=create uo_datastore
+dw_cierres.dataobject='dw_cierre_cart'
+dw_cierres.settransobject(sqlca)
+dw_cierres.retrieve()
+
+l_ano=year(date(pa_fecha))
+l_mes=month(date(pa_fecha))
+long j,fila_mes,ciclo_mes
+fila_mes=dw_cierres.find("ano="+string(l_ano)+" and mes="+string(l_mes),1,dw_cierres.rowcount())
+if fila_mes=0 then
+	messagebox("Atención","Este mes en cartera no ha sido creado, debe crearlo primero para poder continuar")
+	return -1
+else
+	if dw_cierres.getitemstring(fila_mes,"estado")='1' then
+		messagebox("Atención","Este mes en cartera se encuentra cerrado")
+		return -1
+	end if
+end if
+return 1
+end function
+

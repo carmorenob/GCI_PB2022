@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_free.srd
+release 7;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=152 color="536870912" )
+summary(height=208 color="12639424" )
+footer(height=188 color="15780518" )
+detail(height=232 color="15793151" )
+table(column=(type=char(10) updatewhereclause=yes name=capo1 dbname="CAPO1" )
+ )
+compute(band=header alignment="0" expression="~"Header~""border="2" color="0" x="0" y="0" height="148" width="3611" format="[GENERAL]"  name=heade  resizeable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="~"Detail~""border="2" color="33554432" x="0" y="0" height="228" width="3602" format="[GENERAL]"  name=detai  resizeable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="~"Summary~""border="2" color="0" x="0" y="0" height="204" width="3593" format="[GENERAL]"  name=summar  resizeable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="2" color="0" x="3666" y="84" height="76" width="320" format="[general]"  name=capo1 visible="1~t0" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="0" expression="~"Footer~""border="2" color="0" x="0" y="0" height="184" width="3593" format="[GENERAL]"  name=foote  resizeable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" )

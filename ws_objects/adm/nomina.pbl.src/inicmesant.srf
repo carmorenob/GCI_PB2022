@@ -1,0 +1,18 @@
+﻿$PBExportHeader$inicmesant.srf
+global type inicmesant from function_object
+end type
+
+forward prototypes
+global function datetime inicmesant (datetime fecha)
+end prototypes
+
+global function datetime inicmesant (datetime fecha);datetime fret
+if month(date(fecha)) = 1 then
+	fret = datetime(date("01/12/" + string(year(date(fecha)) - 1)))
+else
+	fret = datetime(date("01/" + string(month(date(fecha)) - 1) + "/" +string(year(date(fecha))) ))
+end if
+return fret
+
+end function
+

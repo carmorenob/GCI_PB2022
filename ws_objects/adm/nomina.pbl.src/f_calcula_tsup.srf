@@ -1,0 +1,107 @@
+﻿$PBExportHeader$f_calcula_tsup.srf
+global type f_calcula_tsup from function_object
+end type
+
+forward prototypes
+global function integer f_calcula_tsup (string tipodoc, string documento, integer ano, integer mes)
+end prototypes
+
+global function integer f_calcula_tsup (string tipodoc, string documento, integer ano, integer mes);long horas, i, k, f, resto, item
+boolean extra, crea
+datetime f_tmp
+uo_dataStore dw_def, dw_he, dw_prg
+
+st_interfec a, b, r
+
+dw_def = create uo_dataStore
+dw_def.DataObject = 'dw_tsup_def'
+dw_def.SetTransObject(SQLCA)
+
+dw_prg = create uo_dataStore
+dw_prg.DataObject = 'dw_programa_emp_mes'
+dw_prg.SetTransObject(SQLCA)
+
+dw_he = create uo_dataStore
+dw_he.DataObject = 'dw_tsup'
+dw_he.SetTransObject(SQLCA)
+
+dw_def.Retrieve()
+////Definicion temporal
+long h_base = 176
+/////
+horas = 0
+dw_prg.Retrieve(tipodoc,documento,ano,mes)
+if dw_prg.RowCount() = 0 then
+	item = 0
+else
+	select max(item) into :item from nom_tsup
+	where tipodoc=:tipodoc and documento=:documento and ano=:ano and mes=:mes;
+	IF SQLCA.SQLCode = -1 THEN
+		MessageBox("SQL error", SQLCA.SQLErrText)
+		Return -1
+	END IF
+	if isNull(item) then item = 0
+end if
+for i = 1 to dw_prg.RowCount()
+	a.x = dw_prg.GetItemDateTime(i,'inicio')
+	a.y = dw_prg.GetItemDateTime(i,'fin')
+	if not extra then
+		if horas + dw_prg.GetItemNumber(i,'horas') > h_base then
+			resto = h_base - horas
+			horas = h_base
+			extra = TRUE
+			f_tmp = DateTime(Date(dw_prg.GetItemDateTime(i,'inicio')),RelativeTime(Time(dw_prg.GetItemDateTime(i,'inicio')),resto*60*60))
+			a.x = f_tmp
+		else
+			horas = horas + dw_prg.GetItemNumber(i,'horas')
+		end if
+	end if
+	if extra then
+		for k = 1 to dw_def.RowCount()
+			crea = FALSE
+			b.x = datetime(date(a.x),time(dw_def.GetItemDateTime(k,'horaini')))
+			b.y = datetime(date(a.x),time(dw_def.GetItemDateTime(k,'horafin')))
+			r = interseccion(a,b)
+			if not(isNull(r.x) or isNull(r.y)) then
+				if dw_def.GetItemNumber(k,'dia') = 1 and (dayNumber(date(r.x)) = 1 or festivo(r.x)) then
+					crea = TRUE
+				elseif dw_def.GetItemNumber(k,'dia') = 0 and dayNumber(date(r.x)) > 1 and not festivo(r.x) then
+					crea = TRUE
+				end if
+				if crea then
+					item = item + 1
+					f = dw_he.InsertRow(0)
+					dw_he.SetItem(f,'tipodoc',tipodoc)
+					dw_he.SetItem(f,'documento',documento)
+					dw_he.SetItem(f,'ano',ano)
+					dw_he.SetItem(f,'mes',mes)
+					dw_he.SetItem(f,'item',item)
+					dw_he.SetItem(f,'horas',Hour(Time(r.y)) - Hour(time(r.x)) + 1)
+					dw_he.SetItem(f,'fecha_ini',r.x)
+					dw_he.SetItem(f,'fecha_fin',r.y)
+					dw_he.SetItem(f,'cod_concep',dw_def.GetItemString(k,'cod_concep'))
+					dw_he.SetItem(f,'estado','1')
+					dw_he.SetItem(f,'clugar',dw_prg.GetItemString(i,'clugar'))
+					dw_he.SetItem(f,'ufuncional',dw_prg.GetItemString(i,'ufuncional'))
+					dw_he.SetItem(f,'ccosto',dw_prg.GetItemString(i,'ccosto'))
+				end if
+			end if
+		next
+	end if
+	dw_prg.SetItem(i,'calculado','1')
+next
+
+if dw_he.Update() = -1 then
+	Rollback;
+	Return -1
+end if
+
+if dw_prg.Update() = -1 then
+	Rollback;
+	Return -1
+end if
+commit;
+Return 0
+
+end function
+

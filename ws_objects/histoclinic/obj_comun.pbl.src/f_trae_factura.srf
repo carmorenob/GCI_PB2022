@@ -1,0 +1,112 @@
+﻿$PBExportHeader$f_trae_factura.srf
+global type f_trae_factura from function_object
+end type
+
+forward prototypes
+global function st_nfact f_trae_factura (string p_cdoc, string p_clug, string p_desdoc)
+end prototypes
+
+global function st_nfact f_trae_factura (string p_cdoc, string p_clug, string p_desdoc);long ndoc,n_ini,n_fin,cuantos
+int l_caut
+string err,por_lug,reso
+date ld_fini,ld_ffin
+st_nfact l_doc
+select por_lugar,numini,numfin,nactual,resol into :por_lug,:n_ini,:n_fin,:ndoc,:reso from documentos_gral where coddoc=:p_cdoc;
+if sqlca.sqlcode=-1 then 
+	err=sqlca.sqlerrtext
+	rollback;
+	messagebox('Error leyendo documentos_gral',err)
+	 l_doc.ndoc=-1
+	return l_doc
+end if
+if sqlca.sqlnrows=0 then
+	rollback;
+	messagebox('Atención','El Documento ('+p_cdoc+')'+p_desdoc+' no existe en la tabla Documentos_gral, debe crearlo para continuar')
+	 l_doc.ndoc=-1
+	return l_doc
+end if
+if isnull(ndoc) then ndoc=0
+if por_lug='1' then
+	select nactual,numini,numfin into :ndoc ,:n_ini ,:n_fin from documentos where coddoc=:p_cdoc and clugar=:p_clug;
+	if sqlca.sqlcode=-1 then 
+		err=sqlca.sqlerrtext
+		rollback;
+		messagebox('Error leyendo documentos',err)
+		 l_doc.ndoc=-1
+		return l_doc
+	end if
+	if sqlca.sqlnrows=0 then
+		rollback;
+		messagebox('Atención','El Documento ('+p_cdoc+')'+p_desdoc+' no existe en la tabla Documentos, debe crearlo para continuar')
+		 l_doc.ndoc=-1
+		return l_doc
+	end if
+	if isnull(ndoc) then ndoc=0
+end if
+ndoc++
+if ndoc<n_ini or ndoc>n_fin then
+	rollback;
+	messagebox('Atención','El número que se generará no está dentro del rando definido para el documento: '+p_cdoc)
+	 l_doc.ndoc=-1
+	return l_doc
+end if
+if por_lug='1' then
+	update documentos set nactual=:ndoc where coddoc=:p_cdoc and clugar=:p_clug and nactual=:ndoc -1 ;
+else
+	update documentos_gral set nactual=:ndoc where coddoc=:p_cdoc and nactual=:ndoc -1 ;
+end if
+if sqlca.sqlcode=-1 then
+	err=sqlca.sqlerrtext
+	rollback;
+	messagebox('Error actualizando documentos',err)
+	 l_doc.ndoc=-1
+	return l_doc
+end if
+if sqlca.sqlnrows=0 then
+	rollback;
+	messagebox('Error generando nuevo Documento','Es posible que el número ya haya sido utilizado, intente nuevamente')
+	 l_doc.ndoc=-1
+	return l_doc
+end if
+setnull(l_caut)
+if reso='1'   then
+	if por_lug='1' then 
+		select count(*) into :cuantos from documentos_autfact
+		where coddoc=:p_cdoc and clugar=:p_clug and estado='1';
+	else
+		select count(*) into :cuantos from documentos_autfact
+		where coddoc=:p_cdoc and clugar='01' and estado='1';
+	end if
+	if cuantos<>1 then
+		messagebox("Atención",'Esta Documento ('+p_cdoc+')'+p_desdoc+'no tiene Resoluciones activas revise esto para continuar x lugar')
+		 l_doc.ndoc=-1
+		return l_doc
+	end if
+
+	if por_lug='1' then 
+		select c_aut,f_ini,f_fin into :l_caut,:ld_fini,:ld_ffin
+		from documentos_autfact
+		where coddoc=:p_cdoc and clugar=:p_clug and estado='1';
+	else
+		select c_aut,f_ini,f_fin into :l_caut,:ld_fini,:ld_ffin
+		from documentos_autfact
+		where coddoc=:p_cdoc and clugar='01' and estado='1';		
+	end if
+	if sqlca.sqlcode=-1 then
+		messagebox('Error leyendo Documento Resolución' ,sqlca.sqlerrtext)
+		 l_doc.ndoc=-1
+		return l_doc
+	end if
+	if today()<ld_fini or today()>ld_ffin then
+		rollback;
+		messagebox('Atención','La fecha del periodo de la autorización de la resolución no esta dentro del rando definido para el documento: '+p_cdoc)
+		 l_doc.ndoc=-1
+		return l_doc
+	end if
+	
+end if
+l_doc.ndoc=ndoc
+l_doc.c_aut=l_caut
+return l_doc
+end function
+

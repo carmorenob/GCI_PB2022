@@ -1,0 +1,24 @@
+﻿$PBExportHeader$st_xa_graficas.srs
+global type st_xa_graficas from structure
+	string		codplantilla
+	integer		numcampo
+	long		edad
+	string		sexo
+	datetime		fecha
+	datawindow		dw_captura
+	long		valor
+	integer		origen
+	string		instr
+	string		json		descriptor "comment" = "JSON que contiene la info con la que se hizo la evaluación"
+	boolean		cambio
+	integer		ipa
+	integer		sistolica
+	integer		actfis
+	integer		frutas
+	string		texto
+	string		instr1
+	string		instr2
+	string		instr3
+	string		instr4
+end type
+

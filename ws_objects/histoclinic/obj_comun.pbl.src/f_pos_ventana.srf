@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_pos_ventana.srf
+global type f_pos_ventana from function_object
+end type
+
+forward prototypes
+global function integer f_pos_ventana (menu p_menu)
+end prototypes
+
+global function integer f_pos_ventana (menu p_menu);long vent, j, inv
+
+//if isvalid(p_menu.getparent()) then
+if upperbound(p_menu.item[]) > 0 then
+	for j = 1 to upperbound(p_menu.item[])
+		if not p_menu.item[j].Visible then 
+			inv = inv + 1
+		end if
+		if p_menu.item[j].Text = '&Ventana' then
+			Return j - inv
+		end if
+	next
+end if
+
+Return 0
+
+end function
+

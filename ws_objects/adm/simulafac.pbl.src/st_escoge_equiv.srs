@@ -1,0 +1,7 @@
+﻿$PBExportHeader$st_escoge_equiv.srs
+global type st_escoge_equiv from structure
+	string		proccups
+	string		manual
+	string		desproc
+end type
+

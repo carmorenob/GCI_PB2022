@@ -1,0 +1,9 @@
+﻿$PBExportHeader$st_graf_data.srs
+global type st_graf_data from structure
+	string		categoria
+	string		value
+	string		serie
+	string		titulo
+	string		tipo
+end type
+

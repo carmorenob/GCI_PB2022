@@ -1,0 +1,46 @@
+﻿$PBExportHeader$f_abrerepor.srf
+global type f_abrerepor from function_object
+end type
+
+forward prototypes
+global subroutine f_abrerepor (string cod_rep, integer nro, uo_report i_rep[])
+end prototypes
+
+global subroutine f_abrerepor (string cod_rep, integer nro, uo_report i_rep[]);boolean bValid
+window wSheet,abre
+any param[]
+
+wSheet =w_principal.GetFirstSheet()
+bvalid= IsValid (wSheet)
+
+if nro=0 then nro=16
+if not isvalid(i_rep[nro]) then
+	i_rep[nro]=create uo_report
+	i_rep[nro].cod_rep=cod_rep
+	i_rep[nro].v_preliminar=true
+	i_rep[nro].dialogo=false
+	if nro=16 and wsheet.classname()<>'w_reportes_adm'  then
+		i_rep[nro].tipo_rep='externo!'
+	else
+		i_rep[nro].tipo_rep='menu!'
+	end if
+elseif nro=16 then
+	i_rep[nro].dw_rep=create uo_datastore
+	i_rep[nro].titulo=''
+end if
+
+DO while bvalid
+	if wsheet.classname()='w_reporte_gral'  then
+		w_reporte_gral=wsheet
+		if w_reporte_gral.title=i_rep[nro].titulo then 
+			w_reporte_gral.setfocus()
+			return 
+		end if
+	end if
+	wSheet = w_principal.GetNextSheet(wSheet)
+	bValid = IsValid (wSheet)
+LOOP
+i_rep[nro].imprimir(param,'','0')
+w_principal.ArrangeSheets ( layer!)
+end subroutine
+

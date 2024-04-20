@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_aproxima_a.srf
+global type f_aproxima_a from function_object
+end type
+
+forward prototypes
+global function decimal f_aproxima_a (decimal numero, double multiplo)
+end prototypes
+
+global function decimal f_aproxima_a (decimal numero, double multiplo);decimal centena,centena1,rs
+
+centena=numero/multiplo
+centena1=round((numero/multiplo),0)
+if (centena - centena1)*100>50 then
+	rs=centena1*multiplo + multiplo
+else
+	rs=centena1*multiplo
+end if
+return rs
+end function
+
