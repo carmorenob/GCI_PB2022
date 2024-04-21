@@ -9,5 +9,6 @@ global type st_rte from structure
 	datawindow		dw_pac
 	datawindow		dw_data
 	string		c_otro
+	richtextedit		rte
 end type
 
