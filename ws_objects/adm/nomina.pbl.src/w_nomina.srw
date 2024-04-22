@@ -1143,7 +1143,7 @@ end function
 public function long ausentismo (string tipodoc, string documento, st_interfec interv, integer filahist);long dias, i, fila,filan, inc_t,l_j,inc,l_x,dias_incpt,inc_tt,calculado,dias_incptini
 st_interfec ivac, iret, iper
 string incap,tipo_nomina,incap_bas,ls_filtro
-int xitem,yitem,ciclo
+int xitem, yitem, ciclo, li_diasbase
 boolean inicial
 
 vac = 0
@@ -1211,7 +1211,7 @@ if ibn_calculando then
 					dw_ausend.setitem(fila,'documento_n',documento )
 					dw_ausend.setitem(fila,'ncargo',dw_historia.getitemnumber(filahist,'ncargo'))
 					dw_ausend.setitem(fila,'cod_concep',dw_aus.GetItemString(i,'cod_concep') )
-					dw_ausend.setitem(fila,'dias',vac)
+					dw_ausend.setitem(fila,'dias',dias_vac(datetime(dw_aus.GetItemDate(i,'fechaini')),datetime(dw_aus.GetItemDate(i,'fechafin'))))
 					dw_ausend.setitem(fila,'fecha_audita',datetime(today(),now()))	 
 					dw_ausend.setitem(fila,'item_n',tab_1.p_2.dw_novedad.getitemnumber(filan,'item'))
 					dw_ausend.setitem(fila,'num_nomina',tab_1.p_2.dw_novedad.getitemnumber(filan,'num_nomina'))
@@ -1414,7 +1414,7 @@ if ibn_calculando then
 								//inc_t = inc_t - ivac.dias
 							
 							else
-								dias_incptini = dias_incptini+ DaysAfter(date(ivac.x),date(iret.x))
+								//dias_incptini = dias_incptini+ DaysAfter(date(ivac.x),date(iret.x))
 							end if
 						end if
 						if inc_t < 0 then inc_t = 0
@@ -1448,19 +1448,29 @@ if ibn_calculando then
 						end if
 					end if
 						
-						
-						if dias_incptini<ivac.dias then 
-							inicial=true
-							ivac.dias=ivac.dias -  dias_incptini
+					if dias_incptini > 0 then
+						inicial = true
+						if inc_t <= ivac.dias then
+							li_diasbase = inc_t
 						else
-							inicial=false
-							ivac.dias=0
+							li_diasbase = ivac.dias
 						end if
+					end if
+					
+//						if dias_incptini <= ivac.dias then 
+//							inicial = true
+//							ivac.dias = ivac.dias -  dias_incptini
+//						else
+//							inicial = false
+//							ivac.dias=0
+//						end if
+			
 			//		end if
 					
 					if  inc_t > 0 and ibn_calculando then
 						ciclo=1
-						if ivac.dias=0 then ciclo=2						
+						//if ivac.dias=0 then ciclo=2
+						if li_diasbase = 0 then ciclo = 2
 						do while ciclo<=2
 							// LA NOVEDAD
 							if ciclo=1 and inicial then
@@ -1478,7 +1488,8 @@ if ibn_calculando then
 							tab_1.p_2.dw_novedad.SetItem(filan,'ncargo',dw_historia.getitemnumber(filahist,'ncargo'))
 							tab_1.p_2.dw_novedad.SetItem(filan,'ntraslado',dw_historia.getitemnumber(filahist,'ntraslado'))	
 							tab_1.p_2.dw_novedad.SetItem(filan,'num_nomina',tab_n.tpn_1.dw_nomcab.GetItemNumber(tab_n.tpn_1.dw_nomcab.GetRow(),'num_nomina'))
-							if ciclo=1 and ivac.dias>0 and inicial then
+							//if ciclo=1 and ivac.dias>0 and inicial then
+							if ciclo=1 and inicial then
 								tab_1.p_2.dw_novedad.SetItem(filan,'cod_concep',dw_aus.GetItemString(dw_aus.GetRow(),'cod_concep_base'))
 								tab_1.p_2.dw_novedad.SetItem(filan,'sigla',dw_aus.GetItemString(dw_aus.GetRow(),'sigla_base'))
 								tab_1.p_2.dw_novedad.SetItem(filan,'des_concep',dw_aus.GetItemString(dw_aus.GetRow(),'des_concep_base'))
@@ -1511,25 +1522,30 @@ if ibn_calculando then
 							if ciclo=1 and inicial then
 								dw_ausend.setitem(fila,'cod_concep',dw_aus.GetItemString(i,'cod_concep_base') )		
 								dw_historia.SetItem(filahist, f_get_ctrl(dw_aus.GetItemString(i,'sigla_base')),1)
-								if  inc_t  < ivac.dias then 				
-									dw_ausend.setitem(fila,'dias', inc_t)
-									dw_historia.SetItem(filahist,get_parm_nov(dw_aus.GetItemString(i,'sigla_base')),inc_t)
-								else		
-									dw_ausend.setitem(fila,'dias', ivac.dias)
-									dw_historia.SetItem(filahist,get_parm_nov(dw_aus.GetItemString(i,'sigla_base')),ivac.dias)
-								end if
+								
+								dw_ausend.setitem(fila,'dias', li_diasbase)
+								dw_historia.SetItem(filahist,get_parm_nov(dw_aus.GetItemString(i,'sigla_base')), li_diasbase)
+
+//								if  inc_t  < ivac.dias then 				
+//									dw_ausend.setitem(fila,'dias', inc_t)
+//									dw_historia.SetItem(filahist,get_parm_nov(dw_aus.GetItemString(i,'sigla_base')),inc_t)
+//								else		
+//									dw_ausend.setitem(fila,'dias', ivac.dias)
+//									dw_historia.SetItem(filahist,get_parm_nov(dw_aus.GetItemString(i,'sigla_base')),ivac.dias)
+//								end if
 								calculado = dw_historia.GetItemNumber(filahist,dw_aus.GetItemString(i,'sigla_base'))
 							else
 								dw_ausend.setitem(fila,'cod_concep',dw_aus.GetItemString(i,'cod_concep') )
 								dw_historia.SetItem(filahist, f_get_ctrl(dw_aus.GetItemString(i,'sigla')),1)
-								dw_ausend.setitem(fila,'dias',inc_t - ivac.dias)
-								dw_historia.SetItem(filahist,get_parm_nov(dw_aus.GetItemString(i,'sigla')),inc_t - ivac.dias)
+								dw_ausend.setitem(fila,'dias', inc_t - li_diasbase)
+								dw_historia.SetItem(filahist,get_parm_nov(dw_aus.GetItemString(i,'sigla')), inc_t - li_diasbase)
 								calculado = dw_historia.GetItemNumber(filahist,dw_aus.GetItemString(i,'sigla'))
 							end if
 							if isnull(calculado) then calculado=0
 							dw_ausend.setitem(fila,'valor',calculado)
 							ciclo++
-							if (inc_t - ivac.dias) <= 0  or ivac.dias=0 then ciclo=3				
+							//if (inc_t - ivac.dias) <= 0  or ivac.dias=0 then ciclo=3
+							if (inc_t - ivac.dias) <= 0 then ciclo = 3
 						loop
 					end if		
 				end if
@@ -2783,14 +2799,14 @@ if tab_n.tpn_1.dw_nomcab.GetItemString(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo')<>'
 			tab_1.p_2.dw_novedad.SetItem(fila,'tipo', dw_prestaact.GetItemString(j, 'tipo'))
 			tab_1.p_2.dw_novedad.SetItem(fila,'cantidad_ac',1)
 			if wf_vac_anticipada() = '1' then
-				//diasVacSig = f_dias_vac_per(tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc'), tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento'), inicmessig(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia'))  ) 
-				//diasVacAct = f_dias_vac_per(tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc'), tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento'), tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')  ) 
+				diasVacSig = f_dias_vac_per(tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc'), tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento'), inicmessig(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia'))  ) 
+				diasVacAct = f_dias_vac_per(tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc'), tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento'), tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')  ) 
 				if  vac=0 then 
-					diasVacSig = f_dias_vac(tipodoc, documento, ls_vac, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia') , tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina')  ) 
+					//diasVacSig = f_dias_vac(tipodoc, documento, ls_vac, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia') , tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina')  ) 
 				else
-					diasVacSig=0
+					//diasVacSig=0
 				end if
-				diasVacAct = f_dias_vac_per(tipodoc, documento, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')  ) 
+				//diasVacAct = f_dias_vac_per(tipodoc, documento, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')  ) 
 				if diasVacSig >0 or diasVacAct > 0 then
 					vrVac = round(dw_prestaact.GetItemNumber(j,'valor') * diasVacSig / 30, 0) - round(dw_prestaact.GetItemNumber(j,'valor') * diasVacAct / 30, 0)
 				else
