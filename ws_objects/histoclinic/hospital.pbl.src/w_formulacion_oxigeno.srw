@@ -51,10 +51,10 @@ global w_formulacion_oxigeno w_formulacion_oxigeno
 
 type variables
 datawindow dw_formula
+datawindowchild idw_oxig
 string l_via
 long l_cantk,l_cant
 end variables
-
 event open;dw_formula=message.powerobjectparm
 setnull(l_cantk)
 setnull(l_cant)
@@ -166,9 +166,16 @@ borderstyle borderstyle = stylelowered!
 end type
 
 event constructor;settransobject(sqlca)
+getchild("cod_oxig  ",idw_oxig)
+idw_oxig.settransobject(sqlca)
+
 end event
 
 event itemchanged;l_via=gettext()
+string jaer
+jaer=idw_oxig.getitemstring(idw_oxig.getrow(),'factor_iss')
+
+cantidades.text=string(double(dosis.text) * double(horas.text) * 60)
 end event
 
 event retrieveend;l_via=getitemstring(getrow(),'cod_oxig')
