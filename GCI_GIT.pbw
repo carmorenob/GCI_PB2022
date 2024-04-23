@@ -8,5 +8,5 @@ Save Format v3.0(19990112)
  2 "actualizador\\actualizador.pbt";
  3 "adm\\gci_adm.pbt";
 @end;
-DefaultTarget "histoclinic\\histo_clinic.pbt";
-DefaultRemoteTarget "histoclinic\\histo_clinic.pbt";
+DefaultTarget "adm\\gci_adm.pbt";
+DefaultRemoteTarget "adm\\gci_adm.pbt";
