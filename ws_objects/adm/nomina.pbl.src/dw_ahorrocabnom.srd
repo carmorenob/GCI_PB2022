@@ -5,34 +5,43 @@ header(height=60 color="536870912" transparency="0" gradient.color="8421504" gra
 summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 detail(height=64 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
-table(column=(type=long update=yes updatewhereclause=yes key=yes name=num_ahorro dbname="NOM_AHORRO.num_ahorro" )
- column=(type=char(1) update=yes updatewhereclause=yes name=tipo dbname="NOM_AHORRO.tipo" initial="0" values="Fijo	0/Porcentaje	1/" )
- column=(type=datetime update=yes updatewhereclause=yes name=fecha dbname="NOM_AHORRO.fecha" )
- column=(type=char(3) update=yes updatewhereclause=yes name=doc_tercero dbname="NOM_AHORRO.doc_tercero" )
- column=(type=char(15) update=yes updatewhereclause=yes name=nit dbname="NOM_AHORRO.nit" )
- column=(type=number update=yes updatewhereclause=yes name=porcensal dbname="NOM_AHORRO.porcensal" )
- column=(type=decimal(2) update=yes updatewhereclause=yes name=vfijo dbname="NOM_AHORRO.vfijo" )
- column=(type=char(10) update=yes updatewhereclause=yes name=estado dbname="NOM_AHORRO.estado" values="Activo	1/Anulado	2/Inactivo	3/" )
- column=(type=datetime update=yes updatewhereclause=yes name=fecha_anulada dbname="NOM_AHORRO.fecha_anulada" )
- column=(type=char(10) update=yes updatewhereclause=yes name=usuario dbname="NOM_AHORRO.usuario" )
- column=(type=char(3) update=yes updatewhereclause=yes name=tipodoc dbname="NOM_AHORRO.tipo_doc" )
- column=(type=char(15) update=yes updatewhereclause=yes name=documento dbname="NOM_AHORRO.empleado" )
- column=(type=char(1) updatewhereclause=yes name=persona dbname="TERCEROS.persona" )
- column=(type=char(20) updatewhereclause=yes name=nombre1 dbname="TERCEROS.nombre1" )
- column=(type=char(20) updatewhereclause=yes name=nombre2 dbname="TERCEROS.nombre2" )
- column=(type=char(20) updatewhereclause=yes name=apellido1 dbname="TERCEROS.apellido1" )
- column=(type=char(20) updatewhereclause=yes name=apellido2 dbname="TERCEROS.apellido2" )
- column=(type=char(250) updatewhereclause=yes name=razon_social dbname="TERCEROS.razon_social" )
+table(column=(type=long update=yes updatewhereclause=yes key=yes name=num_ahorro dbname="nom_ahorro.num_ahorro" dbalias=".num_ahorro" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=tipo dbname="nom_ahorro.tipo" dbalias=".tipo" initial="0" values="Fijo	0/Porcentaje	1/" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha dbname="nom_ahorro.fecha" dbalias=".fecha" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=doc_tercero dbname="nom_ahorro.doc_tercero" dbalias=".doc_tercero" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=nit dbname="nom_ahorro.nit" dbalias=".nit" )
+ column=(type=number update=yes updatewhereclause=yes name=porcensal dbname="nom_ahorro.porcensal" dbalias=".porcensal" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=vfijo dbname="nom_ahorro.vfijo" dbalias=".vfijo" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=estado dbname="nom_ahorro.estado" dbalias=".estado" values="Activo	1/Anulado	2/Inactivo	3/" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha_anulada dbname="nom_ahorro.fecha_anulada" dbalias=".fecha_anulada" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=usuario dbname="nom_ahorro.usuario" dbalias=".usuario" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=tipodoc dbname="nom_ahorro.tipo_doc" dbalias=".tipo_doc" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=documento dbname="nom_ahorro.empleado" dbalias=".empleado" )
+ column=(type=char(1) updatewhereclause=yes name=persona dbname="terceros.persona" dbalias=".persona" )
+ column=(type=char(20) updatewhereclause=yes name=nombre1 dbname="terceros.nombre1" dbalias=".nombre1" )
+ column=(type=char(20) updatewhereclause=yes name=nombre2 dbname="terceros.nombre2" dbalias=".nombre2" )
+ column=(type=char(20) updatewhereclause=yes name=apellido1 dbname="terceros.apellido1" dbalias=".apellido1" )
+ column=(type=char(20) updatewhereclause=yes name=apellido2 dbname="terceros.apellido2" dbalias=".apellido2" )
+ column=(type=char(250) updatewhereclause=yes name=razon_social dbname="terceros.razon_social" dbalias=".razon_social" )
  column=(type=long updatewhereclause=yes name=nuevo dbname="nuevo" )
- column=(type=char(6) update=yes updatewhereclause=yes name=cod_concep dbname="NOM_AHORRO.cod_concep" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=cod_concep dbname="nom_ahorro.cod_concep" dbalias=".cod_concep" )
+ column=(type=char(15) updatewhereclause=yes name=sigla dbname="nom_concep.sigla" dbalias=".sigla" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_concep dbname="nom_concep.tipo" dbalias=".tipo" )
+ column=(type=char(4) updatewhereclause=yes name=cod_tipo_concep dbname="nom_concep.cod_tipo_concep" dbalias=".cod_tipo_concep" )
+ column=(type=char(50) updatewhereclause=yes name=des_concep dbname="nom_concep.des_concep" dbalias=".des_concep" )
+ column=(type=decimal(3) updatewhereclause=yes name=tarifa dbname="nom_concep.tarifa" dbalias=".tarifa" )
+ column=(type=decimal(3) updatewhereclause=yes name=tarifa_esp dbname="nom_concep.tarifa_esp" dbalias=".tarifa_esp" )
  retrieve="SELECT
 	nom_ahorro.num_ahorro,nom_ahorro.tipo,nom_ahorro.fecha,nom_ahorro.doc_tercero,nom_ahorro.nit,
 	nom_ahorro.porcensal,nom_ahorro.vfijo,nom_ahorro.estado,nom_ahorro.fecha_anulada,
 	nom_ahorro.usuario,nom_ahorro.tipo_doc,nom_ahorro.empleado,terceros.persona,
 	terceros.nombre1,terceros.nombre2,terceros.apellido1,terceros.apellido2,terceros.razon_social,
-	0 as nuevo,nom_ahorro.cod_concep     
+	0 as nuevo, nom_ahorro.cod_concep,
+	nom_concep.sigla, nom_concep.tipo, nom_concep.cod_tipo_concep, nom_concep.des_concep, nom_concep.tarifa, nom_concep.tarifa_esp
 FROM 
-	nom_ahorro inner join terceros on (nom_ahorro.doc_tercero = terceros.tipodoc and  nom_ahorro.nit = terceros.documento )
+	nom_ahorro 
+	inner join terceros on (nom_ahorro.doc_tercero = terceros.tipodoc and  nom_ahorro.nit = terceros.documento )
+	left join nom_concep on nom_ahorro.cod_concep = nom_concep.cod_concep
 WHERE
 	((nom_ahorro.tipo_doc = :tipodoc) and (nom_ahorro.empleado = :documento) 
 	and (nom_ahorro.estado = '1' ))  " update="nom_ahorro" updatewhere=0 updatekeyinplace=yes arguments=(("tipodoc", string),("documento", string))  sort="cod_concep A num_ahorro A " )
