@@ -8,6 +8,8 @@ type t1 from tab within w_tablero_erc
 end type
 type tb from userobject within t1
 end type
+type dw_6 from datawindow within tb
+end type
 type dw_5 from datawindow within tb
 end type
 type dw_4 from datawindow within tb
@@ -15,6 +17,7 @@ end type
 type dw_2 from datawindow within tb
 end type
 type tb from userobject within t1
+dw_6 dw_6
 dw_5 dw_5
 dw_4 dw_4
 dw_2 dw_2
@@ -27,13 +30,13 @@ type st_1 from statictext within dt
 end type
 type drop_tipo from dropdownlistbox within dt
 end type
-type dw_6 from datawindow within dt
+type dw_grid from datawindow within dt
 end type
 type dt from userobject within t1
 pb_1 pb_1
 st_1 st_1
 drop_tipo drop_tipo
-dw_6 dw_6
+dw_grid dw_grid
 end type
 type t1 from tab within w_tablero_erc
 tb tb
@@ -92,6 +95,7 @@ dw_1.retrieve(fecha2,ls_xlugar)
 t1.tb.dw_2.retrieve(fecha1,fecha2,ls_xlugar)
 t1.tb.dw_4.retrieve(fecha1,fecha2,ls_xlugar)
 t1.tb.dw_5.retrieve(fecha1,fecha2,ls_xlugar)
+t1.tb.dw_6.retrieve(fecha1,fecha2,ls_xlugar)
 
 end subroutine
 
@@ -127,12 +131,15 @@ event open;if g_motor='postgres' then
 	t1.tb.dw_2.dataobject='dw_tab_erc_totales_decenio'
 	t1.tb.dw_4.dataobject='dw_tab_erc_dpeso'	
 	t1.tb.dw_5.dataobject='dw_tab_erc_htacontrolado'
+	t1.tb.dw_6.dataobject='dw_tab_erc_a1hb'
 end if
 
 dw_1.settransobject(sqlca)
 t1.tb.dw_2.settransobject(sqlca)
 t1.tb.dw_4.settransobject(sqlca)
 t1.tb.dw_5.settransobject(sqlca)
+t1.tb.dw_6.settransobject(sqlca)
+
 //w_principal.dw_1.visible=false
 int ll_find
 
@@ -214,25 +221,41 @@ string text = "Tablero"
 long tabtextcolor = 33554432
 string picturename = "tbl_urgencias.ico"
 long picturemaskcolor = 536870912
+dw_6 dw_6
 dw_5 dw_5
 dw_4 dw_4
 dw_2 dw_2
 end type
 
 on tb.create
+this.dw_6=create dw_6
 this.dw_5=create dw_5
 this.dw_4=create dw_4
 this.dw_2=create dw_2
-this.Control[]={this.dw_5,&
+this.Control[]={this.dw_6,&
+this.dw_5,&
 this.dw_4,&
 this.dw_2}
 end on
 
 on tb.destroy
+destroy(this.dw_6)
 destroy(this.dw_5)
 destroy(this.dw_4)
 destroy(this.dw_2)
 end on
+
+type dw_6 from datawindow within tb
+integer x = 50
+integer y = 1064
+integer width = 1970
+integer height = 1000
+integer taborder = 100
+string title = "none"
+string dataobject = "dw_tab_erc_a1hb"
+boolean livescroll = true
+borderstyle borderstyle = styleraised!
+end type
 
 type dw_5 from datawindow within tb
 integer x = 4046
@@ -283,25 +306,25 @@ long picturemaskcolor = 536870912
 pb_1 pb_1
 st_1 st_1
 drop_tipo drop_tipo
-dw_6 dw_6
+dw_grid dw_grid
 end type
 
 on dt.create
 this.pb_1=create pb_1
 this.st_1=create st_1
 this.drop_tipo=create drop_tipo
-this.dw_6=create dw_6
+this.dw_grid=create dw_grid
 this.Control[]={this.pb_1,&
 this.st_1,&
 this.drop_tipo,&
-this.dw_6}
+this.dw_grid}
 end on
 
 on dt.destroy
 destroy(this.pb_1)
 destroy(this.st_1)
 destroy(this.drop_tipo)
-destroy(this.dw_6)
+destroy(this.dw_grid)
 end on
 
 type pb_1 from picturebutton within dt
@@ -322,8 +345,8 @@ string picturename = "export.gif"
 alignment htextalign = left!
 end type
 
-event clicked;if dw_6.rowcount()>0 then
-	openwithparm(w_export,dw_6)
+event clicked;if dw_grid.rowcount()>0 then
+	openwithparm(w_export,dw_grid)
 end if
 end event
 
@@ -357,7 +380,8 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
 long textcolor = 33554432
-string item[] = {"Distribución Decenios","Distribucion de Peso","Estado HTA"}
+boolean vscrollbar = true
+string item[] = {"Distribución Decenios","Distribucion de Peso","Estado HTA","Valores A1Hb"}
 borderstyle borderstyle = stylelowered!
 end type
 
@@ -367,18 +391,19 @@ fecha2=datetime(fec_2.text)
 
 choose case index
 	case 1
-		t1.dt.dw_6.dataobject='dw_tab_erc_dpeso_tab'				
+		t1.dt.dw_grid.dataobject='dw_tab_erc_dpeso_tab'				
 	case 2
-		t1.dt.dw_6.dataobject='dw_tab_erc_decenio_tab'
+		t1.dt.dw_grid.dataobject='dw_tab_erc_decenio_tab'
 	case 3
-		t1.dt.dw_6.dataobject='dw_tab_erc_htacontrolado_tab'
-		
+		t1.dt.dw_grid.dataobject='dw_tab_erc_htacontrolado_tab'
+	case 4
+		t1.dt.dw_grid.dataobject='dw_tab_erc_a1hb_tab'
 end choose
-t1.dt.dw_6.settransobject(sqlca)
-t1.dt.dw_6.retrieve(fecha1,fecha2,ls_xlugar)
+t1.dt.dw_grid.settransobject(sqlca)
+t1.dt.dw_grid.retrieve(fecha1,fecha2,ls_xlugar)
 end event
 
-type dw_6 from datawindow within dt
+type dw_grid from datawindow within dt
 integer x = 46
 integer y = 184
 integer width = 5874
