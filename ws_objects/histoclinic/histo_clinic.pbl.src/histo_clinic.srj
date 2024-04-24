@@ -105,6 +105,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\Odonto.pbl,dw_historial_od
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_citas_profe,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_oscuerpo,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\pyp_asis.pbl,dw_tab_gestante_ultima_atn,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\pyp_asis.pbl,dw_tab_erc_htacontrolado,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\bancos.pbl,dw_encuesta,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\maps.pbl,dw_combo_indicadores,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\atu_estadisticas.pbl,f_fecha_numero,f
