@@ -105,7 +105,7 @@ for l_i=1 to 5
 	t1.tb.dw_4.SetDataStyle ( "gr_1", 1, l_i, Shade!,rgb(0,162,232 ))
 next
 
-//t1.tb.dw_5.retrieve(fecha1,fecha2,ls_xlugar)
+t1.tb.dw_5.retrieve(fecha1,fecha2,ls_xlugar)
 t1.tb.dw_7.retrieve(fecha1,fecha2,ls_xlugar)
 for l_i=1 to 12
 	t1.tb.dw_7.SetDataStyle ( "gr_1", 1, l_i, Foreground!,rgb(157,211,144))
