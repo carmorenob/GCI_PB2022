@@ -270,6 +270,7 @@ destroy(this.dw_2)
 end on
 
 type dw_8 from datawindow within tb
+boolean visible = false
 integer x = 1998
 integer y = 1040
 integer width = 1970

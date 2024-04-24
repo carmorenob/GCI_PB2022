@@ -8,11 +8,14 @@ type t1 from tab within w_tablero_erc
 end type
 type tb from userobject within t1
 end type
+type dw_5 from datawindow within tb
+end type
 type dw_4 from datawindow within tb
 end type
 type dw_2 from datawindow within tb
 end type
 type tb from userobject within t1
+dw_5 dw_5
 dw_4 dw_4
 dw_2 dw_2
 end type
@@ -88,8 +91,8 @@ fecha2=datetime(fec_2.text)
 dw_1.retrieve(fecha2,ls_xlugar)
 t1.tb.dw_2.retrieve(fecha1,fecha2,ls_xlugar)
 t1.tb.dw_4.retrieve(fecha1,fecha2,ls_xlugar)
-//t1.tb.dw_5.retrieve(fecha1,fecha2,ls_xlugar)
-//
+t1.tb.dw_5.retrieve(fecha1,fecha2,ls_xlugar)
+
 end subroutine
 
 on w_tablero_erc.create
@@ -123,15 +126,13 @@ event open;if g_motor='postgres' then
 	dw_1.dataobject='dw_tab_erc_totales'
 	t1.tb.dw_2.dataobject='dw_tab_erc_totales_decenio'
 	t1.tb.dw_4.dataobject='dw_tab_erc_dpeso'	
-//	t1.tb.dw_5.dataobject='dw_tab_gestante_ultima_atn'
-//
+	t1.tb.dw_5.dataobject='dw_tab_erc_htacontrolado'
 end if
-//
+
 dw_1.settransobject(sqlca)
 t1.tb.dw_2.settransobject(sqlca)
 t1.tb.dw_4.settransobject(sqlca)
-//
-//t1.tb.dw_5.settransobject(sqlca)
+t1.tb.dw_5.settransobject(sqlca)
 //w_principal.dw_1.visible=false
 int ll_find
 
@@ -213,27 +214,43 @@ string text = "Tablero"
 long tabtextcolor = 33554432
 string picturename = "tbl_urgencias.ico"
 long picturemaskcolor = 536870912
+dw_5 dw_5
 dw_4 dw_4
 dw_2 dw_2
 end type
 
 on tb.create
+this.dw_5=create dw_5
 this.dw_4=create dw_4
 this.dw_2=create dw_2
-this.Control[]={this.dw_4,&
+this.Control[]={this.dw_5,&
+this.dw_4,&
 this.dw_2}
 end on
 
 on tb.destroy
+destroy(this.dw_5)
 destroy(this.dw_4)
 destroy(this.dw_2)
 end on
 
+type dw_5 from datawindow within tb
+integer x = 4046
+integer y = 36
+integer width = 1970
+integer height = 1000
+integer taborder = 20
+string title = "none"
+string dataobject = "dw_tab_erc_htacontrolado"
+boolean livescroll = true
+borderstyle borderstyle = styleraised!
+end type
+
 type dw_4 from datawindow within tb
-integer x = 2185
+integer x = 2048
 integer y = 32
-integer width = 2043
-integer height = 1016
+integer width = 1970
+integer height = 1000
 integer taborder = 20
 string title = "none"
 string dataobject = "dw_tab_erc_dpeso"
@@ -244,8 +261,8 @@ end type
 type dw_2 from datawindow within tb
 integer x = 50
 integer y = 32
-integer width = 2043
-integer height = 1016
+integer width = 1970
+integer height = 1000
 integer taborder = 20
 string title = "none"
 string dataobject = "dw_tab_erc_totales_decenio"
@@ -340,7 +357,7 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
 long textcolor = 33554432
-string item[] = {"Agenda Ecografias","Agendamiento Control Prenatal"}
+string item[] = {"Distribución Decenios","Distribucion de Peso","Estado HTA"}
 borderstyle borderstyle = stylelowered!
 end type
 
@@ -350,7 +367,11 @@ fecha2=datetime(fec_2.text)
 
 choose case index
 	case 1
-		t1.dt.dw_6.dataobject='dw_tab_gestante_agenda_eco_tab'
+		t1.dt.dw_6.dataobject='dw_tab_erc_dpeso_tab'				
+	case 2
+		t1.dt.dw_6.dataobject='dw_tab_erc_decenio_tab'
+	case 3
+		t1.dt.dw_6.dataobject='dw_tab_erc_htacontrolado_tab'
 		
 end choose
 t1.dt.dw_6.settransobject(sqlca)
@@ -365,6 +386,8 @@ integer height = 1872
 integer taborder = 70
 string title = "none"
 string dataobject = "dw_tab_gestante_agenda_eco_tab"
+boolean hscrollbar = true
+boolean vscrollbar = true
 boolean border = false
 boolean livescroll = true
 end type
