@@ -23,11 +23,13 @@ table(column=(type=number update=yes updatewhereclause=yes key=yes name=num_radi
  column=(type=decimal(2) update=yes updatewhereclause=yes name=upc dbname="contratos.upc" dbalias=".upc" initial="0" )
  column=(type=char(1) update=yes updatewhereclause=yes name=tipo dbname="contratos.tipo" dbalias=".tipo" )
  column=(type=char(1) update=yes updatewhereclause=yes name=dist dbname="contratos.dist" dbalias=".dist" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=valor_ncr dbname="contratos.valor_ncr" dbalias=".valor_ncr" initial="0" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=valor_ndb dbname="contratos.valor_ndb" dbalias=".valor_ndb" initial="0" )
  retrieve="SELECT 
 	ripsradicadet.num_radicacion, ripsradicadet.clugar, ripsradicadet.cemp, ripsradicadet.ccontrato, ripsradicadet.ctipo, 
 	ripsradicadet.valor_evento, ripsradicadet.valor_capita, ripsradicadet.nro_factu, contratos.descontrato AS contrato, 
 	ripsradica.en_destino, ripsradica.estado, contratos.soat, contratos.catastrofe, 0 AS forecat, ripsradicadet.nusuarios, 
-	ripsradicadet.upc, ripsradicadet.TIPO,ripsradicadet.dist
+	ripsradicadet.upc, ripsradicadet.TIPO,ripsradicadet.dist, ripsradicadet.valor_ncr, ripsradicadet.valor_ndb
 FROM 
 	(ripsradica INNER JOIN ripsradicadet ON (ripsradica.TIPO = ripsradicadet.TIPO) AND (ripsradica.clugar = ripsradicadet.clugar) AND 
 	(ripsradica.num_radicacion = ripsradicadet.num_radicacion)) INNER JOIN contratos ON (ripsradicadet.ccontrato = contratos.CodContrato)
