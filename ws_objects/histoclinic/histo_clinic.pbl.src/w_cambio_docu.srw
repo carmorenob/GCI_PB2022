@@ -485,7 +485,13 @@ If tip_doc.rowcount()>0 then
 		return
 	end if
 	
-	
+	UPDATE gral_ma_nucleos_predio SET tdoc_recibe= :tdocnew,  docu_recibe= :docunew
+	WHERE tdoc_recibe=:tipdoc AND docu_recibe=:docu;
+	if sqlca.sqlcode=-1 then
+		messagebox("Error Actualizando gral_ma_nucleos_predio",sqlca.sqlerrtext)
+		rollback;
+		return
+	end if
 	//////////////////////////
 	delete from compfamiliar WHERE nHistoria=:histo;
 	if sqlca.sqlcode=-1 then

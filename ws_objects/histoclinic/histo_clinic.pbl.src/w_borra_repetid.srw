@@ -533,6 +533,14 @@ for j=1 to dw_2.rowcount()
 			rollback;
 			return
 		end if
+
+		UPDATE gral_ma_nucleos_predio SET tdoc_recibe= :tdocnew,  docu_recibe= :docnew
+		WHERE tdoc_recibe=:tdocx AND docu_recibe=:docx;
+		if sqlca.sqlcode=-1 then
+			messagebox("Error Actualizando gral_ma_nucleos_predio",sqlca.sqlerrtext)
+			rollback;
+			return
+		end if
 		
 		UPDATE pacientes_antecedente SET TipoDoc = :tdocnew, Documento = :docnew
 		WHERE 
