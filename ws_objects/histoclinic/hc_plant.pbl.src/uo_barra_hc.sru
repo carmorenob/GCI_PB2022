@@ -20,33 +20,33 @@ type pb_procs from picturebutton within uo_barra_hc
 end type
 type pb_cpo from picturebutton within uo_barra_hc
 end type
-type pb_antecedente from picturebutton within uo_barra_hc
-end type
-type pb_lleva from picturebutton within uo_barra_hc
-end type
-type pb_medi from picturebutton within uo_barra_hc
-end type
-type pb_tri from picturebutton within uo_barra_hc
-end type
-type pb_1 from picturebutton within uo_barra_hc
-end type
-type pb_save from picturebutton within uo_barra_hc
-end type
 type pb_guia from picturebutton within uo_barra_hc
 end type
 type c_ord from picturebutton within uo_barra_hc
 end type
 type pb_cevol from picturebutton within uo_barra_hc
 end type
-type dw_tri from datawindow within uo_barra_hc
-end type
 type dw_diags from datawindow within uo_barra_hc
+end type
+type pb_tri from picturebutton within uo_barra_hc
+end type
+type pb_1 from picturebutton within uo_barra_hc
+end type
+type pb_lleva from picturebutton within uo_barra_hc
+end type
+type pb_medi from picturebutton within uo_barra_hc
+end type
+type pb_save from picturebutton within uo_barra_hc
+end type
+type pb_antecedente from picturebutton within uo_barra_hc
+end type
+type dw_tri from datawindow within uo_barra_hc
 end type
 end forward
 
 global type uo_barra_hc from userobject
-integer width = 4457
-integer height = 276
+integer width = 5042
+integer height = 288
 long backcolor = 67108864
 string text = "none"
 long tabtextcolor = 33554432
@@ -61,17 +61,17 @@ pb_del_proc pb_del_proc
 pb_urg pb_urg
 pb_procs pb_procs
 pb_cpo pb_cpo
-pb_antecedente pb_antecedente
-pb_lleva pb_lleva
-pb_medi pb_medi
-pb_tri pb_tri
-pb_1 pb_1
-pb_save pb_save
 pb_guia pb_guia
 c_ord c_ord
 pb_cevol pb_cevol
-dw_tri dw_tri
 dw_diags dw_diags
+pb_tri pb_tri
+pb_1 pb_1
+pb_lleva pb_lleva
+pb_medi pb_medi
+pb_save pb_save
+pb_antecedente pb_antecedente
+dw_tri dw_tri
 end type
 global uo_barra_hc uo_barra_hc
 
@@ -395,7 +395,7 @@ if i_antecedente='1' then
 else
 	pb_antecedente.visible=false
 end if
-pb_antecedente.originalsize=true
+//pb_antecedente.originalsize=true
 
 if p_tipo='D' then //de diags
 	pb_cevol.visible=false
@@ -819,17 +819,17 @@ this.pb_del_proc=create pb_del_proc
 this.pb_urg=create pb_urg
 this.pb_procs=create pb_procs
 this.pb_cpo=create pb_cpo
-this.pb_antecedente=create pb_antecedente
-this.pb_lleva=create pb_lleva
-this.pb_medi=create pb_medi
-this.pb_tri=create pb_tri
-this.pb_1=create pb_1
-this.pb_save=create pb_save
 this.pb_guia=create pb_guia
 this.c_ord=create c_ord
 this.pb_cevol=create pb_cevol
-this.dw_tri=create dw_tri
 this.dw_diags=create dw_diags
+this.pb_tri=create pb_tri
+this.pb_1=create pb_1
+this.pb_lleva=create pb_lleva
+this.pb_medi=create pb_medi
+this.pb_save=create pb_save
+this.pb_antecedente=create pb_antecedente
+this.dw_tri=create dw_tri
 this.Control[]={this.pb_buscaproc,&
 this.pb_buscamed,&
 this.dw_cond,&
@@ -839,17 +839,17 @@ this.pb_del_proc,&
 this.pb_urg,&
 this.pb_procs,&
 this.pb_cpo,&
-this.pb_antecedente,&
-this.pb_lleva,&
-this.pb_medi,&
-this.pb_tri,&
-this.pb_1,&
-this.pb_save,&
 this.pb_guia,&
 this.c_ord,&
 this.pb_cevol,&
-this.dw_tri,&
-this.dw_diags}
+this.dw_diags,&
+this.pb_tri,&
+this.pb_1,&
+this.pb_lleva,&
+this.pb_medi,&
+this.pb_save,&
+this.pb_antecedente,&
+this.dw_tri}
 end on
 
 on uo_barra_hc.destroy
@@ -862,17 +862,17 @@ destroy(this.pb_del_proc)
 destroy(this.pb_urg)
 destroy(this.pb_procs)
 destroy(this.pb_cpo)
-destroy(this.pb_antecedente)
-destroy(this.pb_lleva)
-destroy(this.pb_medi)
-destroy(this.pb_tri)
-destroy(this.pb_1)
-destroy(this.pb_save)
 destroy(this.pb_guia)
 destroy(this.c_ord)
 destroy(this.pb_cevol)
-destroy(this.dw_tri)
 destroy(this.dw_diags)
+destroy(this.pb_tri)
+destroy(this.pb_1)
+destroy(this.pb_lleva)
+destroy(this.pb_medi)
+destroy(this.pb_save)
+destroy(this.pb_antecedente)
+destroy(this.dw_tri)
 end on
 
 event constructor;i_uo_padre=parent
@@ -1214,7 +1214,6 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
-boolean originalsize = true
 string picturename = "borrar_fila.gif"
 string disabledname = "d_borrar_fila.gif"
 alignment htextalign = left!
@@ -1320,7 +1319,6 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
-boolean originalsize = true
 string picturename = "cuerpo.gif"
 string disabledname = "d_cuerpo.gif"
 alignment htextalign = left!
@@ -1345,297 +1343,6 @@ st.ccont=i_ccont
 st.fecha=datetime(i_uo_padre.em_1.text)
 openwithparm(w_corpograma,st)
 
-end event
-
-type pb_antecedente from picturebutton within uo_barra_hc
-boolean visible = false
-integer x = 457
-integer y = 32
-integer width = 146
-integer height = 128
-integer taborder = 60
-integer textsize = -10
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-boolean originalsize = true
-string picturename = "antecedente.gif"
-alignment htextalign = left!
-string powertiptext = "Verifica Antecedentes del Paciente"
-end type
-
-event clicked;st_rte st
-st.c_prof = i_cprof
-st.mle = i_mle
-st.dw_pac = w_principal.dw_1
-st.codplantilla=i_cplant
-st.numcampo=i_ncampo
-st.ventana = i_uo_padre.i_modo
-st.c_otro=i_codant
-st.dw_data = idw_frm
-if i_alergia='1' then 
-	openwithparm(w_alergias_paciente,st)
-else
-	openwithparm(w_antecedentes_paciente,st)
-end if
-end event
-
-type pb_lleva from picturebutton within uo_barra_hc
-boolean visible = false
-integer x = 315
-integer y = 32
-integer width = 146
-integer height = 128
-integer taborder = 20
-integer textsize = -10
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-boolean originalsize = true
-string picturename = "editar_borrar.gif"
-string disabledname = "d_editar_borrar.gif"
-alignment htextalign = left!
-string powertiptext = "Colocar plantilla y datos de Diags."
-end type
-
-event clicked;
-UpdateRTE()
-
-idw_frm.setitem(idw_frm.getrow(),'memo_'+string(i_ncampo),i_mle.text)	
-
-
-end event
-
-type pb_medi from picturebutton within uo_barra_hc
-boolean visible = false
-integer x = 315
-integer y = 32
-integer width = 146
-integer height = 128
-integer taborder = 60
-integer textsize = -10
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-boolean originalsize = true
-string picturename = "anestesia.gif"
-string disabledname = "d_anestesia.gif"
-alignment htextalign = left!
-string powertiptext = "Atender Anestesia"
-end type
-
-event clicked;if i_uo_padre.dw_1.rowcount()=0 or i_uo_padre.dw_new.rowcount()=0 then return
-if pos('2347',i_uo_padre.i_tingre)>0 and i_uo_padre.i_estado_hadm<>'1' and i_uo_padre.i_puede_modif=false then
-	messagebox('Atención','La admisión ya se encuentra cerrada')
-	return
-end if
-st_xa_procs_hc st
-st.contador=i_contador
-st.clug=i_clug
-st.ncampo=i_ncampo
-st.cesp=i_cesp
-st.cprof=i_cprof
-st.tingres=i_tingres
-//st.dw_procs=i_uo_padre.dw_procs_form
-st.cemp=i_cemp
-st.ccont=i_ccont
-st.fecha=datetime(i_uo_padre.em_1.text)
-openwithparm(w_baja_medi,st)
-if i_uo_padre.dw_procs_new.rowcount()>0 then i_uo_padre.i_cambia=true
-end event
-
-type pb_tri from picturebutton within uo_barra_hc
-boolean visible = false
-integer x = 315
-integer y = 32
-integer width = 146
-integer height = 128
-integer taborder = 30
-integer textsize = -10
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-boolean originalsize = true
-string picturename = "llevar.gif"
-string disabledname = "d_llevar.gif"
-alignment htextalign = left!
-string powertiptext = "Colocar datos de Triage en Historia"
-end type
-
-event clicked;if ( (not isnull(dw_tri.getitemnumber(1,'m'))) or (not isnull(dw_tri.getitemnumber(1,'o'))) or (not isnull(dw_tri.getitemnumber(1,'v'))) ) and (isnull(dw_tri.getitemnumber(1,'total'))) then
-	messagebox('Atención','Debe completar los datos de la escala de Glasgow')
-	return 
-end if
-
-string carreta,tab,triag,descrip
-dw_tri.setitem(1,'triage_hc','1')
-
-if not isnull(dw_tri.getitemstring(1,'signos')) then
-	if dw_tri.getitemstring(1,'signos')='0' then 	carreta+='SIN SIGNOS VITALES'
-	tab='~n~r'
-end if
-if dw_tri.getitemnumber(1,'ta_sis')<>0 and not isnull(dw_tri.getitemnumber(1,'ta_sis')) then
-	carreta+='T.A. SISTOLICA:'+string(dw_tri.getitemnumber(1,'ta_sis')) +'	'+' T.A. DIASTOLICA:'+string(dw_tri.getitemnumber(1,'ta_dia')) +'	'+'T.A. MEDIA:'+string(dw_tri.getitemnumber(1,'ta_med'),'0.00') 
-	tab='~n~r'
-end if
-if not isnull(dw_tri.getitemnumber(1,'t')) then
-	carreta+=tab+'T(ºC): '+string(dw_tri.getitemnumber(1,'t'))
-	tab='	'
-end if
-if not isnull(dw_tri.getitemnumber(1,'fc')) then
-	carreta+=tab+'FC: '+string(dw_tri.getitemnumber(1,'fc'))
-	tab='	'
-end if
-if not isnull(dw_tri.getitemnumber(1,'fr')) then
-	carreta+=tab+'FR: '+string(dw_tri.getitemnumber(1,'fr'))
-	tab='	'
-end if
-if not isnull(dw_tri.getitemnumber(1,'per_br')) then
-	carreta+=tab+'Perímetro Braquial: '+string(dw_tri.getitemnumber(1,'per_br'))
-	tab='~n~r'
-end if
-
-if not isnull(dw_tri.getitemnumber(1,'talla')) then
-	carreta+=tab+'Talla(cms): '+string(dw_tri.getitemnumber(1,'talla'))
-	tab='	'
-end if
-if not isnull(dw_tri.getitemnumber(1,'peso')) then
-	carreta+=tab+'Peso(Kg): '+string(dw_tri.getitemnumber(1,'peso'))
-	tab='	'
-end if
-if not isnull(dw_tri.getitemnumber(1,'peso')) and not isnull(dw_tri.getitemnumber(1,'talla')) then
-	carreta+=tab+'IMC: '+string(  dw_tri.getitemnumber(1,'IMC'),'0.00' )
-	tab='~n~r'
-end if
-
-if not isnull(dw_tri.getitemstring(1,'clasif')) then
-	triag=dw_tri.getitemstring(1,'clasif')
-	select color into :descrip from hosp_triage where cod_triage=:triag;
-	carreta+=tab+'Clasif: '+triag+' - '+descrip
-	tab='	'
-end if
-
-if not isnull(dw_tri.getitemnumber(1,'SAT02')) then
-	carreta+=tab+'SatO2(%): '+string(dw_tri.getitemnumber(1,'SAT02'))
-	tab='	'
-end if
-
-if not isnull(dw_tri.getitemstring(1,'discap')) then
-	if dw_tri.getitemstring(1,'discap') ='1' then 
-		triag='SI'  
-	else 
-		triag='NO' 
-	end if
-	carreta+=tab+'Persona en condición de Discapacidad: '+ triag
-	tab='	'
-end if
-
-if not isnull(dw_tri.getitemnumber(1,'o')) then
-	carreta+=tab+'Glasgow: '+string(dw_tri.getitemnumber(1,'total'))
-	tab='~n~r'	
-end if
-
-if dw_tri.getitemstring(1,'at_inicial')<>'' and not isnull(dw_tri.getitemstring(1,'at_inicial')) then
-	carreta+=tab+'Atención Inicial: '+dw_tri.getitemstring(1,'at_inicial')
-	tab='	'
-end if
-f_pega_a_mle(i_mle,carreta+'~r~n',2)
-
-end event
-
-type pb_1 from picturebutton within uo_barra_hc
-boolean visible = false
-integer x = 315
-integer y = 32
-integer width = 146
-integer height = 128
-integer taborder = 30
-integer textsize = -10
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-boolean originalsize = true
-string picturename = "editar.gif"
-alignment htextalign = left!
-string powertiptext = "Traer información desde Plantillas de Campos"
-end type
-
-event clicked;if i_uo_padre.dw_1.rowcount()=0 or i_uo_padre.dw_new.rowcount()=0 then return
-if pos('2347',i_uo_padre.i_tingre)>0 and i_uo_padre.i_estado_hadm<>'1' and i_uo_padre.i_puede_modif=false then
-	messagebox('Atención','La admisión ya se encuentra cerrada')
-	return
-end if
-st_rte st
-st.c_prof = i_cprof
-st.mle = i_mle
-st.dw_pac = w_principal.dw_1
-st.codplantilla=i_cplant
-st.numcampo=i_ncampo
-st.ventana = i_uo_padre.i_modo
-st.dw_data = idw_frm
-openwithparm(w_plants_txt_campos,st)
-
-end event
-
-type pb_save from picturebutton within uo_barra_hc
-integer x = 160
-integer y = 32
-integer width = 146
-integer height = 128
-integer taborder = 10
-integer textsize = -10
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-boolean originalsize = true
-string picturename = "guardar.gif"
-alignment htextalign = left!
-string powertiptext = "Guardar cambios de Historia"
-end type
-
-event clicked;if pos('2347T',i_uo_padre.i_tingre)>0 and i_uo_padre.i_estado_hadm<>'1' and i_uo_padre.i_puede_modif=false then
-	messagebox('Atención','La admisión ya se encuentra cerrada')
-	return
-end if
-if i_uo_padre.i_ptipo='H' and i_uo_padre.i_pingsal='I' then
-	int totales		
-	select count(hospprimerorden.tipo) into :totales
-	from hospprimerorden
-	where (((hospprimerorden.tingre)=:i_uo_padre.i_tingre) and ((hospprimerorden.codplantilla)=:i_cplant));
-	if totales>0 then 
-		setnull(totales)
-		select count(oscabeza.nsolicitud)into :totales
-		from oscabeza
-		group by oscabeza.contador, oscabeza.clugar
-		having (((oscabeza.contador)=:i_contador) and ((oscabeza.clugar)=:i_clug));
-		if isnull(totales) or totales=0 then
-			i_uo_padre.ipb_new_orden.tag=i_cplant
-			if i_uo_padre.ipb_new_orden.event clicked()=-1 then
-				i_uo_padre.i_pudo_orden=false
-				return -1
-			end if
-		end if
-	end if
-end if
-if i_uo_padre.grabar()=-1 then
-	sqlca.autocommit=false
-	rollback;
-else
-	sqlca.autocommit=false
-	commit;
-end if
 end event
 
 type pb_guia from picturebutton within uo_barra_hc
@@ -1758,27 +1465,6 @@ if isvalid(st_memo) then
 	 i_mle.Copy()
 end if
 	
-end event
-
-type dw_tri from datawindow within uo_barra_hc
-event key pbm_dwnkey
-boolean visible = false
-integer x = 645
-integer width = 3803
-integer height = 264
-integer taborder = 60
-string title = "none"
-string dataobject = "dw_triage_resu"
-boolean hscrollbar = true
-boolean border = false
-boolean livescroll = true
-end type
-
-event key;//if key=i_uo_padre.i_nextitem or key=i_uo_padre.i_previtem or key=i_uo_padre.i_nextchild then parent.event navegar(key)
-if key=i_nextitem or key=i_previtem or key=i_nextchild then parent.event navegar(key)
-end event
-
-event constructor;settransobject(sqlca)
 end event
 
 type dw_diags from datawindow within uo_barra_hc
@@ -2061,5 +1747,315 @@ event doubleclicked;choose case dwo.name
 		i_st.text=st_diag.descripcion
 		i_uo_padre.i_cambia=true
 end choose
+end event
+
+type pb_tri from picturebutton within uo_barra_hc
+boolean visible = false
+integer x = 315
+integer y = 32
+integer width = 146
+integer height = 128
+integer taborder = 30
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+boolean originalsize = true
+string picturename = "llevar.gif"
+string disabledname = "d_llevar.gif"
+alignment htextalign = left!
+string powertiptext = "Colocar datos de Triage en Historia"
+end type
+
+event clicked;if ( (not isnull(dw_tri.getitemnumber(1,'m'))) or (not isnull(dw_tri.getitemnumber(1,'o'))) or (not isnull(dw_tri.getitemnumber(1,'v'))) ) and (isnull(dw_tri.getitemnumber(1,'total'))) then
+	messagebox('Atención','Debe completar los datos de la escala de Glasgow')
+	return 
+end if
+
+string carreta,tab,triag,descrip
+dw_tri.setitem(1,'triage_hc','1')
+
+if not isnull(dw_tri.getitemstring(1,'signos')) then
+	if dw_tri.getitemstring(1,'signos')='0' then 	carreta+='SIN SIGNOS VITALES'
+	tab='~n~r'
+end if
+if dw_tri.getitemnumber(1,'ta_sis')<>0 and not isnull(dw_tri.getitemnumber(1,'ta_sis')) then
+	carreta+='T.A. SISTOLICA:'+string(dw_tri.getitemnumber(1,'ta_sis')) +'	'+' T.A. DIASTOLICA:'+string(dw_tri.getitemnumber(1,'ta_dia')) +'	'+'T.A. MEDIA:'+string(dw_tri.getitemnumber(1,'ta_med'),'0.00') 
+	tab='~n~r'
+end if
+if not isnull(dw_tri.getitemnumber(1,'t')) then
+	carreta+=tab+'T(ºC): '+string(dw_tri.getitemnumber(1,'t'))
+	tab='	'
+end if
+if not isnull(dw_tri.getitemnumber(1,'fc')) then
+	carreta+=tab+'FC: '+string(dw_tri.getitemnumber(1,'fc'))
+	tab='	'
+end if
+if not isnull(dw_tri.getitemnumber(1,'fr')) then
+	carreta+=tab+'FR: '+string(dw_tri.getitemnumber(1,'fr'))
+	tab='	'
+end if
+if not isnull(dw_tri.getitemnumber(1,'per_br')) then
+	carreta+=tab+'Perímetro Braquial: '+string(dw_tri.getitemnumber(1,'per_br'))
+	tab='~n~r'
+end if
+
+if not isnull(dw_tri.getitemnumber(1,'talla')) then
+	carreta+=tab+'Talla(cms): '+string(dw_tri.getitemnumber(1,'talla'))
+	tab='	'
+end if
+if not isnull(dw_tri.getitemnumber(1,'peso')) then
+	carreta+=tab+'Peso(Kg): '+string(dw_tri.getitemnumber(1,'peso'))
+	tab='	'
+end if
+if not isnull(dw_tri.getitemnumber(1,'peso')) and not isnull(dw_tri.getitemnumber(1,'talla')) then
+	carreta+=tab+'IMC: '+string(  dw_tri.getitemnumber(1,'IMC'),'0.00' )
+	tab='~n~r'
+end if
+
+if not isnull(dw_tri.getitemstring(1,'clasif')) then
+	triag=dw_tri.getitemstring(1,'clasif')
+	select color into :descrip from hosp_triage where cod_triage=:triag;
+	carreta+=tab+'Clasif: '+triag+' - '+descrip
+	tab='	'
+end if
+
+if not isnull(dw_tri.getitemnumber(1,'SAT02')) then
+	carreta+=tab+'SatO2(%): '+string(dw_tri.getitemnumber(1,'SAT02'))
+	tab='	'
+end if
+
+if not isnull(dw_tri.getitemstring(1,'discap')) then
+	if dw_tri.getitemstring(1,'discap') ='1' then 
+		triag='SI'  
+	else 
+		triag='NO' 
+	end if
+	carreta+=tab+'Persona en condición de Discapacidad: '+ triag
+	tab='	'
+end if
+
+if not isnull(dw_tri.getitemnumber(1,'o')) then
+	carreta+=tab+'Glasgow: '+string(dw_tri.getitemnumber(1,'total'))
+	tab='~n~r'	
+end if
+
+if dw_tri.getitemstring(1,'at_inicial')<>'' and not isnull(dw_tri.getitemstring(1,'at_inicial')) then
+	carreta+=tab+'Atención Inicial: '+dw_tri.getitemstring(1,'at_inicial')
+	tab='	'
+end if
+f_pega_a_mle(i_mle,carreta+'~r~n',2)
+
+end event
+
+type pb_1 from picturebutton within uo_barra_hc
+boolean visible = false
+integer x = 315
+integer y = 32
+integer width = 146
+integer height = 128
+integer taborder = 30
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+boolean originalsize = true
+string picturename = "editar.gif"
+alignment htextalign = left!
+string powertiptext = "Traer información desde Plantillas de Campos"
+end type
+
+event clicked;if i_uo_padre.dw_1.rowcount()=0 or i_uo_padre.dw_new.rowcount()=0 then return
+if pos('2347',i_uo_padre.i_tingre)>0 and i_uo_padre.i_estado_hadm<>'1' and i_uo_padre.i_puede_modif=false then
+	messagebox('Atención','La admisión ya se encuentra cerrada')
+	return
+end if
+st_rte st
+st.c_prof = i_cprof
+st.mle = i_mle
+st.dw_pac = w_principal.dw_1
+st.codplantilla=i_cplant
+st.numcampo=i_ncampo
+st.ventana = i_uo_padre.i_modo
+st.dw_data = idw_frm
+openwithparm(w_plants_txt_campos,st)
+
+end event
+
+type pb_lleva from picturebutton within uo_barra_hc
+boolean visible = false
+integer x = 315
+integer y = 32
+integer width = 146
+integer height = 128
+integer taborder = 20
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+boolean originalsize = true
+string picturename = "editar_borrar.gif"
+string disabledname = "d_editar_borrar.gif"
+alignment htextalign = left!
+string powertiptext = "Colocar plantilla y datos de Diags."
+end type
+
+event clicked;
+UpdateRTE()
+
+idw_frm.setitem(idw_frm.getrow(),'memo_'+string(i_ncampo),i_mle.text)	
+
+
+end event
+
+type pb_medi from picturebutton within uo_barra_hc
+boolean visible = false
+integer x = 315
+integer y = 32
+integer width = 146
+integer height = 128
+integer taborder = 60
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+boolean originalsize = true
+string picturename = "anestesia.gif"
+string disabledname = "d_anestesia.gif"
+alignment htextalign = left!
+string powertiptext = "Atender Anestesia"
+end type
+
+event clicked;if i_uo_padre.dw_1.rowcount()=0 or i_uo_padre.dw_new.rowcount()=0 then return
+if pos('2347',i_uo_padre.i_tingre)>0 and i_uo_padre.i_estado_hadm<>'1' and i_uo_padre.i_puede_modif=false then
+	messagebox('Atención','La admisión ya se encuentra cerrada')
+	return
+end if
+st_xa_procs_hc st
+st.contador=i_contador
+st.clug=i_clug
+st.ncampo=i_ncampo
+st.cesp=i_cesp
+st.cprof=i_cprof
+st.tingres=i_tingres
+//st.dw_procs=i_uo_padre.dw_procs_form
+st.cemp=i_cemp
+st.ccont=i_ccont
+st.fecha=datetime(i_uo_padre.em_1.text)
+openwithparm(w_baja_medi,st)
+if i_uo_padre.dw_procs_new.rowcount()>0 then i_uo_padre.i_cambia=true
+end event
+
+type pb_save from picturebutton within uo_barra_hc
+integer x = 160
+integer y = 32
+integer width = 146
+integer height = 128
+integer taborder = 10
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+boolean originalsize = true
+string picturename = "guardar.gif"
+alignment htextalign = left!
+string powertiptext = "Guardar cambios de Historia"
+end type
+
+event clicked;if pos('2347T',i_uo_padre.i_tingre)>0 and i_uo_padre.i_estado_hadm<>'1' and i_uo_padre.i_puede_modif=false then
+	messagebox('Atención','La admisión ya se encuentra cerrada')
+	return
+end if
+if i_uo_padre.i_ptipo='H' and i_uo_padre.i_pingsal='I' then
+	int totales		
+	select count(hospprimerorden.tipo) into :totales
+	from hospprimerorden
+	where (((hospprimerorden.tingre)=:i_uo_padre.i_tingre) and ((hospprimerorden.codplantilla)=:i_cplant));
+	if totales>0 then 
+		setnull(totales)
+		select count(oscabeza.nsolicitud)into :totales
+		from oscabeza
+		group by oscabeza.contador, oscabeza.clugar
+		having (((oscabeza.contador)=:i_contador) and ((oscabeza.clugar)=:i_clug));
+		if isnull(totales) or totales=0 then
+			i_uo_padre.ipb_new_orden.tag=i_cplant
+			if i_uo_padre.ipb_new_orden.event clicked()=-1 then
+				i_uo_padre.i_pudo_orden=false
+				return -1
+			end if
+		end if
+	end if
+end if
+if i_uo_padre.grabar()=-1 then
+	sqlca.autocommit=false
+	rollback;
+else
+	sqlca.autocommit=false
+	commit;
+end if
+end event
+
+type pb_antecedente from picturebutton within uo_barra_hc
+boolean visible = false
+integer x = 457
+integer y = 32
+integer width = 146
+integer height = 128
+integer taborder = 60
+boolean bringtotop = true
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+string picturename = "antecedente.gif"
+alignment htextalign = left!
+string powertiptext = "Verifica Antecedentes del Paciente"
+end type
+
+event clicked;st_rte st
+st.c_prof = i_cprof
+st.mle = i_mle
+st.dw_pac = w_principal.dw_1
+st.codplantilla=i_cplant
+st.numcampo=i_ncampo
+st.ventana = i_uo_padre.i_modo
+st.c_otro=i_codant
+st.dw_data = idw_frm
+if i_alergia='1' then 
+	openwithparm(w_alergias_paciente,st)
+else
+	openwithparm(w_antecedentes_paciente,st)
+end if
+end event
+
+type dw_tri from datawindow within uo_barra_hc
+event key pbm_dwnkey
+boolean visible = false
+integer x = 645
+integer width = 4032
+integer height = 292
+integer taborder = 60
+string title = "none"
+string dataobject = "dw_triage_resu"
+boolean border = false
+end type
+
+event key;//if key=i_uo_padre.i_nextitem or key=i_uo_padre.i_previtem or key=i_uo_padre.i_nextchild then parent.event navegar(key)
+if key=i_nextitem or key=i_previtem or key=i_nextchild then parent.event navegar(key)
+end event
+
+event constructor;settransobject(sqlca)
 end event
 

@@ -2694,8 +2694,8 @@ end event
 
 type pb_pvisible from picturebutton within uo_hclin
 boolean visible = false
-integer x = 4110
-integer y = 884
+integer x = 4087
+integer y = 900
 integer width = 759
 integer height = 92
 integer taborder = 20
@@ -4150,6 +4150,7 @@ end event
 
 type dw_1 from datawindow within uo_hclin
 event keypress pbm_dwnkey
+boolean visible = false
 integer x = 14
 integer y = 1032
 integer width = 4800
@@ -4456,10 +4457,11 @@ event clicked;if row>0 and row<>getrow() then setrow(row)
 end event
 
 type mle_2 from multilineedit within uo_hclin
-integer x = 1568
+boolean visible = false
+integer x = 1563
 integer y = 1028
-integer width = 480
-integer height = 400
+integer width = 4402
+integer height = 1152
 integer taborder = 40
 boolean bringtotop = true
 integer textsize = -10
@@ -4494,8 +4496,10 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type mle_1 from uo_multilineedit within uo_hclin
-integer x = 2094
-integer y = 84
+integer x = 2098
+integer y = 88
+integer width = 3849
+integer height = 628
 integer taborder = 50
 boolean bringtotop = true
 end type
