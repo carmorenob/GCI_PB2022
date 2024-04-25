@@ -762,6 +762,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\salaqx.pbl,w_qx_sinprog,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\costos_asis.pbl,dw_sum_mvto_cpo_costos,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\citas.pbl,dw_citas_os,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\Odonto.pbl,dw_cop,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\pyp_asis.pbl,dw_tab_erc_a1hb,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\salaqx.pbl,w_programa_cir,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\abonos.pbl,dw_abonos_odo_det,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\rips.pbl,st_nradica,s
