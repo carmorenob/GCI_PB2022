@@ -974,10 +974,15 @@ choose case i_tingre
 			end if
 			
 			///Agrega para controlar formulacion oxigeno
-			if rips='7' and g_formula = true and oxi='1' then 
-				openwithparm(w_formulacion_oxigeno,tab_1.tp_2.dw_formula)
+			if gi_rips_oxigeno=1 then
+				if g_formula = true and oxi='1' then 
+					openwithparm(w_formulacion_oxigeno,tab_1.tp_2.dw_formula)
+				end if
+			else
+				if rips='7' and g_formula = true and oxi='1' then 
+					openwithparm(w_formulacion_oxigeno,tab_1.tp_2.dw_formula)
+				end if
 			end if
-			
 			
 			g_formula=true
 			setnull(sle_otros.text)

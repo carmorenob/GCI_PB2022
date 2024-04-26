@@ -389,6 +389,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,dw_acum_soat,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_horario,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_cruce_xa_pac,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\citas.pbl,dw_atiende_tto_cita,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\pyp_asis.pbl,dw_tab_erc_anemia,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\salaqx.pbl,st_prog_cir,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\rep_compuesto.pbl,asis_int_3047_urgencias,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,w_principal,w
@@ -602,6 +603,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,w_cirugias,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\fac_electronica.pbl,st_retorno_gral,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\Odonto.pbl,st_fact,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,dw_profe_valida_interfaz_quimberlab,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\pyp_asis.pbl,dw_tab_erc_ldl,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\bancos.pbl,dw_bolsa_dispon,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\salaqx.pbl,dw_horario_qx,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hospital.pbl,dw_tab_cups_urgencias,d
