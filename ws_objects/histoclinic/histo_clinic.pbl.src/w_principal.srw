@@ -308,6 +308,15 @@ If g_biometria='1' then
 	End If
 	huella_total.Object.CapInitialize()
 end if
+
+SELECT cadena into :gs_oxigeno
+FROM parametros_gen
+WHERE (((codigo_para)=78));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 78 Oxigeno')
+	return 
+end if
+
 end event
 
 event resize;post event toolbarmoved()

@@ -784,14 +784,6 @@ if sqlca.sqlnrows=0 then
 	return 
 end if
 
-SELECT cadena into :gs_oxigeno
-FROM parametros_gen
-WHERE (((codigo_para)=78));
-if sqlca.sqlnrows=0 then
-	messagebox('Atencíon','No hay parametro 78 Oxigeno')
-	return 
-end if
-
 g_ctrlv='0'
 closewithreturn(parent,'1')
 
