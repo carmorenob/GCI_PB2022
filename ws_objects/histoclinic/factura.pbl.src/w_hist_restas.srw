@@ -56,7 +56,7 @@ end type
 end forward
 
 global type w_hist_restas from window
-integer width = 3918
+integer width = 4155
 integer height = 1916
 boolean titlebar = true
 string title = "Cambiar responsable a facturas ya radicadas"
@@ -157,7 +157,7 @@ end if
 end event
 
 type pb_6 from picturebutton within w_hist_restas
-integer x = 3081
+integer x = 3154
 integer y = 204
 integer width = 146
 integer height = 128
@@ -199,7 +199,7 @@ if not isnull(dw_1.getitemstring(dw_1.getrow(),'estado_refact')) then return
 end event
 
 type pb_1 from picturebutton within w_hist_restas
-integer x = 3081
+integer x = 3154
 integer y = 64
 integer width = 146
 integer height = 128
@@ -224,7 +224,7 @@ if j<>dw_1.rowcount() then i_cambio=true
 end event
 
 type pb_save from picturebutton within w_hist_restas
-integer x = 3081
+integer x = 3154
 integer y = 452
 integer width = 146
 integer height = 128
@@ -246,7 +246,7 @@ end event
 
 type tab_1 from tab within w_hist_restas
 integer y = 612
-integer width = 3753
+integer width = 3986
 integer height = 1128
 integer taborder = 30
 integer textsize = -8
@@ -281,7 +281,7 @@ end on
 type tp_1 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 3717
+integer width = 3950
 integer height = 1000
 long backcolor = 67108864
 string text = "Refacturar"
@@ -327,7 +327,7 @@ end on
 
 type pb_cerrar_fact from picturebutton within tp_1
 string tag = "Cerrar factura Modificaca"
-integer x = 2235
+integer x = 2382
 integer y = 192
 integer width = 146
 integer height = 128
@@ -364,7 +364,7 @@ if grabar()=-1 then dw_1.event rowfocuschanged(dw_1.getrow())
 end event
 
 type pb_5 from picturebutton within tp_1
-integer x = 2240
+integer x = 2386
 integer y = 540
 integer width = 146
 integer height = 128
@@ -408,7 +408,7 @@ i_cambio=true
 end event
 
 type pb_3 from picturebutton within tp_1
-integer x = 2235
+integer x = 2382
 integer y = 56
 integer width = 146
 integer height = 128
@@ -436,7 +436,7 @@ dw_facts.event rowfocuschanged(dw_facts.getrow())
 end event
 
 type st_2 from statictext within tp_1
-integer x = 2405
+integer x = 2574
 integer width = 1102
 integer height = 52
 integer textsize = -8
@@ -453,7 +453,7 @@ boolean focusrectangle = false
 end type
 
 type dw_news from datawindow within tp_1
-integer x = 2400
+integer x = 2569
 integer y = 56
 integer width = 1303
 integer height = 896
@@ -517,7 +517,7 @@ end type
 type dw_facts from datawindow within tp_1
 integer x = 5
 integer y = 56
-integer width = 2208
+integer width = 2345
 integer height = 900
 integer taborder = 20
 string title = "none"
@@ -585,7 +585,7 @@ end event
 type tp_2 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 3717
+integer width = 3950
 integer height = 1000
 long backcolor = 67108864
 string text = "Facturas de la Rad."
@@ -610,8 +610,8 @@ destroy(this.dw_resto)
 end on
 
 type pb_4 from picturebutton within tp_2
-integer x = 2144
-integer y = 16
+integer x = 3328
+integer y = 24
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -666,7 +666,7 @@ end event
 
 type dw_resto from datawindow within tp_2
 integer y = 12
-integer width = 2075
+integer width = 3291
 integer height = 940
 integer taborder = 30
 string title = "none"
@@ -692,7 +692,7 @@ end event
 type dw_1 from datawindow within w_hist_restas
 integer x = 23
 integer y = 56
-integer width = 3031
+integer width = 3095
 integer height = 516
 integer taborder = 10
 string title = "none"
@@ -738,7 +738,7 @@ openwithparm(w_funcion_dw,st_dw)
 end event
 
 type gb_1 from groupbox within w_hist_restas
-integer width = 3282
+integer width = 3360
 integer height = 608
 integer taborder = 10
 integer textsize = -8

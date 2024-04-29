@@ -14,7 +14,7 @@ end forward
 
 global type w_busca_radicaciones from window
 integer width = 3447
-integer height = 1036
+integer height = 1040
 boolean titlebar = true
 string title = "Radicaciones Contabilizadas y que están en cartera."
 boolean controlmenu = true
@@ -57,8 +57,26 @@ event open;i_dw=message.powerobjectparm
 end event
 
 type pb_3 from picturebutton within w_busca_radicaciones
-integer x = 1682
-integer y = 776
+integer x = 1669
+integer y = 772
+integer width = 146
+integer height = 128
+integer taborder = 50
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+boolean originalsize = true
+string picturename = "ayuda.gif"
+string disabledname = "d_ayuda.gif"
+alignment htextalign = left!
+end type
+
+type pb_2 from picturebutton within w_busca_radicaciones
+integer x = 1499
+integer y = 772
 integer width = 146
 integer height = 128
 integer taborder = 40
@@ -68,27 +86,6 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
-boolean flatstyle = true
-boolean originalsize = true
-string picturename = "ayuda.gif"
-string disabledname = "d_ayuda.gif"
-alignment htextalign = left!
-end type
-
-type pb_2 from picturebutton within w_busca_radicaciones
-integer x = 1527
-integer y = 776
-integer width = 146
-integer height = 128
-integer taborder = 30
-integer textsize = -10
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-boolean cancel = true
-boolean flatstyle = true
 boolean originalsize = true
 string picturename = "cancelar.gif"
 string disabledname = "d_cancelar.gif"
@@ -100,19 +97,17 @@ event clicked;close(parent)
 end event
 
 type pb_1 from picturebutton within w_busca_radicaciones
-integer x = 1371
-integer y = 776
+integer x = 1335
+integer y = 772
 integer width = 146
 integer height = 128
-integer taborder = 20
+integer taborder = 30
 integer textsize = -10
 integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
-boolean default = true
-boolean flatstyle = true
 boolean originalsize = true
 string picturename = "aceptar.gif"
 string disabledname = "d_aceptar.gif"

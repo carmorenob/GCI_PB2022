@@ -25,7 +25,7 @@ end type
 end forward
 
 global type w_refactura from w_factura_base
-integer width = 5138
+integer width = 5829
 integer height = 2488
 boolean minbox = false
 boolean maxbox = false
@@ -609,6 +609,9 @@ i_mueve_kardex='0'
 end event
 
 type sle_siras from w_factura_base`sle_siras within w_refactura
+boolean visible = false
+integer x = 4050
+integer y = 388
 end type
 
 type ddlb_archivos from w_factura_base`ddlb_archivos within w_refactura
@@ -639,12 +642,11 @@ end type
 
 type pb_reci from w_factura_base`pb_reci within w_refactura
 boolean visible = false
-integer x = 3584
+integer x = 3666
 integer y = 1372
 integer width = 59
 integer height = 48
 boolean enabled = false
-boolean originalsize = false
 end type
 
 type pb_factu from w_factura_base`pb_factu within w_refactura
@@ -653,14 +655,14 @@ integer y = 492
 end type
 
 type dw_factadm from w_factura_base`dw_factadm within w_refactura
-integer x = 3589
+integer x = 3671
 integer y = 1084
 integer width = 55
 integer height = 36
 end type
 
 type dw_admis from w_factura_base`dw_admis within w_refactura
-integer x = 3589
+integer x = 3671
 integer y = 1040
 integer width = 55
 integer height = 36
@@ -668,39 +670,36 @@ end type
 
 type st_ayuda from w_factura_base`st_ayuda within w_refactura
 boolean visible = true
-integer x = 247
+integer x = 329
 integer y = 2056
 integer width = 1349
 end type
 
 type pb_kit from w_factura_base`pb_kit within w_refactura
 boolean visible = false
-integer x = 3589
+integer x = 3671
 integer y = 1812
 boolean enabled = false
 end type
 
 type cbx_equiv from w_factura_base`cbx_equiv within w_refactura
+integer x = 1618
 integer y = 884
 end type
 
 type cbx_3 from w_factura_base`cbx_3 within w_refactura
+integer x = 791
 integer y = 884
 end type
 
-type pb_pagares from w_factura_base`pb_pagares within w_refactura
-integer x = 4078
-integer y = 208
-boolean originalsize = false
-end type
-
 type st_cuant from w_factura_base`st_cuant within w_refactura
+integer x = 3045
 integer y = 936
 end type
 
 type cbx_2 from w_factura_base`cbx_2 within w_refactura
 boolean visible = false
-integer x = 3579
+integer x = 3662
 integer y = 1304
 integer width = 69
 boolean enabled = false
@@ -713,7 +712,7 @@ end type
 
 type pb_req_cont from w_factura_base`pb_req_cont within w_refactura
 boolean visible = false
-integer x = 3589
+integer x = 3671
 integer y = 1680
 boolean enabled = false
 end type
@@ -727,7 +726,7 @@ end type
 
 type sle_proc from w_factura_base`sle_proc within w_refactura
 boolean visible = false
-integer x = 3589
+integer x = 3671
 integer y = 1856
 integer width = 50
 integer height = 36
@@ -736,7 +735,7 @@ end type
 
 type gb_8 from w_factura_base`gb_8 within w_refactura
 boolean visible = false
-integer x = 3584
+integer x = 3666
 integer y = 1536
 integer width = 59
 integer height = 48
@@ -744,7 +743,7 @@ end type
 
 type gb_7 from w_factura_base`gb_7 within w_refactura
 boolean visible = false
-integer x = 3584
+integer x = 3666
 integer y = 1580
 integer width = 59
 integer height = 48
@@ -760,12 +759,13 @@ boolean enabled = false
 end type
 
 type st_4 from w_factura_base`st_4 within w_refactura
+integer x = 105
 integer y = 936
 end type
 
 type st_3 from w_factura_base`st_3 within w_refactura
 boolean visible = false
-integer x = 3589
+integer x = 3671
 integer y = 988
 integer width = 55
 integer height = 44
@@ -783,7 +783,7 @@ end type
 
 type pb_borra from w_factura_base`pb_borra within w_refactura
 boolean visible = false
-integer x = 3589
+integer x = 3671
 integer y = 1768
 boolean enabled = false
 end type
@@ -804,7 +804,7 @@ end type
 
 type st_2 from w_factura_base`st_2 within w_refactura
 boolean visible = false
-integer x = 3589
+integer x = 3671
 integer y = 936
 integer width = 55
 integer height = 44
@@ -813,7 +813,7 @@ end type
 
 type st_1 from w_factura_base`st_1 within w_refactura
 boolean visible = false
-integer x = 3589
+integer x = 3671
 integer y = 884
 integer width = 55
 integer height = 44
@@ -845,7 +845,7 @@ end type
 
 type pb_buscar from w_factura_base`pb_buscar within w_refactura
 boolean visible = false
-integer x = 3589
+integer x = 3671
 integer y = 1724
 integer width = 151
 integer height = 132
@@ -854,7 +854,7 @@ end type
 
 type dw_tip_ingres from w_factura_base`dw_tip_ingres within w_refactura
 boolean visible = false
-integer x = 3589
+integer x = 3671
 integer y = 832
 integer width = 55
 integer height = 44
@@ -862,7 +862,9 @@ boolean enabled = false
 end type
 
 type dw_resumen from w_factura_base`dw_resumen within w_refactura
+integer x = 101
 integer y = 1660
+integer width = 5344
 integer height = 504
 boolean resizable = false
 borderstyle borderstyle = stylelowered!
@@ -882,7 +884,6 @@ end type
 
 type gb_1 from w_factura_base`gb_1 within w_refactura
 boolean visible = false
-integer x = 3579
 integer y = 1480
 integer width = 64
 integer height = 60
@@ -891,7 +892,7 @@ end type
 
 type gb_2 from w_factura_base`gb_2 within w_refactura
 boolean visible = false
-integer x = 3579
+integer x = 3662
 integer y = 1428
 integer width = 64
 integer height = 56
@@ -900,7 +901,7 @@ end type
 
 type gb_3 from w_factura_base`gb_3 within w_refactura
 boolean visible = false
-integer x = 3584
+integer x = 3666
 integer y = 1628
 integer width = 59
 integer height = 48
@@ -914,21 +915,21 @@ end type
 
 type pb_paci from w_factura_base`pb_paci within w_refactura
 boolean visible = false
-integer x = 3584
+integer x = 3666
 integer y = 1128
 boolean enabled = false
 end type
 
 type pb_emp from w_factura_base`pb_emp within w_refactura
 boolean visible = false
-integer x = 3584
+integer x = 3666
 integer y = 1188
 boolean enabled = false
 end type
 
 type pb_reimprimir from w_factura_base`pb_reimprimir within w_refactura
 boolean visible = false
-integer x = 3584
+integer x = 3666
 integer y = 1248
 boolean enabled = false
 end type
@@ -954,6 +955,7 @@ boolean originalsize = false
 end type
 
 type st_5 from w_factura_base`st_5 within w_refactura
+integer x = 494
 integer y = 936
 end type
 
@@ -968,12 +970,11 @@ end type
 type pb_pagare from w_factura_base`pb_pagare within w_refactura
 integer x = 3589
 integer y = 292
-integer height = 52
 boolean enabled = false
-boolean originalsize = false
 end type
 
 type pb_parcial from w_factura_base`pb_parcial within w_refactura
+integer x = 101
 integer y = 1728
 end type
 
@@ -993,7 +994,9 @@ integer height = 48
 end type
 
 type dw_factura from w_factura_base`dw_factura within w_refactura
+integer x = 101
 integer y = 1016
+integer width = 5339
 integer height = 656
 boolean resizable = false
 boolean border = true
@@ -1001,9 +1004,9 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type gb_4 from w_factura_base`gb_4 within w_refactura
-integer x = 347
+integer x = 101
 integer y = 868
-integer width = 3689
+integer width = 5422
 integer height = 1200
 end type
 
@@ -1027,6 +1030,19 @@ boolean enabled = false
 end type
 
 type st_siras from w_factura_base`st_siras within w_refactura
+end type
+
+type cbx_4 from w_factura_base`cbx_4 within w_refactura
+end type
+
+type pb_pagares from w_factura_base`pb_pagares within w_refactura
+integer x = 4078
+integer y = 208
+boolean originalsize = false
+end type
+
+type dw_reccaj_cpo from w_factura_base`dw_reccaj_cpo within w_refactura
+integer x = 151
 end type
 
 type dw_serv_nofactu from datawindow within w_refactura
