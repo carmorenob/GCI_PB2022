@@ -316,14 +316,6 @@ if sqlca.sqlnrows=0 then
 	messagebox('Atencíon','No hay parametro 78 Oxigeno')
 	return 
 end if
-
-SELECT entero into :gi_rips_oxigeno
-FROM parametros_gen
-WHERE (((codigo_para)=79));
-if sqlca.sqlnrows=0 then
-	messagebox('Atencíon','No hay parametro 79 Rips Oxigeno')
-	return 
-end if
 end event
 
 event resize;post event toolbarmoved()

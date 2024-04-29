@@ -960,7 +960,7 @@ choose case i_tingre
 			tab_1.tp_2.dw_formula.setrow(fila)
 			
 			///Agrega para controlar formulacion
-			if rips='6' and g_formula = true then 
+			if rips='6' and g_formula = true  and oxi<>'1' then 
 				if  isnull(sle_otros.text) or sle_otros.text='' then 
 					openwithparm(w_formulacion,tab_1.tp_2.dw_formula)
 				else
@@ -974,14 +974,8 @@ choose case i_tingre
 			end if
 			
 			///Agrega para controlar formulacion oxigeno
-			if gi_rips_oxigeno=1 then
-				if g_formula = true and oxi='1' then 
-					openwithparm(w_formulacion_oxigeno,tab_1.tp_2.dw_formula)
-				end if
-			else
-				if rips='7' and g_formula = true and oxi='1' then 
-					openwithparm(w_formulacion_oxigeno,tab_1.tp_2.dw_formula)
-				end if
+			if g_formula = true and oxi='1' then 
+				openwithparm(w_formulacion_oxigeno,tab_1.tp_2.dw_formula)
 			end if
 			
 			g_formula=true
