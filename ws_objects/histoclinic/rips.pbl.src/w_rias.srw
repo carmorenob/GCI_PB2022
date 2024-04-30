@@ -5672,9 +5672,13 @@ if is_elec='2' then
 	if tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'estado_dian')<>'1' then return
 	if tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'file_name_fact')='' or isnull(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'file_name_fact')) then return
 	
-	u_eleccc.of_enviar_new_correo(num_radica,clugar_rad,tipo_rad,0,'',tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'file_name_fact'),'C')
+	if u_eleccc.of_enviar_new_correo(num_radica,clugar_rad,tipo_rad,0,'',tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'file_name_fact'),'C')=-1 then
+		messagebox('','Proceso con errores')
+	else
+		messagebox('','Proceso Finalizado')
+	end if
 	destroy u_eleccc
-	messagebox('','Proceso Finalizado')
+
 else
 	messagebox('','No hay parametro Habilitado')
 end if

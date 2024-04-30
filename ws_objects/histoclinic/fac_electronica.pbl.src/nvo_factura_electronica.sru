@@ -1917,11 +1917,19 @@ if as_origen='C' then
 			ldw_factura.dataobject='dw_factura_electronica_cap_sql' 
 		end if	
 	else
-		if g_motor='postgres' then
-			ldw_factura.dataobject='asis_int_electronica_cap_ndeb'
-		else
-			ldw_factura.dataobject='dw_factura_electronica_cap_sql' 
-		end if			
+		if as_tnota='D' then 
+			if g_motor='postgres' then
+				ldw_factura.dataobject='asis_int_electronica_cap_ndeb'
+			else
+				ldw_factura.dataobject='dw_factura_electronica_cap_sql' 
+			end if	
+		else	
+			if g_motor='postgres' then
+				ldw_factura.dataobject='asis_int_factura_ele_cap'
+			else
+				ldw_factura.dataobject='dw_factura_electronica_cap_sql' 
+			end if			
+		end if
 	end if
 else
 	if g_motor='postgres' then
