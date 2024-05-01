@@ -170,7 +170,7 @@ lx=1
 for li=1 to dw_1.rowcount()
 	if dw_1.getitemstring(li,'ta_desp_tipo')= ltipo  then
 		if lx=1 then
-			if dw_1.getitemnumber(li,'sumas')>1 then
+			if dw_1.getitemnumber(li,'sumas')>=1 then
 				l_apegar=dw_1.getitemstring(li,'ta_desp_tipo')+'~r~n'
 				f_pega_a_rtf(rte_1,l_apegar,2)
 			end if
