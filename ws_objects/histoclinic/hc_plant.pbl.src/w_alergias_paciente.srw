@@ -71,9 +71,9 @@ end event
 type mle_1 from multilineedit within w_alergias_paciente
 boolean visible = false
 integer x = 3013
-integer y = 1540
+integer y = 1520
 integer width = 411
-integer height = 324
+integer height = 84
 integer taborder = 50
 integer textsize = -8
 integer weight = 400
@@ -81,7 +81,6 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
-string text = "none"
 borderstyle borderstyle = stylelowered!
 end type
 
@@ -162,16 +161,18 @@ lx=1
 for li=1 to dw_1.rowcount()
 	if dw_1.getitemstring(li,'ta_desp_tipo')= ltipo  then
 		if lx=1 then
-			if dw_1.getitemnumber(li,'sumas')>1 then
+			if dw_1.getitemnumber(li,'sumas')>=1 then
 				l_apegar=dw_1.getitemstring(li,'ta_desp_tipo')+'~r~n'
-				f_pega_a_mle(mle_1,l_apegar,2)
+				//f_pega_a_mle(mle_1,l_apegar,2)
+				mle_1.text+=l_apegar
 			end if
 		end if
 		lx=lx+1
 	else
 		ltipo= dw_1.getitemstring(li,'ta_desp_tipo')
 		l_apegar='~r~n'+dw_1.getitemstring(li,'ta_desp_tipo')+'~r~n'
-		f_pega_a_mle(mle_1,l_apegar,2)
+		//f_pega_a_mle(mle_1,l_apegar,2)
+		mle_1.text+=l_apegar
 		lx=2
 	end if
 	l_fila=dw_2.insertrow(0)
@@ -232,7 +233,8 @@ for li=1 to dw_1.rowcount()
 	else
 		l_apegar='  ▪  '+dw_1.getitemstring(li,'pa_desp_alergia')+datos +	'~r~n'
 	end if 
-	f_pega_a_mle(mle_1,l_apegar,2)
+//	f_pega_a_mle(mle_1,l_apegar,2)
+	mle_1.text+=l_apegar
 	setnull(datos)
 next
 dw_1.setfilter('')
@@ -243,7 +245,6 @@ if dw_2.update()=-1 then
 	return
 end if
 commit;
-
 i_st.mle.text=(mle_1.text)
 close(f_vent_padre(this))
 

@@ -495,7 +495,8 @@ if ls_vac='0' then
 					l_apegar=l_apegar+'  No Refiere'+'~r~n'	
 			END CHOOSE	
 		end if
-		f_pega_a_mle(mle_1,l_apegar,2)
+		//f_pega_a_mle(mle_1,l_apegar,2)
+		mle_1.text+=l_apegar
 	next
 	dw_1.setfilter('')
 	dw_1.filter()
@@ -504,13 +505,14 @@ else
 	dw_1.filter()
 	for li=1 to dw_1.rowcount()
 		l_apegar='  ▪  '+	dw_1.getitemstring(li,'descripcion')+ ' '+dw_1.getitemstring(li,'dosis')+' '+string(dw_1.getitemdatetime(li,'fechavac'),'dd/mm/yyyy')+'~r~n'
-		f_pega_a_mle(mle_1,l_apegar,2)
+		//f_pega_a_mle(mle_1,l_apegar,2)
+		mle_1.text+=l_apegar
 	next
 	dw_1.setfilter('')
 	dw_1.filter()	
 end if
 dw_1.SetRedraw(true)
-i_st.mle.text=''
+i_st.mle.text=(mle_1.text)
 close(f_vent_padre(this))
 
 end event

@@ -1650,7 +1650,7 @@ end event
 
 type dw_img_new from datawindow within uo_hclin
 integer x = 1582
-integer y = 1036
+integer y = 980
 integer width = 4402
 integer height = 1152
 integer taborder = 70
@@ -2569,7 +2569,7 @@ boolean visible = false
 integer x = 2011
 integer y = 924
 integer width = 2002
-integer height = 60
+integer height = 56
 integer taborder = 50
 integer textsize = -8
 integer weight = 400
@@ -2903,8 +2903,8 @@ end event
 
 type t_procs from tab within uo_hclin
 boolean visible = false
-integer x = 4859
-integer y = 940
+integer x = 4864
+integer y = 892
 integer width = 8498
 integer height = 92
 integer taborder = 70
@@ -3490,8 +3490,8 @@ end event
 type dw_new_det from datawindow within uo_hclin
 event keypres pbm_dwnkey
 event clean_fields ( )
-integer x = 1563
-integer y = 1028
+integer x = 1554
+integer y = 984
 integer width = 4402
 integer height = 1152
 integer taborder = 30
@@ -4151,8 +4151,8 @@ end event
 type dw_1 from datawindow within uo_hclin
 event keypress pbm_dwnkey
 boolean visible = false
-integer x = 14
-integer y = 1032
+integer x = 5
+integer y = 984
 integer width = 4800
 integer height = 1200
 integer taborder = 50
@@ -4458,10 +4458,10 @@ end event
 
 type mle_2 from multilineedit within uo_hclin
 boolean visible = false
-integer x = 1563
-integer y = 1028
+integer x = 1545
+integer y = 984
 integer width = 4402
-integer height = 1152
+integer height = 1200
 integer taborder = 40
 boolean bringtotop = true
 integer textsize = -10
