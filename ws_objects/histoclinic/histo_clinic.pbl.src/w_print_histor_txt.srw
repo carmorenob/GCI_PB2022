@@ -320,7 +320,7 @@ dw_2.setsqlselect(sql_res)
 dw_1.retrieve()
 dw_2.retrieve()
 
-if is_f_imprime='1' then //secuencial 
+if is_f_imprime='2' then //secuencial 
 	dw_1.setsort('hf ds , fecha as , xa_orden as , nregistro as , desplantilla as')
 else //agrupada
 	dw_1.setsort('hf ds , xa_orden_agrup as , fecha as , ')
