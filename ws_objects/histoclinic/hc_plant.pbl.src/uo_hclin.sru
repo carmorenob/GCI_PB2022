@@ -4554,6 +4554,9 @@ else
 			IF keydown(KeyAlt!) THEN 
 				if key=keyv! then return 1
 			end if
+			IF keydown(KeyAlt!) THEN 
+				if key=keyd! then return 1
+			end if			
 		else
 			IF keyflags = 1 THEN
 				if key=keyinsert! then return 1
