@@ -1127,7 +1127,7 @@ event itemchanged;choose case getcolumnname()
 			tingre=getitemstring(getrow(),'codtingre')
 			SELECT Min(ContratoDet.CodManual) into :manual
 			FROM Planes INNER JOIN ContratoDet ON Planes.CodPlan = ContratoDet.Cplan
-			WHERE Planes.es_medica='0' AND ContratoDet.CEmp=:emp AND ContratoDet.CContrato=:cont and ContratoDet.CodTIngre=:tingre;
+			WHERE ((Planes.es_medica='0') AND (ContratoDet.CEmp=:emp) AND (ContratoDet.CContrato=:cont) and (ContratoDet.CodTIngre=:tingre));
 			//dw_cobra.retrieve(manual,tingre)
 			if not isnull(getitemnumber(getrow(),"consec_soat")) then
 				pb_soat.enabled=true
