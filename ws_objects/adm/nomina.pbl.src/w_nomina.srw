@@ -1158,6 +1158,8 @@ l_luto=0
 dias_incpt=0
 l_asjc=0
 
+log.info("Inicia ausentismo "+ tipodoc+documento)
+
 iper.x = tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')
 iper.y = tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina')
 tipo_nomina=tab_n.tpn_1.dw_nomcab.GetItemstring(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo')
@@ -2213,6 +2215,8 @@ end function
 public function integer f_tiempos ();st_interfec iper, icar, iret
 string tipodoc, documento
 long i, aus
+
+log.info("Inicia TIEMPOS "+ tipodoc+documento)
 
 iper.x = tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')
 iper.y = tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina')
@@ -4518,11 +4522,14 @@ if this.GetColumnName() = 'sigla'  or lower(dwo.name)= 'sigla' then
 		this.SetItem(this.GetRow(),'pagado',round(cantidad,0))
 		if round(cantidad,0)>1 then this.SetItem(this.GetRow(),'base',round(cantidad,0))		
 		if GetItemString(GetRow(),'tipo') <> 'L' then 
+			ibn_calculando = true
 			f_retrieveend()
 			if recalcula(tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc'), tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento')) = -1 then
 				MessageBox('Atención','Error reevaluando conceptos')
+				ibn_calculando = false
 				Return -1
 			end if
+			ibn_calculando = false
 		end if
 	end if
 	if dwc_novedad.GetItemString(dwc_novedad.GetRow(),'tercero')='2' then
@@ -4541,6 +4548,7 @@ end if
 
 if this.GetColumnName() = 'cantidad_ac' then
 	if AcceptText() = -1 then Return -1
+	ibn_calculando = true
 	f_retrieveEnd()
 	if filahist = 0 and GetItemString(GetRow(),'tipo') ='L' and dw_historia.RowCount() > 0 then 
 		filahist = 1
@@ -4565,6 +4573,7 @@ if this.GetColumnName() = 'cantidad_ac' then
 		if GetItemString(GetRow(),'tipo') <> 'L' then 
 			if recalcula( tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc'),tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento') ) = -1 then
 				MessageBox('Atención','Error reevaluando conceptos')
+				ibn_calculando = false
 				Return -1
 			end if
 		else
@@ -4586,11 +4595,13 @@ if this.GetColumnName() = 'cantidad_ac' then
 			next
 		end if
 	end if
+	ibn_calculando = false
 end if
 
 if this.GetColumnName() = 'pagado' then
 	string ret
 	if AcceptText() = -1 then Return -1
+	ibn_calculando = true
 	f_retrieveend()
 	if filahist > 0 and not isNull(this.GetItemString(this.GetRow(),'cod_concep')) then
 	 	if round(dw_historia.GetItemNumber(filahist,GetItemString(GetRow(),'sigla')),0) <> double(data) then
@@ -4599,10 +4610,12 @@ if this.GetColumnName() = 'pagado' then
 		if GetItemString(GetRow(),'tipo') <> 'L' then 
 			if recalcula( tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc'),tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento') ) = -1 then
 				MessageBox('Atención','Error reevaluando conceptos')
+				ibn_calculando = false
 				Return -1
 			end if
 		end if
 	end if
+	ibn_calculando = true
 end if
 cambio = TRUE
 calctotal()
@@ -5615,10 +5628,12 @@ ELSE
 		tab_n.tpn_2.dw_empnom.SetItem(f,'ufun_des',uf_des)
 		tab_n.tpn_2.dw_empnom.SetItem(f,'cc_des',cc_des)
 		tab_n.tpn_2.dw_empnom.ScrolltoRow(f)
+		ibn_calculando = TRUE
 		if nomcalc(tab_n.tpn_2.dw_empnom.GetItemString(f,'tipodoc'), tab_n.tpn_2.dw_empnom.GetItemString(f,'documento'),tab_n.tpn_1.dw_nomcab.getitemstring(tab_n.tpn_1.dw_nomcab.getrow(),'esp'),tab_n.tpn_1.dw_nomcab.getitemstring(tab_n.tpn_1.dw_nomcab.getrow(),'tipo')) < 0 then
 			Return
 		end if
 		calctotal()
+		ibn_calculando = FALSE
 		cambio = TRUE
 	else
 		tab_n.tpn_2.dw_empnom.ScrolltoRow(f)
