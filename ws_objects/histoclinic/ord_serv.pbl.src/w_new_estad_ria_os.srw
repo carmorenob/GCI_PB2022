@@ -69,7 +69,7 @@ end type
 end forward
 
 global type w_new_estad_ria_os from window
-integer width = 5650
+integer width = 6039
 integer height = 2120
 boolean titlebar = true
 string title = "Atender Procedimientos / Estado de Rips"
@@ -409,7 +409,7 @@ end type
 type st_desdiag from statictext within w_new_estad_ria_os
 integer x = 544
 integer y = 928
-integer width = 5019
+integer width = 5431
 integer height = 68
 integer textsize = -8
 integer weight = 400
@@ -834,6 +834,7 @@ for j=1 to dw_trae.rowcount()
 			if idw_cc.rowcount()=0 then idw_cc.insertrow(1)
 			donde=dw_rias.insertrow(0)
 			dw_rias.setitem(donde,"c_medica",dw_trae.getitemstring(j,"c_medica"))
+			dw_rias.setitem(donde,"cod_oxig",dw_trae.getitemstring(j,"cod_oxig"))
 			if isnull(dw_trae.getitemstring(j,"codarticulo")) or dw_trae.getitemstring(j,"codarticulo")="" then
 				string art
 				setnull(art)
@@ -845,8 +846,6 @@ for j=1 to dw_trae.rowcount()
 			dw_rias.setitem(donde,'clugar_ent',dw_trae.getitemstring(j,'clugar_ent'))
 			dw_rias.setitem(donde,'numdoc_ent',dw_trae.getitemnumber(j,'numdoc_ent'))
 			dw_rias.setitem(donde,'item_ent',dw_trae.getitemnumber(j,'item_ent'))
-			datetime jaer
-			jaer=dw_trae.getitemdatetime(j,'fecha_venc')
 			if not isnull(dw_trae.getitemdatetime(j,'fecha_venc')) then 
 				dw_rias.setitem(donde,'fecha_venc',dw_trae.getitemdatetime(j,'fecha_venc'))
 				dw_rias.setitem(donde,'lote',dw_trae.getitemstring(j,'lote'))
@@ -936,7 +935,7 @@ end event
 type dw_trae from datawindow within w_new_estad_ria_os
 integer x = 23
 integer y = 132
-integer width = 5541
+integer width = 5934
 integer height = 448
 integer taborder = 190
 string title = "none"
@@ -1230,7 +1229,7 @@ end event
 type st_1 from statictext within w_new_estad_ria_os
 integer x = 805
 integer y = 836
-integer width = 4750
+integer width = 5170
 integer height = 76
 string dragicon = "none!"
 integer textsize = -8
@@ -1339,7 +1338,7 @@ end event
 type dw_rias from datawindow within w_new_estad_ria_os
 integer x = 27
 integer y = 1004
-integer width = 5536
+integer width = 5938
 integer height = 764
 integer taborder = 10
 string dragicon = "none!"
