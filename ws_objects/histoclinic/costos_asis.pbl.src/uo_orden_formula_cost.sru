@@ -942,6 +942,13 @@ choose case i_tingre
 				tab_1.tp_2.dw_formula.setitem(fila,"frecuen",sle_otros.text)
 			else
 				tab_1.tp_2.dw_formula.setitem(fila,"frecuen",sle_otros.text)
+				SELECT desc_frec into:sle_otros.text
+				FROM pm_frecuencia_medica
+				WHERE (((estado)='1') AND ((cod_frec)=:sle_otros.text));
+				if SQLCA.SQLCode = 100 then
+					MessageBox('Error','El frecuencia no existe')
+					Return -1
+				end if			
 			end if
 			
 			tab_1.tp_2.dw_formula.setitem(fila,"concentracion",string(peso))
