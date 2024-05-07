@@ -225,7 +225,6 @@ transaction sqlba
 string i_mueve_kardex,i_alm_cext,i_alm_hosp,i_alm_urg,i_alm_amb //todas son para mover kardex
 string i_anterior,i_pideprof,i_tipo_prof ,i_profe,i_profe_ord ,i_orden
 end variables
-
 forward prototypes
 public subroutine totales ()
 public function real f_topes (string campo, string empre, string cont, string est)
@@ -250,7 +249,7 @@ public function long f_es_soat (string p_emp, string p_cont, ref long p_cons_soa
 public function integer f_cambiar_cant (long p_fila, decimal p_cant, string p_desde)
 public subroutine f_cc (boolean esmedica, string almacen, string p_cups, ref string p_uf, ref string p_cc, string p_tipoing, string p_versi)
 public function integer f_lee_de_tarifas (long p_fila, string p_cproc_man, ref string p_cups, ref decimal p_valor, ref decimal p_por_iva, ref string p_rips, ref string p_cod_concep, ref string p_versi)
-public function integer lf_cargar_a (string p_codigo, string p_desproc, long p_cantidad, string p_tipo, string p_tipoing, string p_autoriza, string p_cemp, string p_cont, long p_cons_soat, string p_clug_soat, string p_tdoc, string p_docu, long p_edad, string p_sexo, string p_codta, string p_estrato, string p_uf, string p_cc, string p_desde, integer p_facturar, long p_contador, string p_clug_his, long p_nserv, string p_prof_cir, string p_espe_cir, string p_via, integer p_acto, string p_tipo_cir, long p_ncita, string p_clug_cita, long p_nserv_cita, long p_sec_cant_cita, long p_nreci, string p_clug_rec, integer p_item_rec, long p_ntrat, string p_clug_trat, integer p_item_trat, string p_aneste, string p_cod_auxqx, long p_nro_insumo, long p_norden, long p_nitem_ord, string p_articulo, string p_tipo_fac, double p_nfact_ref, string p_clugar_ref, string p_tipo_fac_ref, integer p_item_ref, string p_facscerrar, string p_siras)
+public function integer lf_cargar_a (string p_codigo, string p_desproc, long p_cantidad, string p_tipo, string p_tipoing, string p_autoriza, string p_cemp, string p_cont, long p_cons_soat, string p_clug_soat, string p_tdoc, string p_docu, long p_edad, string p_sexo, string p_codta, string p_estrato, string p_uf, string p_cc, string p_desde, integer p_facturar, long p_contador, string p_clug_his, long p_nserv, string p_prof_cir, string p_espe_cir, string p_via, integer p_acto, string p_tipo_cir, long p_ncita, string p_clug_cita, long p_nserv_cita, long p_sec_cant_cita, long p_nreci, string p_clug_rec, integer p_item_rec, long p_ntrat, string p_clug_trat, integer p_item_trat, string p_aneste, string p_cod_auxqx, long p_nro_insumo, long p_norden, long p_nitem_ord, string p_articulo, string p_tipo_fac, double p_nfact_ref, string p_clugar_ref, string p_tipo_fac_ref, integer p_item_ref, string p_facscerrar, string p_siras, string p_oxig)
 end prototypes
 
 public subroutine totales ();if dw_factura.rowcount()=0 then
@@ -1006,7 +1005,7 @@ return l_que_paga
 end function
 
 public function integer f_se_paso (long p_fila, integer p_cant, string p_clug_soat, double p_cons_soat);string emp,cont,cod,tipo,tingres,autoriza,clug_soat,tdo,doc,sexo,codta,estrato,uf,cc,desproc,articulo,l_tip_fac,ls_siras
-string prof_cir,tip_cir,via,esp_cir,p_desde,p_facscerrar
+string prof_cir,tip_cir,via,esp_cir,p_desde,p_facscerrar,ls_codoxig
 long edad,cons_soat,cant_ant,acto
 cant_ant=dw_factura.getitemnumber(p_fila,'cantidad')
 cod=dw_factura.getitemstring(p_fila,'proccups')
@@ -1020,6 +1019,7 @@ autoriza=dw_factura.getitemstring(p_fila,'autoriza')
 ls_siras=dw_factura.getitemstring(p_fila,'siras')
 desproc=dw_factura.getitemstring(p_fila,'descripcion')
 emp=dw_factura.getitemstring(p_fila,'cemp')
+ls_codoxig=dw_factura.getitemstring(p_fila,'cod_oxig')
 cont=dw_factura.getitemstring(p_fila,'ccontrato')
 tdo=dw_factura.getitemstring(p_fila,'tipodoc')
 doc=dw_factura.getitemstring(p_fila,'docu')
@@ -1069,16 +1069,10 @@ if cant_ant=0 then
 	end if
 end if
 //se  cambio par enviar parametrop p_desde
-////return lf_cargar_a(cod,desproc,p_cant,tipo,tingres,autoriza,emp,cont,cons_soat, &
-//  clug_soat,tdo,doc,edad,sexo,codta,estrato,uf,cc,'P',1,0, &
-//  '',0,prof_cir,esp_cir,via,acto,tip_cir,0,'',0,&
-//  0,0,'',0,0,'',0,ls_aneste,ls_auxqx,ll_nro_insumo,ll_norden,ll_nitem_ord)
-//
 return lf_cargar_a(cod,desproc,p_cant,tipo,tingres,autoriza,emp,cont,cons_soat, &
   clug_soat,tdo,doc,edad,sexo,codta,estrato,uf,cc,p_desde,1,0, &
   '',0,prof_cir,esp_cir,via,acto,tip_cir,0,'',0,&
-  0,0,'',0,0,'',0,ls_aneste,ls_auxqx,ll_nro_insumo,ll_norden,ll_nitem_ord,articulo,l_tip_fac,0,'','',0,p_facscerrar,ls_siras)
-
+  0,0,'',0,0,'',0,ls_aneste,ls_auxqx,ll_nro_insumo,ll_norden,ll_nitem_ord,articulo,l_tip_fac,0,'','',0,p_facscerrar,ls_siras,ls_codoxig)
 
 end function
 
@@ -1555,7 +1549,7 @@ p_versi=dw_tarifas.getitemstring(p_fila,"cod_version")
 return 1
 end function
 
-public function integer lf_cargar_a (string p_codigo, string p_desproc, long p_cantidad, string p_tipo, string p_tipoing, string p_autoriza, string p_cemp, string p_cont, long p_cons_soat, string p_clug_soat, string p_tdoc, string p_docu, long p_edad, string p_sexo, string p_codta, string p_estrato, string p_uf, string p_cc, string p_desde, integer p_facturar, long p_contador, string p_clug_his, long p_nserv, string p_prof_cir, string p_espe_cir, string p_via, integer p_acto, string p_tipo_cir, long p_ncita, string p_clug_cita, long p_nserv_cita, long p_sec_cant_cita, long p_nreci, string p_clug_rec, integer p_item_rec, long p_ntrat, string p_clug_trat, integer p_item_trat, string p_aneste, string p_cod_auxqx, long p_nro_insumo, long p_norden, long p_nitem_ord, string p_articulo, string p_tipo_fac, double p_nfact_ref, string p_clugar_ref, string p_tipo_fac_ref, integer p_item_ref, string p_facscerrar, string p_siras);//38 parametros ( p_codigo,p_desproc,p_cantidad,  p_tipo,  p_tipoing,  p_autoriza,  p_cemp,  p_cont,  p_cons_soat, 
+public function integer lf_cargar_a (string p_codigo, string p_desproc, long p_cantidad, string p_tipo, string p_tipoing, string p_autoriza, string p_cemp, string p_cont, long p_cons_soat, string p_clug_soat, string p_tdoc, string p_docu, long p_edad, string p_sexo, string p_codta, string p_estrato, string p_uf, string p_cc, string p_desde, integer p_facturar, long p_contador, string p_clug_his, long p_nserv, string p_prof_cir, string p_espe_cir, string p_via, integer p_acto, string p_tipo_cir, long p_ncita, string p_clug_cita, long p_nserv_cita, long p_sec_cant_cita, long p_nreci, string p_clug_rec, integer p_item_rec, long p_ntrat, string p_clug_trat, integer p_item_trat, string p_aneste, string p_cod_auxqx, long p_nro_insumo, long p_norden, long p_nitem_ord, string p_articulo, string p_tipo_fac, double p_nfact_ref, string p_clugar_ref, string p_tipo_fac_ref, integer p_item_ref, string p_facscerrar, string p_siras, string p_oxig);//38 parametros ( p_codigo,p_desproc,p_cantidad,  p_tipo,  p_tipoing,  p_autoriza,  p_cemp,  p_cont,  p_cons_soat, 
 //  p_clug_soat,  p_tdoc,  p_docu,  p_edad,  p_sexo,  p_codta, p_estrato, p_uf,  p_cc,  p_desde,  p_facturar,  p_contador, 
 //  p_clug_his,  p_nserv,  p_prof_cir,  p_espe_cir,  p_via,  p_acto,  p_tipo_cir,  p_ncita,  p_nserv_cita, 
 //  p_sec_cant_cita, p_nreci,  p_clug_rec,  p_item_rec,  p_ntrat,p_clug_trat, p_item_trat,p_articulo,p_tipo_fac,p_nfact_ref,p_clugar_ref,p_tipo_fac_ref,p_item_ref)
@@ -2176,6 +2170,7 @@ dw_factura.setitem(donde,"norden",p_norden)
 dw_factura.setitem(donde,"nitem_ord",p_nitem_ord)
 dw_factura.setitem(donde,"cod_auxqx",p_cod_auxqx)
 dw_factura.setitem(donde,"articulo",p_articulo)
+dw_factura.setitem(donde,"cod_oxig",p_oxig)
 dw_factura.setitem(donde,"fact_scer",p_facscerrar)
 if soat>0 then 
 	dw_factura.setitem(donde,"consec_soat",p_cons_soat)
@@ -2994,12 +2989,13 @@ end if
 //  p_clug_soat,  p_tdoc,  p_docu,  p_edad,  p_sexo,  p_codta, p_estrato, p_uf,  p_cc,  p_desde,  p_facturar,  p_contador, 
 //  p_clug_his,  p_nserv,  p_prof_cir,  p_espe_cir,  p_via,  p_acto,  p_tipo_cir,  p_ncita, p_clug_cita, p_nserv_cita, 
 //  p_sec_cant_cita,  p_nreci,  p_clug_rec,  p_item_rec,  p_ntrat, p_clug_trat, p_item_trat,p_articulo,p_tipo_fac)
-string emp,cont,sexo,codta,estrato,tfac
+string emp,cont,sexo,codta,estrato,tfac,ls_coxig
 long edad
 int ret
 emp=dw_emppac.getitemstring(dw_emppac.getrow(),'codemp')
 cont=dw_emppac.getitemstring(dw_emppac.getrow(),'codcontrato')
 edad=w_principal.dw_1.getitemnumber(1,'dias')
+setnull(ls_coxig)
 sexo=w_principal.dw_1.getitemstring(1,'sexo')
 codta=dw_emppac.getitemstring(dw_emppac.getrow(),'codta')
 tfac=dw_emppac.getitemstring(dw_emppac.getrow(),'tipo_fac')
@@ -3007,7 +3003,7 @@ estrato=w_principal.dw_1.getitemstring(1,'estrato')
 ret=lf_cargar_a(text,'',1,'','1',sle_autoriza.text,emp,cont,0, &
   '',tipdoc,docu,edad,sexo,codta,estrato,'','','',1,0, &
   '',0,'','','',0,'',0,'',0,&
-  0,0,'',0,0,'',0,'','!',0,0,0,'',tfac,0,'','',0,'',sle_siras.text)
+  0,0,'',0,0,'',0,'','!',0,0,0,'',tfac,0,'','',0,'',sle_siras.text,ls_coxig)
 text=''
 return ret
 end event
