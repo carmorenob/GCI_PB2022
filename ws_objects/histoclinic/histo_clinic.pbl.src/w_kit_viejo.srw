@@ -68,7 +68,7 @@ choose case f_vent_padre(p_sle).classname()
 		return w_factura.lf_cargar_a(p_codigo,p_descrip,p_cant,p_tipo,'1',autoriza,emp,cont,0, &
 		  '',tipdoc,docu,edad,sexo,codta,estrato,'','','K',1,0, &
 		  '',0,'','','',0,'',0,'',0,&
-		  0,0,'',0,0,'',0,'','!',0,0,0,'',ctipo,0,'','',0,'0',siras)
+		  0,0,'',0,0,'',0,'','!',0,0,0,'',ctipo,0,'','',0,'0',siras,'')
 	case 'w_rec_caja'
 		emp=w_rec_caja.dw_emppac.getitemstring(w_rec_caja.dw_emppac.getrow(),'codemp')
 		cont=w_rec_caja.dw_emppac.getitemstring(w_rec_caja.dw_emppac.getrow(),'codcontrato')
@@ -77,7 +77,7 @@ choose case f_vent_padre(p_sle).classname()
 		return w_rec_caja.lf_cargar_a(p_codigo,p_descrip,p_cant,p_tipo,'1',autoriza,emp,cont,0, &
 		  '',tipdoc,docu,edad,sexo,codta,estrato,'','','K',1,0, &
 		  '',0,'','','',0,'',0,'',0,&
-		  0,0,'',0,0,'',0,'','!',0,0,0,'','',0,'','',0,'0',siras)
+		  0,0,'',0,0,'',0,'','!',0,0,0,'','',0,'','',0,'0',siras,'')
 end choose
 end function
 

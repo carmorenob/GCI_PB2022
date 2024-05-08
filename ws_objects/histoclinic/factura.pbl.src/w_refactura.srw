@@ -1180,6 +1180,7 @@ end type
 event clicked;long j,va,contador,canti,nserv,facturar,fila,cons_soat,cuantos,edad,acto,nfact_ref,item_ref
 string cod,desproc,clug_his,autoriza,emp,cont,codta,clug_soat,tingres,uf,cc,tipo,via,siras
 string tipo_cir,prof_cir,espe_cir,sexo,estrato,tdoc,doc,l_articulo,tipo_fac,clugar_ref,tipo_fac_ref
+string ls_coxig
 edad=dw_emppac.getitemnumber(dw_emppac.getrow(),'dias')
 sexo=dw_emppac.getitemstring(dw_emppac.getrow(),'sexo')
 estrato=dw_emppac.getitemstring(dw_emppac.getrow(),'estrato')
@@ -1201,6 +1202,7 @@ for j=1 to dw_serv_nofactu.rowcount()
 	autoriza=dw_serv_nofactu.getitemstring(j,"nautoriza")
 	facturar=dw_serv_nofactu.getitemnumber(j,"facturar")
 	l_articulo=dw_serv_nofactu.getitemstring(j,"articulo")
+	ls_coxig=dw_serv_nofactu.getitemstring(j,"cod_oxig")
 	fila=dw_serv_nofactu.getitemnumber(j,'fila')
 	emp=dw_emppac.getitemstring(dw_emppac.getrow(),'codemp')
 	cont=dw_emppac.getitemstring(dw_emppac.getrow(),'codcontrato')
@@ -1256,7 +1258,7 @@ for j=1 to dw_serv_nofactu.rowcount()
 		if lf_cargar_a(cod,desproc,canti,'C',tingres,autoriza,emp,cont,cons_soat, &
 		  clug_soat,tdoc,doc,edad,sexo,codta,estrato,uf,cc,'H',facturar,contador, &
 		  clug_his,nserv,prof_cir,espe_cir,via,acto,tipo_cir,0,'',0,&
-		  0,0,'',0,0,'',0,dw_serv_nofactu.getitemstring(j,"anestesiologo"),dw_serv_nofactu.getitemstring(j,"auxiliarqx"),0,0,0,l_articulo,tipo_fac,nfact_ref,clugar_ref,tipo_fac_ref,item_ref,'0',siras)=-1 then
+		  0,0,'',0,0,'',0,dw_serv_nofactu.getitemstring(j,"anestesiologo"),dw_serv_nofactu.getitemstring(j,"auxiliarqx"),0,0,0,l_articulo,tipo_fac,nfact_ref,clugar_ref,tipo_fac_ref,item_ref,'0',siras,ls_coxig)=-1 then
 			blanquea()
 			close(parent)
 			return
@@ -1265,7 +1267,7 @@ for j=1 to dw_serv_nofactu.rowcount()
 		if lf_cargar_a(cod,desproc,canti,'M',tingres,autoriza,emp,cont,cons_soat, &
 		  clug_soat,tdoc,doc,edad,sexo,codta,estrato,uf,cc,'H',facturar,contador, &
 		  clug_his,nserv,'','','',0,'',0,'',0,&
-		  0,0,'',0,0,'',0,'','!',dw_serv_nofactu.getitemnumber(j,"nro_insumo"),0,0,l_articulo,tipo_fac,nfact_ref,clugar_ref,tipo_fac_ref,item_ref,'0',siras)=-1 then
+		  0,0,'',0,0,'',0,'','!',dw_serv_nofactu.getitemnumber(j,"nro_insumo"),0,0,l_articulo,tipo_fac,nfact_ref,clugar_ref,tipo_fac_ref,item_ref,'0',siras,ls_coxig)=-1 then
 			blanquea()
 			close(parent)
 			return

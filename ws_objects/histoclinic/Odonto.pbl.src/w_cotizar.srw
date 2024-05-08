@@ -259,14 +259,6 @@ integer y = 412
 integer height = 52
 end type
 
-type pb_pagares from w_factura_base`pb_pagares within w_cotizar
-integer x = 3680
-integer y = 1552
-integer width = 55
-integer height = 48
-boolean originalsize = false
-end type
-
 type st_cuant from w_factura_base`st_cuant within w_cotizar
 integer y = 468
 end type
@@ -553,6 +545,14 @@ integer width = 1664
 integer height = 376
 end type
 
+type pb_pagares from w_factura_base`pb_pagares within w_cotizar
+integer x = 3680
+integer y = 1552
+integer width = 55
+integer height = 48
+boolean originalsize = false
+end type
+
 type dw_procs from datawindow within w_cotizar
 integer x = 9
 integer y = 52
@@ -625,7 +625,7 @@ for j=1 to dw_procs.rowcount()
 	ret=lf_cargar_a(cproc,desproc,1,'C','1',sle_autoriza.text,emp,cont,0, &
 	  '',tipdoc,docu,edad,sexo,codta,estrato,'','','S',1,0, &
 	  '',0,'','','',0,'',0,'',0,&
-	  0,0,'',0,ntrat,clug_trat,nitem_trat,'','!',0,0,0,'',tipo_fac,0,'','',0,'0','')
+	  0,0,'',0,ntrat,clug_trat,nitem_trat,'','!',0,0,0,'',tipo_fac,0,'','',0,'0','','')
 next
 pb_facturar.enabled=true
 pb_borra.enabled=true

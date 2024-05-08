@@ -478,7 +478,7 @@ for j=1 to dw_facturar.rowcount()
 		if w_factura.lf_cargar_a(cproc,desproc,cantidad,tipo,'1',nautoriza,emp,cont,0, &
 		  '',tdoc,doc,edad,sexo,codta,estrato,uf,cc,'G',1,contador, &
 		  clug_his,nserv,'','','',0,'',ncita,clug_cita,nserv_cita,&
-		  sec_cant_cita,0,'',0,0,'',0,'','!',dw_facturar.getitemnumber(j,"nro_insumo"),0,0,'',tipo_fac,0,'','',0,'0','')<>-1 then cuantos++
+		  sec_cant_cita,0,'',0,0,'',0,'','!',dw_facturar.getitemnumber(j,"nro_insumo"),0,0,'',tipo_fac,0,'','',0,'0','','')<>-1 then cuantos++
 	end if
 next
 w_factura.resumen('G')
