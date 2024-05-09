@@ -500,7 +500,9 @@ public function integer wf_picture (string p_tipo);choose case p_tipo
 	CASE 'A'//Instrumento
 		return 11			
 	CASE 'H'//Fecha Hora
-		return 12				
+		return 12			
+	CASE 'P'//texto numero
+		return 13		
 end choose
 end function
 
@@ -1600,7 +1602,7 @@ boolean linesatroot = true
 boolean disabledragdrop = false
 boolean hideselection = false
 boolean fullrowselect = true
-string picturename[] = {"hc_open.ico","hc_check.ico","hc_radio.ico","hc_drop.ico","hc_text.ico","hcmemo.ico","hc_nume.ico","hc_calc.ico","hc_cald.ico","hc_lisn.ico","hcinst.ico","hc_cald.ico"}
+string picturename[] = {"hc_open.ico","hc_check.ico","hc_radio.ico","hc_drop.ico","hc_text.ico","hcmemo.ico","hc_nume.ico","hc_calc.ico","hc_cald.ico","hc_lisn.ico","hcinst.ico","hc_cald.ico","hc_text.ico"}
 long picturemaskcolor = 536870912
 long statepicturemaskcolor = 536870912
 end type
