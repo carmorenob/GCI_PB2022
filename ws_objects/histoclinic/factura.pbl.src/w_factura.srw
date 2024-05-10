@@ -181,6 +181,7 @@ for k=1 to dw_resumen.rowcount()
 		if dw_factura.getitemstring(j,"es_medica")="1" then
 			dw_fact_cpo.setitem(donde,"c_medica",dw_factura.getitemstring(j,"cproc"))
 			dw_fact_cpo.setitem(donde,"codarticulo",dw_factura.getitemstring(j,"articulo"))
+			dw_fact_cpo.setitem(donde,"cod_oxig",dw_factura.getitemstring(j,"cod_oxig"))
 		else
 			dw_fact_cpo.setitem(donde,"cproced",dw_factura.getitemstring(j,"cproc"))
 			dw_fact_cpo.setitem(donde,"proccups",dw_factura.getitemstring(j,"proccups"))
