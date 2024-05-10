@@ -305,7 +305,8 @@ if i_st.otro="carga" then
 				dw_trae.setitem(k,'item_ent',dw_entregas.getitemnumber(l_i,'iteme'))
 				dw_trae.setitem(k,'fecha_venc',dw_entregas.getitemdatetime(l_i,'fecha_venc'))
 				dw_trae.setitem(k,'lote',dw_entregas.getitemstring(l_i,'lote'))
-				dw_trae.setitem(k,'convenio',dw_entregas.getitemstring(l_i,'convenio'))				
+				dw_trae.setitem(k,'convenio',dw_entregas.getitemstring(l_i,'convenio'))	
+				dw_trae.setitem(k,'cod_oxig',i_st.dw_meds.getitemstring(j,'cod_oxig'))
 			next
 	next
 else
