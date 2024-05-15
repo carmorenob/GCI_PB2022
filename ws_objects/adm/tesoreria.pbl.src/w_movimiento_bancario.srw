@@ -49,6 +49,32 @@ dw_cheq_posf dw_cheq_posf
 end type
 type tp_2 from userobject within tab_1
 end type
+type tab_cmod from tab within tp_2
+end type
+type cheque from userobject within tab_cmod
+end type
+type pb_imp_cheque from pb_report within cheque
+end type
+type pb_anula_cheque from picturebutton within cheque
+end type
+type dw_cheques from datawindow within cheque
+end type
+type cheque from userobject within tab_cmod
+pb_imp_cheque pb_imp_cheque
+pb_anula_cheque pb_anula_cheque
+dw_cheques dw_cheques
+end type
+type modifi from userobject within tab_cmod
+end type
+type dw_histo from datawindow within modifi
+end type
+type modifi from userobject within tab_cmod
+dw_histo dw_histo
+end type
+type tab_cmod from tab within tp_2
+cheque cheque
+modifi modifi
+end type
 type pb_mod from picturebutton within tp_2
 end type
 type pb_edita from picturebutton within tp_2
@@ -56,14 +82,6 @@ end type
 type pb_print_nota from pb_report within tp_2
 end type
 type pb_anula from picturebutton within tp_2
-end type
-type pb_anula_cheque from picturebutton within tp_2
-end type
-type pb_imp_cheque from pb_report within tp_2
-end type
-type dw_cheques from datawindow within tp_2
-end type
-type st_6 from statictext within tp_2
 end type
 type pb_save from picturebutton within tp_2
 end type
@@ -76,14 +94,11 @@ end type
 type dw_hist_notas from datawindow within tp_2
 end type
 type tp_2 from userobject within tab_1
+tab_cmod tab_cmod
 pb_mod pb_mod
 pb_edita pb_edita
 pb_print_nota pb_print_nota
 pb_anula pb_anula
-pb_anula_cheque pb_anula_cheque
-pb_imp_cheque pb_imp_cheque
-dw_cheques dw_cheques
-st_6 st_6
 pb_save pb_save
 dw_nota dw_nota
 pb_new_nota pb_new_nota
@@ -99,8 +114,8 @@ end forward
 
 global type w_movimiento_bancario from w_center
 string tag = "Realizó una nueva Nota Bancaria. Desea guardar los cambios ?"
-integer width = 5755
-integer height = 2120
+integer width = 5710
+integer height = 2172
 string title = "Movimiento Bancario"
 boolean maxbox = false
 boolean resizable = false
@@ -497,9 +512,10 @@ destroy(this.dw_transacc)
 end on
 
 type gb_3 from groupbox within tp_1
-integer y = 1012
+integer x = 9
+integer y = 984
 integer width = 5518
-integer height = 700
+integer height = 736
 integer taborder = 20
 integer textsize = -8
 integer weight = 400
@@ -591,7 +607,7 @@ integer height = 1740
 long backcolor = 67108864
 string text = "Cheques Posfechados"
 long tabtextcolor = 33554432
-string picturename = "factura.ico"
+string picturename = "cheque.ico"
 long picturemaskcolor = 536870912
 string powertiptext = "Registrar el cobro de los cheques posfechados para actualizar el saldo de la cuenta"
 pb_save_posf pb_save_posf
@@ -749,8 +765,8 @@ end type
 type dw_cheq_posf from datawindow within tp_3
 integer x = 32
 integer y = 128
-integer width = 5495
-integer height = 1444
+integer width = 5531
+integer height = 1572
 integer taborder = 50
 string title = "none"
 string dataobject = "dw_cheques_posfechados"
@@ -779,17 +795,14 @@ integer height = 1740
 long backcolor = 67108864
 string text = "Notas Bancarias"
 long tabtextcolor = 33554432
-string picturename = "Compute5!"
+string picturename = "notasban.ico"
 long picturemaskcolor = 536870912
 string powertiptext = "Insertar Notas Débito y Crédito"
+tab_cmod tab_cmod
 pb_mod pb_mod
 pb_edita pb_edita
 pb_print_nota pb_print_nota
 pb_anula pb_anula
-pb_anula_cheque pb_anula_cheque
-pb_imp_cheque pb_imp_cheque
-dw_cheques dw_cheques
-st_6 st_6
 pb_save pb_save
 dw_nota dw_nota
 pb_new_nota pb_new_nota
@@ -798,27 +811,21 @@ dw_hist_notas dw_hist_notas
 end type
 
 on tp_2.create
+this.tab_cmod=create tab_cmod
 this.pb_mod=create pb_mod
 this.pb_edita=create pb_edita
 this.pb_print_nota=create pb_print_nota
 this.pb_anula=create pb_anula
-this.pb_anula_cheque=create pb_anula_cheque
-this.pb_imp_cheque=create pb_imp_cheque
-this.dw_cheques=create dw_cheques
-this.st_6=create st_6
 this.pb_save=create pb_save
 this.dw_nota=create dw_nota
 this.pb_new_nota=create pb_new_nota
 this.st_2=create st_2
 this.dw_hist_notas=create dw_hist_notas
-this.Control[]={this.pb_mod,&
+this.Control[]={this.tab_cmod,&
+this.pb_mod,&
 this.pb_edita,&
 this.pb_print_nota,&
 this.pb_anula,&
-this.pb_anula_cheque,&
-this.pb_imp_cheque,&
-this.dw_cheques,&
-this.st_6,&
 this.pb_save,&
 this.dw_nota,&
 this.pb_new_nota,&
@@ -827,20 +834,292 @@ this.dw_hist_notas}
 end on
 
 on tp_2.destroy
+destroy(this.tab_cmod)
 destroy(this.pb_mod)
 destroy(this.pb_edita)
 destroy(this.pb_print_nota)
 destroy(this.pb_anula)
-destroy(this.pb_anula_cheque)
-destroy(this.pb_imp_cheque)
-destroy(this.dw_cheques)
-destroy(this.st_6)
 destroy(this.pb_save)
 destroy(this.dw_nota)
 destroy(this.pb_new_nota)
 destroy(this.st_2)
 destroy(this.dw_hist_notas)
 end on
+
+type tab_cmod from tab within tp_2
+event create ( )
+event destroy ( )
+integer x = 2825
+integer y = 940
+integer width = 2752
+integer height = 768
+integer taborder = 30
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+long backcolor = 67108864
+boolean raggedright = true
+boolean focusonbuttondown = true
+integer selectedtab = 1
+cheque cheque
+modifi modifi
+end type
+
+on tab_cmod.create
+this.cheque=create cheque
+this.modifi=create modifi
+this.Control[]={this.cheque,&
+this.modifi}
+end on
+
+on tab_cmod.destroy
+destroy(this.cheque)
+destroy(this.modifi)
+end on
+
+type cheque from userobject within tab_cmod
+event create ( )
+event destroy ( )
+integer x = 18
+integer y = 112
+integer width = 2715
+integer height = 640
+long backcolor = 67108864
+string text = "Detalle Cheque"
+long tabtextcolor = 33554432
+string picturename = "cheque.ico"
+long picturemaskcolor = 536870912
+pb_imp_cheque pb_imp_cheque
+pb_anula_cheque pb_anula_cheque
+dw_cheques dw_cheques
+end type
+
+on cheque.create
+this.pb_imp_cheque=create pb_imp_cheque
+this.pb_anula_cheque=create pb_anula_cheque
+this.dw_cheques=create dw_cheques
+this.Control[]={this.pb_imp_cheque,&
+this.pb_anula_cheque,&
+this.dw_cheques}
+end on
+
+on cheque.destroy
+destroy(this.pb_imp_cheque)
+destroy(this.pb_anula_cheque)
+destroy(this.dw_cheques)
+end on
+
+type pb_imp_cheque from pb_report within cheque
+integer x = 2542
+integer y = 24
+integer taborder = 70
+string powertiptext = "Generar o reimprimir Cheque"
+string cod_rep = "CHEQ"
+string nombre_rep = "Cheque"
+string tipo_rep = "interno!"
+end type
+
+event clicked;call super::clicked;if tab_1.tp_2.dw_hist_notas.rowcount()=0 then return
+long donde,cuantos,chequera,nro,final,item
+any par[6]
+string err
+dec valor
+valor=tab_1.tp_2.dw_hist_notas.getitemnumber(tab_1.tp_2.dw_hist_notas.getrow(),'valor')
+item=tab_1.tp_2.dw_hist_notas.getitemnumber(tab_1.tp_2.dw_hist_notas.getrow(),'item')
+par[1]=i_banco
+par[2]=i_tcuenta
+par[3]=i_ncuenta
+par[4]=clugar
+if dw_cheques.find('isnull(estado)',1,dw_cheques.rowcount())=0 then //todos anulados o no hay cheque => crearlo
+	if i_chequera='0' then return
+	select count(*) into :cuantos from tesocuenta_chequera 
+	where codbanco=:i_banco and tipo_cuenta=:i_tcuenta and numcuenta=:i_ncuenta and estado='1';
+	if cuantos<>1 then
+		messagebox("Atención",'Esta cuenta bancaria no tiene chequera activa (o puede tener mas de una activa)  revise esto para continuar')
+		return
+	end if
+	select nro_chequera,n_actual,n_final into :chequera ,:nro,:final
+	from tesocuenta_chequera 
+	where codbanco=:i_banco and tipo_cuenta=:i_tcuenta and numcuenta=:i_ncuenta and estado='1';
+	if sqlca.sqlcode=-1 then
+		messagebox('Error leyendo TesoCuenta_Chequera' ,sqlca.sqlerrtext)
+		return
+	end if
+	if isnull(nro) then
+		messagebox('Error leyendo TesoCuenta_Chequera' ,'No hay número actual de cheque')
+		return
+	end if
+	nro ++
+	if messagebox("Atención",'Está seguro de imprimir el cheque nro: '+string(nro)+' de la chequera nro: '+string(chequera)+' ?~r~nInserte el cheque en la impresora y presione SI para continuar o NO para cancelar.',question!,yesno!,1)=2 then return
+	long movidet
+	string num
+	num=string(nro)
+	select count(subitem) into :movidet from tesocuentasmovidet where codbanco=:i_banco and tipo_cuenta=:i_tcuenta and numcuenta=:i_ncuenta and item=:item;
+	if sqlca.sqlcode=-1 then
+		err=sqlca.sqlerrtext
+		rollback;
+		messagebox('Error leyendo tesocuentasmovidet',err)
+		return
+	end if
+	if movidet=0 then
+		insert into tesocuentasmovidet (codbanco,tipo_cuenta,numcuenta,clugar,item,subitem,forma,valor,num_che,posfechado)
+		values(:i_banco,:i_tcuenta,:i_ncuenta,:clugar,:item,1,'C',:valor,:num,'0');
+		if sqlca.sqlcode=-1 then
+			err=sqlca.sqlerrtext
+			rollback;
+			messagebox('Error insertando en tesocuentasmovidet',err)
+			return
+		end if
+	end if
+	dw_cheques.insertrow(1)
+	dw_cheques.setitem(1,'codbanco',i_banco)
+	dw_cheques.setitem(1,'tipo_cuenta',i_tcuenta)
+	dw_cheques.setitem(1,'numcuenta',i_ncuenta)
+	dw_cheques.setitem(1,'chequera',chequera)
+	dw_cheques.setitem(1,'nro_cheque',nro)
+	dw_cheques.setitem(1,'clugar',clugar)
+	dw_cheques.setitem(1,'item',item)
+	dw_cheques.setitem(1,'subitem',1)
+	dw_cheques.setitem(1,'valor',valor)
+	if dw_cheques.update()=-1 then
+		rollback;
+		return
+	end if
+	tab_1.tp_2.dw_nota.setitem(1,'ntransaccion',string(nro))
+	if tab_1.tp_2.dw_nota.update()=-1 then 
+		rollback;
+		return
+	end if
+	string estado='1'
+	if nro=final then estado='0'
+	update tesocuenta_chequera set estado=:estado,n_actual=:nro 
+	where codbanco=:i_banco and tipo_cuenta=:i_tcuenta and numcuenta=:i_ncuenta and nro_chequera=:chequera;
+	if sqlca.sqlcode=-1 then
+		messagebox("Error actualizando TesoCuenta_Chequera",sqlca.sqlerrtext)
+		rollback;
+		return
+	end if
+	commit;
+	par[5]=chequera
+	par[6]=nro
+	imprimir(par,'','0')
+else
+	if isnull(dw_cheques.getitemstring(dw_cheques.getrow(),'estado')) then
+		par[5]=dw_cheques.getitemnumber(dw_cheques.getrow(),'chequera')
+		par[6]=dw_cheques.getitemnumber(dw_cheques.getrow(),'nro_cheque')
+		imprimir(par,'','0')
+	end if
+end if
+end event
+
+type pb_anula_cheque from picturebutton within cheque
+integer x = 2542
+integer y = 156
+integer width = 146
+integer height = 128
+integer taborder = 50
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+boolean originalsize = true
+string picturename = "cancelar.gif"
+alignment htextalign = left!
+string powertiptext = "Anular Cheque"
+end type
+
+event clicked;if dw_cheques.rowcount()=0 then return
+if not isnull(dw_cheques.getitemstring(dw_cheques.getrow(),'estado')) then 
+	messagebox("Atención",'Este cheque ya se encuentra anulado')
+else
+	st_xa_anular st_anula
+	st_anula.tipo='TE'
+	openwithparm (w_motiv_anula,st_anula)
+	st_anula=message.powerobjectparm
+	if not isValid(st_anula) then return
+	datetime fecha
+	string nulo
+	setnull(nulo)
+	fecha=datetime(today(),now())
+	dw_cheques.setitem(dw_cheques.getrow(),'estado',usuario)
+	dw_cheques.setitem(dw_cheques.getrow(),'fecha_anula',fecha)
+	dw_cheques.setitem(dw_cheques.getrow(),'motiv_anula',st_anula.observacion)
+	dw_cheques.setitem(dw_cheques.getrow(),'cod_anula',st_anula.motivo)
+	tab_1.tp_2.dw_nota.setitem(1,'ntransaccion',nulo)
+	if dw_cheques.update()=-1 then 
+		rollback;
+		return
+	end if
+	if tab_1.tp_2.dw_nota.update()=-1 then
+		rollback;
+		return
+	end if
+	commit;
+	pb_imp_cheque.enabled=true
+end if
+end event
+
+type dw_cheques from datawindow within cheque
+integer x = 27
+integer y = 24
+integer width = 2482
+integer height = 600
+integer taborder = 70
+string title = "none"
+string dataobject = "dw_cheques"
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event constructor;settransobject(sqlca)
+
+end event
+
+type modifi from userobject within tab_cmod
+event create ( )
+event destroy ( )
+integer x = 18
+integer y = 112
+integer width = 2715
+integer height = 640
+long backcolor = 67108864
+string text = "Modificaciones"
+long tabtextcolor = 33554432
+string picturename = "editar.ico"
+long picturemaskcolor = 536870912
+dw_histo dw_histo
+end type
+
+on modifi.create
+this.dw_histo=create dw_histo
+this.Control[]={this.dw_histo}
+end on
+
+on modifi.destroy
+destroy(this.dw_histo)
+end on
+
+type dw_histo from datawindow within modifi
+integer x = 18
+integer y = 24
+integer width = 2670
+integer height = 588
+integer taborder = 30
+string title = "none"
+string dataobject = "dw_tesocuentasmovihisto"
+boolean hscrollbar = true
+boolean border = false
+boolean livescroll = true
+end type
+
+event constructor;settransobject(sqlca)
+
+end event
 
 type pb_mod from picturebutton within tp_2
 boolean visible = false
@@ -863,13 +1142,39 @@ end type
 
 event clicked;if not cambio then return
 dw_nota.accepttext()
-if tab_1.tp_2.dw_nota.update(true,false)=-1 then return -1
+tab_1.tp_2.tab_cmod.modifi.dw_histo.accepttext()
+integer li_ctrl=2
+string ls_nulo
 
+setnull(ls_nulo)
+if tab_1.tp_2.tab_cmod.modifi.dw_histo.getitemstring(1,'documento')=dw_nota.getitemstring(1,'documento') then
+	li_ctrl --
+	tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'documento',ls_nulo)
+end if
+
+if tab_1.tp_2.tab_cmod.modifi.dw_histo.getitemstring(1,'cod_nota')=dw_nota.getitemstring(1,'cod_nota') then
+	li_ctrl --
+	tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'cod_nota',ls_nulo)
+end if
+
+if li_ctrl=0 then
+	tab_1.tp_2.dw_nota.modify ("tipodoc.Protect=1")
+	tab_1.tp_2.dw_nota.modify ("documento.Protect=1")
+	dw_nota.modify ("cod_nota.Protect=1")
+	tab_1.tp_2.tab_cmod.modifi.dw_histo.reset()
+	dw_hist_notas.TriggerEvent(rowfocuschanged!)
+	return
+end if 
+
+if tab_1.tp_2.dw_nota.update(true,false)=-1 then return -1
+if tab_1.tp_2.tab_cmod.modifi.dw_histo.update(true,false)=-1 then return -1
+commit;
 cambio=false
 pb_mod.enabled=false
 pb_mod.visible=false
 tab_1.tp_2.dw_nota.modify ("tipodoc.Protect=1")
 tab_1.tp_2.dw_nota.modify ("documento.Protect=1")
+dw_nota.modify ("cod_nota.Protect=1")
 dw_hist_notas.TriggerEvent(rowfocuschanged!)
 end event
 
@@ -892,30 +1197,48 @@ alignment htextalign = left!
 string powertiptext = "Permite modificar tercero asignado"
 end type
 
-event clicked;string ls_td,ls_doc,ls_cont
-if not isnull(dw_nota.getitemstring(1,'usu_anula')) then
+event clicked;if not isnull(dw_nota.getitemstring(1,'usu_anula')) then
 	pb_edita.enabled=false
 	return
 end if
-if messageBox('Aviso','Esta seguro de modificar el tercero para esta nota?',QUESTION!,YESNO!) = 2 then
+if dw_nota.getitemnumber(1,'valor_cartera')<>0 then
+	messageBox('Aviso','Esta nota tiene pagos en cartera debe ajustar estos movimientos')
+	pb_edita.enabled=false
+	return
+end if
+
+if messageBox('Aviso','Esta seguro de modificar el tercero o el tipo de nota para este movimiento?',QUESTION!,YESNO!) = 2 then
 	pb_edita.enabled=false
 	Return
 end if
 pb_mod.enabled=true
 pb_mod.visible=true
-ls_td=dw_nota.getitemstring(1,'tipodoc')
-ls_doc=dw_nota.getitemstring(1,'documento')
-ls_cont=dw_nota.getitemstring(1,'contabil')
-if ls_cont='C' then
-	dw_nota.setitem(dw_nota.getrow(),'tipodoc_ant',ls_td)
-	dw_nota.setitem(dw_nota.getrow(),'documento_ant',ls_doc)
-	dw_nota.setitem(dw_nota.getrow(),'contabil_mod','P')
-	datetime fec
-	fec=datetime(today(),now())
-	dw_nota.setitem(dw_nota.getrow(),'fecha_mod',datetime(today(),now()))
-end if
+
+tab_1.tp_2.tab_cmod.modifi.dw_histo.insertrow(1)
+
+long ldb_item,ldb_sitem
+
+ldb_item=dw_nota.getitemnumber(dw_nota.getrow(),'item')
+ldb_sitem=tab_1.tp_2.tab_cmod.modifi.dw_histo.getitemnumber(1,'msitem')
+if isnull(ldb_sitem) then ldb_sitem=0
+ldb_sitem++
+
+
+tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'codbanco',i_banco)
+tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'tipo_cuenta',i_tcuenta)
+tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'numcuenta',i_ncuenta)
+tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'clugar',clugar)
+tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'item',ldb_item)
+tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'sitem',ldb_sitem)
+tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'fecha',datetime(today(),now()))
+tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'usuario',usuario)
+tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'tipodoc',dw_nota.getitemstring(1,'tipodoc'))
+tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'documento',dw_nota.getitemstring(1,'documento'))
+tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'cod_nota',dw_nota.getitemstring(1,'cod_nota'))
+tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'contabil','P')
 dw_nota.modify ("tipodoc.Protect=0")
 dw_nota.modify ("documento.Protect=0")
+dw_nota.modify ("cod_nota.Protect=0")
 cambio =true
 end event
 
@@ -1048,193 +1371,6 @@ end if
 commit;
 f_actu_vistas()
 end event
-
-type pb_anula_cheque from picturebutton within tp_2
-integer x = 5394
-integer y = 1112
-integer width = 142
-integer height = 124
-integer taborder = 130
-integer textsize = -10
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-string picturename = "cancelar.gif"
-alignment htextalign = left!
-string powertiptext = "Anular Cheque"
-end type
-
-event clicked;if dw_cheques.rowcount()=0 then return
-if not isnull(dw_cheques.getitemstring(dw_cheques.getrow(),'estado')) then 
-	messagebox("Atención",'Este cheque ya se encuentra anulado')
-else
-	st_xa_anular st_anula
-	st_anula.tipo='TE'
-	openwithparm (w_motiv_anula,st_anula)
-	st_anula=message.powerobjectparm
-	if not isValid(st_anula) then return
-	datetime fecha
-	string nulo
-	setnull(nulo)
-	fecha=datetime(today(),now())
-	dw_cheques.setitem(dw_cheques.getrow(),'estado',usuario)
-	dw_cheques.setitem(dw_cheques.getrow(),'fecha_anula',fecha)
-	dw_cheques.setitem(dw_cheques.getrow(),'motiv_anula',st_anula.observacion)
-	dw_cheques.setitem(dw_cheques.getrow(),'cod_anula',st_anula.motivo)
-	dw_nota.setitem(1,'ntransaccion',nulo)
-	if dw_cheques.update()=-1 then 
-		rollback;
-		return
-	end if
-	if dw_nota.update()=-1 then
-		rollback;
-		return
-	end if
-	commit;
-	pb_imp_cheque.enabled=true
-end if
-end event
-
-type pb_imp_cheque from pb_report within tp_2
-integer x = 5394
-integer y = 980
-integer taborder = 120
-boolean enabled = false
-boolean originalsize = false
-string powertiptext = "Generar o reimprimir Cheque"
-string cod_rep = "CHEQ"
-string nombre_rep = "Cheques"
-string tipo_rep = "interno!"
-end type
-
-event clicked;call super::clicked;if dw_hist_notas.rowcount()=0 then return
-long donde,cuantos,chequera,nro,final,item
-any par[6]
-string err
-dec valor
-valor=dw_hist_notas.getitemnumber(dw_hist_notas.getrow(),'valor')
-item=dw_hist_notas.getitemnumber(dw_hist_notas.getrow(),'item')
-par[1]=i_banco
-par[2]=i_tcuenta
-par[3]=i_ncuenta
-par[4]=clugar
-if dw_cheques.find('isnull(estado)',1,dw_cheques.rowcount())=0 then //todos anulados o no hay cheque => crearlo
-	if i_chequera='0' then return
-	select count(*) into :cuantos from tesocuenta_chequera 
-	where codbanco=:i_banco and tipo_cuenta=:i_tcuenta and numcuenta=:i_ncuenta and estado='1';
-	if cuantos<>1 then
-		messagebox("Atención",'Esta cuenta bancaria no tiene chequera activa (o puede tener mas de una activa)  revise esto para continuar')
-		return
-	end if
-	select nro_chequera,n_actual,n_final into :chequera ,:nro,:final
-	from tesocuenta_chequera 
-	where codbanco=:i_banco and tipo_cuenta=:i_tcuenta and numcuenta=:i_ncuenta and estado='1';
-	if sqlca.sqlcode=-1 then
-		messagebox('Error leyendo TesoCuenta_Chequera' ,sqlca.sqlerrtext)
-		return
-	end if
-	if isnull(nro) then
-		messagebox('Error leyendo TesoCuenta_Chequera' ,'No hay número actual de cheque')
-		return
-	end if
-	nro ++
-	if messagebox("Atención",'Está seguro de imprimir el cheque nro: '+string(nro)+' de la chequera nro: '+string(chequera)+' ?~r~nInserte el cheque en la impresora y presione SI para continuar o NO para cancelar.',question!,yesno!,1)=2 then return
-	long movidet
-	string num
-	num=string(nro)
-	select count(subitem) into :movidet from tesocuentasmovidet where codbanco=:i_banco and tipo_cuenta=:i_tcuenta and numcuenta=:i_ncuenta and item=:item;
-	if sqlca.sqlcode=-1 then
-		err=sqlca.sqlerrtext
-		rollback;
-		messagebox('Error leyendo tesocuentasmovidet',err)
-		return
-	end if
-	if movidet=0 then
-		insert into tesocuentasmovidet (codbanco,tipo_cuenta,numcuenta,clugar,item,subitem,forma,valor,num_che,posfechado)
-		values(:i_banco,:i_tcuenta,:i_ncuenta,:clugar,:item,1,'C',:valor,:num,'0');
-		if sqlca.sqlcode=-1 then
-			err=sqlca.sqlerrtext
-			rollback;
-			messagebox('Error insertando en tesocuentasmovidet',err)
-			return
-		end if
-	end if
-	dw_cheques.insertrow(1)
-	dw_cheques.setitem(1,'codbanco',i_banco)
-	dw_cheques.setitem(1,'tipo_cuenta',i_tcuenta)
-	dw_cheques.setitem(1,'numcuenta',i_ncuenta)
-	dw_cheques.setitem(1,'chequera',chequera)
-	dw_cheques.setitem(1,'nro_cheque',nro)
-	dw_cheques.setitem(1,'clugar',clugar)
-	dw_cheques.setitem(1,'item',item)
-	dw_cheques.setitem(1,'subitem',1)
-	dw_cheques.setitem(1,'valor',valor)
-	if dw_cheques.update()=-1 then
-		rollback;
-		return
-	end if
-	dw_nota.setitem(1,'ntransaccion',string(nro))
-	if dw_nota.update()=-1 then 
-		rollback;
-		return
-	end if
-	string estado='1'
-	if nro=final then estado='0'
-	update tesocuenta_chequera set estado=:estado,n_actual=:nro 
-	where codbanco=:i_banco and tipo_cuenta=:i_tcuenta and numcuenta=:i_ncuenta and nro_chequera=:chequera;
-	if sqlca.sqlcode=-1 then
-		messagebox("Error actualizando TesoCuenta_Chequera",sqlca.sqlerrtext)
-		rollback;
-		return
-	end if
-	commit;
-	par[5]=chequera
-	par[6]=nro
-	imprimir(par,'','0')
-else
-	if isnull(dw_cheques.getitemstring(dw_cheques.getrow(),'estado')) then
-		par[5]=dw_cheques.getitemnumber(dw_cheques.getrow(),'chequera')
-		par[6]=dw_cheques.getitemnumber(dw_cheques.getrow(),'nro_cheque')
-		imprimir(par,'','0')
-	end if
-end if
-end event
-
-type dw_cheques from datawindow within tp_2
-integer x = 2825
-integer y = 980
-integer width = 2546
-integer height = 512
-integer taborder = 120
-string title = "none"
-string dataobject = "dw_cheques"
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event constructor;settransobject(sqlca)
-end event
-
-type st_6 from statictext within tp_2
-integer x = 2821
-integer y = 928
-integer width = 699
-integer height = 52
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-long textcolor = 33554432
-long backcolor = 67108864
-string text = "Detalle de cheques de la Nota:"
-boolean focusrectangle = false
-end type
 
 type pb_save from picturebutton within tp_2
 integer x = 2633
@@ -1396,8 +1532,8 @@ dw_nota.setitem(1,'clugar',clugar)
 dw_nota.setitem(1,'fecha',datetime(today(),now()))
 dw_nota.setitem(1,'fecha_2',datetime(today(),now()))
 dw_nota.setitem(1,'usuario',usuario)
-dw_cheques.reset()
-pb_imp_cheque.enabled=false
+tab_1.tp_2.tab_cmod.cheque.dw_cheques.reset()
+tab_1.tp_2.tab_cmod.cheque.pb_imp_cheque.enabled=false
 cambio=true
 pb_save.enabled=true
 
@@ -1437,18 +1573,19 @@ end type
 event constructor;settransobject(sqlca)
 end event
 
-event rowfocuschanged;dw_cheques.reset()
+event rowfocuschanged;tab_1.tp_2.tab_cmod.cheque.dw_cheques.reset()
 dw_nota.reset()
 if getrow()<1 then 
-	pb_imp_cheque.enabled=false
+	tab_1.tp_2.tab_cmod.cheque.pb_imp_cheque.enabled=false
 	return
 end if
 dw_nota.retrieve(i_banco,i_tcuenta,i_ncuenta,clugar,getitemnumber(getrow(),'item'))
-dw_cheques.retrieve(i_banco,i_tcuenta,i_ncuenta,clugar,getitemnumber(getrow(),'item'),1)
+tab_1.tp_2.tab_cmod.modifi.dw_histo.retrieve(i_banco,i_tcuenta,i_ncuenta,clugar,getitemnumber(getrow(),'item'))
+tab_1.tp_2.tab_cmod.cheque.dw_cheques.retrieve(i_banco,i_tcuenta,i_ncuenta,clugar,getitemnumber(getrow(),'item'),1)
 if getitemnumber(getrow(),'signo')=-1 and getitemstring(getrow(),'tipo')='C' and isnull(getitemstring(getrow(),'usuario_anula')) then
-	pb_imp_cheque.enabled=true
+	tab_1.tp_2.tab_cmod.cheque.pb_imp_cheque.enabled=true
 else
-	pb_imp_cheque.enabled=false
+	tab_1.tp_2.tab_cmod.cheque.pb_imp_cheque.enabled=false
 end if
 string ls_car,ls_ter
 long ld_ubic
