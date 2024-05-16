@@ -205,7 +205,7 @@ event clicked;if dw_encuentra.GetRow() >= 1 then
 	datawindow esta
 	esta=message.PowerObjectParm
 	long j
-	for j=g_tercerodesde to g_tercerodesde + 6
+	for j=g_tercerodesde to g_tercerodesde + 7
 		esta.setitem(esta.getrow(),j,dw_encuentra.GetItemString(dw_encuentra.GetRow(),j - g_tercerodesde +1))
 	next
 	if esta.dataobject='dw_occab' then esta.setitem(esta.getrow(),g_tercerodesde+8,dw_encuentra.GetItemnumber(dw_encuentra.GetRow(),'t_iva'))
