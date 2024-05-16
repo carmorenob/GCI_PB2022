@@ -59,6 +59,12 @@ dw_anti_pagodir dw_anti_pagodir
 end type
 type tp_des from userobject within tab_1
 end type
+type pb_impnota from picturebutton within tp_des
+end type
+type pb_connota from picturebutton within tp_des
+end type
+type pb_diann from picturebutton within tp_des
+end type
 type pb_dist_desc from picturebutton within tp_des
 end type
 type mle_1 from multilineedit within tp_des
@@ -72,6 +78,9 @@ end type
 type dw_des from datawindow within tp_des
 end type
 type tp_des from userobject within tab_1
+pb_impnota pb_impnota
+pb_connota pb_connota
+pb_diann pb_diann
 pb_dist_desc pb_dist_desc
 mle_1 mle_1
 st_6 st_6
@@ -212,7 +221,7 @@ end forward
 global type w_teso_cartera from w_center
 string tag = "Realizó cambios a un Cobro, desea guardarlos ?"
 integer width = 5605
-integer height = 2536
+integer height = 2480
 string title = "Cartera - Movimientos"
 boolean maxbox = false
 boolean resizable = false
@@ -1398,7 +1407,7 @@ type tab_1 from tab within w_teso_cartera
 integer x = 41
 integer y = 1168
 integer width = 5495
-integer height = 1180
+integer height = 1200
 integer taborder = 170
 integer textsize = -8
 integer weight = 400
@@ -1448,7 +1457,7 @@ type tp_det from userobject within tab_1
 integer x = 18
 integer y = 112
 integer width = 5458
-integer height = 1052
+integer height = 1072
 long backcolor = 67108864
 string text = "Detalle"
 long tabtextcolor = 33554432
@@ -1506,7 +1515,7 @@ type tab_fact from userobject within tab_1
 integer x = 18
 integer y = 112
 integer width = 5458
-integer height = 1052
+integer height = 1072
 long backcolor = 67108864
 string text = "Facturas"
 long tabtextcolor = 33554432
@@ -1725,11 +1734,11 @@ boolean visible = false
 integer x = 18
 integer y = 112
 integer width = 5458
-integer height = 1052
+integer height = 1072
 long backcolor = 67108864
 string text = "Det. Ant."
 long tabtextcolor = 33554432
-string picturename = "AddWatch5!"
+string picturename = "ajuste.ico"
 long picturemaskcolor = 536870912
 string powertiptext = "Detalle de Anticipos"
 dw_anti_nota dw_anti_nota
@@ -1812,13 +1821,16 @@ type tp_des from userobject within tab_1
 integer x = 18
 integer y = 112
 integer width = 5458
-integer height = 1052
+integer height = 1072
 long backcolor = 67108864
 string text = "Desc./Ajustes"
 long tabtextcolor = 33554432
-string picturename = "ajuste.ico"
+string picturename = "nota_dc.ico"
 long picturemaskcolor = 536870912
 string powertiptext = "Descuentos o Ajustes hechos al cobro original"
+pb_impnota pb_impnota
+pb_connota pb_connota
+pb_diann pb_diann
 pb_dist_desc pb_dist_desc
 mle_1 mle_1
 st_6 st_6
@@ -1828,13 +1840,19 @@ dw_des dw_des
 end type
 
 on tp_des.create
+this.pb_impnota=create pb_impnota
+this.pb_connota=create pb_connota
+this.pb_diann=create pb_diann
 this.pb_dist_desc=create pb_dist_desc
 this.mle_1=create mle_1
 this.st_6=create st_6
 this.pb_deldes=create pb_deldes
 this.pb_newdes=create pb_newdes
 this.dw_des=create dw_des
-this.Control[]={this.pb_dist_desc,&
+this.Control[]={this.pb_impnota,&
+this.pb_connota,&
+this.pb_diann,&
+this.pb_dist_desc,&
 this.mle_1,&
 this.st_6,&
 this.pb_deldes,&
@@ -1843,6 +1861,9 @@ this.dw_des}
 end on
 
 on tp_des.destroy
+destroy(this.pb_impnota)
+destroy(this.pb_connota)
+destroy(this.pb_diann)
 destroy(this.pb_dist_desc)
 destroy(this.mle_1)
 destroy(this.st_6)
@@ -1850,6 +1871,60 @@ destroy(this.pb_deldes)
 destroy(this.pb_newdes)
 destroy(this.dw_des)
 end on
+
+type pb_impnota from picturebutton within tp_des
+integer x = 3470
+integer y = 736
+integer width = 146
+integer height = 128
+integer taborder = 80
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+boolean originalsize = true
+string picturename = "print2.gif"
+string disabledname = "d_print2.gif"
+end type
+
+type pb_connota from picturebutton within tp_des
+integer x = 3465
+integer y = 604
+integer width = 146
+integer height = 128
+integer taborder = 90
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+boolean originalsize = true
+string picturename = "dian_zip.gif"
+string disabledname = "d_dian_zip.gif"
+string powertiptext = "Envio Contenedor"
+end type
+
+type pb_diann from picturebutton within tp_des
+integer x = 3461
+integer y = 468
+integer width = 146
+integer height = 128
+integer taborder = 50
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+boolean enabled = false
+boolean originalsize = true
+string picturename = "dian.gif"
+string disabledname = "d_dian.gif"
+string powertiptext = "Envio Nota"
+end type
 
 type pb_dist_desc from picturebutton within tp_des
 integer x = 3461
@@ -2114,7 +2189,7 @@ type tp_pag from userobject within tab_1
 integer x = 18
 integer y = 112
 integer width = 5458
-integer height = 1052
+integer height = 1072
 long backcolor = 67108864
 string text = "Pagos"
 long tabtextcolor = 33554432
@@ -3224,7 +3299,7 @@ type tp_glo from userobject within tab_1
 integer x = 18
 integer y = 112
 integer width = 5458
-integer height = 1052
+integer height = 1072
 long backcolor = 67108864
 string text = "Glosas"
 long tabtextcolor = 33554432

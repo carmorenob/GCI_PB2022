@@ -6055,6 +6055,7 @@ string facename = "Tahoma"
 boolean originalsize = true
 string picturename = "print2.gif"
 alignment htextalign = left!
+string powertiptext = "Imprime Nota"
 end type
 
 event clicked;long ldb_fila
@@ -6113,7 +6114,7 @@ boolean originalsize = true
 string picturename = "dian_zip.gif"
 string disabledname = "d_dian_zip.gif"
 alignment htextalign = left!
-string powertiptext = "Envio COntenedor"
+string powertiptext = "Envio Contenedor"
 end type
 
 event clicked;////////ELECTRONICA	

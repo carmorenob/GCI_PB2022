@@ -223,6 +223,7 @@ setnull(nulo)
 setnull(snulo)
 if tab_1.tp_2.dw_nota.getitemstring(1,'de_transferencia')='1' then
 	tab_1.tp_2.dw_nota.setitem(1,'item_1',nnota2)
+	tab_1.tp_2.dw_nota.setitem(1,'clugar_dest',clugar)
 else
 	tab_1.tp_2.dw_nota.setitem(1,'codbanco_2',snulo)
 	tab_1.tp_2.dw_nota.setitem(1,'numcuenta_2',snulo)
@@ -1211,6 +1212,7 @@ if messageBox('Aviso','Esta seguro de modificar el tercero o el tipo de nota par
 	pb_edita.enabled=false
 	Return
 end if
+pb_edita.enabled=false
 pb_mod.enabled=true
 pb_mod.visible=true
 
@@ -1239,6 +1241,7 @@ tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'contabil','P')
 dw_nota.modify ("tipodoc.Protect=0")
 dw_nota.modify ("documento.Protect=0")
 dw_nota.modify ("cod_nota.Protect=0")
+
 cambio =true
 end event
 
