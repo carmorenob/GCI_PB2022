@@ -3076,6 +3076,22 @@ destroy(this.tmod)
 destroy(this.tp2)
 end on
 
+event selectionchanged;string ls_objetor,ls_lug,ls_tipo
+double ldb_nrad
+
+ldb_nrad=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'num_radicacion')
+ls_lug=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'clugar')
+ls_tipo=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'tipo')
+
+If newindex=2 then
+	tab_2.tp2_1.t1.fac.dw_fact.retrieve(ldb_nrad,ls_lug,ls_tipo)
+end if
+
+If newindex=2 then
+	tab_2.tp2_1.t1.tmod.dw_mod.retrieve(ldb_nrad,ls_lug,ls_tipo)
+end if
+end event
+
 type tp1 from userobject within t1
 event create ( )
 event destroy ( )
@@ -5525,8 +5541,8 @@ ls_tipo=getitemstring(getrow(),'tipo')
 tab_2.tp2_1.tab_1.tp_p.tab_3.det.dw_det.retrieve(ldb_nrad,ls_lug,ls_tipo)
 tab_2.tp2_1.tab_1.tp_p.tab_3.nota.dw_nc.retrieve(ldb_nrad,ls_lug,ls_tipo)
 tab_2.tp2_1.t1.tp2.dw_act_final.retrieve(ldb_nrad,ls_lug,ls_tipo)
-tab_2.tp2_1.t1.fac.dw_fact.retrieve(ldb_nrad,ls_lug,ls_tipo)
-tab_2.tp2_1.t1.tmod.dw_mod.retrieve(ldb_nrad,ls_lug,ls_tipo)
+//tab_2.tp2_1.t1.fac.dw_fact.retrieve(ldb_nrad,ls_lug,ls_tipo)
+//tab_2.tp2_1.t1.tmod.dw_mod.retrieve(ldb_nrad,ls_lug,ls_tipo)
 
 select objeto into :ls_objetor from ripsradica where num_radicacion=:ldb_nrad and clugar=:ls_lug and tipo=:ls_tipo;
 
