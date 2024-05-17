@@ -741,7 +741,6 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,w_escoge_artic
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hospital.pbl,w_deta_kit,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_busca_med_kard,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,w_factu_serv_citas,w
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\rips.pbl,nvo_rips_json,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_gclinicpeq,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_pgclista,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\Odonto.pbl,dw_historial_cons,d
@@ -781,6 +780,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\enfermeria.pbl,dw_liq_reg,
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\citas.pbl,w_hora_bas,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\salaqx.pbl,dw_horas_profe,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,dw_contra_deta,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\fac_electronica.pbl,nvo_rips_json,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\rips.pbl,dw_factu_sin_rip_nro,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hospital.pbl,w_entrega_med,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\costos_asis.pbl,dw_sum_mvto_cab_insumos,d
