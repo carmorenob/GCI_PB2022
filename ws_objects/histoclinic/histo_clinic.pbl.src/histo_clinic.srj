@@ -140,6 +140,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\pyp_asis.pbl,dw_tab_erc_totales_decenio,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\bancos.pbl,w_lleva_inventario,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hospital.pbl,w_tablero_urgencias,w
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_contratos_pa_rias,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\enfermeria.pbl,dw_ctrl_medica,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,st_filtros_hc,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,dw_instrum_vale_rg,d
@@ -418,6 +419,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\atu_plant.pbl,dw_campo_lis
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_citas_paciente,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,d_calendar,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\salaqx.pbl,w_escoge_empresa_qx,w
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_ripsradica_nota,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\atu_conf.pbl,m_hcampos,m
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,n_osversion,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_dwr_nested_service_parm,u
@@ -517,7 +519,6 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\pyp_asis.pbl,w_add_cohorte
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\bancos.pbl,dw_banco_paciente,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_historiapresta_mora,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\salaqx.pbl,dw_escog_consul_qx,d
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_contratos_pa_rias,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\rips.pbl,dw_radica_rips,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,dw_xa_anularfac,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\rips.pbl,dw_audita_rn_solo,d
@@ -1038,7 +1039,6 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_hasta,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\citas.pbl,w_escoge_empresa_citas,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,w_lleva_reci_apdx,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\Odonto.pbl,dw_para_cambio_tto,d
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\rips.pbl,dw_ripsradica_nota,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,st_cargar_a,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,dw_drop_via_ingreso,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,dw_kits_arbol,d

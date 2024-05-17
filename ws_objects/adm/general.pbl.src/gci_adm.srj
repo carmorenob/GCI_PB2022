@@ -143,6 +143,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\afijos.pbl,dw_afxalm,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,w_revisa_glos,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,dw_obje_cab_det,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\general.pbl,dw_combo_lugar_cartera,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_contratos_pa_rias,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,w_reclasif_cartera,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\evaluacion.pbl,dw_hlsplantilla,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,w_busca_pre,w
@@ -429,6 +430,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,dw_xa_obje_porcen,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\simulafac.pbl,w_catastrofes,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\simulafac.pbl,f_proc_plan,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,dw_carcobro_cab,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_ripsradica_nota,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,dw_obje_a_respu_cpo,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_mes,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,dw_setausentismo,d
