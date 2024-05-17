@@ -328,6 +328,7 @@ else
 		dw_trae.setitem(k,'codarticulo',i_st.dw_meds.getitemstring(j,'codarticulo'))
 		dw_trae.setitem(k,'entregada',i_st.dw_meds.getitemnumber(j,'entregada') - i_st.dw_meds.getitemnumber(j,'devuelta'))
 		dw_trae.setitem(k,"asumin",dw_trae.getitemnumber(k,"entregada")-dw_trae.getitemnumber(k,"suministrada"))
+		dw_trae.setitem(k,'cod_oxig',i_st.dw_meds.getitemstring(j,'cod_oxig'))		
 	next
     end if
     dw_trae.resetupdate()
