@@ -5936,6 +5936,7 @@ integer height = 520
 integer taborder = 41
 string title = "none"
 string dataobject = "dw_contratos_pa_rias"
+boolean hscrollbar = true
 boolean livescroll = true
 borderstyle borderstyle = stylelowered!
 end type
@@ -6327,9 +6328,9 @@ pb_gnota.enabled=true
 end event
 
 type dw_nc from datawindow within nota
-integer x = 50
+integer x = 27
 integer y = 20
-integer width = 2482
+integer width = 2505
 integer height = 536
 integer taborder = 190
 string title = "none"
