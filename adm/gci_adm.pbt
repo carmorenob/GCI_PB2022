@@ -4,5 +4,5 @@ Save Format v3.0(19990112)
 @end;
 appname "gci_adm";
 applib "general.pbl";
-LibList "afijos.pbl;cartera.pbl;contabilidad.pbl;costos.pbl;evaluacion.pbl;general.pbl;hoj_vida.pbl;nomina.pbl;presup_new.pbl;rep_compuesto.pbl;sumconfig.pbl;sumgen.pbl;tesoreria.pbl;..\\histoclinic\\obj_comun.pbl;..\\histoclinic\\imagenes.pbl;simulafac.pbl;..\\histoclinic\\dw2xlsdemo_pb2019_2082.pbd";
+LibList "afijos.pbl;cartera.pbl;contabilidad.pbl;costos.pbl;evaluacion.pbl;general.pbl;hoj_vida.pbl;nomina.pbl;presup_new.pbl;rep_compuesto.pbl;sumconfig.pbl;sumgen.pbl;tesoreria.pbl;..\\histoclinic\\obj_comun.pbl;..\\histoclinic\\imagenes.pbl;simulafac.pbl;..\\histoclinic\\dw2xlsdemo_pb2019_2082.pbd;..\\histoclinic\\fac_electronica.pbl";
 type "pb";
