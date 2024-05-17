@@ -220,6 +220,8 @@ type dw_nc from datawindow within w_teso_cartera
 end type
 type dw_detc from datawindow within w_teso_cartera
 end type
+type dw_electronica from uo_datawindow within w_teso_cartera
+end type
 end forward
 
 global type w_teso_cartera from w_center
@@ -256,15 +258,18 @@ dw_gloa dw_gloa
 pb_7 pb_7
 dw_nc dw_nc
 dw_detc dw_detc
+dw_electronica dw_electronica
 end type
 global w_teso_cartera w_teso_cartera
 
 type variables
-string i_emp,i_clug,i_coddoc='CXC'
+
+string i_emp,i_clug,i_coddoc='CXC',is_elec
 long i_fila,i_ndoc
 datawindowchild idw_tipocart,idw_des,idw_glo,idw_pago,idw_caja,idw_caja2,idw_cuenta, idw_lugar
 boolean i_nuevo=false
 int i_dec_teso
+uo_report i_rep
 end variables
 forward prototypes
 public subroutine insert_tot (datawindow dw)
@@ -423,7 +428,7 @@ if i_nuevo then
 	end if
 end if //fin nuevo
 
-
+///Para notas a Cartera DIAN
 long ning
 dec valor
 string concep
@@ -494,7 +499,7 @@ next
 tab_1.tp_des.dw_des.setfilter('')
 tab_1.tp_des.dw_des.filter()
 tab_1.tp_des.dw_des.setredraw(true)
-
+///Fin Notas cartera DIAN
 
 tab_1.tp_pag.tab_2.tp_1.dw_pagos.setredraw(false)
 tab_1.tp_pag.tab_2.tp_1.dw_pagos.setfilter('isrownew()')
@@ -722,6 +727,7 @@ this.dw_gloa=create dw_gloa
 this.pb_7=create pb_7
 this.dw_nc=create dw_nc
 this.dw_detc=create dw_detc
+this.dw_electronica=create dw_electronica
 iCurrent=UpperBound(this.Control)
 this.Control[iCurrent+1]=this.gb_1
 this.Control[iCurrent+2]=this.st_1
@@ -746,6 +752,7 @@ this.Control[iCurrent+20]=this.dw_gloa
 this.Control[iCurrent+21]=this.pb_7
 this.Control[iCurrent+22]=this.dw_nc
 this.Control[iCurrent+23]=this.dw_detc
+this.Control[iCurrent+24]=this.dw_electronica
 end on
 
 on w_teso_cartera.destroy
@@ -773,6 +780,7 @@ destroy(this.dw_gloa)
 destroy(this.pb_7)
 destroy(this.dw_nc)
 destroy(this.dw_detc)
+destroy(this.dw_electronica)
 end on
 
 event timer;call super::timer;if i_fila=dw_hist.getrow() then return
@@ -880,6 +888,17 @@ if idw_lugar.rowCount() = 1 then
 	dw_lugar.Triggerevent( itemchanged!)
 	pb_consultar.TriggerEvent(clicked!)
 end if
+
+SELECT cadena into :is_elec
+FROM parametros_gen
+WHERE (((codigo_para)=66));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 66')
+	return
+end if
+
+i_rep=create uo_report
+
 
 end event
 
@@ -1977,6 +1996,46 @@ string picturename = "print2.gif"
 string disabledname = "d_print2.gif"
 end type
 
+event clicked;long ldb_fila
+any par[4]
+string ls_elec1
+
+ldb_fila=dw_des.getrow()
+if ldb_fila< 1 then return
+
+SELECT cadena into :ls_elec1
+FROM parametros_gen
+WHERE (((codigo_para)=66));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 66')
+	return
+end if
+
+i_rep.v_preliminar=true
+i_rep.dialogo=false
+i_rep.cambiar_prop=false
+i_rep.tipo_rep='documento!'
+if dw_des.getitemstring(ldb_fila,"tipo_nota")='C' then
+	i_rep.nombre_rep='Impresión de Nota Credito'
+	i_rep.cod_rep='CRA'
+else
+	i_rep.nombre_rep='Impresión de Nota Debito'
+	i_rep.cod_rep='DRA'
+end if
+
+if i_rep.inicia()=-1 then return
+par[1]=dw_des.getitemnumber(ldb_fila,'nradica_nota')
+par[2]=dw_des.getitemstring(ldb_fila,"clugar_nota")
+par[3]=dw_des.getitemstring(ldb_fila,"trad_nota")
+par[4]=dw_des.getitemnumber(ldb_fila,"nro_nota")
+
+if  ls_elec1<>'0' then
+	i_rep.imprimir(par,'','1')
+else
+	i_rep.imprimir(par,'','0')
+end if
+end event
+
 type pb_connota from picturebutton within tp_des
 integer x = 4297
 integer y = 580
@@ -1996,6 +2055,34 @@ string disabledname = "d_dian_zip.gif"
 string powertiptext = "Envio Contenedor"
 end type
 
+event clicked;////////ELECTRONICA	
+if is_elec='2' then
+	double ldb_i,ldb_nfactura,ldb_numradica
+	int li_nnota
+	string ls_clugar,ls_tfac,ls_clugarrad,ls_tiporad,ls_tnota
+	nvo_factura_electronica u_eleccc
+	st_ret_dian    lst_lle
+		
+	u_eleccc=create nvo_factura_electronica
+	ldb_numradica=dw_des.getitemnumber(dw_des.getrow(),'nradica_nota')
+	ls_clugarrad=dw_des.getitemstring(dw_des.getrow(),"clugar_nota")
+	ls_tiporad=dw_des.getitemstring(dw_des.getrow(),"trad_nota")
+	li_nnota=dw_des.getitemnumber(dw_des.getrow(),'nro_nota')
+	ls_tnota=lower(dw_des.getitemstring(dw_des.getrow(),'tipo_nota'))
+	if dw_des.getitemstring(dw_des.getrow(),'estado_dian_nota')<>'1' then return
+	if dw_des.getitemstring(dw_des.getrow(),'estado_dian_nota')='' or isnull(dw_des.getitemstring(dw_des.getrow(),'estado_dian_nota')) then return
+	
+	u_eleccc.of_enviar_new_correo(ldb_numradica,ls_clugarrad,ls_tiporad,li_nnota,ls_tnota,dw_des.getitemstring(dw_des.getrow(),'file_name_nota'),'C')
+	destroy u_eleccc
+	messagebox('','Proceso Finalizado')
+else
+	messagebox('','No hay parametro Habilitado')
+end if
+//////ELECTRONICA	
+
+
+end event
+
 type pb_diann from picturebutton within tp_des
 integer x = 4297
 integer y = 444
@@ -2014,6 +2101,44 @@ string picturename = "dian.gif"
 string disabledname = "d_dian.gif"
 string powertiptext = "Envio Nota"
 end type
+
+event clicked;long ldb_numradica
+datetime ldt_ahora
+string ls_clugarrad,ls_tiporad,ls_anula,ls_tiponota
+int li_nnota
+
+dw_nc.accepttext()
+pb_deldes.enabled=false
+pb_diann.enabled=false
+ldb_numradica=dw_des.getitemnumber(dw_des.getrow(),'nradica_nota')
+ls_clugarrad=dw_des.getitemstring(dw_des.getrow(),"clugar_nota")
+ls_tiporad=dw_des.getitemstring(dw_des.getrow(),"trad_nota")
+li_nnota=dw_des.getitemnumber(dw_des.getrow(),'nro_nota')
+ls_tiponota=lower(dw_des.getitemstring(dw_des.getrow(),'tipo_nota'))
+
+if ls_tiporad='F' and isnull(dw_des.getitemstring(dw_des.getrow(),'estado_dian_nota')) then
+	st_ret_dian    lst_lle
+	nvo_factura_electronica u_eleca
+	u_eleca=create nvo_factura_electronica
+	
+	if g_motor='postgres' then
+		if ls_tiponota='c' then
+			dw_electronica.dataobject='dw_factura_electronica_cap_postgres_ncredito'	
+		else
+			dw_electronica.dataobject='dw_factura_electronica_cap_postgres_ndebito'
+		end if
+	end if	
+	dw_electronica.settransobject(sqlca)
+		
+	lst_lle=u_eleca.sign_chilkat(dw_electronica,ldb_numradica,ls_clugarrad,ls_tiporad,li_nnota,ls_tiponota,'RV')
+	if lst_lle.as_estado<>'1' then
+		destroy u_eleca
+		return
+	end if
+	messagebox('','Proceso Finalizado')
+	destroy u_eleca
+end if
+end event
 
 type pb_dist_desc from picturebutton within tp_des
 integer x = 4297
@@ -4107,7 +4232,6 @@ integer width = 686
 integer height = 84
 integer taborder = 180
 boolean bringtotop = true
-string title = "none"
 string dataobject = "dw_ripsradica_nota"
 boolean livescroll = true
 borderstyle borderstyle = stylelowered!
@@ -4124,7 +4248,6 @@ integer width = 686
 integer height = 88
 integer taborder = 180
 boolean bringtotop = true
-string title = "none"
 string dataobject = "dw_contratos_pa_rias"
 boolean livescroll = true
 borderstyle borderstyle = stylelowered!
@@ -4132,4 +4255,15 @@ end type
 
 event constructor;settransobject(sqlca)
 end event
+
+type dw_electronica from uo_datawindow within w_teso_cartera
+boolean visible = false
+integer x = 3077
+integer y = 2416
+integer width = 754
+integer height = 60
+integer taborder = 60
+boolean bringtotop = true
+string dataobject = "asis_int_factura_ele_cap"
+end type
 
