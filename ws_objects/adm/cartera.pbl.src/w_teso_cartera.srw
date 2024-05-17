@@ -216,12 +216,16 @@ type dw_gloa from datawindow within w_teso_cartera
 end type
 type pb_7 from picturebutton within w_teso_cartera
 end type
+type dw_nc from datawindow within w_teso_cartera
+end type
+type dw_detc from datawindow within w_teso_cartera
+end type
 end forward
 
 global type w_teso_cartera from w_center
 string tag = "Realizó cambios a un Cobro, desea guardarlos ?"
-integer width = 5605
-integer height = 2480
+integer width = 6107
+integer height = 2616
 string title = "Cartera - Movimientos"
 boolean maxbox = false
 boolean resizable = false
@@ -250,6 +254,8 @@ dw_pag dw_pag
 hpb_1 hpb_1
 dw_gloa dw_gloa
 pb_7 pb_7
+dw_nc dw_nc
+dw_detc dw_detc
 end type
 global w_teso_cartera w_teso_cartera
 
@@ -260,7 +266,6 @@ datawindowchild idw_tipocart,idw_des,idw_glo,idw_pago,idw_caja,idw_caja2,idw_cue
 boolean i_nuevo=false
 int i_dec_teso
 end variables
-
 forward prototypes
 public subroutine insert_tot (datawindow dw)
 public function integer grabar ()
@@ -417,14 +422,83 @@ if i_nuevo then
 		next
 	end if
 end if //fin nuevo
-tab_1.tp_pag.tab_2.tp_1.dw_pagos.setredraw(false)
-tab_1.tp_pag.tab_2.tp_1.dw_pagos.setfilter('isrownew()')
-tab_1.tp_pag.tab_2.tp_1.dw_pagos.filter()
+
 
 long ning
 dec valor
 string concep
 
+tab_1.tp_des.dw_des.setredraw(false)
+tab_1.tp_des.dw_des.setfilter('isrownew()')
+tab_1.tp_des.dw_des.filter()
+for j=1 to tab_1.tp_des.dw_des.rowcount()
+	if tab_1.tp_des.dw_des.getitemstring(j,'dian')='1' then
+			int li_fila,li_nnota, li_rec
+			decimal ln_valorn,ln_valorc,ln_valora
+			long ldb_nrad
+			string ls_tprad,ls_lgrad
+		
+			ldb_nrad = tab_1.tp_det.dw_det.getItemNumber(tab_1.tp_det.dw_det.getrow(),'num_radicacion')
+			ls_lgrad= tab_1.tp_det.dw_det.getItemString(tab_1.tp_det.dw_det.getrow(),'clugar_rad')
+			ls_tprad= tab_1.tp_det.dw_det.getItemString(tab_1.tp_det.dw_det.getrow(),'tipo_rad')
+			ln_valorc=tab_1.tp_det.dw_det.getItemnumber(tab_1.tp_det.dw_det.getrow(),'valor_capita')
+			ln_valora= tab_1.tp_det.dw_det.getItemnumber(tab_1.tp_det.dw_det.getrow(),'valor_evento')
+			ln_valorn=tab_1.tp_des.dw_des.getitemnumber(j,'valor')
+
+			
+			dw_nc.retrieve(ldb_nrad,ls_lgrad,ls_tprad)
+			dw_detc.retrieve(ldb_nrad,ls_lgrad,ls_tprad)
+			
+			li_fila=dw_nc.insertrow(0)
+			dw_nc.scrolltorow(li_fila)
+			dw_nc.setfocus()
+			
+			li_nnota=dw_nc.getitemnumber(1,'nnotas')
+			if isnull(li_nnota) then li_nnota=0
+			li_nnota++
+			dw_nc.setitem(li_fila,'num_radicacion', ldb_nrad)
+			dw_nc.setitem(li_fila,'clugar', ls_lgrad)
+			dw_nc.setitem(li_fila,'tipo', ls_tprad)		
+			dw_nc.setitem(li_fila,'fecha_nota', tab_1.tp_des.dw_des.getitemdatetime(j,'fecha'))
+			dw_nc.setitem(li_fila,'cod_usuario',usuario)
+			dw_nc.setitem(li_fila,'nro_nota',li_nnota)
+			dw_nc.setitem(li_fila,'valor_nota',ln_valorn)
+			dw_nc.setitem(li_fila,'valor_capita', ln_valorc)
+			dw_nc.setitem(li_fila,'valor_evento', ln_valora)
+			if tab_1.tp_des.dw_des.getitemnumber(j,'operacion')= -1 then
+				dw_nc.setitem(li_fila,'tipo_nota', 'C')
+			end if
+			if tab_1.tp_des.dw_des.getitemnumber(j,'operacion')= 1 then
+				dw_nc.setitem(li_fila,'tipo_nota', 'D')
+			end if			
+			setnull(ln_valorc)
+			setnull(ln_valora)
+			tab_1.tp_des.dw_des.setitem(j,'nradica_nota', ldb_nrad)
+			tab_1.tp_des.dw_des.setitem(j,'clugar_nota', ls_lgrad)
+			tab_1.tp_des.dw_des.setitem(j,'trad_nota', ls_tprad)
+			tab_1.tp_des.dw_des.setitem(j,'tipo_nota',dw_nc.getitemstring(li_fila,'tipo_nota'))
+			tab_1.tp_des.dw_des.setitem(j,'nro_nota',li_nnota)
+
+			for li_rec=1 to dw_detc.rowcount()
+				ln_valorc=ln_valorn*dw_detc.getitemnumber(li_rec,'porcen')
+				if tab_1.tp_des.dw_des.getitemnumber(j,'operacion')= -1 then
+					ln_valora=dw_detc.getitemnumber(li_rec,'valor_ncr')
+					dw_detc.setitem(li_rec,'valor_ncr',ln_valora+ln_valorc)
+				else
+					ln_valora=dw_detc.getitemnumber(li_rec,'valor_ndb')			
+					dw_detc.setitem(li_rec,'valor_ndb',ln_valora+ln_valorc)
+				end if
+			next	
+	end if
+next
+tab_1.tp_des.dw_des.setfilter('')
+tab_1.tp_des.dw_des.filter()
+tab_1.tp_des.dw_des.setredraw(true)
+
+
+tab_1.tp_pag.tab_2.tp_1.dw_pagos.setredraw(false)
+tab_1.tp_pag.tab_2.tp_1.dw_pagos.setfilter('isrownew()')
+tab_1.tp_pag.tab_2.tp_1.dw_pagos.filter()
 for j=1 to tab_1.tp_pag.tab_2.tp_1.dw_pagos.rowcount()
 	valor=round(tab_1.tp_pag.tab_2.tp_1.dw_pagos.getitemdecimal(j,'valor'),i_dec_gral_car)
 	concep=tab_1.tp_pag.tab_2.tp_1.dw_pagos.getitemstring(j,'cartipo')
@@ -466,6 +540,7 @@ for j=1 to tab_1.tp_pag.tab_2.tp_1.dw_pagos.rowcount()
 		next
 	end if
 next
+
 string clug_anti,cdoc_anti
 long nanti
 dec val
@@ -494,6 +569,8 @@ if dw_cab.update(true,false)=-1 then return -1
 if dw_tot.update(true,false)=-1 then return -1
 if tab_1.tp_det.dw_det.update(true,false)=-1 then return -1
 if tab_1.tp_des.dw_des.update(true,false)=-1 then return -1
+if dw_nc.update(true,false)=-1 then return -1
+if dw_detc.update(true,false)=-1 then return -1
 if tab_1.tp_glo.dw_glosas.update(true,false)=-1 then return -1
 if tab_1.tp_pag.tab_2.tp_1.dw_pagos.update(true,false)=-1 then return -1
 if tab_1.tp_pag.tab_2.tp_2.dw_pago.update(true,false)=-1 then return -1
@@ -514,6 +591,8 @@ dw_cab.resetupdate()
 dw_tot.resetupdate()
 tab_1.tp_det.dw_det.resetupdate()
 tab_1.tp_des.dw_des.resetupdate()
+dw_nc.resetupdate()
+dw_detc.resetupdate()
 for j = 1 to tab_1.tp_glo.dw_glosas.RowCount()
 	tab_1.tp_glo.dw_glosas.SetItem(j,'nuevo',0)
 next
@@ -541,9 +620,11 @@ if i_nuevo then
 	dw_lugar.triggerevent(itemchanged!)
 end if
 tab_1.tp_pag.tab_2.tp_0.pb_new_pago.enabled=true
+tab_1.tp_des.pb_newdes.enabled=true
 tab_1.tp_pag.tab_2.tp_1.dw_pagos.event rowfocuschanged(tab_1.tp_pag.tab_2.tp_1.dw_pagos.getrow())
 tab_1.setredraw(true)
 return 1
+
 end function
 
 public function decimal calc_totales ();dw_tot.setredraw(false)
@@ -639,6 +720,8 @@ this.dw_pag=create dw_pag
 this.hpb_1=create hpb_1
 this.dw_gloa=create dw_gloa
 this.pb_7=create pb_7
+this.dw_nc=create dw_nc
+this.dw_detc=create dw_detc
 iCurrent=UpperBound(this.Control)
 this.Control[iCurrent+1]=this.gb_1
 this.Control[iCurrent+2]=this.st_1
@@ -661,6 +744,8 @@ this.Control[iCurrent+18]=this.dw_pag
 this.Control[iCurrent+19]=this.hpb_1
 this.Control[iCurrent+20]=this.dw_gloa
 this.Control[iCurrent+21]=this.pb_7
+this.Control[iCurrent+22]=this.dw_nc
+this.Control[iCurrent+23]=this.dw_detc
 end on
 
 on w_teso_cartera.destroy
@@ -686,6 +771,8 @@ destroy(this.dw_pag)
 destroy(this.hpb_1)
 destroy(this.dw_gloa)
 destroy(this.pb_7)
+destroy(this.dw_nc)
+destroy(this.dw_detc)
 end on
 
 event timer;call super::timer;if i_fila=dw_hist.getrow() then return
@@ -802,7 +889,7 @@ tab_1.tab_fact.dw_fact.resize((newwidth - 350),(tab_1.height *0.80))
 tab_1.tab_fact.pb_ce.x=(newwidth - 250)
 tab_1.tab_fact.pb_4.x=(newwidth - 250)
 tab_1.tab_fact.pb_impo.x=(newwidth - 250)
-tab_1.tp_des.dw_des.resize(3397,(tab_1.height *0.80))
+tab_1.tp_des.dw_des.resize(4233,(tab_1.height *0.80))
 tab_1.tp_des.mle_1.resize(1518,(tab_1.height *0.70))
 tab_1.tp_pag.tab_2.resize((newwidth - 50),(tab_1.height *0.90))
 tab_1.tp_pag.tab_2.tp_0.resize((newwidth - 100),(tab_1.height *0.90))
@@ -1406,7 +1493,7 @@ end event
 type tab_1 from tab within w_teso_cartera
 integer x = 41
 integer y = 1168
-integer width = 5495
+integer width = 6025
 integer height = 1200
 integer taborder = 170
 integer textsize = -8
@@ -1456,7 +1543,7 @@ end on
 type tp_det from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 5458
+integer width = 5989
 integer height = 1072
 long backcolor = 67108864
 string text = "Detalle"
@@ -1514,7 +1601,7 @@ end event
 type tab_fact from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 5458
+integer width = 5989
 integer height = 1072
 long backcolor = 67108864
 string text = "Facturas"
@@ -1733,7 +1820,7 @@ string tag = "Det. anticipo"
 boolean visible = false
 integer x = 18
 integer y = 112
-integer width = 5458
+integer width = 5989
 integer height = 1072
 long backcolor = 67108864
 string text = "Det. Ant."
@@ -1820,7 +1907,7 @@ end event
 type tp_des from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 5458
+integer width = 5989
 integer height = 1072
 long backcolor = 67108864
 string text = "Desc./Ajustes"
@@ -1873,8 +1960,8 @@ destroy(this.dw_des)
 end on
 
 type pb_impnota from picturebutton within tp_des
-integer x = 3470
-integer y = 736
+integer x = 4297
+integer y = 712
 integer width = 146
 integer height = 128
 integer taborder = 80
@@ -1884,14 +1971,15 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
+boolean enabled = false
 boolean originalsize = true
 string picturename = "print2.gif"
 string disabledname = "d_print2.gif"
 end type
 
 type pb_connota from picturebutton within tp_des
-integer x = 3465
-integer y = 604
+integer x = 4297
+integer y = 580
 integer width = 146
 integer height = 128
 integer taborder = 90
@@ -1901,6 +1989,7 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
+boolean enabled = false
 boolean originalsize = true
 string picturename = "dian_zip.gif"
 string disabledname = "d_dian_zip.gif"
@@ -1908,8 +1997,8 @@ string powertiptext = "Envio Contenedor"
 end type
 
 type pb_diann from picturebutton within tp_des
-integer x = 3461
-integer y = 468
+integer x = 4297
+integer y = 444
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -1927,10 +2016,10 @@ string powertiptext = "Envio Nota"
 end type
 
 type pb_dist_desc from picturebutton within tp_des
-integer x = 3461
-integer y = 316
-integer width = 142
-integer height = 124
+integer x = 4297
+integer y = 292
+integer width = 146
+integer height = 128
 integer taborder = 90
 integer textsize = -8
 integer weight = 400
@@ -1938,6 +2027,7 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
+boolean originalsize = true
 string picturename = "contrato.gif"
 string powertiptext = "Distribuir Descuento"
 end type
@@ -1969,10 +2059,10 @@ end if
 end event
 
 type mle_1 from multilineedit within tp_des
-integer x = 3657
-integer y = 112
-integer width = 1742
-integer height = 940
+integer x = 4530
+integer y = 84
+integer width = 1353
+integer height = 976
 integer taborder = 30
 integer textsize = -8
 integer weight = 400
@@ -1999,8 +2089,8 @@ event losefocus;event modified()
 end event
 
 type st_6 from statictext within tp_des
-integer x = 3666
-integer y = 44
+integer x = 4526
+integer y = 16
 integer width = 864
 integer height = 60
 integer textsize = -8
@@ -2016,10 +2106,10 @@ boolean focusrectangle = false
 end type
 
 type pb_deldes from picturebutton within tp_des
-integer x = 3461
-integer y = 184
-integer width = 142
-integer height = 124
+integer x = 4297
+integer y = 160
+integer width = 146
+integer height = 128
 integer taborder = 50
 integer textsize = -10
 integer weight = 400
@@ -2027,6 +2117,7 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
+boolean originalsize = true
 string picturename = "borrar_fila.gif"
 alignment htextalign = left!
 string powertiptext = "Anular o Borrar Descuento"
@@ -2035,6 +2126,10 @@ end type
 event clicked;long fila,j
 fila=dw_des.getrow()
 if fila<1 then return
+if dw_des.getitemstring(fila,'estado_dian_nota')='1' then
+	messagebox("Atención",'Esta Nota ya se encuentra en DIAN, no lo puede anular')
+	return
+end if
 if dw_des.getitemstring(fila,'contabil')='C' then
 	messagebox("Atención",'Este descuento ya se encuentra contabilizado, no lo puede anular')
 	return
@@ -2058,10 +2153,10 @@ cambio=true
 end event
 
 type pb_newdes from picturebutton within tp_des
-integer x = 3461
-integer y = 52
-integer width = 142
-integer height = 124
+integer x = 4297
+integer y = 28
+integer width = 146
+integer height = 128
 integer taborder = 50
 integer textsize = -10
 integer weight = 400
@@ -2069,7 +2164,9 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
+boolean originalsize = true
 string picturename = "insertar.gif"
+string disabledname = "d_insertar.gif"
 alignment htextalign = left!
 string powertiptext = "Nuevo descuento / Ajuste"
 end type
@@ -2077,6 +2174,7 @@ end type
 event clicked;long donde,j
 if dw_cab.rowcount()=0 then return
 if not isnull(dw_cab.getitemstring(1,'estado')) then return
+
 if dw_cab.getitemstring(1,'cxp')='1' then return
 if (dw_cab.getitemstring(1,'cxp')='2' or dw_cab.getitemstring(1,'cxp')='3') and i_nuevo then
 	messagebox("Atención",'Debe primero guardar para poder insertar un registro de descuentos')
@@ -2096,6 +2194,7 @@ dw_des.setitem(donde,'fecha_audita',datetime(today(),now()))
 dw_des.scrolltorow(donde)
 if idw_des.rowcount()=1 then dw_des.setitem(donde,'cartipo',idw_des.getitemstring(1,1))
 dw_des.setfocus()
+pb_newdes.enabled=false
 calc_totales()
 cambio=true
 return donde
@@ -2104,7 +2203,7 @@ end event
 type dw_des from datawindow within tp_des
 integer x = 32
 integer y = 32
-integer width = 3397
+integer width = 4233
 integer height = 1040
 integer taborder = 40
 string title = "none"
@@ -2126,8 +2225,24 @@ object.compute_2.visible=0
 
 end event
 
-event itemchanged;cambio=true
+event itemchanged;accepttext()
+cambio=true
 if dwo.name='valor' or dwo.name='cartipo' then 
+	
+	if dwo.name='cartipo' and  tab_1.tp_det.dw_det.getItemString(tab_1.tp_det.dw_det.getrow(),'tipo_rad')='F' then
+	
+		string ls_crt
+		int li_fila
+		ls_crt=getitemstring(getrow(),'cartipo')
+		li_fila=idw_des.find("cartipo='"+ls_crt+"'",1,idw_des.rowcount())
+		if li_fila>0 then 
+			setitem(getrow(),'operacion',idw_des.getitemnumber(li_fila,'operacion'))
+			if idw_des.getitemstring(li_fila,'dian')='1' then
+				setitem(getrow(),'dian','1')
+			end if
+		end if
+	end if
+	
 	if dwo.name='valor' then
 		if dec(data)>dw_cab.getitemnumber(1,'pendiente') then
 			setitem(getrow(),'valor',0)
@@ -2159,6 +2274,26 @@ end event
 event rowfocuschanged;mle_1.text=''
 if getrow()<1 then return
 mle_1.text=getitemstring(getrow(),'observaciones')
+
+string ls_crt
+int li_fila
+if  tab_1.tp_det.dw_det.getItemString(tab_1.tp_det.dw_det.getrow(),'tipo_rad')='F' then
+	ls_crt=getitemstring(getrow(),'cartipo')
+	li_fila=idw_des.find("cartipo='"+ls_crt+"'",1,idw_des.rowcount())
+	if idw_des.getitemstring(li_fila,'dian')='1' then
+		if isnull(getitemstring(getrow(),'estado_dian_nota')) or getitemstring(getrow(),'estado_dian_nota')='2'  or getitemstring(getrow(),'estado_dian_nota')='0 'then
+			pb_diann.enabled=true
+		else
+			pb_diann.enabled=false
+		end if
+		pb_connota.enabled=true
+		pb_impnota.enabled=true
+	else
+		pb_diann.enabled=false
+		pb_connota.enabled=false
+		pb_impnota.enabled=false
+	end if
+end if
 end event
 
 event dberror;return f_dw_error(sqldbcode,sqlsyntax,sqlerrtext,classname())
@@ -2188,7 +2323,7 @@ end event
 type tp_pag from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 5458
+integer width = 5989
 integer height = 1072
 long backcolor = 67108864
 string text = "Pagos"
@@ -3298,7 +3433,7 @@ end event
 type tp_glo from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 5458
+integer width = 5989
 integer height = 1072
 long backcolor = 67108864
 string text = "Glosas"
@@ -3962,5 +4097,39 @@ event clicked;st_xa_buscar_pre st
 st.dw_histo=dw_hist
 st.cdoc='factu'
 openwithparm(w_busca_fact_cartera,st)
+end event
+
+type dw_nc from datawindow within w_teso_cartera
+boolean visible = false
+integer x = 3941
+integer y = 2444
+integer width = 686
+integer height = 84
+integer taborder = 180
+boolean bringtotop = true
+string title = "none"
+string dataobject = "dw_ripsradica_nota"
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event constructor;settransobject(sqlca)
+end event
+
+type dw_detc from datawindow within w_teso_cartera
+boolean visible = false
+integer x = 4695
+integer y = 2444
+integer width = 686
+integer height = 88
+integer taborder = 180
+boolean bringtotop = true
+string title = "none"
+string dataobject = "dw_contratos_pa_rias"
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event constructor;settransobject(sqlca)
 end event
 
