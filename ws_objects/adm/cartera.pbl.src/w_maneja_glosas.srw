@@ -1033,7 +1033,8 @@ event open;this.postevent("cargar")
 end event
 
 event resize;tab_1.resize((newwidth - 50) , (newheight * 0.66))
-tab_1.tp_1.dw_facts.resize((newwidth -150),(tab_1.height *0.45))
+//tab_1.tp_1.dw_facts.resize((newwidth -150),(tab_1.height *0.45))
+tab_1.tp_1.dw_facts.resize((newwidth -150),(tab_1.height -450))
 tab_1.tp_1.dw_fac_glos.resize((newwidth *0.75),(tab_1.height *0.30))
 tab_1.tp_1.pb_of.x=tab_1.tp_1.dw_fac_glos.x+tab_1.tp_1.dw_fac_glos.width+30
 tab_1.tp_1.pb_7.x=tab_1.tp_1.dw_fac_glos.x+tab_1.tp_1.dw_fac_glos.width+30
@@ -1406,7 +1407,7 @@ integer height = 1448
 long backcolor = 67108864
 string text = "Facturas"
 long tabtextcolor = 33554432
-string picturename = "factura.ico"
+string picturename = "qr.ico"
 long picturemaskcolor = 536870912
 string powertiptext = "Facturas Objetadas"
 dw_encartera dw_encartera
@@ -1617,6 +1618,7 @@ string text = "Consecutivo"
 end type
 
 type st_9 from statictext within tp_1
+boolean visible = false
 integer x = 18
 integer y = 888
 integer width = 855
@@ -1634,6 +1636,7 @@ boolean focusrectangle = false
 end type
 
 type pb_7 from picturebutton within tp_1
+boolean visible = false
 integer x = 4695
 integer y = 1092
 integer width = 146
@@ -1662,6 +1665,7 @@ end if
 end event
 
 type pb_of from picturebutton within tp_1
+boolean visible = false
 integer x = 4695
 integer y = 952
 integer width = 146
@@ -1707,12 +1711,12 @@ end event
 type dw_fac_glos from datawindow within tp_1
 event type integer p_itemchanged ( integer p_fila )
 event porcentajes ( )
+boolean visible = false
 integer x = 14
 integer y = 952
 integer width = 4599
 integer height = 480
 integer taborder = 50
-string title = "none"
 string dataobject = "dw_glos_cpo_det"
 boolean hscrollbar = true
 boolean vscrollbar = true
@@ -2525,6 +2529,7 @@ Return donde
 end event
 
 type dw_obj_fact from datawindow within tp_1
+boolean visible = false
 integer x = 4905
 integer y = 920
 integer width = 1088
@@ -2562,7 +2567,7 @@ type dw_facts from datawindow within tp_1
 event p_itemchanged ( )
 integer y = 152
 integer width = 5993
-integer height = 724
+integer height = 1292
 integer taborder = 30
 string title = "none"
 string dataobject = "dw_glos_cpo"
@@ -2756,7 +2761,7 @@ integer height = 1448
 long backcolor = 67108864
 string text = "Procedimientos"
 long tabtextcolor = 33554432
-string picturename = "bisturi.ico"
+string picturename = "dev_med.ico"
 long picturemaskcolor = 536870912
 string powertiptext = "Detalle de la Factura"
 rb_o rb_o
@@ -3554,7 +3559,7 @@ integer height = 1448
 long backcolor = 67108864
 string text = "Items del Proc."
 long tabtextcolor = 33554432
-string picturename = "buscar.ico"
+string picturename = "bisturi.ico"
 long picturemaskcolor = 536870912
 string powertiptext = "Subdetalle del Procedimiento"
 st_11 st_11
