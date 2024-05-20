@@ -2,6 +2,8 @@
 forward
 global type w_reenvia_glosas from window
 end type
+type dw_electronica from uo_datawindow within w_reenvia_glosas
+end type
 type pb_impnota from picturebutton within w_reenvia_glosas
 end type
 type pb_connota from picturebutton within w_reenvia_glosas
@@ -129,10 +131,12 @@ type dw_histo from datawindow within w_reenvia_glosas
 end type
 type gb_1 from groupbox within w_reenvia_glosas
 end type
+type gb_2 from groupbox within w_reenvia_glosas
+end type
 end forward
 
 global type w_reenvia_glosas from window
-integer width = 5545
+integer width = 5929
 integer height = 2088
 boolean titlebar = true
 string title = "Cartera - Reenvio de Objeciones"
@@ -141,6 +145,7 @@ boolean minbox = true
 windowtype windowtype = popup!
 long backcolor = 67108864
 string icon = "ribon_renvio.ico"
+dw_electronica dw_electronica
 pb_impnota pb_impnota
 pb_connota pb_connota
 pb_diann pb_diann
@@ -151,6 +156,7 @@ pb_save pb_save
 tab_1 tab_1
 dw_histo dw_histo
 gb_1 gb_1
+gb_2 gb_2
 end type
 global w_reenvia_glosas w_reenvia_glosas
 
@@ -225,6 +231,7 @@ return 1
 end function
 
 on w_reenvia_glosas.create
+this.dw_electronica=create dw_electronica
 this.pb_impnota=create pb_impnota
 this.pb_connota=create pb_connota
 this.pb_diann=create pb_diann
@@ -235,7 +242,9 @@ this.pb_save=create pb_save
 this.tab_1=create tab_1
 this.dw_histo=create dw_histo
 this.gb_1=create gb_1
-this.Control[]={this.pb_impnota,&
+this.gb_2=create gb_2
+this.Control[]={this.dw_electronica,&
+this.pb_impnota,&
 this.pb_connota,&
 this.pb_diann,&
 this.em_1,&
@@ -244,10 +253,12 @@ this.pb_6,&
 this.pb_save,&
 this.tab_1,&
 this.dw_histo,&
-this.gb_1}
+this.gb_1,&
+this.gb_2}
 end on
 
 on w_reenvia_glosas.destroy
+destroy(this.dw_electronica)
 destroy(this.pb_impnota)
 destroy(this.pb_connota)
 destroy(this.pb_diann)
@@ -258,6 +269,7 @@ destroy(this.pb_save)
 destroy(this.tab_1)
 destroy(this.dw_histo)
 destroy(this.gb_1)
+destroy(this.gb_2)
 end on
 
 event open;em_1.TriggerEvent(modified!)
@@ -315,9 +327,20 @@ tab_1.tp_3.mle_resp3.x=tab_1.tp_3.dw_resp_sitem.x+tab_1.tp_3.dw_resp_sitem.width
 tab_1.tp_3.mle_resp3.resize((newwidth * 0.45) , (newheight * 0.22))
 end event
 
+type dw_electronica from uo_datawindow within w_reenvia_glosas
+boolean visible = false
+integer x = 5458
+integer y = 48
+integer width = 183
+integer height = 96
+integer taborder = 50
+boolean enabled = false
+string dataobject = "dw_factura_electronica_postgres"
+end type
+
 type pb_impnota from picturebutton within w_reenvia_glosas
-integer x = 5326
-integer y = 168
+integer x = 5189
+integer y = 376
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -335,8 +358,8 @@ alignment htextalign = left!
 end type
 
 type pb_connota from picturebutton within w_reenvia_glosas
-integer x = 5170
-integer y = 168
+integer x = 5189
+integer y = 232
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -354,9 +377,35 @@ alignment htextalign = left!
 string powertiptext = "Envio Contenedor"
 end type
 
+event clicked;//////////ELECTRONICA	
+double ldb_i,ldb_nfactura,ldb_nnto
+string ls_clugar,ls_tfac,ls_tnota
+nvo_factura_electronica u_elec
+st_ret_dian    lst_lle
+
+u_elec=create nvo_factura_electronica
+
+for ldb_i =1 to tab_1.tp_1.dw_facts.rowcount()
+	if tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'estado_dian_nota')='1' then continue
+	if tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'file_name_fact_nota')='0' then continue
+	
+	ldb_nfactura=tab_1.tp_1.dw_facts.getitemnumber(ldb_i ,'nfact')
+	ls_clugar=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'clugar')
+	ls_tfac=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'tipo_fact')
+	ls_tnota=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'tipo_nota')
+	ldb_nnto=tab_1.tp_1.dw_facts.getitemnumber(ldb_i ,'nro_nota')	
+	
+	u_elec.of_enviar_new_correo(ldb_nfactura,ls_clugar,ls_tfac,ldb_nnto,'c',tab_1.tp_1.dw_facts.getitemstring(ldb_i,'file_name_fact_nota'),'F')
+	
+next
+destroy u_elec
+messagebox('','Proceso Finalizado')
+//////////ELECTRONICA	
+end event
+
 type pb_diann from picturebutton within w_reenvia_glosas
-integer x = 5010
-integer y = 168
+integer x = 5189
+integer y = 92
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -373,6 +422,39 @@ string disabledname = "d_dian.gif"
 alignment htextalign = left!
 string powertiptext = "Envio Nota Dian"
 end type
+
+event clicked;//////////ELECTRONICA	
+double ldb_i,ldb_nfactura,ldb_nnto
+string ls_clugar,ls_tfac,ls_tnota
+nvo_factura_electronica u_elec
+st_ret_dian    lst_lle
+	
+u_elec=create nvo_factura_electronica
+
+for ldb_i =1 to tab_1.tp_1.dw_facts.rowcount()
+	if g_motor='postgres' then
+		dw_electronica.dataobject="dw_factura_electronica_postgres_ncdre.srd"
+	else
+		//dw_electronica.dataobject="dw_factura_electronica"
+	end if
+	dw_electronica.settransobject(sqlca)		
+
+	if tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'estado_dian_nota')='1' then continue
+	if tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'file_name_fact_nota')='0' then continue
+	
+	ldb_nfactura=tab_1.tp_1.dw_facts.getitemnumber(ldb_i ,'nfact')
+	ls_clugar=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'clugar')
+	ls_tfac=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'tipo_fact')
+	ls_tnota=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'tipo_nota')
+	ldb_nnto=tab_1.tp_1.dw_facts.getitemnumber(ldb_i ,'nro_nota')
+	
+	lst_lle=u_elec.sign_chilkat(dw_electronica,ldb_nfactura,ls_clugar,ls_tfac,ldb_nnto,'c','FV')
+next
+destroy u_elec
+messagebox('','Proceso Finalizado')
+////////ELECTRONICA	
+
+end event
 
 type em_1 from editmask within w_reenvia_glosas
 integer x = 731
@@ -406,8 +488,8 @@ dw_histo.setfocus()
 end event
 
 type pb_fenvio from picturebutton within w_reenvia_glosas
-integer x = 5170
-integer y = 28
+integer x = 5029
+integer y = 232
 integer width = 146
 integer height = 128
 integer taborder = 60
@@ -433,8 +515,8 @@ end if
 end event
 
 type pb_6 from picturebutton within w_reenvia_glosas
-integer x = 5006
-integer y = 28
+integer x = 5029
+integer y = 92
 integer width = 146
 integer height = 128
 integer taborder = 40
@@ -473,9 +555,8 @@ end choose
 end event
 
 type pb_save from picturebutton within w_reenvia_glosas
-boolean visible = false
-integer x = 5326
-integer y = 28
+integer x = 5029
+integer y = 376
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -485,9 +566,11 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
+boolean enabled = false
 string text = "             &g"
 boolean originalsize = true
 string picturename = "guardar.gif"
+string disabledname = "d_guardar.gif"
 alignment htextalign = left!
 string powertiptext = "Guardar [Alt+G]"
 end type
@@ -542,7 +625,7 @@ integer height = 1180
 long backcolor = 67108864
 string text = "Facturas"
 long tabtextcolor = 33554432
-string picturename = "factura.ico"
+string picturename = "qr.ico"
 long picturemaskcolor = 536870912
 string powertiptext = "Facuras de la Objeción por usuario"
 mle_resp1 mle_resp1
@@ -884,7 +967,7 @@ end event
 
 type dw_facts from datawindow within tp_1
 integer y = 20
-integer width = 3561
+integer width = 5362
 integer height = 480
 integer taborder = 30
 string title = "none"
@@ -966,7 +1049,7 @@ integer height = 1180
 long backcolor = 67108864
 string text = "Procedimientos"
 long tabtextcolor = 33554432
-string picturename = "bisturi.ico"
+string picturename = "dev_med.ico"
 long picturemaskcolor = 536870912
 string powertiptext = "Procedimientos a responder de la factura"
 mle_resp2 mle_resp2
@@ -1258,7 +1341,7 @@ end type
 type dw_procs from datawindow within tp_2
 event p_itemchanged ( )
 integer y = 160
-integer width = 3529
+integer width = 5353
 integer height = 444
 integer taborder = 40
 string title = "none"
@@ -1336,7 +1419,7 @@ integer height = 1180
 long backcolor = 67108864
 string text = "Items. del proc."
 long tabtextcolor = 33554432
-string picturename = "buscar.ico"
+string picturename = "bisturi.ico"
 long picturemaskcolor = 536870912
 string powertiptext = "Subdetalle del Procedimiento"
 mle_resp3 mle_resp3
@@ -1684,7 +1767,7 @@ type dw_sitem from datawindow within tp_3
 event p_itemchanged ( )
 integer x = 5
 integer y = 172
-integer width = 3547
+integer width = 5353
 integer height = 472
 integer taborder = 40
 string title = "none"
@@ -1774,6 +1857,7 @@ tab_1.tp_3.dw_resp_sitem.reset()
 idw_facts.reset()
 idw_facts2.reset()
 if getrow()<1 then return
+
 idw_facts.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
 idw_facts2.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
 tab_1.tp_3.dw_resp_sitem.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
@@ -1786,6 +1870,15 @@ if dw_histo.getitemstring(dw_histo.getrow(),'estado')='3' then
 	pb_fenvio.enabled=true
 else
 	pb_fenvio.enabled=false
+end if
+if getitemnumber(getrow(),'valor_aceptado')>0 then
+	pb_diann.enabled=true
+	pb_connota.enabled=true
+	pb_impnota.enabled=true
+else
+	pb_diann.enabled=false
+	pb_connota.enabled=false
+	pb_impnota.enabled=false
 end if
 end event
 
@@ -1831,5 +1924,22 @@ string facename = "Arial"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "Historial de Objeciones Año:"
+end type
+
+type gb_2 from groupbox within w_reenvia_glosas
+integer x = 5001
+integer y = 12
+integer width = 407
+integer height = 636
+integer taborder = 40
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+long textcolor = 33554432
+long backcolor = 553648127
+string text = "Herramientas"
 end type
 
