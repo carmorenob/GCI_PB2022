@@ -2,6 +2,14 @@
 forward
 global type w_reenvia_glosas from window
 end type
+type pb_impnota from picturebutton within w_reenvia_glosas
+end type
+type pb_connota from picturebutton within w_reenvia_glosas
+end type
+type pb_diann from picturebutton within w_reenvia_glosas
+end type
+type em_1 from editmask within w_reenvia_glosas
+end type
 type pb_fenvio from picturebutton within w_reenvia_glosas
 end type
 type pb_6 from picturebutton within w_reenvia_glosas
@@ -117,10 +125,6 @@ tp_1 tp_1
 tp_2 tp_2
 tp_3 tp_3
 end type
-type rb_2 from radiobutton within w_reenvia_glosas
-end type
-type rb_1 from radiobutton within w_reenvia_glosas
-end type
 type dw_histo from datawindow within w_reenvia_glosas
 end type
 type gb_1 from groupbox within w_reenvia_glosas
@@ -128,8 +132,8 @@ end type
 end forward
 
 global type w_reenvia_glosas from window
-integer width = 3749
-integer height = 2160
+integer width = 5545
+integer height = 2088
 boolean titlebar = true
 string title = "Cartera - Reenvio de Objeciones"
 boolean controlmenu = true
@@ -137,12 +141,14 @@ boolean minbox = true
 windowtype windowtype = popup!
 long backcolor = 67108864
 string icon = "ribon_renvio.ico"
+pb_impnota pb_impnota
+pb_connota pb_connota
+pb_diann pb_diann
+em_1 em_1
 pb_fenvio pb_fenvio
 pb_6 pb_6
 pb_save pb_save
 tab_1 tab_1
-rb_2 rb_2
-rb_1 rb_1
 dw_histo dw_histo
 gb_1 gb_1
 end type
@@ -219,36 +225,42 @@ return 1
 end function
 
 on w_reenvia_glosas.create
+this.pb_impnota=create pb_impnota
+this.pb_connota=create pb_connota
+this.pb_diann=create pb_diann
+this.em_1=create em_1
 this.pb_fenvio=create pb_fenvio
 this.pb_6=create pb_6
 this.pb_save=create pb_save
 this.tab_1=create tab_1
-this.rb_2=create rb_2
-this.rb_1=create rb_1
 this.dw_histo=create dw_histo
 this.gb_1=create gb_1
-this.Control[]={this.pb_fenvio,&
+this.Control[]={this.pb_impnota,&
+this.pb_connota,&
+this.pb_diann,&
+this.em_1,&
+this.pb_fenvio,&
 this.pb_6,&
 this.pb_save,&
 this.tab_1,&
-this.rb_2,&
-this.rb_1,&
 this.dw_histo,&
 this.gb_1}
 end on
 
 on w_reenvia_glosas.destroy
+destroy(this.pb_impnota)
+destroy(this.pb_connota)
+destroy(this.pb_diann)
+destroy(this.em_1)
 destroy(this.pb_fenvio)
 destroy(this.pb_6)
 destroy(this.pb_save)
 destroy(this.tab_1)
-destroy(this.rb_2)
-destroy(this.rb_1)
 destroy(this.dw_histo)
 destroy(this.gb_1)
 end on
 
-event open;dw_histo.retrieve()
+event open;em_1.TriggerEvent(modified!)
 end event
 
 event closequery;choose case f_pregunta()
@@ -303,9 +315,99 @@ tab_1.tp_3.mle_resp3.x=tab_1.tp_3.dw_resp_sitem.x+tab_1.tp_3.dw_resp_sitem.width
 tab_1.tp_3.mle_resp3.resize((newwidth * 0.45) , (newheight * 0.22))
 end event
 
-type pb_fenvio from picturebutton within w_reenvia_glosas
-integer x = 3442
+type pb_impnota from picturebutton within w_reenvia_glosas
+integer x = 5326
 integer y = 168
+integer width = 146
+integer height = 128
+integer taborder = 50
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+boolean enabled = false
+boolean originalsize = true
+string picturename = "print2.gif"
+string disabledname = "d_print2.gif"
+alignment htextalign = left!
+end type
+
+type pb_connota from picturebutton within w_reenvia_glosas
+integer x = 5170
+integer y = 168
+integer width = 146
+integer height = 128
+integer taborder = 50
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+boolean enabled = false
+boolean originalsize = true
+string picturename = "dian_zip.gif"
+string disabledname = "d_dian_zip.gif"
+alignment htextalign = left!
+string powertiptext = "Envio Contenedor"
+end type
+
+type pb_diann from picturebutton within w_reenvia_glosas
+integer x = 5010
+integer y = 168
+integer width = 146
+integer height = 128
+integer taborder = 50
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+boolean enabled = false
+boolean originalsize = true
+string picturename = "dian.gif"
+string disabledname = "d_dian.gif"
+alignment htextalign = left!
+string powertiptext = "Envio Nota Dian"
+end type
+
+type em_1 from editmask within w_reenvia_glosas
+integer x = 731
+integer y = 4
+integer width = 283
+integer height = 76
+integer taborder = 60
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 16777215
+borderstyle borderstyle = stylelowered!
+string mask = "####"
+boolean autoskip = true
+boolean spin = true
+double increment = 1
+string minmax = "2000~~2050"
+end type
+
+event constructor;text=string(year(today()))
+
+
+end event
+
+event modified;dw_histo.retrieve(integer(em_1.text))
+dw_histo.setfocus()
+end event
+
+type pb_fenvio from picturebutton within w_reenvia_glosas
+integer x = 5170
+integer y = 28
 integer width = 146
 integer height = 128
 integer taborder = 60
@@ -331,8 +433,8 @@ end if
 end event
 
 type pb_6 from picturebutton within w_reenvia_glosas
-integer x = 3442
-integer y = 32
+integer x = 5006
+integer y = 28
 integer width = 146
 integer height = 128
 integer taborder = 40
@@ -342,6 +444,7 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
+boolean originalsize = true
 string picturename = "llevar.gif"
 alignment htextalign = left!
 string powertiptext = "Reenviar Objeciones y Cerrar"
@@ -371,8 +474,8 @@ end event
 
 type pb_save from picturebutton within w_reenvia_glosas
 boolean visible = false
-integer x = 3442
-integer y = 304
+integer x = 5326
+integer y = 28
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -394,9 +497,9 @@ end event
 
 type tab_1 from tab within w_reenvia_glosas
 integer x = 32
-integer y = 672
-integer width = 3593
-integer height = 1304
+integer y = 668
+integer width = 5431
+integer height = 1308
 integer taborder = 30
 integer textsize = -8
 integer weight = 400
@@ -434,8 +537,8 @@ end on
 type tp_1 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 3557
-integer height = 1176
+integer width = 5394
+integer height = 1180
 long backcolor = 67108864
 string text = "Facturas"
 long tabtextcolor = 33554432
@@ -858,8 +961,8 @@ end event
 type tp_2 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 3557
-integer height = 1176
+integer width = 5394
+integer height = 1180
 long backcolor = 67108864
 string text = "Procedimientos"
 long tabtextcolor = 33554432
@@ -1228,8 +1331,8 @@ end type
 type tp_3 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 3557
-integer height = 1176
+integer width = 5394
+integer height = 1180
 long backcolor = 67108864
 string text = "Items. del proc."
 long tabtextcolor = 33554432
@@ -1644,45 +1747,11 @@ string text = "Objeciones de items de Procedimientos  a responder:"
 boolean focusrectangle = false
 end type
 
-type rb_2 from radiobutton within w_reenvia_glosas
-boolean visible = false
-integer x = 741
-integer y = 64
-integer width = 594
-integer height = 60
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-long textcolor = 33554432
-long backcolor = 67108864
-string text = "Respuestas Anteriores."
-end type
-
-type rb_1 from radiobutton within w_reenvia_glosas
-boolean visible = false
-integer x = 55
-integer y = 64
-integer width = 658
-integer height = 60
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-long textcolor = 33554432
-long backcolor = 67108864
-string text = "Pendientes de Responder"
-end type
-
 type dw_histo from datawindow within w_reenvia_glosas
 integer x = 41
-integer y = 140
-integer width = 3328
-integer height = 488
+integer y = 92
+integer width = 4896
+integer height = 536
 integer taborder = 10
 string title = "none"
 string dataobject = "dw_obje_cab_todas"
@@ -1750,7 +1819,7 @@ end event
 type gb_1 from groupbox within w_reenvia_glosas
 integer x = 23
 integer y = 8
-integer width = 3401
+integer width = 4951
 integer height = 648
 integer taborder = 20
 integer textsize = -8
@@ -1761,6 +1830,6 @@ fontfamily fontfamily = swiss!
 string facename = "Arial"
 long textcolor = 33554432
 long backcolor = 67108864
-string text = "Historial de Objeciones:"
+string text = "Historial de Objeciones Año:"
 end type
 

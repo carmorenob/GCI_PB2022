@@ -271,6 +271,7 @@ boolean i_nuevo=false
 int i_dec_teso
 uo_report i_rep
 end variables
+
 forward prototypes
 public subroutine insert_tot (datawindow dw)
 public function integer grabar ()
@@ -2099,7 +2100,7 @@ boolean enabled = false
 boolean originalsize = true
 string picturename = "dian.gif"
 string disabledname = "d_dian.gif"
-string powertiptext = "Envio Nota"
+string powertiptext = "Envio Nota Dian"
 end type
 
 event clicked;long ldb_numradica
