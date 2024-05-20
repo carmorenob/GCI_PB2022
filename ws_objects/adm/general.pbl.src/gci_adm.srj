@@ -145,6 +145,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,w_revisa_glos,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,dw_obje_cab_det,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\general.pbl,dw_combo_lugar_cartera,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_contratos_pa_rias,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,dw_obje_cab_todas,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,w_reclasif_cartera,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\evaluacion.pbl,dw_hlsplantilla,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,w_busca_pre,w
@@ -415,7 +416,6 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,dw_empnom,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumconfig.pbl,dw_ext_ufunc,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,st_dws_revisa,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,w_replica_resp,w
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\general.pbl,dw_obje_cab_todas,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\evaluacion.pbl,m_hcampos,m
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_med,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_center,w
