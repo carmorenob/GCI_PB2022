@@ -4444,7 +4444,7 @@ boolean livescroll = true
 borderstyle borderstyle = stylelowered!
 end type
 
-event itemchanged;long i, fila, filahist, parm,l_p
+event itemchanged;long i, fila, filahist, parm, l_p, fc
 double cantidad,ld_ahorro,ld_tar
 string vnula,conp,ls_td,ls_doc
 Date f_ini, f_fin
@@ -4550,6 +4550,9 @@ if this.GetColumnName() = 'cantidad_ac' then
 	if AcceptText() = -1 then Return -1
 	ibn_calculando = true
 	f_retrieveEnd()
+	filahist = dw_historia.Find("diasvinculado > 0",1,dw_historia.RowCount())
+	if filahist =0 and dw_historia.RowCount()>0 then filahist =1
+	ibn_calculando = false
 	if filahist = 0 and GetItemString(GetRow(),'tipo') ='L' and dw_historia.RowCount() > 0 then 
 		filahist = 1
 		dw_novedad.SetItem(GetRow(),'ncargo',dw_historia.GetItemNumber(filahist,'ncargo'))
@@ -4571,6 +4574,7 @@ if this.GetColumnName() = 'cantidad_ac' then
 			this.SetItem(this.GetRow(),'base',round(dw_historia.GetItemNumber(filahist,'b_'+GetItemString(GetRow(),'sigla')),0))		
 		end if
 		if GetItemString(GetRow(),'tipo') <> 'L' then 
+			ibn_calculando = true
 			if recalcula( tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc'),tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento') ) = -1 then
 				MessageBox('Atención','Error reevaluando conceptos')
 				ibn_calculando = false
@@ -4603,11 +4607,22 @@ if this.GetColumnName() = 'pagado' then
 	if AcceptText() = -1 then Return -1
 	ibn_calculando = true
 	f_retrieveend()
+	filahist = dw_historia.Find("diasvinculado > 0",1,dw_historia.RowCount())
+	if filahist =0 and dw_historia.RowCount()>0 then filahist =1
+	ibn_calculando = false
+	filahist = dw_historia.Find("diasvinculado > 0",1,dw_historia.RowCount())
+	if filahist =0 and dw_historia.RowCount()>0 then filahist =1
 	if filahist > 0 and not isNull(this.GetItemString(this.GetRow(),'cod_concep')) then
+		// Agrega fórmula
+		if dw_historia.Describe(ids_req.GetItemString(i,'sigla_req') + '.Coltype') = "!" then
+			fc = dwc_novedad.Find("cod_concep='"+GetItemString(Getrow(),'cod_concep')+"'",1,dwc_novedad.RowCount())
+			if f_addcompute( dwc_novedad.GetItemString(fc,'sigla'), dwc_novedad.GetItemString(fc,'form_calculo'), dwc_novedad.GetItemString(fc,'form_verifica'), dwc_novedad.GetItemnumber(fc,'tarifa'), dwc_novedad.GetItemnumber(fc,'tarifa_esp'),1) = -1 then  Return
+		end if
 	 	if round(dw_historia.GetItemNumber(filahist,GetItemString(GetRow(),'sigla')),0) <> double(data) then
 			ret = dw_historia.Modify(GetItemString(GetRow(),'sigla') + '.expression="'+data+' * if(salario_estado=~~"1~~",1,0) * ctr_'+GetItemString(GetRow(),'sigla')+'"')
 		end if
 		if GetItemString(GetRow(),'tipo') <> 'L' then 
+			ibn_calculando = true
 			if recalcula( tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc'),tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento') ) = -1 then
 				MessageBox('Atención','Error reevaluando conceptos')
 				ibn_calculando = false
@@ -4615,7 +4630,7 @@ if this.GetColumnName() = 'pagado' then
 			end if
 		end if
 	end if
-	ibn_calculando = true
+	ibn_calculando = false
 end if
 cambio = TRUE
 calctotal()
