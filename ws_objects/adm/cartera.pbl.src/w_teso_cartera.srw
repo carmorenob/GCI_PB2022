@@ -628,6 +628,7 @@ end if
 tab_1.tp_pag.tab_2.tp_0.pb_new_pago.enabled=true
 tab_1.tp_des.pb_newdes.enabled=true
 tab_1.tp_pag.tab_2.tp_1.dw_pagos.event rowfocuschanged(tab_1.tp_pag.tab_2.tp_1.dw_pagos.getrow())
+tab_1.tp_des.dw_des.event rowfocuschanged(tab_1.tp_des.dw_des.getrow())
 tab_1.setredraw(true)
 return 1
 
