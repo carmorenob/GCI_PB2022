@@ -765,8 +765,8 @@ if getColumnName() = 'cod_flujo' then
 			tb_1.tp_5.pb_del_ter.enabled=true
 			tb_1.tp_5.pb_adic_ter.enabled=true
 			openwithparm(w_lleva_dispo_reserv,st_p)
-		tb_1.tp_2.dw_rub.modify("monto.protect='0'")
-		tb_1.tp_4.dw_dest.modify("monto.protect='0'")						
+			tb_1.tp_2.dw_rub.modify("monto.protect='0'")
+			tb_1.tp_4.dw_dest.modify("monto.protect='0'")						
 		case 'PRSCTPT','PRSCTRFC','PRNCRFC','PRNCPT' // Reserva desde contrato
 			tb_1.tp_1.dw_intf.DataObject= 'dw_flujo_2s1n_3n'
 			tb_1.tp_1.dw_intf.SetTransObject(SQLCA)
