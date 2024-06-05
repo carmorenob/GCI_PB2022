@@ -16,12 +16,14 @@ table(column=(type=number updatewhereclause=yes name=num_radicacion dbname="rips
 	ripsradica.num_radicacion, ripsradica.clugar, ripsradica.fecha_radica, ripsradica.valor_evento, ripsradica.valor_capita,
 	Empresa.DesEmp,ripsradica.TIPO
 FROM 
-	((CAR_COBRO_CPO AS CAR_COBRO_CPO_1 INNER JOIN CAR_COBRO_CPO ON (CAR_COBRO_CPO_1.NUM_COBRO = CAR_COBRO_CPO.NUM_COBRO) 
-	AND (CAR_COBRO_CPO_1.CODDOC = CAR_COBRO_CPO.CODDOC) AND (CAR_COBRO_CPO_1.CLUGAR = CAR_COBRO_CPO.CLUGAR)) 
-	INNER JOIN ripsradica ON (CAR_COBRO_CPO.TIPO_RAD = ripsradica.TIPO) AND (CAR_COBRO_CPO.CLUGAR_RAD = ripsradica.CLUGAR) 
-	AND (CAR_COBRO_CPO.NUM_RADICACION = ripsradica.NUM_RADICACION)) INNER JOIN Empresa ON ripsradica.CEMP = Empresa.CODEMP
+	(((CAR_COBRO_CPO AS CAR_COBRO_CPO_1 
+	INNER JOIN CAR_COBRO_CPO ON (CAR_COBRO_CPO_1.CLUGAR = CAR_COBRO_CPO.CLUGAR) 
+	AND (CAR_COBRO_CPO_1.CODDOC = CAR_COBRO_CPO.CODDOC) AND (CAR_COBRO_CPO_1.NUM_COBRO = CAR_COBRO_CPO.NUM_COBRO)) 
+	INNER JOIN ripsradica ON (CAR_COBRO_CPO.NUM_RADICACION = ripsradica.NUM_RADICACION) 
+	AND (CAR_COBRO_CPO.CLUGAR_RAD = ripsradica.CLUGAR) AND (CAR_COBRO_CPO.TIPO_RAD = ripsradica.TIPO)) 
+	INNER JOIN Empresa ON ripsradica.CEMP = Empresa.CODEMP) INNER JOIN car_tipo ON CAR_COBRO_CPO_1.cartipo = car_tipo.cartipo
 WHERE
-	(((CAR_COBRO_CPO_1.CARTIPO)='GA') AND ((CAR_COBRO_CPO_1.VALOR)<>0) AND ((CAR_COBRO_CPO_1.ESTADO) Is Null) 
+	(((car_tipo.codtipo)='3') AND ((car_tipo.operacion)=-1) AND ((CAR_COBRO_CPO_1.VALOR)<>0) AND ((CAR_COBRO_CPO_1.ESTADO) Is Null)
 	AND ((CAR_COBRO_CPO.ESTADO) Is Null) AND ((ripsradica.ESTADO) Is Null))
 	AND  NOT EXISTS 
 	( SELECT RIPSRADICA_RESTA.NUM_RADICACION, RIPSRADICA_RESTA.CLUGAR, RIPSRADICA_RESTA.TIPO
@@ -53,4 +55,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=0 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 
