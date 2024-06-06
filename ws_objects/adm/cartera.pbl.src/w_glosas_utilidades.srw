@@ -343,6 +343,7 @@ choose case dwo.name
 		if idw_obj.retrieve(getitemstring(row,'con_gral'),data)=1 then
 			setitem(row,'cod_objecion',idw_obj.getitemstring(idw_obj.getrow(),1) )
 		end if	
+		idw_usu.Retrieve(GetItemString(1,1))
 	case 'cod_objecion'
 		idw_usu.Retrieve(GetItemString(1,1))
 end choose
