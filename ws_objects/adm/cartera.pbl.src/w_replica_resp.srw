@@ -452,6 +452,7 @@ choose case dwo.name
 		if idw_obj.retrieve(getitemstring(row,'con_gral'),data)=1 then
 			setitem(row,'cod_objecion',idw_obj.getitemstring(idw_obj.getrow(),1) )
 		end if	
+		idw_resp.Retrieve(GetItemString(GetRow(),'cod_objecion'))
 	case 'cod_objecion'
 		dw_resp.SetItem(1,1,vnulo)
 		idw_resp.Retrieve(GetItemString(GetRow(),'cod_objecion'))
