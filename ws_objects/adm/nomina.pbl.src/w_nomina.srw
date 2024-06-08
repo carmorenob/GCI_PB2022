@@ -1893,7 +1893,9 @@ if ibn_calculando then
 			l_sus = l_sus + inc_t
 		next
 		if filahist > 0 then
-			dw_historia.SetItem(filahist,'diassuspension',l_sus)
+			if l_sus>0 then
+				dw_historia.SetItem(filahist,'diassuspension',l_sus)
+			end if
 		end if
 		////////////////////////
 		//  SIN JUSTA CAUSA
@@ -1916,7 +1918,9 @@ if ibn_calculando then
 			l_asjc = l_asjc + inc_t
 		next
 		if filahist > 0 then
-			dw_historia.SetItem(filahist,'diassuspension',l_asjc)
+			if l_asjc>0 then
+				dw_historia.SetItem(filahist,'diassuspension',l_asjc)
+			end if
 		end if
 	end if ///Tipo Nomina
 end if
