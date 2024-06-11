@@ -4567,9 +4567,6 @@ if this.GetColumnName() = 'cantidad_ac' or lower(dwo.name)= 'cantidad_ac' then
  		if dw_historia.Describe(GetItemString(GetRow(),'sigla') + '.Coltype') = "!" then
 			if f_addcompute( GetItemString(GetRow(),'sigla'), GetItemString(GetRow(),'form_calculo') ,GetItemString(GetRow(),'form_verifica'), GetItemnumber(GetRow(),'tarifa'), GetItemnumber(GetRow(),'tarifa_esp'),1) = -1 then  Return
 		end if
-		string jaer
-		jaer=GetItemString(GetRow(),'sigla')
-		jaer= f_get_ctrl(GetItemString(GetRow(),'sigla'))
 		dw_historia.SetItem(filahist, f_get_ctrl(GetItemString(GetRow(),'sigla')),1)
 		this.SetItem(this.GetRow(),'valor_c',round(dw_historia.GetItemNumber(filahist,GetItemString(GetRow(),'sigla')),0))
 		this.SetItem(this.GetRow(),'pagado',round(dw_historia.GetItemNumber(filahist,GetItemString(GetRow(),'sigla')),0))
@@ -6485,7 +6482,12 @@ If ls_tipon='P' then
 	if ls_cesan='!' then return -1
 	select cod_concep,des_concep,sigla,cod_tipo_concep,tipo into :ls_cesan,:ls_desco,:ls_sigla,:ls_ctipoc,:ls_tipoc from nom_concep where  (((cod_concep)=:ls_cesan) AND ((estado)='1'));
 	actualizarDatos()
-	for l_c=1 to tab_n.tpn_2.dw_empnom.rowcount()		
+	hpb_1.Position = 0
+	hpb_1.MinPosition = 0
+	hpb_1.MaxPosition = long(tab_n.tpn_2.dw_empnom.Describe("Evaluate('sum(if(sel=1,1,0))',0)"))
+	hpb_1.SetRange ( 0, long(tab_n.tpn_2.dw_empnom.Describe("Evaluate('sum(if(sel=1,1,0))',0)")) )
+	hpb_1.Visible = TRUE
+	for l_c=1 to tab_n.tpn_2.dw_empnom.rowcount()	
 		tab_n.tpn_2.dw_empnom.ScrolltoRow(l_c)
 		ldb_fila = tab_1.p_2.pb_addnov.TriggerEvent(clicked!)
 		tab_1.p_2.dw_novedad.SetItem(ldb_fila,'cod_concep',ls_cesan)	
@@ -6495,13 +6497,16 @@ If ls_tipon='P' then
 		tab_1.p_2.dw_novedad.SetItem(ldb_fila,'cantidad_ac',1)
 		tab_1.p_2.dw_novedad.AcceptText()
 		tab_1.p_2.dw_novedad.event itemchanged(ldb_fila, tab_1.p_2.dw_novedad.object.cantidad_ac, tab_1.p_2.dw_novedad.getitemstring(ldb_fila,'sigla'))
+		hpb_1.Position = l_c
+		GarbageCollect ( )
 	next
-
 	tab_n.tpn_2.dw_empnom.SetRedraw(true)
 	tab_1.p_1.dw_devenga.SetRedraw(true)
 	tab_1.p_1.dw_deduce.SetRedraw(true)
 	tab_1.p_2.dw_novedad.SetRedraw(true)
 	tab_1.p_5.dw_ap.SetRedraw(true)
+	hpb_1.Visible = false
+	grabar('temporal')
 end if
 
 If ls_tipon='N' then 
