@@ -6506,7 +6506,6 @@ If ls_tipon='P' then
 	tab_1.p_2.dw_novedad.SetRedraw(true)
 	tab_1.p_5.dw_ap.SetRedraw(true)
 	hpb_1.Visible = false
-	grabar('temporal')
 end if
 
 If ls_tipon='N' then 
