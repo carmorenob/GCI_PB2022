@@ -505,8 +505,9 @@ end on
 
 type dw_intf from w_docum_base1`dw_intf within tp_1
 integer y = 56
-integer width = 2816
+integer width = 3049
 integer height = 916
+string dataobject = "dw_intf_nom_res"
 end type
 
 event dw_intf::clicked;call super::clicked;if row < 1 then Return
@@ -818,8 +819,8 @@ end type
 type pb_13 from picturebutton within tp_1
 event mousemove pbm_mousemove
 string tag = "Reservar"
-integer x = 2981
-integer y = 64
+integer x = 3109
+integer y = 52
 integer width = 146
 integer height = 128
 integer taborder = 30
@@ -887,8 +888,8 @@ end event
 type pb_15 from picturebutton within tp_1
 event mousemove pbm_mousemove
 string tag = "Reservar"
-integer x = 2976
-integer y = 192
+integer x = 3104
+integer y = 180
 integer width = 146
 integer height = 128
 integer taborder = 40

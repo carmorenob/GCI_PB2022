@@ -42,7 +42,7 @@ end variables
 
 forward prototypes
 public function integer addfuente (string codtotal, integer item, decimal monto)
-public function integer addrubro (string codtotal, decimal monto)
+public function integer addrubro (string codtotal, decimal p_monto)
 end prototypes
 
 public function integer addfuente (string codtotal, integer item, decimal monto);string valor, descripcion
@@ -118,7 +118,7 @@ Return 0
 
 end function
 
-public function integer addrubro (string codtotal, decimal monto);string valor, descripcion
+public function integer addrubro (string codtotal, decimal p_monto);string valor, descripcion
 long  fila
 dec monto_ant,plan_ini,planeado_actual,acum_adic,acum_trasl,acum_recor,acum_dispo,acum_mod_dispo,acum_reser,acum_mod_reser,acum_giro,acum_recon,acum_recau
 
@@ -155,7 +155,7 @@ if isnull(acum_recon) then acum_recon=0
 if isnull(acum_recau) then acum_recau=0
 
 planeado_actual = plan_ini+acum_trasl+acum_adic+acum_recor
-if planeado_actual = 0 or planeado_actual < monto + monto_ant then 
+if planeado_actual = 0 or planeado_actual < p_monto + monto_ant then 
 	messagebox('Atención','Este rubro no tiene valor Planeado Actual o no es suficiente. codigo '+codtotal)
 	return -1
 end if
@@ -182,8 +182,8 @@ st.dw_obj.SetItem(fila,'acum_mod_reserv',acum_mod_reser)
 st.dw_obj.SetItem(fila,'acum_girado',acum_giro)
 st.dw_obj.SetItem(fila,'acum_recon',acum_recon)
 st.dw_obj.SetItem(fila,'acum_recaudo',acum_recau)
-st.dw_obj.SetItem(fila,'monto',monto + monto_ant)
-st.dw_obj.SetItem(fila,'monto_vigente',monto + monto_ant)
+st.dw_obj.SetItem(fila,'monto',p_monto + monto_ant)
+st.dw_obj.SetItem(fila,'monto_vigente',p_monto + monto_ant)
 st.dw_obj.SetItem(fila,'estado','0')
 st.dw_obj.ScrolltoRow(fila)
 
@@ -290,9 +290,9 @@ do while f > 0
 		td = dw_it.getitemstring(j,'tipodoc_ter')
 		doc = dw_it.getitemstring(j,'documento_ter')
 		if not isNull(doc) then
-			fit = st.dw_it.find('num_orig1='+string(nom)+' and char_orig1="'+dw_it.getitemstring(j,'cod_concep')+'" and char_orig2="'+dw_it.getitemstring(j,'tipo_cargo')+'" and char_orig3="'+td+'" and char_doc3="'+doc+'" and num_doc2='+string(item),1,st.dw_it.rowcount())
+			fit = st.dw_it.find('num_orig1='+string(nom)+' and char_orig1="'+dw_it.getitemstring(j,'cod_concep')+'" and char_orig2="'+dw_it.getitemstring(j,'tipo_cargo')+'" and char_orig3="'+td+'" and char_doc3="'+doc+'" and num_doc2='+string(item)+" and char_doc4='"+dw_it.getitemstring(j,'permanente')+"'",1,st.dw_it.rowcount())
 		else
-			fit = st.dw_it.find('num_orig1='+string(nom)+' and char_orig1="'+dw_it.getitemstring(j,'cod_concep')+'" and char_orig2="'+dw_it.getitemstring(j,'tipo_cargo')+'" and num_doc2='+string(item),1,st.dw_it.rowcount())
+			fit = st.dw_it.find('num_orig1='+string(nom)+' and char_orig1="'+dw_it.getitemstring(j,'cod_concep')+'" and char_orig2="'+dw_it.getitemstring(j,'tipo_cargo')+'" and num_doc2='+string(item)+" and char_doc4='"+dw_it.getitemstring(j,'permanente')+"'",1,st.dw_it.rowcount())
 		end if
 		if fit=0 then fit = st.dw_it.insertrow(0)
 		st.dw_it.SetItem(fit,'codigo','PDINMPR')
