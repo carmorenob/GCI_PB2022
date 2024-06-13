@@ -244,6 +244,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,gf_add_segun
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\hoj_vida.pbl,dw_emplecargo,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumgen.pbl,f_kardexentrada,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,dw_ing_cobros,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_intf_nom_res,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,w_new_recaudo,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,w_lleva_cartera_recaudo,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_objects_dw,f
@@ -793,6 +794,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\simulafac.pbl,dw_segrespon,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,f_tsup_compensa,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,dw_concep,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\evaluacion.pbl,uo_lista,u
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_intf_ppto,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_entrar,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumgen.pbl,dw_sum_entradas_a_rfc,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_xa_elegir,s

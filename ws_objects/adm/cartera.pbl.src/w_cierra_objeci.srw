@@ -58,8 +58,8 @@ end event
 type pb_cancel from picturebutton within w_cierra_objeci
 integer x = 987
 integer y = 820
-integer width = 142
-integer height = 124
+integer width = 146
+integer height = 128
 integer taborder = 20
 integer textsize = -8
 integer weight = 400
@@ -68,6 +68,7 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
 boolean cancel = true
+boolean originalsize = true
 string picturename = "cancelar.gif"
 alignment htextalign = left!
 string powertiptext = "Cancelar"
@@ -79,8 +80,8 @@ end event
 type pb_ok from picturebutton within w_cierra_objeci
 integer x = 809
 integer y = 812
-integer width = 151
-integer height = 132
+integer width = 146
+integer height = 128
 integer taborder = 20
 integer textsize = -8
 integer weight = 400
@@ -88,6 +89,7 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
+boolean originalsize = true
 string picturename = "aceptar.gif"
 alignment htextalign = left!
 string powertiptext = "Aceptar"

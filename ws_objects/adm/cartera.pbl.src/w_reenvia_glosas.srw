@@ -2,6 +2,8 @@
 forward
 global type w_reenvia_glosas from window
 end type
+type pb_anul from picturebutton within w_reenvia_glosas
+end type
 type dw_electronica from uo_datawindow within w_reenvia_glosas
 end type
 type pb_impnota from picturebutton within w_reenvia_glosas
@@ -136,7 +138,7 @@ end type
 end forward
 
 global type w_reenvia_glosas from window
-integer width = 5929
+integer width = 5659
 integer height = 2088
 boolean titlebar = true
 string title = "Cartera - Reenvio de Objeciones"
@@ -145,6 +147,7 @@ boolean minbox = true
 windowtype windowtype = popup!
 long backcolor = 67108864
 string icon = "ribon_renvio.ico"
+pb_anul pb_anul
 dw_electronica dw_electronica
 pb_impnota pb_impnota
 pb_connota pb_connota
@@ -231,6 +234,7 @@ return 1
 end function
 
 on w_reenvia_glosas.create
+this.pb_anul=create pb_anul
 this.dw_electronica=create dw_electronica
 this.pb_impnota=create pb_impnota
 this.pb_connota=create pb_connota
@@ -243,7 +247,8 @@ this.tab_1=create tab_1
 this.dw_histo=create dw_histo
 this.gb_1=create gb_1
 this.gb_2=create gb_2
-this.Control[]={this.dw_electronica,&
+this.Control[]={this.pb_anul,&
+this.dw_electronica,&
 this.pb_impnota,&
 this.pb_connota,&
 this.pb_diann,&
@@ -258,6 +263,7 @@ this.gb_2}
 end on
 
 on w_reenvia_glosas.destroy
+destroy(this.pb_anul)
 destroy(this.dw_electronica)
 destroy(this.pb_impnota)
 destroy(this.pb_connota)
@@ -327,10 +333,129 @@ tab_1.tp_3.mle_resp3.x=tab_1.tp_3.dw_resp_sitem.x+tab_1.tp_3.dw_resp_sitem.width
 tab_1.tp_3.mle_resp3.resize((newwidth * 0.45) , (newheight * 0.22))
 end event
 
+type pb_anul from picturebutton within w_reenvia_glosas
+integer x = 5230
+integer y = 508
+integer width = 146
+integer height = 128
+integer taborder = 50
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+boolean enabled = false
+boolean originalsize = true
+string picturename = "anular_doc.gif"
+string disabledname = "d_anular_doc.gif"
+string powertiptext = "Anula Reenvio"
+end type
+
+event clicked;double ldb_ncobro,ldb_itcob,ldb_nglosa
+string ls_clcob,ls_coddoc,ls_ctipo,ls_err,ls_cdglos,ls_clglos,ls_nulo
+datetime ldt_nulo
+dec ln_valor,ln_can,ln_resul
+
+if dw_histo.getitemstring(dw_histo.getrow(),'estado')<>'3' then return
+st_xa_anular st_anula
+st_anula.tipo='CA'
+openwithparm (w_motiv_anula,st_anula)
+st_anula=message.powerobjectparm
+if not isValid(st_anula) then return -1
+
+ls_cdglos=dw_histo.getitemstring(dw_histo.getrow(),'coddoc')
+ls_clglos=dw_histo.getitemstring(dw_histo.getrow(),'clugar')
+ldb_nglosa=dw_histo.getitemnumber(dw_histo.getrow(),'num_glosa')
+
+select 
+	car_cobro_cpo.clugar, car_cobro_cpo.coddoc, car_cobro_cpo.num_cobro, car_cobro_cpo.item, car_cobro_cpo.cartipo
+	into :ls_clcob,:ls_coddoc,:ldb_ncobro,:ldb_itcob,:ls_ctipo
+from 
+	car_cobro_cpo inner join car_tipo on car_cobro_cpo.cartipo = car_tipo.cartipo
+WHERE 
+	(((car_cobro_cpo.coddoc_glosa)=:ls_cdglos) AND ((car_cobro_cpo.clugar_glosa)=:ls_clglos) 
+	AND ((car_cobro_cpo.num_glosa)=:ldb_nglosa) AND ((car_tipo.operacion)=-1) 
+	AND ((car_tipo.codtipo)='3') AND ((car_cobro_cpo.estado) Is Null));
+if sqlca.sqlcode=-1 then
+	ls_err=sqlca.sqlerrtext
+	messagebox('Error leyendo car_cobro_cpo',ls_err)
+	return -1
+end if
+
+if not isnull(ls_clcob) or ls_clcob<>'' then
+	SELECT  (vtcancelar-vtcancelado) into :ln_can
+	FROM CAR_COBRO_CAB
+	WHERE (((clugar)=:ls_clcob) AND ((coddoc)=:ls_coddoc) AND ((num_cobro)=:ldb_ncobro));
+	if sqlca.sqlcode=-1 then
+		ls_err=sqlca.sqlerrtext
+		messagebox('Error leyendo car_cobro_cab',ls_err)
+		return -1
+	end if
+	
+	ln_valor=round(dw_histo.getitemnumber(dw_histo.getrow(),'valor_aceptado'),i_dec_gral_car)
+	ln_resul=ln_can + ln_valor
+	IF ln_resul<0 then 
+		messagebox("Atención",'El saldo no puede ser negativo verifique los datos')
+		return 
+	End If
+	
+	setnull(ls_nulo)
+	setnull(ldt_nulo)
+	dw_histo.setitem(dw_histo.getrow(),'estado','2')
+	dw_histo.setitem(dw_histo.getrow(),'fecha_envia',ldt_nulo)
+	dw_histo.setitem(dw_histo.getrow(),'fecha_radica',ldt_nulo)
+	if dw_histo.update(true,false)=-1 then return
+	
+	update car_cobro_cpo set coddoc_glosa=:ls_nulo ,clugar_glosa=:ls_nulo, num_glosa=:ls_nulo,cod_anula=:st_anula.motivo,motiv_anula=:st_anula.observacion,estado=:usuario
+	where clugar =:ls_clcob and coddoc =:ls_coddoc and num_cobro =:ldb_ncobro and cartipo =:ls_ctipo and item=:ldb_itcob;
+	if sqlca.sqlcode=-1 then 
+		ls_err=sqlca.sqlerrtext
+		rollback;
+		messagebox('Error actualizando car_cobro_cpo',ls_err)
+		return -1
+	end if
+	
+	update car_cobro_tot set valor = (valor - :ln_valor)
+	where (((car_cobro_tot.clugar)=:ls_clcob ) and ((car_cobro_tot.coddoc)=:ls_coddoc) and ((car_cobro_tot.num_cobro)=:ldb_ncobro) and ((car_cobro_tot.cartipo)=:ls_ctipo));
+	if sqlca.sqlcode=-1 then 
+		ls_err=sqlca.sqlerrtext
+		rollback;
+		messagebox('Error actualizando car_cobro_tot',ls_err)
+		return -1
+	end if
+	
+	uo_datastore ds
+	ds=create uo_datastore
+	ds.dataobject='dw_calc_tot'
+	ds.settransobject(sqlca)
+	
+	ds.retrieve(ls_clcob,ls_coddoc,ldb_ncobro)
+	if ds.rowcount()>0 then
+		ln_can=round(ds.getitemnumber(1,'vtcancelar'),i_dec_gral_car)
+		update car_cobro_cab set vtcancelar=:ln_can
+		where clugar=:ls_clcob and coddoc=:ls_coddoc and num_cobro=:ldb_ncobro;
+		if sqlca.sqlcode=-1 then
+			ls_err=sqlca.sqlerrtext
+			rollback;
+			messagebox('Error actualizando en car_cobro_cab lo nuevos totales',ls_err)
+			return
+		end if
+	end if
+
+	destroy ds
+	commit;
+else
+	messagebox('Atencion','No hay registro asociado')
+end if
+Return 0
+
+end event
+
 type dw_electronica from uo_datawindow within w_reenvia_glosas
 boolean visible = false
-integer x = 5458
-integer y = 48
+integer x = 5435
+integer y = 668
 integer width = 183
 integer height = 96
 integer taborder = 50
@@ -339,7 +464,7 @@ string dataobject = "dw_factura_electronica_postgres"
 end type
 
 type pb_impnota from picturebutton within w_reenvia_glosas
-integer x = 5189
+integer x = 5390
 integer y = 376
 integer width = 146
 integer height = 128
@@ -358,7 +483,7 @@ alignment htextalign = left!
 end type
 
 type pb_connota from picturebutton within w_reenvia_glosas
-integer x = 5189
+integer x = 5390
 integer y = 232
 integer width = 146
 integer height = 128
@@ -404,7 +529,7 @@ messagebox('','Proceso Finalizado')
 end event
 
 type pb_diann from picturebutton within w_reenvia_glosas
-integer x = 5189
+integer x = 5390
 integer y = 92
 integer width = 146
 integer height = 128
@@ -488,7 +613,7 @@ dw_histo.setfocus()
 end event
 
 type pb_fenvio from picturebutton within w_reenvia_glosas
-integer x = 5029
+integer x = 5230
 integer y = 232
 integer width = 146
 integer height = 128
@@ -515,7 +640,7 @@ end if
 end event
 
 type pb_6 from picturebutton within w_reenvia_glosas
-integer x = 5029
+integer x = 5230
 integer y = 92
 integer width = 146
 integer height = 128
@@ -549,13 +674,14 @@ choose case dw_histo.getitemstring(dw_histo.getrow(),'estado')
 	case '2' //aqui si
 		st_amortizar st
 		st.dw_cab=dw_histo
+		st.dw_cpo=tab_1.tp_1.dw_facts
 		openwithparm(w_cierra_glosas,st)
 end choose
 
 end event
 
 type pb_save from picturebutton within w_reenvia_glosas
-integer x = 5029
+integer x = 5230
 integer y = 376
 integer width = 146
 integer height = 128
@@ -1833,7 +1959,7 @@ end type
 type dw_histo from datawindow within w_reenvia_glosas
 integer x = 41
 integer y = 92
-integer width = 4896
+integer width = 5111
 integer height = 536
 integer taborder = 10
 string title = "none"
@@ -1867,9 +1993,11 @@ tab_1.tp_2.dw_resp_proc.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(
 tab_1.tp_2.dw_procs.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
 tab_1.tp_1.dw_facts.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
 if dw_histo.getitemstring(dw_histo.getrow(),'estado')='3' then
+	pb_anul.enabled=true
 	pb_fenvio.enabled=true
 else
 	pb_fenvio.enabled=false
+	pb_anul.enabled=false	
 end if
 if getitemnumber(getrow(),'valor_aceptado')>0 then
 	pb_diann.enabled=true
@@ -1912,7 +2040,7 @@ end event
 type gb_1 from groupbox within w_reenvia_glosas
 integer x = 23
 integer y = 8
-integer width = 4951
+integer width = 5161
 integer height = 648
 integer taborder = 20
 integer textsize = -8
@@ -1927,10 +2055,10 @@ string text = "Historial de Objeciones Año:"
 end type
 
 type gb_2 from groupbox within w_reenvia_glosas
-integer x = 5001
+integer x = 5202
 integer y = 12
 integer width = 407
-integer height = 636
+integer height = 644
 integer taborder = 40
 integer textsize = -8
 integer weight = 400

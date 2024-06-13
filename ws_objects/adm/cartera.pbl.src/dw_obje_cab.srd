@@ -20,11 +20,14 @@ table(column=(type=char(4) updatewhereclause=yes key=yes name=coddoc dbname="cod
  column=(type=char(1) updatewhereclause=yes name=tipo_rad dbname="tipo_rad" )
  column=(type=char(10) update=yes updatewhereclause=yes name=usu_anula dbname="usu_anula" )
  column=(type=long update=yes updatewhereclause=yes name=anyo dbname="anyo" )
- retrieve=" SELECT DISTINCT 
- 	CAR_GLOSA_CAB.coddoc, CAR_GLOSA_CAB.clugar, CAR_GLOSA_CAB.num_glosa, CAR_GLOSA_CAB.codemp, 
-	 CAR_GLOSA_CAB.fecha, CAR_GLOSA_CAB.valor, CAR_GLOSA_CAB.estado, CAR_GLOSA_CAB.fecha_anula, 
-	 CAR_GLOSA_CAB.usuario,  EMPRESA.desemp, CAR_COBRO_CPO_1.num_radicacion, 
-	 CAR_COBRO_CPO_1.CLUGAR_RAD, CAR_COBRO_CPO_1.tipo_rad, CAR_GLOSA_CAB.usu_anula, CAR_GLOSA_CAB.anyo
+ column=(type=char(3) update=yes updatewhereclause=yes name=cod_anula dbname="cod_anula" )
+ column=(type=char(255) update=yes updatewhereclause=yes name=motiv_anula dbname="motiv_anula" )
+ retrieve="SELECT DISTINCT 
+	CAR_GLOSA_CAB.coddoc, CAR_GLOSA_CAB.clugar, CAR_GLOSA_CAB.num_glosa, CAR_GLOSA_CAB.codemp, 
+	CAR_GLOSA_CAB.fecha, CAR_GLOSA_CAB.valor, CAR_GLOSA_CAB.estado, CAR_GLOSA_CAB.fecha_anula, 
+	CAR_GLOSA_CAB.usuario,  EMPRESA.desemp, CAR_COBRO_CPO_1.num_radicacion, 
+	CAR_COBRO_CPO_1.CLUGAR_RAD, CAR_COBRO_CPO_1.tipo_rad, CAR_GLOSA_CAB.usu_anula, CAR_GLOSA_CAB.anyo,
+	CAR_GLOSA_CAB.cod_anula,CAR_GLOSA_CAB.motiv_anula
 FROM 
 	((CAR_GLOSA_CAB INNER JOIN CAR_COBRO_CPO ON (CAR_GLOSA_CAB.CODDOC = CAR_COBRO_CPO.CODDOC_GLOSA) 
 	AND (CAR_GLOSA_CAB.CLUGAR = CAR_COBRO_CPO.CLUGAR_GLOSA) AND (CAR_GLOSA_CAB.NUM_GLOSA = CAR_COBRO_CPO.NUM_GLOSA)) 

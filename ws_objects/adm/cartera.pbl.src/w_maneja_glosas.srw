@@ -1307,9 +1307,18 @@ if cuenta > 0 then
 else
 	if MessageBox('Atención','Está seguro de anular la objeción '+string(nd)+'?',Question!,yesno!) = 2 then Return 0
 end if
+
+st_xa_anular st_anula
+st_anula.tipo='CA'
+openwithparm (w_motiv_anula,st_anula)
+st_anula=message.powerobjectparm
+if not isValid(st_anula) then return -1
+
 dw_histo.SetItem(dw_histo.GetRow(),'estado','A')
 dw_histo.SetItem(dw_histo.GetRow(),'usu_anula',usuario)
 dw_histo.SetItem(dw_histo.GetRow(),'fecha_anula',today())
+dw_histo.SetItem(dw_histo.GetRow(),'motiv_anula',st_anula.observacion)
+dw_histo.SetItem(dw_histo.GetRow(),'cod_anula',st_anula.motivo)
 dw_deta.SetItem(1,'estado','A')
 if dw_histo.Update() = - 1 then
 	Rollback;
