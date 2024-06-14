@@ -415,6 +415,13 @@ for j=1 to dw_2.rowcount()
 		rollback;
 		return
 	end if
+	update tesotranscpo_rete set tipodoc=:tdocnew,documento=:docnew	where tipodoc=:tdocx and documento=:docx;
+	if sqlca.sqlcode=-1 then
+		messagebox("Error Actualizando tesotranscpo_rete",sqlca.sqlerrtext)
+		rollback;
+		return
+	end if
+	
 	update mod_relacion_origen set char_orig3=:tdocnew,char_doc3=:docnew	where char_orig3=:tdocx and char_doc3=:docx;
 	if sqlca.sqlcode=-1 then
 		messagebox("Error Actualizando mod_relacion_origen",sqlca.sqlerrtext)

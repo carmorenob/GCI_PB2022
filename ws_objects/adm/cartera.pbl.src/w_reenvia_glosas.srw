@@ -354,6 +354,7 @@ end type
 
 event clicked;double ldb_ncobro,ldb_itcob,ldb_nglosa
 string ls_clcob,ls_coddoc,ls_ctipo,ls_err,ls_cdglos,ls_clglos,ls_nulo
+string ls_cont,ls_pres
 datetime ldt_nulo
 dec ln_valor,ln_can,ln_resul
 
@@ -369,8 +370,9 @@ ls_clglos=dw_histo.getitemstring(dw_histo.getrow(),'clugar')
 ldb_nglosa=dw_histo.getitemnumber(dw_histo.getrow(),'num_glosa')
 
 select 
-	car_cobro_cpo.clugar, car_cobro_cpo.coddoc, car_cobro_cpo.num_cobro, car_cobro_cpo.item, car_cobro_cpo.cartipo
-	into :ls_clcob,:ls_coddoc,:ldb_ncobro,:ldb_itcob,:ls_ctipo
+	car_cobro_cpo.clugar, car_cobro_cpo.coddoc, car_cobro_cpo.num_cobro, car_cobro_cpo.item, car_cobro_cpo.cartipo,
+	car_cobro_cpo.contabil,car_cobro_cpo.presupuesto
+	into :ls_clcob,:ls_coddoc,:ldb_ncobro,:ldb_itcob,:ls_ctipo,:ls_cont,:ls_pres
 from 
 	car_cobro_cpo inner join car_tipo on car_cobro_cpo.cartipo = car_tipo.cartipo
 WHERE 
@@ -380,6 +382,11 @@ WHERE
 if sqlca.sqlcode=-1 then
 	ls_err=sqlca.sqlerrtext
 	messagebox('Error leyendo car_cobro_cpo',ls_err)
+	return -1
+end if
+
+if ls_cont='C' and ls_pres='1' then
+	messagebox('Atención','Documento Contabilizado y con Movimiento Presupuestal no se puede anular')
 	return -1
 end if
 
@@ -407,7 +414,13 @@ if not isnull(ls_clcob) or ls_clcob<>'' then
 	dw_histo.setitem(dw_histo.getrow(),'fecha_radica',ldt_nulo)
 	if dw_histo.update(true,false)=-1 then return
 	
-	update car_cobro_cpo set coddoc_glosa=:ls_nulo ,clugar_glosa=:ls_nulo, num_glosa=:ls_nulo,cod_anula=:st_anula.motivo,motiv_anula=:st_anula.observacion,estado=:usuario
+	if ls_cont='C' then
+		ls_cont='P'
+	else
+		setnull(ls_cont)
+	end if
+	
+	update car_cobro_cpo set coddoc_glosa=:ls_nulo ,clugar_glosa=:ls_nulo, num_glosa=:ls_nulo,cod_anula=:st_anula.motivo,motiv_anula=:st_anula.observacion,estado=:usuario,contabil_anul=:ls_cont
 	where clugar =:ls_clcob and coddoc =:ls_coddoc and num_cobro =:ldb_ncobro and cartipo =:ls_ctipo and item=:ldb_itcob;
 	if sqlca.sqlcode=-1 then 
 		ls_err=sqlca.sqlerrtext
