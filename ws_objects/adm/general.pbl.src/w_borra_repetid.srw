@@ -122,7 +122,7 @@ string facename = "Arial"
 boolean originalsize = true
 string picturename = "aceptar.gif"
 string disabledname = "d_aceptar.gif"
-alignment htextalign = left!
+alignment htextalign = Center!
 string powertiptext = "Aceptar"
 end type
 
@@ -148,8 +148,9 @@ for j=1 to dw_2.rowcount()
 	choose case sqlca.dbms
 		case 'ODBC'
 			if g_motor='postgres' then
-				UPDATE CONT_SALDOS 
-					SET 
+				UPDATE 
+					CONT_SALDOS 
+				SET 
 					saldodebito = CONT_SALDOS.saldodebito+ante.saldodebito,
 					saldocredito = CONT_SALDOS.saldocredito+ante.saldocredito, 
 					Debito = CONT_SALDOS.debito+ante.debito, 
@@ -160,31 +161,28 @@ for j=1 to dw_2.rowcount()
 					SaldoNoCorriente = CONT_SALDOS.saldonocorriente+ante.saldonocorriente, 
 					CierreCorriente = CONT_SALDOS.cierrecorriente+ante.cierrecorriente, 
 					CierreNoCorriente = CONT_SALDOS.cierrenocorriente+ante.cierrenocorriente
-				FROM CONT_SALDOS as CONT_S INNER JOIN CONT_SALDOS AS ante ON (CONT_S.Cuenta = ante.Cuenta) 
-				AND (CONT_S.mes = ante.mes) AND (CONT_S.ano = ante.ano) AND (CONT_S.COD_EMPRESA = ante.COD_EMPRESA) 
-				WHERE (((CONT_SALDOS.CUFuncional) Is Null) AND ((ante.CUFuncional) Is Null) AND ((CONT_SALDOS.tipodoc)=:tdocnew) 
-				AND ((CONT_SALDOS.nit)=:docnew) AND ((ante.tipodoc)=:tdocx) AND ((ante.nit)=:docx));
-			else
-				UPDATE CONT_SALDOS INNER JOIN CONT_SALDOS AS ante ON (CONT_SALDOS.Cuenta = ante.Cuenta) 
-				AND (CONT_SALDOS.mes = ante.mes) AND (CONT_SALDOS.ano = ante.ano) AND (CONT_SALDOS.COD_EMPRESA = ante.COD_EMPRESA) 
-				SET ante.Dverificacion = 'X', CONT_SALDOS.saldodebito = CONT_SALDOS.saldodebito+ante.saldodebito,
-				 CONT_SALDOS.saldocredito = CONT_SALDOS.saldocredito+ante.saldocredito, CONT_SALDOS.Debito = CONT_SALDOS.debito+ante.debito, 
-				CONT_SALDOS.Credito = CONT_SALDOS.credito+ante.credito, CONT_SALDOS.cierredebito = CONT_SALDOS.cierredebito+ante.cierredebito,
-				 CONT_SALDOS.cierrecredito = CONT_SALDOS.cierrecredito+ante.cierrecredito, 
-				CONT_SALDOS.SaldoCorriente = CONT_SALDOS.saldocorriente+ante.saldocorriente, 
-				CONT_SALDOS.SaldoNoCorriente = CONT_SALDOS.saldonocorriente+ante.saldonocorriente, 
-				CONT_SALDOS.CierreCorriente = CONT_SALDOS.cierrecorriente+ante.cierrecorriente, 
-				CONT_SALDOS.CierreNoCorriente = CONT_SALDOS.cierrenocorriente+ante.cierrenocorriente
-				where (((CONT_SALDOS.CUFuncional) Is Null) AND ((ante.CUFuncional) Is Null) AND ((CONT_SALDOS.tipodoc)=:tdocnew) 
-				AND ((CONT_SALDOS.nit)=:docnew) AND ((ante.tipodoc)=:tdocx) AND ((ante.nit)=:docx));
-			end If
-			if sqlca.sqlcode=-1 then
-				messagebox("Error Actualizando cont_saldos",sqlca.sqlerrtext)
-				rollback;
-				return
-			end if
-			if g_motor='postgres' then
-				UPDATE CONT_SALDOS 
+				FROM 
+					CONT_SALDOS AS ante 
+				WHERE
+					(((CONT_SALDOS.CUFuncional) Is Null) 
+					AND ((ante.CUFuncional) Is Null) 
+					AND ((CONT_SALDOS.tipodoc)=:tdocnew) 
+					AND ((CONT_SALDOS.nit)=:docnew) 
+					AND ((ante.tipodoc)=:tdocx) 
+					AND ((ante.nit)=:docx)
+					AND (cont_saldos.cuenta = ante.cuenta) 
+					AND (cont_saldos.mes = ante.mes) 
+					AND (cont_saldos.ano = ante.ano) 
+					AND (cont_saldos.cod_empresa = ante.cod_empresa));
+
+				if sqlca.sqlcode=-1 then
+					messagebox("Error Actualizando cont_saldos1",sqlca.sqlerrtext)
+					rollback;
+					return
+				end if
+
+				UPDATE 
+					CONT_SALDOS 
 				SET
 				  saldodebito = CONT_SALDOS.saldodebito+ante.saldodebito, 
 				  saldocredito = CONT_SALDOS.saldocredito+ante.saldocredito, 
@@ -197,14 +195,41 @@ for j=1 to dw_2.rowcount()
 				  CierreCorriente = CONT_SALDOS.cierrecorriente+ante.cierrecorriente, 
 				  CierreNoCorriente = CONT_SALDOS.cierrenocorriente+ante.cierrenocorriente
 				FROM 
-					CONT_SALDOS as CONT_S INNER JOIN CONT_SALDOS AS ante ON (CONT_S.ccosto = ante.ccosto) 
-					AND (CONT_S.CUFuncional = ante.CUFuncional) AND (CONT_S.Cuenta = ante.Cuenta) 
-					AND (CONT_S.mes = ante.mes) AND (CONT_S.ano = ante.ano) 
-				  AND (CONT_S.COD_EMPRESA = ante.COD_EMPRESA) 
-				WHERE (((CONT_S.CUFuncional) Is Not Null) AND ((CONT_S.tipodoc)=:tdocnew) 
-				AND ((CONT_S.nit)=:docnew) AND ((ante.tipodoc)=:tdocx) AND ((ante.nit)=:docx));
+					CONT_SALDOS AS ante
+				WHERE 
+					(((CONT_SALDOS.CUFuncional) Is Not Null) 
+					AND ((CONT_SALDOS.tipodoc)=:tdocnew) 
+					AND ((CONT_SALDOS.nit)=:docnew) 
+					AND ((ante.tipodoc)=:tdocx) 
+					AND ((ante.nit)=:docx)
+					AND  (CONT_SALDOS.ccosto = ante.ccosto) 
+					AND (CONT_SALDOS.CUFuncional = ante.CUFuncional) 
+					AND (CONT_SALDOS.Cuenta = ante.Cuenta) 
+					AND (CONT_SALDOS.mes = ante.mes) 
+					AND (CONT_SALDOS.ano = ante.ano) 
+				  	AND (CONT_SALDOS.COD_EMPRESA = ante.COD_EMPRESA) 
+					);
+				
+				if sqlca.sqlcode=-1 then
+					messagebox("Error Actualizando cont_saldos2",sqlca.sqlerrtext)
+					rollback;
+					return
+				end if
 			else
-				UPDATE CONT_SALDOS INNER JOIN CONT_SALDOS AS ante ON (CONT_SALDOS.ccosto = ante.ccosto) 
+				/*UPDATE CONT_SALDOS INNER JOIN CONT_SALDOS AS ante ON (CONT_SALDOS.Cuenta = ante.Cuenta) 
+				AND (CONT_SALDOS.mes = ante.mes) AND (CONT_SALDOS.ano = ante.ano) AND (CONT_SALDOS.COD_EMPRESA = ante.COD_EMPRESA) 
+				SET ante.Dverificacion = 'X', CONT_SALDOS.saldodebito = CONT_SALDOS.saldodebito+ante.saldodebito,
+				 CONT_SALDOS.saldocredito = CONT_SALDOS.saldocredito+ante.saldocredito, CONT_SALDOS.Debito = CONT_SALDOS.debito+ante.debito, 
+				CONT_SALDOS.Credito = CONT_SALDOS.credito+ante.credito, CONT_SALDOS.cierredebito = CONT_SALDOS.cierredebito+ante.cierredebito,
+				 CONT_SALDOS.cierrecredito = CONT_SALDOS.cierrecredito+ante.cierrecredito, 
+				CONT_SALDOS.SaldoCorriente = CONT_SALDOS.saldocorriente+ante.saldocorriente, 
+				CONT_SALDOS.SaldoNoCorriente = CONT_SALDOS.saldonocorriente+ante.saldonocorriente, 
+				CONT_SALDOS.CierreCorriente = CONT_SALDOS.cierrecorriente+ante.cierrecorriente, 
+				CONT_SALDOS.CierreNoCorriente = CONT_SALDOS.cierrenocorriente+ante.cierrenocorriente
+				where (((CONT_SALDOS.CUFuncional) Is Null) AND ((ante.CUFuncional) Is Null) AND ((CONT_SALDOS.tipodoc)=:tdocnew) 
+				AND ((CONT_SALDOS.nit)=:docnew) AND ((ante.tipodoc)=:tdocx) AND ((ante.nit)=:docx));*/
+
+				/*UPDATE CONT_SALDOS INNER JOIN CONT_SALDOS AS ante ON (CONT_SALDOS.ccosto = ante.ccosto) 
 				AND (CONT_SALDOS.CUFuncional = ante.CUFuncional) AND (CONT_SALDOS.Cuenta = ante.Cuenta) 
 				AND (CONT_SALDOS.mes = ante.mes) AND (CONT_SALDOS.ano = ante.ano) 
 				AND (CONT_SALDOS.COD_EMPRESA = ante.COD_EMPRESA) SET ante.Dverificacion = 'X', 
@@ -218,80 +243,110 @@ for j=1 to dw_2.rowcount()
 				CONT_SALDOS.CierreCorriente = CONT_SALDOS.cierrecorriente+ante.cierrecorriente, 
 				CONT_SALDOS.CierreNoCorriente = CONT_SALDOS.cierrenocorriente+ante.cierrenocorriente
 				WHERE (((CONT_SALDOS.CUFuncional) Is Not Null) AND ((CONT_SALDOS.tipodoc)=:tdocnew) 
-				AND ((CONT_SALDOS.nit)=:docnew) AND ((ante.tipodoc)=:tdocx) AND ((ante.nit)=:docx));
+				AND ((CONT_SALDOS.nit)=:docnew) AND ((ante.tipodoc)=:tdocx) AND ((ante.nit)=:docx));*/		
 			end If
-			if sqlca.sqlcode=-1 then
-				messagebox("Error Actualizando cont_saldos",sqlca.sqlerrtext)
-				rollback;
-				return
-			end if
+
 		case 'SYC Adaptive Server Enterprise','MSS Microsoft SQL Server','OLE DB'
-			UPDATE CONT_SALDOS SET  CONT_SALDOS.saldodebito = CONT_SALDOS.saldodebito+ante.saldodebito, 
-			CONT_SALDOS.saldocredito = CONT_SALDOS.saldocredito+ante.saldocredito, 
-			CONT_SALDOS.Debito = CONT_SALDOS.debito+ante.debito, 
-			CONT_SALDOS.Credito = CONT_SALDOS.credito+ante.credito, 
-			CONT_SALDOS.cierredebito = CONT_SALDOS.cierredebito+ante.cierredebito, 
-			CONT_SALDOS.cierrecredito = CONT_SALDOS.cierrecredito+ante.cierrecredito, 
-			CONT_SALDOS.SaldoCorriente = CONT_SALDOS.saldocorriente+ante.saldocorriente, 
-			CONT_SALDOS.SaldoNoCorriente = CONT_SALDOS.saldonocorriente+ante.saldonocorriente, 
-			CONT_SALDOS.CierreCorriente = CONT_SALDOS.cierrecorriente+ante.cierrecorriente, 
-			CONT_SALDOS.CierreNoCorriente = CONT_SALDOS.cierrenocorriente+ante.cierrenocorriente
-			from cont_saldos , CONT_SALDOS AS ante
-			WHERE (((CONT_SALDOS.COD_EMPRESA)=ante.COD_EMPRESA) AND ((CONT_SALDOS.ano)=ante.ano) 
-			AND ((CONT_SALDOS.mes)=ante.mes) AND ((CONT_SALDOS.Cuenta)=ante.Cuenta) 
-			AND ((CONT_SALDOS.CUFuncional)=ante.CUFuncional) AND ((CONT_SALDOS.ccosto)=ante.ccosto) 
-			AND ((CONT_SALDOS.CUFuncional) Is Not Null) AND ((CONT_SALDOS.tipodoc)=:tdocnew) 
-			AND ((CONT_SALDOS.nit)=:docnew) AND ((ante.tipodoc)=:tdocx) AND ((ante.nit)=:docx));
+			UPDATE 
+				CONT_SALDOS 
+			SET  
+				CONT_SALDOS.saldodebito = CONT_SALDOS.saldodebito+ante.saldodebito, 
+				CONT_SALDOS.saldocredito = CONT_SALDOS.saldocredito+ante.saldocredito, 
+				CONT_SALDOS.Debito = CONT_SALDOS.debito+ante.debito, 
+				CONT_SALDOS.Credito = CONT_SALDOS.credito+ante.credito, 
+				CONT_SALDOS.cierredebito = CONT_SALDOS.cierredebito+ante.cierredebito, 
+				CONT_SALDOS.cierrecredito = CONT_SALDOS.cierrecredito+ante.cierrecredito, 
+				CONT_SALDOS.SaldoCorriente = CONT_SALDOS.saldocorriente+ante.saldocorriente, 
+				CONT_SALDOS.SaldoNoCorriente = CONT_SALDOS.saldonocorriente+ante.saldonocorriente, 
+				CONT_SALDOS.CierreCorriente = CONT_SALDOS.cierrecorriente+ante.cierrecorriente, 
+				CONT_SALDOS.CierreNoCorriente = CONT_SALDOS.cierrenocorriente+ante.cierrenocorriente
+			FROM  
+				cont_saldos , CONT_SALDOS AS ante
+			WHERE 
+				(((CONT_SALDOS.COD_EMPRESA)=ante.COD_EMPRESA) AND ((CONT_SALDOS.ano)=ante.ano) 
+				AND ((CONT_SALDOS.mes)=ante.mes) AND ((CONT_SALDOS.Cuenta)=ante.Cuenta) 
+				AND ((CONT_SALDOS.CUFuncional)=ante.CUFuncional) AND ((CONT_SALDOS.ccosto)=ante.ccosto) 
+				AND ((CONT_SALDOS.CUFuncional) Is Not Null) AND ((CONT_SALDOS.tipodoc)=:tdocnew) 
+				AND ((CONT_SALDOS.nit)=:docnew) AND ((ante.tipodoc)=:tdocx) AND ((ante.nit)=:docx));
 			if sqlca.sqlcode=-1 then
-				messagebox("Error Actualizando cont_saldos",sqlca.sqlerrtext)
+				messagebox("Error Actualizando cont_saldos1x",sqlca.sqlerrtext)
 				rollback;
 				return
 			end if
-			UPDATE CONT_SALDOS SET  
-			dverificacion='X'
-			from CONT_SALDOS ,CONT_SALDOS AS nuevos 
-			where CONT_SALDOS.Cuenta = nuevos.Cuenta 
-			AND CONT_SALDOS.mes = nuevos.mes AND CONT_SALDOS.ano = nuevos.ano 
-			AND CONT_SALDOS.COD_EMPRESA = nuevos.COD_EMPRESA and
-			CONT_SALDOS.CUFuncional=nuevos.cufuncional and cont_saldos.ccosto=nuevos.ccosto and
-			CONT_SALDOS.CUFuncional Is not Null AND nuevos.tipodoc=:tdocnew 
-			AND nuevos.nit=:docnew AND cont_saldos.tipodoc=:tdocx AND cont_saldos.nit=:docx;
+			
+			
+			UPDATE 
+				CONT_SALDOS 
+			SET  
+				dverificacion='X'
+			FROM
+				CONT_SALDOS ,CONT_SALDOS AS nuevos 
+			WHERE 
+				CONT_SALDOS.Cuenta = nuevos.Cuenta 
+				AND CONT_SALDOS.mes = nuevos.mes 
+				AND CONT_SALDOS.ano = nuevos.ano 
+				AND CONT_SALDOS.COD_EMPRESA = nuevos.COD_EMPRESA 
+				AND CONT_SALDOS.CUFuncional=nuevos.cufuncional 
+				AND cont_saldos.ccosto=nuevos.ccosto 
+				AND CONT_SALDOS.CUFuncional Is not Null 
+				AND nuevos.tipodoc=:tdocnew 
+				AND nuevos.nit=:docnew 
+				AND cont_saldos.tipodoc=:tdocx 
+				AND cont_saldos.nit=:docx;
 			if sqlca.sqlcode=-1 then
-				messagebox("Error Actualizando cont_saldos",sqlca.sqlerrtext)
+				messagebox("Error Actualizando cont_saldos2x",sqlca.sqlerrtext)
 				rollback;
 				return
 			end if
-			UPDATE CONT_SALDOS SET  
-			CONT_SALDOS.saldodebito = CONT_SALDOS.saldodebito+ante.saldodebito, 
-			CONT_SALDOS.saldocredito = CONT_SALDOS.saldocredito+ante.saldocredito, 
-			CONT_SALDOS.Debito = CONT_SALDOS.debito+ante.debito, CONT_SALDOS.Credito = CONT_SALDOS.credito+ante.credito, 
-			CONT_SALDOS.cierredebito = CONT_SALDOS.cierredebito+ante.cierredebito, 
-			CONT_SALDOS.cierrecredito = CONT_SALDOS.cierrecredito+ante.cierrecredito, 
-			CONT_SALDOS.SaldoCorriente = CONT_SALDOS.saldocorriente+ante.saldocorriente, 
-			CONT_SALDOS.SaldoNoCorriente = CONT_SALDOS.saldonocorriente+ante.saldonocorriente, 
-			CONT_SALDOS.CierreCorriente = CONT_SALDOS.cierrecorriente+ante.cierrecorriente, 
-			CONT_SALDOS.CierreNoCorriente = CONT_SALDOS.cierrenocorriente+ante.cierrenocorriente
-			from CONT_SALDOS ,CONT_SALDOS AS ante 
-			where CONT_SALDOS.Cuenta = ante.Cuenta 
-			AND CONT_SALDOS.mes = ante.mes AND CONT_SALDOS.ano = ante.ano 
-			AND CONT_SALDOS.COD_EMPRESA = ante.COD_EMPRESA and
-			CONT_SALDOS.CUFuncional Is Null AND CONT_SALDOS.tipodoc=:tdocnew 
-			AND CONT_SALDOS.nit=:docnew AND ante.tipodoc=:tdocx AND ante.nit=:docx;
+			
+			UPDATE 
+				CONT_SALDOS 
+			SET  
+				CONT_SALDOS.saldodebito = CONT_SALDOS.saldodebito+ante.saldodebito, 
+				CONT_SALDOS.saldocredito = CONT_SALDOS.saldocredito+ante.saldocredito, 
+				CONT_SALDOS.Debito = CONT_SALDOS.debito+ante.debito, CONT_SALDOS.Credito = CONT_SALDOS.credito+ante.credito, 
+				CONT_SALDOS.cierredebito = CONT_SALDOS.cierredebito+ante.cierredebito, 
+				CONT_SALDOS.cierrecredito = CONT_SALDOS.cierrecredito+ante.cierrecredito, 
+				CONT_SALDOS.SaldoCorriente = CONT_SALDOS.saldocorriente+ante.saldocorriente, 
+				CONT_SALDOS.SaldoNoCorriente = CONT_SALDOS.saldonocorriente+ante.saldonocorriente, 
+				CONT_SALDOS.CierreCorriente = CONT_SALDOS.cierrecorriente+ante.cierrecorriente, 
+				CONT_SALDOS.CierreNoCorriente = CONT_SALDOS.cierrenocorriente+ante.cierrenocorriente
+			FROM 
+				CONT_SALDOS ,CONT_SALDOS AS ante 
+			WHERE 
+				CONT_SALDOS.Cuenta = ante.Cuenta 
+				AND CONT_SALDOS.mes = ante.mes 
+				AND CONT_SALDOS.ano = ante.ano 
+				AND CONT_SALDOS.COD_EMPRESA = ante.COD_EMPRESA 
+				AND CONT_SALDOS.CUFuncional Is Null 
+				AND CONT_SALDOS.tipodoc=:tdocnew 
+				AND CONT_SALDOS.nit=:docnew 
+				AND ante.tipodoc=:tdocx 
+				AND ante.nit=:docx;
 			if sqlca.sqlcode=-1 then
-				messagebox("Error Actualizando cont_saldos",sqlca.sqlerrtext)
+				messagebox("Error Actualizando cont_saldos3x",sqlca.sqlerrtext)
 				rollback;
 				return
 			end if
-			UPDATE CONT_SALDOS SET  
-			dverificacion='X'
-			from CONT_SALDOS ,CONT_SALDOS AS nuevos 
-			where CONT_SALDOS.Cuenta = nuevos.Cuenta 
-			AND CONT_SALDOS.mes = nuevos.mes AND CONT_SALDOS.ano = nuevos.ano 
-			AND CONT_SALDOS.COD_EMPRESA = nuevos.COD_EMPRESA and
-			CONT_SALDOS.CUFuncional Is Null AND nuevos.tipodoc=:tdocnew 
-			AND nuevos.nit=:docnew AND cont_saldos.tipodoc=:tdocx AND cont_saldos.nit=:docx;
+			
+			UPDATE 
+				CONT_SALDOS 
+			SET  
+				dverificacion='X'
+			FROM
+				CONT_SALDOS ,CONT_SALDOS AS nuevos 
+			WHERE 
+				CONT_SALDOS.Cuenta = nuevos.Cuenta 
+				AND CONT_SALDOS.mes = nuevos.mes 
+				AND CONT_SALDOS.ano = nuevos.ano 
+				AND CONT_SALDOS.COD_EMPRESA = nuevos.COD_EMPRESA 
+				AND CONT_SALDOS.CUFuncional Is Null 
+				AND nuevos.tipodoc=:tdocnew 
+				AND nuevos.nit=:docnew 
+				AND cont_saldos.tipodoc=:tdocx 
+				AND cont_saldos.nit=:docx;
 			if sqlca.sqlcode=-1 then
-				messagebox("Error Actualizando cont_saldos",sqlca.sqlerrtext)
+				messagebox("Error Actualizando cont_saldos4x",sqlca.sqlerrtext)
 				rollback;
 				return
 			end if
