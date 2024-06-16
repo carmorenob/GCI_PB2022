@@ -21,7 +21,7 @@ end type
 end forward
 
 global type w_cierra_glosas from window
-integer width = 2715
+integer width = 3570
 integer height = 1192
 boolean titlebar = true
 string title = "Cerrar Glosas y llevar a Cartera"
@@ -46,6 +46,7 @@ st_amortizar i_st
 int l_anyo,l_min, l_max
 string ls_filtro_org
 end variables
+
 on w_cierra_glosas.create
 this.em_2=create em_2
 this.st_3=create st_3
@@ -189,8 +190,8 @@ end if
 end event
 
 type pb_cancel from picturebutton within w_cierra_glosas
-integer x = 1358
-integer y = 964
+integer x = 1989
+integer y = 976
 integer width = 146
 integer height = 128
 integer taborder = 20
@@ -218,8 +219,8 @@ close(parent)
 end event
 
 type pb_ok from picturebutton within w_cierra_glosas
-integer x = 1179
-integer y = 964
+integer x = 1810
+integer y = 976
 integer width = 146
 integer height = 128
 integer taborder = 20
@@ -342,7 +343,6 @@ for li_j=1 to dw_1.rowcount()
 next
 
 commit;
-i_st.dw_cab.resetupdate()
 if ls_filtro_org='?' then
 	i_st.dw_cab.setfilter('')
 else
@@ -350,6 +350,7 @@ else
 end if
 i_st.dw_cab.filter()
 i_st.dw_cab.SetRedraw(true)
+i_st.dw_cab.resetupdate()
 closewithreturn(parent,'ok')
 end event
 
@@ -373,7 +374,7 @@ end type
 type dw_1 from datawindow within w_cierra_glosas
 integer x = 41
 integer y = 236
-integer width = 2610
+integer width = 3474
 integer height = 708
 integer taborder = 10
 string title = "none"
