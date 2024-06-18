@@ -1326,7 +1326,7 @@ else
 		cb_est_ria.enabled=false
 		pb_guarda_diags.enabled=false
 	else
-		if  SecondsAfter(time(ld_fecha_atn),time(now())) > (integer(li_temp_dx)*10) then 
+		if  SecondsAfter(time(ld_fecha_atn),time(now())) > (integer(li_temp_dx)*5) then 
 			dw_diags.enabled=false
 			cb_est_ria.enabled=false
 			pb_guarda_diags.enabled=false
