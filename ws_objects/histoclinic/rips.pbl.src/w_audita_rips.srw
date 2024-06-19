@@ -1784,6 +1784,15 @@ if is_elec='2' then
 			dw_electronica.settransobject(sqlca)		
 						
 			lst_lle=u_elec.sign_chilkat(dw_electronica,l_nfactura,ls_clugar,ls_tfac,0,'r','RC')
+			update factcab set envio_xml='1' 
+			where nfact=:l_nfactura and clugar=:ls_clugar and tipo=:ls_tfac;
+			If SQLCA.SQLCode = -1 then
+				Rollback;
+				MessageBox("SQL error Factura xml_envia", 'Error actualizando')
+				Return -1
+			Else
+				commit;
+			end If
 		end if
 	next
 	destroy u_elec
