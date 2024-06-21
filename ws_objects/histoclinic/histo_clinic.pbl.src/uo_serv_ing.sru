@@ -1319,7 +1319,7 @@ else
 	cb_4.enabled=false
 	pb_kit.enabled=false
 	datetime ld_fecha_atn
-	integer li_temp_dx=1
+	integer li_temp_dx=10
 	ld_fecha_atn=dw_serv_ing.getitemdatetime(dw_serv_ing.getrow(),"fecha")
 	if daysAfter(date(ld_fecha_atn),date(now())) >0 then
 		dw_diags.enabled=false
