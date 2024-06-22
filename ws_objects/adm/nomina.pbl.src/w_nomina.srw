@@ -2514,7 +2514,8 @@ elseif dw_historia.RowCount() = 0 then
 end if
 
 ls_tnom=tab_n.tpn_1.dw_nomcab.GetItemString(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo')
-if ls_tnom<>'R' and ls_tnom<>'V' and ls_tnom='C' and ls_tnom='P' then
+//if ls_tnom<>'R' and ls_tnom<>'V' and ls_tnom='C' and ls_tnom='P' then
+if ls_tnom<>'C' and ls_tnom<>'P' then
 	log.info("Inicia prestamos "+ tipodoc+documento)
 	if calc_prestamos(tipodoc, documento, filahist) = -1 then return -1
 	log.info("Inicia ahorros "+ tipodoc+documento)
@@ -2785,7 +2786,7 @@ string form_calculo, form_verifica, ls_codp
 int li_k = 1, j, fila, diasVacSig, diasVacAct
 decimal vrVac
 
-if  is_tnom<>'R' and  is_tnom<>'V' and  is_tnom='C' and  is_tnom='P' then
+//if  is_tnom<>'R' and  is_tnom<>'V' and  is_tnom='C' and  is_tnom='P' then
 	if datos_prestamos(tipodoc, documento) > 0 then
 		ls_codp=dw_prestaact.GetItemString(1,'cod_concep')
 		for j = 1 to dw_prestaact.RowCount()
@@ -2835,7 +2836,7 @@ if  is_tnom<>'R' and  is_tnom<>'V' and  is_tnom='C' and  is_tnom='P' then
 			if f_addcompute(dw_prestaact.GetItemString(j, 'sigla'), string(round(dw_prestaact.GetItemNumber(j,'valor')+ vrVac,0)), string(round(dw_prestaact.GetItemNumber(j,'valor')+ vrVac,0)), dw_prestaact.GetItemNumber(j,'tarifa'), dw_prestaact.GetItemNumber(j,'tarifa_esp'), li_k) = -1 then Return -1	
 		next
 	end if
-end if	
+//end if	
 return 0
 
 end function
@@ -2846,7 +2847,7 @@ Integer j, fila, li_k, diasVacSig = 0, diasVacAct = 0
 decimal acumulado, calculado, fpago = 0,tarifa,tarifa_esp, vrVac
 blob bfc,bfc1
 
-if  is_tnom<>'R' and  is_tnom<>'V' and  is_tnom='C' and  is_tnom='P' then
+//if  is_tnom<>'R' and  is_tnom<>'V' and  is_tnom='C' and  is_tnom='P' then
 	dw_ahorroact = create uo_datastore
 	dw_ahorroact.DataObject = "dw_ahorrocabnom"
 	dw_ahorroact.SetTransObject(SQLCA)
@@ -2945,7 +2946,7 @@ if  is_tnom<>'R' and  is_tnom<>'V' and  is_tnom='C' and  is_tnom='P' then
 		//	end if
 		next
 	end if
-end if
+//end if
 
 end function
 
@@ -4567,6 +4568,9 @@ if this.GetColumnName() = 'cantidad_ac' or lower(dwo.name)= 'cantidad_ac' then
  		if dw_historia.Describe(GetItemString(GetRow(),'sigla') + '.Coltype') = "!" then
 			if f_addcompute( GetItemString(GetRow(),'sigla'), GetItemString(GetRow(),'form_calculo') ,GetItemString(GetRow(),'form_verifica'), GetItemnumber(GetRow(),'tarifa'), GetItemnumber(GetRow(),'tarifa_esp'),1) = -1 then  Return
 		end if
+		string jaer
+		jaer=GetItemString(GetRow(),'sigla')
+		jaer= f_get_ctrl(GetItemString(GetRow(),'sigla'))
 		dw_historia.SetItem(filahist, f_get_ctrl(GetItemString(GetRow(),'sigla')),1)
 		this.SetItem(this.GetRow(),'valor_c',round(dw_historia.GetItemNumber(filahist,GetItemString(GetRow(),'sigla')),0))
 		this.SetItem(this.GetRow(),'pagado',round(dw_historia.GetItemNumber(filahist,GetItemString(GetRow(),'sigla')),0))
@@ -6402,7 +6406,6 @@ If ls_tipon='C' then
 	tab_1.p_1.dw_deduce.SetRedraw(FALSE)
 	tab_1.p_2.dw_novedad.SetRedraw(FALSE)
 	tab_1.p_5.dw_ap.SetRedraw(FALSE)
-	actualizarDatos()	
 	for l_c=1 to dw_empact.rowcount()		
 		tab_n.tpn_2.dw_empnom.ScrolltoRow(l_c)
 		setnull(ldb_fila)
@@ -6413,7 +6416,8 @@ If ls_tipon='C' then
 		tab_1.p_2.dw_novedad.AcceptText ( )
 		tab_1.p_2.dw_novedad.event itemchanged(ldb_fila,tab_1.p_2.dw_novedad.object.sigla,tab_1.p_2.dw_novedad.getitemstring(ldb_fila,'sigla'))
 	next
-	//pb_calcula.TriggerEvent(clicked!)
+	//actualizarDatos()	
+	pb_calcula.TriggerEvent(clicked!)
 	tab_n.tpn_2.dw_empnom.SetRedraw(true)
 	tab_1.p_1.dw_devenga.SetRedraw(true)
 	tab_1.p_1.dw_deduce.SetRedraw(true)
@@ -6441,7 +6445,6 @@ If ls_tipon='V' then
 	tab_1.p_1.dw_deduce.SetRedraw(FALSE)
 	tab_1.p_2.dw_novedad.SetRedraw(FALSE)
 	tab_1.p_5.dw_ap.SetRedraw(FALSE)
-	actualizarDatos()		
 	for l_c=1 to dw_empact.rowcount()		
 		tab_n.tpn_2.dw_empnom.ScrolltoRow(l_c)
 		setnull(ldb_fila)
@@ -6453,9 +6456,11 @@ If ls_tipon='V' then
 		tab_1.p_2.dw_novedad.event itemchanged(ldb_fila,tab_1.p_2.dw_novedad.object.sigla,tab_1.p_2.dw_novedad.getitemstring(ldb_fila,'sigla'))
 		tab_1.p_2.dw_novedad.SetItem(ldb_fila,'cantidad_ac',1)
 		tab_1.p_2.dw_novedad.AcceptText ( )
-		tab_1.p_2.dw_novedad.event itemchanged(ldb_fila,tab_1.p_2.dw_novedad.object.cantidad_ac,string(tab_1.p_2.dw_novedad.getitemnumber(ldb_fila,'cantidad_ac')))	
+		tab_1.p_2.dw_novedad.event itemchanged(ldb_fila,tab_1.p_2.dw_novedad.object.cantidad_ac,string(tab_1.p_2.dw_novedad.getitemnumber(ldb_fila,'cantidad_ac')))
+		
 	next
-//	pb_calcula.TriggerEvent(clicked!)
+	//actualizarDatos()	
+	pb_calcula.TriggerEvent(clicked!)
 	tab_n.tpn_2.dw_empnom.SetRedraw(true)
 	tab_1.p_1.dw_devenga.SetRedraw(true)
 	tab_1.p_1.dw_deduce.SetRedraw(true)
@@ -6471,23 +6476,19 @@ If ls_tipon='P' then
 	tab_1.p_2.rb_nin.checked=true
 	tab_1.p_2.rb_ded.checked=false
 	tab_1.p_2.rb_amb.checked=false
-	tab_n.tpn_2.dw_empnom.SetRedraw(FALSE)
-	tab_1.p_1.dw_devenga.SetRedraw(FALSE)
-	tab_1.p_1.dw_deduce.SetRedraw(FALSE)
-	tab_1.p_2.dw_novedad.SetRedraw(FALSE)
-	tab_1.p_5.dw_ap.SetRedraw(FALSE)	
+//	tab_n.tpn_2.dw_empnom.SetRedraw(FALSE)
+//	tab_1.p_1.dw_devenga.SetRedraw(FALSE)
+//	tab_1.p_1.dw_deduce.SetRedraw(FALSE)
+//	tab_1.p_2.dw_novedad.SetRedraw(FALSE)
+//	tab_1.p_5.dw_ap.SetRedraw(FALSE)	
 	tab_1.SelectTab(2)
 	openwithparm(w_nomina_prima,ls_cesan)
 	ls_cesan= Message.stringParm
 	if ls_cesan='!' then return -1
 	select cod_concep,des_concep,sigla,cod_tipo_concep,tipo into :ls_cesan,:ls_desco,:ls_sigla,:ls_ctipoc,:ls_tipoc from nom_concep where  (((cod_concep)=:ls_cesan) AND ((estado)='1'));
 	actualizarDatos()
-	hpb_1.Position = 0
-	hpb_1.MinPosition = 0
-	hpb_1.MaxPosition = long(tab_n.tpn_2.dw_empnom.Describe("Evaluate('sum(if(sel=1,1,0))',0)"))
-	hpb_1.SetRange ( 0, long(tab_n.tpn_2.dw_empnom.Describe("Evaluate('sum(if(sel=1,1,0))',0)")) )
-	hpb_1.Visible = TRUE
-	for l_c=1 to tab_n.tpn_2.dw_empnom.rowcount()	
+	for l_c=1 to tab_n.tpn_2.dw_empnom.rowcount()		
+	
 		tab_n.tpn_2.dw_empnom.ScrolltoRow(l_c)
 		ldb_fila = tab_1.p_2.pb_addnov.TriggerEvent(clicked!)
 		tab_1.p_2.dw_novedad.SetItem(ldb_fila,'cod_concep',ls_cesan)	
@@ -6497,15 +6498,16 @@ If ls_tipon='P' then
 		tab_1.p_2.dw_novedad.SetItem(ldb_fila,'cantidad_ac',1)
 		tab_1.p_2.dw_novedad.AcceptText()
 		tab_1.p_2.dw_novedad.event itemchanged(ldb_fila, tab_1.p_2.dw_novedad.object.cantidad_ac, tab_1.p_2.dw_novedad.getitemstring(ldb_fila,'sigla'))
-		hpb_1.Position = l_c
-		GarbageCollect ( )
+		//tab_1.p_2.dw_novedad.SetColumn(13)
+		
+		if l_c > 5 then exit
 	next
+
 	tab_n.tpn_2.dw_empnom.SetRedraw(true)
 	tab_1.p_1.dw_devenga.SetRedraw(true)
 	tab_1.p_1.dw_deduce.SetRedraw(true)
 	tab_1.p_2.dw_novedad.SetRedraw(true)
 	tab_1.p_5.dw_ap.SetRedraw(true)
-	hpb_1.Visible = false
 end if
 
 If ls_tipon='N' then 
