@@ -1307,6 +1307,25 @@ dw_diags.retrieve(i_contador,i_clugar_his,i_nservicio)
 dw_diags.event itemfocuschanged(1,dw_diags.object.codrip_prin)
 dw_diags.setredraw(true)
 
+datetime ld_fecha_atn
+integer li_temp_dx=10
+ld_fecha_atn=dw_serv_ing.getitemdatetime(dw_serv_ing.getrow(),"fecha")
+if daysAfter(date(ld_fecha_atn),date(now())) >0 then
+	dw_diags.enabled=false
+	cb_est_ria.enabled=false
+	pb_guarda_diags.enabled=false
+else
+	if  SecondsAfter(time(ld_fecha_atn),time(now())) > (integer(li_temp_dx)*5) then 
+		dw_diags.enabled=false
+		cb_est_ria.enabled=false
+		pb_guarda_diags.enabled=false
+	else
+		dw_diags.enabled=true
+		cb_est_ria.enabled=true
+		pb_guarda_diags.enabled=true
+	end if
+end if
+
 end event
 
 event retrieveend;if rowcount=0 then 

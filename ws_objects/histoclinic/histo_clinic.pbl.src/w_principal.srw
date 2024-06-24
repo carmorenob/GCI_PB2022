@@ -21,7 +21,7 @@ end type
 end forward
 
 global type w_principal from window
-integer width = 5390
+integer width = 5659
 integer height = 3252
 boolean titlebar = true
 string title = "GCI Ltda."
@@ -872,9 +872,9 @@ end event
 
 type dw_odprofe from uo_datawindow within w_principal
 boolean visible = false
-integer x = 2912
+integer x = 2903
 integer y = 112
-integer width = 1691
+integer width = 2697
 integer height = 112
 integer taborder = 30
 string dragicon = "none!"

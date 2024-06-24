@@ -343,8 +343,10 @@ if tipdoc<> "" and docu<> "" then
 	if dw_trato.rowcount()=0 then 
 		messagebox("Advertencia","El Paciente no tiene Tratamientos asignados")
 		cb_1.enabled=false
+		t1.enabled=false
 	else
 		cb_1.enabled=true
+		t1.enabled=true
 		t1.ps.uo_s.cambia_emppac(dw_empac)
 	end if
 end if
