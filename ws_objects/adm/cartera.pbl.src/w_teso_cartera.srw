@@ -2356,16 +2356,18 @@ event itemchanged;accepttext()
 cambio=true
 if dwo.name='valor' or dwo.name='cartipo' then 
 	
-	if dwo.name='cartipo' and  tab_1.tp_det.dw_det.getItemString(tab_1.tp_det.dw_det.getrow(),'tipo_rad')='F' then
-	
-		string ls_crt
-		int li_fila
-		ls_crt=getitemstring(getrow(),'cartipo')
-		li_fila=idw_des.find("cartipo='"+ls_crt+"'",1,idw_des.rowcount())
-		if li_fila>0 then 
-			setitem(getrow(),'operacion',idw_des.getitemnumber(li_fila,'operacion'))
-			if idw_des.getitemstring(li_fila,'dian')='1' then
-				setitem(getrow(),'dian','1')
+	if tab_1.tp_det.dw_det.dataobject='dw_car_cpo_radica'	 then 
+		if dwo.name='cartipo' and  tab_1.tp_det.dw_det.getItemString(tab_1.tp_det.dw_det.getrow(),'tipo_rad')='F' then
+			string ls_crt
+			int li_fila
+
+			ls_crt=getitemstring(getrow(),'cartipo')
+			li_fila=idw_des.find("cartipo='"+ls_crt+"'",1,idw_des.rowcount())
+			if li_fila>0 then 
+				setitem(getrow(),'operacion',idw_des.getitemnumber(li_fila,'operacion'))
+				if idw_des.getitemstring(li_fila,'dian')='1' then
+					setitem(getrow(),'dian','1')
+				end if
 			end if
 		end if
 	end if
@@ -2404,21 +2406,25 @@ mle_1.text=getitemstring(getrow(),'observaciones')
 
 string ls_crt
 int li_fila
-if  tab_1.tp_det.dw_det.getItemString(tab_1.tp_det.dw_det.getrow(),'tipo_rad')='F' then
-	ls_crt=getitemstring(getrow(),'cartipo')
-	li_fila=idw_des.find("cartipo='"+ls_crt+"'",1,idw_des.rowcount())
-	if idw_des.getitemstring(li_fila,'dian')='1' then
-		if isnull(getitemstring(getrow(),'estado_dian_nota')) or getitemstring(getrow(),'estado_dian_nota')='2'  or getitemstring(getrow(),'estado_dian_nota')='0 'then
-			pb_diann.enabled=true
-		else
-			pb_diann.enabled=false
+if tab_1.tp_det.dw_det.rowcount()>0 then
+	if tab_1.tp_det.dw_det.dataobject='dw_car_cpo_radica'	 then 	
+		if  tab_1.tp_det.dw_det.getItemString(tab_1.tp_det.dw_det.getrow(),'tipo_rad')='F' then
+			ls_crt=getitemstring(getrow(),'cartipo')
+			li_fila=idw_des.find("cartipo='"+ls_crt+"'",1,idw_des.rowcount())
+			if idw_des.getitemstring(li_fila,'dian')='1' then
+				if isnull(getitemstring(getrow(),'estado_dian_nota')) or getitemstring(getrow(),'estado_dian_nota')='2'  or getitemstring(getrow(),'estado_dian_nota')='0 'then
+					pb_diann.enabled=true
+				else
+					pb_diann.enabled=false
+				end if
+				pb_connota.enabled=true
+				pb_impnota.enabled=true
+			else
+				pb_diann.enabled=false
+				pb_connota.enabled=false
+				pb_impnota.enabled=false
+			end if
 		end if
-		pb_connota.enabled=true
-		pb_impnota.enabled=true
-	else
-		pb_diann.enabled=false
-		pb_connota.enabled=false
-		pb_impnota.enabled=false
 	end if
 end if
 end event

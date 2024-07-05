@@ -3,4 +3,10 @@ Save Format v3.0(19990112)
  0 "fac_electronica.pbt";
 @end;
 @begin Targets
+ 0 "histoclinic\\histo_clinic.pbt";
+ 1 "configurador\\conf_apdx.pbt";
+ 2 "actualizador\\actualizador.pbt";
+ 3 "adm\\gci_adm.pbt";
 @end;
+DefaultTarget "adm\\gci_adm.pbt";
+DefaultRemoteTarget "adm\\gci_adm.pbt";
