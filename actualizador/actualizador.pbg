@@ -1,0 +1,12 @@
+Save Format v3.0(19990112)
+@begin Libraries
+ "actualizador.pbl" "";
+@end;
+@begin Objects 
+ "ws_objects\\actualizador\\actualizador.pbl.src\\actualizador.sra" "actualizador.pbl";
+ "ws_objects\\actualizador\\actualizador.pbl.src\\actualizador.srj" "actualizador.pbl";
+ "ws_objects\\actualizador\\actualizador.pbl.src\\dw_files.srd" "actualizador.pbl";
+ "ws_objects\\actualizador\\actualizador.pbl.src\\f_descripta.srf" "actualizador.pbl";
+ "ws_objects\\actualizador\\actualizador.pbl.src\\n_osversion.sru" "actualizador.pbl";
+ "ws_objects\\actualizador\\actualizador.pbl.src\\w_actualiza.srw" "actualizador.pbl";
+@end;

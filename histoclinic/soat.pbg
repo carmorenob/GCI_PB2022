@@ -1,0 +1,18 @@
+Save Format v3.0(19990112)
+@begin Libraries
+ "soat.pbl" "";
+@end;
+@begin Objects 
+ "ws_objects\\histoclinic\\soat.pbl.src\\dw_acumcab.srd" "soat.pbl";
+ "ws_objects\\histoclinic\\soat.pbl.src\\dw_acumcab_todo.srd" "soat.pbl";
+ "ws_objects\\histoclinic\\soat.pbl.src\\dw_acumcab_todo_copy.srd" "soat.pbl";
+ "ws_objects\\histoclinic\\soat.pbl.src\\dw_acumdeta.srd" "soat.pbl";
+ "ws_objects\\histoclinic\\soat.pbl.src\\dw_histo_soat.srd" "soat.pbl";
+ "ws_objects\\histoclinic\\soat.pbl.src\\dw_histo_soatorg.srd" "soat.pbl";
+ "ws_objects\\histoclinic\\soat.pbl.src\\dw_lista_casegu.srd" "soat.pbl";
+ "ws_objects\\histoclinic\\soat.pbl.src\\dw_lista_empresa_soat.srd" "soat.pbl";
+ "ws_objects\\histoclinic\\soat.pbl.src\\dw_lista_tasegu.srd" "soat.pbl";
+ "ws_objects\\histoclinic\\soat.pbl.src\\dw_lista_tseracc.srd" "soat.pbl";
+ "ws_objects\\histoclinic\\soat.pbl.src\\st_soat.srs" "soat.pbl";
+ "ws_objects\\histoclinic\\soat.pbl.src\\w_soat.srw" "soat.pbl";
+@end;

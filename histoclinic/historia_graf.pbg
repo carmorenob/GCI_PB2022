@@ -1,0 +1,44 @@
+Save Format v3.0(19990112)
+@begin Libraries
+ "historia_graf.pbl" "";
+@end;
+@begin Objects 
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_actosqx_hg.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_admision_hg.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_banco_resu.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_barra.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_det_actoqx_hg.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_det_actoqx_hg_postgres.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_det_os_form.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_facts_x_ing.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_formula_resu.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_historial_todos.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_imags_diags.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_ingresos_odon_hg.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_ing_apdx_hg.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_mover.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_ordservdet_resu.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_ordserv_resu.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_osqx_det_hg.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_os_det_hg.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_os_hg.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_os_hg_postgres.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_plantillas_x_ing.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_qxos_hg.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_res_actoqx_hg.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_res_consext.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_res_procqx_hg.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_res_procqx_hg_postgres.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_servadx2_hg.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_servadx2_hg_postgres.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_servadx_hg.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_servadx_hg_postgres.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_serving_det.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_serving_det_postgres.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_serv_ing_res.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_tratamientocpo_hg.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_xa_resul_hg.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\dw_xa_resul_hg_org.srd" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\uo_imag_diag.sru" "historia_graf.pbl";
+ "ws_objects\\histoclinic\\historia_graf.pbl.src\\w_imag_diag.srw" "historia_graf.pbl";
+@end;

@@ -1,0 +1,48 @@
+Save Format v3.0(19990112)
+@begin Libraries
+ "fac_electronica.pbl" "";
+@end;
+@begin Objects 
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dr_factura_electronica_notas.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_attached_document.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_attached_document_capita.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_deta_nomina_elect.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_document_attached.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_facturas_envio.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_facturas_envio_e1.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_factura_electronica.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_factura_electronica_cap_postgres_anula.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_factura_electronica_cap_postgres_ncdre.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_factura_electronica_cap_postgres_ncredito.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_factura_electronica_cap_postgres_ndebito.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_factura_electronica_cap_sql.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_factura_electronica_postgres.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_factura_electronica_postgres1.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_factura_electronica_postgres19.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_factura_electronica_postgresx.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_factura_electronica_postgres_anula.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_factura_electronica_postgres_ncdre.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_factura_electronica_postgres_original.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_factura_electronica_postgres_rc.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_factura_electronica_sql.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_factura_electronica_sql1.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_factura_electronica_sql_anula.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_mipres_prescripcion.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_mipres_prescripcion_comp.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_mipres_prescripcion_cups.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_mipres_prescripcion_dispo.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_mipres_prescripcion_med.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_mipres_prescripcion_nutri.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_radicas_envio.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_reponse_document_capita.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_response_document.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_retornos_dian.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_retorno_dian_async.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\dw_retorno_dian_status_zip.srd" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\nvo_factura_electronica.sru" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\nvo_generic_ole_object.sru" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\nvo_mipres.sru" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\nvo_rips_json.sru" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\st_retorno_gral.srs" "fac_electronica.pbl";
+ "ws_objects\\histoclinic\\fac_electronica.pbl.src\\w_mipres.srw" "fac_electronica.pbl";
+@end;

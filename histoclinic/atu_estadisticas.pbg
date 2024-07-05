@@ -1,0 +1,46 @@
+Save Format v3.0(19990112)
+@begin Libraries
+ "atu_estadisticas.pbl" "";
+@end;
+@begin Objects 
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_campos.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_campos1_descrip.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_combo_campos.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_combo_plantilla.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_compuesto_cruzada.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_compuesto_cruzada_s1.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_compuesto_cruzada_s2.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_compuesto_descript.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_compuesto_result.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_cruz_xxs_yys11_copy.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_cruz_xxs_yys12_copy.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_cruz_xx_yy1.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_datos.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_datos_descrip.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_datos_descrip_si_no.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_datos_selecc_mult.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_encuestas.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_estadisticas.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_grafica_sino.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_graf_fecha.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_graf_lista.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_graf_multiple.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_graf_numero.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_graf_texto.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_items_campocruz.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_lista_campos.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_resul.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_result_descript.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\dw_tipo_lista.srd" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\f_desviacion.srf" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\f_fecha_numero.srf" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\f_maximo.srf" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\f_media.srf" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\f_mediana.srf" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\f_minimo.srf" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\f_moda.srf" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\f_numero_fecha.srf" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\f_retrieve_dw_campos.srf" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\f_varianza.srf" "atu_estadisticas.pbl";
+ "ws_objects\\histoclinic\\atu_estadisticas.pbl.src\\w_generar_estadist.srw" "atu_estadisticas.pbl";
+@end;
