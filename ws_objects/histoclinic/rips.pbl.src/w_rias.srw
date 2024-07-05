@@ -5843,7 +5843,9 @@ event clicked;if tag='1' then
 	if f_permiso_boton(this,'RA')=0 then return
 end if
 if isnull(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"estado")) then 
-	open(w_anula_radica)
+	if tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"contabil")<>'C' then
+		open(w_anula_radica)
+	end if
 end if	
 end event
 
