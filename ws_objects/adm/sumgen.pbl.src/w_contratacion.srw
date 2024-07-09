@@ -139,9 +139,9 @@ type pb_3 from picturebutton within p2
 end type
 type pb_2 from picturebutton within p2
 end type
-type pb_21 from picturebutton within p2
-end type
 type dw_fpago from datawindow within p2
+end type
+type pb_21 from picturebutton within p2
 end type
 type p2 from userobject within t1
 tcausa tcausa
@@ -150,8 +150,8 @@ pb_g pb_g
 pb_autoriza pb_autoriza
 pb_3 pb_3
 pb_2 pb_2
-pb_21 pb_21
 dw_fpago dw_fpago
+pb_21 pb_21
 end type
 type p6 from userobject within t1
 end type
@@ -236,7 +236,7 @@ end type
 end forward
 
 global type w_contratacion from window
-integer width = 5952
+integer width = 5861
 integer height = 2488
 boolean titlebar = true
 string title = "Contratación"
@@ -855,9 +855,9 @@ end event
 
 type dw_cargo from datawindow within w_contratacion
 boolean visible = false
-integer x = 5353
-integer y = 1180
-integer width = 119
+integer x = 5403
+integer y = 1268
+integer width = 329
 integer height = 120
 integer taborder = 50
 boolean enabled = false
@@ -875,8 +875,8 @@ type pb_11 from picturebutton within w_contratacion
 event mousemove pbm_mousemove
 string tag = "Sugerir Plan"
 boolean visible = false
-integer x = 5403
-integer y = 836
+integer x = 5559
+integer y = 1128
 integer width = 146
 integer height = 128
 integer taborder = 90
@@ -2237,8 +2237,8 @@ pb_g pb_g
 pb_autoriza pb_autoriza
 pb_3 pb_3
 pb_2 pb_2
-pb_21 pb_21
 dw_fpago dw_fpago
+pb_21 pb_21
 end type
 
 on p2.create
@@ -2248,16 +2248,16 @@ this.pb_g=create pb_g
 this.pb_autoriza=create pb_autoriza
 this.pb_3=create pb_3
 this.pb_2=create pb_2
-this.pb_21=create pb_21
 this.dw_fpago=create dw_fpago
+this.pb_21=create pb_21
 this.Control[]={this.tcausa,&
 this.pb_acta,&
 this.pb_g,&
 this.pb_autoriza,&
 this.pb_3,&
 this.pb_2,&
-this.pb_21,&
-this.dw_fpago}
+this.dw_fpago,&
+this.pb_21}
 end on
 
 on p2.destroy
@@ -2267,8 +2267,8 @@ destroy(this.pb_g)
 destroy(this.pb_autoriza)
 destroy(this.pb_3)
 destroy(this.pb_2)
-destroy(this.pb_21)
 destroy(this.dw_fpago)
+destroy(this.pb_21)
 end on
 
 type tcausa from tab within p2
@@ -2519,11 +2519,22 @@ end type
 
 event clicked;if dw_cab.RowCount() = 0 then Return
 long i
-if  dw_causa.getitemnumber(1,'total') > t1.p2.dw_fpago.getitemnumber(t1.p2.dw_fpago.getrow(),'monto') then
+dwitemstatus  ls_estado
+boolean ldb_mod=false
+
+for i=1  to dw_causa.rowcount()
+	ls_estado=dw_causa.getitemstatus(i,0,primary!)
+	if ls_estado=DataModified! then ldb_mod=true
+next	
+
+if ldb_mod=true then 
+//if  dw_causa.getitemnumber(1,'total') <> t1.p2.dw_fpago.getitemnumber(t1.p2.dw_fpago.getrow(),'monto') then
 	if messagebox("Atención",'Está seguro que desa modificar el Monto de la Liquidación?',question!,yesno!,2)=2 then return -1
 end if
+
 t1.p2.dw_fpago.setitem(t1.p2.dw_fpago.getrow(),'monto_vigente', dw_causa.getitemnumber(1,'total') )
-if  t1.p2.dw_fpago.getitemstring(t1.p2.dw_fpago.getrow(),'contabil')='C' then
+
+if  t1.p2.dw_fpago.getitemstring(t1.p2.dw_fpago.getrow(),'contabil_mod')='C' then
 	t1.p2.dw_fpago.setitem(t1.p2.dw_fpago.getrow(),'fecha_modifi', datetime(today(),now()))
 end if
 if t1.p2.dw_fpago.Update(TRUE,FALSE) = -1 then
@@ -2763,7 +2774,7 @@ end event
 
 type pb_acta from picturebutton within p2
 event mousemove pbm_mousemove
-integer x = 5216
+integer x = 5509
 integer y = 184
 integer width = 146
 integer height = 128
@@ -2805,7 +2816,7 @@ end event
 type pb_g from picturebutton within p2
 event mousemove pbm_mousemove
 string tag = "Sugerir Plan"
-integer x = 5056
+integer x = 5349
 integer y = 316
 integer width = 146
 integer height = 128
@@ -2833,6 +2844,10 @@ else
 end if
 for i = 1 to dw_fpago.RowCount()
 	if dw_fpago.GetItemNumber(i,'nuevo') = 1 then dw_fpago.SetItem(i,'monto_vigente',dw_fpago.getitemnumber(i,'monto'))
+	if isnull(dw_fpago.GetItemstring(i,'tipo_pago')) then 
+		MessageBox('Atención','No puede aber registro sin tipo de pago')
+		return -1
+	end if
 next
 
 if dw_fpago.Update() = -1 then
@@ -2850,7 +2865,7 @@ end event
 
 type pb_autoriza from picturebutton within p2
 event mousemove pbm_mousemove
-integer x = 5216
+integer x = 5509
 integer y = 36
 integer width = 151
 integer height = 132
@@ -2932,7 +2947,7 @@ end event
 type pb_3 from picturebutton within p2
 event mousemove pbm_mousemove
 string tag = "Borrar Registro"
-integer x = 5056
+integer x = 5349
 integer y = 180
 integer width = 146
 integer height = 128
@@ -2971,7 +2986,7 @@ end event
 
 type pb_2 from picturebutton within p2
 event mousemove pbm_mousemove
-integer x = 5056
+integer x = 5349
 integer y = 36
 integer width = 146
 integer height = 128
@@ -3015,43 +3030,10 @@ Return fila
 
 end event
 
-type pb_21 from picturebutton within p2
-event mousemove pbm_mousemove
-string tag = "Sugerir Plan"
-integer x = 5056
-integer y = 320
-integer width = 151
-integer height = 132
-integer taborder = 40
-boolean bringtotop = true
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-boolean originalsize = true
-string picturename = "calculator.gif"
-string disabledname = "d_calculator.gif"
-string powertiptext = "Sugerir Plan"
-end type
-
-event clicked;if dw_cab.RowCount() = 0 then Return
-if dw_cab.GetItemString(dw_cab.GetRow(),'estado') <> '0' then
-	messagebox('Error','El documento ya ha sido cerrado')
-	Return
-end if
-st_otrosi st_p
-st_p.dw_cab = t1.p1.dw_concab
-st_p.dw_obj = t1.p2.dw_fpago
-openwithparm(w_calfpago,st_p)
-
-end event
-
 type dw_fpago from datawindow within p2
 integer x = 32
 integer y = 32
-integer width = 4992
+integer width = 5298
 integer height = 572
 integer taborder = 10
 string title = "none"
@@ -3134,6 +3116,38 @@ if dw_cab.GetItemString(dw_cab.GetRow(),'estado') = '1' then
 	end if
 end if
 t1.p2.tcausa.caus.dw_causa.Retrieve(GetItemNumber(f,'ano'),GetItemNumber(f,'ncontrato'),GetItemNumber(f,'otrosi'),GetItemNumber(f,'item'))
+end event
+
+type pb_21 from picturebutton within p2
+event mousemove pbm_mousemove
+string tag = "Sugerir Plan"
+integer x = 5344
+integer y = 312
+integer width = 151
+integer height = 132
+integer taborder = 40
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+boolean originalsize = true
+string picturename = "calculator.gif"
+string disabledname = "d_calculator.gif"
+string powertiptext = "Sugerir Plan"
+end type
+
+event clicked;if dw_cab.RowCount() = 0 then Return
+if dw_cab.GetItemString(dw_cab.GetRow(),'estado') <> '0' then
+	messagebox('Error','El documento ya ha sido cerrado')
+	Return
+end if
+st_otrosi st_p
+st_p.dw_cab = t1.p1.dw_concab
+st_p.dw_obj = t1.p2.dw_fpago
+openwithparm(w_calfpago,st_p)
+
 end event
 
 type p6 from userobject within t1
