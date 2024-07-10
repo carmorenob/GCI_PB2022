@@ -337,7 +337,7 @@ for k=1 to dw_resumen.rowcount()
 		st_ret_dian    lst_lle
 	
 		u_elec=create nvo_factura_electronica
-		//lst_lle=u_elec.sign_chilkat(dw_electronica,ist_nfactura.ndoc,clugar,ctipo_fac,0,'f','FV')
+		lst_lle=u_elec.sign_chilkat(dw_electronica,ist_nfactura.ndoc,clugar,ctipo_fac,0,'f','FV')
 	end if
 	////////ELECTRONICA		
 next //k=1 to dw_resumen.rowcount()
