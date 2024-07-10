@@ -17,7 +17,7 @@ table(column=(type=long updatewhereclause=yes name=esco dbname="esco" initial="0
  column=(type=char(20) updatewhereclause=yes name=nucleo dbname="nucleo" )
  column=(type=datetime update=yes updatewhereclause=yes name=fnacimiento dbname="fnacimiento" )
  column=(type=char(100) update=yes updatewhereclause=yes name=direccion dbname="direccion" )
- column=(type=char(9) update=yes updatewhereclause=yes name=tel dbname="tel" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=tel dbname="tel" )
  column=(type=char(3) update=yes updatewhereclause=yes name=estrato dbname="estrato" )
  column=(type=char(2) update=yes updatewhereclause=yes name=cdepto dbname="cdepto" )
  column=(type=char(5) update=yes updatewhereclause=yes name=cciudad dbname="cciudad" )
