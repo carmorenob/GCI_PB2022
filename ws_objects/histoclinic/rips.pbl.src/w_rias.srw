@@ -2156,7 +2156,8 @@ if dw_trae.rowcount()>=0 and (p_reserva='0' or p_reserva='1') then
 						w_principal.SetMicroHelp ( 'Copiando '+cual+'(reg. '+string(j)+' de '+string(filas)+')' )
 						if p_decual='emp' then tab_2.tp2_1.t1.tp1.barra.position= 25 + Int((j * 75)/filas)
 					next
-					nom_arch+=right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
+					//nom_arch+=right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
+					nom_arch+=right(fill('0',6)+string(p_nradica),6)
 					docname=nom_arch
 					w_principal.SetMicroHelp ( 'Exportando Archivo '+cual )
 					if p_decual='emp' then
@@ -2284,7 +2285,8 @@ if dw_trae.rowcount()>=0 and (p_reserva='0' or p_reserva='1') then
 			w_principal.SetMicroHelp ( 'Copiando AF reg. '+string(j)+' de '+string(filas) )
 		next
 		num_af=dw_export.rowcount()
-		nom_arch="AF"+right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
+		//nom_arch="AF"+right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
+		nom_arch="AF"+right(fill('0',6)+string(p_nradica),6)
 		docname=nom_arch
 		if dw_export.rowcount()>0 then
 			w_principal.SetMicroHelp ( 'Exportando AF' )
@@ -2333,7 +2335,8 @@ if dw_trae.rowcount()>=0 and (p_reserva='0' or p_reserva='1') then
 		dw_trae.settransobject(sqlca)
 		dw_trae.reset()
 		dw_trae.retrieve(p_nradica,fecha_fin,p_clug_rad,p_tipo_rad)
-		nom_arch="US"+right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
+		//nom_arch="US"+right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
+		nom_arch="US"+right(fill('0',6)+string(p_nradica),6)
 		docname=nom_arch
 		dw_export.reset()
 		filas=dw_trae.rowcount()
@@ -2443,7 +2446,8 @@ if dw_trae.rowcount()>=0 and (p_reserva='0' or p_reserva='1') then
 			end if
 		next
 		w_principal.SetMicroHelp ( 'Exportando CT' )
-		nom_arch="CT"+right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
+		//nom_arch="CT"+right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
+		nom_arch="CT"+right(fill('0',6)+string(p_nradica),6)
 		docname=nom_arch
 		if dw_export.rowcount()>0 then
 			if p_decual='emp' then
