@@ -2225,7 +2225,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-07-05"), Time("11:52:37.000000"))
+datetime value = DateTime(Date("2024-07-11"), Time("09:02:16.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2247,7 +2247,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-07-05"), Time("11:52:37.000000"))
+datetime value = DateTime(Date("2024-07-11"), Time("09:02:16.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -3336,7 +3336,8 @@ string powertiptext = "Traer procedimientos Facturados [Alt+D]"
 end type
 
 event clicked;if isnull(dw_area.getitemstring(1,1)) or tipdoc='' or docu='' then return
-open(w_lleva_factu_apdx)
+openwithparm(w_lleva_factu_apdx,idw_area.getitemstring(idw_area.getrow(),'varios_fact'))
+//open(w_lleva_factu_apdx)
 refres_lista()
 end event
 

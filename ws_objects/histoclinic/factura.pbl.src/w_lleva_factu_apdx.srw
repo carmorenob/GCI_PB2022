@@ -13,7 +13,7 @@ end type
 end forward
 
 global type w_lleva_factu_apdx from window
-integer width = 3241
+integer width = 3643
 integer height = 1388
 boolean titlebar = true
 string title = "Llevar procedimientos de Facturación a Apoyo Diagnóstico (Facturas sin Cita)"
@@ -30,6 +30,9 @@ dw_trae dw_trae
 end type
 global w_lleva_factu_apdx w_lleva_factu_apdx
 
+type variables
+string ls_varfac
+end variables
 on w_lleva_factu_apdx.create
 this.pb_cancel=create pb_cancel
 this.pb_acep=create pb_acep
@@ -48,8 +51,11 @@ destroy(this.st_1)
 destroy(this.dw_trae)
 end on
 
+event open;ls_varfac=message.stringparm
+end event
+
 type pb_cancel from picturebutton within w_lleva_factu_apdx
-integer x = 1600
+integer x = 1714
 integer y = 1152
 integer width = 146
 integer height = 128
@@ -71,7 +77,7 @@ event clicked;close(parent)
 end event
 
 type pb_acep from picturebutton within w_lleva_factu_apdx
-integer x = 1422
+integer x = 1536
 integer y = 1152
 integer width = 146
 integer height = 128
@@ -92,15 +98,15 @@ end type
 
 event clicked;if dw_trae.accepttext()=-1 then return
 long j,k,cuantos,filas,nnul,nfact,nitemfac,nrec,consec
-boolean new_ingreso=false
-string cemp,ccont,snul,cod,clugfac,clugrec,plan,cproceq,cmaneq,naut,clug_consec,tipo_fac,ls_area
+boolean new_ingreso=false,lgn_ingresa=false
+string cemp,ccont,snul,cod,clugfac,clugrec,plan,cproceq,cmaneq,naut,clug_consec,tipo_fac,ls_area,ls_nfact
 datetime fnul
 setnull(snul)
 setnull(nnul)
 setnull(fnul)
 //solo debe llevar las facturas que no tienen cita porque el módulo de apdx tambien va  atener llevar desde citas
 
-///PAR AVALIDAR MISMA VENTNA EN DOS ESTACIONES
+///PAR AVALIDAR MISMA VENTANA EN DOS ESTACIONES
 ls_area=w_apoyo_diag2.i_codarea
 
 SELECT 
@@ -131,26 +137,38 @@ for j= 1 to dw_trae.rowcount()
 		end if
 		setnull(cuantos)
 		cuantos=dw_trae.getitemnumber(j,"esco")
+		ls_nfact=string(dw_trae.getitemnumber(1,"nfact"))+dw_trae.getitemstring(1,"clugar")+dw_trae.getitemstring(1,"tipo")
 		for k=1 to cuantos
-			cod=dw_trae.getitemstring(j,"proccups")
-			nfact=dw_trae.getitemnumber(j,"nfact")
-			clugfac=dw_trae.getitemstring(j,"clugar")
-			tipo_fac=dw_trae.getitemstring(j,"tipo")
-			nitemfac=dw_trae.getitemnumber(j,"nitem")
-			nrec=dw_trae.getitemnumber(j,"nrcaj")
-			clugrec=dw_trae.getitemstring(j,"clugar_rec")
-			plan=dw_trae.getitemstring(j,"plan")
-			cproceq=dw_trae.getitemstring(j,"cproced")
-			cmaneq=dw_trae.getitemstring(j,"codmanual")
-			naut=dw_trae.getitemstring(j,"autorizacion")
-			//	p_cod,procequiv,man_eq,empresa,contrato,plan,autoriza,nfactura,clug_fac,item_fac,nreci
-			//	clug_rec,item_rec,nitem_rec,ncita,clug_cita,nserv_cita,sec_cant_cit,fecha_cit,hora_cit, conta_os
-			// clug_os,norden,nitem_os,facturar
-			if w_apoyo_diag2.f_insert_proc(cod,cproceq,cmaneq,cemp,ccont,plan,naut,nfact,clugfac,nitemfac,nrec, &
-				clugrec,nnul,nnul,nnul,snul,nnul,nnul,fnul,fnul,nnul, snul,nnul,nnul,1,tipo_fac,'','1')=-1 then
-				rollback;
-				enabled=false
-				return
+			if ls_varfac='1'  then
+				lgn_ingresa=true
+			end if
+			if ls_varfac='0' and ls_nfact=string(dw_trae.getitemnumber(k,"nfact"))+dw_trae.getitemstring(k,"clugar")+dw_trae.getitemstring(k,"tipo") then
+				lgn_ingresa=true
+			else
+				lgn_ingresa=false
+			end if
+			
+			if lgn_ingresa then
+				cod=dw_trae.getitemstring(j,"proccups")
+				nfact=dw_trae.getitemnumber(j,"nfact")
+				clugfac=dw_trae.getitemstring(j,"clugar")
+				tipo_fac=dw_trae.getitemstring(j,"tipo")
+				nitemfac=dw_trae.getitemnumber(j,"nitem")
+				nrec=dw_trae.getitemnumber(j,"nrcaj")
+				clugrec=dw_trae.getitemstring(j,"clugar_rec")
+				plan=dw_trae.getitemstring(j,"plan")
+				cproceq=dw_trae.getitemstring(j,"cproced")
+				cmaneq=dw_trae.getitemstring(j,"codmanual")
+				naut=dw_trae.getitemstring(j,"autorizacion")
+				//	p_cod,procequiv,man_eq,empresa,contrato,plan,autoriza,nfactura,clug_fac,item_fac,nreci
+				//	clug_rec,item_rec,nitem_rec,ncita,clug_cita,nserv_cita,sec_cant_cit,fecha_cit,hora_cit, conta_os
+				// clug_os,norden,nitem_os,facturar
+				if w_apoyo_diag2.f_insert_proc(cod,cproceq,cmaneq,cemp,ccont,plan,naut,nfact,clugfac,nitemfac,nrec, &
+					clugrec,nnul,nnul,nnul,snul,nnul,nnul,fnul,fnul,nnul, snul,nnul,nnul,1,tipo_fac,'','1')=-1 then
+					rollback;
+					enabled=false
+					return
+				end if
 			end if
 		next
 	end if
@@ -162,7 +180,7 @@ end event
 type st_1 from statictext within w_lleva_factu_apdx
 integer x = 37
 integer y = 24
-integer width = 3131
+integer width = 3488
 integer height = 80
 integer textsize = -8
 integer weight = 400
@@ -181,7 +199,7 @@ end type
 type dw_trae from datawindow within w_lleva_factu_apdx
 integer x = 32
 integer y = 116
-integer width = 3145
+integer width = 3506
 integer height = 1012
 integer taborder = 10
 string title = "none"
