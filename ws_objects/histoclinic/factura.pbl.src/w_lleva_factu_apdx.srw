@@ -33,6 +33,7 @@ global w_lleva_factu_apdx w_lleva_factu_apdx
 type variables
 string ls_varfac
 end variables
+
 on w_lleva_factu_apdx.create
 this.pb_cancel=create pb_cancel
 this.pb_acep=create pb_acep
@@ -98,8 +99,8 @@ end type
 
 event clicked;if dw_trae.accepttext()=-1 then return
 long j,k,cuantos,filas,nnul,nfact,nitemfac,nrec,consec
-boolean new_ingreso=false,lgn_ingresa=false
-string cemp,ccont,snul,cod,clugfac,clugrec,plan,cproceq,cmaneq,naut,clug_consec,tipo_fac,ls_area,ls_nfact
+boolean new_ingreso=false
+string cemp,ccont,snul,cod,clugfac,clugrec,plan,cproceq,cmaneq,naut,clug_consec,tipo_fac,ls_area
 datetime fnul
 setnull(snul)
 setnull(nnul)
@@ -137,38 +138,26 @@ for j= 1 to dw_trae.rowcount()
 		end if
 		setnull(cuantos)
 		cuantos=dw_trae.getitemnumber(j,"esco")
-		ls_nfact=string(dw_trae.getitemnumber(1,"nfact"))+dw_trae.getitemstring(1,"clugar")+dw_trae.getitemstring(1,"tipo")
 		for k=1 to cuantos
-			if ls_varfac='1'  then
-				lgn_ingresa=true
-			end if
-			if ls_varfac='0' and ls_nfact=string(dw_trae.getitemnumber(k,"nfact"))+dw_trae.getitemstring(k,"clugar")+dw_trae.getitemstring(k,"tipo") then
-				lgn_ingresa=true
-			else
-				lgn_ingresa=false
-			end if
-			
-			if lgn_ingresa then
-				cod=dw_trae.getitemstring(j,"proccups")
-				nfact=dw_trae.getitemnumber(j,"nfact")
-				clugfac=dw_trae.getitemstring(j,"clugar")
-				tipo_fac=dw_trae.getitemstring(j,"tipo")
-				nitemfac=dw_trae.getitemnumber(j,"nitem")
-				nrec=dw_trae.getitemnumber(j,"nrcaj")
-				clugrec=dw_trae.getitemstring(j,"clugar_rec")
-				plan=dw_trae.getitemstring(j,"plan")
-				cproceq=dw_trae.getitemstring(j,"cproced")
-				cmaneq=dw_trae.getitemstring(j,"codmanual")
-				naut=dw_trae.getitemstring(j,"autorizacion")
-				//	p_cod,procequiv,man_eq,empresa,contrato,plan,autoriza,nfactura,clug_fac,item_fac,nreci
-				//	clug_rec,item_rec,nitem_rec,ncita,clug_cita,nserv_cita,sec_cant_cit,fecha_cit,hora_cit, conta_os
-				// clug_os,norden,nitem_os,facturar
-				if w_apoyo_diag2.f_insert_proc(cod,cproceq,cmaneq,cemp,ccont,plan,naut,nfact,clugfac,nitemfac,nrec, &
-					clugrec,nnul,nnul,nnul,snul,nnul,nnul,fnul,fnul,nnul, snul,nnul,nnul,1,tipo_fac,'','1')=-1 then
-					rollback;
-					enabled=false
-					return
-				end if
+			cod=dw_trae.getitemstring(j,"proccups")
+			nfact=dw_trae.getitemnumber(j,"nfact")
+			clugfac=dw_trae.getitemstring(j,"clugar")
+			tipo_fac=dw_trae.getitemstring(j,"tipo")
+			nitemfac=dw_trae.getitemnumber(j,"nitem")
+			nrec=dw_trae.getitemnumber(j,"nrcaj")
+			clugrec=dw_trae.getitemstring(j,"clugar_rec")
+			plan=dw_trae.getitemstring(j,"plan")
+			cproceq=dw_trae.getitemstring(j,"cproced")
+			cmaneq=dw_trae.getitemstring(j,"codmanual")
+			naut=dw_trae.getitemstring(j,"autorizacion")
+			//	p_cod,procequiv,man_eq,empresa,contrato,plan,autoriza,nfactura,clug_fac,item_fac,nreci
+			//	clug_rec,item_rec,nitem_rec,ncita,clug_cita,nserv_cita,sec_cant_cit,fecha_cit,hora_cit, conta_os
+			// clug_os,norden,nitem_os,facturar
+			if w_apoyo_diag2.f_insert_proc(cod,cproceq,cmaneq,cemp,ccont,plan,naut,nfact,clugfac,nitemfac,nrec, &
+				clugrec,nnul,nnul,nnul,snul,nnul,nnul,fnul,fnul,nnul, snul,nnul,nnul,1,tipo_fac,'','1')=-1 then
+				rollback;
+				enabled=false
+				return
 			end if
 		next
 	end if
