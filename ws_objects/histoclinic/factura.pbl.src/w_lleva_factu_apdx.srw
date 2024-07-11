@@ -200,6 +200,6 @@ borderstyle borderstyle = stylelowered!
 end type
 
 event constructor;settransobject(sqlca)
-retrieve(tipdoc,docu,w_apoyo_diag2.i_codarea)
+retrieve(tipdoc,docu,w_apoyo_diag2.i_codarea,ls_varfac)
 end event
 
