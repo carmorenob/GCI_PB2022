@@ -2372,49 +2372,18 @@ alignment htextalign = left!
 string powertiptext = "Copia Causación"
 end type
 
-event clicked;if messagebox("Atención",'Está seguro que desa copiar la Causación de de la Liquidación Anterior?',question!,yesno!,2)=2 then return -1
+event clicked;st_contratos st_parm
+int l_item
 
-long l_año,l_ncon,l_otros,l_item,l_itema,l_valor,l_valor_ant
+st_parm.anyo=t1.p1.dw_concab.GetItemNumber(1,'ano')
+st_parm.ncon=t1.p1.dw_concab.GetItemNumber(1,'ncontrato')
+st_parm.otros=t1.p1.dw_concab.GetItemNumber(1,'otrosi')
+st_parm.item=t1.p2.dw_fpago.getitemnumber(t1.p2.dw_fpago.getrow()  ,'item')
+st_parm.monto=t1.p2.dw_fpago.getitemnumber(t1.p2.dw_fpago.getrow()  ,'monto')
 
+openwithparm(w_copia_estima,st_parm)
 
-l_año=t1.p1.dw_concab.GetItemNumber(1,'ano')
-l_ncon=t1.p1.dw_concab.GetItemNumber(1,'ncontrato')
-l_otros=t1.p1.dw_concab.GetItemNumber(1,'otrosi')
-l_item=t1.p2.dw_fpago.getitemnumber(t1.p2.dw_fpago.getrow()  ,'item')
-l_itema=t1.p2.dw_fpago.getitemnumber(t1.p2.dw_fpago.getrow() - 1 ,'item')
-l_valor=t1.p2.dw_fpago.getitemnumber(t1.p2.dw_fpago.getrow() - 1 ,'monto')
-l_valor_ant=t1.p2.dw_fpago.getitemnumber(t1.p2.dw_fpago.getrow() - 1 ,'monto')
-
-if l_valor=l_valor_ant then
-	
-	INSERT INTO contra_fpago_causa ( ano, ncontrato, otrosi, item, cod_rel, codlugar, coduf, codcc,usuario,monto,monto_vigente )
-	SELECT 
-		ano,ncontrato,otrosi,:l_item,cod_rel,codlugar,coduf,codcc, :usuario,monto,monto_vigente
-	FROM 
-		contra_fpago_causa
-	WHERE 
-		(((contra_fpago_causa.ano)=:l_año) AND ((contra_fpago_causa.ncontrato)=:l_ncon) 
-		AND ((contra_fpago_causa.otrosi)=:l_otros) AND ((contra_fpago_causa.item)=:l_itema)
-		 AND ((contra_fpago_causa.monto_vigente)>0));
-else
-	INSERT INTO contra_fpago_causa ( ano, ncontrato, otrosi, item, cod_rel, codlugar, coduf, codcc,usuario,monto,monto_vigente )
-	SELECT 
-		ano,ncontrato,otrosi,:l_item,cod_rel,codlugar,coduf,codcc, :usuario,0,0
-	FROM 
-		contra_fpago_causa
-	WHERE 
-		(((contra_fpago_causa.ano)=:l_año) AND ((contra_fpago_causa.ncontrato)=:l_ncon) 
-		AND ((contra_fpago_causa.otrosi)=:l_otros) AND ((contra_fpago_causa.item)=:l_itema)
-		 AND ((contra_fpago_causa.monto_vigente)>0));	
-end if		
-If sqlca.sqlcode=-1 then
-	messagebox("Error insertando fpago_causa",sqlca.sqlerrtext)
-	rollback;
-	return
-Else
-     commit;
- End If
-dw_causa.Retrieve( l_año,l_ncon,l_otros,l_item)
+dw_causa.Retrieve( st_parm.anyo,st_parm.ncon,st_parm.otros,st_parm.item)
 for l_item= 1 to dw_causa.RowCount()
 	dw_causa.SetItem(l_item,'nuevo',1)
 next
