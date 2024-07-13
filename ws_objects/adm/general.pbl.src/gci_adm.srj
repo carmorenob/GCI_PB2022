@@ -5,10 +5,10 @@ COM:GCI Ltda.
 DES:GCI Administrativo
 CPY:2000-2025
 PRD:GCI Administrativo
-PVS:5,0,0,74
-PVN:5,0,0,74
-FVS:5,0,0,74
-FVN:5,0,0,74
+PVS:5,0,0,75
+PVN:5,0,0,75
+FVS:5,0,0,75
+FVN:5,0,0,75
 MAN:0,asInvoker,0
 PBD:afijos.pbl,,1
 PBD:cartera.pbl,,1
@@ -207,6 +207,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,dw_pc_cuenta,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,dw_cod_unspsc_pro,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_pagos_de_radica,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_cuentas_nuevas,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumgen.pbl,st_contratos,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,w_selec_facts,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\simulafac.pbl,st_escoge_equiv,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\simulafac.pbl,w_escoge_equiv,w
@@ -375,6 +376,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,dw_combo_cont_doc
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_reserv_pa_recep,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,st_caja_menor,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,f_dias_vac,f
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumgen.pbl,w_copia_estima,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,f_docu_cartera,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\simulafac.pbl,w_cirugias_uvr,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,dw_objecion_porcen,d
@@ -820,8 +822,8 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,gf_ini_trans
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_edadsexo,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,w_arqueo,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_plan_mov_det,d
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumgen.pbl,dw_anyos_contr,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumgen.pbl,dw_contra_fpago_causa,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumgen.pbl,dw_anyos_contr,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\afijos.pbl,dw_af_respon,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,w_acepta_radicacion,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\simulafac.pbl,dw_escogeprof,d
@@ -977,6 +979,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,w_asiento_desde_p
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_det_nota_egr,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_conceps_nom_xa_relfact,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_nom_dev_rfact,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumgen.pbl,dw_contra_fpago_copy,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\hoj_vida.pbl,dw_ubicacion,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumgen.pbl,st_lote,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\rep_compuesto.pbl,asis_int_factura_ele_cap,d
