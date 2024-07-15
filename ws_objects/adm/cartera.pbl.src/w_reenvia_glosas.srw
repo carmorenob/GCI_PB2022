@@ -20,6 +20,12 @@ type pb_6 from picturebutton within w_reenvia_glosas
 end type
 type pb_save from picturebutton within w_reenvia_glosas
 end type
+type dw_histo from datawindow within w_reenvia_glosas
+end type
+type gb_1 from groupbox within w_reenvia_glosas
+end type
+type gb_2 from groupbox within w_reenvia_glosas
+end type
 type tab_1 from tab within w_reenvia_glosas
 end type
 type tp_1 from userobject within tab_1
@@ -129,12 +135,6 @@ tp_1 tp_1
 tp_2 tp_2
 tp_3 tp_3
 end type
-type dw_histo from datawindow within w_reenvia_glosas
-end type
-type gb_1 from groupbox within w_reenvia_glosas
-end type
-type gb_2 from groupbox within w_reenvia_glosas
-end type
 end forward
 
 global type w_reenvia_glosas from window
@@ -156,10 +156,10 @@ em_1 em_1
 pb_fenvio pb_fenvio
 pb_6 pb_6
 pb_save pb_save
-tab_1 tab_1
 dw_histo dw_histo
 gb_1 gb_1
 gb_2 gb_2
+tab_1 tab_1
 end type
 global w_reenvia_glosas w_reenvia_glosas
 
@@ -243,10 +243,10 @@ this.em_1=create em_1
 this.pb_fenvio=create pb_fenvio
 this.pb_6=create pb_6
 this.pb_save=create pb_save
-this.tab_1=create tab_1
 this.dw_histo=create dw_histo
 this.gb_1=create gb_1
 this.gb_2=create gb_2
+this.tab_1=create tab_1
 this.Control[]={this.pb_anul,&
 this.dw_electronica,&
 this.pb_impnota,&
@@ -256,10 +256,10 @@ this.em_1,&
 this.pb_fenvio,&
 this.pb_6,&
 this.pb_save,&
-this.tab_1,&
 this.dw_histo,&
 this.gb_1,&
-this.gb_2}
+this.gb_2,&
+this.tab_1}
 end on
 
 on w_reenvia_glosas.destroy
@@ -272,10 +272,10 @@ destroy(this.em_1)
 destroy(this.pb_fenvio)
 destroy(this.pb_6)
 destroy(this.pb_save)
-destroy(this.tab_1)
 destroy(this.dw_histo)
 destroy(this.gb_1)
 destroy(this.gb_2)
+destroy(this.tab_1)
 end on
 
 event open;em_1.TriggerEvent(modified!)
@@ -300,6 +300,7 @@ tab_1.tp_1.dw_facts.resize((newwidth - 150) , (newheight * 0.30))
 tab_1.tp_1.st_2.y=tab_1.tp_1.dw_facts.y+tab_1.tp_1.dw_facts.height + 20
 tab_1.tp_1.dw_resp.y=tab_1.tp_1.dw_facts.y+tab_1.tp_1.dw_facts.height + 80
 tab_1.tp_1.dw_resp.resize((newwidth * 0.45) , (newheight * 0.30))
+tab_1.tp_1.dw_resp.Object.cod_respuesta.Width =tab_1.tp_1.dw_resp.width - 500
 
 tab_1.tp_1.st_3.y=tab_1.tp_1.dw_facts.y+tab_1.tp_1.dw_facts.height + 20
 tab_1.tp_1.st_3.x=tab_1.tp_1.dw_resp.x+tab_1.tp_1.dw_resp.width + 80
@@ -312,6 +313,7 @@ tab_1.tp_2.dw_procs.resize((newwidth - 150) , (newheight * 0.30))
 tab_1.tp_2.st_5.y=tab_1.tp_2.dw_procs.y+tab_1.tp_2.dw_procs.height + 20
 tab_1.tp_2.dw_resp_proc.y=tab_1.tp_2.dw_procs.y+tab_1.tp_2.dw_procs.height  + 80
 tab_1.tp_2.dw_resp_proc.resize((newwidth * 0.45) , (newheight * 0.22))
+tab_1.tp_2.dw_resp_proc.Object.cod_respuesta.Width =tab_1.tp_2.dw_resp_proc.width - 500
 
 tab_1.tp_2.st_6.y=tab_1.tp_2.dw_procs.y+tab_1.tp_2.dw_procs.height + 20
 tab_1.tp_2.st_6.x=tab_1.tp_2.dw_resp_proc.x+tab_1.tp_2.dw_resp_proc.width + 80
@@ -324,6 +326,7 @@ tab_1.tp_3.dw_sitem.resize((newwidth - 150) , (newheight * 0.30))
 tab_1.tp_3.st_8.y=tab_1.tp_3.dw_sitem.y+tab_1.tp_3.dw_sitem.height + 20
 tab_1.tp_3.dw_resp_sitem.y=tab_1.tp_3.dw_sitem.y+tab_1.tp_3.dw_sitem.height  + 80
 tab_1.tp_3.dw_resp_sitem.resize((newwidth * 0.45) , (newheight * 0.22))
+tab_1.tp_3.dw_resp_sitem.Object.cod_respuesta.Width =tab_1.tp_3.dw_resp_sitem.width - 500
 
 tab_1.tp_3.st_9.y=tab_1.tp_3.dw_sitem.y+tab_1.tp_3.dw_sitem.height + 20
 tab_1.tp_3.st_9.x=tab_1.tp_3.dw_resp_sitem.x+tab_1.tp_3.dw_resp_sitem.width + 80
@@ -689,6 +692,7 @@ choose case dw_histo.getitemstring(dw_histo.getrow(),'estado')
 		st.dw_cab=dw_histo
 		st.dw_cpo=tab_1.tp_1.dw_facts
 		openwithparm(w_cierra_glosas,st)
+		dw_histo.retrieve(integer(em_1.text))
 end choose
 
 end event
@@ -716,6 +720,136 @@ end type
 
 event clicked;grabar()
 end event
+
+type dw_histo from datawindow within w_reenvia_glosas
+integer x = 41
+integer y = 92
+integer width = 5111
+integer height = 536
+integer taborder = 10
+string title = "none"
+string dataobject = "dw_obje_cab_todas"
+boolean hscrollbar = true
+boolean vscrollbar = true
+boolean hsplitscroll = true
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event constructor;settransobject(sqlca)
+end event
+
+event rowfocuschanged;tab_1.tp_1.dw_facts.reset()
+tab_1.tp_2.dw_procs.reset()
+tab_1.tp_1.dw_resp.reset()
+tab_1.tp_2.dw_resp_proc.reset()
+tab_1.tp_3.dw_sitem.reset()
+tab_1.tp_3.dw_resp_sitem.reset()
+idw_facts.reset()
+idw_facts2.reset()
+if getrow()<1 then return
+
+idw_facts.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
+idw_facts2.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
+tab_1.tp_3.dw_resp_sitem.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
+tab_1.tp_3.dw_sitem.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
+tab_1.tp_1.dw_resp.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
+tab_1.tp_2.dw_resp_proc.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
+tab_1.tp_2.dw_procs.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
+tab_1.tp_1.dw_facts.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
+if dw_histo.getitemstring(dw_histo.getrow(),'estado')='3' then
+	pb_anul.enabled=true
+	pb_fenvio.enabled=true
+else
+	pb_fenvio.enabled=false
+	pb_anul.enabled=false	
+end if
+if getitemnumber(getrow(),'valor_aceptado')>0 then
+	pb_diann.enabled=true
+	pb_connota.enabled=true
+	pb_impnota.enabled=true
+else
+	pb_diann.enabled=false
+	pb_connota.enabled=false
+	pb_impnota.enabled=false
+end if
+end event
+
+event rowfocuschanging;choose case f_pregunta()
+	case 1
+		if grabar()=-1 then return 1
+	case 2
+		i_cambio=false
+	case 3
+		return 1
+end choose
+return 0
+end event
+
+event dberror;rollback;
+st_error i_st
+i_st.ds_nombre=classname()
+i_st.msgerror='SqlDbCode: '+string(sqldbcode)+'~r~n~r~nSINTAXIS:~r~n'+sqlsyntax+'~r~n~r~nERROR:~r~n'+sqlerrtext
+openwithparm(w_error_ds,i_st)
+return 1
+end event
+
+event rbuttondown;st_dw_xa_funciones st_dw
+st_dw.dw=this
+st_dw.dwo=dwo
+st_dw.row=row
+st_dw.color_fondo=string(rgb(255,255,255))
+openwithparm(w_funcion_dw,st_dw)
+end event
+
+event buttonclicked;long ld_j,ld_selec=1
+SetRedraw(FALSE)
+if dwo.text='Selec.' then
+	dwo.text='Desel.'
+else
+	dwo.text='Selec.'
+	ld_selec=0
+end if
+for ld_j=1 to rowcount()
+	if (getitemstring(ld_j,'estado')='3') then continue
+	setitem(ld_j,'reen',ld_selec)
+next
+SetRedraw(TRUE)
+end event
+
+type gb_1 from groupbox within w_reenvia_glosas
+integer x = 23
+integer y = 8
+integer width = 5161
+integer height = 648
+integer taborder = 20
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+long textcolor = 33554432
+long backcolor = 67108864
+string text = "Historial de Objeciones Año:"
+end type
+
+type gb_2 from groupbox within w_reenvia_glosas
+integer x = 5202
+integer y = 12
+integer width = 407
+integer height = 644
+integer taborder = 40
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+long textcolor = 33554432
+long backcolor = 553648127
+string text = "Herramientas"
+end type
 
 type tab_1 from tab within w_reenvia_glosas
 integer x = 32
@@ -1049,7 +1183,7 @@ type dw_resp from datawindow within tp_1
 event type integer p_itemchanged ( long p_fila )
 integer x = 14
 integer y = 588
-integer width = 1792
+integer width = 3264
 integer height = 564
 integer taborder = 50
 string title = "none"
@@ -1967,120 +2101,5 @@ long textcolor = 33554432
 long backcolor = 67108864
 string text = "Objeciones de items de Procedimientos  a responder:"
 boolean focusrectangle = false
-end type
-
-type dw_histo from datawindow within w_reenvia_glosas
-integer x = 41
-integer y = 92
-integer width = 5111
-integer height = 536
-integer taborder = 10
-string title = "none"
-string dataobject = "dw_obje_cab_todas"
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean hsplitscroll = true
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event constructor;settransobject(sqlca)
-end event
-
-event rowfocuschanged;tab_1.tp_1.dw_facts.reset()
-tab_1.tp_2.dw_procs.reset()
-tab_1.tp_1.dw_resp.reset()
-tab_1.tp_2.dw_resp_proc.reset()
-tab_1.tp_3.dw_sitem.reset()
-tab_1.tp_3.dw_resp_sitem.reset()
-idw_facts.reset()
-idw_facts2.reset()
-if getrow()<1 then return
-
-idw_facts.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
-idw_facts2.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
-tab_1.tp_3.dw_resp_sitem.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
-tab_1.tp_3.dw_sitem.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
-tab_1.tp_1.dw_resp.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
-tab_1.tp_2.dw_resp_proc.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
-tab_1.tp_2.dw_procs.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
-tab_1.tp_1.dw_facts.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'num_glosa'),usuario)
-if dw_histo.getitemstring(dw_histo.getrow(),'estado')='3' then
-	pb_anul.enabled=true
-	pb_fenvio.enabled=true
-else
-	pb_fenvio.enabled=false
-	pb_anul.enabled=false	
-end if
-if getitemnumber(getrow(),'valor_aceptado')>0 then
-	pb_diann.enabled=true
-	pb_connota.enabled=true
-	pb_impnota.enabled=true
-else
-	pb_diann.enabled=false
-	pb_connota.enabled=false
-	pb_impnota.enabled=false
-end if
-end event
-
-event rowfocuschanging;choose case f_pregunta()
-	case 1
-		if grabar()=-1 then return 1
-	case 2
-		i_cambio=false
-	case 3
-		return 1
-end choose
-return 0
-end event
-
-event dberror;rollback;
-st_error i_st
-i_st.ds_nombre=classname()
-i_st.msgerror='SqlDbCode: '+string(sqldbcode)+'~r~n~r~nSINTAXIS:~r~n'+sqlsyntax+'~r~n~r~nERROR:~r~n'+sqlerrtext
-openwithparm(w_error_ds,i_st)
-return 1
-end event
-
-event rbuttondown;st_dw_xa_funciones st_dw
-st_dw.dw=this
-st_dw.dwo=dwo
-st_dw.row=row
-st_dw.color_fondo=string(rgb(255,255,255))
-openwithparm(w_funcion_dw,st_dw)
-end event
-
-type gb_1 from groupbox within w_reenvia_glosas
-integer x = 23
-integer y = 8
-integer width = 5161
-integer height = 648
-integer taborder = 20
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-long textcolor = 33554432
-long backcolor = 67108864
-string text = "Historial de Objeciones Año:"
-end type
-
-type gb_2 from groupbox within w_reenvia_glosas
-integer x = 5202
-integer y = 12
-integer width = 407
-integer height = 644
-integer taborder = 40
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-long textcolor = 33554432
-long backcolor = 553648127
-string text = "Herramientas"
 end type
 
