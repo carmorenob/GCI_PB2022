@@ -930,8 +930,8 @@ tab_1.tp_glo.pb_6.x=(newwidth - 250)
 end event
 
 type pb_grabar from w_center`pb_grabar within w_teso_cartera
-integer x = 3200
-integer y = 412
+integer x = 3666
+integer y = 424
 integer taborder = 70
 string picturename = "guardar.gif"
 string disabledname = "d_guardar.gif"
@@ -945,8 +945,8 @@ end if
 end event
 
 type gb_1 from groupbox within w_teso_cartera
-integer x = 3374
-integer y = 892
+integer x = 3840
+integer y = 904
 integer width = 2153
 integer height = 304
 integer taborder = 160
@@ -982,7 +982,7 @@ end type
 type dw_hist from datawindow within w_teso_cartera
 integer x = 37
 integer y = 152
-integer width = 3122
+integer width = 3575
 integer height = 1000
 integer taborder = 80
 boolean bringtotop = true
@@ -1029,8 +1029,8 @@ end event
 
 type dw_cab from datawindow within w_teso_cartera
 event keyup pbm_dwnkey
-integer x = 3374
-integer y = 28
+integer x = 3840
+integer y = 40
 integer width = 2171
 integer height = 876
 integer taborder = 60
@@ -1314,8 +1314,8 @@ event dberror;return f_dw_error(sqldbcode,sqlsyntax,sqlerrtext,classname())
 end event
 
 type pb_new from picturebutton within w_teso_cartera
-integer x = 3200
-integer y = 148
+integer x = 3666
+integer y = 160
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -1353,8 +1353,8 @@ i_nuevo=true
 end event
 
 type pb_anula from picturebutton within w_teso_cartera
-integer x = 3200
-integer y = 276
+integer x = 3666
+integer y = 288
 integer width = 146
 integer height = 128
 integer taborder = 60
@@ -1489,8 +1489,8 @@ end if
 end event
 
 type dw_tot from datawindow within w_teso_cartera
-integer x = 3424
-integer y = 944
+integer x = 3890
+integer y = 956
 integer width = 2071
 integer height = 228
 integer taborder = 150
@@ -3926,8 +3926,8 @@ end type
 
 type dw_amtz from datawindow within w_teso_cartera
 boolean visible = false
-integer x = 3186
-integer y = 704
+integer x = 3653
+integer y = 716
 integer width = 119
 integer height = 92
 integer taborder = 70
@@ -3949,8 +3949,8 @@ end event
 
 type dw_cierres from datawindow within w_teso_cartera
 boolean visible = false
-integer x = 3182
-integer y = 828
+integer x = 3648
+integer y = 840
 integer width = 105
 integer height = 100
 integer taborder = 120
@@ -4159,8 +4159,8 @@ end type
 
 type dw_pag from datawindow within w_teso_cartera
 boolean visible = false
-integer x = 3177
-integer y = 976
+integer x = 3643
+integer y = 988
 integer width = 151
 integer height = 212
 integer taborder = 90
@@ -4206,8 +4206,8 @@ event constructor;settransobject(sqlca)
 end event
 
 type pb_7 from picturebutton within w_teso_cartera
-integer x = 3200
-integer y = 548
+integer x = 3666
+integer y = 560
 integer width = 146
 integer height = 128
 integer taborder = 80

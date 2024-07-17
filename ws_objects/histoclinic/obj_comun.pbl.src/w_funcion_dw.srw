@@ -179,9 +179,9 @@ choose case row
 					pafiltro="isnull("+nombre+")"
 				else
 					if i_st.dw.getcolumnname()<>i_st.dwo.name then
-						pafiltro=nombre+" = dec("+f_remplaza(string(i_st.dw.getitemdecimal(i_fila,nombre),'0.00'),',','.')+')'
+						pafiltro=nombre+" = dec('"+f_remplaza(string(i_st.dw.getitemdecimal(i_fila,nombre),'0.00'),',','.')+"')"
 					else
-						pafiltro=nombre+" = dec("+f_remplaza(string(dec(i_st.dw.selectedtext()),'0.00'),',','.')+')'
+						pafiltro=nombre+" = dec('"+f_remplaza(string(dec(i_st.dw.selectedtext()),'0.00'),',','.')+"')"
 					end if
 				end if
 			case "date"   //////////ojo
