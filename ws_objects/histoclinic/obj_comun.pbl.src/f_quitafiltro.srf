@@ -10,6 +10,7 @@ global subroutine f_quitafiltro (datawindow dw, string back_color);if dw.describ
 dw.modify("datawindow.color="+back_color)
 dw.SetFilter('')
 dw.filter()
+dw.Modify('datawindow.table.filter=""')
 dw.sort()
 dw.groupcalc()
 dw.setredraw(true)
