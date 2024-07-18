@@ -7,11 +7,11 @@ global subroutine f_quitafiltro (datawindow dw, string back_color)
 end prototypes
 
 global subroutine f_quitafiltro (datawindow dw, string back_color);if dw.describe("datawindow.table.filter")='?' then return
-dw.setfilter('')
+dw.modify("datawindow.color="+back_color)
+dw.SetFilter('')
 dw.filter()
 dw.sort()
 dw.groupcalc()
-dw.modify("datawindow.color="+back_color)
 dw.setredraw(true)
 end subroutine
 

@@ -10,7 +10,7 @@ end forward
 
 global type w_funcion_dw from window
 integer width = 882
-integer height = 836
+integer height = 868
 boolean border = false
 windowtype windowtype = popup!
 long backcolor = 67108864
@@ -25,6 +25,22 @@ int i_fila,xant,yant
 string nombre,colum
 boolean salir=true
 end variables
+
+forward prototypes
+public subroutine f_quita_fil ()
+end prototypes
+
+public subroutine f_quita_fil ();if i_st.dw.describe("datawindow.table.filter")='?' then return
+i_st.dw.modify("datawindow.color="+i_st.color_fondo)
+i_st.dw.SetFilter("")
+i_st.dw.filter()
+i_st.dw.Modify('datawindow.table.filter=""')
+i_st.dw.sort()
+i_st.dw.groupcalc()
+i_st.dw.setredraw(true)
+
+
+end subroutine
 
 on w_funcion_dw.create
 this.dw_1=create dw_1
@@ -210,7 +226,11 @@ choose case row
 		scrolltorow(row)
 		setcolumn("campo")
 	case 5 //quitar filtros
-		f_quitafiltro(i_st.dw,i_st.color_fondo)
+		string jaer
+		jaer=i_st.dw.describe('datawindow.table.filter')
+		//f_quitafiltro(i_st.dw,i_st.color_fondo)
+		f_quita_fil()
+		jaer=i_st.dw.describe('datawindow.table.filter')
 		i_st.dw.triggerevent(rowfocuschanged!)
 		//if isValid(i_st.dw_cab) then i_st.dw_cab.triggerEvent(rowfocuschanged!)
 		close(w_funcion_dw)
@@ -315,7 +335,6 @@ else
 		setitem(4,"otro",'0')
 		setitem(5,"otro",'0')
 	end if
-
 end if
 end event
 
@@ -369,11 +388,6 @@ if getrow()= 4 then
 			else
 				pafiltro=nombre+"=date('"+gettext()+"')"
 			end if
-//					if g_dwo.type='datetime' then
-//						sle_copy.text=string(i_st.dw.getitemdatetime(fila,nombre))
-//					else
-//						sle_copy.text=string(i_st.dw.getitemdate(fila,nombre))
-//					end if 
 	end choose
 	filtro=i_st.dw.describe('datawindow.table.filter')
 	if getitemstring(3,"y_o")="Y" then
