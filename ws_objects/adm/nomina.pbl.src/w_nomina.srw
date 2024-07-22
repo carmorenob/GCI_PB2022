@@ -487,6 +487,7 @@ if sqlca.sqlnrows=0 then
 end if
 
 log = create n_log
+log.inicia('l_nomina.log')
 log.info("Se inicia Nómina")
 return 1
 end event

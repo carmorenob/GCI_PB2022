@@ -26,7 +26,7 @@ end forward
 
 global type w_genera_202 from window
 integer width = 3717
-integer height = 2344
+integer height = 1480
 boolean titlebar = true
 string title = "Genera 202"
 boolean controlmenu = true
@@ -269,6 +269,7 @@ datetime ldt_f1,ldt_f2
 n_log ln_log
 
 ln_log = create n_log
+ln_log.inicia('l202.log')
 l_k=1
 for l_i=1 to dw_1.rowcount()
 	if dw_1.getitemnumber(l_i,'esc')=1 then
