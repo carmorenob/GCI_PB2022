@@ -113,6 +113,7 @@ string codDocumento
 boolean err_retrieve
 
 end variables
+
 forward prototypes
 public function integer grabar ()
 public function decimal calc_deprecia_mes (integer ano, integer mes)
@@ -1261,12 +1262,13 @@ long textcolor = 33554432
 borderstyle borderstyle = stylelowered!
 string mask = "0"
 boolean spin = true
+double increment = 1
 string minmax = "2000~~2050"
 end type
 
 type ddlb_1 from dropdownlistbox within w_af_deprecia
 integer x = 3941
-integer y = 356
+integer y = 300
 integer width = 434
 integer height = 352
 integer taborder = 70
