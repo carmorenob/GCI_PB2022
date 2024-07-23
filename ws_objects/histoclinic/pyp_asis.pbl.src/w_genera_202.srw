@@ -144,6 +144,15 @@ event clicked; delete from afiliados.tt_trabajo_202;
 Else
 	commit;
 End If
+
+ delete from afiliados.tt_cargue_202;
+ If sqlca.sqlcode=-1 then
+	  messagebox("Error borrando tt_trabajo_202",sqlca.sqlerrtext)
+	  rollback;
+	  return
+Else
+	commit;
+End If
 Messagebox("Finalizado", "Se ejecuto con exito el proceso" )
 end event
 
