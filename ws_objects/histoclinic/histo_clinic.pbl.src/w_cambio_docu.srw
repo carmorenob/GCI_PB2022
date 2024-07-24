@@ -388,6 +388,15 @@ If tip_doc.rowcount()>0 then
 		return
 	end if
 	
+	UPDATE hosp_autoriza SET TipoDoc = :tdocnew, Documento = :docunew
+	WHERE TipoDoc=:tipdoc AND Documento=:docu;
+	if sqlca.sqlcode=-1 then
+		messagebox("Error Actualizandohosp_autoriza",sqlca.sqlerrtext)
+		rollback;
+		return
+	end if
+		
+	
 	UPDATE QxCita SET TipoDoc = :tdocnew, Documento = :docunew
 	WHERE TipoDoc=:tipdoc AND Documento=:docu;
 	if sqlca.sqlcode=-1 then
