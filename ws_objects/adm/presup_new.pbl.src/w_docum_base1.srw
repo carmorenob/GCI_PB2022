@@ -560,11 +560,11 @@ for j=1 to tb_1.tp_2.dw_rub.rowcount()
 		return -1
 	end if
 	if i_cdoc='PDI' or i_cdoc='PTF' or i_cdoc='PPR' then 
-		if tb_1.tp_2.dw_rub.getitemnumber(j,'monto')> tb_1.tp_2.dw_rub.getitemnumber(j,'saldo_apropi') then
+		if round(dec(tb_1.tp_2.dw_rub.getitemnumber(j,'monto')),i_dec_gral)> round(dec(tb_1.tp_2.dw_rub.getitemnumber(j,'saldo_apropi')),i_dec_gral) then
 			messagebox('Atención','No hay saldo suficiente para el rubro del item '+string(j))
 			return -1
 		else
-			tb_1.tp_2.dw_rub.setitem(j,'saldo_plan',tb_1.tp_2.dw_rub.getitemnumber(j,'saldo_apropi') )
+			tb_1.tp_2.dw_rub.setitem(j,'saldo_plan',round(dec(tb_1.tp_2.dw_rub.getitemnumber(j,'saldo_apropi')),i_dec_gral))
 		end if
 	end if
 	tb_1.tp_2.dw_rub.scrolltorow(j)
@@ -1334,8 +1334,8 @@ event mousemove pbm_mousemove
 string tag = "Modificar"
 integer x = 882
 integer y = 40
-integer width = 151
-integer height = 132
+integer width = 146
+integer height = 128
 integer taborder = 14
 boolean bringtotop = true
 integer textsize = -8
