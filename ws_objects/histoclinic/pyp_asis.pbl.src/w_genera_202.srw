@@ -144,15 +144,6 @@ event clicked; delete from afiliados.tt_trabajo_202;
 Else
 	commit;
 End If
-
- delete from afiliados.tt_cargue_202;
- If sqlca.sqlcode=-1 then
-	  messagebox("Error borrando tt_trabajo_202",sqlca.sqlerrtext)
-	  rollback;
-	  return
-Else
-	commit;
-End If
 Messagebox("Finalizado", "Se ejecuto con exito el proceso" )
 end event
 
@@ -272,10 +263,19 @@ alignment htextalign = left!
 string powertiptext = "Emite el archivo"
 end type
 
-event clicked;int l_i,l_k
+event clicked;double  l_i,l_k
 string ls_eapb[10],ls_rec,ls_td,ls_doc
 datetime ldt_f1,ldt_f2
 n_log ln_log
+
+ delete from afiliados.tt_cargue_202;
+ If sqlca.sqlcode=-1 then
+	  messagebox("Error borrando tt_trabajo_202",sqlca.sqlerrtext)
+	  rollback;
+	  return
+Else
+	commit;
+End If
 
 ln_log = create n_log
 ln_log.inicia('l202.log')
