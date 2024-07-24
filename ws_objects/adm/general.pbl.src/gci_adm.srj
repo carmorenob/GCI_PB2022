@@ -43,9 +43,9 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,w_formula,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\evaluacion.pbl,dw_emp_activos,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_upd_interfaz,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_conecta,w
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_descripta,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_dwr_grid,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_buscater,w
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_descripta,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\hoj_vida.pbl,dw_regla_gen_empleado,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,dw_cont_plant,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,dw_combo_cont_empresa,d
@@ -81,9 +81,9 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,dw_drop_glosa_version,
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,dw_combo_turnos,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,w_ausentismo,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_pre_doc_cp_item,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_funcion_dw,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_dwr_progress,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_dwr_workbook,u
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_funcion_dw,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_med_filtro,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,dw_cpo_interfaz,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_tesocuentasmovihisto,d
@@ -116,13 +116,13 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\evaluacion.pbl,dw_hplantilla,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_subauxi_ppto,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_nivel1_ppto,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_recons_manuales,d
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_ordenes,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_funciones_dw,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,f_revisa_clasif_cta,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_det_nota_ing,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_det_mov_banc,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,w_pago_nomina,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_contra_ppto_rfc,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_ordenes,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumconfig.pbl,w_costoprom,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,str_proc,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_campo_plant_rtf,d
@@ -152,10 +152,10 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,w_busca_pre,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_grupo_ppto,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_plan_equ,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumgen.pbl,dw_ls_tipocontra,d
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_descripta_new,f
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_dwr_picture,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_poblar_menus_ribon,f
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_dwr_picture,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_busca_recep,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_descripta_new,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_monto_caja_menor,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumgen.pbl,f_kardexsalida,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,dw_resp_glosa,d
@@ -199,7 +199,6 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\hoj_vida.pbl,dw_hc_empledatosgene,
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_dianumero,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_histo_docs,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumgen.pbl,dw_combo_ctr,d
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,gf_revisa_migracion,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_cst_hash_long_entry,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_diagstodos,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_tablas_mipres,w
@@ -324,9 +323,10 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,dw_ausentismo_det,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,w_teso_cartera,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\simulafac.pbl,st_xa_desc_emp,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\hoj_vida.pbl,w_actualiza_salario,w
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\simulafac.pbl,dw_espprof,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_impresion_masiva,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_tesorelfactcpo,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_nom_pend_pago,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\simulafac.pbl,dw_espprof,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,st_nomina,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumconfig.pbl,dw_cp_kardexmov,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\simulafac.pbl,st_cambia_resp,s
@@ -337,9 +337,9 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_recon_pend_det,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumgen.pbl,w_cfg_reqs,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\costos.pbl,dw_combo_getareo,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_count_text,f
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\general.pbl,w_principal,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_xls_subroutines_v5,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_cst_hash_entry,u
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\general.pbl,w_principal,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_busca_cuenta,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_cheques,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_contra_fpago_causacion,d
@@ -351,8 +351,8 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\simulafac.pbl,w_busca_serv,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,f_calcula_tsup_sem,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,dw_turnoshordef,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,dw_ciclos_turno,d
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_dwr_height,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_coloca_esp,f
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_dwr_height,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,dw_cierres,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,w_elige_ppto_cont,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,n_log,u
@@ -404,7 +404,6 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,w_choosedoc,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\costos.pbl,dw_clases_noestan,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\costos.pbl,w_cos_deprecia_dep,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_lee_rep,f
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_usu_evoluciona,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_dwr_psr,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_opc_busca_cta,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_ter_tmp,d
@@ -413,6 +412,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,dw_ctas_uti_perd_
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,w_cont_impu,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_nota_cab_cpo,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,w_busca_devoluciones,w
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_usu_evoluciona,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_tesorelfact_sentrada,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_rfc_sinplanilla,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,dw_ahorrocabnom,d
@@ -468,15 +468,14 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,dw_glos_sitem,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,dw_usu_responde,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\evaluacion.pbl,uo_hc,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_flujo_recon_recau,d
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_biometria,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_quitafiltro,f
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_partfs,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_medtodos,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_cfgterceros_tipo,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumconfig.pbl,w_almacen,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,w_unspsc,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_trans_det,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,st_xa_antis,s
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_biometria,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_resu_cont,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_det_repo,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\hoj_vida.pbl,st_contrato,s
@@ -493,6 +492,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,w_concep,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_rte_key,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\costos.pbl,w_busca_gener,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\hoj_vida.pbl,dw_actualiza_salario,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_partfs,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,uo_key,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_objects_ds,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,w_meses,w
@@ -505,7 +505,6 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,dw_conf_ausentismo_det,
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,w_choosenom,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\costos.pbl,dw_cab_canasta,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_xa_print_histo,s
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\general.pbl,f_abrir_rep_gral,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_diag,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,dw_docs_desbalan,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,dw_comprobante_cpo,d
@@ -527,6 +526,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_mayor_ppto,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_recons_con_pagos2,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumgen.pbl,dw_contra_requisitos_elegir,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\general.pbl,w_reportes_adm,w
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\general.pbl,f_abrir_rep_gral,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_dwr_band,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_sube_imagen,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_det_tesrelfac,d
@@ -636,7 +636,6 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,dw_cobrar_radica,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_ret_dian,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,dw_cartera_amtz,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_reemp_campo_rtf,d
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_inicia_boton,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumconfig.pbl,dw_act_econ,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,w_ter_reser_rfc,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_anti_a_recep,d
@@ -645,6 +644,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_teso_rep_rete_det
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_busca_recep_sin_pago,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\hoj_vida.pbl,w_busca_emp,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\afijos.pbl,dw_af_comodatoff,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_inicia_boton,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_dw_xa_funciones,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_general,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,w_pago_impuesto,w
@@ -709,12 +709,12 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,w_new_soldispo,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_it_nom_ppto,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_flujo_car_cobro,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_sel_rtf,f
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_permiso_boton,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_dwr_colors,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_busca_cuenta,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_conecta_mipres,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,dw_clasif_cuenta,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_consigna_cheque,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_permiso_boton,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_slecta,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\afijos.pbl,dw_af_regcom,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\simulafac.pbl,dw_getareo_cumple,d
@@ -798,7 +798,6 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,f_tsup_compensa,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,dw_concep,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\evaluacion.pbl,uo_lista,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_intf_ppto,d
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,gf_pasar_result_rtf,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_entrar,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumgen.pbl,dw_sum_entradas_a_rfc,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_xa_elegir,s
@@ -819,6 +818,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_ordinal_ppto,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,w_lleva_relfact_giro,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\costos.pbl,dw_resto_cc,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\costos.pbl,dw_xa_buscar_gener,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,gf_pasar_result_rtf,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,gf_ini_transact_objects,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_edadsexo,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,w_arqueo,w
@@ -891,8 +891,8 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,dw_respglosa_apli,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,w_modifica,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,w_new_recorte,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_subgrupo_ppto,d
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_conecta_evol,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_nom_patro,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_conecta_evol,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\hoj_vida.pbl,dw_rtf_contra_oc,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumconfig.pbl,w_ajustalote,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumconfig.pbl,w_pac_mod,w
@@ -987,8 +987,8 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\hoj_vida.pbl,w_sugerido_emp,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,dw_turnos,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\general.pbl,dw_cos_proced_cargo,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\costos.pbl,w_cos_proc_total,w
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_cst_unicode,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_tablas2,w
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_cst_unicode,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,w_bancos_cuentas,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_dias_360,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumconfig.pbl,w_bcuenta,w
