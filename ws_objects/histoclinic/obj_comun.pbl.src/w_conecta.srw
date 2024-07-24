@@ -783,6 +783,7 @@ if sqlca.sqlnrows=0 then
 	messagebox('Atencíon','No hay parametro 16')
 	return 
 end if
+
 g_ctrlv='0'
 closewithreturn(parent,'1')
 

@@ -8,11 +8,23 @@ type t1 from tab within w_tablero_erc
 end type
 type tb from userobject within t1
 end type
+type dw_7 from datawindow within tb
+end type
+type dw_8 from datawindow within tb
+end type
+type dw_6 from datawindow within tb
+end type
+type dw_5 from datawindow within tb
+end type
 type dw_4 from datawindow within tb
 end type
 type dw_2 from datawindow within tb
 end type
 type tb from userobject within t1
+dw_7 dw_7
+dw_8 dw_8
+dw_6 dw_6
+dw_5 dw_5
 dw_4 dw_4
 dw_2 dw_2
 end type
@@ -24,13 +36,13 @@ type st_1 from statictext within dt
 end type
 type drop_tipo from dropdownlistbox within dt
 end type
-type dw_6 from datawindow within dt
+type dw_grid from datawindow within dt
 end type
 type dt from userobject within t1
 pb_1 pb_1
 st_1 st_1
 drop_tipo drop_tipo
-dw_6 dw_6
+dw_grid dw_grid
 end type
 type t1 from tab within w_tablero_erc
 tb tb
@@ -88,8 +100,10 @@ fecha2=datetime(fec_2.text)
 dw_1.retrieve(fecha2,ls_xlugar)
 t1.tb.dw_2.retrieve(fecha1,fecha2,ls_xlugar)
 t1.tb.dw_4.retrieve(fecha1,fecha2,ls_xlugar)
-//t1.tb.dw_5.retrieve(fecha1,fecha2,ls_xlugar)
-//
+t1.tb.dw_5.retrieve(fecha1,fecha2,ls_xlugar)
+t1.tb.dw_6.retrieve(fecha1,fecha2,ls_xlugar)
+t1.tb.dw_7.retrieve(fecha1,fecha2,ls_xlugar)
+t1.tb.dw_8.retrieve(fecha1,fecha2,ls_xlugar)
 end subroutine
 
 on w_tablero_erc.create
@@ -123,15 +137,19 @@ event open;if g_motor='postgres' then
 	dw_1.dataobject='dw_tab_erc_totales'
 	t1.tb.dw_2.dataobject='dw_tab_erc_totales_decenio'
 	t1.tb.dw_4.dataobject='dw_tab_erc_dpeso'	
-//	t1.tb.dw_5.dataobject='dw_tab_gestante_ultima_atn'
-//
+	t1.tb.dw_5.dataobject='dw_tab_erc_htacontrolado'
+	t1.tb.dw_6.dataobject='dw_tab_erc_a1hb'
+	t1.tb.dw_7.dataobject='dw_tab_erc_anemia'		
+	t1.tb.dw_8.dataobject='dw_tab_erc_ldl'	
 end if
-//
+
 dw_1.settransobject(sqlca)
 t1.tb.dw_2.settransobject(sqlca)
 t1.tb.dw_4.settransobject(sqlca)
-//
-//t1.tb.dw_5.settransobject(sqlca)
+t1.tb.dw_5.settransobject(sqlca)
+t1.tb.dw_6.settransobject(sqlca)
+t1.tb.dw_7.settransobject(sqlca)
+t1.tb.dw_8.settransobject(sqlca)
 //w_principal.dw_1.visible=false
 int ll_find
 
@@ -150,7 +168,7 @@ event close;w_principal.dw_1.visible=true
 
 end event
 
-event timer;timer(0)
+event timer;timer(10)
 filtre()
 end event
 
@@ -213,27 +231,91 @@ string text = "Tablero"
 long tabtextcolor = 33554432
 string picturename = "tbl_urgencias.ico"
 long picturemaskcolor = 536870912
+dw_7 dw_7
+dw_8 dw_8
+dw_6 dw_6
+dw_5 dw_5
 dw_4 dw_4
 dw_2 dw_2
 end type
 
 on tb.create
+this.dw_7=create dw_7
+this.dw_8=create dw_8
+this.dw_6=create dw_6
+this.dw_5=create dw_5
 this.dw_4=create dw_4
 this.dw_2=create dw_2
-this.Control[]={this.dw_4,&
+this.Control[]={this.dw_7,&
+this.dw_8,&
+this.dw_6,&
+this.dw_5,&
+this.dw_4,&
 this.dw_2}
 end on
 
 on tb.destroy
+destroy(this.dw_7)
+destroy(this.dw_8)
+destroy(this.dw_6)
+destroy(this.dw_5)
 destroy(this.dw_4)
 destroy(this.dw_2)
 end on
 
+type dw_7 from datawindow within tb
+integer x = 2048
+integer y = 1064
+integer width = 1970
+integer height = 1000
+integer taborder = 120
+string title = "none"
+string dataobject = "dw_tab_erc_anemia"
+boolean livescroll = true
+borderstyle borderstyle = styleraised!
+end type
+
+type dw_8 from datawindow within tb
+integer x = 4046
+integer y = 1064
+integer width = 1970
+integer height = 1000
+integer taborder = 110
+string title = "none"
+string dataobject = "dw_tab_erc_ldl"
+boolean livescroll = true
+borderstyle borderstyle = styleraised!
+end type
+
+type dw_6 from datawindow within tb
+integer x = 50
+integer y = 1064
+integer width = 1970
+integer height = 1000
+integer taborder = 100
+string title = "none"
+string dataobject = "dw_tab_erc_a1hb"
+boolean livescroll = true
+borderstyle borderstyle = styleraised!
+end type
+
+type dw_5 from datawindow within tb
+integer x = 4046
+integer y = 36
+integer width = 1970
+integer height = 1000
+integer taborder = 20
+string title = "none"
+string dataobject = "dw_tab_erc_htacontrolado"
+boolean livescroll = true
+borderstyle borderstyle = styleraised!
+end type
+
 type dw_4 from datawindow within tb
-integer x = 2185
+integer x = 2048
 integer y = 32
-integer width = 2043
-integer height = 1016
+integer width = 1970
+integer height = 1000
 integer taborder = 20
 string title = "none"
 string dataobject = "dw_tab_erc_dpeso"
@@ -244,8 +326,8 @@ end type
 type dw_2 from datawindow within tb
 integer x = 50
 integer y = 32
-integer width = 2043
-integer height = 1016
+integer width = 1970
+integer height = 1000
 integer taborder = 20
 string title = "none"
 string dataobject = "dw_tab_erc_totales_decenio"
@@ -266,25 +348,25 @@ long picturemaskcolor = 536870912
 pb_1 pb_1
 st_1 st_1
 drop_tipo drop_tipo
-dw_6 dw_6
+dw_grid dw_grid
 end type
 
 on dt.create
 this.pb_1=create pb_1
 this.st_1=create st_1
 this.drop_tipo=create drop_tipo
-this.dw_6=create dw_6
+this.dw_grid=create dw_grid
 this.Control[]={this.pb_1,&
 this.st_1,&
 this.drop_tipo,&
-this.dw_6}
+this.dw_grid}
 end on
 
 on dt.destroy
 destroy(this.pb_1)
 destroy(this.st_1)
 destroy(this.drop_tipo)
-destroy(this.dw_6)
+destroy(this.dw_grid)
 end on
 
 type pb_1 from picturebutton within dt
@@ -305,8 +387,8 @@ string picturename = "export.gif"
 alignment htextalign = left!
 end type
 
-event clicked;if dw_6.rowcount()>0 then
-	openwithparm(w_export,dw_6)
+event clicked;if dw_grid.rowcount()>0 then
+	openwithparm(w_export,dw_grid)
 end if
 end event
 
@@ -340,7 +422,8 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
 long textcolor = 33554432
-string item[] = {"Agenda Ecografias","Agendamiento Control Prenatal"}
+boolean vscrollbar = true
+string item[] = {"Distribución Decenios","Distribucion de Peso","Estado HTA","Valores A1Hb","Distribucción LDL","Presencia de Anemia"}
 borderstyle borderstyle = stylelowered!
 end type
 
@@ -350,14 +433,23 @@ fecha2=datetime(fec_2.text)
 
 choose case index
 	case 1
-		t1.dt.dw_6.dataobject='dw_tab_gestante_agenda_eco_tab'
-		
+		t1.dt.dw_grid.dataobject='dw_tab_erc_ldl_tab'				
+	case 2
+		t1.dt.dw_grid.dataobject='dw_tab_erc_dpeso_tab'				
+	case 3
+		t1.dt.dw_grid.dataobject='dw_tab_erc_decenio_tab'
+	case 4
+		t1.dt.dw_grid.dataobject='dw_tab_erc_htacontrolado_tab'
+	case 6
+		t1.dt.dw_grid.dataobject='dw_tab_erc_anemia_tab'	
+	case 6
+		t1.dt.dw_grid.dataobject='dw_tab_erc_a1hb_tab'
 end choose
-t1.dt.dw_6.settransobject(sqlca)
-t1.dt.dw_6.retrieve(fecha1,fecha2,ls_xlugar)
+t1.dt.dw_grid.settransobject(sqlca)
+t1.dt.dw_grid.retrieve(fecha1,fecha2,ls_xlugar)
 end event
 
-type dw_6 from datawindow within dt
+type dw_grid from datawindow within dt
 integer x = 46
 integer y = 184
 integer width = 5874
@@ -365,6 +457,8 @@ integer height = 1872
 integer taborder = 70
 string title = "none"
 string dataobject = "dw_tab_gestante_agenda_eco_tab"
+boolean hscrollbar = true
+boolean vscrollbar = true
 boolean border = false
 boolean livescroll = true
 end type
@@ -421,7 +515,7 @@ end type
 type dw_3 from datawindow within w_tablero_erc
 integer x = 1207
 integer y = 76
-integer width = 1344
+integer width = 1161
 integer height = 80
 integer taborder = 50
 string title = "none"

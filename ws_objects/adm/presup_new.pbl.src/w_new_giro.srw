@@ -380,6 +380,8 @@ type st_2 from w_docum_base1`st_2 within tp_2
 end type
 
 type pb_10 from w_docum_base1`pb_10 within tp_2
+integer width = 146
+integer height = 128
 end type
 
 type pb_2 from w_docum_base1`pb_2 within tp_2

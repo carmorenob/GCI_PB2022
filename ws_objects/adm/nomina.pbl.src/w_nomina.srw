@@ -314,7 +314,7 @@ long periodo, il_nuevo, borrar, vac, lm, ln, ctrl,lp,l_sus,l_inc,l_incp,l_perm,l
 DataWindowChild dwc_novedad, dwc_cp,dwc_ce,dwc_ce_bas
 int l_periodo
 string cod_conceppresta, cod_concepahorro, operacion, i_cemp,l_nesp,l_kry='1'
-string is_path="c:\windows\temp\",l_tnom,l_cesan,ls_vac,ls_vpriprev, ls_vpagdo0
+string is_path="c:\windows\temp\",is_tnom,ls_vac,ls_vpriprev, ls_vpagdo0
 boolean ibn_calculando, ibn_cancelar, ibn_actualizado
 uo_datastore dw_historia, ids_req , ids_novedad, dw_histoall, dw_prestaact
 //uo_datastore dw_aus_all, dw_presta_all, dw_tsup_all
@@ -487,6 +487,7 @@ if sqlca.sqlnrows=0 then
 end if
 
 log = create n_log
+log.inicia('l_nomina.log')
 log.info("Se inicia Nómina")
 return 1
 end event
@@ -578,9 +579,9 @@ for k = 1 to dw_historia.RowCount()
 	for i =  1 to dw_concep_cargo.RowCount()	
 		dias_vinc = dw_historia.GetItemNumber(k,'diasvinculado')		
 		sigla =dw_concep_cargo.GetItemString(i,'sigla')
-		if	l_tnom='V' and dw_concep_cargo.GetItemString(i,'tipo')='0' and dw_concep_cargo.GetItemString(i,'novedad')='0' then continue
-		if	l_tnom='V' and dw_concep_cargo.GetItemString(i,'tipo')='P' then continue
-		if	l_tnom='V' and dw_concep_cargo.GetItemString(i,'tipo')='1' then continue
+		if	is_tnom='V' and dw_concep_cargo.GetItemString(i,'tipo')='0' and dw_concep_cargo.GetItemString(i,'novedad')='0' then continue
+		if	is_tnom='V' and dw_concep_cargo.GetItemString(i,'tipo')='P' then continue
+		if	is_tnom='V' and dw_concep_cargo.GetItemString(i,'tipo')='1' then continue
 		if dw_historia.Describe(sigla + '.Coltype') = "?" then
 			//dwSyntax = dw_historia.Describe("datawindow.syntax");	
 			messageBox('Error Get values','El concepto ' + sigla + ' necesita otro concepto que no esta relacionado con el cargo del empleado')
@@ -1143,7 +1144,7 @@ end function
 public function long ausentismo (string tipodoc, string documento, st_interfec interv, integer filahist);long dias, i, fila,filan, inc_t,l_j,inc,l_x,dias_incpt,inc_tt,calculado,dias_incptini
 st_interfec ivac, iret, iper
 string incap,tipo_nomina,incap_bas,ls_filtro
-int xitem,yitem,ciclo
+int xitem, yitem, ciclo, li_diasbase
 boolean inicial
 
 vac = 0
@@ -1157,6 +1158,8 @@ l_perm=0
 l_luto=0
 dias_incpt=0
 l_asjc=0
+
+log.info("Inicia ausentismo "+ tipodoc+documento)
 
 iper.x = tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')
 iper.y = tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina')
@@ -1211,7 +1214,7 @@ if ibn_calculando then
 					dw_ausend.setitem(fila,'documento_n',documento )
 					dw_ausend.setitem(fila,'ncargo',dw_historia.getitemnumber(filahist,'ncargo'))
 					dw_ausend.setitem(fila,'cod_concep',dw_aus.GetItemString(i,'cod_concep') )
-					dw_ausend.setitem(fila,'dias',vac)
+					dw_ausend.setitem(fila,'dias',dias_vac(datetime(dw_aus.GetItemDate(i,'fechaini')),datetime(dw_aus.GetItemDate(i,'fechafin'))))
 					dw_ausend.setitem(fila,'fecha_audita',datetime(today(),now()))	 
 					dw_ausend.setitem(fila,'item_n',tab_1.p_2.dw_novedad.getitemnumber(filan,'item'))
 					dw_ausend.setitem(fila,'num_nomina',tab_1.p_2.dw_novedad.getitemnumber(filan,'num_nomina'))
@@ -1414,7 +1417,7 @@ if ibn_calculando then
 								//inc_t = inc_t - ivac.dias
 							
 							else
-								dias_incptini = dias_incptini+ DaysAfter(date(ivac.x),date(iret.x))
+								//dias_incptini = dias_incptini+ DaysAfter(date(ivac.x),date(iret.x))
 							end if
 						end if
 						if inc_t < 0 then inc_t = 0
@@ -1448,19 +1451,29 @@ if ibn_calculando then
 						end if
 					end if
 						
-						
-						if dias_incptini<ivac.dias then 
-							inicial=true
-							ivac.dias=ivac.dias -  dias_incptini
+					if dias_incptini > 0 then
+						inicial = true
+						if inc_t <= ivac.dias then
+							li_diasbase = inc_t
 						else
-							inicial=false
-							ivac.dias=0
+							li_diasbase = ivac.dias
 						end if
+					end if
+					
+//						if dias_incptini <= ivac.dias then 
+//							inicial = true
+//							ivac.dias = ivac.dias -  dias_incptini
+//						else
+//							inicial = false
+//							ivac.dias=0
+//						end if
+			
 			//		end if
 					
 					if  inc_t > 0 and ibn_calculando then
 						ciclo=1
-						if ivac.dias=0 then ciclo=2						
+						//if ivac.dias=0 then ciclo=2
+						if li_diasbase = 0 then ciclo = 2
 						do while ciclo<=2
 							// LA NOVEDAD
 							if ciclo=1 and inicial then
@@ -1478,7 +1491,8 @@ if ibn_calculando then
 							tab_1.p_2.dw_novedad.SetItem(filan,'ncargo',dw_historia.getitemnumber(filahist,'ncargo'))
 							tab_1.p_2.dw_novedad.SetItem(filan,'ntraslado',dw_historia.getitemnumber(filahist,'ntraslado'))	
 							tab_1.p_2.dw_novedad.SetItem(filan,'num_nomina',tab_n.tpn_1.dw_nomcab.GetItemNumber(tab_n.tpn_1.dw_nomcab.GetRow(),'num_nomina'))
-							if ciclo=1 and ivac.dias>0 and inicial then
+							//if ciclo=1 and ivac.dias>0 and inicial then
+							if ciclo=1 and inicial then
 								tab_1.p_2.dw_novedad.SetItem(filan,'cod_concep',dw_aus.GetItemString(dw_aus.GetRow(),'cod_concep_base'))
 								tab_1.p_2.dw_novedad.SetItem(filan,'sigla',dw_aus.GetItemString(dw_aus.GetRow(),'sigla_base'))
 								tab_1.p_2.dw_novedad.SetItem(filan,'des_concep',dw_aus.GetItemString(dw_aus.GetRow(),'des_concep_base'))
@@ -1511,25 +1525,30 @@ if ibn_calculando then
 							if ciclo=1 and inicial then
 								dw_ausend.setitem(fila,'cod_concep',dw_aus.GetItemString(i,'cod_concep_base') )		
 								dw_historia.SetItem(filahist, f_get_ctrl(dw_aus.GetItemString(i,'sigla_base')),1)
-								if  inc_t  < ivac.dias then 				
-									dw_ausend.setitem(fila,'dias', inc_t)
-									dw_historia.SetItem(filahist,get_parm_nov(dw_aus.GetItemString(i,'sigla_base')),inc_t)
-								else		
-									dw_ausend.setitem(fila,'dias', ivac.dias)
-									dw_historia.SetItem(filahist,get_parm_nov(dw_aus.GetItemString(i,'sigla_base')),ivac.dias)
-								end if
+								
+								dw_ausend.setitem(fila,'dias', li_diasbase)
+								dw_historia.SetItem(filahist,get_parm_nov(dw_aus.GetItemString(i,'sigla_base')), li_diasbase)
+
+//								if  inc_t  < ivac.dias then 				
+//									dw_ausend.setitem(fila,'dias', inc_t)
+//									dw_historia.SetItem(filahist,get_parm_nov(dw_aus.GetItemString(i,'sigla_base')),inc_t)
+//								else		
+//									dw_ausend.setitem(fila,'dias', ivac.dias)
+//									dw_historia.SetItem(filahist,get_parm_nov(dw_aus.GetItemString(i,'sigla_base')),ivac.dias)
+//								end if
 								calculado = dw_historia.GetItemNumber(filahist,dw_aus.GetItemString(i,'sigla_base'))
 							else
 								dw_ausend.setitem(fila,'cod_concep',dw_aus.GetItemString(i,'cod_concep') )
 								dw_historia.SetItem(filahist, f_get_ctrl(dw_aus.GetItemString(i,'sigla')),1)
-								dw_ausend.setitem(fila,'dias',inc_t - ivac.dias)
-								dw_historia.SetItem(filahist,get_parm_nov(dw_aus.GetItemString(i,'sigla')),inc_t - ivac.dias)
+								dw_ausend.setitem(fila,'dias', inc_t - li_diasbase)
+								dw_historia.SetItem(filahist,get_parm_nov(dw_aus.GetItemString(i,'sigla')), inc_t - li_diasbase)
 								calculado = dw_historia.GetItemNumber(filahist,dw_aus.GetItemString(i,'sigla'))
 							end if
 							if isnull(calculado) then calculado=0
 							dw_ausend.setitem(fila,'valor',calculado)
 							ciclo++
-							if (inc_t - ivac.dias) <= 0  or ivac.dias=0 then ciclo=3				
+							//if (inc_t - ivac.dias) <= 0  or ivac.dias=0 then ciclo=3
+							if (inc_t - ivac.dias) <= 0 then ciclo = 3
 						loop
 					end if		
 				end if
@@ -1875,7 +1894,9 @@ if ibn_calculando then
 			l_sus = l_sus + inc_t
 		next
 		if filahist > 0 then
-			dw_historia.SetItem(filahist,'diassuspension',l_sus)
+			if l_sus>0 then
+				dw_historia.SetItem(filahist,'diassuspension',l_sus)
+			end if
 		end if
 		////////////////////////
 		//  SIN JUSTA CAUSA
@@ -1898,7 +1919,9 @@ if ibn_calculando then
 			l_asjc = l_asjc + inc_t
 		next
 		if filahist > 0 then
-			dw_historia.SetItem(filahist,'diassuspension',l_asjc)
+			if l_asjc>0 then
+				dw_historia.SetItem(filahist,'diassuspension',l_asjc)
+			end if
 		end if
 	end if ///Tipo Nomina
 end if
@@ -2198,6 +2221,10 @@ public function integer f_tiempos ();st_interfec iper, icar, iret
 string tipodoc, documento
 long i, aus
 
+if is_tnom='C' or is_tnom='P' then return -1
+
+log.info("Inicia TIEMPOS "+ tipodoc+documento)
+
 iper.x = tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')
 iper.y = tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina')
 for i = 1 to dw_historia.RowCount()
@@ -2461,7 +2488,7 @@ end function
 
 public function integer nomcalc (string tipodoc, string documento, string pesp, string ptnom);
 long fila, j, i, h, aus, dias, filahist, fcontra
-string des_concep, valor, tipo
+string des_concep, valor, tipo,ls_tnom
 uo_datastore dw_ahorroact, dw_cuotas
 decimal acumulado, calculado, fpago = 0,tarifa,tarifa_esp, vrVac
 integer diasVacSig = 0, diasVacAct = 0
@@ -2473,7 +2500,6 @@ if fcontra > 0 then
 	fpago = dw_contra.GetItemNumber(fcontra,'monto')
 end if
 
-//if dw_historia.Retrieve(tipodoc, documento, pesp, ptnom) > 0 then
 if datos_empleado(tipodoc, documento) > 0 then
 	f_retrieveEnd()
 	filahist = dw_historia.Find("diasvinculado > 0", 1, dw_historia.RowCount())
@@ -2487,7 +2513,10 @@ elseif dw_historia.RowCount() = 0 then
 	MessageBox('Atención','El empleado ' +tipodoc+' '+documento+' no tiene registro de cargo y/o salario y/o ubicación')
 	Return -1
 end if
-if tab_n.tpn_1.dw_nomcab.GetItemString(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo')<>'R' then
+
+ls_tnom=tab_n.tpn_1.dw_nomcab.GetItemString(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo')
+//if ls_tnom<>'R' and ls_tnom<>'V' and ls_tnom='C' and ls_tnom='P' then
+if ls_tnom<>'C' and ls_tnom<>'P' then
 	log.info("Inicia prestamos "+ tipodoc+documento)
 	if calc_prestamos(tipodoc, documento, filahist) = -1 then return -1
 	log.info("Inicia ahorros "+ tipodoc+documento)
@@ -2758,8 +2787,7 @@ string form_calculo, form_verifica, ls_codp
 int li_k = 1, j, fila, diasVacSig, diasVacAct
 decimal vrVac
 
-if tab_n.tpn_1.dw_nomcab.GetItemString(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo')<>'R' and tab_n.tpn_1.dw_nomcab.GetItemString(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo')<>'V' then
-	//if dw_prestaact.Retrieve(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia'), tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina'),tipodoc, documento) > 0 then
+//if  is_tnom<>'R' and  is_tnom<>'V' and  is_tnom='C' and  is_tnom='P' then
 	if datos_prestamos(tipodoc, documento) > 0 then
 		ls_codp=dw_prestaact.GetItemString(1,'cod_concep')
 		for j = 1 to dw_prestaact.RowCount()
@@ -2783,14 +2811,14 @@ if tab_n.tpn_1.dw_nomcab.GetItemString(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo')<>'
 			tab_1.p_2.dw_novedad.SetItem(fila,'tipo', dw_prestaact.GetItemString(j, 'tipo'))
 			tab_1.p_2.dw_novedad.SetItem(fila,'cantidad_ac',1)
 			if wf_vac_anticipada() = '1' then
-				//diasVacSig = f_dias_vac_per(tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc'), tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento'), inicmessig(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia'))  ) 
-				//diasVacAct = f_dias_vac_per(tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc'), tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento'), tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')  ) 
+				diasVacSig = f_dias_vac_per(tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc'), tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento'), inicmessig(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia'))  ) 
+				diasVacAct = f_dias_vac_per(tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc'), tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento'), tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')  ) 
 				if  vac=0 then 
-					diasVacSig = f_dias_vac(tipodoc, documento, ls_vac, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia') , tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina')  ) 
+					//diasVacSig = f_dias_vac(tipodoc, documento, ls_vac, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia') , tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina')  ) 
 				else
-					diasVacSig=0
+					//diasVacSig=0
 				end if
-				diasVacAct = f_dias_vac_per(tipodoc, documento, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')  ) 
+				//diasVacAct = f_dias_vac_per(tipodoc, documento, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')  ) 
 				if diasVacSig >0 or diasVacAct > 0 then
 					vrVac = round(dw_prestaact.GetItemNumber(j,'valor') * diasVacSig / 30, 0) - round(dw_prestaact.GetItemNumber(j,'valor') * diasVacAct / 30, 0)
 				else
@@ -2809,7 +2837,7 @@ if tab_n.tpn_1.dw_nomcab.GetItemString(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo')<>'
 			if f_addcompute(dw_prestaact.GetItemString(j, 'sigla'), string(round(dw_prestaact.GetItemNumber(j,'valor')+ vrVac,0)), string(round(dw_prestaact.GetItemNumber(j,'valor')+ vrVac,0)), dw_prestaact.GetItemNumber(j,'tarifa'), dw_prestaact.GetItemNumber(j,'tarifa_esp'), li_k) = -1 then Return -1	
 		next
 	end if
-end if	
+//end if	
 return 0
 
 end function
@@ -2820,8 +2848,7 @@ Integer j, fila, li_k, diasVacSig = 0, diasVacAct = 0
 decimal acumulado, calculado, fpago = 0,tarifa,tarifa_esp, vrVac
 blob bfc,bfc1
 
-if tab_n.tpn_1.dw_nomcab.GetItemString(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo')<>'R' and tab_n.tpn_1.dw_nomcab.GetItemString(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo')<>'V' then
-	
+//if  is_tnom<>'R' and  is_tnom<>'V' and  is_tnom='C' and  is_tnom='P' then
 	dw_ahorroact = create uo_datastore
 	dw_ahorroact.DataObject = "dw_ahorrocabnom"
 	dw_ahorroact.SetTransObject(SQLCA)
@@ -2920,7 +2947,7 @@ if tab_n.tpn_1.dw_nomcab.GetItemString(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo')<>'
 		//	end if
 		next
 	end if
-end if
+//end if
 
 end function
 
@@ -3128,19 +3155,20 @@ Return 0
 
 end function
 
-public subroutine actualizardatos ();
-//// Trae datos de todos los empleados
+public subroutine actualizardatos ();//// Trae datos de todos los empleados
 if tab_n.tpn_1.dw_nomcab.rowCount() = 0 then return
 
 Yield()
-dw_histoall.retrieve(date(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')), date(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina')), l_nesp,l_tnom)
+dw_histoall.retrieve(date(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')), date(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina')), l_nesp,is_tnom)
 Yield()
-dw_aus.Retrieve(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia'), datetime(relativedate(date(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina')),30)))
-Yield()
-dw_prestaact.retrieve(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia'), tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina'))
-Yield()
-dw_tsup.retrieve( year(date(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.Getrow(),'inicia'))),month(date(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.Getrow(),'inicia'))) )
-Yield()
+if is_tnom<>'P' then
+	dw_aus.Retrieve(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia'), datetime(relativedate(date(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina')),30)))
+	Yield()
+	dw_prestaact.retrieve(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia'), tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina'))
+	Yield()
+	dw_tsup.retrieve( year(date(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.Getrow(),'inicia'))),month(date(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.Getrow(),'inicia'))) )
+	Yield()
+end if
 dw_concep_cargo.retrieve()
 Yield()
 dw_apemp.retrieve()
@@ -4424,7 +4452,7 @@ boolean livescroll = true
 borderstyle borderstyle = stylelowered!
 end type
 
-event itemchanged;long i, fila, filahist, parm,l_p
+event itemchanged;long i, fila, filahist, parm, l_p, fc
 double cantidad,ld_ahorro,ld_tar
 string vnula,conp,ls_td,ls_doc
 Date f_ini, f_fin
@@ -4437,7 +4465,6 @@ ls_doc = tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'doc
 f_ini = date(tab_n.tpn_1.dw_nomcab.getItemDateTime(tab_n.tpn_1.dw_nomcab.getRow(), 'inicia'))
 f_fin = date(tab_n.tpn_1.dw_nomcab.getItemDateTime(tab_n.tpn_1.dw_nomcab.getRow(), 'termina'))
 l_nesp = tab_n.tpn_1.dw_nomcab.GetItemstring(tab_n.tpn_1.dw_nomcab.GetRow(),'esp')
-l_tnom = tab_n.tpn_1.dw_nomcab.GetItemstring(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo')
 
 if not ibn_actualizado  then
 	datos_empleado(ls_td, ls_doc)
@@ -4502,17 +4529,17 @@ if this.GetColumnName() = 'sigla'  or lower(dwo.name)= 'sigla' then
 		this.SetItem(this.GetRow(),'pagado',round(cantidad,0))
 		if round(cantidad,0)>1 then this.SetItem(this.GetRow(),'base',round(cantidad,0))		
 		if GetItemString(GetRow(),'tipo') <> 'L' then 
+			ibn_calculando = true
 			f_retrieveend()
 			if recalcula(tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc'), tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento')) = -1 then
 				MessageBox('Atención','Error reevaluando conceptos')
+				ibn_calculando = false
 				Return -1
 			end if
+			ibn_calculando = false
 		end if
 	end if
 	if dwc_novedad.GetItemString(dwc_novedad.GetRow(),'tercero')='2' then
-//		dw_apemp.retrieve(tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc'),tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento'))
-//		dw_apemp.SetFilter("cod_clase='"+dwc_novedad.GetItemString(dwc_novedad.GetRow(),'cod_tipo_concep')+"'")
-//		dw_apemp.Filter()
 		datos_apemp(ls_td, ls_doc, dwc_novedad.GetItemString(dwc_novedad.GetRow(),'cod_tipo_concep'))
 		for l_p = 1 to dw_apemp.RowCount()
 			this.SetItem(GetRow(), 'tipodoc_clase', dw_apemp.GetItemString(l_p,'tipodoc'))
@@ -4523,9 +4550,13 @@ if this.GetColumnName() = 'sigla'  or lower(dwo.name)= 'sigla' then
 	end if
 end if
 
-if this.GetColumnName() = 'cantidad_ac' then
+if this.GetColumnName() = 'cantidad_ac' or lower(dwo.name)= 'cantidad_ac' then
 	if AcceptText() = -1 then Return -1
+	ibn_calculando = true
 	f_retrieveEnd()
+	filahist = dw_historia.Find("diasvinculado > 0",1,dw_historia.RowCount())
+	if filahist =0 and dw_historia.RowCount()>0 then filahist =1
+	ibn_calculando = false
 	if filahist = 0 and GetItemString(GetRow(),'tipo') ='L' and dw_historia.RowCount() > 0 then 
 		filahist = 1
 		dw_novedad.SetItem(GetRow(),'ncargo',dw_historia.GetItemNumber(filahist,'ncargo'))
@@ -4538,6 +4569,9 @@ if this.GetColumnName() = 'cantidad_ac' then
  		if dw_historia.Describe(GetItemString(GetRow(),'sigla') + '.Coltype') = "!" then
 			if f_addcompute( GetItemString(GetRow(),'sigla'), GetItemString(GetRow(),'form_calculo') ,GetItemString(GetRow(),'form_verifica'), GetItemnumber(GetRow(),'tarifa'), GetItemnumber(GetRow(),'tarifa_esp'),1) = -1 then  Return
 		end if
+		string jaer
+		jaer=GetItemString(GetRow(),'sigla')
+		jaer= f_get_ctrl(GetItemString(GetRow(),'sigla'))
 		dw_historia.SetItem(filahist, f_get_ctrl(GetItemString(GetRow(),'sigla')),1)
 		this.SetItem(this.GetRow(),'valor_c',round(dw_historia.GetItemNumber(filahist,GetItemString(GetRow(),'sigla')),0))
 		this.SetItem(this.GetRow(),'pagado',round(dw_historia.GetItemNumber(filahist,GetItemString(GetRow(),'sigla')),0))
@@ -4547,15 +4581,16 @@ if this.GetColumnName() = 'cantidad_ac' then
 			this.SetItem(this.GetRow(),'base',round(dw_historia.GetItemNumber(filahist,'b_'+GetItemString(GetRow(),'sigla')),0))		
 		end if
 		if GetItemString(GetRow(),'tipo') <> 'L' then 
+			ibn_calculando = true
 			if recalcula( tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc'),tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento') ) = -1 then
 				MessageBox('Atención','Error reevaluando conceptos')
+				ibn_calculando = false
 				Return -1
 			end if
 		else
 			for i = 1 to RowCount()
 				if i = Getrow() then continue
 				if dw_historia.Describe(GetItemString(i,'sigla') + '.Coltype') = "!" then
-					//messagebox("verificar",'Error formula '+GetItemString(i,'sigla'))
 					if f_addcompute( GetItemString(i,'sigla'), GetItemString(i,'form_calculo'), GetItemString(i,'form_verifica'),GetItemnumber(i,'tarifa'),GetItemnumber(i,'tarifa_esp'),i) = -1 then  Return
 					dw_historia.SetItem(filahist, f_get_ctrl(GetItemString(i,'sigla')),1)
 					dw_historia.SetItem(filahist,get_parm_nov(GetItemString(i,'sigla')),GetItemNumber(i,'cantidad_ac'))
@@ -4570,23 +4605,38 @@ if this.GetColumnName() = 'cantidad_ac' then
 			next
 		end if
 	end if
+	ibn_calculando = false
 end if
 
 if this.GetColumnName() = 'pagado' then
 	string ret
 	if AcceptText() = -1 then Return -1
+	ibn_calculando = true
 	f_retrieveend()
+	filahist = dw_historia.Find("diasvinculado > 0",1,dw_historia.RowCount())
+	if filahist =0 and dw_historia.RowCount()>0 then filahist =1
+	ibn_calculando = false
+	filahist = dw_historia.Find("diasvinculado > 0",1,dw_historia.RowCount())
+	if filahist =0 and dw_historia.RowCount()>0 then filahist =1
 	if filahist > 0 and not isNull(this.GetItemString(this.GetRow(),'cod_concep')) then
+		// Agrega fórmula
+		if dw_historia.Describe(ids_req.GetItemString(i,'sigla_req') + '.Coltype') = "!" then
+			fc = dwc_novedad.Find("cod_concep='"+GetItemString(Getrow(),'cod_concep')+"'",1,dwc_novedad.RowCount())
+			if f_addcompute( dwc_novedad.GetItemString(fc,'sigla'), dwc_novedad.GetItemString(fc,'form_calculo'), dwc_novedad.GetItemString(fc,'form_verifica'), dwc_novedad.GetItemnumber(fc,'tarifa'), dwc_novedad.GetItemnumber(fc,'tarifa_esp'),1) = -1 then  Return
+		end if
 	 	if round(dw_historia.GetItemNumber(filahist,GetItemString(GetRow(),'sigla')),0) <> double(data) then
 			ret = dw_historia.Modify(GetItemString(GetRow(),'sigla') + '.expression="'+data+' * if(salario_estado=~~"1~~",1,0) * ctr_'+GetItemString(GetRow(),'sigla')+'"')
 		end if
 		if GetItemString(GetRow(),'tipo') <> 'L' then 
+			ibn_calculando = true
 			if recalcula( tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc'),tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento') ) = -1 then
 				MessageBox('Atención','Error reevaluando conceptos')
+				ibn_calculando = false
 				Return -1
 			end if
 		end if
 	end if
+	ibn_calculando = false
 end if
 cambio = TRUE
 calctotal()
@@ -5599,10 +5649,12 @@ ELSE
 		tab_n.tpn_2.dw_empnom.SetItem(f,'ufun_des',uf_des)
 		tab_n.tpn_2.dw_empnom.SetItem(f,'cc_des',cc_des)
 		tab_n.tpn_2.dw_empnom.ScrolltoRow(f)
+		ibn_calculando = TRUE
 		if nomcalc(tab_n.tpn_2.dw_empnom.GetItemString(f,'tipodoc'), tab_n.tpn_2.dw_empnom.GetItemString(f,'documento'),tab_n.tpn_1.dw_nomcab.getitemstring(tab_n.tpn_1.dw_nomcab.getrow(),'esp'),tab_n.tpn_1.dw_nomcab.getitemstring(tab_n.tpn_1.dw_nomcab.getrow(),'tipo')) < 0 then
 			Return
 		end if
 		calctotal()
+		ibn_calculando = FALSE
 		cambio = TRUE
 	else
 		tab_n.tpn_2.dw_empnom.ScrolltoRow(f)
@@ -6210,11 +6262,12 @@ string disabledname = "d_insertar.GIF"
 string powertiptext = "&Nuevo Documento"
 end type
 
-event clicked;long fila, numdoc, inicial, final
+event clicked;long ldb_fila, numdoc, inicial, final,ldb_filahist
 int turnos,l_c,filahist,l_p
 int ll_found
 date fi,ff
-string desco,l_sigla,ltipon
+string ls_desco,ls_sigla,ls_ctipoc,ls_tipon,ls_tipoc,ls_cesan
+string ls_td,ls_doc
 setNull(numdoc)
 
 if f_permiso_boton(this,'NM')=0 then return -1
@@ -6254,9 +6307,9 @@ if turnos = 0 or sqlca.sqlnrows=0 then
 	Return 
 end if
 
-openwithparm(w_tipo_nomina,ltipon)
-ltipon = Message.stringParm
-if ltipon='!' then return -1
+openwithparm(w_tipo_nomina,ls_tipon)
+ls_tipon = Message.stringParm
+if ls_tipon='!' then return -1
 
 tab_n.SelectTab(2)
 setNull(turnos)
@@ -6271,26 +6324,26 @@ IF SQLCA.SQLCode = -1 THEN
 	Return
 END IF
 
-if turnos > 0 then 
+if turnos > 0 and  ls_tipon='N' then 
 	if messageBox('Aviso','Falta Programación sin Calcular *** Trabajo Suplementario***?. Desea liquidar así',QUESTION!,YESNO!) = 0 then
 		Return 
 	end if
 end if
 
-fila = dw_nomcab.InsertRow(1)
-dw_nomcab.setItem(fila,'num_nomina', numdoc)
-dw_nomcab.setItem(fila,'ano', year( today() ))
-dw_nomcab.setItem(fila,'mes', month( today() ))
-dw_nomcab.setItem(fila,'tipo',ltipon)
-dw_nomcab.setItem(fila,'fecha', today() )
-dw_nomcab.setItem(fila,'periodo', '5')
-dw_nomcab.setItem(fila,'inicia', date("1/" + string(today(),"mm/yyyy")))
-dw_nomcab.setItem(fila,'termina', RelativeDate(date(inicMesSig(datetime(today()))), -1))
-dw_nomcab.setItem(fila,'estado', '0')
-dw_nomcab.setItem(fila,'contabil', 'P')
-dw_nomcab.setItem(fila,'lugar', clugar)
-il_nuevo = fila
-dw_nomcab.scrolltoRow(fila)
+ldb_fila = dw_nomcab.InsertRow(1)
+dw_nomcab.scrolltoRow(ldb_fila)
+dw_nomcab.setItem(ldb_fila,'num_nomina', numdoc)
+dw_nomcab.setItem(ldb_fila,'ano', year( today() ))
+dw_nomcab.setItem(ldb_fila,'mes', month( today() ))
+dw_nomcab.setItem(ldb_fila,'tipo',ls_tipon)
+dw_nomcab.setItem(ldb_fila,'fecha', today() )
+dw_nomcab.setItem(ldb_fila,'periodo', '5')
+dw_nomcab.setItem(ldb_fila,'inicia', date("1/" + string(today(),"mm/yyyy")))
+dw_nomcab.setItem(ldb_fila,'termina', RelativeDate(date(inicMesSig(datetime(today()))), -1))
+dw_nomcab.setItem(ldb_fila,'estado', '0')
+dw_nomcab.setItem(ldb_fila,'contabil', 'P')
+dw_nomcab.setItem(ldb_fila,'lugar', clugar)
+il_nuevo = ldb_fila
 tab_1.p_1.dw_devenga.Modify('selec.protect="0" pagado.edit.displayOnly=no')
 tab_1.p_1.dw_deduce.Modify('selec.protect="0" pagado.edit.displayOnly=no')
 if dw_nomcab.GetItemString(dw_nomcab.GetRow(),'periodo') = '5' then
@@ -6304,11 +6357,13 @@ tab_1.p_1.dw_devenga.Reset()
 tab_1.p_1.dw_deduce.Reset()
 tab_1.p_2.dw_novedad.Reset()
 
-if ltipon='N' then 
+
+is_tnom=ls_tipon
+if ls_tipon='N' then 
 	cbx_1.checked=true
 End if
 
-if ltipon='V' then 
+if ls_tipon='V' then 
 	if g_motor='postgres' then
 		tab_n.tpn_2.dw_empnom.DataObject ='dw_empnom_postgres'
 		dw_empact.DataObject ='dw_empact_vac_postgres'
@@ -6329,9 +6384,11 @@ else
 	messageBox('Aviso','No hay empleados activos')
 	Return
 end if
-If l_tnom='C' then 
-	Select cod_concep,des_concep,sigla into :l_cesan,:desco,:l_sigla from nom_concep Where (((nom_concep.cesantia)='1'));
-	if isnull(l_cesan) then 
+
+//CESANTIAS
+If ls_tipon='C' then 
+	select cod_concep,des_concep,sigla into :ls_cesan,:ls_desco,:ls_sigla from nom_concep where (((nom_concep.cesantia)='1'));
+	if isnull(ls_cesan) then 
 		MessageBox("No hay concepto definido para cesantias", SQLCA.SQLErrText)
 		Rollback;
 		Return
@@ -6352,12 +6409,13 @@ If l_tnom='C' then
 	tab_1.p_5.dw_ap.SetRedraw(FALSE)
 	for l_c=1 to dw_empact.rowcount()		
 		tab_n.tpn_2.dw_empnom.ScrolltoRow(l_c)
-		fila=tab_1.p_2.pb_addnov.TriggerEvent(clicked!)
-		tab_1.p_2.dw_novedad.SetItem(fila,'cod_concep',l_cesan)		
-		tab_1.p_2.dw_novedad.SetItem(fila,'des_concep',desco)	
-		tab_1.p_2.dw_novedad.SetItem(fila,'sigla',l_sigla)
+		setnull(ldb_fila)
+		ldb_fila=tab_1.p_2.pb_addnov.TriggerEvent(clicked!)
+		tab_1.p_2.dw_novedad.SetItem(ldb_fila,'cod_concep',ls_cesan)		
+		tab_1.p_2.dw_novedad.SetItem(ldb_fila,'des_concep',ls_desco)	
+		tab_1.p_2.dw_novedad.SetItem(ldb_fila,'sigla',ls_sigla)
 		tab_1.p_2.dw_novedad.AcceptText ( )
-		tab_1.p_2.dw_novedad.event itemchanged(fila,tab_1.p_2.dw_novedad.object.sigla,tab_1.p_2.dw_novedad.getitemstring(fila,'sigla'))
+		tab_1.p_2.dw_novedad.event itemchanged(ldb_fila,tab_1.p_2.dw_novedad.object.sigla,tab_1.p_2.dw_novedad.getitemstring(ldb_fila,'sigla'))
 	next
 	//actualizarDatos()	
 	pb_calcula.TriggerEvent(clicked!)
@@ -6367,12 +6425,14 @@ If l_tnom='C' then
 	tab_1.p_2.dw_novedad.SetRedraw(true)
 	tab_1.p_5.dw_ap.SetRedraw(true)
 end if
-If l_tnom='V' then 
-	setNull(l_cesan)
-	setNull(desco)
-	setNull(l_sigla)
-	Select cod_concep,des_concep,sigla into :l_cesan,:desco,:l_sigla from nom_concep Where (((vac)='1') and estado='1');
-	if isnull(l_cesan) then 
+
+///VACACIONES
+If ls_tipon='V' then 
+	setNull(ls_cesan)
+	setNull(ls_desco)
+	setNull(ls_sigla)
+	select cod_concep,des_concep,sigla into :ls_cesan,:ls_desco,:ls_sigla from nom_concep where (((vac)='1') and estado='1');
+	if isnull(ls_cesan) then 
 		MessageBox("No hay concepto definido para Vacaciones", SQLCA.SQLErrText)
 		Rollback;
 		Return
@@ -6381,19 +6441,24 @@ If l_tnom='V' then
 	tab_1.p_2.rb_ded.checked=false
 	tab_1.p_2.rb_amb.checked=true
 	tab_1.SelectTab(2)
-////	tab_n.tpn_2.dw_empnom.SetRedraw(FALSE)
-////	tab_1.p_1.dw_devenga.SetRedraw(FALSE)
-////	tab_1.p_1.dw_deduce.SetRedraw(FALSE)
-////	tab_1.p_2.dw_novedad.SetRedraw(FALSE)
-////	tab_1.p_5.dw_ap.SetRedraw(FALSE)
+	tab_n.tpn_2.dw_empnom.SetRedraw(FALSE)
+	tab_1.p_1.dw_devenga.SetRedraw(FALSE)
+	tab_1.p_1.dw_deduce.SetRedraw(FALSE)
+	tab_1.p_2.dw_novedad.SetRedraw(FALSE)
+	tab_1.p_5.dw_ap.SetRedraw(FALSE)
 	for l_c=1 to dw_empact.rowcount()		
 		tab_n.tpn_2.dw_empnom.ScrolltoRow(l_c)
-		fila=tab_1.p_2.pb_addnov.TriggerEvent(clicked!)
-		tab_1.p_2.dw_novedad.SetItem(fila,'cod_concep',l_cesan)	
-		tab_1.p_2.dw_novedad.SetItem(fila,'des_concep',desco)	
-		tab_1.p_2.dw_novedad.SetItem(fila,'sigla',l_sigla)
+		setnull(ldb_fila)
+		ldb_fila=tab_1.p_2.pb_addnov.TriggerEvent(clicked!)
+		tab_1.p_2.dw_novedad.SetItem(ldb_fila,'cod_concep',ls_cesan)	
+		tab_1.p_2.dw_novedad.SetItem(ldb_fila,'des_concep',ls_desco)	
+		tab_1.p_2.dw_novedad.SetItem(ldb_fila,'sigla',ls_sigla)
 		tab_1.p_2.dw_novedad.AcceptText ( )
-		tab_1.p_2.dw_novedad.event itemchanged(fila,tab_1.p_2.dw_novedad.object.sigla,tab_1.p_2.dw_novedad.getitemstring(fila,'sigla'))
+		tab_1.p_2.dw_novedad.event itemchanged(ldb_fila,tab_1.p_2.dw_novedad.object.sigla,tab_1.p_2.dw_novedad.getitemstring(ldb_fila,'sigla'))
+		tab_1.p_2.dw_novedad.SetItem(ldb_fila,'cantidad_ac',1)
+		tab_1.p_2.dw_novedad.AcceptText ( )
+		tab_1.p_2.dw_novedad.event itemchanged(ldb_fila,tab_1.p_2.dw_novedad.object.cantidad_ac,string(tab_1.p_2.dw_novedad.getitemnumber(ldb_fila,'cantidad_ac')))
+		
 	next
 	//actualizarDatos()	
 	pb_calcula.TriggerEvent(clicked!)
@@ -6403,29 +6468,42 @@ If l_tnom='V' then
 	tab_1.p_2.dw_novedad.SetRedraw(true)
 	tab_1.p_5.dw_ap.SetRedraw(true)
 end if
-If l_tnom='P' then 
-	setNull(l_cesan)
-	setNull(desco)
-	setNull(l_sigla)	
+
+//PRIMAS
+If ls_tipon='P' then 
+	setNull(ls_cesan)
+	setNull(ls_desco)
+	setNull(ls_sigla)	
 	tab_1.p_2.rb_nin.checked=true
 	tab_1.p_2.rb_ded.checked=false
 	tab_1.p_2.rb_amb.checked=false
+//	tab_n.tpn_2.dw_empnom.SetRedraw(FALSE)
+//	tab_1.p_1.dw_devenga.SetRedraw(FALSE)
+//	tab_1.p_1.dw_deduce.SetRedraw(FALSE)
+//	tab_1.p_2.dw_novedad.SetRedraw(FALSE)
+//	tab_1.p_5.dw_ap.SetRedraw(FALSE)	
 	tab_1.SelectTab(2)
-	openwithparm(w_nomina_prima,l_cesan)
-	l_cesan= Message.stringParm
-	if l_cesan='!' then return -1
-	Select cod_concep,des_concep,sigla into :l_cesan,:desco,:l_sigla from nom_concep Where ((cod_concep=:l_cesan) and estado='1');
-	for l_c=1 to dw_empact.rowcount()		
+	openwithparm(w_nomina_prima,ls_cesan)
+	ls_cesan= Message.stringParm
+	if ls_cesan='!' then return -1
+	select cod_concep,des_concep,sigla,cod_tipo_concep,tipo into :ls_cesan,:ls_desco,:ls_sigla,:ls_ctipoc,:ls_tipoc from nom_concep where  (((cod_concep)=:ls_cesan) AND ((estado)='1'));
+	actualizarDatos()
+	for l_c=1 to tab_n.tpn_2.dw_empnom.rowcount()		
+	
 		tab_n.tpn_2.dw_empnom.ScrolltoRow(l_c)
-		fila=tab_1.p_2.pb_addnov.TriggerEvent(clicked!)
-		tab_1.p_2.dw_novedad.SetItem(fila,'cod_concep',l_cesan)	
-		tab_1.p_2.dw_novedad.SetItem(fila,'des_concep',desco)	
-		tab_1.p_2.dw_novedad.SetItem(fila,'sigla',l_sigla)
-		tab_1.p_2.dw_novedad.AcceptText ( )
-		tab_1.p_2.dw_novedad.event itemchanged(fila,tab_1.p_2.dw_novedad.object.sigla,tab_1.p_2.dw_novedad.getitemstring(fila,'sigla'))
+		ldb_fila = tab_1.p_2.pb_addnov.TriggerEvent(clicked!)
+		tab_1.p_2.dw_novedad.SetItem(ldb_fila,'cod_concep',ls_cesan)	
+		tab_1.p_2.dw_novedad.SetItem(ldb_fila,'des_concep',ls_desco)	
+		tab_1.p_2.dw_novedad.SetItem(ldb_fila,'sigla',ls_sigla)
+		tab_1.p_2.dw_novedad.event itemchanged(ldb_fila, tab_1.p_2.dw_novedad.object.sigla, tab_1.p_2.dw_novedad.getitemstring(ldb_fila,'sigla'))
+		tab_1.p_2.dw_novedad.SetItem(ldb_fila,'cantidad_ac',1)
+		tab_1.p_2.dw_novedad.AcceptText()
+		tab_1.p_2.dw_novedad.event itemchanged(ldb_fila, tab_1.p_2.dw_novedad.object.cantidad_ac, tab_1.p_2.dw_novedad.getitemstring(ldb_fila,'sigla'))
+		//tab_1.p_2.dw_novedad.SetColumn(13)
+		
+		if l_c > 5 then exit
 	next
-	//actualizarDatos()	
-	pb_calcula.TriggerEvent(clicked!)
+
 	tab_n.tpn_2.dw_empnom.SetRedraw(true)
 	tab_1.p_1.dw_devenga.SetRedraw(true)
 	tab_1.p_1.dw_deduce.SetRedraw(true)
@@ -6433,15 +6511,13 @@ If l_tnom='P' then
 	tab_1.p_5.dw_ap.SetRedraw(true)
 end if
 
-
-If l_tnom='N' then 
+If ls_tipon='N' then 
 	if messageBox('Aviso','Desea Calcular nómina para todos los empleados activos?. Si desea deseleccionar algunos, presione NO',QUESTION!,YESNO!) = 1 then
 		//actualizarDatos()
 		pb_calcula.TriggerEvent(clicked!)
 	end if
 End if
 cambio = TRUE
-
 end event
 
 type dw_nomcab from datawindow within tpn_1
@@ -6476,7 +6552,7 @@ if dwo.name = 'esp'  then
 	pb_calcula.TriggerEvent(clicked!)
 end if
 if dwo.name = 'tipo'  then
-	l_tnom=data
+	is_tnom=data
 end if
 
 if String(dwo.Name) = 'periodo' then
@@ -6584,7 +6660,6 @@ actualizarDatos()
 end event
 
 event rowfocuschanging;if currentRow = il_nuevo and (il_nuevo> 0 or cambio) then 
-//if il_nuevo>0 or cambio then
 	if messageBox('Aviso','El documento il_nuevo no ha sido guardado, perderá los cambios. Desea continuar?',QUESTION!,YESNO!) = 1 then
 		il_nuevo=0
 		cambio=false
@@ -6594,8 +6669,7 @@ event rowfocuschanging;if currentRow = il_nuevo and (il_nuevo> 0 or cambio) then
 end if
 end event
 
-event retrieveend;
-actualizarDatos()
+event retrieveend;actualizarDatos()
 
 end event
 
@@ -6823,7 +6897,7 @@ st_12.Text = 'Registro '+string(currentrow)+ ' de ' + string(rowCount())
 td = dw_empnom.GetItemString(dw_empnom.GetRow(),'tipodoc')
 doc = dw_empnom.GetItemString(dw_empnom.GetRow(),'documento')
 l_nesp = tab_n.tpn_1.dw_nomcab.GetItemstring(tab_n.tpn_1.dw_nomcab.GetRow(),'esp')
-l_tnom = tab_n.tpn_1.dw_nomcab.GetItemstring(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo')
+is_tnom = tab_n.tpn_1.dw_nomcab.GetItemstring(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo')
 if isNull(doc) then Return 0
 if not ibn_calculando then
 	select codrela,tipoemple,cargo into :cr,:te,:car 
@@ -6985,7 +7059,7 @@ if tab_n.tpn_1.dw_nomcab.GetItemString(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo') = 
 tab_n.tpn_1.dw_nomcab.setitem(tab_n.tpn_1.dw_nomcab.GetRow(),'fecha_calculo',datetime(date(today()),now()))
 
 l_nesp = tab_n.tpn_1.dw_nomcab.GetItemstring(tab_n.tpn_1.dw_nomcab.GetRow(),'esp')
-l_tnom = tab_n.tpn_1.dw_nomcab.GetItemstring(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo')
+//l_tnom = tab_n.tpn_1.dw_nomcab.GetItemstring(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo')
 
 log.info("Inicia a calcular- antes de actualizar")
 if ibn_actualizado then

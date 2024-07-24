@@ -94,7 +94,7 @@ end type
 end forward
 
 global type w_areas_apdx from window
-integer width = 4864
+integer width = 6395
 integer height = 2108
 boolean titlebar = true
 string title = "Areas de Apoyo Diagnóstico"
@@ -231,7 +231,7 @@ end event
 type tab_1 from tab within w_areas_apdx
 integer x = 18
 integer y = 28
-integer width = 4800
+integer width = 6327
 integer height = 1724
 integer taborder = 10
 integer textsize = -8
@@ -270,7 +270,7 @@ end on
 type tp_1 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 4763
+integer width = 6290
 integer height = 1596
 long backcolor = 67108864
 string text = "Areas"
@@ -350,7 +350,7 @@ end event
 type dw_area from datawindow within tp_1
 integer x = 14
 integer y = 56
-integer width = 4713
+integer width = 6171
 integer height = 1352
 integer taborder = 30
 string title = "none"
@@ -419,7 +419,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 4763
+integer width = 6290
 integer height = 1596
 long backcolor = 67108864
 string text = "Seguridad"
@@ -696,7 +696,7 @@ end event
 type tabpage_1 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 4763
+integer width = 6290
 integer height = 1596
 long backcolor = 67108864
 string text = "Almacenes"

@@ -13,7 +13,7 @@ end type
 end forward
 
 global type w_lleva_factu_apdx from window
-integer width = 3241
+integer width = 3643
 integer height = 1388
 boolean titlebar = true
 string title = "Llevar procedimientos de Facturación a Apoyo Diagnóstico (Facturas sin Cita)"
@@ -29,6 +29,10 @@ st_1 st_1
 dw_trae dw_trae
 end type
 global w_lleva_factu_apdx w_lleva_factu_apdx
+
+type variables
+string ls_varfac
+end variables
 
 on w_lleva_factu_apdx.create
 this.pb_cancel=create pb_cancel
@@ -48,8 +52,11 @@ destroy(this.st_1)
 destroy(this.dw_trae)
 end on
 
+event open;ls_varfac=message.stringparm
+end event
+
 type pb_cancel from picturebutton within w_lleva_factu_apdx
-integer x = 1600
+integer x = 1714
 integer y = 1152
 integer width = 146
 integer height = 128
@@ -71,7 +78,7 @@ event clicked;close(parent)
 end event
 
 type pb_acep from picturebutton within w_lleva_factu_apdx
-integer x = 1422
+integer x = 1536
 integer y = 1152
 integer width = 146
 integer height = 128
@@ -100,7 +107,7 @@ setnull(nnul)
 setnull(fnul)
 //solo debe llevar las facturas que no tienen cita porque el módulo de apdx tambien va  atener llevar desde citas
 
-///PAR AVALIDAR MISMA VENTNA EN DOS ESTACIONES
+///PAR AVALIDAR MISMA VENTANA EN DOS ESTACIONES
 ls_area=w_apoyo_diag2.i_codarea
 
 SELECT 
@@ -162,7 +169,7 @@ end event
 type st_1 from statictext within w_lleva_factu_apdx
 integer x = 37
 integer y = 24
-integer width = 3131
+integer width = 3488
 integer height = 80
 integer textsize = -8
 integer weight = 400
@@ -181,7 +188,7 @@ end type
 type dw_trae from datawindow within w_lleva_factu_apdx
 integer x = 32
 integer y = 116
-integer width = 3145
+integer width = 3506
 integer height = 1012
 integer taborder = 10
 string title = "none"
@@ -193,6 +200,6 @@ borderstyle borderstyle = stylelowered!
 end type
 
 event constructor;settransobject(sqlca)
-retrieve(tipdoc,docu,w_apoyo_diag2.i_codarea)
+retrieve(tipdoc,docu,w_apoyo_diag2.i_codarea,ls_varfac)
 end event
 

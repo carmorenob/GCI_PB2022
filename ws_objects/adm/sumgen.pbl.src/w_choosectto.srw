@@ -269,7 +269,6 @@ elseif st_p.codmod = 'PRSCTPT' or st_p.codmod = 'PRSCTRFC' or st_p.codmod = 'PRN
 		st_p.dw_it.SetItem(1,'num_orig1', dw_1.GetItemNumber(dw_1.GetRow(),'ano'))
 		st_p.dw_it.SetItem(1,'num_orig2', dw_1.GetItemNumber(dw_1.GetRow(),'ncontrato'))
 		st_p.dw_it.SetItem(1,'num_orig3', dw_1.GetItemNumber(dw_1.GetRow(),'otrosi'))
-//		st_p.dw_it.SetItem(1,'valor', dw_1.GetItemNumber(dw_1.GetRow(),'monto'))
 		st_p.dw_it.SetItem(1,'valor',montos)
 		st_p.dw_ter.InsertRow(1)
 		st_p.dw_ter.SetItem(1,'coddoc', st_p.dw_cab.GetItemString(st_p.dw_cab.GetRow(),'coddoc'))
@@ -282,8 +281,8 @@ elseif st_p.codmod = 'PRSCTPT' or st_p.codmod = 'PRSCTRFC' or st_p.codmod = 'PRN
 		st_p.dw_ter.SetItem(1,'apellido1', dw_1.GetItemString(dw_1.GetRow(),'apellido1'))
 		st_p.dw_ter.SetItem(1,'apellido2', dw_1.GetItemString(dw_1.GetRow(),'apellido2'))
 		st_p.dw_ter.SetItem(1,'razon_social', dw_1.GetItemString(dw_1.GetRow(),'razon_social'))
-//		st_p.dw_ter.SetItem(1,'monto', dw_1.GetItemNumber(dw_1.GetRow(),'monto'))
 		st_p.dw_ter.SetItem(1,'monto',montos)
+		st_p.dw_ter.SetItem(1,'monto_org',dw_1.GetItemNumber(dw_1.GetRow(),'monto'))		
 	end if
 end if
 

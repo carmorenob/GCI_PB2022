@@ -90,10 +90,8 @@ string picturename = "Aceptar.gif"
 alignment htextalign = left!
 end type
 
-event clicked;window wSheet
-wSheet = w_nomina.GetFirstSheet()
-tnom=dw_1.getitemstring(dw_1.getrow(),1)
-closewithreturn(parent,tnom)
+event clicked;dw_1.triggerevent(doubleclicked!)
+
 end event
 
 type dw_1 from datawindow within w_nomina_prima
@@ -110,5 +108,9 @@ borderstyle borderstyle = stylelowered!
 end type
 
 event constructor;SetTransObject(SQLCA)
+end event
+
+event doubleclicked;if getrow()<1 then return
+closewithreturn(parent,dw_1.getitemstring(dw_1.getrow(),1))
 end event
 

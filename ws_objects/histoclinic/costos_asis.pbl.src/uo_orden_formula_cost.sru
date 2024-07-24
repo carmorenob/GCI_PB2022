@@ -942,6 +942,13 @@ choose case i_tingre
 				tab_1.tp_2.dw_formula.setitem(fila,"frecuen",sle_otros.text)
 			else
 				tab_1.tp_2.dw_formula.setitem(fila,"frecuen",sle_otros.text)
+				SELECT desc_frec into:sle_otros.text
+				FROM pm_frecuencia_medica
+				WHERE (((estado)='1') AND ((cod_frec)=:sle_otros.text));
+				if SQLCA.SQLCode = 100 then
+					MessageBox('Error','El frecuencia no existe')
+					Return -1
+				end if			
 			end if
 			
 			tab_1.tp_2.dw_formula.setitem(fila,"concentracion",string(peso))
@@ -960,7 +967,7 @@ choose case i_tingre
 			tab_1.tp_2.dw_formula.setrow(fila)
 			
 			///Agrega para controlar formulacion
-			if rips='6' and g_formula = true then 
+			if rips='6' and g_formula = true  and oxi<>'1' then 
 				if  isnull(sle_otros.text) or sle_otros.text='' then 
 					openwithparm(w_formulacion,tab_1.tp_2.dw_formula)
 				else
@@ -974,10 +981,9 @@ choose case i_tingre
 			end if
 			
 			///Agrega para controlar formulacion oxigeno
-			if rips='7' and g_formula = true and oxi='1' then 
+			if g_formula = true and oxi='1' then 
 				openwithparm(w_formulacion_oxigeno,tab_1.tp_2.dw_formula)
 			end if
-			
 			
 			g_formula=true
 			setnull(sle_otros.text)

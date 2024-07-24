@@ -348,6 +348,7 @@ int ii_dec_gral,ii_aprox_gral,ii_legal=0,ii_item_dev=0
 dec in_valor_b=0
 //datastore dw_causa
 end variables
+
 forward prototypes
 public function integer cambia_ter (string p_tdoc, string p_docu)
 public function integer f_save_tax ()
@@ -2575,7 +2576,7 @@ for fila = 1 to tab_2.t2_1.tab_fp.tabfp.dw_fpag.RowCount()
 	tab_2.t2_1.tab_fp.tabcau.dw_causa.setFilter( "item="+String(tab_2.t2_1.tab_fp.tabfp.dw_fpag.getItemNumber(fila,'item')) )
 	tab_2.t2_1.tab_fp.tabcau.dw_causa.filter()
 	for i = 1 to tab_2.t2_1.tab_fp.tabcau.dw_causa.rowCount()
-		fc = tab_2.t2_1.tab_1.tabconp.dw_concep_cont.find("cod_rel='" + tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemString(i,'cod_rel')+"'", 1, tab_2.t2_1.tab_1.tabconp.dw_concep_cont.rowCount())
+		fc = tab_2.t2_1.tab_1.tabconp.dw_concep_cont.find( "item="+String(tab_2.t2_1.tab_fp.tabfp.dw_fpag.getItemNumber(fila,'item'))+ "and cod_rel='" + tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemString(i,'cod_rel')+"'", 1, tab_2.t2_1.tab_1.tabconp.dw_concep_cont.rowCount())
 		if fc = 0 then
 			fc = tab_2.t2_1.tab_1.tabconp.dw_concep_cont.insertRow(0)
 			tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'ano', tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'ano'))
@@ -2614,16 +2615,25 @@ tab_2.t2_3.t5.t5_3.dw_tz.reset()
 tab_2.t2_3.tab_4.t4_1.dw_cab.insertrow(1)
 
 for l=1 to tab_2.t2_1.tab_1.tabconp.dw_concep_cont.rowcount()
-	fc = tab_2.t2_3.t5.t5_1.dw_cpo.insertrow(0)
-	tab_2.t2_3.t5.t5_1.dw_cpo.setitem(l,'clugar',is_clug_rad)
-	tab_2.t2_3.t5.t5_1.dw_cpo.setitem(l,'coddoc',is_cdoc)
-	tab_2.t2_3.t5.t5_1.dw_cpo.setitem(l,'item',l)
-	tab_2.t2_3.t5.t5_1.dw_cpo.setitem(l,'tipodoc',dw_terce_c.getitemstring(1,'tipodoc'))
-	tab_2.t2_3.t5.t5_1.dw_cpo.setitem(l,'documento',dw_terce_c.getitemstring(1,'documento'))
-	tab_2.t2_3.t5.t5_1.dw_cpo.setitem(l,'cod_rel',tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemstring(l,'cod_rel'))
-	tab_2.t2_3.t5.t5_1.dw_cpo.setitem(l,'tbruto', tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l,'tbruto'))
-	tab_2.t2_3.t5.t5_1.dw_cpo.setitem(l,'val_bruto', tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l,'tbruto'))
-	tab_2.t2_3.t5.t5_1.dw_cpo.setitem(l,'tneto',tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l,'tneto'))
+	
+	fc =tab_2.t2_3.t5.t5_1.dw_cpo.find( "cod_rel='"+tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemstring(l,'cod_rel')+"'", 1, tab_2.t2_3.t5.t5_1.dw_cpo.rowCount())
+	if fc=0 then
+		fc = tab_2.t2_3.t5.t5_1.dw_cpo.insertrow(0)
+		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'clugar',is_clug_rad)
+		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'coddoc',is_cdoc)
+		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'item',l)
+		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'tipodoc',dw_terce_c.getitemstring(1,'tipodoc'))
+		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'documento',dw_terce_c.getitemstring(1,'documento'))
+		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'cod_rel',tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemstring(l,'cod_rel'))
+		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'tbruto', tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l,'tbruto'))
+		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'val_bruto', tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l,'tbruto'))
+		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'tneto',tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l,'tneto'))
+	else
+		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'tbruto', tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l,'tbruto')+tab_2.t2_3.t5.t5_1.dw_cpo.getitemnumber(fc,'tbruto'))
+		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'val_bruto', tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l,'tbruto')+tab_2.t2_3.t5.t5_1.dw_cpo.getitemnumber(fc,'val_bruto'))
+		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'tneto',tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l,'tneto')+tab_2.t2_3.t5.t5_1.dw_cpo.getitemnumber(fc,'tneto'))	
+	end if
+	
 
 	st_xa_antis st_ppc
 	st_ppc.dw_cpo=tab_2.t2_1.tab_1.tabconp.dw_concep_cont

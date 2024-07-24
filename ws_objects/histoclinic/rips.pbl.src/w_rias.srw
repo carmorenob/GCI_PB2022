@@ -2156,7 +2156,8 @@ if dw_trae.rowcount()>=0 and (p_reserva='0' or p_reserva='1') then
 						w_principal.SetMicroHelp ( 'Copiando '+cual+'(reg. '+string(j)+' de '+string(filas)+')' )
 						if p_decual='emp' then tab_2.tp2_1.t1.tp1.barra.position= 25 + Int((j * 75)/filas)
 					next
-					nom_arch+=right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
+					//nom_arch+=right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
+					nom_arch+=right(fill('0',6)+string(p_nradica),6)
 					docname=nom_arch
 					w_principal.SetMicroHelp ( 'Exportando Archivo '+cual )
 					if p_decual='emp' then
@@ -2284,7 +2285,8 @@ if dw_trae.rowcount()>=0 and (p_reserva='0' or p_reserva='1') then
 			w_principal.SetMicroHelp ( 'Copiando AF reg. '+string(j)+' de '+string(filas) )
 		next
 		num_af=dw_export.rowcount()
-		nom_arch="AF"+right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
+		//nom_arch="AF"+right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
+		nom_arch="AF"+right(fill('0',6)+string(p_nradica),6)
 		docname=nom_arch
 		if dw_export.rowcount()>0 then
 			w_principal.SetMicroHelp ( 'Exportando AF' )
@@ -2333,7 +2335,8 @@ if dw_trae.rowcount()>=0 and (p_reserva='0' or p_reserva='1') then
 		dw_trae.settransobject(sqlca)
 		dw_trae.reset()
 		dw_trae.retrieve(p_nradica,fecha_fin,p_clug_rad,p_tipo_rad)
-		nom_arch="US"+right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
+		//nom_arch="US"+right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
+		nom_arch="US"+right(fill('0',6)+string(p_nradica),6)
 		docname=nom_arch
 		dw_export.reset()
 		filas=dw_trae.rowcount()
@@ -2443,7 +2446,8 @@ if dw_trae.rowcount()>=0 and (p_reserva='0' or p_reserva='1') then
 			end if
 		next
 		w_principal.SetMicroHelp ( 'Exportando CT' )
-		nom_arch="CT"+right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
+		//nom_arch="CT"+right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
+		nom_arch="CT"+right(fill('0',6)+string(p_nradica),6)
 		docname=nom_arch
 		if dw_export.rowcount()>0 then
 			if p_decual='emp' then
@@ -3075,6 +3079,22 @@ destroy(this.fac)
 destroy(this.tmod)
 destroy(this.tp2)
 end on
+
+event selectionchanged;string ls_objetor,ls_lug,ls_tipo
+double ldb_nrad
+
+ldb_nrad=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'num_radicacion')
+ls_lug=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'clugar')
+ls_tipo=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'tipo')
+
+If newindex=2 then
+	tab_2.tp2_1.t1.fac.dw_fact.retrieve(ldb_nrad,ls_lug,ls_tipo)
+end if
+
+If newindex=2 then
+	tab_2.tp2_1.t1.tmod.dw_mod.retrieve(ldb_nrad,ls_lug,ls_tipo)
+end if
+end event
 
 type tp1 from userobject within t1
 event create ( )
@@ -5525,8 +5545,8 @@ ls_tipo=getitemstring(getrow(),'tipo')
 tab_2.tp2_1.tab_1.tp_p.tab_3.det.dw_det.retrieve(ldb_nrad,ls_lug,ls_tipo)
 tab_2.tp2_1.tab_1.tp_p.tab_3.nota.dw_nc.retrieve(ldb_nrad,ls_lug,ls_tipo)
 tab_2.tp2_1.t1.tp2.dw_act_final.retrieve(ldb_nrad,ls_lug,ls_tipo)
-tab_2.tp2_1.t1.fac.dw_fact.retrieve(ldb_nrad,ls_lug,ls_tipo)
-tab_2.tp2_1.t1.tmod.dw_mod.retrieve(ldb_nrad,ls_lug,ls_tipo)
+//tab_2.tp2_1.t1.fac.dw_fact.retrieve(ldb_nrad,ls_lug,ls_tipo)
+//tab_2.tp2_1.t1.tmod.dw_mod.retrieve(ldb_nrad,ls_lug,ls_tipo)
 
 select objeto into :ls_objetor from ripsradica where num_radicacion=:ldb_nrad and clugar=:ls_lug and tipo=:ls_tipo;
 
@@ -5672,9 +5692,13 @@ if is_elec='2' then
 	if tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'estado_dian')<>'1' then return
 	if tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'file_name_fact')='' or isnull(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'file_name_fact')) then return
 	
-	u_eleccc.of_enviar_new_correo(num_radica,clugar_rad,tipo_rad,0,'',tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'file_name_fact'),'C')
+	if u_eleccc.of_enviar_new_correo(num_radica,clugar_rad,tipo_rad,0,'',tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'file_name_fact'),'C')=-1 then
+		messagebox('','Proceso con errores')
+	else
+		messagebox('','Proceso Finalizado')
+	end if
 	destroy u_eleccc
-	messagebox('','Proceso Finalizado')
+
 else
 	messagebox('','No hay parametro Habilitado')
 end if
@@ -5823,7 +5847,9 @@ event clicked;if tag='1' then
 	if f_permiso_boton(this,'RA')=0 then return
 end if
 if isnull(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"estado")) then 
-	open(w_anula_radica)
+	if tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"contabil")<>'C' then
+		open(w_anula_radica)
+	end if
 end if	
 end event
 
@@ -5932,6 +5958,7 @@ integer height = 520
 integer taborder = 41
 string title = "none"
 string dataobject = "dw_contratos_pa_rias"
+boolean hscrollbar = true
 boolean livescroll = true
 borderstyle borderstyle = stylelowered!
 end type
@@ -6051,6 +6078,7 @@ string facename = "Tahoma"
 boolean originalsize = true
 string picturename = "print2.gif"
 alignment htextalign = left!
+string powertiptext = "Imprime Nota"
 end type
 
 event clicked;long ldb_fila
@@ -6109,7 +6137,7 @@ boolean originalsize = true
 string picturename = "dian_zip.gif"
 string disabledname = "d_dian_zip.gif"
 alignment htextalign = left!
-string powertiptext = "Envio COntenedor"
+string powertiptext = "Envio Contenedor"
 end type
 
 event clicked;////////ELECTRONICA	
@@ -6322,9 +6350,9 @@ pb_gnota.enabled=true
 end event
 
 type dw_nc from datawindow within nota
-integer x = 50
+integer x = 27
 integer y = 20
-integer width = 2482
+integer width = 2505
 integer height = 536
 integer taborder = 190
 string title = "none"

@@ -372,8 +372,17 @@ boolean inserto,lbn_si_datos
 uo_datastore ds_result
 ds_result=create uo_datastore
 
-ds_result.dataobject='dr_result'
+if g_motor='postgres' then
+	ds_result.dataobject='dr_result_postgres'
+end if
+if g_motor='anywhere' then
+	ds_result.dataobject='dr_result'
+end if
+if g_motor='sql' then
+	ds_result.dataobject='dr_result_sqlserver'
+end if
 ds_result.settransobject(sqlca)
+
 
 string err
 integer fila

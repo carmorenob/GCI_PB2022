@@ -389,6 +389,7 @@ if donde=0 then
 		dw_dosis.setitem(fila,"intervalo",dw_1.getitemnumber(j,'intervalo'))
 		dw_dosis.setitem(fila,"descripcion",dw_1.getitemstring(j,'descripcion'))
 		dw_dosis.setitem(fila,"profe",g_profe)
+		dw_dosis.setitem(fila,"clugar",clugar)		
 	next
 	if dw_dosis.update()<1 then
 		rollback;
@@ -510,7 +511,6 @@ If not isnull(conta) then
 	end if
 end if
 dw_dosis.deleterow(ld_fila)
-//if dw_dosis.update(true,false)=-1 then
 if dw_dosis.update()=-1 then
 	rollback;
 	dw_dosis.retrieve(histo,is_cod_vac)
@@ -580,6 +580,7 @@ Else
 			dw_dosis.setitem(fila,"intervalo",interv)
 			dw_dosis.setitem(fila,"descripcion",dw_1.getitemstring(j,'descripcion'))
 			dw_dosis.setitem(fila,"profe",g_profe)
+			dw_dosis.setitem(fila,"clugar",clugar)
 		end if
 	Next
 	if dw_dosis.update()<1 then
@@ -708,19 +709,22 @@ event doubleclicked;if dwo.name="dx" then
 end if
 end event
 
-event rowfocuschanged;if dw_dosis.rowcount()=0 then return
-if isnull(dw_dosis.getitemnumber(dw_dosis.getrow(),'nfact')) or dw_dosis.getitemnumber(dw_dosis.getrow(),'nfact')=0 then
+event rowfocuschanged;long fila
+fila=this.rowcount()
+if this.rowcount()<1 then return
+
+
+if isnull(dw_dosis.getitemnumber(fila,'nfact')) or dw_dosis.getitemnumber(fila,'nfact')=0 then
 	pb_4.enabled=true
 else
 	pb_4.enabled=false
 end if
 
-if isnull(dw_dosis.getitemnumber(dw_dosis.getrow(),'contador')) or dw_dosis.getitemnumber(dw_dosis.getrow(),'contador')=0 then
+if isnull(dw_dosis.getitemnumber(fila,'contador')) or dw_dosis.getitemnumber(fila,'contador')=0 then
 	pb_3.enabled=false
 else
 	pb_3.enabled=true
 end if
-
 
 end event
 

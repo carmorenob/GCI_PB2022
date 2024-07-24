@@ -15,15 +15,16 @@ table(column=(type=char(50) update=yes updatewhereclause=yes name=descripciongc 
  column=(type=char(1) updatewhereclause=yes name=imagen dbname="imagen" )
  column=(type=char(8190) updatewhereclause=yes name=codalmacen dbname="codalmacen" )
  column=(type=char(1) updatewhereclause=yes name=interfaz dbname="interfaz" )
+ column=(type=char(1) updatewhereclause=yes name=varios_fact dbname="varios_fact" )
  retrieve="SELECT 
 	areaadx.descripciongc, areaadx.codaadx, areaadx.tipoimpre, areaadx.coddoc, areaadx.clugar, 
 	areaadx.muestra, areaadx.codesp, areaadx.imagen, min(AREAADX_ALMACEN.codalmacen) as codalmacen,
-	areaadx.interfaz
+	areaadx.interfaz,areaadx.varios_fact
 FROM 
 	areaadx INNER JOIN AREAADX_ALMACEN ON areaadx.CODAADX = AREAADX_ALMACEN.CODAADX
 GROUP BY
 	areaadx.descripciongc, areaadx.codaadx, areaadx.tipoimpre, areaadx.coddoc, areaadx.clugar, 
-	areaadx.muestra, areaadx.codesp, areaadx.imagen,areaadx.interfaz
+	areaadx.muestra, areaadx.codesp, areaadx.imagen,areaadx.interfaz,areaadx.varios_fact
 " )
 column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="0" x="9" y="4" height="60" width="1225" format="[general]" html.valueishtml="0"  name=descripciongc visible="1" edit.limit=50 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 htmltable(border="1" )

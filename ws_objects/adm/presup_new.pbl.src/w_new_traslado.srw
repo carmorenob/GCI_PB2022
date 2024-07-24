@@ -131,6 +131,8 @@ type st_2 from w_docum_base1`st_2 within tp_2
 end type
 
 type pb_10 from w_docum_base1`pb_10 within tp_2
+integer width = 146
+integer height = 128
 end type
 
 type pb_2 from w_docum_base1`pb_2 within tp_2
@@ -235,13 +237,14 @@ end event
 type dw_rub from w_docum_base1`dw_rub within tp_2
 end type
 
-event dw_rub::itemchanged;call super::itemchanged;dec valor
+event dw_rub::itemchanged;call super::itemchanged;dec valor,ldb_saldoap
 
 valor=round(dec(data),i_dec_gral)
 if i_dec_gral=0 then
 	valor=long(valor/i_aprox_gral)*i_aprox_gral +i_aprox_gral*round((valor -long(valor/i_aprox_gral)*i_aprox_gral)/i_aprox_gral,0)
 end if
-if valor > getitemnumber(row,'saldo_apropi') then
+ldb_saldoap=round(dec(getitemnumber(row,'saldo_apropi')),i_dec_gral)
+if valor > ldb_saldoap then
 	settext('0')
 	setitem(row,'monto',0)
 	return 1

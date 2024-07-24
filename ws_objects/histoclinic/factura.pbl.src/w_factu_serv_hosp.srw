@@ -581,6 +581,7 @@ end type
 
 event clicked;string emp,cont,cod,tipo,tingres,autoriza,clug_soat,tdo,doc,sexo,codta,estrato,uf,cc
 string clug_hadm,soat,clug_his,via,tipo_cir,prof_cir,espe_cir,desproc,l_codarticulo,tipo_fac,fac_sincer
+string ls_coxig
 long edad,cons_soat,j,cuantos=0,canti,nh,nrn,donde,fila,contador,nserv,facturar,acto
 long va,hasta,k
 hasta= dw_serv_nofactu.rowcount()
@@ -648,6 +649,12 @@ for j=1 to dw_serv_nofactu.rowcount()
 	autoriza=dw_serv_nofactu.getitemstring(j,"nautoriza")
 	facturar=dw_serv_nofactu.getitemnumber(j,"facturar")
 	l_codarticulo=dw_serv_nofactu.getitemstring(j,"codarticulo")
+	if dw_serv_nofactu.getitemstring(j,'cod_oxig')='' or isnull(dw_serv_nofactu.getitemstring(j,'cod_oxig')) then 
+		setnull(ls_coxig)
+	else
+		ls_coxig=dw_serv_nofactu.getitemstring(j,'cod_oxig')
+	end if
+	if ls_coxig='' then setnull(ls_coxig)
 	fila=dw_serv_nofactu.getitemnumber(j,'fila')
 	if dw_ingres.getitemnumber(fila,'al_segun')=1 then
 		emp=dw_ingres.getitemstring(fila,'segrespon')
@@ -712,7 +719,7 @@ for j=1 to dw_serv_nofactu.rowcount()
 		if w_factura.lf_cargar_a(cod,desproc,canti,'C',tingres,autoriza,emp,cont,cons_soat, &
 		  clug_soat,tipdoc,docu,edad,sexo,codta,estrato,uf,cc,'H',facturar,contador, &
 		  clug_his,nserv,prof_cir,espe_cir,via,acto,tipo_cir,dw_serv_nofactu.getitemnumber(j,"ncita"),dw_serv_nofactu.getitemstring(j,"clugar_cita"),dw_serv_nofactu.getitemnumber(j,"nservicio"),&
-		  dw_serv_nofactu.getitemnumber(j,"sec_cant"),0,'',0,0,'',0,dw_serv_nofactu.getitemstring(j,"anestesiologo"),dw_serv_nofactu.getitemstring(j,"auxiliarqx"),0,0,0,l_codarticulo,tipo_fac,0,'','',0,fac_sincer,'')=-1 then
+		  dw_serv_nofactu.getitemnumber(j,"sec_cant"),0,'',0,0,'',0,dw_serv_nofactu.getitemstring(j,"anestesiologo"),dw_serv_nofactu.getitemstring(j,"auxiliarqx"),0,0,0,l_codarticulo,tipo_fac,0,'','',0,fac_sincer,'',ls_coxig)=-1 then
 			w_factura.blanquea()
 			close(parent)
 			return
@@ -721,7 +728,7 @@ for j=1 to dw_serv_nofactu.rowcount()
 		if w_factura.lf_cargar_a(cod,desproc,canti,'M',tingres,autoriza,emp,cont,cons_soat, &
 		  clug_soat,tipdoc,docu,edad,sexo,codta,estrato,uf,cc,'H',facturar,contador, &
 		  clug_his,nserv,'','','',0,'',0,'',0,&
-		  0,0,'',0,0,'',0,'','!',dw_serv_nofactu.getitemnumber(j,"nro_insumo"),0,0,l_codarticulo,tipo_fac,0,'','',0,fac_sincer,'')=-1 then
+		  0,0,'',0,0,'',0,'','!',dw_serv_nofactu.getitemnumber(j,"nro_insumo"),0,0,l_codarticulo,tipo_fac,0,'','',0,fac_sincer,'',ls_coxig)=-1 then
 			w_factura.blanquea()
 			close(parent)
 			return
@@ -1127,7 +1134,7 @@ event itemchanged;choose case getcolumnname()
 			tingre=getitemstring(getrow(),'codtingre')
 			SELECT Min(ContratoDet.CodManual) into :manual
 			FROM Planes INNER JOIN ContratoDet ON Planes.CodPlan = ContratoDet.Cplan
-			WHERE Planes.es_medica='0' AND ContratoDet.CEmp=:emp AND ContratoDet.CContrato=:cont and ContratoDet.CodTIngre=:tingre;
+			WHERE ((Planes.es_medica='0') AND (ContratoDet.CEmp=:emp) AND (ContratoDet.CContrato=:cont) and (ContratoDet.CodTIngre=:tingre));
 			//dw_cobra.retrieve(manual,tingre)
 			if not isnull(getitemnumber(getrow(),"consec_soat")) then
 				pb_soat.enabled=true

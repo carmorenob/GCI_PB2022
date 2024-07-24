@@ -615,8 +615,8 @@ end event
 
 type pb_borra_rta from picturebutton within w_respu_glosas
 string tag = "Elimina respuesta total"
-integer x = 3982
-integer y = 116
+integer x = 3977
+integer y = 52
 integer width = 146
 integer height = 128
 integer taborder = 60

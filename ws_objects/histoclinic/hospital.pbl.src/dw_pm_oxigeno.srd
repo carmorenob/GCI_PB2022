@@ -5,10 +5,12 @@ header(height=0 color="536870912" transparency="0" gradient.color="8421504" grad
 summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 detail(height=68 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
-table(column=(type=char(150) update=yes updatewhereclause=yes name=des_oxig dbname="pm_oxigeno.des_oxig" dbalias=".des_oxig" )
- column=(type=char(2) update=yes updatewhereclause=yes key=yes name=cod_oxig dbname="pm_oxigeno.cod_oxig" dbalias=".cod_oxig" )
+table(column=(type=char(150) update=yes updatewhereclause=yes name=des_oxig dbname="pm_oxigeno.des_oxig" )
+ column=(type=char(2) update=yes updatewhereclause=yes key=yes name=cod_oxig dbname="pm_oxigeno.cod_oxig" )
+ column=(type=number updatewhereclause=yes name=factor_iss dbname="pm_oxigeno.factor_iss" )
+ column=(type=number updatewhereclause=yes name=factor_soat dbname="pm_oxigeno.factor_soat" )
  retrieve="SELECT 
-	des_oxig,cod_oxig  
+	des_oxig,cod_oxig,factor_iss, factor_soat
 FROM 
 	pm_oxigeno  
 WHERE 

@@ -208,14 +208,15 @@ if ls_tiporad='F' and dw_1.getitemstring(1,'estado_dian')='1' and  isnull(dw_1.g
 		 (((ripsradica_notas.num_radicacion)=:ldb_numradica) AND ((ripsradica_notas.clugar)=:ls_clugarrad) 
 		  AND ((ripsradica_notas.tipo)=:ls_tiporad));
 
-	INSERT INTO ripsradica_notas ( num_radicacion, clugar, tipo, tipo_nota, nro_nota, fecha_nota, valor_nota,valor_capita, valor_evento, cod_usuario,contabil )
+	INSERT INTO ripsradica_notas ( num_radicacion, clugar, tipo, tipo_nota, nro_nota, fecha_nota, valor_nota,valor_capita, valor_evento, cod_usuario,contabil,motivo_nota )
 	SELECT 
 		ripsradica.num_radicacion, ripsradica.clugar, ripsradica.tipo, 'C' AS TIPO, 
 		:li_nnota as nro_nota ,ahora(), 
 		(ripsradica.valor_capita - ripsradica.valor_ncr + ripsradica.valor_ndb),
 		ripsradica.valor_capita, 
 		ripsradica.valor_evento,
-		:usuario,'P'
+		:usuario,'P',
+		:ls_anula
 	FROM 
 		ripsradica
 	WHERE 

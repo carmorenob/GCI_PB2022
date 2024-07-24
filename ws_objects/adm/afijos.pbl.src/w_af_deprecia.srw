@@ -70,7 +70,7 @@ type dw_alm from datawindow within w_af_deprecia
 end type
 type cb_tod from checkbox within w_af_deprecia
 end type
-type dw_1 from datawindow within w_af_deprecia
+type dw_lug from datawindow within w_af_deprecia
 end type
 end forward
 
@@ -102,13 +102,13 @@ dw_asig dw_asig
 st_5 st_5
 dw_alm dw_alm
 cb_tod cb_tod
-dw_1 dw_1
+dw_lug dw_lug
 end type
 global w_af_deprecia w_af_deprecia
 
 type variables
 Datawindow dw_fuente
-DataWindowChild dwc_ccosto,dwc_alm 
+DataWindowChild dwc_ccosto,dwc_alm,dwc_lugar
 string codDocumento
 boolean err_retrieve
 
@@ -650,7 +650,7 @@ this.dw_asig=create dw_asig
 this.st_5=create st_5
 this.dw_alm=create dw_alm
 this.cb_tod=create cb_tod
-this.dw_1=create dw_1
+this.dw_lug=create dw_lug
 iCurrent=UpperBound(this.Control)
 this.Control[iCurrent+1]=this.pb_cerrar
 this.Control[iCurrent+2]=this.gb_1
@@ -670,7 +670,7 @@ this.Control[iCurrent+15]=this.dw_asig
 this.Control[iCurrent+16]=this.st_5
 this.Control[iCurrent+17]=this.dw_alm
 this.Control[iCurrent+18]=this.cb_tod
-this.Control[iCurrent+19]=this.dw_1
+this.Control[iCurrent+19]=this.dw_lug
 end on
 
 on w_af_deprecia.destroy
@@ -693,7 +693,7 @@ destroy(this.dw_asig)
 destroy(this.st_5)
 destroy(this.dw_alm)
 destroy(this.cb_tod)
-destroy(this.dw_1)
+destroy(this.dw_lug)
 end on
 
 event open;t1.p1.dw_respon.SetTransObject(SQLCA)
@@ -1262,12 +1262,13 @@ long textcolor = 33554432
 borderstyle borderstyle = stylelowered!
 string mask = "0"
 boolean spin = true
+double increment = 1
 string minmax = "2000~~2050"
 end type
 
 type ddlb_1 from dropdownlistbox within w_af_deprecia
 integer x = 3941
-integer y = 356
+integer y = 300
 integer width = 434
 integer height = 352
 integer taborder = 70
@@ -1545,7 +1546,7 @@ else
 end If
 end event
 
-type dw_1 from datawindow within w_af_deprecia
+type dw_lug from datawindow within w_af_deprecia
 integer x = 41
 integer y = 32
 integer width = 1326
@@ -1560,16 +1561,23 @@ end type
 
 event constructor;settransobject(sqlca)
 insertrow(1)
-setitem(1,1,clugar)
-dw_alm.SetTransObject(SQLCA)
+dw_lug.GetChild('codlugar', dwc_lugar)
+dwc_lugar.settransobject(sqlca)
+
 dw_alm.GetChild('codalmacen', dwc_alm)
 dwc_alm.SetTransObject(SQLCA)
-if dwc_alm.Retrieve(usuario,'%',clugar) = 0 then
-	dw_alm.setitem(1,'codalmacen','')
+if dwc_lugar.retrieve(USUARIO)= 0 then
 	messageBox('Aviso','El usuario ' + usuario + ' no tiene ningun almacen a cargo')
-	dw_alm.InsertRow(0)
+	dwc_alm.InsertRow(1)
+else
+	setitem(1,1,clugar)
+	if dwc_alm.Retrieve(usuario,'%',clugar) = 0 then
+		dw_alm.setitem(1,'codalmacen','')
+		messageBox('Aviso','El usuario ' + usuario + ' no tiene ningun almacen a cargo')
+		dw_alm.InsertRow(0)
+	end if
+	dw_alm.InsertRow(1)
 end if
-dw_alm.InsertRow(1)
 end event
 
 event itemchanged;string ls_clugar

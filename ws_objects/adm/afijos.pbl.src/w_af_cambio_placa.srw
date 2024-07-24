@@ -257,15 +257,15 @@ if dw_comp.Update() = -1 then
 end if
 
 if g_motor='postgres' then
-	UPDATE AF_REG_COMPO SET AF_REG_COMPO.Placa = :nplaca||'-'||convert(varchar(4),num_compo)
+	UPDATE AF_REG_COMPO SET placa = :nplaca||'-'||CAST(num_compo as varchar(4))
 	WHERE 
-		(((AF_REG_COMPO.CODDOCU)=:cd) AND ((AF_REG_COMPO.clugar)=:cl) AND 
-			((AF_REG_COMPO.NUMDOC)=:nd) AND ((AF_REG_COMPO.ITEM)=:it));
+		(((AF_REG_COMPO.CODDOCU)=:cd) AND ((AF_REG_COMPO.clugar)=:cl) 
+		AND ((AF_REG_COMPO.NUMDOC)=:nd) AND ((AF_REG_COMPO.ITEM)=:it));
 else
-	UPDATE AF_REG_COMPO SET AF_REG_COMPO.Placa = :nplaca+'-'+convert(varchar(4),num_compo)
+	UPDATE AF_REG_COMPO SET AF_REG_COMPO.placa = :nplaca+'-'+convert(varchar(4),num_compo)
 	WHERE 
-		(((AF_REG_COMPO.CODDOCU)=:cd) AND ((AF_REG_COMPO.clugar)=:cl) AND 
-			((AF_REG_COMPO.NUMDOC)=:nd) AND ((AF_REG_COMPO.ITEM)=:it));
+		(((AF_REG_COMPO.CODDOCU)=:cd) AND ((AF_REG_COMPO.clugar)=:cl) 
+		AND ((AF_REG_COMPO.NUMDOC)=:nd) AND ((AF_REG_COMPO.ITEM)=:it));
 end if
 		
 if SQLCA.SQLCode = -1 then

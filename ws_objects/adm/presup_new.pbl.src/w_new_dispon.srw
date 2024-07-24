@@ -290,6 +290,8 @@ destroy(this.pb_3)
 end on
 
 type dw_intf from w_docum_base1`dw_intf within tp_1
+integer width = 3031
+string dataobject = "dw_intf_ppto"
 end type
 
 type tp_2 from w_docum_base1`tp_2 within tb_1
@@ -299,6 +301,8 @@ type st_2 from w_docum_base1`st_2 within tp_2
 end type
 
 type pb_10 from w_docum_base1`pb_10 within tp_2
+integer width = 146
+integer height = 128
 end type
 
 type pb_2 from w_docum_base1`pb_2 within tp_2
@@ -561,8 +565,8 @@ type dw_cont from w_docum_base1`dw_cont within w_new_dispon
 end type
 
 type pb_intf from picturebutton within tp_1
-integer x = 2926
-integer y = 40
+integer x = 3090
+integer y = 32
 integer width = 146
 integer height = 128
 integer taborder = 32
@@ -630,8 +634,8 @@ end choose
 end event
 
 type pb_3 from picturebutton within tp_1
-integer x = 2930
-integer y = 184
+integer x = 3095
+integer y = 176
 integer width = 146
 integer height = 128
 integer taborder = 60

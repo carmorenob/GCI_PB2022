@@ -152,9 +152,9 @@ type dw_dfacts2 from datawindow within tp_3
 end type
 type dw_obj_sitem from datawindow within tp_3
 end type
-type dw_sitem from datawindow within tp_3
-end type
 type dw_item_glos from datawindow within tp_3
+end type
+type dw_sitem from datawindow within tp_3
 end type
 type tp_3 from userobject within tab_1
 st_11 st_11
@@ -165,8 +165,8 @@ st_6 st_6
 dw_dprocs dw_dprocs
 dw_dfacts2 dw_dfacts2
 dw_obj_sitem dw_obj_sitem
-dw_sitem dw_sitem
 dw_item_glos dw_item_glos
+dw_sitem dw_sitem
 end type
 type tab_1 from tab within w_maneja_glosas
 tp_1 tp_1
@@ -1033,7 +1033,8 @@ event open;this.postevent("cargar")
 end event
 
 event resize;tab_1.resize((newwidth - 50) , (newheight * 0.66))
-tab_1.tp_1.dw_facts.resize((newwidth -150),(tab_1.height *0.45))
+//tab_1.tp_1.dw_facts.resize((newwidth -150),(tab_1.height *0.45))
+tab_1.tp_1.dw_facts.resize((newwidth -150),(tab_1.height -450))
 tab_1.tp_1.dw_fac_glos.resize((newwidth *0.75),(tab_1.height *0.30))
 tab_1.tp_1.pb_of.x=tab_1.tp_1.dw_fac_glos.x+tab_1.tp_1.dw_fac_glos.width+30
 tab_1.tp_1.pb_7.x=tab_1.tp_1.dw_fac_glos.x+tab_1.tp_1.dw_fac_glos.width+30
@@ -1306,9 +1307,18 @@ if cuenta > 0 then
 else
 	if MessageBox('Atención','Está seguro de anular la objeción '+string(nd)+'?',Question!,yesno!) = 2 then Return 0
 end if
+
+st_xa_anular st_anula
+st_anula.tipo='CA'
+openwithparm (w_motiv_anula,st_anula)
+st_anula=message.powerobjectparm
+if not isValid(st_anula) then return -1
+
 dw_histo.SetItem(dw_histo.GetRow(),'estado','A')
 dw_histo.SetItem(dw_histo.GetRow(),'usu_anula',usuario)
 dw_histo.SetItem(dw_histo.GetRow(),'fecha_anula',today())
+dw_histo.SetItem(dw_histo.GetRow(),'motiv_anula',st_anula.observacion)
+dw_histo.SetItem(dw_histo.GetRow(),'cod_anula',st_anula.motivo)
 dw_deta.SetItem(1,'estado','A')
 if dw_histo.Update() = - 1 then
 	Rollback;
@@ -1406,7 +1416,7 @@ integer height = 1448
 long backcolor = 67108864
 string text = "Facturas"
 long tabtextcolor = 33554432
-string picturename = "factura.ico"
+string picturename = "qr.ico"
 long picturemaskcolor = 536870912
 string powertiptext = "Facturas Objetadas"
 dw_encartera dw_encartera
@@ -1617,6 +1627,7 @@ string text = "Consecutivo"
 end type
 
 type st_9 from statictext within tp_1
+boolean visible = false
 integer x = 18
 integer y = 888
 integer width = 855
@@ -1634,6 +1645,7 @@ boolean focusrectangle = false
 end type
 
 type pb_7 from picturebutton within tp_1
+boolean visible = false
 integer x = 4695
 integer y = 1092
 integer width = 146
@@ -1662,6 +1674,7 @@ end if
 end event
 
 type pb_of from picturebutton within tp_1
+boolean visible = false
 integer x = 4695
 integer y = 952
 integer width = 146
@@ -1707,12 +1720,12 @@ end event
 type dw_fac_glos from datawindow within tp_1
 event type integer p_itemchanged ( integer p_fila )
 event porcentajes ( )
+boolean visible = false
 integer x = 14
 integer y = 952
 integer width = 4599
 integer height = 480
 integer taborder = 50
-string title = "none"
 string dataobject = "dw_glos_cpo_det"
 boolean hscrollbar = true
 boolean vscrollbar = true
@@ -2525,6 +2538,7 @@ Return donde
 end event
 
 type dw_obj_fact from datawindow within tp_1
+boolean visible = false
 integer x = 4905
 integer y = 920
 integer width = 1088
@@ -2562,7 +2576,7 @@ type dw_facts from datawindow within tp_1
 event p_itemchanged ( )
 integer y = 152
 integer width = 5993
-integer height = 724
+integer height = 1292
 integer taborder = 30
 string title = "none"
 string dataobject = "dw_glos_cpo"
@@ -2756,7 +2770,7 @@ integer height = 1448
 long backcolor = 67108864
 string text = "Procedimientos"
 long tabtextcolor = 33554432
-string picturename = "bisturi.ico"
+string picturename = "dev_med.ico"
 long picturemaskcolor = 536870912
 string powertiptext = "Detalle de la Factura"
 rb_o rb_o
@@ -3554,7 +3568,7 @@ integer height = 1448
 long backcolor = 67108864
 string text = "Items del Proc."
 long tabtextcolor = 33554432
-string picturename = "buscar.ico"
+string picturename = "bisturi.ico"
 long picturemaskcolor = 536870912
 string powertiptext = "Subdetalle del Procedimiento"
 st_11 st_11
@@ -3565,8 +3579,8 @@ st_6 st_6
 dw_dprocs dw_dprocs
 dw_dfacts2 dw_dfacts2
 dw_obj_sitem dw_obj_sitem
-dw_sitem dw_sitem
 dw_item_glos dw_item_glos
+dw_sitem dw_sitem
 end type
 
 on tp_3.create
@@ -3578,8 +3592,8 @@ this.st_6=create st_6
 this.dw_dprocs=create dw_dprocs
 this.dw_dfacts2=create dw_dfacts2
 this.dw_obj_sitem=create dw_obj_sitem
-this.dw_sitem=create dw_sitem
 this.dw_item_glos=create dw_item_glos
+this.dw_sitem=create dw_sitem
 this.Control[]={this.st_11,&
 this.pb_11,&
 this.pb_oi,&
@@ -3588,8 +3602,8 @@ this.st_6,&
 this.dw_dprocs,&
 this.dw_dfacts2,&
 this.dw_obj_sitem,&
-this.dw_sitem,&
-this.dw_item_glos}
+this.dw_item_glos,&
+this.dw_sitem}
 end on
 
 on tp_3.destroy
@@ -3601,8 +3615,8 @@ destroy(this.st_6)
 destroy(this.dw_dprocs)
 destroy(this.dw_dfacts2)
 destroy(this.dw_obj_sitem)
-destroy(this.dw_sitem)
 destroy(this.dw_item_glos)
+destroy(this.dw_sitem)
 end on
 
 type st_11 from statictext within tp_3
@@ -3823,6 +3837,182 @@ end event
 event losefocus;triggerevent(itemchanged!)
 end event
 
+type dw_item_glos from datawindow within tp_3
+event type integer p_itemchanged ( integer p_fila )
+event porcentajes ( )
+integer x = 14
+integer y = 928
+integer width = 4599
+integer height = 484
+integer taborder = 60
+boolean bringtotop = true
+string title = "none"
+string dataobject = "dw_glos_item_det"
+boolean hscrollbar = true
+boolean vscrollbar = true
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event type integer p_itemchanged(integer p_fila);accepttext()
+if rowcount() > 0 then
+	long f
+	decimal nvalor
+	f = dw_sitem.GetRow()
+	nvalor = f_sum_obj_item(dw_sitem.GetItemNumber(f,'cnf'),dw_sitem.GetItemString(f,'clugar_sfac'),dw_sitem.GetItemNumber(f,'nitem'),dw_sitem.GetItemNumber(f,'ndeta_sfac'))
+	if nvalor > dw_sitem.GetItemNumber(dw_sitem.GetRow(),'vemp') then
+		if p_fila > 0 then 
+			SetItem(p_fila,'valor_objecion',0)
+			SetItem(p_fila,'porcen',0)
+			Post Event p_itemchanged(p_fila)
+		end if
+		MessageBox('Atención','El valor de la objeción excede el valor total del item')
+		Return -1
+	end if
+	dw_sitem.SetItem(dw_sitem.GetRow(),'valor_objecion', nvalor)
+	nvalor = f_sum_obj_proc(dw_sitem.GetItemNumber(f,'cnf'),dw_sitem.GetItemString(f,'clugar_sfac'),dw_sitem.GetItemString(f,'tipo_sfac'),dw_sitem.GetItemNumber(f,'nitem'))
+	if nvalor > tab_1.tp_2.dw_procs.GetItemNumber(tab_1.tp_2.dw_procs.GetRow(),'vemp') then
+		if p_fila > 0 then 
+			SetItem(p_fila,'valor_objecion',0)
+			SetItem(p_fila,'porcen',0)
+			Post Event p_itemchanged(p_fila)
+		end if
+		MessageBox('Atención','El valor de la objeción excede el valor total del procedimiento')
+		Return -1
+	end if
+	tab_1.tp_2.dw_procs.SetItem(tab_1.tp_2.dw_procs.GetRow(),'valor_objecion',nvalor)
+	nvalor = f_sum_obj_fact(dw_sitem.GetItemNumber(f,'cnf'),dw_sitem.GetItemString(f,'clugar_sfac'),dw_sitem.GetItemString(f,'tipo_sfac'))
+	if nvalor > tab_1.tp_1.dw_facts.GetItemNumber(tab_1.tp_1.dw_facts.GetRow(),'vtemp') then
+		if p_fila > 0 then 
+			SetItem(p_fila,'valor_objecion',0)
+			SetItem(p_fila,'porcen',0)
+			Post Event p_itemchanged(p_fila)
+		end if
+		MessageBox('Atención','El valor de la objeción excede el valor total de la factura ' + string(tab_1.tp_1.dw_facts.GetItemNumber(tab_1.tp_1.dw_facts.GetRow(),'nfact')))
+		Return -1
+	end if
+	tab_1.tp_1.dw_facts.SetItem(tab_1.tp_1.dw_facts.GetRow(),'valor_objecion',nvalor)
+	dw_deta.setitem(1,'valor',tab_1.tp_1.dw_facts.getItemNumber(1,'total'))
+	dw_histo.setitem(dw_histo.getrow(),'valor',tab_1.tp_1.dw_facts.getItemNumber(1,'total'))
+end if
+Return 0
+
+
+end event
+
+event porcentajes();long i
+for i = 1 to RowCount()
+	SetItem(i,'porcen',round(GetItemNumber(i,'valor_objecion')/dw_sitem.GetItemNumber(dw_sitem.GetRow(),'vemp')*100,i_dec_gral_car))
+	SetItem(i,'vtemp',dw_sitem.GetItemNumber(dw_sitem.GetRow(),'vemp'))
+next
+
+end event
+
+event constructor;setTransObject(SQLCA)
+getchild('con_espe',idw_espe3)
+idw_espe3.settransobject(sqlca)
+idw_espe3.retrieve('%')
+getchild('cod_objecion',idw_obj3)
+idw_obj3.settransobject(sqlca)
+idw_obj3.retrieve('%','%')
+//idw_obj3.InsertRow(1)
+getchild('nombre',idw_usuresp3)
+idw_usuresp3.settransobject(sqlca)
+
+end event
+
+event dberror;rollback;
+st_error i_st
+i_st.ds_nombre=classname()
+i_st.msgerror='SqlDbCode: '+string(sqldbcode)+'~r~n~r~nSINTAXIS:~r~n'+sqlsyntax+'~r~n~r~nERROR:~r~n'+sqlerrtext
+openwithparm(w_error_ds,i_st)
+return 1
+end event
+
+event sqlpreview;string tipo
+
+if sqltype = PreviewSelect! then
+	tipo = 'Select'
+	i_operacion = ''
+elseif sqltype = PreviewInsert! then
+	tipo = 'Insert'
+elseif sqltype = PreviewDelete! then
+	tipo = 'Delete'
+elseif sqltype = PreviewUpdate! then
+	tipo = 'Update'
+end if
+
+if i_operacion = 'Delete' then
+	if tipo = 'Delete' then
+		Return 0
+	else
+		Return 2
+	end if
+elseif i_operacion = 'Insert' then
+	if tipo = 'Insert' or tipo = 'Update' then
+		Return 0
+	else
+		Return 2
+	end if
+end if
+
+end event
+
+event itemchanged;string nulo
+setNull(nulo)
+choose case dwo.name
+	case 'con_gral'
+		setitem(row,'con_espe',nulo)
+		if idw_espe3.retrieve(data)=1 then
+			setitem(row,'con_espe',idw_espe2.getitemstring(idw_espe2.getrow(),'con_espe') )
+		end if
+	case 'con_espe'		
+		setitem(row,'cod_objecion',nulo)
+		if idw_obj3.retrieve(getitemstring(row,'con_gral'),data)=1 then
+			setitem(row,'cod_objecion',idw_obj3.getitemstring(idw_obj3.getrow(),1) )		
+		end if
+		
+	case 'cod_objecion'
+		setitem(row,'pertinente',idw_obj3.getitemstring(idw_obj3.getrow(),'pertinente'))
+		setitem(row,'respuesta_hasta',datetime(relativedate(date(getitemdatetime(row,'fecha_tramite')),idw_obj.getitemnumber(idw_obj.getrow(),'tiempo_resp'))))
+		setitem(row,'usu_responde',nulo)
+		setitem(row,'nombre',nulo)
+		if idw_usuresp3.retrieve(data)=1 then
+			setitem(row,'usu_responde',idw_usuresp3.getitemstring(1,'responsable'))
+			setitem(row,'nombre',idw_usuresp3.getitemstring(1,'nombre'))
+		end if
+	case 'nombre'
+		setitem(row,'usu_responde',idw_usuresp3.getitemstring(idw_usuresp3.getrow(),'responsable'))
+	case 'valor_objecion'
+		setitem(row,'porcen',round(dec(data)/dw_sitem.getitemnumber(dw_sitem.GetRow(),'vemp')*100,i_dec_gral_car))
+//		dw_sitem.SetItem(dw_sitem.GetRow(),'valor_objecion',GetItemNumber(1,'tobjecion'))
+//		tab_1.tp_2.dw_procs.SetItem(tab_1.tp_2.dw_procs.GetRow(),'valor_objecion',f_sum_obj_proc( tab_1.tp_2.dw_procs.GetItemNumber(tab_1.tp_2.dw_procs.GetRow(),'nfact'),tab_1.tp_2.dw_procs.GetItemString(tab_1.tp_2.dw_procs.GetRow(),'clugar_fact'),tab_1.tp_2.dw_procs.GetItemNumber(tab_1.tp_2.dw_procs.GetRow(),'nitem_fact')))
+//		tab_1.tp_1.dw_facts.SetItem(tab_1.tp_1.dw_facts.GetRow(),'valor_objecion',f_sum_obj_fact( tab_1.tp_2.dw_procs.GetItemNumber(tab_1.tp_1.dw_facts.GetRow(),'nfact'),tab_1.tp_1.dw_facts.GetItemString(tab_1.tp_1.dw_facts.GetRow(),'clugar_fact')))
+		post event p_itemchanged(row)
+	case 'porcen'
+		setitem(row,'valor_objecion',round(dw_sitem.getitemnumber(dw_sitem.GetRow(),'vemp')*dec(data)/100,i_dec_gral_car))
+		event itemchanged(row,object.valor_objecion,string(round(dw_sitem.getitemnumber(dw_sitem.GetRow(),'vemp')*dec(data)/100,i_dec_gral_car)))
+end choose
+i_cambio = true
+
+end event
+
+event rowfocuschanged;dw_obj_sitem.reset()
+if currentrow = 0 or rowCount() = 0 then Return
+dw_obj_sitem.insertrow(1)
+dw_obj_sitem.setitem(1,'detalle',getitemstring(getrow(),'objecion'))
+idw_usuresp3.retrieve(getitemstring(getrow(),'cod_objecion'))
+end event
+
+event losefocus;if rowCount() = 0 then Return 0
+if GetItemString(GetRow(),'estado') <> 'O' then Return 0
+if GetRow() >0 and (GetcolumnName() = 'valor_objecion' or GetcolumnName() = 'porcen' ) then 
+	if acceptText() = -1 then Return -1
+	event p_itemchanged(GetRow())
+end if
+
+end event
+
 type dw_sitem from datawindow within tp_3
 event type long borra_boton ( long row )
 event p_itemchanged ( )
@@ -4015,182 +4205,6 @@ st_dw.dw_cab=tab_1.tp_1.dw_facts
 st_dw.color_fondo=string(rgb(255,255,255))
 st_dw.solobuscar = TRUE
 openwithparm(w_funcion_dw,st_dw)
-
-end event
-
-type dw_item_glos from datawindow within tp_3
-event type integer p_itemchanged ( integer p_fila )
-event porcentajes ( )
-integer x = 14
-integer y = 928
-integer width = 4599
-integer height = 484
-integer taborder = 60
-boolean bringtotop = true
-string title = "none"
-string dataobject = "dw_glos_item_det"
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event type integer p_itemchanged(integer p_fila);accepttext()
-if rowcount() > 0 then
-	long f
-	decimal nvalor
-	f = dw_sitem.GetRow()
-	nvalor = f_sum_obj_item(dw_sitem.GetItemNumber(f,'cnf'),dw_sitem.GetItemString(f,'clugar_sfac'),dw_sitem.GetItemNumber(f,'nitem'),dw_sitem.GetItemNumber(f,'ndeta_sfac'))
-	if nvalor > dw_sitem.GetItemNumber(dw_sitem.GetRow(),'vemp') then
-		if p_fila > 0 then 
-			SetItem(p_fila,'valor_objecion',0)
-			SetItem(p_fila,'porcen',0)
-			Post Event p_itemchanged(p_fila)
-		end if
-		MessageBox('Atención','El valor de la objeción excede el valor total del item')
-		Return -1
-	end if
-	dw_sitem.SetItem(dw_sitem.GetRow(),'valor_objecion', nvalor)
-	nvalor = f_sum_obj_proc(dw_sitem.GetItemNumber(f,'cnf'),dw_sitem.GetItemString(f,'clugar_sfac'),dw_sitem.GetItemString(f,'tipo_sfac'),dw_sitem.GetItemNumber(f,'nitem'))
-	if nvalor > tab_1.tp_2.dw_procs.GetItemNumber(tab_1.tp_2.dw_procs.GetRow(),'vemp') then
-		if p_fila > 0 then 
-			SetItem(p_fila,'valor_objecion',0)
-			SetItem(p_fila,'porcen',0)
-			Post Event p_itemchanged(p_fila)
-		end if
-		MessageBox('Atención','El valor de la objeción excede el valor total del procedimiento')
-		Return -1
-	end if
-	tab_1.tp_2.dw_procs.SetItem(tab_1.tp_2.dw_procs.GetRow(),'valor_objecion',nvalor)
-	nvalor = f_sum_obj_fact(dw_sitem.GetItemNumber(f,'cnf'),dw_sitem.GetItemString(f,'clugar_sfac'),dw_sitem.GetItemString(f,'tipo_sfac'))
-	if nvalor > tab_1.tp_1.dw_facts.GetItemNumber(tab_1.tp_1.dw_facts.GetRow(),'vtemp') then
-		if p_fila > 0 then 
-			SetItem(p_fila,'valor_objecion',0)
-			SetItem(p_fila,'porcen',0)
-			Post Event p_itemchanged(p_fila)
-		end if
-		MessageBox('Atención','El valor de la objeción excede el valor total de la factura ' + string(tab_1.tp_1.dw_facts.GetItemNumber(tab_1.tp_1.dw_facts.GetRow(),'nfact')))
-		Return -1
-	end if
-	tab_1.tp_1.dw_facts.SetItem(tab_1.tp_1.dw_facts.GetRow(),'valor_objecion',nvalor)
-	dw_deta.setitem(1,'valor',tab_1.tp_1.dw_facts.getItemNumber(1,'total'))
-	dw_histo.setitem(dw_histo.getrow(),'valor',tab_1.tp_1.dw_facts.getItemNumber(1,'total'))
-end if
-Return 0
-
-
-end event
-
-event porcentajes();long i
-for i = 1 to RowCount()
-	SetItem(i,'porcen',round(GetItemNumber(i,'valor_objecion')/dw_sitem.GetItemNumber(dw_sitem.GetRow(),'vemp')*100,i_dec_gral_car))
-	SetItem(i,'vtemp',dw_sitem.GetItemNumber(dw_sitem.GetRow(),'vemp'))
-next
-
-end event
-
-event constructor;setTransObject(SQLCA)
-getchild('con_espe',idw_espe3)
-idw_espe3.settransobject(sqlca)
-idw_espe3.retrieve('%')
-getchild('cod_objecion',idw_obj3)
-idw_obj3.settransobject(sqlca)
-idw_obj3.retrieve('%','%')
-//idw_obj3.InsertRow(1)
-getchild('nombre',idw_usuresp3)
-idw_usuresp3.settransobject(sqlca)
-
-end event
-
-event dberror;rollback;
-st_error i_st
-i_st.ds_nombre=classname()
-i_st.msgerror='SqlDbCode: '+string(sqldbcode)+'~r~n~r~nSINTAXIS:~r~n'+sqlsyntax+'~r~n~r~nERROR:~r~n'+sqlerrtext
-openwithparm(w_error_ds,i_st)
-return 1
-end event
-
-event sqlpreview;string tipo
-
-if sqltype = PreviewSelect! then
-	tipo = 'Select'
-	i_operacion = ''
-elseif sqltype = PreviewInsert! then
-	tipo = 'Insert'
-elseif sqltype = PreviewDelete! then
-	tipo = 'Delete'
-elseif sqltype = PreviewUpdate! then
-	tipo = 'Update'
-end if
-
-if i_operacion = 'Delete' then
-	if tipo = 'Delete' then
-		Return 0
-	else
-		Return 2
-	end if
-elseif i_operacion = 'Insert' then
-	if tipo = 'Insert' or tipo = 'Update' then
-		Return 0
-	else
-		Return 2
-	end if
-end if
-
-end event
-
-event itemchanged;string nulo
-setNull(nulo)
-choose case dwo.name
-	case 'con_gral'
-		setitem(row,'con_espe',nulo)
-		if idw_espe3.retrieve(data)=1 then
-			setitem(row,'con_espe',idw_espe2.getitemstring(idw_espe2.getrow(),'con_espe') )
-		end if
-	case 'con_espe'		
-		setitem(row,'cod_objecion',nulo)
-		if idw_obj3.retrieve(getitemstring(row,'con_gral'),data)=1 then
-			setitem(row,'cod_objecion',idw_obj3.getitemstring(idw_obj3.getrow(),1) )		
-		end if
-		
-	case 'cod_objecion'
-		setitem(row,'pertinente',idw_obj3.getitemstring(idw_obj3.getrow(),'pertinente'))
-		setitem(row,'respuesta_hasta',datetime(relativedate(date(getitemdatetime(row,'fecha_tramite')),idw_obj.getitemnumber(idw_obj.getrow(),'tiempo_resp'))))
-		setitem(row,'usu_responde',nulo)
-		setitem(row,'nombre',nulo)
-		if idw_usuresp3.retrieve(data)=1 then
-			setitem(row,'usu_responde',idw_usuresp3.getitemstring(1,'responsable'))
-			setitem(row,'nombre',idw_usuresp3.getitemstring(1,'nombre'))
-		end if
-	case 'nombre'
-		setitem(row,'usu_responde',idw_usuresp3.getitemstring(idw_usuresp3.getrow(),'responsable'))
-	case 'valor_objecion'
-		setitem(row,'porcen',round(dec(data)/dw_sitem.getitemnumber(dw_sitem.GetRow(),'vemp')*100,i_dec_gral_car))
-//		dw_sitem.SetItem(dw_sitem.GetRow(),'valor_objecion',GetItemNumber(1,'tobjecion'))
-//		tab_1.tp_2.dw_procs.SetItem(tab_1.tp_2.dw_procs.GetRow(),'valor_objecion',f_sum_obj_proc( tab_1.tp_2.dw_procs.GetItemNumber(tab_1.tp_2.dw_procs.GetRow(),'nfact'),tab_1.tp_2.dw_procs.GetItemString(tab_1.tp_2.dw_procs.GetRow(),'clugar_fact'),tab_1.tp_2.dw_procs.GetItemNumber(tab_1.tp_2.dw_procs.GetRow(),'nitem_fact')))
-//		tab_1.tp_1.dw_facts.SetItem(tab_1.tp_1.dw_facts.GetRow(),'valor_objecion',f_sum_obj_fact( tab_1.tp_2.dw_procs.GetItemNumber(tab_1.tp_1.dw_facts.GetRow(),'nfact'),tab_1.tp_1.dw_facts.GetItemString(tab_1.tp_1.dw_facts.GetRow(),'clugar_fact')))
-		post event p_itemchanged(row)
-	case 'porcen'
-		setitem(row,'valor_objecion',round(dw_sitem.getitemnumber(dw_sitem.GetRow(),'vemp')*dec(data)/100,i_dec_gral_car))
-		event itemchanged(row,object.valor_objecion,string(round(dw_sitem.getitemnumber(dw_sitem.GetRow(),'vemp')*dec(data)/100,i_dec_gral_car)))
-end choose
-i_cambio = true
-
-end event
-
-event rowfocuschanged;dw_obj_sitem.reset()
-if currentrow = 0 or rowCount() = 0 then Return
-dw_obj_sitem.insertrow(1)
-dw_obj_sitem.setitem(1,'detalle',getitemstring(getrow(),'objecion'))
-idw_usuresp3.retrieve(getitemstring(getrow(),'cod_objecion'))
-end event
-
-event losefocus;if rowCount() = 0 then Return 0
-if GetItemString(GetRow(),'estado') <> 'O' then Return 0
-if GetRow() >0 and (GetcolumnName() = 'valor_objecion' or GetcolumnName() = 'porcen' ) then 
-	if acceptText() = -1 then Return -1
-	event p_itemchanged(GetRow())
-end if
 
 end event
 

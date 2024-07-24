@@ -3631,6 +3631,9 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
 long textcolor = 33554432
+boolean allowedit = true
+boolean hscrollbar = true
+boolean vscrollbar = true
 borderstyle borderstyle = stylelowered!
 end type
 
@@ -4025,7 +4028,7 @@ type ddlb_6 from dropdownlistbox within tabpage_8
 integer x = 9
 integer y = 136
 integer width = 850
-integer height = 400
+integer height = 188
 integer taborder = 60
 integer textsize = -8
 integer weight = 400
@@ -4034,6 +4037,9 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 long textcolor = 33554432
+boolean allowedit = true
+boolean hscrollbar = true
+boolean vscrollbar = true
 string item[] = {"SQLOLEDB"}
 borderstyle borderstyle = stylelowered!
 end type
@@ -4932,6 +4938,7 @@ string facename = "Tahoma"
 long textcolor = 33554432
 long backcolor = 16777215
 boolean sorted = false
+boolean vscrollbar = true
 string item[] = {"URGENCIAS","HOSPITALIZACIÓN","AMBULATORIO","UCI"}
 borderstyle borderstyle = stylelowered!
 end type
@@ -5080,6 +5087,8 @@ integer width = 1271
 integer height = 84
 integer taborder = 10
 string dataobject = "dw_combo_lugar"
+boolean hscrollbar = true
+boolean vscrollbar = true
 boolean border = false
 end type
 
@@ -5127,6 +5136,7 @@ integer height = 84
 integer taborder = 60
 string title = "none"
 string dataobject = "dw_profe_combo_corto"
+boolean vscrollbar = true
 boolean border = false
 boolean livescroll = true
 end type
@@ -5148,6 +5158,7 @@ integer height = 88
 integer taborder = 40
 string title = "none"
 string dataobject = "dw_area_peq"
+boolean vscrollbar = true
 boolean border = false
 boolean livescroll = true
 end type

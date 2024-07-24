@@ -220,8 +220,8 @@ for j = 1 to dw_1.rowcount()
 	f = w_maneja_glosas.tab_1.tp_2.pb_op.Event clicked()
 	dw_t.setitem(f,'valor_objecion',dw_1.getitemnumber(j,'valor_objecion'))
 	dw_t.setitem(f,'porcen',dw_1.getitemnumber(j,'porcen'))
-	dw_t.setitem(f,'cod_gral',dw_2.getitemstring(1,'cod_gral'))	
-	dw_t.setitem(f,'cod_espe',dw_2.getitemstring(1,'cod_espe'))	
+	dw_t.setitem(f,'con_gral',dw_2.getitemstring(1,'con_gral'))	
+	dw_t.setitem(f,'con_espe',dw_2.getitemstring(1,'con_espe'))	
 	dw_t.setitem(f,'cod_objecion',dw_2.getitemstring(1,1))	
 	dw_t.SetItem(f,'usu_responde',idw_usu.GetItemString(idw_usu.getrow(),'responsable'))
 	dw_t.SetItem(f,'nombre',idw_usu.GetItemString(idw_usu.getrow(),'nombre'))
@@ -343,6 +343,7 @@ choose case dwo.name
 		if idw_obj.retrieve(getitemstring(row,'con_gral'),data)=1 then
 			setitem(row,'cod_objecion',idw_obj.getitemstring(idw_obj.getrow(),1) )
 		end if	
+		idw_usu.Retrieve(GetItemString(1,1))
 	case 'cod_objecion'
 		idw_usu.Retrieve(GetItemString(1,1))
 end choose

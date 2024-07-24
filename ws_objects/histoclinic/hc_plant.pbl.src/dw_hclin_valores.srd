@@ -29,7 +29,6 @@ table(column=(type=number update=yes updatewhereclause=yes key=yes name=contador
  column=(type=char(50) update=yes updatewhereclause=yes name=inst2 dbname="inst2" )
  column=(type=char(50) update=yes updatewhereclause=yes name=inst3 dbname="inst3" )
  column=(type=char(50) update=yes updatewhereclause=yes name=inst4 dbname="inst4" )
- column=(type=char(1) update=yes updatewhereclause=yes name=migrado dbname="migrado" initial="1" )
  retrieve="  SELECT 
 	hclin_reg_valor.contador,   
 	 hclin_reg_valor.clugar,   
@@ -54,8 +53,7 @@ table(column=(type=number update=yes updatewhereclause=yes key=yes name=contador
 	hclin_reg_valor.inst1,
 	hclin_reg_valor.inst2,
 	hclin_reg_valor.inst3,
-	hclin_reg_valor.inst4,
-	hclin_reg_valor.migrado
+	hclin_reg_valor.inst4
 FROM
 	((hclin_registro 
 	INNER JOIN hclin_reg_valor ON (hclin_registro.NREGISTRO = hclin_reg_valor.NREGISTRO) AND (hclin_registro.CLUGAR = hclin_reg_valor.CLUGAR) 

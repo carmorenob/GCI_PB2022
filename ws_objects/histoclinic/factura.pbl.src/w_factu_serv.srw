@@ -506,13 +506,13 @@ for j=1 to dw_serv_nofactu.rowcount()
 				w_factura.lf_cargar_a(cproc,desproc,cantidad,tipo,'1',nautoriza,emp,cont,cons_soat, &
 			  	clug_soat,tipdoc,docu,edad,sexo,codta,estrato,uf,cc,'S',1,contador, &
 			  	clug_his,nserv,'','','',0,'',ncita,clug_cita,nserv_cita,&
-			  sec_cant_cita,reci,clug_rec,item_rec,0,'',0,'','!',dw_serv_nofactu.getitemnumber(j,"nro_insumo"),0,0,'',i_tipo_fac,0,'','',0,'0',nsiras)
+			  sec_cant_cita,reci,clug_rec,item_rec,0,'',0,'','!',dw_serv_nofactu.getitemnumber(j,"nro_insumo"),0,0,'',i_tipo_fac,0,'','',0,'0',nsiras,'')
 			end if
 			if isvalid(w_rec_caja) then
 				w_rec_caja.lf_cargar_a(cproc,desproc,cantidad,tipo,'1',nautoriza,emp,cont,cons_soat, &
 			  	clug_soat,tipdoc,docu,edad,sexo,codta,estrato,uf,cc,'S',1,contador, &
 			  	clug_his,nserv,'','','',0,'',ncita,clug_cita,nserv_cita,&
-			  sec_cant_cita,reci,clug_rec,item_rec,0,'',0,'','!',dw_serv_nofactu.getitemnumber(j,"nro_insumo"),0,0,'',i_tipo_fac,0,'','',0,'0',nsiras)
+			  sec_cant_cita,reci,clug_rec,item_rec,0,'',0,'','!',dw_serv_nofactu.getitemnumber(j,"nro_insumo"),0,0,'',i_tipo_fac,0,'','',0,'0',nsiras,'')
 			end if
 			
 		elseif rb_1.checked then//de citas
@@ -576,13 +576,13 @@ for j=1 to dw_serv_nofactu.rowcount()
 				w_factura.lf_cargar_a(cproc,desproc,cantidad,'C','1',nautoriza,emp,cont,0, &
 				  '',tipdoc,docu,edad,sexo,codta,estrato,uf,cc,'S',1,0, &
 				  '',0,'','','',0,'',ncita,clug_cita,nserv_cita,&
-				  sec_cant_cita,reci,clug_rec,item_rec,ntrat,clug_trat,item_trat,'','!',0,0,0,'',i_tipo_fac,0,'','',0,'0',nsiras)
+				  sec_cant_cita,reci,clug_rec,item_rec,ntrat,clug_trat,item_trat,'','!',0,0,0,'',i_tipo_fac,0,'','',0,'0',nsiras,'')
 			end if
 			if isvalid(w_rec_caja) then
 				w_rec_caja.lf_cargar_a(cproc,desproc,cantidad,'C','1',nautoriza,emp,cont,0, &
 				  '',tipdoc,docu,edad,sexo,codta,estrato,uf,cc,'S',1,0, &
 				  '',0,'','','',0,'',ncita,clug_cita,nserv_cita,&
-				  sec_cant_cita,reci,clug_rec,item_rec,ntrat,clug_trat,item_trat,'','!',0,0,0,'',i_tipo_fac,0,'','',0,'0',nsiras)
+				  sec_cant_cita,reci,clug_rec,item_rec,ntrat,clug_trat,item_trat,'','!',0,0,0,'',i_tipo_fac,0,'','',0,'0',nsiras,'')
 			end if
 			
 		elseif rb_4.checked then//de ordenes de cons. Externa
@@ -625,7 +625,7 @@ for j=1 to dw_serv_nofactu.rowcount()
 			w_factura.lf_cargar_a(cproc,desproc,cantidad,tipo,'1',nautoriza,emp,cont,cons_soat, &
 			  clug_soat,tipdoc,docu,edad,sexo,codta,estrato,uf,cc,'S',1,contador, &
 			  clug_his,nserv,'','','',0,'',ncita,clug_cita,nserv_cita,&
-			  sec_cant_cita,reci,clug_rec,item_rec,0,'',0,'','!',0,dw_serv_nofactu.getitemnumber(j,'nsolicitud'),dw_serv_nofactu.getitemnumber(j,'item'),'',i_tipo_fac,0,'','',0,'0',nsiras)
+			  sec_cant_cita,reci,clug_rec,item_rec,0,'',0,'','!',0,dw_serv_nofactu.getitemnumber(j,'nsolicitud'),dw_serv_nofactu.getitemnumber(j,'item'),'',i_tipo_fac,0,'','',0,'0',nsiras,'')
 			
 			
 		elseif rb_5.checked then//de ordenes de cons. Hospitaliza
@@ -667,7 +667,7 @@ for j=1 to dw_serv_nofactu.rowcount()
 			w_factura.lf_cargar_a(cproc,desproc,cantidad,tipo,'1',nautoriza,emp,cont,cons_soat, &
 			  clug_soat,tipdoc,docu,edad,sexo,codta,estrato,uf,cc,'S',1,contador, &
 			  clug_his,nserv,'','','',0,'',ncita,clug_cita,nserv_cita,&
-			  sec_cant_cita,reci,clug_rec,item_rec,0,'',0,'','!',0,dw_serv_nofactu.getitemnumber(j,'nsolicitud'),dw_serv_nofactu.getitemnumber(j,'item'),'',i_tipo_fac,0,'','',0,'0',nsiras)
+			  sec_cant_cita,reci,clug_rec,item_rec,0,'',0,'','!',0,dw_serv_nofactu.getitemnumber(j,'nsolicitud'),dw_serv_nofactu.getitemnumber(j,'item'),'',i_tipo_fac,0,'','',0,'0',nsiras,'')
 		else //de odontología
 			uo_datastore dw_contdet
 			dw_contdet=create uo_datastore
@@ -785,7 +785,7 @@ for j=1 to dw_serv_nofactu.rowcount()
 				w_factura.lf_cargar_a(cproc,desproc,cantidad,'C','1','',emp,cont,0, &
 				  '',tipdoc,docu,edad,sexo,codta,estrato,uf,cc,'S',1,contador, &
 				  clug_his,nserv,'','','',0,'',0,'',0,&
-				  0,0,'',0,ntrat,clug_trat,item_trat,'','!',0,0,0,'',i_tipo_fac,0,'','',0,'0','')	
+				  0,0,'',0,ntrat,clug_trat,item_trat,'','!',0,0,0,'',i_tipo_fac,0,'','',0,'0','','')	
 			end if
 		end if
 		cuantos ++

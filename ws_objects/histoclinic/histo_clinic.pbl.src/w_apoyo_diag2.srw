@@ -320,7 +320,7 @@ public function integer f_pregunta ()
 public function integer new_ingre (string p_emp, string p_cont, long p_nsoat, string p_clug_soat)
 public subroutine lf_titulo ()
 public function integer f_insert_proc (string p_cod, string p_procequiv, string p_maneq, string p_emp, string p_cont, string p_plan, string p_autoriza, long p_nfact, string p_clugfac, integer p_nitemfac, long p_nreci, string p_clugrec, integer p_itemrec, integer p_nitemrec, long p_ncita, string p_clug_cita, integer p_nservcita, integer p_seccant, datetime p_fechacit, datetime p_horacit, long p_contador_os, string p_clug_os, integer p_norden, integer p_nitem_os, integer p_facturar, string p_tipofac, string p_obser, string p_estado)
-public function integer f_crear_resultados (string p_clugarrep, string p_usuvalida, datetime p_fecvalida)
+public function integer f_crear_resultados (string p_clugarrep, string p_usuvalida, datetime p_fecvalida, string p_intfz)
 end prototypes
 
 public function string f_revisa_planes ();long j
@@ -866,7 +866,7 @@ dw_emp.event rowfocuschanged(dw_emp.getrow())
 return 1
 end function
 
-public function integer f_crear_resultados (string p_clugarrep, string p_usuvalida, datetime p_fecvalida);long fila,n_campos,cod_grp
+public function integer f_crear_resultados (string p_clugarrep, string p_usuvalida, datetime p_fecvalida, string p_intfz);long fila,n_campos,cod_grp
 string estado,cod_proc,tip_impre
 fila=tab_1.tp_1.dw_procs.getrow()
 estado=tab_1.tp_1.dw_procs.getitemstring(fila,"estado")
@@ -940,7 +940,7 @@ else
 	i_nserving=tab_1.tp_2.dw_serving.getitemnumber(1,"nservicio")
 end if
 if tab_1.tp_2.dw_rescpo.retrieve(tab_1.tp_1.dw_procs.getitemstring(fila,'coddoc'),tab_1.tp_1.dw_procs.getitemnumber(fila,'nrepor'),tab_1.tp_1.dw_procs.getitemnumber(fila,'item'),tab_1.tp_1.dw_procs.getitemstring(fila,'clugar'))=0 then
-	if tab_1.tp_2.dw_rescpo.event insertar(p_clugarrep,p_usuvalida,p_fecvalida)=-1 then
+	if tab_1.tp_2.dw_rescpo.event insertar(p_clugarrep,p_usuvalida,p_fecvalida,p_intfz)=-1 then
 		rollback;
 		return -1
 	end if
@@ -2225,7 +2225,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-02-21"), Time("22:48:19.000000"))
+datetime value = DateTime(Date("2024-07-11"), Time("09:02:16.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2247,7 +2247,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-02-21"), Time("22:48:19.000000"))
+datetime value = DateTime(Date("2024-07-11"), Time("09:02:16.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2522,7 +2522,7 @@ if dw_trae.rowcount()>0 then
 			if fila > 0 then	
 				if  tab_1.tp_1.dw_procs.getitemstring(fila,'estado')='1' or &
 					tab_1.tp_1.dw_procs.getitemstring(fila,'estado')='5'  then
-					if f_crear_resultados(ls_sede,ls_profevalida,ld_fechavalida)<>1 then 
+					if f_crear_resultados(ls_sede,ls_profevalida,ld_fechavalida,'0')<>1 then 
 						exit
 						return
 					end if
@@ -3151,7 +3151,7 @@ choose case estado
 			if messagebox("Atención","Está seguro que desea Ingresar o modificar resultados de este procedimiento, esto le implica que no lo puede borrar.",Question!,YesNo!,1) = 2 then return
 		end if
 		///////------jaer
-		if f_crear_resultados('SI',g_profe,datetime(today(), now()))=1 then 
+		if f_crear_resultados('SI',g_profe,datetime(today(), now()),'1')=1 then 
 			tab_1.post selecttab(3)//porque el son of the bitch cuando está en ambiente XP no dejaba el tp_2 como activo
 		end if
 	case '2' //realizado
@@ -3336,7 +3336,8 @@ string powertiptext = "Traer procedimientos Facturados [Alt+D]"
 end type
 
 event clicked;if isnull(dw_area.getitemstring(1,1)) or tipdoc='' or docu='' then return
-open(w_lleva_factu_apdx)
+openwithparm(w_lleva_factu_apdx,idw_area.getitemstring(idw_area.getrow(),'varios_fact'))
+//open(w_lleva_factu_apdx)
 refres_lista()
 end event
 
@@ -4105,10 +4106,10 @@ event clicked;tab_1.tp_1.dw_procs.scrollpriorrow()
 end event
 
 type dw_rescpo from datawindow within tp_2
-event type integer insertar ( string p_lugar,  string p_uvalida,  datetime p_fvalida )
+event type integer insertar ( string p_lugar,  string p_uvalida,  datetime p_fvalida,  string p_intfz )
 integer x = 2409
 integer y = 8
-integer width = 1696
+integer width = 2944
 integer height = 84
 integer taborder = 40
 boolean bringtotop = true
@@ -4118,7 +4119,8 @@ boolean border = false
 boolean livescroll = true
 end type
 
-event type integer insertar(string p_lugar, string p_uvalida, datetime p_fvalida);long fila
+event type integer insertar(string p_lugar, string p_uvalida, datetime p_fvalida, string p_intfz);long fila
+
 fila=tab_1.tp_1.dw_procs.getrow()
 insertrow(1)
 
@@ -4139,9 +4141,10 @@ setitem(1,"Nomuestra",w_apoyo_diag2.dw_hist.getitemnumber(w_apoyo_diag2.dw_hist.
 setitem(1,"codproced",tab_1.tp_1.dw_procs.getitemstring(fila,'codproced'))
 setitem(1,"IndResul",'1')
 setitem(1,"descripcion",tab_1.tp_1.dw_procs.getitemstring(fila,'descripcion'))
-//setitem(1,"fecharesul",datetime(today(),now()))
 setitem(1,"fecharesul",p_fvalida)
-//setitem(1,"usuario",usuario)
+if p_intfz='1' then
+	setitem(1,"fecha_intfaz",datetime(today(),now()))
+end if
 setitem(1,"usuario",p_uvalida)
 setitem(1,"contador",w_apoyo_diag2.i_contador)
 setitem(1,"clugar_ser",w_apoyo_diag2.i_clughis)
@@ -4153,7 +4156,6 @@ return 1
 end event
 
 event constructor;settransobject(SQLCA)
-object.descripcion.visible=false
 getchild('profesional',idw_profe)
 idw_profe.settransobject(sqlca)
 end event

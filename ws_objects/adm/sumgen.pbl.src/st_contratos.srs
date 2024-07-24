@@ -1,0 +1,9 @@
+﻿$PBExportHeader$st_contratos.srs
+global type st_contratos from structure
+	double		anyo
+	long		ncon
+	long		otros
+	integer		item
+	decimal		monto
+end type
+

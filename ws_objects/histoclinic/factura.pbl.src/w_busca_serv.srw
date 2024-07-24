@@ -488,14 +488,14 @@ choose case f_vent_padre(st.sle).classname()
 		w_factura.lf_cargar_a(getitemstring(getrow(),"codservicio"),desproc,1,tipo,'1',autoriza,st.emp,st.cont,0, &
 		  '',tipdoc,docu,edad,sexo,codta,estrato,'','','',1,0, &
 		  '',0,'','','',0,'',0,'',0,&
-		  0,0,'',0,0,'',0,'','!',0,0,0,getitemstring(getrow(),"codarticulo"),l_tipo_fac,0,'','',0,'0',siras)
+		  0,0,'',0,0,'',0,'','!',0,0,0,getitemstring(getrow(),"codarticulo"),l_tipo_fac,0,'','',0,'0',siras,'')
 	case 'w_rec_caja'
 		autoriza=w_rec_caja.sle_autoriza.text
 		codta=w_rec_caja.dw_emppac.getitemstring(w_rec_caja.dw_emppac.getrow(),'codta')
 		w_rec_caja.lf_cargar_a(getitemstring(getrow(),"codservicio"),desproc,1,tipo,'1',autoriza,st.emp,st.cont,0, &
 		  '',tipdoc,docu,edad,sexo,codta,estrato,'','','',1,0, &
 		  '',0,'','','',0,'',0,'',0,&
-		  0,0,'',0,0,'',0,'','!',0,0,0,getitemstring(getrow(),"codarticulo"),l_tipo_fac,0,'','',0,'0',siras)
+		  0,0,'',0,0,'',0,'','!',0,0,0,getitemstring(getrow(),"codarticulo"),l_tipo_fac,0,'','',0,'0',siras,'')
 end choose
 		
 end event

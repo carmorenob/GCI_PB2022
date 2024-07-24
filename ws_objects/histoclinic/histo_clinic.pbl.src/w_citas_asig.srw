@@ -217,7 +217,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-03-27"), Time("15:40:15.000000"))
+datetime value = DateTime(Date("2024-06-23"), Time("14:01:23.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -861,7 +861,13 @@ if w_principal.dw_1.getitemstring(1,'tipodoc')<>dw_citas.getitemstring(dw_citas.
 	w_principal.dw_1.setcolumn("documento")
 	w_principal.dw_1.triggerevent(itemchanged!)
 else
-	if not dw_profe.visible then fila_emp=uo_s.idw_emppac.getrow()
+	if not dw_profe.visible then 
+		if uo_s.idw_emppac.rowcount()>0 then
+			fila_emp=uo_s.idw_emppac.getrow()
+		else
+			return
+		end if
+	end if
 end if
 
 ////Se coloca validacion par a mirar multiples ventanas no esten atendidos

@@ -67,7 +67,7 @@ event we_post_open();long ll_cuantos
 
 select count(1) into :ll_cuantos
 from hclin_reg_valor 
-where tipo='M' AND (migrado='0' or migrado='E');
+where tipo='M' ;
 
 
 st_total_regs.text=string(ll_cuantos,'#,##0')

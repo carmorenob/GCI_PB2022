@@ -51,19 +51,20 @@ global w_formulacion_oxigeno w_formulacion_oxigeno
 
 type variables
 datawindow dw_formula
-string l_via
-long l_cantk,l_cant
+datawindowchild idw_oxig
+string ls_via
+long ldb_cantk,ldb_cant
+decimal ldb_factor
 end variables
-
 event open;dw_formula=message.powerobjectparm
-setnull(l_cantk)
-setnull(l_cant)
+setnull(ldb_cantk)
+setnull(ldb_cant)
 mle_1.text=dw_formula.getitemstring(dw_formula.getrow(),'medicamento')
 st_um.text=dw_formula.getitemstring(dw_formula.getrow(),'um')
 
-l_cantk=dw_formula.getitemnumber(dw_formula.getrow(),'cantk')
-l_cant=dw_formula.getitemnumber(dw_formula.getrow(),'solicitada')
-cantidades.text=string( l_cantk*l_cant)
+ldb_cantk=dw_formula.getitemnumber(dw_formula.getrow(),'cantk')
+ldb_cant=dw_formula.getitemnumber(dw_formula.getrow(),'solicitada')
+cantidades.text=string( ldb_cantk*ldb_cant)
 if isnull(cantidades.text) then cantidades.text='1'
 via.retrieve()
 mle_1.SelectText ( 1, 1)
@@ -135,7 +136,13 @@ event losefocus;if Match(dosis.text, '^[0-9.]*$') = False then
 	return
 end if
 
-cantidades.text=string(double(dosis.text) * double(horas.text) * 60 )
+if gs_oxigeno='REAL' then
+	ldb_factor=idw_oxig.getitemnumber(idw_oxig.getrow(),'factor_soat')	
+	cantidades.text=string(double(dosis.text) * double(horas.text) * 60)
+else
+	ldb_factor=idw_oxig.getitemnumber(idw_oxig.getrow(),'factor_iss')
+	cantidades.text=string(ldb_factor * double(horas.text)  *1000 )
+end if
 end event
 
 type st_um from statictext within w_formulacion_oxigeno
@@ -157,21 +164,31 @@ end type
 type via from datawindow within w_formulacion_oxigeno
 integer x = 197
 integer y = 152
-integer width = 1038
-integer height = 76
+integer width = 1134
+integer height = 72
 integer taborder = 10
-string title = "none"
 string dataobject = "dw_combo_oxigeno"
 borderstyle borderstyle = stylelowered!
 end type
 
 event constructor;settransobject(sqlca)
+getchild("cod_oxig",idw_oxig)
+idw_oxig.settransobject(sqlca)
+
 end event
 
-event itemchanged;l_via=gettext()
+event itemchanged;ls_via=gettext()
+
+if gs_oxigeno='REAL' then
+	ldb_factor=idw_oxig.getitemnumber(idw_oxig.getrow(),'factor_soat')	
+	cantidades.text=string(double(dosis.text) * double(horas.text) * 60)
+else
+	ldb_factor=idw_oxig.getitemnumber(idw_oxig.getrow(),'factor_iss')
+	cantidades.text=string(ldb_factor * double(horas.text)  *1000 )
+end if
 end event
 
-event retrieveend;l_via=getitemstring(getrow(),'cod_oxig')
+event retrieveend;ls_via=getitemstring(getrow(),'cod_oxig')
 end event
 
 type st_5 from statictext within w_formulacion_oxigeno
@@ -217,7 +234,13 @@ event losefocus;if Match(dosis.text, '^[0-9.]*$') = False then
 	return
 end if
 
-cantidades.text=string(double(dosis.text) * double(horas.text) * 60)
+if gs_oxigeno='REAL' then
+	ldb_factor=idw_oxig.getitemnumber(idw_oxig.getrow(),'factor_soat')	
+	cantidades.text=string(double(dosis.text) * double(horas.text) * 60)
+else
+	ldb_factor=idw_oxig.getitemnumber(idw_oxig.getrow(),'factor_iss')
+	cantidades.text=string(ldb_factor * double(horas.text)  *1000 )
+end if
 end event
 
 type st_3 from statictext within w_formulacion_oxigeno
@@ -348,13 +371,15 @@ else
 end if
 
 dw_formula.setitem(dw_formula.getrow(),"solicitada",long(cantidades.text))
-string l_des
+string ls_des
 int dos
-SELECT des_oxig into :l_des FROM pm_oxigeno where cod_oxig=:l_via;
+
+ls_des=idw_oxig.getitemstring(idw_oxig.getrow(),'des_oxig')	
+
 dw_formula.setitem(dw_formula.getrow(),"dosis",integer(dosis.text))
-dw_formula.setitem(dw_formula.getrow(),"cod_oxig",l_via)
+dw_formula.setitem(dw_formula.getrow(),"cod_oxig",ls_via)
 dw_formula.AcceptText()
-texto_np='  ADMINISTRACION OXIGENO Via: '+l_des+'  Litros/min: ' +dosis.text+ ' X Horas: '+horas.text
+texto_np='  ADMINISTRACION OXIGENO Via: '+ls_des+'  Litros/min: ' +dosis.text+ ' X Horas: '+horas.text
 close(parent)
 end event
 
