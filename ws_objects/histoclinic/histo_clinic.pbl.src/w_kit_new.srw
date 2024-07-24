@@ -209,7 +209,7 @@ if st_pc.carreta='' then
 else
 	encab=true
 end if
-dw_kits.retrieve(st_pc.carreta)
+dw_kits.retrieve(st_pc.carreta,st_pc.veren)
 
 end event
 
