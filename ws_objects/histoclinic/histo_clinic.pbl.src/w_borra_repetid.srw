@@ -215,6 +215,14 @@ for j=1 to dw_2.rowcount()
 			return
 		end if
 		
+		UPDATE hosp_autoriza SET TipoDoc = :tdocnew, Documento = :docnew
+		WHERE TipoDoc=:tdocx AND Documento=:docx;
+		if sqlca.sqlcode=-1 then
+			messagebox("Error Actualizandohosp_autoriza",sqlca.sqlerrtext)
+			rollback;
+			return
+		end if
+		
 		SELECT 
 			pacientes_cohortes.id_cohorte_pac into :maximi
 		FROM 

@@ -210,7 +210,7 @@ else
 	encab=true
 end if
 dw_kits.retrieve(st_pc.carreta,st_pc.veren)
-
+//jaer
 end event
 
 type dw_kits from datawindow within w_kit_new
