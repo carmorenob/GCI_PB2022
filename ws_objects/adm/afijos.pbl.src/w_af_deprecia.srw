@@ -155,8 +155,8 @@ if isNull(f_servicio) then
 	Return -1
 end if
 if date(year(f_servicio),month(f_servicio),1) > date(year(f_ptr),month(f_ptr),1) then
-	MessageBox('Atención','La fecha de servicio es posterior al periodo a depreciar. ' + placa)
-	Return -1
+	MessageBox('Atención','La fecha de servicio es superior al periodo a depreciar. ' + placa)
+	Return 1
 end if
 
 if f_servicio > f_ptr then
@@ -366,8 +366,8 @@ per.x = datetime(date(ano,mes,1))
 per.y = datetime(f_finmes(date(per.x)))
 //if date(year(date(f_servicio)),month(date(f_servicio)),1) > date(per.X) then
 if date(year(date(f_servicio)),month(date(f_servicio)),1) > date(per.y) then
-	MessageBox('Atención','La fecha de servicio es posterior al periodo a depreciar. ' + placa)
-	Return -1
+	MessageBox('Atención','La fecha de servicio es superior al periodo a depreciar. ' + placa)
+	Return 1
 end if
 
 if mes = 1 then
@@ -1392,41 +1392,45 @@ alignment htextalign = left!
 string powertiptext = "Calcular depreciación activos seleccionados"
 end type
 
-event clicked;long fila, ult
+event clicked;long fila, ult,err_cal
 fila = dw_lp.Find("selec=1",1,dw_lp.RowCount())
 if fila = 0 then Return 0
 if MessageBox('Atención','Se calcularán y grabarán los cambios automáticamente. Desea continuar?',QUESTION!,YESNO!,2) = 2 then Return 0
 do while fila > 0 
 	dw_lp.SetRow(fila)
 	err_retrieve = FALSE
+	err_cal=0
 	if dw_asig.Retrieve(dw_lp.GetItemString(fila,'placa')) < 1 then
 		if MessageBox('Atención','El activo '+dw_lp.GetItemString(fila,'placa')+' no ha sido asignado. Desea continuar con los activos seleccionados?',Question!,yesno!) = 2 then Return 0
 		Continue
 	end if
 	if err_retrieve then Return -1
-	if calc_deprecia_per(long(em_1.Text),ddlb_1.FindItem(ddlb_1.Text,0),dw_lp.getitemstring(dw_lp.Getrow(),'coddocu'),dw_lp.getitemstring(dw_lp.Getrow(),'clugar')) = -1 then
+	err_cal=calc_deprecia_per(long(em_1.Text),ddlb_1.FindItem(ddlb_1.Text,0),dw_lp.getitemstring(dw_lp.Getrow(),'coddocu'),dw_lp.getitemstring(dw_lp.Getrow(),'clugar')) 
+	if err_cal= -1 then
 		Return -1
 	end if
-	if t1.p1.dw_respon.Update() = -1 then
-		Rollback;
-		Return -1
+	if err_cal= 0 then
+		if t1.p1.dw_respon.Update() = -1 then
+			Rollback;
+			Return -1
+		end if
+		if t1.p2.dw_mantto.Update() = -1 then
+			Rollback;
+			Return -1
+		end if
+		if t1.p1.dw_respon.RowCount() > 0 then
+			dw_lp.SetItem(dw_lp.Getrow(),'vractual',t1.p1.dw_respon.GetItemNumber(t1.p1.dw_respon.RowCount(),'valor_x_depreciar'))
+		end if
+		dw_lp.SetItem(dw_lp.Getrow(),'vrmantto',dec(t1.p1.dw_respon.Describe("Evaluate('sum(valor_x_mantto)',0)")))
+		dw_lp.SetItem(dw_lp.Getrow(),'vrvaloriza',dec(t1.p1.dw_respon.Describe("Evaluate('sum(valor_x_valoriza)',0)")))
+		dw_lp.SetItem(dw_lp.Getrow(),'vrdesvalor',dec(t1.p1.dw_respon.Describe("Evaluate('sum(valor_x_desvalor)',0)")))
+		if dw_lp.Update() = -1 then
+			Rollback;
+			Return -1
+		end if
+		commit;
+		dw_lp.SetItem(fila,'selec',0)
 	end if
-	if t1.p2.dw_mantto.Update() = -1 then
-		Rollback;
-		Return -1
-	end if
-	if t1.p1.dw_respon.RowCount() > 0 then
-		dw_lp.SetItem(dw_lp.Getrow(),'vractual',t1.p1.dw_respon.GetItemNumber(t1.p1.dw_respon.RowCount(),'valor_x_depreciar'))
-	end if
-	dw_lp.SetItem(dw_lp.Getrow(),'vrmantto',dec(t1.p1.dw_respon.Describe("Evaluate('sum(valor_x_mantto)',0)")))
-	dw_lp.SetItem(dw_lp.Getrow(),'vrvaloriza',dec(t1.p1.dw_respon.Describe("Evaluate('sum(valor_x_valoriza)',0)")))
-	dw_lp.SetItem(dw_lp.Getrow(),'vrdesvalor',dec(t1.p1.dw_respon.Describe("Evaluate('sum(valor_x_desvalor)',0)")))
-	if dw_lp.Update() = -1 then
-		Rollback;
-		Return -1
-	end if
-	commit;
-	dw_lp.SetItem(fila,'selec',0)
 	fila = dw_lp.Find("selec=1",1,dw_lp.RowCount())
 loop
 Return 0
