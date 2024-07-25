@@ -1429,8 +1429,8 @@ do while fila > 0
 			Return -1
 		end if
 		commit;
-		dw_lp.SetItem(fila,'selec',0)
 	end if
+	dw_lp.SetItem(fila,'selec',0)
 	fila = dw_lp.Find("selec=1",1,dw_lp.RowCount())
 loop
 Return 0
