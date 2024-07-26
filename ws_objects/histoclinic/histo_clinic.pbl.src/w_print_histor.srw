@@ -20,9 +20,9 @@ type pb_1 from picturebutton within w_print_histor
 end type
 type pb_2 from picturebutton within w_print_histor
 end type
-type dw_2 from datawindow within w_print_histor
-end type
 type dw_1 from datawindow within w_print_histor
+end type
+type dw_2 from datawindow within w_print_histor
 end type
 end forward
 
@@ -46,16 +46,15 @@ ddl_tipo ddl_tipo
 gb_1 gb_1
 pb_1 pb_1
 pb_2 pb_2
-dw_2 dw_2
 dw_1 dw_1
+dw_2 dw_2
 end type
 global w_print_histor w_print_histor
 
 type variables
 trae i_historial
-constant string union1="  SELECT DISTINCT historial.contador,historial.clugar,historial.indapdx,historial.fecha,'1'AS sel_ing,case when hclin_registro.tipo='F' then '0' else '1'  end  AS sel_plant,hclin_registro.codplantilla,hclin_registro.desplantilla,hclin_plant.ayuda,hclin_plant.reporte,hclin_registro.ingreso ,hclin_registro.tipo FROM historial,hclin_registro,hclin_plant,historial.fecha as hf WHERE ( historial.contador = hclin_registro.contador ) and  ( historial.clugar = hclin_registro.clugar ) and  ( hclin_registro.codplantilla = hclin_plant.codplantilla )  "
-//constant string union1="  SELECT DISTINCT historial.contador,historial.clugar,historial.indapdx,HCLIN_REGISTRO.FECHA,'1'AS sel_ing,case when hclin_registro.tipo='F' then '0' else '1'  end  AS sel_plant,hclin_registro.codplantilla,hclin_registro.desplantilla,hclin_plant.ayuda,hclin_plant.reporte,hclin_registro.ingreso ,hclin_registro.tipo FROM historial,hclin_registro,hclin_plant WHERE ( historial.contador = hclin_registro.contador ) and  ( historial.clugar = hclin_registro.clugar ) and  ( hclin_registro.codplantilla = hclin_plant.codplantilla )  "
-//constant string union2=" UNION ALL SELECT historial.contador, historial.clugar,  historial.indapdx, historial.fecha, '' as codplantilla,'Evolución' as desplantilla,'Evolución en Estancia' as ayuda,'' as reporte,'1' as sel_ing,'1' as sel_plant,'01' as ingreso FROM evolucionhc, historial WHERE ( evolucionhc.contador = historial.contador ) and ( evolucionhc.clugar = historial.clugar ) "
+constant string union1="SELECT DISTINCT 	historial.contador,historial.clugar,historial.indapdx,hclin_registro.fecha_reg as fecha,'1' AS sel_ing,case when hclin_registro.tipo='F' then '0' else '1' end AS sel_plant,hclin_registro.codplantilla,hclin_registro.desplantilla,hclin_plant.ayuda,hclin_plant.reporte,hclin_registro.ingreso,hclin_registro.tipo,hclin_registro.NREGISTRO,historial.fecha as hf FROM (historial INNER JOIN hclin_registro ON (historial.clugar = hclin_registro.clugar) AND (historial.contador = hclin_registro.contador)) INNER JOIN hclin_plant ON hclin_registro.codplantilla = hclin_plant.codplantilla WHERE "
+
 constant string un1_res="SELECT DISTINCT historial.contador, historial.clugar, historial.indapdx, historial.fecha, '1' AS sel_ing, '1' AS sel_plant, hclin_registro.tipo AS cual, 0 AS numero_ingre, '  ' AS clugar_his, hclin_registro.desplantilla, hclin_registro.codplantilla, hclin_registro.ingreso, hclin_registro.tipo FROM historial INNER JOIN hclin_registro ON (historial.clugar = hclin_registro.clugar) AND (historial.Contador = hclin_registro.contador) WHERE (((hclin_registro.tipo)<>'E' And (hclin_registro.tipo)<>'R' And (hclin_registro.tipo)<>'F'))"
 constant string un2_res=" UNION ALL SELECT historial.contador, historial.clugar, historial.indapdx, historial.fecha, '1' AS sel_ing, '1' AS sel_plant, 'EPI' AS cual, 0 AS numero_ingre, '  ' AS clugar_his, 'Resumen de Evolución' , 'EPI' , 'K','P' FROM historial INNER JOIN evolucionhc ON (historial.contador = evolucionhc.contador) AND (historial.clugar = evolucionhc.clugar) WHERE (((historial.indapdx)='2' Or (historial.indapdx)='3' Or (historial.indapdx)='4'  Or (historial.indapdx)='7' ))"
 constant string un3_res=" UNION ALL SELECT Historial.contador, Historial.clugar, Historial.IndApDx, Historial.Fecha, '1' AS sel_ing, '1' AS sel_plant, 'NQX' AS cual, QxCabActo.Numero_ingre, QxCabActo.clugar, 'Notas quirúrgicas' , 'NOQX' , 'Q' , 'Q' FROM Historial INNER JOIN QxCabActo ON (Historial.clugar = QxCabActo.clugar_his) AND (Historial.Contador = QxCabActo.contador)"
@@ -65,7 +64,6 @@ string ped_ing,paci
 datetime fecha_atencion
 uo_datastore i_rep
 end variables
-
 forward prototypes
 public function string lf_reemp_campos (string p_todo, uo_datastore p_dw)
 public function string lf_encab_agrupa (string p_tipo, long p_contador, string p_clugar, string p_indapdx)
@@ -189,8 +187,8 @@ this.ddl_tipo=create ddl_tipo
 this.gb_1=create gb_1
 this.pb_1=create pb_1
 this.pb_2=create pb_2
-this.dw_2=create dw_2
 this.dw_1=create dw_1
+this.dw_2=create dw_2
 this.Control[]={this.rte_1,&
 this.dw_3,&
 this.pb_3,&
@@ -200,8 +198,8 @@ this.ddl_tipo,&
 this.gb_1,&
 this.pb_1,&
 this.pb_2,&
-this.dw_2,&
-this.dw_1}
+this.dw_1,&
+this.dw_2}
 end on
 
 on w_print_histor.destroy
@@ -214,15 +212,15 @@ destroy(this.ddl_tipo)
 destroy(this.gb_1)
 destroy(this.pb_1)
 destroy(this.pb_2)
-destroy(this.dw_2)
 destroy(this.dw_1)
+destroy(this.dw_2)
 end on
 
 event open;i_historial=message.powerobjectparm
 blob objs
 setnull(objs)
 
-paci=" and historial.tipodoc='"+tipdoc+"' and historial.documento='"+docu+"' "
+paci=" historial.tipodoc='"+tipdoc+"' and historial.documento='"+docu+"' "
 ped_ing=" and historial.contador="+string(i_historial.numero)+" and historial.clugar='"+i_historial.lugar+"'"
 ddl_tipo.event selectionchanged(1)
 i_rep=create uo_datastore
@@ -366,11 +364,11 @@ string sql_tod,sql_res,l_tipo
 choose case text
 	case 'El Actual Ingreso'
 		sql_tod=union1+paci+ped_ing//+union2+paci+ped_ing
-		sql_res=un1_res+paci+ped_ing + un2_res+paci+ped_ing + un3_res+paci+ped_ing
+		sql_res=un1_res+ 'and '+paci+ped_ing + un2_res+ 'and '+paci+ped_ing + un3_res+ 'and '+paci+ped_ing
 		l_tipo='1'
 	case 'Toda la Historia'
 		sql_tod=union1+paci//+union2+paci
-		sql_res=un1_res+paci + un2_res+paci + un3_res+paci
+		sql_res=un1_res+' and '+ paci + un2_res+' and '+paci + un3_res+' and '+paci
 		l_tipo='2'
 end choose
 dw_1.setsqlselect(sql_tod)
@@ -617,125 +615,6 @@ end type
 event clicked;close(parent)
 end event
 
-type dw_2 from datawindow within w_print_histor
-event cambia_estado ( string dato,  long fila_ante,  string filtro_ante )
-event pe_cambio_plant ( long fila_ant,  string filtro_ante )
-boolean visible = false
-integer x = 46
-integer y = 180
-integer width = 4183
-integer height = 1284
-integer taborder = 20
-string title = "Pa imprimir lo de evolucion"
-string dataobject = "dw_histo_resumen"
-boolean vscrollbar = true
-boolean border = false
-boolean livescroll = true
-end type
-
-event cambia_estado(string dato, long fila_ante, string filtro_ante);long j
-accepttext()
-for j=1 to rowcount()
-	setitem(j,'sel_ing',dato)	
-next
-setfilter(filtro_ante)
-filter()
-sort()
-groupcalc()
-scrolltorow(fila_ante)
-setredraw(true)
-end event
-
-event pe_cambio_plant(long fila_ant, string filtro_ante);long j
-string dato
-accepttext()
-if filtro_ante='' then
-	setfilter('contador='+string(getitemnumber(fila_ant,'contador')))
-else
-	setfilter(filtro_ante+' and contador='+string(getitemnumber(fila_ant,'contador')))
-end if
-filter()
-groupcalc()
-if getitemnumber(1,'sum_plant')=0 then
-	dato='0'
-elseif getitemnumber(1,'sum_plant')<rowcount() then
-	dato='2'
-else
-	dato='1'
-end if
-for j=1 to rowcount()
-	setitem(j,'sel_ing',dato)
-next
-setfilter(filtro_ante)
-filter()
-sort()
-groupcalc()
-setcolumn('sel_plant')
-scrolltorow(fila_ant)
-setredraw(true)
-end event
-
-event clicked;if row<1 then return
-scrolltorow(row)
-end event
-
-event buttonclicked;setredraw(false)
-string dato
-long j
-if dwo.tag='d' then
-	dato='0'
-	modify('b_1.tag="s"')
-else
-	modify('b_1.tag="d"')
-	dato='1'
-end if
-for j=1 to rowcount()
-	setitem(j,'sel_ing',dato)
-	setitem(j,'sel_plant',dato)
-next
-setredraw(true)
-end event
-
-event constructor;settransobject(sqlca)
-end event
-
-event rbuttondown;st_dw_xa_funciones st_dw
-st_dw.dw=this
-st_dw.dwo=dwo
-st_dw.row=row
-st_dw.color_fondo=describe('b_1.background.color')
-openwithparm(w_funcion_dw,st_dw)
-end event
-
-event itemchanged;long j,fila_actual
-string dato,filtro_actu
-fila_actual=getrow()
-filtro_actu=describe("datawindow.table.filter")
-if filtro_actu='?' then filtro_actu=''
-setredraw(false)
-choose case dwo.name
-	case 'sel_ing'
-		if getitemstring(fila_actual,'sel_ing')='1' or getitemstring(fila_actual,'sel_ing')='2' then
-			dato='0'
-		else
-			dato='1'
-		end if
-		if filtro_actu='' then
-			setfilter('contador='+string(getitemnumber(fila_actual,'contador')))
-		else
-			setfilter(filtro_actu+' and contador='+string(getitemnumber(fila_actual,'contador')))
-		end if
-		filter()
-		for j=1 to rowcount()
-			setitem(j,'sel_plant',dato)
-		next
-		post event cambia_estado(dato,fila_actual,filtro_actu)
-	case 'sel_plant'
-		accepttext()
-		post event pe_cambio_plant(fila_actual,filtro_actu)
-end choose
-end event
-
 type dw_1 from datawindow within w_print_histor
 event cambia_estado ( string dato,  long fila_ante,  string filtro_ante )
 event pe_cambio_plant ( long fila_ant,  string filtro_ante )
@@ -862,5 +741,124 @@ st_dw.row=row
 st_dw.color_fondo=describe('b_1.background.color')
 openwithparm(w_funcion_dw,st_dw)
 
+end event
+
+type dw_2 from datawindow within w_print_histor
+event cambia_estado ( string dato,  long fila_ante,  string filtro_ante )
+event pe_cambio_plant ( long fila_ant,  string filtro_ante )
+boolean visible = false
+integer x = 46
+integer y = 180
+integer width = 4183
+integer height = 1284
+integer taborder = 20
+string title = "Pa imprimir lo de evolucion"
+string dataobject = "dw_histo_resumen"
+boolean vscrollbar = true
+boolean border = false
+boolean livescroll = true
+end type
+
+event cambia_estado(string dato, long fila_ante, string filtro_ante);long j
+accepttext()
+for j=1 to rowcount()
+	setitem(j,'sel_ing',dato)	
+next
+setfilter(filtro_ante)
+filter()
+sort()
+groupcalc()
+scrolltorow(fila_ante)
+setredraw(true)
+end event
+
+event pe_cambio_plant(long fila_ant, string filtro_ante);long j
+string dato
+accepttext()
+if filtro_ante='' then
+	setfilter('contador='+string(getitemnumber(fila_ant,'contador')))
+else
+	setfilter(filtro_ante+' and contador='+string(getitemnumber(fila_ant,'contador')))
+end if
+filter()
+groupcalc()
+if getitemnumber(1,'sum_plant')=0 then
+	dato='0'
+elseif getitemnumber(1,'sum_plant')<rowcount() then
+	dato='2'
+else
+	dato='1'
+end if
+for j=1 to rowcount()
+	setitem(j,'sel_ing',dato)
+next
+setfilter(filtro_ante)
+filter()
+sort()
+groupcalc()
+setcolumn('sel_plant')
+scrolltorow(fila_ant)
+setredraw(true)
+end event
+
+event clicked;if row<1 then return
+scrolltorow(row)
+end event
+
+event buttonclicked;setredraw(false)
+string dato
+long j
+if dwo.tag='d' then
+	dato='0'
+	modify('b_1.tag="s"')
+else
+	modify('b_1.tag="d"')
+	dato='1'
+end if
+for j=1 to rowcount()
+	setitem(j,'sel_ing',dato)
+	setitem(j,'sel_plant',dato)
+next
+setredraw(true)
+end event
+
+event constructor;settransobject(sqlca)
+end event
+
+event rbuttondown;st_dw_xa_funciones st_dw
+st_dw.dw=this
+st_dw.dwo=dwo
+st_dw.row=row
+st_dw.color_fondo=describe('b_1.background.color')
+openwithparm(w_funcion_dw,st_dw)
+end event
+
+event itemchanged;long j,fila_actual
+string dato,filtro_actu
+fila_actual=getrow()
+filtro_actu=describe("datawindow.table.filter")
+if filtro_actu='?' then filtro_actu=''
+setredraw(false)
+choose case dwo.name
+	case 'sel_ing'
+		if getitemstring(fila_actual,'sel_ing')='1' or getitemstring(fila_actual,'sel_ing')='2' then
+			dato='0'
+		else
+			dato='1'
+		end if
+		if filtro_actu='' then
+			setfilter('contador='+string(getitemnumber(fila_actual,'contador')))
+		else
+			setfilter(filtro_actu+' and contador='+string(getitemnumber(fila_actual,'contador')))
+		end if
+		filter()
+		for j=1 to rowcount()
+			setitem(j,'sel_plant',dato)
+		next
+		post event cambia_estado(dato,fila_actual,filtro_actu)
+	case 'sel_plant'
+		accepttext()
+		post event pe_cambio_plant(fila_actual,filtro_actu)
+end choose
 end event
 

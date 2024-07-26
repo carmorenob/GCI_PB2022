@@ -303,8 +303,8 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
 boolean originalsize = true
-string picturename = "print2.GIF"
-string disabledname = "d_print2.GIF"
+string picturename = "print.GIF"
+string disabledname = "d_print.GIF"
 alignment htextalign = left!
 string powertiptext = "Imprimir Datos Enfermería"
 end type
@@ -314,7 +314,13 @@ trae historial
 historial.numero = st_p.contador
 historial.lugar = st_p.clugar
 historial.tingres = 'F'
-openwithparm(w_print_histor,historial)
+
+If f_imprime='2' then
+	openwithparm(w_print_histor_new_sec,historial)
+else
+	openwithparm(w_print_histor_new_agr,historial)		
+end if
+//openwithparm(w_print_histor,historial)
 close(parent)
 
 end event
@@ -971,7 +977,7 @@ borderstyle borderstyle = styleraised!
 string customformat = "dd/mm/yyyy"
 date maxdate = Date("2998-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2023-03-15"), Time("14:30:44.000000"))
+datetime value = DateTime(Date("2024-07-26"), Time("14:13:39.000000"))
 integer textsize = -9
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
