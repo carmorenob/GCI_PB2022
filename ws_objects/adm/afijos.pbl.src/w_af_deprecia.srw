@@ -155,7 +155,7 @@ if isNull(f_servicio) then
 	Return -1
 end if
 if date(year(f_servicio),month(f_servicio),1) > date(year(f_ptr),month(f_ptr),1) then
-	MessageBox('Atención','La fecha de servicio es superior al periodo a depreciar. ' + placa)
+	//MessageBox('Atención','La fecha de servicio es superior al periodo a depreciar. ' + placa)
 	Return 1
 end if
 
@@ -366,7 +366,7 @@ per.x = datetime(date(ano,mes,1))
 per.y = datetime(f_finmes(date(per.x)))
 //if date(year(date(f_servicio)),month(date(f_servicio)),1) > date(per.X) then
 if date(year(date(f_servicio)),month(date(f_servicio)),1) > date(per.y) then
-	MessageBox('Atención','La fecha de servicio es superior al periodo a depreciar. ' + placa)
+	//MessageBox('Atención','La fecha de servicio es superior al periodo a depreciar. ' + placa)
 	Return 1
 end if
 
