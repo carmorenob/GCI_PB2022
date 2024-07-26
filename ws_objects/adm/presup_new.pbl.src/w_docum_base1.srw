@@ -846,7 +846,7 @@ if i_cdoc <> 'PPA' then
 					p = tb_1.tp_2.dw_rub.Find("codtotal='"+ rubro +"'",p + 1,tb_1.tp_2.dw_rub.RowCount())
 				loop
 			end if
-			if dw_r.GetItemNumber(f,'valor') > dw_r.GetItemNumber(f,'saldo') then
+			if round(dw_r.GetItemNumber(f,'valor'), i_dec_gral)  > round(dw_r.GetItemNumber(f,'saldo'), i_dec_gral)  then
 				MessageBox('Atención','El monto total para el rubro '+rubro+' sobrepasa el saldo de apropiación')
 				Return -1
 			end if
