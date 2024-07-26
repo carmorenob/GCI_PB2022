@@ -2029,6 +2029,8 @@ end event
 event rowfocuschanged;//double ldb_ano,ldb_ncont,ldb_otrosi
 tab_2.t2_1.tab_fp.tabfp.dw_fpag.reset()
 tab_2.t2_1.tab_fp.tabcau.dw_causa.reset()
+string jaer
+jaer=tab_2.t2_1.tab_fp.tabfp.dw_fpag.dataobject
 
 tab_2.t2_1.dw_timpucontra.reset()
 tab_2.t2_1.tab_1.tabconp.dw_concep_cont.reset()
