@@ -1138,7 +1138,9 @@ choose case is_orig
 			cual=tab_2.t2_1.dw_cont.find('ano='+string(idb_ano)+' and ncontrato='+string(idb_ncont)+' and  otrosi='+string(idb_otrosi) ,1, tab_2.t2_1.dw_cont.rowcount())
 			if cual>0 then tab_2.t2_1.dw_cont.scroll(cual)
 		end if
-
+		tab_2.t2_1.tab_fp.SelectTab(1)
+		tab_2.t2_1.tab_fp.tabfp.dw_fpag.SetFocus()
+		tab_2.t2_1.tab_fp.tabfp.dw_fpag.SetColumn ("item")
 	case '-','PDI'
 		if tab_2.selectedtab=1 then tab_2.selectedtab=2
 		tab_2.t2_1.visible=false
@@ -1465,6 +1467,8 @@ integer height = 964
 integer taborder = 40
 string title = "none"
 string dataobject = "dw_concep_cont"
+boolean hscrollbar = true
+boolean vscrollbar = true
 boolean livescroll = true
 borderstyle borderstyle = stylelowered!
 end type
@@ -1579,6 +1583,8 @@ integer height = 948
 integer taborder = 40
 string title = "none"
 string dataobject = "dw_f_pagos"
+boolean hscrollbar = true
+boolean vscrollbar = true
 boolean livescroll = true
 borderstyle borderstyle = stylelowered!
 end type
@@ -2029,9 +2035,6 @@ end event
 event rowfocuschanged;//double ldb_ano,ldb_ncont,ldb_otrosi
 tab_2.t2_1.tab_fp.tabfp.dw_fpag.reset()
 tab_2.t2_1.tab_fp.tabcau.dw_causa.reset()
-string jaer
-jaer=tab_2.t2_1.tab_fp.tabfp.dw_fpag.dataobject
-
 tab_2.t2_1.dw_timpucontra.reset()
 tab_2.t2_1.tab_1.tabconp.dw_concep_cont.reset()
 dw_resu.reset()
@@ -2048,6 +2051,9 @@ tab_2.t2_1.dw_timpucontra.retrieve(idb_ano,idb_ncont,idb_otrosi)
 dw_resu.retrieve(idb_ano,idb_ncont,idb_otrosi)
 tab_2.t2_1.tab_fp.tabcau.dw_causa.retrieve(idb_ano,idb_ncont,idb_otrosi)
 tab_2.t2_1.dw_ppto.Retrieve(idb_ano,idb_ncont,idb_otrosi)
+tab_2.t2_1.tab_fp.SelectTab(1)
+tab_2.t2_1.tab_fp.tabfp.dw_fpag.SetFocus()
+tab_2.t2_1.tab_fp.tabfp.dw_fpag.SetColumn ("item")
 end event
 
 event rowfocuschanging;choose case f_pregunta()
@@ -3230,7 +3236,6 @@ if not isnull(idb_ncont) then
 	
 	cual=tab_2.t2_1.tab_fp.tabfp.dw_fpag.find("clugar_relfact='"+clug+ "' and  coddoc_relfact='"+is_cdoc+ "' and nrelacion_relfact="+string(nrel),1,tab_2.t2_1.tab_fp.tabfp.dw_fpag.rowcount())
 	if cual>0 then tab_2.t2_1.tab_fp.tabfp.dw_fpag.scrolltorow(cual)	
-	
 end if
 
 tab_2.t2_3.t5.t5_1.dw_cpo.retrieve(clug,is_cdoc,nrel)//despues de dw_rte para que haga el rowfocuschanged
@@ -3248,6 +3253,10 @@ if tipo='2' then
 	tab_2.t2_3.t5.t5_4.pb_save_legal.enabled=true
 		//tab_2.t2_3.t5.t5_4.pb_save_legal.enabled=true
 end if
+	
+tab_2.t2_1.tab_fp.SelectTab(1)
+tab_2.t2_1.tab_fp.tabfp.dw_fpag.SetFocus()
+tab_2.t2_1.tab_fp.tabfp.dw_fpag.SetColumn ("item")
 end event
 
 event rowfocuschanging;choose case f_pregunta()
