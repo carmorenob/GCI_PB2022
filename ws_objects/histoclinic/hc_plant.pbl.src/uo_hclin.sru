@@ -128,7 +128,7 @@ type dw_plants from datawindow within uo_hclin
 end type
 type dw_res_new from datawindow within uo_hclin
 end type
-type mle_2 from multilineedit within uo_hclin
+type mle_2 from uo_multilineedit within uo_hclin
 end type
 type mle_3 from multilineedit within uo_hclin
 end type
@@ -4465,7 +4465,7 @@ end event
 event clicked;if row>0 and row<>getrow() then setrow(row)
 end event
 
-type mle_2 from multilineedit within uo_hclin
+type mle_2 from uo_multilineedit within uo_hclin
 boolean visible = false
 integer x = 1545
 integer y = 984
