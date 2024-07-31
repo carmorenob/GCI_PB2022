@@ -13,7 +13,7 @@ end type
 end forward
 
 global type w_lleva_factu_apdx from window
-integer width = 3643
+integer width = 4110
 integer height = 1388
 boolean titlebar = true
 string title = "Llevar procedimientos de Facturación a Apoyo Diagnóstico (Facturas sin Cita)"
@@ -56,7 +56,7 @@ event open;ls_varfac=message.stringparm
 end event
 
 type pb_cancel from picturebutton within w_lleva_factu_apdx
-integer x = 1714
+integer x = 2034
 integer y = 1152
 integer width = 146
 integer height = 128
@@ -78,7 +78,7 @@ event clicked;close(parent)
 end event
 
 type pb_acep from picturebutton within w_lleva_factu_apdx
-integer x = 1536
+integer x = 1856
 integer y = 1152
 integer width = 146
 integer height = 128
@@ -101,6 +101,7 @@ event clicked;if dw_trae.accepttext()=-1 then return
 long j,k,cuantos,filas,nnul,nfact,nitemfac,nrec,consec
 boolean new_ingreso=false
 string cemp,ccont,snul,cod,clugfac,clugrec,plan,cproceq,cmaneq,naut,clug_consec,tipo_fac,ls_area
+string ls_codanul
 datetime fnul
 setnull(snul)
 setnull(nnul)
@@ -160,6 +161,23 @@ for j= 1 to dw_trae.rowcount()
 				return
 			end if
 		next
+	else
+		if dw_trae.getitemnumber(j,"rechazar")=1 then
+			st_xa_anular st_anula
+			datetime ldt_fhoy
+			st_anula.tipo='AD'
+			openwithparm (w_motiv_anula,st_anula)
+			st_anula=message.powerobjectparm
+			if not isValid(st_anula) then return
+			ldt_fhoy=datetime(today(),now())
+			
+			nfact=dw_trae.getitemnumber(j,"nfact")
+			clugfac=dw_trae.getitemstring(j,"clugar")
+			tipo_fac=dw_trae.getitemstring(j,"tipo")
+			nitemfac=dw_trae.getitemnumber(j,"nitem")
+			update factcpo set cod_rech=:st_anula.motivo, usuario_rech=:usuario,motiv_rech=st_anula.observacion,fecha_rech=:ldt_fhoy
+			WHERE (((factcpo.nfact)=:nfact) AND ((factcpo.clugar)=:clugfac) AND ((factcpo.tipo)=:tipo_fac) AND ((factcpo.nitem)=:nitemfac));
+		end if
 	end if
 next
 commit;
@@ -169,7 +187,7 @@ end event
 type st_1 from statictext within w_lleva_factu_apdx
 integer x = 37
 integer y = 24
-integer width = 3488
+integer width = 3986
 integer height = 80
 integer textsize = -8
 integer weight = 400
@@ -188,7 +206,7 @@ end type
 type dw_trae from datawindow within w_lleva_factu_apdx
 integer x = 32
 integer y = 116
-integer width = 3506
+integer width = 3995
 integer height = 1012
 integer taborder = 10
 string title = "none"
@@ -201,5 +219,13 @@ end type
 
 event constructor;settransobject(sqlca)
 retrieve(tipdoc,docu,w_apoyo_diag2.i_codarea,ls_varfac)
+end event
+
+event itemchanged;if getcolumnname()='esco' then
+	setitem(getrow(),"rechazar",'0')
+end if
+if getcolumnname()='rechazar' then
+	setitem(getrow(),"esco",0)
+end if
 end event
 

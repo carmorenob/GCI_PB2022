@@ -1842,7 +1842,7 @@ type dw_hist from datawindow within w_apoyo_diag2
 event p_rowfocuschanged ( )
 integer x = 3735
 integer y = 156
-integer width = 1993
+integer width = 2395
 integer height = 456
 integer taborder = 160
 boolean bringtotop = true
@@ -1991,7 +1991,7 @@ end event
 type gb_4 from groupbox within w_apoyo_diag2
 integer x = 3694
 integer y = 104
-integer width = 2062
+integer width = 2487
 integer height = 556
 integer textsize = -8
 integer weight = 400
@@ -2009,7 +2009,7 @@ type tab_1 from tab within w_apoyo_diag2
 event create ( )
 event destroy ( )
 integer y = 696
-integer width = 5746
+integer width = 6167
 integer height = 1616
 integer taborder = 170
 integer textsize = -8
@@ -2054,7 +2054,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 5710
+integer width = 6130
 integer height = 1488
 long backcolor = 67108864
 string text = "Procedimientos"
@@ -2180,7 +2180,7 @@ end on
 
 type st_7 from statictext within tp_1
 boolean visible = false
-integer x = 2693
+integer x = 3333
 integer y = 1388
 integer width = 123
 integer height = 64
@@ -2198,7 +2198,7 @@ end type
 
 type st_5 from statictext within tp_1
 boolean visible = false
-integer x = 2693
+integer x = 3333
 integer y = 1300
 integer width = 146
 integer height = 64
@@ -2216,7 +2216,7 @@ end type
 
 type dp_2 from datepicker within tp_1
 boolean visible = false
-integer x = 2898
+integer x = 3538
 integer y = 1388
 integer width = 686
 integer height = 100
@@ -2225,7 +2225,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-07-11"), Time("09:02:16.000000"))
+datetime value = DateTime(Date("2024-07-30"), Time("12:06:27.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2238,7 +2238,7 @@ end type
 
 type dp_1 from datepicker within tp_1
 boolean visible = false
-integer x = 2889
+integer x = 3529
 integer y = 1284
 integer width = 686
 integer height = 100
@@ -2247,7 +2247,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-07-11"), Time("09:02:16.000000"))
+datetime value = DateTime(Date("2024-07-30"), Time("12:06:27.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2262,7 +2262,7 @@ type hpb_1 from hprogressbar within tp_1
 boolean visible = false
 integer x = 3982
 integer y = 1360
-integer width = 1230
+integer width = 2103
 integer height = 68
 unsignedinteger maxposition = 100
 unsignedinteger position = 50
@@ -2345,7 +2345,7 @@ end if
 end event
 
 type pb_8 from picturebutton within tp_1
-integer x = 2446
+integer x = 3086
 integer y = 1320
 integer width = 146
 integer height = 128
@@ -2742,7 +2742,7 @@ type sle_2 from singlelineedit within tp_1
 boolean visible = false
 integer x = 315
 integer y = 168
-integer width = 4841
+integer width = 5765
 integer height = 60
 integer taborder = 140
 integer textsize = -8
@@ -2757,7 +2757,7 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type pb_save_insumo from picturebutton within tp_1
-integer x = 1376
+integer x = 2016
 integer y = 1320
 integer width = 146
 integer height = 128
@@ -2981,7 +2981,7 @@ end type
 
 type dw_procs from datawindow within tp_1
 integer y = 316
-integer width = 5678
+integer width = 6094
 integer height = 956
 integer taborder = 9
 string title = "none"
@@ -3114,7 +3114,7 @@ end event
 
 type pb_cargar_res from picturebutton within tp_1
 event mousemove pbm_mousemove
-integer x = 1911
+integer x = 2551
 integer y = 1320
 integer width = 146
 integer height = 128
@@ -3169,7 +3169,7 @@ end event
 
 type cb_borra from picturebutton within tp_1
 event mousemove pbm_mousemove
-integer x = 2089
+integer x = 2729
 integer y = 1320
 integer width = 146
 integer height = 128
@@ -3298,7 +3298,7 @@ end event
 type st_6 from statictext within tp_1
 integer x = 5
 integer y = 244
-integer width = 5664
+integer width = 6085
 integer height = 72
 integer textsize = -8
 integer weight = 400
@@ -3337,7 +3337,6 @@ end type
 
 event clicked;if isnull(dw_area.getitemstring(1,1)) or tipdoc='' or docu='' then return
 openwithparm(w_lleva_factu_apdx,idw_area.getitemstring(idw_area.getrow(),'varios_fact'))
-//open(w_lleva_factu_apdx)
 refres_lista()
 end event
 
@@ -3367,7 +3366,7 @@ refres_lista()
 end event
 
 type pb_print from pb_report within tp_1
-integer x = 2267
+integer x = 2907
 integer y = 1320
 integer taborder = 12
 string picturename = "print2.gif"
@@ -3517,7 +3516,7 @@ type tp_4 from userobject within tab_1
 boolean visible = false
 integer x = 18
 integer y = 112
-integer width = 5710
+integer width = 6130
 integer height = 1488
 boolean enabled = false
 long backcolor = 67108864
@@ -3659,7 +3658,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 5710
+integer width = 6130
 integer height = 1488
 long backcolor = 67108864
 string text = "Resultados"
@@ -3738,7 +3737,7 @@ long backcolor = 67108864
 end type
 
 type pb_cerrar from picturebutton within tp_2
-integer x = 4425
+integer x = 5499
 integer y = 692
 integer width = 146
 integer height = 128
@@ -3809,7 +3808,7 @@ cambia_est(dw_res,'7')
 end event
 
 type pb_insert from picturebutton within tp_2
-integer x = 4425
+integer x = 5499
 integer y = 832
 integer width = 146
 integer height = 128
@@ -3834,8 +3833,8 @@ end event
 
 type dw_l from datawindow within tp_2
 boolean visible = false
-integer x = 4590
-integer y = 148
+integer x = 5371
+integer y = 16
 integer width = 169
 integer height = 124
 boolean bringtotop = true
@@ -3852,7 +3851,7 @@ end event
 
 type dw_campos from datawindow within tp_2
 boolean visible = false
-integer x = 4439
+integer x = 5513
 integer y = 1020
 integer width = 128
 integer height = 120
@@ -3870,8 +3869,8 @@ end event
 type dw_res from datawindow within tp_2
 integer x = 105
 integer y = 512
-integer width = 4297
-integer height = 872
+integer width = 5349
+integer height = 940
 integer taborder = 60
 string dataobject = "dw_xa_resul"
 boolean vscrollbar = true
@@ -4181,7 +4180,7 @@ event clicked;tab_1.tp_1.dw_procs.scrollnextrow()
 end event
 
 type pb_save_resul from picturebutton within tp_2
-integer x = 4425
+integer x = 5499
 integer y = 552
 integer width = 146
 integer height = 128
@@ -4307,7 +4306,7 @@ type dw_serving from datawindow within tp_2
 event type integer insertar ( )
 integer x = 14
 integer y = 116
-integer width = 4571
+integer width = 5413
 integer height = 388
 integer taborder = 50
 boolean bringtotop = true
@@ -4592,7 +4591,7 @@ end event
 type tp_3 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 5710
+integer width = 6130
 integer height = 1488
 long backcolor = 67108864
 string text = "Imágenes"
