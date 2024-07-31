@@ -154,13 +154,24 @@ event clicked;long j,cuantos,k, donde,cant
 long nnul,nh,norden_os,nitem_os,conta_os,facturar
 string snul,naut,cod,clug_os,emp,cont,err,obser
 datetime fnul
+st_xa_anular st_anula
+
 setnull(nnul)
 setnull(snul)
 setnull(fnul)
 cuantos=0
 for j=1 to dw_trae.rowcount()
 	if dw_trae.getitemstring(j,'rechazar')='3' then 
+		st_anula.tipo='AD'
+		openwithparm (w_motiv_anula,st_anula)
+		st_anula=message.powerobjectparm
+		if not isValid(st_anula) then return
 		dw_trae.setitem(j,'estado','4')
+		dw_trae.setitem(j,'cod_rech',st_anula.motivo)
+		dw_trae.setitem(j,'usuario_rech',usuario)
+		dw_trae.setitem(j,'motiv_rech',st_anula.observacion)
+		dw_trae.setitem(j,'fecha_rech',datetime(today(),now()))
+		dw_trae.setitem(j,'cod_rech',st_anula.motivo)
 		cuantos ++
 	end if
 	err=dw_trae.getitemstring(j,"esco")

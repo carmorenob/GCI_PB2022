@@ -175,7 +175,7 @@ for j= 1 to dw_trae.rowcount()
 			clugfac=dw_trae.getitemstring(j,"clugar")
 			tipo_fac=dw_trae.getitemstring(j,"tipo")
 			nitemfac=dw_trae.getitemnumber(j,"nitem")
-			update factcpo set cod_rech=:st_anula.motivo, usuario_rech=:usuario,motiv_rech=st_anula.observacion,fecha_rech=:ldt_fhoy
+			update factcpo set cod_rech=:st_anula.motivo, usuario_rech=:usuario,motiv_rech=:st_anula.observacion,fecha_rech=:ldt_fhoy
 			WHERE (((factcpo.nfact)=:nfact) AND ((factcpo.clugar)=:clugfac) AND ((factcpo.tipo)=:tipo_fac) AND ((factcpo.nitem)=:nitemfac));
 		end if
 	end if
