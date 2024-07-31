@@ -2,6 +2,8 @@
 forward
 global type w_lleva_factu_apdx from window
 end type
+type cbx_pasa from checkbox within w_lleva_factu_apdx
+end type
 type pb_cancel from picturebutton within w_lleva_factu_apdx
 end type
 type pb_acep from picturebutton within w_lleva_factu_apdx
@@ -14,7 +16,7 @@ end forward
 
 global type w_lleva_factu_apdx from window
 integer width = 4110
-integer height = 1388
+integer height = 1492
 boolean titlebar = true
 string title = "Llevar procedimientos de Facturación a Apoyo Diagnóstico (Facturas sin Cita)"
 boolean controlmenu = true
@@ -23,6 +25,7 @@ long backcolor = 67108864
 string icon = "Query5!"
 boolean clientedge = true
 boolean center = true
+cbx_pasa cbx_pasa
 pb_cancel pb_cancel
 pb_acep pb_acep
 st_1 st_1
@@ -35,17 +38,20 @@ string ls_varfac
 end variables
 
 on w_lleva_factu_apdx.create
+this.cbx_pasa=create cbx_pasa
 this.pb_cancel=create pb_cancel
 this.pb_acep=create pb_acep
 this.st_1=create st_1
 this.dw_trae=create dw_trae
-this.Control[]={this.pb_cancel,&
+this.Control[]={this.cbx_pasa,&
+this.pb_cancel,&
 this.pb_acep,&
 this.st_1,&
 this.dw_trae}
 end on
 
 on w_lleva_factu_apdx.destroy
+destroy(this.cbx_pasa)
 destroy(this.pb_cancel)
 destroy(this.pb_acep)
 destroy(this.st_1)
@@ -55,9 +61,26 @@ end on
 event open;ls_varfac=message.stringparm
 end event
 
+type cbx_pasa from checkbox within w_lleva_factu_apdx
+integer x = 2290
+integer y = 32
+integer width = 425
+integer height = 64
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 553648127
+string text = "Replica Rechazo"
+boolean checked = true
+end type
+
 type pb_cancel from picturebutton within w_lleva_factu_apdx
 integer x = 2034
-integer y = 1152
+integer y = 1232
 integer width = 146
 integer height = 128
 integer taborder = 20
@@ -79,7 +102,7 @@ end event
 
 type pb_acep from picturebutton within w_lleva_factu_apdx
 integer x = 1856
-integer y = 1152
+integer y = 1232
 integer width = 146
 integer height = 128
 integer taborder = 20
@@ -99,7 +122,7 @@ end type
 
 event clicked;if dw_trae.accepttext()=-1 then return
 long j,k,cuantos,filas,nnul,nfact,nitemfac,nrec,consec
-boolean new_ingreso=false
+boolean new_ingreso=false,lbn_pasa
 string cemp,ccont,snul,cod,clugfac,clugrec,plan,cproceq,cmaneq,naut,clug_consec,tipo_fac,ls_area
 string ls_codanul
 datetime fnul
@@ -127,6 +150,7 @@ if cuantos>0 then
 	return
 End if
 /////
+
 for j= 1 to dw_trae.rowcount()
 	if dw_trae.getitemnumber(j,"esco")>0 then
 		cemp=dw_trae.getitemstring(j,"cemp")
@@ -163,13 +187,20 @@ for j= 1 to dw_trae.rowcount()
 		next
 	else
 		if dw_trae.getitemnumber(j,"rechazar")=1 then
-			st_xa_anular st_anula
-			datetime ldt_fhoy
-			st_anula.tipo='AD'
-			openwithparm (w_motiv_anula,st_anula)
-			st_anula=message.powerobjectparm
-			if not isValid(st_anula) then return
-			ldt_fhoy=datetime(today(),now())
+			if lbn_pasa then
+				st_xa_anular st_anula
+				datetime ldt_fhoy
+				st_anula.tipo='AX'
+				openwithparm (w_motiv_anula,st_anula)
+				st_anula=message.powerobjectparm
+				if not isValid(st_anula) then return
+				ldt_fhoy=datetime(today(),now())
+				if cbx_pasa.checked then
+					lbn_pasa=false
+				else
+					lbn_pasa=true
+				end if				
+			end if
 			
 			nfact=dw_trae.getitemnumber(j,"nfact")
 			clugfac=dw_trae.getitemstring(j,"clugar")
@@ -187,7 +218,7 @@ end event
 type st_1 from statictext within w_lleva_factu_apdx
 integer x = 37
 integer y = 24
-integer width = 3986
+integer width = 2130
 integer height = 80
 integer textsize = -8
 integer weight = 400
@@ -196,7 +227,7 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 long textcolor = 33554432
-long backcolor = 134217752
+long backcolor = 15793151
 string text = "Seleccione los procedimientos a atender en Apoyo Diagnóstico (De click sobre la casilla llevar):"
 boolean border = true
 borderstyle borderstyle = stylelowered!
@@ -205,9 +236,9 @@ end type
 
 type dw_trae from datawindow within w_lleva_factu_apdx
 integer x = 32
-integer y = 116
+integer y = 128
 integer width = 3995
-integer height = 1012
+integer height = 1080
 integer taborder = 10
 string title = "none"
 string dataobject = "dw_factura_a_apdx"

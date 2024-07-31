@@ -3,6 +3,8 @@ $PBExportComments$lleva desde hosposd o qxosd a ap dx
 forward
 global type w_os_apdx from window
 end type
+type cbx_pasa from checkbox within w_os_apdx
+end type
 type rb_qx from radiobutton within w_os_apdx
 end type
 type rb_1 from radiobutton within w_os_apdx
@@ -28,6 +30,7 @@ long backcolor = 67108864
 string icon = "os.ico"
 boolean clientedge = true
 boolean center = true
+cbx_pasa cbx_pasa
 rb_qx rb_qx
 rb_1 rb_1
 pb_cancel pb_cancel
@@ -42,13 +45,15 @@ long xant,yant
 end variables
 
 on w_os_apdx.create
+this.cbx_pasa=create cbx_pasa
 this.rb_qx=create rb_qx
 this.rb_1=create rb_1
 this.pb_cancel=create pb_cancel
 this.pb_ok=create pb_ok
 this.st_1=create st_1
 this.dw_trae=create dw_trae
-this.Control[]={this.rb_qx,&
+this.Control[]={this.cbx_pasa,&
+this.rb_qx,&
 this.rb_1,&
 this.pb_cancel,&
 this.pb_ok,&
@@ -57,6 +62,7 @@ this.dw_trae}
 end on
 
 on w_os_apdx.destroy
+destroy(this.cbx_pasa)
 destroy(this.rb_qx)
 destroy(this.rb_1)
 destroy(this.pb_cancel)
@@ -64,6 +70,23 @@ destroy(this.pb_ok)
 destroy(this.st_1)
 destroy(this.dw_trae)
 end on
+
+type cbx_pasa from checkbox within w_os_apdx
+integer x = 2290
+integer y = 32
+integer width = 425
+integer height = 64
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 553648127
+string text = "Replica Rechazo"
+boolean checked = true
+end type
 
 type rb_qx from radiobutton within w_os_apdx
 integer x = 1029
@@ -154,6 +177,7 @@ event clicked;long j,cuantos,k, donde,cant
 long nnul,nh,norden_os,nitem_os,conta_os,facturar
 string snul,naut,cod,clug_os,emp,cont,err,obser
 datetime fnul
+boolean lbn_pasa
 st_xa_anular st_anula
 
 setnull(nnul)
@@ -161,11 +185,18 @@ setnull(snul)
 setnull(fnul)
 cuantos=0
 for j=1 to dw_trae.rowcount()
-	if dw_trae.getitemstring(j,'rechazar')='3' then 
-		st_anula.tipo='AD'
-		openwithparm (w_motiv_anula,st_anula)
-		st_anula=message.powerobjectparm
-		if not isValid(st_anula) then return
+	if dw_trae.getitemstring(j,'rechazar')='3' then
+		if lbn_pasa then
+			st_anula.tipo='AX'
+			openwithparm (w_motiv_anula,st_anula)
+			st_anula=message.powerobjectparm
+			if not isValid(st_anula) then return
+			if cbx_pasa.checked then
+				lbn_pasa=false
+			else
+				lbn_pasa=true
+			end if		
+		end if
 		dw_trae.setitem(j,'estado','4')
 		dw_trae.setitem(j,'cod_rech',st_anula.motivo)
 		dw_trae.setitem(j,'usuario_rech',usuario)
