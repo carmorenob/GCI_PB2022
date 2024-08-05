@@ -122,7 +122,7 @@ end type
 
 event clicked;if dw_trae.accepttext()=-1 then return
 long j,k,cuantos,filas,nnul,nfact,nitemfac,nrec,consec
-boolean new_ingreso=false,lbn_pasa
+boolean new_ingreso=false,lbn_pasa=true
 string cemp,ccont,snul,cod,clugfac,clugrec,plan,cproceq,cmaneq,naut,clug_consec,tipo_fac,ls_area
 string ls_codanul
 datetime fnul

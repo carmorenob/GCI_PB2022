@@ -177,7 +177,7 @@ event clicked;long j,cuantos,k, donde,cant
 long nnul,nh,norden_os,nitem_os,conta_os,facturar
 string snul,naut,cod,clug_os,emp,cont,err,obser
 datetime fnul
-boolean lbn_pasa
+boolean lbn_pasa=true
 st_xa_anular st_anula
 
 setnull(nnul)
