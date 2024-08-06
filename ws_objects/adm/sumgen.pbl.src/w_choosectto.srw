@@ -213,7 +213,7 @@ elseif st_p.codmod = 'PRSCTPT' or st_p.codmod = 'PRSCTRFC' or st_p.codmod = 'PRN
 		dw_cp = create uo_datastore
 		dw_cp.DataObject = 'dw_contra_ppto'
 		dw_cp.SetTransObject(SQLCA)
-		if dw_cp.retrieve(dw_1.GetItemNumber(dw_1.GetRow(),'ano'),dw_1.GetItemNumber(dw_1.GetRow(),'ncontrato'),dw_1.GetItemNumber(dw_1.GetRow(),'otrosi')) > 0 then
+		if dw_cp.retrieve(an,nc,ot) > 0 then
 			for i = 1 to dw_cp.RowCount()
 				if dw_cp.getItemNumber(i,'monto') <= dw_cp.getItemNumber(i,'monto_utilizado') then CONTINUE
 				valor = st_p.dw_obj.Describe("Evaluate('max(item)',0)")
@@ -231,23 +231,15 @@ elseif st_p.codmod = 'PRSCTPT' or st_p.codmod = 'PRSCTRFC' or st_p.codmod = 'PRN
 				st_p.dw_obj.SetItem(fila,'codtotal',dw_cp.GetItemString(i,'codtotal_dispo'))
 				st_p.dw_obj.SetItem(fila,'estado','0')
 				st_p.dw_obj.SetItem(fila,'descrip',dw_cp.GetItemString(i,'descrip_dispo'))
-//		OV		
-//				st_p.dw_obj.SetItem(fila,'monto',dw_cp.GetItemNumber(i,'monto'))
-//				st_p.dw_obj.SetItem(fila,'monto_vigente',dw_cp.GetItemNumber(i,'monto'))
-//				st_p.dw_obj.SetItem(fila,'monto_vigente_orig',dw_cp.GetItemNumber(i,'monto_vigente_dispo'))
-//				st_p.dw_obj.SetItem(fila,'monto_utilizado_orig',dw_cp.GetItemNumber(i,'monto_utilizado_dispo'))
 				
-				//if ot=0 or ot=100 or ot=1000 then 
-					//st_p.dw_obj.SetItem(fila,'monto',dw_cp.GetItemNumber(i,'monto'))
-					//st_p.dw_obj.SetItem(fila,'monto_vigente',dw_cp.GetItemNumber(i,'monto'))
-					//montos+=dw_cp.GetItemNumber(i,'monto')
-				//else
-					montos += dw_cp.GetItemNumber(i,'monto') - dw_cp.GetItemNumber(i,'monto_utilizado_dispo')
-					st_p.dw_obj.SetItem(fila,'monto', dw_cp.GetItemNumber(i,'monto') - dw_cp.GetItemNumber(i,'monto_utilizado_dispo'))					
-					st_p.dw_obj.SetItem(fila,'monto_vigente', dw_cp.GetItemNumber(i,'monto') - dw_cp.GetItemNumber(i,'monto_utilizado_dispo'))	
-					st_p.dw_obj.SetItem(fila,'monto_vigente_orig',dw_cp.GetItemNumber(i,'monto_vigente_dispo'))
-					st_p.dw_obj.SetItem(fila,'monto_utilizado_orig',dw_cp.GetItemNumber(i,'monto_utilizado_dispo'))
-			//	end if
+//				montos += dw_cp.GetItemNumber(i,'monto') - dw_cp.GetItemNumber(i,'monto_utilizado_dispo')
+//				st_p.dw_obj.SetItem(fila,'monto', dw_cp.GetItemNumber(i,'monto') - dw_cp.GetItemNumber(i,'monto_utilizado_dispo'))					
+//				st_p.dw_obj.SetItem(fila,'monto_vigente',  dw_cp.GetItemNumber(i,'monto') - dw_cp.GetItemNumber(i,'monto_utilizado_dispo'))	
+				montos += dw_cp.GetItemNumber(i,'monto') - dw_cp.GetItemNumber(i,'monto_utilizado')
+				st_p.dw_obj.SetItem(fila,'monto', dw_cp.GetItemNumber(i,'monto') - dw_cp.GetItemNumber(i,'monto_utilizado'))					
+				st_p.dw_obj.SetItem(fila,'monto_vigente',  dw_cp.GetItemNumber(i,'monto') - dw_cp.GetItemNumber(i,'monto_utilizado'))	
+				st_p.dw_obj.SetItem(fila,'monto_vigente_orig',dw_cp.GetItemNumber(i,'monto_vigente_dispo'))
+				st_p.dw_obj.SetItem(fila,'monto_utilizado_orig',dw_cp.GetItemNumber(i,'monto_utilizado_dispo'))
 			next
 		else
 			MessageBox('Atención','El contrato no tiene asociadas disponibilidades')
