@@ -558,17 +558,6 @@ if ibn_nueva then
 	for j=1 to dw_t.rowcount()
 		dw_t.setitem(j,'nrelacion',ndoc)
 	next
-	
-//	
-//	dw_t= tab_2.t2_1.tab_fp.tabfp.dw_fpag
-//	dw_t.setfilter('')
-//	dw_t.filter()
-//	for j=1 to dw_t.rowcount()
-//		if dw_t.getitemnumber(j,'esco')=0 then continue
-//		dw_t.setitem(j,'clugar_relfact',i_clug_rad)
-//		dw_t.setitem(j,'coddoc_relfact',i_cdoc)
-//		dw_t.setitem(j,'nrelacion_relfact',ndoc)
-//	next
 else
 	ndoc=tab_2.t2_3.tab_4.t4_1.dw_cab.getitemnumber(1,'nrelacion')
 end if//fin nueva
@@ -1254,8 +1243,8 @@ end event
 type dw_rela from datawindow within w_recibe_fact
 boolean visible = false
 integer x = 4064
-integer width = 553
-integer height = 128
+integer width = 1458
+integer height = 168
 boolean enabled = false
 string title = "none"
 string dataobject = "dw_mod_rel_orig"
@@ -2583,31 +2572,36 @@ for fila = 1 to tab_2.t2_1.tab_fp.tabfp.dw_fpag.RowCount()
 	if tab_2.t2_1.tab_fp.tabfp.dw_fpag.getItemString(fila, 'esco') = '0' then Continue
 	tab_2.t2_1.tab_fp.tabcau.dw_causa.setFilter( "item="+String(tab_2.t2_1.tab_fp.tabfp.dw_fpag.getItemNumber(fila,'item')) )
 	tab_2.t2_1.tab_fp.tabcau.dw_causa.filter()
-	for i = 1 to tab_2.t2_1.tab_fp.tabcau.dw_causa.rowCount()
-		fc = tab_2.t2_1.tab_1.tabconp.dw_concep_cont.find( "item="+String(tab_2.t2_1.tab_fp.tabfp.dw_fpag.getItemNumber(fila,'item'))+ "and cod_rel='" + tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemString(i,'cod_rel')+"'", 1, tab_2.t2_1.tab_1.tabconp.dw_concep_cont.rowCount())
-		if fc = 0 then
-			fc = tab_2.t2_1.tab_1.tabconp.dw_concep_cont.insertRow(0)
-			tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'ano', tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'ano'))
-			tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'ncontrato', tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'ncontrato'))
-			tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'otrosi', tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'otrosi'))
-			tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'item', tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'item'))
-			tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'n_concep', nconcep)
-			tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'cod_rel', tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemString(i,'cod_rel'))
-			tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'tbruto',tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'monto_vigente'))
-			tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'v_siniva', tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'monto_vigente'))
-			tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'tneto', tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'monto_vigente'))
-			nconcep = nconcep + 1
-		else
-			tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'tbruto', tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getItemNumber(fc, 'tbruto') + tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'monto_vigente'))
-			tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'v_siniva', tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getItemNumber(fc, 'v_siniva') + tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'monto_vigente'))
-			tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'tneto', tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getItemNumber(fc, 'tneto') + tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'monto_vigente'))
-		end if
-		tab_2.t2_1.tab_fp.tabcau.dw_causa.setItem(i, "nuevo", nconcep)
-	next
+	if tab_2.t2_1.tab_fp.tabcau.dw_causa.rowCount()>0 then
+		for i = 1 to tab_2.t2_1.tab_fp.tabcau.dw_causa.rowCount()
+			fc = tab_2.t2_1.tab_1.tabconp.dw_concep_cont.find( "item="+String(tab_2.t2_1.tab_fp.tabfp.dw_fpag.getItemNumber(fila,'item'))+ "and cod_rel='" + tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemString(i,'cod_rel')+"'", 1, tab_2.t2_1.tab_1.tabconp.dw_concep_cont.rowCount())
+			if fc = 0 then
+				fc = tab_2.t2_1.tab_1.tabconp.dw_concep_cont.insertRow(0)
+				tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'ano', tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'ano'))
+				tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'ncontrato', tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'ncontrato'))
+				tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'otrosi', tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'otrosi'))
+				tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'item', tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'item'))
+				tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'n_concep', nconcep)
+				tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'cod_rel', tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemString(i,'cod_rel'))
+				tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'tbruto',tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'monto_vigente'))
+				tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'v_siniva', tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'monto_vigente'))
+				tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'tneto', tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'monto_vigente'))
+				nconcep = nconcep + 1
+			else
+				tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'tbruto', tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getItemNumber(fc, 'tbruto') + tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'monto_vigente'))
+				tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'v_siniva', tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getItemNumber(fc, 'v_siniva') + tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'monto_vigente'))
+				tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setItem(fc, 'tneto', tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getItemNumber(fc, 'tneto') + tab_2.t2_1.tab_fp.tabcau.dw_causa.getItemNumber(i,'monto_vigente'))
+			end if
+			tab_2.t2_1.tab_fp.tabcau.dw_causa.setItem(i, "nuevo", nconcep)
+		next
+	else
+		messagebox('Atención', 'No hay causación para este pago')
+		exit
+	end if
 next
 
 dec a_cobrar, t_cont
-long  k, donde, l
+long  k, ldb_donde, ldb_l
 datawindow dw_viejos,dw_nuevos
 
 dw_nuevos = tab_2.t2_3.t_ret.t_o.dw_rte
@@ -2622,53 +2616,53 @@ tab_2.t2_3.t5.t5_2.dw_anti.reset()
 tab_2.t2_3.t5.t5_3.dw_tz.reset()
 tab_2.t2_3.tab_4.t4_1.dw_cab.insertrow(1)
 
-for l=1 to tab_2.t2_1.tab_1.tabconp.dw_concep_cont.rowcount()
+if tab_2.t2_1.tab_1.tabconp.dw_concep_cont.rowcount()>0 then
+	for ldb_l=1 to tab_2.t2_1.tab_1.tabconp.dw_concep_cont.rowcount()
+		fc =tab_2.t2_3.t5.t5_1.dw_cpo.find( "cod_rel='"+tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemstring(ldb_l,'cod_rel')+"'", 1, tab_2.t2_3.t5.t5_1.dw_cpo.rowCount())
+		if fc=0 then
+			fc = tab_2.t2_3.t5.t5_1.dw_cpo.insertrow(0)
+			tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'clugar',is_clug_rad)
+			tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'coddoc',is_cdoc)
+			ldb_donde=ldb_l
+			tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'item',ldb_l)
+			tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'tipodoc',dw_terce_c.getitemstring(1,'tipodoc'))
+			tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'documento',dw_terce_c.getitemstring(1,'documento'))
+			tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'cod_rel',tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemstring(ldb_l,'cod_rel'))
+			tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'tbruto', tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(ldb_l,'tbruto'))
+			tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'val_bruto', tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(ldb_l,'tbruto'))
+			tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'tneto',tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(ldb_l,'tneto'))
+		else
+			tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'tbruto', tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(ldb_l,'tbruto')+tab_2.t2_3.t5.t5_1.dw_cpo.getitemnumber(fc,'tbruto'))
+			tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'val_bruto', tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(ldb_l,'tbruto')+tab_2.t2_3.t5.t5_1.dw_cpo.getitemnumber(fc,'val_bruto'))
+			tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'tneto',tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(ldb_l,'tneto')+tab_2.t2_3.t5.t5_1.dw_cpo.getitemnumber(fc,'tneto'))	
+		end if
+		
+		st_xa_antis st_ppc
+		st_ppc.dw_cpo=tab_2.t2_1.tab_1.tabconp.dw_concep_cont
+		st_ppc.dw_intfaz=dw_rela
+		st_ppc.dw_rten=dw_ppto
+		st_ppc.ld_fila= ldb_donde
+		st_ppc.ps_flujo=is_flujo
+		st_ppc.ps_tipodoc=dw_cont.getItemString(dw_cont.getRow(), 'tipodoc')
+		st_ppc.ps_docu=dw_cont.getItemString(dw_cont.getRow(), 'documento')
+		openwithparm(w_elige_ppto_cont,st_ppc)
+		if message.stringparm='-1' then 
+			tab_2.t2_1.tab_1.tabconp.dw_concep_cont.reset()
+			return		
+		end if
+	next
 	
-	fc =tab_2.t2_3.t5.t5_1.dw_cpo.find( "cod_rel='"+tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemstring(l,'cod_rel')+"'", 1, tab_2.t2_3.t5.t5_1.dw_cpo.rowCount())
-	if fc=0 then
-		fc = tab_2.t2_3.t5.t5_1.dw_cpo.insertrow(0)
-		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'clugar',is_clug_rad)
-		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'coddoc',is_cdoc)
-		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'item',l)
-		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'tipodoc',dw_terce_c.getitemstring(1,'tipodoc'))
-		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'documento',dw_terce_c.getitemstring(1,'documento'))
-		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'cod_rel',tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemstring(l,'cod_rel'))
-		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'tbruto', tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l,'tbruto'))
-		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'val_bruto', tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l,'tbruto'))
-		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'tneto',tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l,'tneto'))
-	else
-		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'tbruto', tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l,'tbruto')+tab_2.t2_3.t5.t5_1.dw_cpo.getitemnumber(fc,'tbruto'))
-		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'val_bruto', tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l,'tbruto')+tab_2.t2_3.t5.t5_1.dw_cpo.getitemnumber(fc,'val_bruto'))
-		tab_2.t2_3.t5.t5_1.dw_cpo.setitem(fc,'tneto',tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l,'tneto')+tab_2.t2_3.t5.t5_1.dw_cpo.getitemnumber(fc,'tneto'))	
-	end if
-	
-
-	st_xa_antis st_ppc
-	st_ppc.dw_cpo=tab_2.t2_1.tab_1.tabconp.dw_concep_cont
-	st_ppc.dw_intfaz=dw_rela
-	st_ppc.dw_rten=dw_ppto
-	st_ppc.ld_fila= l
-	st_ppc.ps_flujo=is_flujo
-	st_ppc.ps_tipodoc=dw_cont.getItemString(dw_cont.getRow(), 'tipodoc')
-	st_ppc.ps_docu=dw_cont.getItemString(dw_cont.getRow(), 'documento')
-	openwithparm(w_elige_ppto_cont,st_ppc)
-	if message.stringparm='-1' then 
-		tab_2.t2_1.tab_1.tabconp.dw_concep_cont.reset()
-		return		
-	end if
-next
-
-tab_2.t2_3.t5.t5_1.dw_cpo.event p_itemchanged()
-tab_2.t2_3.tab_4.t4_1.dw_cab.setitem(1,'fecha_rel',datetime(today(),now()))
-tab_2.t2_3.tab_4.t4_1.dw_cab.setitem(1,'clugar',is_clug_rad)
-tab_2.t2_3.tab_4.t4_1.dw_cab.setitem(1,'coddoc',is_cdoc)
-tab_2.t2_3.tab_4.t4_1.dw_cab.setitem(1,'cod_flujo',is_flujo)
-tab_2.t2_3.enabled = true
-tab_2.selectedtab = 3
-tab_2.t2_3.pb_save_def.enabled = true
-ibn_nueva = true
-ibn_cambio = true
-
+	tab_2.t2_3.t5.t5_1.dw_cpo.event p_itemchanged()
+	tab_2.t2_3.tab_4.t4_1.dw_cab.setitem(1,'fecha_rel',datetime(today(),now()))
+	tab_2.t2_3.tab_4.t4_1.dw_cab.setitem(1,'clugar',is_clug_rad)
+	tab_2.t2_3.tab_4.t4_1.dw_cab.setitem(1,'coddoc',is_cdoc)
+	tab_2.t2_3.tab_4.t4_1.dw_cab.setitem(1,'cod_flujo',is_flujo)
+	tab_2.t2_3.enabled = true
+	tab_2.selectedtab = 3
+	tab_2.t2_3.pb_save_def.enabled = true
+	ibn_nueva = true
+	ibn_cambio = true
+end if
 end event
 
 type t2_2 from userobject within tab_2
