@@ -2276,7 +2276,7 @@ event create ( )
 event destroy ( )
 integer x = 32
 integer y = 660
-integer width = 5362
+integer width = 5696
 integer height = 832
 integer taborder = 60
 integer textsize = -8
@@ -2310,7 +2310,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 5326
+integer width = 5659
 integer height = 704
 long backcolor = 67108864
 string text = "Estimación"
@@ -2354,7 +2354,7 @@ destroy(this.dw_causa)
 end on
 
 type pb_copi from picturebutton within caus
-integer x = 5152
+integer x = 5509
 integer y = 32
 integer width = 146
 integer height = 128
@@ -2391,8 +2391,8 @@ end event
 
 type dw_imp from datawindow within caus
 boolean visible = false
-integer x = 5129
-integer y = 512
+integer x = 5367
+integer y = 460
 integer width = 128
 integer height = 56
 integer taborder = 50
@@ -2403,7 +2403,7 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type pb_import from picturebutton within caus
-integer x = 5157
+integer x = 5509
 integer y = 164
 integer width = 146
 integer height = 128
@@ -2470,7 +2470,7 @@ next
 end event
 
 type pb_13 from picturebutton within caus
-integer x = 4987
+integer x = 5349
 integer y = 304
 integer width = 146
 integer height = 128
@@ -2481,7 +2481,6 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
-boolean originalsize = true
 string picturename = "guardar.gif"
 alignment htextalign = left!
 end type
@@ -2524,7 +2523,7 @@ Return 0
 end event
 
 type pb_10 from picturebutton within caus
-integer x = 4987
+integer x = 5349
 integer y = 164
 integer width = 146
 integer height = 128
@@ -2535,7 +2534,6 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
-boolean originalsize = true
 string picturename = "borrar_fila.gif"
 alignment htextalign = left!
 end type
@@ -2557,7 +2555,7 @@ cambio = TRUE
 end event
 
 type pb_20 from picturebutton within caus
-integer x = 4987
+integer x = 5349
 integer y = 32
 integer width = 146
 integer height = 128
@@ -2568,7 +2566,6 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
-boolean originalsize = true
 string picturename = "insertar.gif"
 alignment htextalign = left!
 end type
@@ -2600,7 +2597,7 @@ end event
 type dw_causa from datawindow within caus
 integer x = 27
 integer y = 32
-integer width = 4928
+integer width = 5262
 integer height = 656
 integer taborder = 30
 string title = "none"
@@ -2629,7 +2626,7 @@ elseif this.GetColumnName() = 'codcc' then
 end if
 
 if GetColumnName() = 'monto_vigente' then
-	if  t1.p2.dw_fpago.getitemstring(t1.p2.dw_fpago.getrow(),'contabil')='C' then
+	if  t1.p2.dw_fpago.getitemstring(t1.p2.dw_fpago.getrow(),'contabil')='P' then
 		this.SetItem(row,'monto', double(data))
 	end if
 end if
@@ -2663,7 +2660,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 5326
+integer width = 5659
 integer height = 704
 long backcolor = 67108864
 string text = "Entradas"

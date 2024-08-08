@@ -226,8 +226,8 @@ end forward
 
 global type w_teso_cartera from w_center
 string tag = "Realizó cambios a un Cobro, desea guardarlos ?"
-integer width = 6107
-integer height = 2616
+integer width = 6903
+integer height = 2528
 string title = "Cartera - Movimientos"
 boolean maxbox = false
 boolean resizable = false
@@ -904,12 +904,12 @@ i_rep=create uo_report
 
 end event
 
-event resize;call super::resize;tab_1.resize((newwidth - 50) , (newheight * 0.46))
+event resize;call super::resize;tab_1.resize((newwidth - 50) , (newheight * 0.55))
 tab_1.tp_det.dw_det.resize((newwidth - 150),(tab_1.height *0.80))
 tab_1.tab_fact.dw_fact.resize((newwidth - 350),(tab_1.height *0.80))
 tab_1.tab_fact.pb_ce.x=(newwidth - 250)
 tab_1.tab_fact.pb_4.x=(newwidth - 250)
-tab_1.tab_fact.pb_impo.x=(newwidth - 250)
+tab_1.tab_fact.pb_impo.x=(newwidth -250)
 tab_1.tp_des.dw_des.resize(4233,(tab_1.height *0.80))
 tab_1.tp_des.mle_1.resize(1518,(tab_1.height *0.70))
 tab_1.tp_pag.tab_2.resize((newwidth - 50),(tab_1.height *0.90))
@@ -917,11 +917,11 @@ tab_1.tp_pag.tab_2.tp_0.resize((newwidth - 100),(tab_1.height *0.90))
 tab_1.tp_pag.tab_2.tp_0.dw_pend.resize((newwidth - 300),(tab_1.height *0.65))
 tab_1.tp_pag.tab_2.tp_0.pb_new_pago.x=(newwidth - 270)
 tab_1.tp_pag.tab_2.tp_0.pb_5.x=(newwidth - 270)
-tab_1.tp_pag.tab_2.tp_1.dw_pagos.resize(2455,(tab_1.height *0.70))
-tab_1.tp_pag.tab_2.tp_1.dw_det_abono.resize(2455,(tab_1.height *0.50))
-tab_1.tp_pag.tab_2.tp_1.dw_det_pag_nota.resize(2455,(tab_1.height *0.50))
-tab_1.tp_pag.tab_2.tp_1.pb_dist_pago.y=tab_1.tp_pag.tab_2.tp_1.dw_det_abono.y+tab_1.tp_pag.tab_2.tp_1.dw_det_abono.height+60
-tab_1.tp_pag.tab_2.tp_1.pb_delpago.y=tab_1.tp_pag.tab_2.tp_1.dw_det_abono.y+tab_1.tp_pag.tab_2.tp_1.dw_det_abono.height+60
+tab_1.tp_pag.tab_2.tp_1.dw_pagos.resize(3323,(tab_1.height *0.75))
+tab_1.tp_pag.tab_2.tp_1.dw_det_abono.resize(3323,(tab_1.height *0.75))
+tab_1.tp_pag.tab_2.tp_1.dw_det_pag_nota.resize(3250,(tab_1.height *0.75))
+tab_1.tp_pag.tab_2.tp_1.pb_dist_pago.x=tab_1.tp_pag.tab_2.tp_1.dw_det_abono.x+tab_1.tp_pag.tab_2.tp_1.dw_det_abono.width - 50
+tab_1.tp_pag.tab_2.tp_1.pb_delpago.x=tab_1.tp_pag.tab_2.tp_1.dw_det_abono.x+tab_1.tp_pag.tab_2.tp_1.dw_det_abono.width - 50
 tab_1.tp_glo.dw_glosas.resize((newwidth - 350),(tab_1.height *0.90))
 tab_1.tp_glo.pb_1.x=(newwidth - 250)
 tab_1.tp_glo.pb_2.x=(newwidth - 250)
@@ -930,7 +930,7 @@ tab_1.tp_glo.pb_6.x=(newwidth - 250)
 end event
 
 type pb_grabar from w_center`pb_grabar within w_teso_cartera
-integer x = 3666
+integer x = 4338
 integer y = 424
 integer taborder = 70
 string picturename = "guardar.gif"
@@ -945,10 +945,10 @@ end if
 end event
 
 type gb_1 from groupbox within w_teso_cartera
-integer x = 3840
+integer x = 4315
 integer y = 904
-integer width = 2153
-integer height = 304
+integer width = 2537
+integer height = 288
 integer taborder = 160
 integer textsize = -8
 integer weight = 400
@@ -982,7 +982,7 @@ end type
 type dw_hist from datawindow within w_teso_cartera
 integer x = 37
 integer y = 152
-integer width = 3575
+integer width = 4251
 integer height = 1000
 integer taborder = 80
 boolean bringtotop = true
@@ -1029,10 +1029,10 @@ end event
 
 type dw_cab from datawindow within w_teso_cartera
 event keyup pbm_dwnkey
-integer x = 3840
-integer y = 40
-integer width = 2171
-integer height = 876
+integer x = 4512
+integer y = 32
+integer width = 2363
+integer height = 884
 integer taborder = 60
 boolean bringtotop = true
 string title = "none"
@@ -1314,7 +1314,7 @@ event dberror;return f_dw_error(sqldbcode,sqlsyntax,sqlerrtext,classname())
 end event
 
 type pb_new from picturebutton within w_teso_cartera
-integer x = 3666
+integer x = 4338
 integer y = 160
 integer width = 146
 integer height = 128
@@ -1353,7 +1353,7 @@ i_nuevo=true
 end event
 
 type pb_anula from picturebutton within w_teso_cartera
-integer x = 3666
+integer x = 4338
 integer y = 288
 integer width = 146
 integer height = 128
@@ -1489,9 +1489,9 @@ end if
 end event
 
 type dw_tot from datawindow within w_teso_cartera
-integer x = 3890
+integer x = 4361
 integer y = 956
-integer width = 2071
+integer width = 2482
 integer height = 228
 integer taborder = 150
 boolean bringtotop = true
@@ -1513,9 +1513,9 @@ end event
 
 type tab_1 from tab within w_teso_cartera
 integer x = 41
-integer y = 1168
-integer width = 6025
-integer height = 1200
+integer y = 1188
+integer width = 6825
+integer height = 1240
 integer taborder = 170
 integer textsize = -8
 integer weight = 400
@@ -1564,8 +1564,8 @@ end on
 type tp_det from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 5989
-integer height = 1072
+integer width = 6789
+integer height = 1112
 long backcolor = 67108864
 string text = "Detalle"
 long tabtextcolor = 33554432
@@ -1587,8 +1587,8 @@ end on
 type dw_det from datawindow within tp_det
 integer x = 32
 integer y = 32
-integer width = 5385
-integer height = 1020
+integer width = 5851
+integer height = 1064
 integer taborder = 30
 string title = "none"
 string dataobject = "dw_car_cpo_radica"
@@ -1622,8 +1622,8 @@ end event
 type tab_fact from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 5989
-integer height = 1072
+integer width = 6789
+integer height = 1112
 long backcolor = 67108864
 string text = "Facturas"
 long tabtextcolor = 33554432
@@ -1663,7 +1663,7 @@ end on
 
 type dw_im from datawindow within tab_fact
 boolean visible = false
-integer x = 5253
+integer x = 5742
 integer y = 500
 integer width = 110
 integer height = 316
@@ -1679,7 +1679,7 @@ end event
 
 type pb_impo from picturebutton within tab_fact
 string tag = "Importa Archivo"
-integer x = 5253
+integer x = 5742
 integer y = 332
 integer width = 146
 integer height = 128
@@ -1760,7 +1760,7 @@ event constructor;settransobject(sqlca)
 end event
 
 type pb_4 from picturebutton within tab_fact
-integer x = 5248
+integer x = 5737
 integer y = 184
 integer width = 146
 integer height = 128
@@ -1788,7 +1788,7 @@ end event
 
 type pb_ce from picturebutton within tab_fact
 string tag = "Numero de Radicacion Todas"
-integer x = 5248
+integer x = 5737
 integer y = 36
 integer width = 142
 integer height = 128
@@ -1817,8 +1817,8 @@ end event
 type dw_fact from datawindow within tab_fact
 integer x = 32
 integer y = 32
-integer width = 5134
-integer height = 1020
+integer width = 5659
+integer height = 1068
 integer taborder = 50
 boolean bringtotop = true
 string dataobject = "dw_facts_radica"
@@ -1841,8 +1841,8 @@ string tag = "Det. anticipo"
 boolean visible = false
 integer x = 18
 integer y = 112
-integer width = 5989
-integer height = 1072
+integer width = 6789
+integer height = 1112
 long backcolor = 67108864
 string text = "Det. Ant."
 long tabtextcolor = 33554432
@@ -1870,7 +1870,7 @@ string tag = "Nota bancaria N"
 boolean visible = false
 integer x = 32
 integer y = 32
-integer width = 2889
+integer width = 3355
 integer height = 1052
 integer taborder = 110
 string title = "none"
@@ -1928,8 +1928,8 @@ end event
 type tp_des from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 5989
-integer height = 1072
+integer width = 6789
+integer height = 1112
 long backcolor = 67108864
 string text = "Desc./Ajustes"
 long tabtextcolor = 33554432
@@ -2331,7 +2331,7 @@ type dw_des from datawindow within tp_des
 integer x = 32
 integer y = 32
 integer width = 4233
-integer height = 1040
+integer height = 1056
 integer taborder = 40
 string title = "none"
 string dataobject = "dw_car_cpo_desc_ajus"
@@ -2456,8 +2456,8 @@ end event
 type tp_pag from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 5989
-integer height = 1072
+integer width = 6789
+integer height = 1112
 long backcolor = 67108864
 string text = "Pagos"
 long tabtextcolor = 33554432
@@ -2479,8 +2479,8 @@ end on
 type tab_2 from tab within tp_pag
 event create ( )
 event destroy ( )
-integer width = 5230
-integer height = 1052
+integer width = 6766
+integer height = 1096
 integer taborder = 10
 integer textsize = -8
 integer weight = 400
@@ -2518,8 +2518,8 @@ end on
 type tp_0 from userobject within tab_2
 integer x = 18
 integer y = 112
-integer width = 5193
-integer height = 924
+integer width = 6729
+integer height = 968
 long backcolor = 67108864
 string text = "Ingresos"
 long tabtextcolor = 33554432
@@ -2555,8 +2555,8 @@ destroy(this.dw_pend)
 end on
 
 type pb_5 from picturebutton within tp_0
-integer x = 5006
-integer y = 248
+integer x = 5733
+integer y = 272
 integer width = 146
 integer height = 128
 integer taborder = 70
@@ -2713,8 +2713,8 @@ event constructor;text='NOTAS BANCARIAS'
 end event
 
 type pb_new_pago from picturebutton within tp_0
-integer x = 5001
-integer y = 100
+integer x = 5728
+integer y = 124
 integer width = 146
 integer height = 128
 integer taborder = 60
@@ -2857,8 +2857,8 @@ end event
 
 type dw_pend from datawindow within tp_0
 integer x = 18
-integer y = 116
-integer width = 4951
+integer y = 120
+integer width = 5659
 integer height = 808
 integer taborder = 60
 string title = "none"
@@ -2906,8 +2906,8 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 5193
-integer height = 924
+integer width = 6729
+integer height = 968
 long backcolor = 67108864
 string text = "Pagos"
 long tabtextcolor = 33554432
@@ -2959,8 +2959,8 @@ destroy(this.dw_det_abono)
 end on
 
 type pb_dist_pago from picturebutton within tp_1
-integer x = 2587
-integer y = 716
+integer x = 6565
+integer y = 56
 integer width = 146
 integer height = 128
 integer taborder = 80
@@ -3002,7 +3002,7 @@ end if
 end event
 
 type st_4 from statictext within tp_1
-integer x = 2569
+integer x = 3397
 integer y = 4
 integer width = 453
 integer height = 52
@@ -3037,8 +3037,8 @@ boolean focusrectangle = false
 end type
 
 type pb_delpago from picturebutton within tp_1
-integer x = 2738
-integer y = 716
+integer x = 6565
+integer y = 204
 integer width = 146
 integer height = 128
 integer taborder = 70
@@ -3209,8 +3209,8 @@ end event
 type dw_pagos from datawindow within tp_1
 integer x = 9
 integer y = 52
-integer width = 2455
-integer height = 904
+integer width = 3323
+integer height = 892
 integer taborder = 30
 string title = "none"
 string dataobject = "dw_car_cpo_pagos"
@@ -3368,10 +3368,10 @@ end event
 type dw_det_pag_nota from datawindow within tp_1
 string tag = "Nota bancaria N"
 boolean visible = false
-integer x = 2560
+integer x = 3397
 integer y = 60
-integer width = 2331
-integer height = 628
+integer width = 3150
+integer height = 888
 integer taborder = 100
 string title = "none"
 string dataobject = "dw_tesbanconot_carpago"
@@ -3390,10 +3390,10 @@ end event
 type dw_ing from datawindow within tp_1
 string tag = "ingresos directos I"
 boolean visible = false
-integer x = 2555
+integer x = 3397
 integer y = 60
-integer width = 2331
-integer height = 588
+integer width = 2903
+integer height = 832
 integer taborder = 20
 string title = "none"
 string dataobject = "dw_ing_cobros"
@@ -3414,10 +3414,10 @@ end event
 type dw_det_pag_manu from datawindow within tp_1
 string tag = "manual M"
 boolean visible = false
-integer x = 2560
+integer x = 3397
 integer y = 60
-integer width = 2331
-integer height = 624
+integer width = 3150
+integer height = 832
 integer taborder = 90
 string title = "none"
 string dataobject = "dw_car_pago_cpo"
@@ -3436,10 +3436,10 @@ end event
 type dw_det_abono from datawindow within tp_1
 string tag = "Pagares P"
 boolean visible = false
-integer x = 2560
+integer x = 3397
 integer y = 60
-integer width = 2318
-integer height = 620
+integer width = 2903
+integer height = 804
 integer taborder = 80
 string title = "none"
 string dataobject = "dw_abonos_anula"
@@ -3459,8 +3459,8 @@ type tp_2 from userobject within tab_2
 boolean visible = false
 integer x = 18
 integer y = 112
-integer width = 5193
-integer height = 924
+integer width = 6729
+integer height = 968
 long backcolor = 67108864
 string text = "Detalle"
 long tabtextcolor = 33554432
@@ -3489,8 +3489,8 @@ end on
 
 type pb_deldet from picturebutton within tp_2
 event mousemove pbm_mousemove
-integer x = 4965
-integer y = 176
+integer x = 6565
+integer y = 144
 integer width = 142
 integer height = 124
 integer taborder = 120
@@ -3517,8 +3517,8 @@ end event
 
 type pb_newdet from picturebutton within tp_2
 event mousemove pbm_mousemove
-integer x = 4965
-integer y = 44
+integer x = 6565
+integer y = 12
 integer width = 142
 integer height = 124
 integer taborder = 130
@@ -3548,7 +3548,7 @@ end event
 
 type dw_pago from datawindow within tp_2
 integer y = 36
-integer width = 4873
+integer width = 6473
 integer height = 872
 integer taborder = 40
 string title = "none"
@@ -3566,8 +3566,8 @@ end event
 type tp_glo from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 5989
-integer height = 1072
+integer width = 6789
+integer height = 1112
 long backcolor = 67108864
 string text = "Glosas"
 long tabtextcolor = 33554432
@@ -3603,8 +3603,8 @@ destroy(this.dw_glosas)
 end on
 
 type pb_6 from picturebutton within tp_glo
-integer x = 3904
-integer y = 444
+integer x = 6569
+integer y = 420
 integer width = 146
 integer height = 128
 integer taborder = 30
@@ -3692,10 +3692,10 @@ messagebox('Atención', 'Proceso finalizado')
 end event
 
 type pb_3 from picturebutton within tp_glo
-integer x = 3899
-integer y = 312
-integer width = 142
-integer height = 124
+integer x = 6569
+integer y = 288
+integer width = 146
+integer height = 128
 integer taborder = 70
 integer textsize = -10
 integer weight = 400
@@ -3704,6 +3704,7 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
 boolean italic = true
+boolean originalsize = true
 string picturename = "ojo.gif"
 string disabledname = "d_ojo.gif"
 alignment htextalign = left!
@@ -3728,10 +3729,10 @@ end if
 end event
 
 type pb_2 from picturebutton within tp_glo
-integer x = 3895
-integer y = 180
-integer width = 142
-integer height = 124
+integer x = 6569
+integer y = 156
+integer width = 146
+integer height = 128
 integer taborder = 60
 integer textsize = -10
 integer weight = 400
@@ -3739,6 +3740,7 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
+boolean originalsize = true
 string picturename = "borrar_fila.gif"
 string disabledname = "d_borrar_fila.gif"
 alignment htextalign = left!
@@ -3784,10 +3786,10 @@ cambio=true
 end event
 
 type pb_1 from picturebutton within tp_glo
-integer x = 3899
-integer y = 48
-integer width = 142
-integer height = 124
+integer x = 6569
+integer y = 24
+integer width = 146
+integer height = 128
 integer taborder = 60
 integer textsize = -10
 integer weight = 400
@@ -3796,6 +3798,7 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
 boolean italic = true
+boolean originalsize = true
 string picturename = "insertar.gif"
 string disabledname = "d_insertar.gif"
 alignment htextalign = left!
@@ -3841,7 +3844,7 @@ end event
 type dw_glosas from datawindow within tp_glo
 integer x = 32
 integer y = 32
-integer width = 3799
+integer width = 6478
 integer height = 1048
 integer taborder = 20
 string title = "none"
@@ -3926,8 +3929,8 @@ end type
 
 type dw_amtz from datawindow within w_teso_cartera
 boolean visible = false
-integer x = 3653
-integer y = 716
+integer x = 4146
+integer y = 40
 integer width = 119
 integer height = 92
 integer taborder = 70
@@ -3949,9 +3952,9 @@ end event
 
 type dw_cierres from datawindow within w_teso_cartera
 boolean visible = false
-integer x = 3648
-integer y = 840
-integer width = 105
+integer x = 3877
+integer y = 24
+integer width = 82
 integer height = 100
 integer taborder = 120
 boolean bringtotop = true
@@ -4159,10 +4162,10 @@ end type
 
 type dw_pag from datawindow within w_teso_cartera
 boolean visible = false
-integer x = 3643
-integer y = 988
+integer x = 3982
+integer y = 32
 integer width = 151
-integer height = 212
+integer height = 76
 integer taborder = 90
 boolean bringtotop = true
 string title = "none"
@@ -4206,7 +4209,7 @@ event constructor;settransobject(sqlca)
 end event
 
 type pb_7 from picturebutton within w_teso_cartera
-integer x = 3666
+integer x = 4338
 integer y = 560
 integer width = 146
 integer height = 128
@@ -4266,8 +4269,8 @@ end event
 
 type dw_electronica from uo_datawindow within w_teso_cartera
 boolean visible = false
-integer x = 3077
-integer y = 2416
+integer x = 2944
+integer y = 2448
 integer width = 754
 integer height = 60
 integer taborder = 60
