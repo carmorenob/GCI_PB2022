@@ -343,8 +343,7 @@ on w_new_recon.destroy
 call super::destroy
 end on
 
-event p_open;call super::p_open;
-tb_1.tp_1.visible=true
+event p_open;call super::p_open;tb_1.tp_1.visible=true
 tb_1.tp_1.enabled=true
 tb_1.tp_3.visible=false
 tb_1.tp_3.enabled=false
@@ -431,8 +430,6 @@ type st_2 from w_docum_base1`st_2 within tp_2
 end type
 
 type pb_10 from w_docum_base1`pb_10 within tp_2
-integer width = 146
-integer height = 128
 end type
 
 event pb_10::clicked;call super::clicked;long fila, numdoc, inicial, final
@@ -458,6 +455,7 @@ else
 end if
 st_p.cod_vigencia = i_vigencia
 st_p.periodo = i_periodo
+st_p.año = i_año
 st_p.dw_obj = dw_rub
 st_p.dw_src = tb_1.tp_1.dw_intf
 openwithparm(w_mod_recon,st_p)

@@ -42,7 +42,7 @@ end type
 end forward
 
 global type w_lleva_cartera_recaudo from window
-integer width = 3941
+integer width = 3890
 integer height = 1808
 boolean titlebar = true
 string title = "Selección de documentos"

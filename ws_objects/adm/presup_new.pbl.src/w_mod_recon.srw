@@ -21,7 +21,7 @@ end type
 end forward
 
 global type w_mod_recon from window
-integer width = 2917
+integer width = 3936
 integer height = 1448
 boolean titlebar = true
 string title = "Modificación Reconocimientos"
@@ -82,7 +82,7 @@ date ld_termina
 
 dw_cpo.GetChild('periodo',dwc_per)
 dwc_per.SetTransObject(SQLCA)
-if dwc_per.Retrieve(st_p.cod_vigencia) = 0 then
+if dwc_per.Retrieve(st_p.cod_vigencia,st_p.año) = 0 then
 	messagebox('Error','No existen periodos para la vigencia seleccionada')
 	dwc_per.insertRow(0)
 end if
@@ -112,10 +112,10 @@ end event
 
 type dw_movi from datawindow within w_mod_recon
 boolean visible = false
-integer x = 2144
-integer y = 1160
+integer x = 3163
+integer y = 1216
 integer width = 695
-integer height = 160
+integer height = 96
 integer taborder = 40
 boolean enabled = false
 string title = "none"
@@ -136,7 +136,7 @@ end event
 type st_2 from statictext within w_mod_recon
 integer x = 41
 integer y = 12
-integer width = 887
+integer width = 603
 integer height = 64
 integer textsize = -8
 integer weight = 700
@@ -152,10 +152,10 @@ end type
 
 type dw_cab from datawindow within w_mod_recon
 boolean visible = false
-integer x = 114
-integer y = 1000
-integer width = 814
-integer height = 252
+integer x = 539
+integer y = 1244
+integer width = 539
+integer height = 88
 integer taborder = 10
 boolean enabled = false
 string title = "none"
@@ -178,10 +178,10 @@ end event
 
 type dw_cpo from datawindow within w_mod_recon
 boolean visible = false
-integer x = 96
-integer y = 1096
-integer width = 695
-integer height = 256
+integer x = 101
+integer y = 1236
+integer width = 366
+integer height = 92
 integer taborder = 40
 boolean enabled = false
 string title = "none"
@@ -205,8 +205,8 @@ end event
 type pb_grabar from picturebutton within w_mod_recon
 event mousemove pbm_mousemove
 string tag = "Cancelar"
-integer x = 1349
-integer y = 1212
+integer x = 1870
+integer y = 1216
 integer width = 142
 integer height = 124
 integer taborder = 30
@@ -359,8 +359,8 @@ end event
 type pb_cancel from picturebutton within w_mod_recon
 event mousemove pbm_mousemove
 string tag = "Cancelar"
-integer x = 1202
-integer y = 1212
+integer x = 1723
+integer y = 1216
 integer width = 142
 integer height = 124
 integer taborder = 20
@@ -383,7 +383,7 @@ end event
 type dw_1 from datawindow within w_mod_recon
 integer x = 37
 integer y = 80
-integer width = 2738
+integer width = 3858
 integer height = 1108
 integer taborder = 10
 string title = "none"
@@ -420,10 +420,10 @@ end if
 end event
 
 type st_1 from statictext within w_mod_recon
-integer x = 1637
-integer y = 1200
-integer width = 1134
-integer height = 164
+integer x = 745
+integer y = 16
+integer width = 3163
+integer height = 56
 boolean bringtotop = true
 integer textsize = -8
 integer weight = 400
@@ -433,7 +433,7 @@ fontfamily fontfamily = swiss!
 string facename = "Arial"
 long textcolor = 33554432
 long backcolor = 134217752
-string text = "El reconocimiento puede modificarse por el valor aceptado en las glosas asociadas a las facturas del cobro y radicación relacionados en la interfaz"
+string text = "El reconocimiento puede modificarse por el valor aceptado en glosas asociadas del cobro y radicación relacionados en la interfaz"
 boolean focusrectangle = false
 end type
 

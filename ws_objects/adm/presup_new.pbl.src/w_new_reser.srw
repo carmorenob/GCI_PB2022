@@ -415,8 +415,7 @@ on w_new_reser.destroy
 call super::destroy
 end on
 
-event p_open;call super::p_open;
-tb_1.tp_1.Visible = TRUE
+event p_open;call super::p_open;tb_1.tp_1.Visible = TRUE
 tb_1.tp_1.Enabled = TRUE
 tb_1.tp_2.dw_sle.Enabled = FALSE
 tb_1.tp_2.pb_find_rubro.Enabled = FALSE

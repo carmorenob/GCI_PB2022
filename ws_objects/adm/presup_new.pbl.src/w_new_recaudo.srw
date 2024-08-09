@@ -301,12 +301,10 @@ on w_new_recaudo.destroy
 call super::destroy
 end on
 
-event p_open;call super::p_open;
-tb_1.tp_1.Visible = TRUE
+event p_open;call super::p_open;tb_1.tp_1.Visible = TRUE
 tb_1.tp_1.Enabled = TRUE
 tb_1.tp_2.dw_sle.Enabled = FALSE
 tb_1.tp_2.pb_2.Enabled = FALSE
-tb_1.tp_2.pb_10.Enabled = FALSE
 tb_1.tp_2.pb_find_rubro.Enabled = FALSE
 tb_1.tp_3.Visible = FALSE
 tb_1.tp_3.Enabled = FALSE
@@ -314,8 +312,9 @@ tb_1.tp_4.Visible = FALSE
 tb_1.tp_4.Enabled = FALSE
 tb_1.tp_5.Visible = FALSE
 tb_1.tp_5.Enabled = FALSE
-tb_1.tp_6.Visible = FALSE
-tb_1.tp_6.Enabled = FALSE
+tb_1.tp_6.Visible = true
+tb_1.tp_6.Enabled = true
+tb_1.tp_2.pb_10.enabled=true
 
 end event
 
@@ -408,8 +407,6 @@ type st_2 from w_docum_base1`st_2 within tp_2
 end type
 
 type pb_10 from w_docum_base1`pb_10 within tp_2
-integer width = 146
-integer height = 128
 end type
 
 type pb_2 from w_docum_base1`pb_2 within tp_2

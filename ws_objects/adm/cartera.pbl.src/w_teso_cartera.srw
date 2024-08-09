@@ -920,8 +920,8 @@ tab_1.tp_pag.tab_2.tp_0.pb_5.x=(newwidth - 270)
 tab_1.tp_pag.tab_2.tp_1.dw_pagos.resize(3323,(tab_1.height *0.75))
 tab_1.tp_pag.tab_2.tp_1.dw_det_abono.resize(3323,(tab_1.height *0.75))
 tab_1.tp_pag.tab_2.tp_1.dw_det_pag_nota.resize(3250,(tab_1.height *0.75))
-tab_1.tp_pag.tab_2.tp_1.pb_dist_pago.x=tab_1.tp_pag.tab_2.tp_1.dw_det_abono.x+tab_1.tp_pag.tab_2.tp_1.dw_det_abono.width - 50
-tab_1.tp_pag.tab_2.tp_1.pb_delpago.x=tab_1.tp_pag.tab_2.tp_1.dw_det_abono.x+tab_1.tp_pag.tab_2.tp_1.dw_det_abono.width - 50
+tab_1.tp_pag.tab_2.tp_1.pb_dist_pago.x=tab_1.tp_pag.tab_2.tp_1.dw_pagos.x+tab_1.tp_pag.tab_2.tp_1.dw_pagos.width + 30
+tab_1.tp_pag.tab_2.tp_1.pb_delpago.x=tab_1.tp_pag.tab_2.tp_1.dw_pagos.x+tab_1.tp_pag.tab_2.tp_1.dw_pagos.width + 30
 tab_1.tp_glo.dw_glosas.resize((newwidth - 350),(tab_1.height *0.90))
 tab_1.tp_glo.pb_1.x=(newwidth - 250)
 tab_1.tp_glo.pb_2.x=(newwidth - 250)
@@ -2188,8 +2188,8 @@ end event
 type mle_1 from multilineedit within tp_des
 integer x = 4530
 integer y = 84
-integer width = 1353
-integer height = 976
+integer width = 2199
+integer height = 1012
 integer taborder = 30
 integer textsize = -8
 integer weight = 400
@@ -2959,8 +2959,8 @@ destroy(this.dw_det_abono)
 end on
 
 type pb_dist_pago from picturebutton within tp_1
-integer x = 6565
-integer y = 56
+integer x = 3355
+integer y = 52
 integer width = 146
 integer height = 128
 integer taborder = 80
@@ -3002,7 +3002,7 @@ end if
 end event
 
 type st_4 from statictext within tp_1
-integer x = 3397
+integer x = 3538
 integer y = 4
 integer width = 453
 integer height = 52
@@ -3037,8 +3037,8 @@ boolean focusrectangle = false
 end type
 
 type pb_delpago from picturebutton within tp_1
-integer x = 6565
-integer y = 204
+integer x = 3355
+integer y = 200
 integer width = 146
 integer height = 128
 integer taborder = 70
@@ -3085,9 +3085,44 @@ if dw_pagos.describe("evaluate('IsRowNew()',"+string(fila)+')')='true' then
 	end choose
 	dw_pagos.deleterow(fila)
 else
+	string ls_clug,ls_cdoc,ls_cart,ls_cemp
+	double ldb_ncob,ldb_item
+	int li_año
+	
 	if dw_pagos.getitemstring(fila,'contabil')='C' then 
-		messagebox('Atención','Este pago ya se encuentra contabilizado no lo puede anular')
-		return
+		ls_clug=dw_pagos.getitemstring(fila,'clugar')
+		ls_cdoc=dw_pagos.getitemstring(fila,'coddoc')
+		ldb_ncob=dw_pagos.getitemnumber(fila,'num_cobro')
+		ls_cart=dw_pagos.getitemstring(fila,'cartipo')
+		ldb_item=dw_pagos.getitemnumber(fila,'item')
+
+		//Para Validar que este ne la vigencia de la anulacion
+		select distinct 
+			cont_doc_cab.cod_empresa, cont_doc_cab.ano into :ls_cemp,:li_año
+		FROM 
+			cont_doc_cab INNER JOIN cont_doc_cp ON (cont_doc_cab.ndoc = cont_doc_cp.ndoc) 
+			AND (cont_doc_cab.cdoc = cont_doc_cp.cdoc) AND (cont_doc_cab.mes = cont_doc_cp.mes) 
+			AND (cont_doc_cab.ano = cont_doc_cp.ano) AND (cont_doc_cab.cod_empresa = cont_doc_cp.cod_empresa)
+		WHERE 
+			(((cont_doc_cab.estado)='3') 
+			AND ((cont_doc_cp.clugar_doc)=:ls_clug) 
+			AND ((cont_doc_cp.cdocr)=:ls_cdoc) 
+			AND ((cont_doc_cp.ndocr)=:ldb_ncob) 
+			AND ((cont_doc_cp.llave4)=:ls_cart) 
+			AND ((cont_doc_cp.llave5)=:ldb_item));
+			
+		setnull(ls_clug)
+		select 
+			cierre_anyo into :ls_clug
+		from
+			cont_cierre
+		where 
+				(((cont_cierre.cod_empresa)=:ls_cemp) AND ((cont_cierre.ano)=:li_año) AND ((cont_cierre.cierre_anyo)='1'));
+ 
+		if ls_clug='1' then
+			messagebox('Atención','Este pago ya se encuentra contabilizado y el año contable esta cerrado')
+			return
+		end if
 	end if
 
 	st_xa_anular st_anula
@@ -3101,6 +3136,10 @@ else
 	dw_pagos.setitem(fila,'fecha_anula',fecha)
 	dw_pagos.setitem(fila,'motiv_anula',st_anula.observacion)
 	dw_pagos.setitem(fila,'cod_anula',st_anula.motivo)
+	if dw_pagos.getitemstring(fila,'contabil')='C' then 
+		dw_pagos.setitem(fila,'contabil_anul','P')
+	end if
+
 	string cod_cajam,clug_cajam,motiv1,coddoc_cajam,cbanco,tcuenta,ncuenta
 	long ning_cajam,item
 	dec valor
@@ -3109,6 +3148,11 @@ else
 	setnull(nnulo)
 	setnull(snulo)
 	
+	if dw_pagos.getitemstring(fila,'presupuesto')='1' then 
+			
+		
+	end if	
+		
 	choose case dw_pagos.getitemstring(fila,'origen_pag')
 		case 'P' //pagare
 			for j=1 to dw_det_abono.rowcount()
@@ -3198,6 +3242,7 @@ else
 	commit;
 end if
 return
+
 error:
 rollback;
 string nulo
@@ -3368,7 +3413,7 @@ end event
 type dw_det_pag_nota from datawindow within tp_1
 string tag = "Nota bancaria N"
 boolean visible = false
-integer x = 3397
+integer x = 3538
 integer y = 60
 integer width = 3150
 integer height = 888
@@ -3390,7 +3435,7 @@ end event
 type dw_ing from datawindow within tp_1
 string tag = "ingresos directos I"
 boolean visible = false
-integer x = 3397
+integer x = 3538
 integer y = 60
 integer width = 2903
 integer height = 832
@@ -3414,7 +3459,7 @@ end event
 type dw_det_pag_manu from datawindow within tp_1
 string tag = "manual M"
 boolean visible = false
-integer x = 3397
+integer x = 3538
 integer y = 60
 integer width = 3150
 integer height = 832
@@ -3436,10 +3481,10 @@ end event
 type dw_det_abono from datawindow within tp_1
 string tag = "Pagares P"
 boolean visible = false
-integer x = 3397
+integer x = 3538
 integer y = 60
-integer width = 2903
-integer height = 804
+integer width = 3150
+integer height = 888
 integer taborder = 80
 string title = "none"
 string dataobject = "dw_abonos_anula"
@@ -4183,7 +4228,7 @@ type hpb_1 from hprogressbar within w_teso_cartera
 boolean visible = false
 integer x = 2615
 integer y = 1204
-integer width = 1609
+integer width = 1669
 integer height = 68
 boolean bringtotop = true
 unsignedinteger maxposition = 100
