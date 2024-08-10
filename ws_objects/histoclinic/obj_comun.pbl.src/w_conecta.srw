@@ -619,10 +619,12 @@ if dw_clientes.rowcount()>0 then
 	g_logo_agua=dw_clientes.getitemstring(dw_clientes.getrow(),'logo')
 	if g_version <> dw_clientes.getitemstring(dw_clientes.getrow(),g_aplicacion)  then 	
 		messagebox('ATENCION PIRATA','Versión NO AUTORIZADA para '+nom_regis)
+		disconnect;
 		return
 	end if
 Else
 	messagebox('Error','Error no especificado comuníquese con Soporte de GCI para Licencias')
+	disconnect;
 	close(parent)
 	halt
 End If 
