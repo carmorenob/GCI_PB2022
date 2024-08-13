@@ -2584,7 +2584,11 @@ tot=dw_causa.getitemnumber(1,'total')
 for recorre=1 to dw_causa.rowcount()
 	if dw_causa.getitemnumber(recorre,'nuevo')=1 then 
 		if tot<=monto and dw_causa.getitemnumber(recorre,'monto_vigente')=0 then 
-			dw_causa.SetItem(recorre,'monto',monto - tot)
+			if  t1.p2.dw_fpago.getitemstring(t1.p2.dw_fpago.getrow(),'contabil')='P' then
+				dw_causa.SetItem(recorre,'monto',monto - tot)
+			else
+				dw_causa.SetItem(recorre,'monto',0)
+			end if
 			dw_causa.SetItem(recorre,'monto_vigente',monto -tot)
 		end if
 	end if
