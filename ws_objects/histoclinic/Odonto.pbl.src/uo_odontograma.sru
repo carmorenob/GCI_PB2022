@@ -1006,9 +1006,8 @@ destroy(this.st_2)
 end on
 
 type st_4 from statictext within uo_odontograma
-integer x = 1966
-integer y = 4
-integer width = 777
+integer x = 1870
+integer width = 1541
 integer height = 56
 boolean bringtotop = true
 integer textsize = -8
@@ -1024,7 +1023,7 @@ end type
 
 type st_3 from statictext within uo_odontograma
 integer x = 1641
-integer width = 334
+integer width = 238
 integer height = 56
 integer textsize = -8
 integer weight = 400
@@ -2244,8 +2243,8 @@ end type
 
 type st_ayuda from statictext within uo_odontograma
 boolean visible = false
-integer x = 750
-integer y = 28
+integer x = 640
+integer y = 8
 integer width = 480
 integer height = 64
 boolean bringtotop = true
@@ -2332,7 +2331,7 @@ end if
 end event
 
 type st_2 from statictext within uo_odontograma
-integer x = 375
+integer x = 393
 integer width = 187
 integer height = 56
 boolean bringtotop = true

@@ -103,15 +103,12 @@ end type
 end forward
 
 global type w_consulta from window
-integer width = 6222
-integer height = 2200
+integer width = 6194
+integer height = 2100
 boolean titlebar = true
 string title = "Odontología - Consulta"
-string menuname = "m_procedimientos"
 boolean controlmenu = true
-boolean minbox = true
-boolean maxbox = true
-boolean resizable = true
+windowtype windowtype = response!
 long backcolor = 67108864
 boolean toolbarvisible = false
 pb_pyp pb_pyp
@@ -186,7 +183,6 @@ return t1.p2.uo_1.f_cambia_espe(i_espe)
 end function
 
 on w_consulta.create
-if this.MenuName = "m_procedimientos" then this.MenuID = create m_procedimientos
 this.pb_pyp=create pb_pyp
 this.pb_notas=create pb_notas
 this.pb_print=create pb_print
@@ -212,7 +208,6 @@ this.dw_segrespon}
 end on
 
 on w_consulta.destroy
-if IsValid(MenuID) then destroy(MenuID)
 destroy(this.pb_pyp)
 destroy(this.pb_notas)
 destroy(this.pb_print)
@@ -1258,6 +1253,8 @@ end type
 
 event clicked;call super::clicked;any par[2]
 long Job
+n_bitmap in_bitmap
+Blob lbb_blob
 
 par[1]=t1.p2.dwc_consult.GetItemNumber(t1.p2.dwc_consult.GetRow(),'nOdontograma')
 par[2]=t1.p2.dwc_consult.GetItemString(t1.p2.dwc_consult.GetRow(),'cLugar')
@@ -1265,16 +1262,12 @@ if isNull(par[1]) then
 	messagebox('Aviso','No hay odontograma ')
 	Return
 else
-	imprimir(par,'','0')
 	Job = PrintOpen( )
-	w_consulta.t1.p3.Print(Job, 82,3223)
+	w_consulta.t1.p3.uo_od.Print(Job, 1,1)
 	PrintClose(Job)
+
+	imprimir(par,'','0')
 end if
-
-
-
-
-
 end event
 
 type st_4 from statictext within p3
@@ -1490,8 +1483,8 @@ type cb_grabar from picturebutton within p3
 event mousemove pbm_mousemove
 integer x = 4201
 integer y = 1060
-integer width = 142
-integer height = 124
+integer width = 146
+integer height = 128
 integer taborder = 20
 boolean bringtotop = true
 integer textsize = -8
@@ -1501,6 +1494,7 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
 string text = "        &g"
+boolean originalsize = true
 string picturename = "guardar.GIF"
 string disabledname = "d_guardar.GIF"
 alignment htextalign = left!
@@ -1652,8 +1646,8 @@ type cb_tratamiento from picturebutton within p3
 event mousemove pbm_mousemove
 integer x = 4041
 integer y = 1060
-integer width = 142
-integer height = 124
+integer width = 146
+integer height = 128
 integer taborder = 50
 boolean bringtotop = true
 integer textsize = -8
@@ -1662,6 +1656,7 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
+boolean originalsize = true
 string picturename = "tratamiento.jpg"
 string disabledname = "d_tratamiento.jpg"
 alignment htextalign = left!
