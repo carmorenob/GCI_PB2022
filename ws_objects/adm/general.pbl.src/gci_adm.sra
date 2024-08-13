@@ -42,7 +42,7 @@ string almacen,  Regimen,retorna_busqueda // de suministros
 string gs_key='Jaer Key19332000',gs_inv='Jorca2021'
 window w_gen[20]
 boolean g_demo=false
-string g_aplicacion='gci_adm',g_version='5.0.0.75'
+string g_aplicacion='gci_adm',g_version='5.0.0.76'
 int i_dec_gral_car
 uo_report i_rep_adm[8,15]
 uo_transaction gt_sqlca
