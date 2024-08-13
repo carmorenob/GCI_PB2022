@@ -1253,8 +1253,6 @@ end type
 
 event clicked;call super::clicked;any par[2]
 long Job
-n_bitmap in_bitmap
-Blob lbb_blob
 
 par[1]=t1.p2.dwc_consult.GetItemNumber(t1.p2.dwc_consult.GetRow(),'nOdontograma')
 par[2]=t1.p2.dwc_consult.GetItemString(t1.p2.dwc_consult.GetRow(),'cLugar')
