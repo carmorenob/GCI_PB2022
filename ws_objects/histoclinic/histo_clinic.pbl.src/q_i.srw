@@ -217,6 +217,7 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type cb_5 from commandbutton within q_i
+boolean visible = false
 integer x = 101
 integer y = 324
 integer width = 402
@@ -240,6 +241,7 @@ event clicked;	nvo_rips_json u_rips
 end event
 
 type cb_4 from commandbutton within q_i
+boolean visible = false
 integer x = 96
 integer y = 180
 integer width = 402
@@ -817,7 +819,6 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type cb_1 from commandbutton within q_i
-boolean visible = false
 integer x = 87
 integer y = 624
 integer width = 402
@@ -832,7 +833,36 @@ string facename = "Tahoma"
 string text = "none"
 end type
 
-event clicked;//dw_2.importFile(XML!,'C:\Gci_2021\Fact_xml\fv08060103050002300003430_test_ret.xml')
+event clicked;nvo_generic_ole_object loo_Glob
+int li_rc , li_Success , li_Status
+
+loo_Glob = create nvo_generic_ole_object
+li_rc = loo_Glob.ConnectToNewObject("Chilkat_9_5_0.Global")
+if li_rc < 0 then
+    destroy loo_Glob
+    MessageBox("Error of_desbloquear_chilkat","Connecting to COM object failed: Chilkat_9_5_0.Global")
+    return -1
+end if
+li_Success = loo_Glob.UnlockBundle("Anything for 30-day trial")
+if li_Success <> 1 then
+    messagebox("Error de desbloqueo de ChilKat_9.5.0", string(loo_Glob.LastErrorText))
+    destroy loo_Glob
+    return -1
+end if
+
+li_Status = loo_Glob.UnlockStatus
+if li_Status = 2 then
+  //  messagebox("Estado Desbloqueo", "Unlocked using purchased unlock code.")
+else
+  //   messagebox("Estado Desbloqueo", "Unlocked in trial mode.")
+end if
+
+destroy loo_Glob
+return 1
+
+
+
+//dw_2.importFile(XML!,'C:\Gci_2021\Fact_xml\fv08060103050002300003430_test_ret.xml')
 //dw_2.sort()		
 //dw_2.SaveAs("C:\Temp.xls", Excel!, true)
 //dw_2.SaveAs("C:\Temp.xml", Xml!, true)

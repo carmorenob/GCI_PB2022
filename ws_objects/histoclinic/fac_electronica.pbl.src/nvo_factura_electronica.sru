@@ -34,6 +34,7 @@ public function integer of_estado_factura_dian (decimal al_nfact, string as_clug
 private function integer of_enviar_correo (ref datawindow ads_datos, decimal ad_nfact, string as_lug, string as_tipofac, integer as_nnota, string as_tipo, string as_docnm, string as_qrcode, string as_cufe, string as_small_cufe, string as_zipname, string as_filename, string as_xml_factura, string as_xml_retorno, ref nvo_generic_ole_object aoo_cert)
 public function integer of_enviar_new_correo (decimal adc_nro_factura, string as_clug_factura, string as_tipofac, integer as_nnota, string as_tnota, string as_filename, string as_origen)
 public subroutine of_files_names (ref uo_datawindow adw_factura, ref string as_filename, ref string as_zipname, ref decimal al_nro_fact_x_anyo, ref decimal al_nro_zip_x_anyo, ref boolean abn_actu_consec_fact, ref boolean abn_actu_consec_zip, string as_tipo_docu, string as_tipo_ambiente, integer ai_anyo, string as_coddoc, string as_lsdoc)
+public function integer of_estado_factura_email (decimal al_nfact, string as_clug_fact, string as_tipofac, integer as_nnota, string as_estado, string as_tipo, string as_coddoc)
 end prototypes
 
 public function longlong hex_to_dec (string as_hexadecimal);string ls_binario
@@ -687,7 +688,13 @@ ls_ret = lo_client.GetResponseStatusText( )
 li_rc = lo_client.getresponsebody(  ls_data)
 
 if li_statusCode<0 then
-	messagebox("Error de httpClient "+string(li_StatusCode),ls_ret)
+	if isnull(ls_ret) then
+		ls_ret='Error de Comunicación con la DIAN'
+	else
+		ls_ret='Error de Comunicación con la DIAN '+ls_ret
+	end if
+	messagebox("Atención"+string(li_StatusCode),ls_ret)
+	
 	lst_ret.i_valor=-1
 	return lst_ret
 end if
@@ -1087,6 +1094,7 @@ if lbn_actu_consec_fact then
 		return lst_ret_dian
 	end if
 end if
+
 if lbn_actu_consec_zip then
 	if of_actu_consecs_files_fact_elect(ls_coddoc,ls_tipo_ambiente,'z',li_anyo,ll_nro_zip_x_anyo -1,ls_coddoc)=-1 then
 		lst_ret_dian.as_estado="-2"
@@ -1106,7 +1114,6 @@ if lbn_actu_consec_fact or lbn_actu_consec_zip then
 			lst_ret_dian.as_estado="-2"
 			return lst_ret_dian
 		end if
-		
 	end if
 end if
 		
@@ -1286,7 +1293,6 @@ if (as_tipo_docu='f' and as_coddoc='FV')  then
 end if
 //// **********************E N V I A R    C O R R E O    **********************************
 if of_enviar_correo(adw_factura,al_nro_fact,as_clug_factura,as_tipofac,as_nnota,as_tipo_docu,as_coddoc,lst_ret_dian.as_qrcode,lst_ret_dian.as_cufe,ls_small_cufex,lst_ret_dian.as_zipname,lst_ret_dian.as_filename,string(loo_SbXml.GetAsString()),ls_xml_ret,loo_Cert)=-1 then 
-//if of_enviar_correo(adw_factura,al_nro_fact,as_clug_factura,as_tipofac,as_tipo_docu,as_coddoc,lst_ret_dian.as_qrcode,lst_ret_dian.as_cufe,small_cufex,lst_ret_dian.as_zipname,lst_ret_dian.as_filename,string(loo_SbXml.GetAsString()),lst_ret_gral.s_valor,loo_Cert)=-1 then
 	lst_ret_dian.as_estado="-2"
 	return lst_ret_dian
 end if
@@ -1663,6 +1669,7 @@ if as_docnm='FV' then
 	end if
 
 	if ads_datos.retrieve(ad_nfact,'1',as_lug,as_tipofac)<0 then 
+		of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'F',as_tipo,as_docnm)
 		return -1
 	end if
 end if
@@ -1687,10 +1694,12 @@ if as_docnm='RV'  then
 	if  as_tipo='c' or as_tipo='a'  or as_tipo='d'  then 
 		ads_datos.settransobject(sqlca)		
 		if ads_datos.retrieve(ad_nfact,as_lug,as_tipofac,as_nnota)<0 then 
+			of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'E',as_tipo,as_docnm)
 			return -1
 		end if
 	else
 		if ads_datos.retrieve(ad_nfact,as_lug,as_tipofac)<0 then 
+			of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'D',as_tipo,as_docnm)
 			return -1
 		end if
 	end if
@@ -1712,6 +1721,7 @@ where (((coddoc)=:as_docnm) and ((clugar)=:as_lug));
 
 if isnull(is_server_email) or isnull(is_cuenta_email)  or isnull(is_clave_email) then
     MessageBox("Error","No hay servidor de documento configurado")
+	of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'C',as_tipo,as_docnm)
     return -1
 end if
 
@@ -1722,6 +1732,7 @@ li_rc = loo_Mailman.ConnectToNewObject("Chilkat_9_5_0.MailMan")
 if li_rc < 0 then
     destroy loo_Mailman
     MessageBox("Error","Connecting to COM object failed")
+	of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'B',as_tipo,as_docnm)
     return -1
 end if
 
@@ -1782,6 +1793,7 @@ end if
 li_rc=ads_datos.saveas(is_ruta_facturas+as_filename+".pdf",PDF!,false)
 if li_rc<0 then
 	messagebox("Error Enviando Correo of_enviar_correo","No se pudo exportar la factura como PDF!!!")
+	of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'A',as_tipo,as_docnm)
     destroy loo_Mailman
     destroy loo_Email
     return -1
@@ -1790,6 +1802,7 @@ end if
 if of_zip(is_ruta_facturas+as_zipname , is_ruta_facturas+as_filename+'.pdf','a')=-1 then
 	destroy loo_Mailman
     destroy loo_Email
+	of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'9',as_tipo,as_docnm)	 
     return -1
 end if
 
@@ -1804,6 +1817,7 @@ if lds_attached_doc.retrieve(ad_nfact,as_lug,as_tipofac)<0 then
 	messagebox("Error en retrieve de lds_attached_doc: ",sqlca.sqlerrtext)
     destroy loo_Mailman
     destroy loo_Email
+	of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'8',as_tipo,as_docnm)	 
     return -1
 end if
 lds_attached_doc.setitem(1,'cufe',as_cufe)
@@ -1815,6 +1829,7 @@ lds_attached_doc.setItem(1,'xml_response',as_xml_retorno)
 nvo_generic_ole_object loo_SbXml
 
 IF of_firmar_xml_attached(lds_attached_doc,aoo_Cert,loo_SbXml )=-1 then
+	of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'7',as_tipo,as_docnm)
 	 return -2
 end if
 loo_SbXml.WriteFile(is_ruta_facturas+"ad"+mid(as_filename,3)+'.xml','utf-8',0)
@@ -1827,6 +1842,7 @@ li_rc = loo_Zip.ConnectToNewObject("Chilkat_9_5_0.Zip")
 if li_rc < 0 then
     destroy loo_Zip
     MessageBox("Error","Connecting to COM object failed Chilkat_9_5_0.Zip")
+	of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'6',as_tipo,as_docnm)	 
     return -1
 end if
 
@@ -1835,6 +1851,7 @@ li_Success = loo_Zip.NewZip(is_ruta_facturas+"ad"+mid(as_filename,3)+'.zip')
 if li_Success <> 1 then
     messagebox("Error creando Zip",string( loo_Zip.LastErrorText ))
     destroy loo_Zip
+	of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'5',as_tipo,as_docnm)
     return -1
 end if
 
@@ -1842,6 +1859,7 @@ li_SaveExtraPath = 0
 li_Success = loo_Zip.AppendOneFileOrDir(is_ruta_facturas+"ad"+mid(as_filename,3)+'.xml',li_SaveExtraPath)
 if li_Success <> 1 then
     messagebox("Error adicionando Archivo AttachedDocument a Zip AD: ",string( loo_Zip.LastErrorText ))
+	of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'4',as_tipo,as_docnm)	 
     destroy loo_Zip
     return -1
 end if
@@ -1860,10 +1878,10 @@ if li_Success <> 1 then
 end if
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 loo_Email.AddFileAttachment(is_ruta_facturas+"ad"+mid(as_filename,3)+'.zip')//is_ruta_facturas+as_zipname)
 if loo_Email.LastMethodSuccess <> 1 then
 	messagebox("Error adjuntando archivo of_enviar_correo",string( loo_Mailman.LastErrorText))
+	of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'3',as_tipo,as_docnm)
     destroy loo_Mailman
     destroy loo_Email
     return -1
@@ -1872,6 +1890,7 @@ end if
 li_Success = loo_Mailman.SendEmail(loo_Email)
 if li_Success <> 1 then
     messagebox("Error Enviando Correo of_enviar_correo",string( loo_Mailman.LastErrorText))
+	of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'2',as_tipo,as_docnm)
     destroy loo_Mailman
     destroy loo_Email
     return -1
@@ -1884,7 +1903,7 @@ end if
 
 destroy loo_Mailman
 destroy loo_Email
-
+of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'1',as_tipo,as_docnm)
 return 1
 end function
 
@@ -2287,6 +2306,69 @@ else
 	end if //as tipo c
 end if //tipo F
 end subroutine
+
+public function integer of_estado_factura_email (decimal al_nfact, string as_clug_fact, string as_tipofac, integer as_nnota, string as_estado, string as_tipo, string as_coddoc);//as_tipo; f:factura , a:anulacion , c:nota credito, d:nota debito
+//as_estado; 1:validada OK , -1 con errores , 0 enviada sin validar
+/*siempre deben venir los nombres de archivo por si se utilizó 
+el metodo sincrónico (porque entonces debe poner esos nombres de archivos 
+pa no volverlos a generar y/o utilizar)*/
+
+if as_estado="0"  then
+	messagebox("Atención","Función of_actu_estado_factura, el track_id de la factura no puede ser nulo")
+	return -1
+end if
+
+if as_tipo='f' then
+	if as_coddoc='FV' then
+		update factcab  set  envio_eml=:as_estado
+		where nfact=:al_nfact and clugar=:as_clug_fact and tipo=:as_tipofac; 
+	else
+		update ripsradica set envio_eml=:as_estado
+		where num_radicacion=:al_nfact and clugar=:as_clug_fact and tipo=:as_tipofac; 
+	end if
+else
+	if as_tipo='a' then
+		if as_coddoc='FV' then
+			update factcab  set envio_eml_anul=:as_estado
+			where nfact=:al_nfact and clugar=:as_clug_fact and tipo=:as_tipofac; 
+		else
+			if as_coddoc='RC' then	
+				update tesorecacab set envio_eml_anul=:as_estado
+				where nrcaj=:al_nfact and clugar=:as_clug_fact and nro_nota=:as_nnota; 
+			else
+				update ripsradica_notas set 
+				envio_eml=:as_estado
+				where num_radicacion=:al_nfact and clugar=:as_clug_fact and tipo=:as_tipofac and nro_nota=:as_nnota; 
+			end if
+		end if
+	else
+		if as_tipo='c' or as_tipo='d' then
+			if as_coddoc='FV' then	
+				update factcab_notas set envio_eml=:as_estado
+				where nfact=:al_nfact and clugar=:as_clug_fact and tipo=:as_tipofac and nro_nota=:al_nfact; 
+			else
+				update ripsradica_notas set envio_eml=:as_estado
+				where num_radicacion=:al_nfact and clugar=:as_clug_fact and tipo=:as_tipofac and nro_nota=:as_nnota; 
+			end if
+		else
+			if as_tipo='r' then
+				if as_coddoc='RC' then	
+					update tesorecajcab  set envio_eml=:as_estado
+					where nrcaj=:al_nfact and clugar=:as_clug_fact ; 
+				end if
+			end if // tipo r
+		end if // tipo c o d
+	end if //tipo a
+end if  // tipo f
+
+if sqlca.sqlcode<0 then
+	gs_error=sqlca.sqlerrtext
+	rollback;
+	messagebox("Error de SQL of_actu_estado_factura","Error actualizando ripsradica/factcab: "+gs_error)
+	return -1
+end if
+return 1
+end function
 
 on nvo_factura_electronica.create
 call super::create

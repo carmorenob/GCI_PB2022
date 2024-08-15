@@ -164,15 +164,7 @@ type tp_2 from userobject within tab_1
 end type
 type gb_2 from groupbox within tp_2
 end type
-type pb_cerrar from picturebutton within tp_2
-end type
-type pb_insert from picturebutton within tp_2
-end type
-type dw_l from datawindow within tp_2
-end type
 type dw_campos from datawindow within tp_2
-end type
-type dw_res from datawindow within tp_2
 end type
 type dw_lista1 from datawindow within tp_2
 end type
@@ -182,23 +174,46 @@ type dw_rescpo from datawindow within tp_2
 end type
 type pb_2 from picturebutton within tp_2
 end type
-type pb_save_resul from picturebutton within tp_2
+type tab_2 from tab within tp_2
 end type
-type dw_serving from datawindow within tp_2
+type resul from userobject within tab_2
+end type
+type pb_insert from picturebutton within resul
+end type
+type pb_cerrar from picturebutton within resul
+end type
+type pb_save_resul from picturebutton within resul
+end type
+type dw_l from datawindow within resul
+end type
+type dw_res from datawindow within resul
+end type
+type dw_serving from datawindow within resul
+end type
+type resul from userobject within tab_2
+pb_insert pb_insert
+pb_cerrar pb_cerrar
+pb_save_resul pb_save_resul
+dw_l dw_l
+dw_res dw_res
+dw_serving dw_serving
+end type
+type procesa from userobject within tab_2
+end type
+type procesa from userobject within tab_2
+end type
+type tab_2 from tab within tp_2
+resul resul
+procesa procesa
 end type
 type tp_2 from userobject within tab_1
 gb_2 gb_2
-pb_cerrar pb_cerrar
-pb_insert pb_insert
-dw_l dw_l
 dw_campos dw_campos
-dw_res dw_res
 dw_lista1 dw_lista1
 pb_1 pb_1
 dw_rescpo dw_rescpo
 pb_2 pb_2
-pb_save_resul pb_save_resul
-dw_serving dw_serving
+tab_2 tab_2
 end type
 type tp_3 from userobject within tab_1
 end type
@@ -252,8 +267,8 @@ shared variables
 end variables
 
 global type w_apoyo_diag2 from window
-integer width = 6359
-integer height = 2592
+integer width = 6245
+integer height = 2440
 boolean titlebar = true
 string title = "Apoyo Diagnóstico"
 boolean controlmenu = true
@@ -450,7 +465,7 @@ long filas,hay,i,cual,fila,semanas,dias
 double cohortes
 datetime fechas,fp_part
 fila=tab_1.tp_1.dw_procs.getrow()
-hay=tab_1.tp_2.dw_res.rowcount()
+hay=tab_1.tp_2.tab_2.resul.dw_res.rowcount()
 filas=tab_1.tp_2.dw_campos.rowcount()
 if hay<filas then
 	cohortes=f_valida_usuario_cohorte_materna(tipdoc, docu)
@@ -460,59 +475,59 @@ if hay<filas then
 		Where (((tipodoc)=:tipdoc) AND ((documento)=:docu) AND ((id_cohorte_pac)=:cohortes)  AND ((pacientes_cohortes.fp_eco)<>:fechas));
 	end if
 	for i=1 to filas
-		cual = tab_1.tp_2.dw_res.find("consecampo="+string(tab_1.tp_2.dw_campos.getitemnumber(i,'consecampo')),1,hay)
+		cual = tab_1.tp_2.tab_2.resul.dw_res.find("consecampo="+string(tab_1.tp_2.dw_campos.getitemnumber(i,'consecampo')),1,hay)
 		if cual = 0 then
-			cual=tab_1.tp_2.dw_res.insertrow(0)
-			tab_1.tp_2.dw_res.setitem(cual,'consecampo',tab_1.tp_2.dw_campos.getitemnumber(i,'consecampo'))
-			tab_1.tp_2.dw_res.setitem(cual,'codproced',tab_1.tp_1.dw_procs.getitemstring(fila,'codproced'))
-			tab_1.tp_2.dw_res.setitem(cual,'nombrecampo',tab_1.tp_2.dw_campos.getitemstring(i,'nombrecampo'))
-			tab_1.tp_2.dw_res.setitem(cual,'nivel',tab_1.tp_2.dw_campos.getitemnumber(i,'nivel'))
-			tab_1.tp_2.dw_res.setitem(cual,'coddoc',i_cod_doc)
-			tab_1.tp_2.dw_res.setitem(cual,'clugar',i_cluging)//i_clughis)
-			tab_1.tp_2.dw_res.setitem(cual,'nrepor',i_nrepor)
-			tab_1.tp_2.dw_res.setitem(cual,'item',i_itemcpo)
-			tab_1.tp_2.dw_res.setitem(cual,'tipocampo',tab_1.tp_2.dw_campos.getitemstring(i,'tipocampo'))
-			tab_1.tp_2.dw_res.setitem(cual,'resultado1',tab_1.tp_2.dw_campos.getitemstring(i,'moda1'))
-			tab_1.tp_2.dw_res.setitem(cual,'resultado2',tab_1.tp_2.dw_campos.getitemnumber(i,'moda2'))
-			tab_1.tp_2.dw_res.setitem(cual,'resultado3',tab_1.tp_2.dw_campos.getitemString(i,'moda3'))
-			tab_1.tp_2.dw_res.setitem(cual,'resultado4',tab_1.tp_2.dw_campos.getitemString(i,'moda4'))
-			tab_1.tp_2.dw_res.setitem(cual,'resultado5',tab_1.tp_2.dw_campos.getitemString(i,'moda5'))
-			tab_1.tp_2.dw_res.setitem(cual,'resultado6',tab_1.tp_2.dw_campos.getitemString(i,'moda6'))
-			tab_1.tp_2.dw_res.setitem(cual,'orden',tab_1.tp_2.dw_campos.getitemNumber(i,'orden'))
-			tab_1.tp_2.dw_res.setitem(cual,'umedida',tab_1.tp_2.dw_campos.getitemstring(i,'umedida'))
-			tab_1.tp_2.dw_res.setitem(cual,'indvalor',tab_1.tp_2.dw_campos.getitemstring(i,'indvalor'))
-			tab_1.tp_2.dw_res.setitem(cual,'obligatorio',tab_1.tp_2.dw_campos.getitemstring(i,'obligatorio'))
-			tab_1.tp_2.dw_res.setitem(cual,'formula',tab_1.tp_2.dw_campos.getitemstring(i,'formula'))
-			tab_1.tp_2.dw_res.setitem(cual,'eco',tab_1.tp_2.dw_campos.getitemstring(i,'eco'))
-			tab_1.tp_2.dw_res.setitem(cual,'edi',tab_1.tp_2.dw_campos.getitemstring(i,'edi'))
-			tab_1.tp_2.dw_res.setitem(cual,'consecampo_cop',tab_1.tp_2.dw_campos.getitemnumber(i,'consecampo_cop'))
+			cual=tab_1.tp_2.tab_2.resul.dw_res.insertrow(0)
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'consecampo',tab_1.tp_2.dw_campos.getitemnumber(i,'consecampo'))
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'codproced',tab_1.tp_1.dw_procs.getitemstring(fila,'codproced'))
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'nombrecampo',tab_1.tp_2.dw_campos.getitemstring(i,'nombrecampo'))
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'nivel',tab_1.tp_2.dw_campos.getitemnumber(i,'nivel'))
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'coddoc',i_cod_doc)
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'clugar',i_cluging)//i_clughis)
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'nrepor',i_nrepor)
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'item',i_itemcpo)
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'tipocampo',tab_1.tp_2.dw_campos.getitemstring(i,'tipocampo'))
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado1',tab_1.tp_2.dw_campos.getitemstring(i,'moda1'))
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado2',tab_1.tp_2.dw_campos.getitemnumber(i,'moda2'))
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado3',tab_1.tp_2.dw_campos.getitemString(i,'moda3'))
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado4',tab_1.tp_2.dw_campos.getitemString(i,'moda4'))
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado5',tab_1.tp_2.dw_campos.getitemString(i,'moda5'))
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado6',tab_1.tp_2.dw_campos.getitemString(i,'moda6'))
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'orden',tab_1.tp_2.dw_campos.getitemNumber(i,'orden'))
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'umedida',tab_1.tp_2.dw_campos.getitemstring(i,'umedida'))
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'indvalor',tab_1.tp_2.dw_campos.getitemstring(i,'indvalor'))
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'obligatorio',tab_1.tp_2.dw_campos.getitemstring(i,'obligatorio'))
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'formula',tab_1.tp_2.dw_campos.getitemstring(i,'formula'))
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'eco',tab_1.tp_2.dw_campos.getitemstring(i,'eco'))
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'edi',tab_1.tp_2.dw_campos.getitemstring(i,'edi'))
+			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'consecampo_cop',tab_1.tp_2.dw_campos.getitemnumber(i,'consecampo_cop'))
 			if tab_1.tp_2.dw_campos.getitemstring(i,'eco')='1' then
 				if date(fechas)<>date('01/01/1900') then 
-					tab_1.tp_2.dw_res.setitem(cual,'fecha',fechas)
+					tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'fecha',fechas)
 				else
-					tab_1.tp_2.dw_res.setitem(cual,'fecha',today())
+					tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'fecha',today())
 				end if
 			end if
 			if tab_1.tp_2.dw_campos.getitemstring(i,'eco')='2' then
 				if not isnull(semanas) then 
-					tab_1.tp_2.dw_res.setitem(cual,'resultado2',semanas)
+					tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado2',semanas)
 				end if
 			end if
 			if tab_1.tp_2.dw_campos.getitemstring(i,'eco')='3' then
 				if not isnull(dias) then 
-					tab_1.tp_2.dw_res.setitem(cual,'resultado2',dias)
+					tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado2',dias)
 				end if
 			end if		
 			if tab_1.tp_2.dw_campos.getitemstring(i,'eco')='4' then
 				if not isnull(dias) then 
-					tab_1.tp_2.dw_res.setitem(cual,'resultado6',fp_part)
+					tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado6',fp_part)
 				end if
 			end if					
 		end if
 	next
 end if
-tab_1.tp_2.dw_res.Sort()
-if tab_1.tp_2.dw_res.rowcount()>0 then tab_1.tp_2.dw_res.event rowfocuschanging(1,1)
+tab_1.tp_2.tab_2.resul.dw_res.Sort()
+if tab_1.tp_2.tab_2.resul.dw_res.rowcount()>0 then tab_1.tp_2.tab_2.resul.dw_res.event rowfocuschanging(1,1)
 return 1
 end function
 
@@ -931,13 +946,13 @@ else
 	tab_1.tp_2.dw_campos.retrieve(tab_1.tp_1.dw_procs.getitemnumber(fila,'codgc'),tab_1.tp_1.dw_procs.getitemstring(fila,'codproced'))
 end if
 ////////////////////
-if tab_1.tp_2.dw_serving.retrieve(i_contador,i_clughis,i_nserving)=0 then
-	if tab_1.tp_2.dw_serving.event insertar()=-1 then
+if tab_1.tp_2.tab_2.resul.dw_serving.retrieve(i_contador,i_clughis,i_nserving)=0 then
+	if tab_1.tp_2.tab_2.resul.dw_serving.event insertar()=-1 then
 		rollback;
 		return -1
 	end if
 else
-	i_nserving=tab_1.tp_2.dw_serving.getitemnumber(1,"nservicio")
+	i_nserving=tab_1.tp_2.tab_2.resul.dw_serving.getitemnumber(1,"nservicio")
 end if
 if tab_1.tp_2.dw_rescpo.retrieve(tab_1.tp_1.dw_procs.getitemstring(fila,'coddoc'),tab_1.tp_1.dw_procs.getitemnumber(fila,'nrepor'),tab_1.tp_1.dw_procs.getitemnumber(fila,'item'),tab_1.tp_1.dw_procs.getitemstring(fila,'clugar'))=0 then
 	if tab_1.tp_2.dw_rescpo.event insertar(p_clugarrep,p_usuvalida,p_fecvalida,p_intfz)=-1 then
@@ -963,7 +978,7 @@ else
 	i_itemcpo=tab_1.tp_2.dw_rescpo.getitemnumber(1,'item')
 end if
 tab_1.tp_1.dw_procs.setitem(fila,'nserving',i_nserving)
-tab_1.tp_2.dw_res.retrieve(tab_1.tp_1.dw_procs.getitemstring(fila,'coddoc'),tab_1.tp_1.dw_procs.getitemnumber(fila,'nrepor'),tab_1.tp_1.dw_procs.getitemnumber(fila,'item'),tab_1.tp_1.dw_procs.getitemstring(fila,'codproced'),tab_1.tp_1.dw_procs.getitemstring(fila,'clugar'))
+tab_1.tp_2.tab_2.resul.dw_res.retrieve(tab_1.tp_1.dw_procs.getitemstring(fila,'coddoc'),tab_1.tp_1.dw_procs.getitemnumber(fila,'nrepor'),tab_1.tp_1.dw_procs.getitemnumber(fila,'item'),tab_1.tp_1.dw_procs.getitemstring(fila,'codproced'),tab_1.tp_1.dw_procs.getitemstring(fila,'clugar'))
 
 
 f_faltan()
@@ -1130,7 +1145,27 @@ disconnect using sqllab;
 
 end event
 
-event resize;///
+event resize;resize(newwidth - 20 , newheight - 20)
+
+tab_1.resize(newwidth - 50 , newheight - 770)
+tab_1.tp_1.dw_procs.height=  tab_1.height -650
+tab_1.tp_1.pb_save_insumo.y= tab_1.height -300
+tab_1.tp_1.pb_cargar_res.y=tab_1.height -300
+tab_1.tp_1.cb_borra.y=tab_1.height -300
+tab_1.tp_1.pb_print.y=tab_1.height -300
+tab_1.tp_1.pb_8.y=tab_1.height -300
+tab_1.tp_1.st_5.y=tab_1.height -300
+tab_1.tp_1.hpb_1.y=tab_1.height -300
+tab_1.tp_1.st_5.y=tab_1.height -320
+tab_1.tp_1.dp_1.y=tab_1.height -320
+tab_1.tp_1.st_7.y=tab_1.height -220
+tab_1.tp_1.dp_2.y=tab_1.height -220
+
+tab_1.tp_2.tab_2.width=tab_1.width - 50
+tab_1.tp_2.tab_2.height=tab_1.height - 280
+
+
+tab_1.tp_2.tab_2.resul.dw_res.height=tab_1.tp_2.tab_2.height - 220
 end event
 
 type dw_profe_valida from datawindow within w_apoyo_diag2
@@ -1207,8 +1242,8 @@ end event
 
 type dw_his_acu from datawindow within w_apoyo_diag2
 boolean visible = false
-integer x = 498
-integer y = 2316
+integer x = 489
+integer y = 2364
 integer width = 448
 integer height = 92
 integer taborder = 30
@@ -1582,8 +1617,8 @@ end event
 
 type dw_cont_det from datawindow within w_apoyo_diag2
 boolean visible = false
-integer x = 18
-integer y = 2316
+integer x = 23
+integer y = 2352
 integer width = 466
 integer height = 116
 boolean bringtotop = true
@@ -2008,9 +2043,9 @@ end type
 type tab_1 from tab within w_apoyo_diag2
 event create ( )
 event destroy ( )
-integer y = 696
+integer y = 676
 integer width = 6167
-integer height = 1616
+integer height = 1636
 integer taborder = 170
 integer textsize = -8
 integer weight = 400
@@ -2055,7 +2090,7 @@ event destroy ( )
 integer x = 18
 integer y = 112
 integer width = 6130
-integer height = 1488
+integer height = 1508
 long backcolor = 67108864
 string text = "Procedimientos"
 long tabtextcolor = 33554432
@@ -2225,7 +2260,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-07-30"), Time("12:06:27.000000"))
+datetime value = DateTime(Date("2024-08-15"), Time("16:20:12.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2247,7 +2282,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-07-30"), Time("12:06:27.000000"))
+datetime value = DateTime(Date("2024-08-15"), Time("16:20:12.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2540,7 +2575,7 @@ if dw_trae.rowcount()>0 then
 					for l_ks=1 to dw_trae.RowCount()
 						w_principal.SetMicroHelp ( 'Registro '+string(l_t+l_ks) +' de '+string(ll_ctos))
 						consec=dw_trae.getitemnumber(l_ks,'consecampo')
-						fila1=tab_1.tp_2.dw_res.Find("consecampo="+string(consec),1,tab_1.tp_2.dw_res.rowcount())
+						fila1=tab_1.tp_2.tab_2.resul.dw_res.Find("consecampo="+string(consec),1,tab_1.tp_2.tab_2.resul.dw_res.rowcount())
 						
 						if fila1>0 and (tab_1.tp_1.dw_procs.getitemstring(fila,'estado')='1' or &
 							tab_1.tp_1.dw_procs.getitemstring(fila,'estado')='2' or &
@@ -2549,79 +2584,84 @@ if dw_trae.rowcount()>0 then
 							choose case dw_trae.getitemstring(l_ks,'tipocampo')
 							case '1'
 								If upper(int_cliente)='CEDES' then 
-									tab_1.tp_2.dw_res.setitem(fila1,'resultado1',dw_trae.getitemstring(l_ks,'res_valor'))
+									tab_1.tp_2.tab_2.resul.dw_res.setitem(fila1,'resultado1',dw_trae.getitemstring(l_ks,'res_valor'))
 								end if
 								If upper(int_cliente)='QIMBERLAB' then 
 									if dw_trae.getitemstring(l_ks,'resultado')='MEMO' then
 										lb_paso=true
-										tab_1.tp_2.dw_res.setitem(fila1,'resultado1',dw_trae.getitemstring(l_ks,'comentarioexamen'))
+										tab_1.tp_2.tab_2.resul.dw_res.setitem(fila1,'resultado1',dw_trae.getitemstring(l_ks,'comentarioexamen'))
 									else
-										tab_1.tp_2.dw_res.setitem(fila1,'resultado1',dw_trae.getitemstring(l_ks,'resultado'))
+										tab_1.tp_2.tab_2.resul.dw_res.setitem(fila1,'resultado1',dw_trae.getitemstring(l_ks,'resultado'))
 									end if
-								end if									
+								end if			
+								
 							case '2'
 								If upper(int_cliente)='CEDES' then 
-									tab_1.tp_2.dw_res.setitem(fila1,'resultado2',double(dw_trae.getitemstring(l_ks,'res_valor')))
+									tab_1.tp_2.tab_2.resul.dw_res.setitem(fila1,'resultado2',double(dw_trae.getitemstring(l_ks,'res_valor')))
 								end if
 								If upper(int_cliente)='QIMBERLAB' then 
-									tab_1.tp_2.dw_res.setitem(fila1,'resultado2',double(dw_trae.getitemstring(l_ks,'resultado')))
+									tab_1.tp_2.tab_2.resul.dw_res.setitem(fila1,'resultado2',double(dw_trae.getitemstring(l_ks,'resultado')))
 									double refi
 									string ls_recibe
 									ls_recibe=f_con_val_ref_quimberlab(dw_trae.getitemstring(l_ks,'valorrefmin')) 
 									if not isnull(ls_recibe) then 
 										refi=double(ls_recibe)
-										tab_1.tp_2.dw_res.setitem(fila1,'ref_min',refi)
+										tab_1.tp_2.tab_2.resul.dw_res.setitem(fila1,'ref_min',refi)
 									end if	
 									
 									ls_recibe=f_con_val_ref_quimberlab(dw_trae.getitemstring(l_ks,'valorrefmax'))
 									if not isnull(ls_recibe) then 
 										refi=double(ls_recibe)
-										tab_1.tp_2.dw_res.setitem(fila1,'ref_max',refi)								
+										tab_1.tp_2.tab_2.resul.dw_res.setitem(fila1,'ref_max',refi)								
 									end if
-								end if									
+								end if			
+								
 							case '3'
 								If upper(int_cliente)='CEDES' then 
-									tab_1.tp_2.dw_res.setitem(fila1,'resultado3',dw_trae.getitemstring(l_ks,'res_valor'))
+									tab_1.tp_2.tab_2.resul.dw_res.setitem(fila1,'resultado3',dw_trae.getitemstring(l_ks,'res_valor'))
 								end if
-								If upper(int_cliente)='QIMBERLAB' then
-									
+								
+								If upper(int_cliente)='QIMBERLAB' then								
 									if dw_trae.getitemstring(l_ks,'resultado')='MEMO' then
 										lb_paso=true
-										tab_1.tp_2.dw_res.setitem(fila1,'resultado3',dw_trae.getitemstring(l_ks,'comentarioexamen'))
+										tab_1.tp_2.tab_2.resul.dw_res.setitem(fila1,'resultado3',dw_trae.getitemstring(l_ks,'comentarioexamen'))
 									else
-										tab_1.tp_2.dw_res.setitem(fila1,'resultado3',dw_trae.getitemstring(l_ks,'resultado'))
+										tab_1.tp_2.tab_2.resul.dw_res.setitem(fila1,'resultado3',dw_trae.getitemstring(l_ks,'resultado'))
 									end if									
-									tab_1.tp_2.dw_res.setitem(fila1,'ref_min',dw_trae.getitemstring(l_ks,'valorrefmin'))
-									tab_1.tp_2.dw_res.setitem(fila1,'ref_max',dw_trae.getitemstring(l_ks,'valorrefmax'))
+									tab_1.tp_2.tab_2.resul.dw_res.setitem(fila1,'ref_min',dw_trae.getitemstring(l_ks,'valorrefmin'))
+									tab_1.tp_2.tab_2.resul.dw_res.setitem(fila1,'ref_max',dw_trae.getitemstring(l_ks,'valorrefmax'))
 								end if
+								
 							case '4'							
 								If upper(int_cliente)='CEDES' then 
-									tab_1.tp_2.dw_res.setitem(fila1,'resultado4',dw_trae.getitemstring(l_ks,'res_valor'))
+									tab_1.tp_2.tab_2.resul.dw_res.setitem(fila1,'resultado4',dw_trae.getitemstring(l_ks,'res_valor'))
 								end if
 								If upper(int_cliente)='QIMBERLAB' then 
 									if dw_trae.getitemstring(l_ks,'resultado')='MEMO' then
 										lb_paso=true
-										tab_1.tp_2.dw_res.setitem(fila1,'resultado4',dw_trae.getitemstring(l_ks,'comentarioexamen'))
+										tab_1.tp_2.tab_2.resul.dw_res.setitem(fila1,'resultado4',dw_trae.getitemstring(l_ks,'comentarioexamen'))
 									else
-										tab_1.tp_2.dw_res.setitem(fila1,'resultado4',dw_trae.getitemstring(l_ks,'resultado'))
+										tab_1.tp_2.tab_2.resul.dw_res.setitem(fila1,'resultado4',dw_trae.getitemstring(l_ks,'resultado'))
 									end if
-								end if													
+								end if	
+								
 							case '5'
 								If upper(int_cliente)='CEDES' then 
-									tab_1.tp_2.dw_res.setitem(fila,'resultado5',dw_trae.getitemstring(l_ks,'res_valor'))
+									tab_1.tp_2.tab_2.resul.dw_res.setitem(fila,'resultado5',dw_trae.getitemstring(l_ks,'res_valor'))
 								end if
 								If upper(int_cliente)='QIMBERLAB' then
-									tab_1.tp_2.dw_res.setitem(fila1,'resultado5',dw_trae.getitemstring(l_ks,'resultado'))
-								end if									
+									tab_1.tp_2.tab_2.resul.dw_res.setitem(fila1,'resultado5',dw_trae.getitemstring(l_ks,'resultado'))
+								end if	
+								
 							case '6'
 								If upper(int_cliente)='CEDES' then 
-									tab_1.tp_2.dw_res.setitem(fila1,'resultado6',dw_trae.getitemstring(l_ks,'res_valor'))
+									tab_1.tp_2.tab_2.resul.dw_res.setitem(fila1,'resultado6',dw_trae.getitemstring(l_ks,'res_valor'))
 								end if
 								If upper(int_cliente)='QIMBERLAB' then 
 									if isnull(dw_trae.getitemstring(l_ks,'resultado')) then 
-										tab_1.tp_2.dw_res.setitem(fila1,'resultado6','0')
+										tab_1.tp_2.tab_2.resul.dw_res.setitem(fila1,'resultado6','0')
 									else
-										tab_1.tp_2.dw_res.setitem(fila1,'resultado6','1')
+										tab_1.tp_2.tab_2.resul.dw_res.setitem(fila1,'resultado6','1')
 									end if
 								end if								
 							end choose
@@ -2635,7 +2675,7 @@ if dw_trae.rowcount()>0 then
 			
 						If upper(int_cliente)='QIMBERLAB' then 
 							if lb_paso=false and not isnull(dw_trae.getitemstring(l_ks,'comentarioexamen')) and len(dw_trae.getitemstring(l_ks,'comentarioexamen'))>0 then
-								tab_1.tp_2.dw_res.setitem(fila1,'comentarios',dw_trae.getitemstring(l_ks,'comentarioexamen'))
+								tab_1.tp_2.tab_2.resul.dw_res.setitem(fila1,'comentarios',dw_trae.getitemstring(l_ks,'comentarioexamen'))
 							end if
 							ordenhis=dw_trae.getitemstring(l_ks,'ordenhis')
 							ls_sede=dw_trae.getitemstring(l_ks,'sede')
@@ -2655,8 +2695,8 @@ if dw_trae.rowcount()>0 then
 						tab_1.tp_1.dw_procs.getitemstring(fila,'estado')='2' or &
 						tab_1.tp_1.dw_procs.getitemstring(fila,'estado')='5' ) then 
 						
-						tab_1.tp_2.pb_save_resul.event clicked()
-						tab_1.tp_2.pb_cerrar.event clicked()
+						tab_1.tp_2.tab_2.resul.pb_save_resul.event clicked()
+						tab_1.tp_2.tab_2.resul.pb_cerrar.event clicked()
 					
 					end if
 					if dw_lab.update(TRUE,FALSE) = -1 then
@@ -3007,9 +3047,9 @@ if getitemstring(getrow(),"estado")="2" or getitemstring(getrow(),"estado")="5" 
 end if
 end event
 
-event rowfocuschanged;tab_1.tp_2.dw_serving.reset()
+event rowfocuschanged;tab_1.tp_2.tab_2.resul.dw_serving.reset()
 tab_1.tp_2.dw_rescpo.reset()
-tab_1.tp_2.dw_res.reset()
+tab_1.tp_2.tab_2.resul.dw_res.reset()
 setnull(i_nrepor)
 setnull(i_nserving)
 setnull(i_nservadx)
@@ -3025,22 +3065,22 @@ ntomas=getitemnumber(getrow(),'nro_tomas')
 tab_1.tp_2.dw_lista1.setitem(1,1,getitemnumber(getrow(),'nproced'))
 tab_1.tp_3.dw_lista2.setitem(1,1,getitemnumber(getrow(),'nproced'))
 tab_1.tp_4.dw_lista3.setitem(1,1,getitemnumber(getrow(),'nproced'))
-tab_1.tp_2.dw_serving.retrieve(i_contador,i_clughis,i_nserving)
+tab_1.tp_2.tab_2.resul.dw_serving.retrieve(i_contador,i_clughis,i_nserving)
 if tab_1.tp_2.dw_rescpo.retrieve(getitemstring(getrow(),'coddoc'),getitemnumber(getrow(),'nrepor'),getitemnumber(getrow(),'item'),getitemstring(getrow(),'clugar'))>0 then
 	i_itemcpo=tab_1.tp_2.dw_rescpo.getitemnumber(1,'item')
 	i_cod_doc=tab_1.tp_2.dw_rescpo.getitemstring(1,'coddoc')
 end if
-if tab_1.tp_2.dw_res.retrieve(getitemstring(getrow(),'coddoc'),getitemnumber(getrow(),'nrepor'),getitemnumber(getrow(),'item'),getitemstring(getrow(),'codproced'),getitemstring(getrow(),'clugar'))>0 then
+if tab_1.tp_2.tab_2.resul.dw_res.retrieve(getitemstring(getrow(),'coddoc'),getitemnumber(getrow(),'nrepor'),getitemnumber(getrow(),'item'),getitemstring(getrow(),'codproced'),getitemstring(getrow(),'clugar'))>0 then
 	tab_1.tp_2.dw_campos.retrieve(getitemnumber(getrow(),'codgc'),getitemstring(getrow(),'codproced'))
-	tab_1.tp_2.pb_insert.enabled=false
+	tab_1.tp_2.tab_2.resul.pb_insert.enabled=false
 	if getitemstring(getrow(),'estado')='2' then
-		tab_1.tp_2.pb_cerrar.enabled=true
+		tab_1.tp_2.tab_2.resul.pb_cerrar.enabled=true
 	else
-		tab_1.tp_2.pb_cerrar.enabled=false
+		tab_1.tp_2.tab_2.resul.pb_cerrar.enabled=false
 	end if
 else
-	tab_1.tp_2.pb_insert.enabled=true
-	tab_1.tp_2.pb_cerrar.enabled=false
+	tab_1.tp_2.tab_2.resul.pb_insert.enabled=true
+	tab_1.tp_2.tab_2.resul.pb_cerrar.enabled=false
 end if
 if ntomas>1 then
 	tab_1.tp_4.enabled=true
@@ -3157,9 +3197,9 @@ choose case estado
 	case '2' //realizado
 		tab_1.post selecttab(3)//porque el son of the bitch cuando está en ambiente XP no dejaba el tp_2 como activo
 end choose
-tab_1.tp_2.pb_insert.enabled=false
-tab_1.tp_2.dw_serving.post setfocus()//porque el son of the bitch cuando está en ambiente XP no dejaba el tp_2 como activo
-
+tab_1.tp_2.tab_2.resul.pb_insert.enabled=false
+tab_1.tp_2.tab_2.resul.dw_serving.post setfocus()//porque el son of the bitch cuando está en ambiente XP no dejaba el tp_2 como activo
+tab_1.tp_2.tab_2.selecttab(1)
 
 
 end event
@@ -3296,7 +3336,6 @@ end if
 end event
 
 type st_6 from statictext within tp_1
-integer x = 5
 integer y = 244
 integer width = 6085
 integer height = 72
@@ -3517,7 +3556,7 @@ boolean visible = false
 integer x = 18
 integer y = 112
 integer width = 6130
-integer height = 1488
+integer height = 1508
 boolean enabled = false
 long backcolor = 67108864
 string text = "Tomas"
@@ -3659,7 +3698,7 @@ event destroy ( )
 integer x = 18
 integer y = 112
 integer width = 6130
-integer height = 1488
+integer height = 1508
 long backcolor = 67108864
 string text = "Resultados"
 long tabtextcolor = 33554432
@@ -3667,59 +3706,39 @@ string picturename = "resultados.ico"
 long picturemaskcolor = 536870912
 string powertiptext = "Muestra los resultados del Procedimiento Seleccionado"
 gb_2 gb_2
-pb_cerrar pb_cerrar
-pb_insert pb_insert
-dw_l dw_l
 dw_campos dw_campos
-dw_res dw_res
 dw_lista1 dw_lista1
 pb_1 pb_1
 dw_rescpo dw_rescpo
 pb_2 pb_2
-pb_save_resul pb_save_resul
-dw_serving dw_serving
+tab_2 tab_2
 end type
 
 on tp_2.create
 this.gb_2=create gb_2
-this.pb_cerrar=create pb_cerrar
-this.pb_insert=create pb_insert
-this.dw_l=create dw_l
 this.dw_campos=create dw_campos
-this.dw_res=create dw_res
 this.dw_lista1=create dw_lista1
 this.pb_1=create pb_1
 this.dw_rescpo=create dw_rescpo
 this.pb_2=create pb_2
-this.pb_save_resul=create pb_save_resul
-this.dw_serving=create dw_serving
+this.tab_2=create tab_2
 this.Control[]={this.gb_2,&
-this.pb_cerrar,&
-this.pb_insert,&
-this.dw_l,&
 this.dw_campos,&
-this.dw_res,&
 this.dw_lista1,&
 this.pb_1,&
 this.dw_rescpo,&
 this.pb_2,&
-this.pb_save_resul,&
-this.dw_serving}
+this.tab_2}
 end on
 
 on tp_2.destroy
 destroy(this.gb_2)
-destroy(this.pb_cerrar)
-destroy(this.pb_insert)
-destroy(this.dw_l)
 destroy(this.dw_campos)
-destroy(this.dw_res)
 destroy(this.dw_lista1)
 destroy(this.pb_1)
 destroy(this.dw_rescpo)
 destroy(this.pb_2)
-destroy(this.pb_save_resul)
-destroy(this.dw_serving)
+destroy(this.tab_2)
 end on
 
 type gb_2 from groupbox within tp_2
@@ -3736,12 +3755,227 @@ long textcolor = 33554432
 long backcolor = 67108864
 end type
 
-type pb_cerrar from picturebutton within tp_2
-integer x = 5499
-integer y = 692
+type dw_campos from datawindow within tp_2
+boolean visible = false
+integer x = 5847
+integer width = 128
+integer height = 120
+boolean enabled = false
+string title = "none"
+string dataobject = "dw_cap_val_resul"
+boolean vscrollbar = true
+boolean resizable = true
+boolean livescroll = true
+end type
+
+event constructor;settransobject(SQLCA)
+end event
+
+type dw_lista1 from datawindow within tp_2
+integer x = 128
+integer y = 8
+integer width = 2167
+integer height = 108
+integer taborder = 20
+boolean bringtotop = true
+string title = "none"
+string dataobject = "dw_drop_servadx"
+boolean border = false
+boolean livescroll = true
+end type
+
+event constructor;getchild('nproced',idw_lista1)
+idw_lista1.settransobject(sqlca)
+insertrow(1)
+end event
+
+event itemchanged;accepttext()
+tab_1.tp_1.dw_procs.scrolltorow(idw_lista1.getrow())
+end event
+
+type pb_1 from picturebutton within tp_2
 integer width = 146
 integer height = 128
+integer taborder = 10
+boolean bringtotop = true
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+boolean originalsize = true
+string picturename = "atras.gif"
+alignment htextalign = left!
+string powertiptext = "Anterior Procedimiento"
+end type
+
+event clicked;tab_1.tp_1.dw_procs.scrollpriorrow()
+end event
+
+type dw_rescpo from datawindow within tp_2
+event type integer insertar ( string p_lugar,  string p_uvalida,  datetime p_fvalida,  string p_intfz )
+integer x = 2487
+integer y = 8
+integer width = 2944
+integer height = 84
+integer taborder = 40
+boolean bringtotop = true
+string title = "none"
+string dataobject = "dw_resul_cpo"
+boolean border = false
+boolean livescroll = true
+end type
+
+event type integer insertar(string p_lugar, string p_uvalida, datetime p_fvalida, string p_intfz);long fila
+
+fila=tab_1.tp_1.dw_procs.getrow()
+insertrow(1)
+
+select max(item) into :i_itemcpo from resultadoscpo 
+where coddoc=:i_Cod_Doc and clugar=:i_cluging and nrepor=:i_NRepor;
+if sqlca.sqlcode=-1 then
+	messagebox("Error leyendo ResultadosCpo",sqlca.sqlerrtext)
+	return -1
+end if
+if isnull(i_itemcpo) then i_itemcpo=0
+i_itemcpo++
+setitem(1,"item",i_itemcpo)
+setitem(1,"coddoc",i_Cod_Doc)
+setitem(1,"clugar",i_cluging)
+setitem(1,"nrepor",i_NRepor)
+setitem(1,"codgc",tab_1.tp_1.dw_procs.getitemnumber(fila,'codgc'))
+setitem(1,"Nomuestra",w_apoyo_diag2.dw_hist.getitemnumber(w_apoyo_diag2.dw_hist.getrow(),'muestra'))
+setitem(1,"codproced",tab_1.tp_1.dw_procs.getitemstring(fila,'codproced'))
+setitem(1,"IndResul",'1')
+setitem(1,"descripcion",tab_1.tp_1.dw_procs.getitemstring(fila,'descripcion'))
+setitem(1,"fecharesul",p_fvalida)
+if p_intfz='1' then
+	setitem(1,"fecha_intfaz",datetime(today(),now()))
+end if
+setitem(1,"usuario",p_uvalida)
+setitem(1,"contador",w_apoyo_diag2.i_contador)
+setitem(1,"clugar_ser",w_apoyo_diag2.i_clughis)
+setitem(1,"nservicio",i_nserving)
+//setitem(1,'profesional',g_profe)
+setitem(1,'profesional',p_uvalida)
+if update()=-1 then return -1
+return 1
+end event
+
+event constructor;settransobject(SQLCA)
+getchild('profesional',idw_profe)
+idw_profe.settransobject(sqlca)
+end event
+
+type pb_2 from picturebutton within tp_2
+integer x = 2295
+integer y = 4
+integer width = 146
+integer height = 128
+integer taborder = 30
+boolean bringtotop = true
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+boolean originalsize = true
+string picturename = "adelante_1.gif"
+alignment htextalign = left!
+string powertiptext = "Siguiente Procedimiento"
+end type
+
+event clicked;tab_1.tp_1.dw_procs.scrollnextrow()
+end event
+
+type tab_2 from tab within tp_2
+integer x = 5
+integer y = 136
+integer width = 6094
+integer height = 1352
 integer taborder = 80
+boolean bringtotop = true
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Small Fonts"
+long backcolor = 67108864
+boolean raggedright = true
+boolean focusonbuttondown = true
+boolean showtext = false
+boolean perpendiculartext = true
+tabposition tabposition = tabsonleft!
+alignment alignment = Right!
+resul resul
+procesa procesa
+end type
+
+on tab_2.create
+this.resul=create resul
+this.procesa=create procesa
+this.Control[]={this.resul,&
+this.procesa}
+end on
+
+on tab_2.destroy
+destroy(this.resul)
+destroy(this.procesa)
+end on
+
+type resul from userobject within tab_2
+event create ( )
+event destroy ( )
+integer x = 146
+integer y = 16
+integer width = 5929
+integer height = 1320
+long backcolor = 67108864
+string text = "Resultado"
+long tabtextcolor = 33554432
+string picturename = "anula_salida.ico"
+long picturemaskcolor = 536870912
+pb_insert pb_insert
+pb_cerrar pb_cerrar
+pb_save_resul pb_save_resul
+dw_l dw_l
+dw_res dw_res
+dw_serving dw_serving
+end type
+
+on resul.create
+this.pb_insert=create pb_insert
+this.pb_cerrar=create pb_cerrar
+this.pb_save_resul=create pb_save_resul
+this.dw_l=create dw_l
+this.dw_res=create dw_res
+this.dw_serving=create dw_serving
+this.Control[]={this.pb_insert,&
+this.pb_cerrar,&
+this.pb_save_resul,&
+this.dw_l,&
+this.dw_res,&
+this.dw_serving}
+end on
+
+on resul.destroy
+destroy(this.pb_insert)
+destroy(this.pb_cerrar)
+destroy(this.pb_save_resul)
+destroy(this.dw_l)
+destroy(this.dw_res)
+destroy(this.dw_serving)
+end on
+
+type pb_insert from picturebutton within resul
+integer x = 5623
+integer y = 440
+integer width = 146
+integer height = 128
+integer taborder = 100
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -3750,32 +3984,52 @@ fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 boolean enabled = false
 boolean originalsize = true
+string picturename = "editar.GIF"
+string disabledname = "d_editar.GIF"
+end type
+
+event clicked;tab_1.tp_1.pb_cargar_res.event clicked()
+
+end event
+
+type pb_cerrar from picturebutton within resul
+integer x = 5627
+integer y = 292
+integer width = 146
+integer height = 128
+integer taborder = 100
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+boolean originalsize = true
 string picturename = "cerrar.gif"
 string disabledname = "d_cerrar.gif"
-string powertiptext = "Cerrar el Resultado"
 end type
 
 event clicked;i_print=true
-if i_fecha > dw_rescpo.getitemdatetime(1,"fecharesul") then
+if i_fecha > tab_1.tp_2.dw_rescpo.getitemdatetime(1,"fecharesul") then
 	messagebox("Atención","No se puede atender con fecha menor a la del ingreso")
 	return 
 end if
 
 int l_i
-if tab_1.tp_2.dw_res.getitemnumber(tab_1.tp_2.dw_res.getrow(),'nulos')>0 then
-	for l_i= tab_1.tp_2.dw_res.rowcount() to 1 step -1
-		if tab_1.tp_2.dw_res.getitemnumber(l_i,'si_nulo')=1 then
-			tab_1.tp_2.dw_res.deleterow(l_i)
+if dw_res.getitemnumber(dw_res.getrow(),'nulos')>0 then
+	for l_i= dw_res.rowcount() to 1 step -1
+		if dw_res.getitemnumber(l_i,'si_nulo')=1 then
+			dw_res.deleterow(l_i)
 		end if
 	next
 end if
 
-if tab_1.tp_2.dw_res.getitemnumber(tab_1.tp_2.dw_res.getrow(),'faltantes')>0 then
+if dw_res.getitemnumber(dw_res.getrow(),'faltantes')>0 then
 	messagebox("Atención","Faltan datos obligatorios")
 	return 
 end if
 
-if pb_save_resul.event clicked()=-1 then 
+if tab_1.tp_2.tab_2.resul.pb_save_resul.event clicked()=-1 then 
 	i_print=false
 	return
 end if
@@ -3807,38 +4061,134 @@ tab_1.tp_1.dw_procs.resetupdate()
 cambia_est(dw_res,'7')
 end event
 
-type pb_insert from picturebutton within tp_2
-integer x = 5499
-integer y = 832
+type pb_save_resul from picturebutton within resul
+integer x = 5627
+integer y = 144
 integer width = 146
 integer height = 128
-integer taborder = 90
+integer taborder = 30
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
-boolean enabled = false
 boolean originalsize = true
-string picturename = "editar.GIF"
-string disabledname = "d_editar.GIF"
-string powertiptext = "Insertar resultados"
+string picturename = "guardar2.GIF"
 end type
 
-event clicked;tab_1.tp_1.pb_cargar_res.event clicked()
+event clicked;if dw_res.accepttext()=-1 then return
+if dw_res.rowcount()>0 then
+	if dw_res.getitemstring(1,'estado')='7' then return
+end if
+string revisa
+select ResultadosCab.Estado into :revisa from ResultadosCab
+WHERE ResultadosCab.CodDoc=:i_cod_doc and clugar=:i_cluging
+AND ResultadosCab.NRepor=:i_nrepor;
+if not i_print then
+	if revisa='2' then
+		messagebox("Atención","Estos resultados ya fueron impresos, por lo tanto no los puede modificar")
+		return -1
+	end if
+end if
+if revisa='3' then
+	messagebox("Atención","Estos resultados están anulados, por lo tanto no los puede modificar")
+	return -1
+end if
+if i_fecha > tab_1.tp_2.dw_rescpo.getitemdatetime(1,"fecharesul") then
+	messagebox("Atención","No se puede atender con fecha menor a la del ingreso")
+	return -1
+end if
+if dw_res.rowcount()=0 then return -1
+if tab_1.tp_2.dw_rescpo.getitemstring(1,"profesional")="" or isnull(tab_1.tp_2.dw_rescpo.getitemstring(1,"profesional")) then
+	messagebox("Atención","Elija el profesional")
+	return -1
+end if
+if dw_serving.getitemstring(1,"estado") = "2" then
+	messagebox("Atención","Complete los datos de RIPS")
+	return -1
+end if
 
+if tab_1.tp_2.dw_rescpo.update(true,false)=-1 then
+	rollback;
+	return -1
+end if
+if tab_1.tp_2.tab_2.resul.dw_res.getitemnumber(tab_1.tp_2.tab_2.resul.dw_res.getrow(),'faltantes')>0 then
+	messagebox("Atención","Faltan datos obligatorios")
+	return  -1
+end if
+dw_serving.setitem(1,"estria","1")
+dw_serving.setitem(1,"cprof",tab_1.tp_2.dw_rescpo.getitemstring(1,"profesional"))
+dw_serving.setitem(1,"fecha",tab_1.tp_2.dw_rescpo.getitemdatetime(1,"fecharesul"))
+if dw_serving.update(true,false)=-1 then
+	rollback;
+	return -1
+end if
+if tab_1.tp_2.tab_2.resul.dw_res.update(true,false)=-1 then
+	rollback;
+	return -1
+end if
+tab_1.tp_1.dw_procs.setitem(tab_1.tp_1.dw_procs.getrow(),"estado","2")
+if tab_1.tp_1.dw_procs.update(true,false)= -1 then
+	rollback;
+	return -1
+else
+	commit;
+end if
+int li=0,semanas=0,dias=0
+double cohortes
 
+cohortes=f_valida_usuario_cohorte_materna(tipdoc, docu)
+if cohortes>0 then 
+	datetime fechas
+	tab_1.tp_2.tab_2.resul.dw_res.setfilter("eco<>'0'")
+	tab_1.tp_2.tab_2.resul.dw_res.filter()
+	for li=1 to tab_1.tp_2.tab_2.resul.dw_res.rowcount()
+		if tab_1.tp_2.tab_2.resul.dw_res.getitemstring(li,'eco')='1' then
+			fechas=tab_1.tp_2.tab_2.resul.dw_res.getitemdatetime(li,'fecha')
+			UPDATE pacientes_cohortes SET fp_eco =:fechas
+			WHERE (((tipodoc)=:tipdoc) AND ((documento)=:docu) AND ((id_cohorte_pac)=:cohortes)  AND ((pacientes_cohortes.fp_eco) is null));
+		end if
+		if tab_1.tp_2.tab_2.resul.dw_res.getitemstring(li,'eco')='2' then
+			semanas=tab_1.tp_2.tab_2.resul.dw_res.getitemnumber(li,'resultado2')
+			UPDATE pacientes_cohortes SET sgp_eco =:semanas
+			WHERE (((tipodoc)=:tipdoc) AND ((documento)=:docu) AND ((id_cohorte_pac)=:cohortes) AND ((pacientes_cohortes.sgp_eco) is null));	
+		end if
+		if tab_1.tp_2.tab_2.resul.dw_res.getitemstring(li,'eco')='3' then
+			dias=tab_1.tp_2.tab_2.resul.dw_res.getitemnumber(li,'resultado2')
+			UPDATE pacientes_cohortes SET dgp_eco =:dias
+			WHERE (((tipodoc)=:tipdoc) AND ((documento)=:docu) AND ((id_cohorte_pac)=:cohortes) AND ((pacientes_cohortes.dgp_eco) is null));	
+		end if		
+		if tab_1.tp_2.tab_2.resul.dw_res.getitemstring(li,'eco')='4' then
+			fechas=tab_1.tp_2.tab_2.resul.dw_res.getitemdatetime(li,'fecha')
+			UPDATE pacientes_cohortes SET fp_part =:fechas
+			WHERE (((tipodoc)=:tipdoc) AND ((documento)=:docu) AND ((id_cohorte_pac)=:cohortes)  AND ((pacientes_cohortes.fp_part) is null));
+		end if		
+		if sqlca.sqlcode= -1 then
+			messagebox("Error actualizando datos ecografia",sqlca.sqlerrtext)
+			return -1
+		end if		
+	next
+	commit;
+	tab_1.tp_2.tab_2.resul.dw_res.setfilter('')
+	tab_1.tp_2.tab_2.resul.dw_res.filter()
+end if
+
+tab_1.tp_2.dw_rescpo.resetupdate()
+dw_serving.resetupdate()
+cambia_est(dw_res,'2')
+dw_res.resetupdate()
+tab_1.tp_1.dw_procs.resetupdate()
+pb_cerrar.enabled=true
 end event
 
-type dw_l from datawindow within tp_2
+type dw_l from datawindow within resul
 boolean visible = false
-integer x = 5371
-integer y = 16
-integer width = 169
-integer height = 124
-boolean bringtotop = true
-boolean enabled = false
+integer x = 5582
+integer y = 36
+integer width = 242
+integer height = 76
+integer taborder = 50
 string title = "none"
 string dataobject = "dw_pgclista"
 boolean border = false
@@ -3849,51 +4199,19 @@ event constructor;setTransObject(SQLCA)
 
 end event
 
-type dw_campos from datawindow within tp_2
-boolean visible = false
-integer x = 5513
-integer y = 1020
-integer width = 128
-integer height = 120
-boolean enabled = false
+type dw_res from datawindow within resul
+integer x = 14
+integer y = 412
+integer width = 5477
+integer height = 892
+integer taborder = 90
 string title = "none"
-string dataobject = "dw_cap_val_resul"
-boolean vscrollbar = true
-boolean resizable = true
+string dataobject = "dw_xa_resul"
+boolean border = false
 boolean livescroll = true
 end type
 
 event constructor;settransobject(SQLCA)
-end event
-
-type dw_res from datawindow within tp_2
-integer x = 105
-integer y = 512
-integer width = 5349
-integer height = 940
-integer taborder = 60
-string dataobject = "dw_xa_resul"
-boolean vscrollbar = true
-boolean border = false
-end type
-
-event constructor;settransobject(SQLCA)
-end event
-
-event rowfocuschanging;if newrow<1 then return
-if getItemString(newrow,'tipocampo') = '4' then
-	string valor, modifica = "resultado4.values='"
-	int i
-	dw_l.Retrieve(GetItemString(newrow,'codproced'),GetItemNumber(newrow,'consecampo'))
-	for i = 1 to dw_l.RowCount()
-		valor = dw_l.GetItemString(i,'nombre')
-		if not isNull(valor) and valor<>'' then
-			modifica = modifica+valor+"~t"+valor+"/"
-		end if
-	next	
-	Modify(modifica + "'")
-end if
-
 end event
 
 event itemchanged;long ll_rmin,ll_rmax,ll_item,ll_dias
@@ -3948,6 +4266,21 @@ choose case dwo.name
 		end if		
 AcceptText()
 end choose
+end event
+
+event rowfocuschanging;if newrow<1 then return
+if getItemString(newrow,'tipocampo') = '4' then
+	string valor, modifica = "resultado4.values='"
+	int i
+	dw_l.Retrieve(GetItemString(newrow,'codproced'),GetItemNumber(newrow,'consecampo'))
+	for i = 1 to dw_l.RowCount()
+		valor = dw_l.GetItemString(i,'nombre')
+		if not isNull(valor) and valor<>'' then
+			modifica = modifica+valor+"~t"+valor+"/"
+		end if
+	next	
+	Modify(modifica + "'")
+end if
 end event
 
 event buttonclicked;string ls_formula,ls_column,ls_result,l_sex,l_pedazo,f_ant1
@@ -4033,7 +4366,7 @@ if dwo.name<>'b_vref' then
 		AcceptText()
 	
 		st_rte st
-		st.c_prof =dw_rescpo.getitemstring(1,"profesional")
+		st.c_prof =tab_1.tp_2.dw_rescpo.getitemstring(1,"profesional")
 		st.dw_pac = w_principal.dw_1
 		st.empresa=getitemstring(row,'resultado3')
 		st.codplantilla=tab_1.tp_1.dw_procs.getitemstring(tab_1.tp_1.dw_procs.getrow(),"cod_cups")
@@ -4064,251 +4397,13 @@ Else
 End if
 end event
 
-type dw_lista1 from datawindow within tp_2
-integer x = 101
-integer width = 2167
-integer height = 108
-integer taborder = 20
-boolean bringtotop = true
-string title = "none"
-string dataobject = "dw_drop_servadx"
-boolean border = false
-boolean livescroll = true
-end type
-
-event constructor;getchild('nproced',idw_lista1)
-idw_lista1.settransobject(sqlca)
-insertrow(1)
-end event
-
-event itemchanged;accepttext()
-tab_1.tp_1.dw_procs.scrolltorow(idw_lista1.getrow())
-end event
-
-type pb_1 from picturebutton within tp_2
-integer width = 105
-integer height = 92
-integer taborder = 10
-boolean bringtotop = true
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-string picturename = "atras.gif"
-alignment htextalign = left!
-string powertiptext = "Anterior Procedimiento"
-end type
-
-event clicked;tab_1.tp_1.dw_procs.scrollpriorrow()
-end event
-
-type dw_rescpo from datawindow within tp_2
-event type integer insertar ( string p_lugar,  string p_uvalida,  datetime p_fvalida,  string p_intfz )
-integer x = 2409
-integer y = 8
-integer width = 2944
-integer height = 84
-integer taborder = 40
-boolean bringtotop = true
-string title = "none"
-string dataobject = "dw_resul_cpo"
-boolean border = false
-boolean livescroll = true
-end type
-
-event type integer insertar(string p_lugar, string p_uvalida, datetime p_fvalida, string p_intfz);long fila
-
-fila=tab_1.tp_1.dw_procs.getrow()
-insertrow(1)
-
-select max(item) into :i_itemcpo from resultadoscpo 
-where coddoc=:i_Cod_Doc and clugar=:i_cluging and nrepor=:i_NRepor;
-if sqlca.sqlcode=-1 then
-	messagebox("Error leyendo ResultadosCpo",sqlca.sqlerrtext)
-	return -1
-end if
-if isnull(i_itemcpo) then i_itemcpo=0
-i_itemcpo++
-setitem(1,"item",i_itemcpo)
-setitem(1,"coddoc",i_Cod_Doc)
-setitem(1,"clugar",i_cluging)
-setitem(1,"nrepor",i_NRepor)
-setitem(1,"codgc",tab_1.tp_1.dw_procs.getitemnumber(fila,'codgc'))
-setitem(1,"Nomuestra",w_apoyo_diag2.dw_hist.getitemnumber(w_apoyo_diag2.dw_hist.getrow(),'muestra'))
-setitem(1,"codproced",tab_1.tp_1.dw_procs.getitemstring(fila,'codproced'))
-setitem(1,"IndResul",'1')
-setitem(1,"descripcion",tab_1.tp_1.dw_procs.getitemstring(fila,'descripcion'))
-setitem(1,"fecharesul",p_fvalida)
-if p_intfz='1' then
-	setitem(1,"fecha_intfaz",datetime(today(),now()))
-end if
-setitem(1,"usuario",p_uvalida)
-setitem(1,"contador",w_apoyo_diag2.i_contador)
-setitem(1,"clugar_ser",w_apoyo_diag2.i_clughis)
-setitem(1,"nservicio",i_nserving)
-//setitem(1,'profesional',g_profe)
-setitem(1,'profesional',p_uvalida)
-if update()=-1 then return -1
-return 1
-end event
-
-event constructor;settransobject(SQLCA)
-getchild('profesional',idw_profe)
-idw_profe.settransobject(sqlca)
-end event
-
-type pb_2 from picturebutton within tp_2
-integer x = 2277
-integer width = 105
-integer height = 92
-integer taborder = 30
-boolean bringtotop = true
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-string picturename = "adelante_1.gif"
-alignment htextalign = left!
-string powertiptext = "Siguiente Procedimiento"
-end type
-
-event clicked;tab_1.tp_1.dw_procs.scrollnextrow()
-end event
-
-type pb_save_resul from picturebutton within tp_2
-integer x = 5499
-integer y = 552
-integer width = 146
-integer height = 128
-integer taborder = 70
-boolean bringtotop = true
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-boolean originalsize = true
-string picturename = "guardar2.GIF"
-string powertiptext = "Guardar"
-end type
-
-event clicked;if dw_res.accepttext()=-1 then return
-if dw_res.rowcount()>0 then
-	if dw_res.getitemstring(1,'estado')='7' then return
-end if
-string revisa
-select ResultadosCab.Estado into :revisa from ResultadosCab
-WHERE ResultadosCab.CodDoc=:i_cod_doc and clugar=:i_cluging
-AND ResultadosCab.NRepor=:i_nrepor;
-if not i_print then
-	if revisa='2' then
-		messagebox("Atención","Estos resultados ya fueron impresos, por lo tanto no los puede modificar")
-		return -1
-	end if
-end if
-if revisa='3' then
-	messagebox("Atención","Estos resultados están anulados, por lo tanto no los puede modificar")
-	return -1
-end if
-if i_fecha > dw_rescpo.getitemdatetime(1,"fecharesul") then
-	messagebox("Atención","No se puede atender con fecha menor a la del ingreso")
-	return -1
-end if
-if tab_1.tp_2.dw_res.rowcount()=0 then return -1
-if dw_rescpo.getitemstring(1,"profesional")="" or isnull(dw_rescpo.getitemstring(1,"profesional")) then
-	messagebox("Atención","Elija el profesional")
-	return -1
-end if
-if dw_serving.getitemstring(1,"estado") = "2" then
-	messagebox("Atención","Complete los datos de RIPS")
-	return -1
-end if
-
-if dw_rescpo.update(true,false)=-1 then
-	rollback;
-	return -1
-end if
-if tab_1.tp_2.dw_res.getitemnumber(tab_1.tp_2.dw_res.getrow(),'faltantes')>0 then
-	messagebox("Atención","Faltan datos obligatorios")
-	return  -1
-end if
-dw_serving.setitem(1,"estria","1")
-dw_serving.setitem(1,"cprof",dw_rescpo.getitemstring(1,"profesional"))
-dw_serving.setitem(1,"fecha",dw_rescpo.getitemdatetime(1,"fecharesul"))
-if dw_serving.update(true,false)=-1 then
-	rollback;
-	return -1
-end if
-if tab_1.tp_2.dw_res.update(true,false)=-1 then
-	rollback;
-	return -1
-end if
-tab_1.tp_1.dw_procs.setitem(tab_1.tp_1.dw_procs.getrow(),"estado","2")
-if tab_1.tp_1.dw_procs.update(true,false)= -1 then
-	rollback;
-	return -1
-else
-	commit;
-end if
-int li=0,semanas=0,dias=0
-double cohortes
-
-cohortes=f_valida_usuario_cohorte_materna(tipdoc, docu)
-if cohortes>0 then 
-	datetime fechas
-	tab_1.tp_2.dw_res.setfilter("eco<>'0'")
-	tab_1.tp_2.dw_res.filter()
-	for li=1 to tab_1.tp_2.dw_res.rowcount()
-		if tab_1.tp_2.dw_res.getitemstring(li,'eco')='1' then
-			fechas=tab_1.tp_2.dw_res.getitemdatetime(li,'fecha')
-			UPDATE pacientes_cohortes SET fp_eco =:fechas
-			WHERE (((tipodoc)=:tipdoc) AND ((documento)=:docu) AND ((id_cohorte_pac)=:cohortes)  AND ((pacientes_cohortes.fp_eco) is null));
-		end if
-		if tab_1.tp_2.dw_res.getitemstring(li,'eco')='2' then
-			semanas=tab_1.tp_2.dw_res.getitemnumber(li,'resultado2')
-			UPDATE pacientes_cohortes SET sgp_eco =:semanas
-			WHERE (((tipodoc)=:tipdoc) AND ((documento)=:docu) AND ((id_cohorte_pac)=:cohortes) AND ((pacientes_cohortes.sgp_eco) is null));	
-		end if
-		if tab_1.tp_2.dw_res.getitemstring(li,'eco')='3' then
-			dias=tab_1.tp_2.dw_res.getitemnumber(li,'resultado2')
-			UPDATE pacientes_cohortes SET dgp_eco =:dias
-			WHERE (((tipodoc)=:tipdoc) AND ((documento)=:docu) AND ((id_cohorte_pac)=:cohortes) AND ((pacientes_cohortes.dgp_eco) is null));	
-		end if		
-		if tab_1.tp_2.dw_res.getitemstring(li,'eco')='4' then
-			fechas=tab_1.tp_2.dw_res.getitemdatetime(li,'fecha')
-			UPDATE pacientes_cohortes SET fp_part =:fechas
-			WHERE (((tipodoc)=:tipdoc) AND ((documento)=:docu) AND ((id_cohorte_pac)=:cohortes)  AND ((pacientes_cohortes.fp_part) is null));
-		end if		
-		if sqlca.sqlcode= -1 then
-			messagebox("Error actualizando datos ecografia",sqlca.sqlerrtext)
-			return -1
-		end if		
-	next
-	commit;
-	tab_1.tp_2.dw_res.setfilter('')
-	tab_1.tp_2.dw_res.filter()
-end if
-
-dw_rescpo.resetupdate()
-dw_serving.resetupdate()
-cambia_est(dw_res,'2')
-dw_res.resetupdate()
-tab_1.tp_1.dw_procs.resetupdate()
-pb_cerrar.enabled=true
-end event
-
-type dw_serving from datawindow within tp_2
+type dw_serving from datawindow within resul
 event type integer insertar ( )
 integer x = 14
-integer y = 116
-integer width = 5413
-integer height = 388
-integer taborder = 50
+integer y = 24
+integer width = 5371
+integer height = 376
+integer taborder = 80
 boolean bringtotop = true
 string title = "none"
 string dataobject = "dw_estad_rip_cext"
@@ -4588,11 +4683,23 @@ choose case dwo.name
 end choose
 end event
 
+type procesa from userobject within tab_2
+integer x = 146
+integer y = 16
+integer width = 5929
+integer height = 1320
+long backcolor = 67108864
+string text = " Procesamiento"
+long tabtextcolor = 33554432
+string picturename = "notas_adm.ico"
+long picturemaskcolor = 536870912
+end type
+
 type tp_3 from userobject within tab_1
 integer x = 18
 integer y = 112
 integer width = 6130
-integer height = 1488
+integer height = 1508
 long backcolor = 67108864
 string text = "Imágenes"
 long tabtextcolor = 33554432
