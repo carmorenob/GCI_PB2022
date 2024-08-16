@@ -200,7 +200,19 @@ dw_serving dw_serving
 end type
 type procesa from userobject within tab_2
 end type
+type pb_sevn from picturebutton within procesa
+end type
+type pb_deln from picturebutton within procesa
+end type
+type pb_insn from picturebutton within procesa
+end type
+type dw_notas from datawindow within procesa
+end type
 type procesa from userobject within tab_2
+pb_sevn pb_sevn
+pb_deln pb_deln
+pb_insn pb_insn
+dw_notas dw_notas
 end type
 type tab_2 from tab within tp_2
 resul resul
@@ -1164,8 +1176,14 @@ tab_1.tp_1.dp_2.y=tab_1.height -220
 tab_1.tp_2.tab_2.width=tab_1.width - 50
 tab_1.tp_2.tab_2.height=tab_1.height - 280
 
-
 tab_1.tp_2.tab_2.resul.dw_res.height=tab_1.tp_2.tab_2.height - 220
+
+tab_1.tp_2.tab_2.procesa.dw_notas.width=tab_1.tp_2.tab_2.width - 450
+tab_1.tp_2.tab_2.procesa.dw_notas.height=tab_1.tp_2.tab_2.height - 100
+
+tab_1.tp_2.tab_2.procesa.pb_insn.x=tab_1.tp_2.tab_2.procesa.dw_notas.width + 100
+tab_1.tp_2.tab_2.procesa.pb_deln.x=tab_1.tp_2.tab_2.procesa.dw_notas.width + 100
+tab_1.tp_2.tab_2.procesa.pb_sevn.x=tab_1.tp_2.tab_2.procesa.dw_notas.width + 100
 end event
 
 type dw_profe_valida from datawindow within w_apoyo_diag2
@@ -2260,7 +2278,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-08-15"), Time("16:20:12.000000"))
+datetime value = DateTime(Date("2024-08-16"), Time("12:57:46.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2282,7 +2300,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-08-15"), Time("16:20:12.000000"))
+datetime value = DateTime(Date("2024-08-16"), Time("12:57:46.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -3909,7 +3927,7 @@ boolean focusonbuttondown = true
 boolean showtext = false
 boolean perpendiculartext = true
 tabposition tabposition = tabsonleft!
-alignment alignment = Right!
+alignment alignment = right!
 resul resul
 procesa procesa
 end type
@@ -4693,7 +4711,165 @@ string text = " Procesamiento"
 long tabtextcolor = 33554432
 string picturename = "notas_adm.ico"
 long picturemaskcolor = 536870912
+pb_sevn pb_sevn
+pb_deln pb_deln
+pb_insn pb_insn
+dw_notas dw_notas
 end type
+
+on procesa.create
+this.pb_sevn=create pb_sevn
+this.pb_deln=create pb_deln
+this.pb_insn=create pb_insn
+this.dw_notas=create dw_notas
+this.Control[]={this.pb_sevn,&
+this.pb_deln,&
+this.pb_insn,&
+this.dw_notas}
+end on
+
+on procesa.destroy
+destroy(this.pb_sevn)
+destroy(this.pb_deln)
+destroy(this.pb_insn)
+destroy(this.dw_notas)
+end on
+
+type pb_sevn from picturebutton within procesa
+integer x = 5765
+integer y = 312
+integer width = 146
+integer height = 128
+integer taborder = 19
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Small Fonts"
+boolean originalsize = true
+string picturename = "guardar2.GIF"
+alignment htextalign = right!
+end type
+
+event clicked;if f_permiso_boton(this,'APDX')=0 then return
+if tab_1.tp_1.dw_procs.getitemstring(tab_1.tp_1.dw_procs.getrow(),"estado")<>"1" then 
+	messagebox("Atención",'Esta producto ya se encuentra atendido. No la puede modificar')
+	return 
+end if
+if dw_notas.update(true,false)=-1 then
+	rollback;
+	return 
+end if
+commit;
+//if tab_1tp_2.tab_2.procesa.dw_notas.retrieve(tab_1.tabpage_1.dw_admi.getitemnumber(1,"nh"),tab_1.tabpage_1.dw_admi.getitemstring(1,"clugar"),tipo_ingres)
+end event
+
+type pb_deln from picturebutton within procesa
+integer x = 5765
+integer y = 172
+integer width = 146
+integer height = 128
+integer taborder = 30
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Small Fonts"
+boolean originalsize = true
+string picturename = "anulardoc.gif"
+alignment htextalign = right!
+end type
+
+event clicked;if f_permiso_boton(this,'APDX')=0 then return
+ if tab_1.tp_1.dw_procs.getitemstring(tab_1.tp_1.dw_procs.getrow(),"estado")<>"1" then 
+	messagebox("Atención",'Esta admisión ya se encuentra cerrada. No la puede modificar')
+	return 
+end if
+
+If messageBox('Atención','Está seguro de querer cambiar el estado de la observación ?',question!,yesno!,2) = 2 then Return 
+
+long num_hosp,item,fila
+string clug_hadm,diaging
+fila=dw_notas.getrow()
+clug_hadm=dw_notas.getitemstring(fila,"clugar")
+num_hosp=dw_notas.getitemnumber(fila,"nh")
+item=dw_notas.getitemnumber(fila,"item")
+st_xa_anular st_anula
+st_anula.tipo='AX'
+openwithparm (w_motiv_anula,st_anula)
+st_anula=message.powerobjectparm
+if not isValid(st_anula) then return
+datetime fec_anu
+fec_anu=datetime(today(),now())
+//update hospadmi_obs set estado='2',fecha_anula =:fec_anu,motiv_anula=:st_anula.observacion,cod_anula=:st_anula.motivo,usu_anula =:usuario
+//where nh=:num_hosp and codtingre=:tipo_ingres and clugar=:clug_hadm and item=:item;
+if sqlca.sqlcode=-1 then 
+	messagebox("Error actualizando el estado de Admisión Observacion",sqlca.sqlerrtext)
+	rollback;
+	RETURN
+end if
+commit;
+dw_notas.ReselectRow(fila) 
+end event
+
+type pb_insn from picturebutton within procesa
+integer x = 5765
+integer y = 32
+integer width = 146
+integer height = 128
+integer taborder = 100
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Small Fonts"
+boolean originalsize = true
+string picturename = "insertar.GIF"
+alignment htextalign = right!
+end type
+
+event clicked;if f_permiso_boton(this,'APDX')=0 then return
+if tab_1.tp_1.dw_procs.rowcount()<1 then return
+if w_principal.dw_1.getitemstring(1,'estado')='1' then
+  messagebox("Atención","Este Paciente esta Fallecido no puede adicionar Observaciones")
+  return
+end if
+if tab_1.tp_1.dw_procs.getitemstring(tab_1.tp_1.dw_procs.getrow(),"estado")<>"1" then 
+	messagebox("Atención",'Esta admisión ya se encuentra cerrada. No la puede modificar')
+	return -1
+end if
+int maximo,fila
+maximo=dw_notas.getitemnumber(1,'maximos')
+if isnull(maximo) then maximo=0
+maximo++
+fila=dw_notas.insertrow(0)
+dw_notas.setitem(fila,"clugar",clugar)
+dw_notas.setitem(fila,"codaadx",i_codarea)
+dw_notas.setitem(fila,"ningreso",tab_1.tp_1.dw_procs.getitemnumber(1,"ningreso"))
+dw_notas.setitem(fila,"nproced",tab_1.tp_1.dw_procs.getitemnumber(1,"nproced"))
+dw_notas.setitem(fila,"item",maximo)
+dw_notas.Setitem(fila,"Usuario",usuario)
+dw_notas.setitem(fila,"fecha",datetime(today(),time(string(now()))))
+end event
+
+type dw_notas from datawindow within procesa
+integer x = 59
+integer y = 36
+integer width = 5669
+integer height = 1244
+integer taborder = 80
+string title = "none"
+string dataobject = "dw_serviciosadx_notas"
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event constructor;settransobject(SQLCA)
+
+end event
 
 type tp_3 from userobject within tab_1
 integer x = 18

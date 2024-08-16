@@ -267,7 +267,7 @@ if cuantos>0 then
 //	if w_apoyo_diag2.f_crear_resultados()=1 then 
 //		w_apoyo_diag2.tab_1.selectedtab=2
 //	end if
-	w_apoyo_diag2.tab_1.tp_2.pb_insert.enabled=false
+	w_apoyo_diag2.tab_1.tp_2.tab_2.resul.pb_insert.enabled=false
 	w_apoyo_diag2.tab_1.tp_2.dw_rescpo.setfocus()
 else
 	messagebox("Atención","Para poder atender los servicios, debe indicar la cantidad a realizar")
