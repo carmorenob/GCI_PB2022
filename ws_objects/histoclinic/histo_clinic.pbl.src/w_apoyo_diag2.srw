@@ -1937,16 +1937,17 @@ if  dx <> "" then
 end if
 
 tab_1.tp_1.dw_procs.retrieve(i_codarea,i_ningreso,i_cluging)
+
 idw_lista1.retrieve(i_codarea,i_ningreso,i_cluging)
 idw_lista2.retrieve(i_codarea,i_ningreso,i_cluging)
 idw_lista3.retrieve(i_codarea,i_ningreso,i_cluging)
-
 dw_sum_cab.retrieve(i_contador,i_clughis)
 if dw_canasta.retrieve(i_contador,i_clughis)>0 then
 	dw_lote.retrieve(i_contador,i_clughis)
 	dw_mvto_cpo.retrieve(i_contador,i_clughis)
 end if
-
+tab_1.tp_2.tab_2.procesa.dw_notas.retrieve(i_cluging,i_codarea,i_ningreso,i_nservadx)
+tab_1.tp_2.tab_2.selecttab(1)
 
 end event
 
@@ -2278,7 +2279,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-08-16"), Time("12:57:46.000000"))
+datetime value = DateTime(Date("2024-08-19"), Time("13:17:17.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2300,7 +2301,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-08-16"), Time("12:57:46.000000"))
+datetime value = DateTime(Date("2024-08-19"), Time("13:17:17.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -4762,7 +4763,7 @@ if dw_notas.update(true,false)=-1 then
 	return 
 end if
 commit;
-//if tab_1tp_2.tab_2.procesa.dw_notas.retrieve(tab_1.tabpage_1.dw_admi.getitemnumber(1,"nh"),tab_1.tabpage_1.dw_admi.getitemstring(1,"clugar"),tipo_ingres)
+tab_1.tp_2.tab_2.procesa.dw_notas.retrieve(i_cluging,i_codarea,i_ningreso,i_nservadx)
 end event
 
 type pb_deln from picturebutton within procesa
@@ -4842,7 +4843,7 @@ if tab_1.tp_1.dw_procs.getitemstring(tab_1.tp_1.dw_procs.getrow(),"estado")<>"1"
 	return -1
 end if
 int maximo,fila
-maximo=dw_notas.getitemnumber(1,'maximos')
+maximo=dw_notas.getitemnumber(1,'totales')
 if isnull(maximo) then maximo=0
 maximo++
 fila=dw_notas.insertrow(0)
