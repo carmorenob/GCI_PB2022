@@ -2279,7 +2279,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-08-19"), Time("13:17:17.000000"))
+datetime value = DateTime(Date("2024-08-20"), Time("16:00:56.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2301,7 +2301,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-08-19"), Time("13:17:17.000000"))
+datetime value = DateTime(Date("2024-08-20"), Time("16:00:56.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -4791,12 +4791,16 @@ end if
 
 If messageBox('Atención','Está seguro de querer cambiar el estado de la observación ?',question!,yesno!,2) = 2 then Return 
 
-long num_hosp,item,fila
-string clug_hadm,diaging
-fila=dw_notas.getrow()
-clug_hadm=dw_notas.getitemstring(fila,"clugar")
-num_hosp=dw_notas.getitemnumber(fila,"nh")
-item=dw_notas.getitemnumber(fila,"item")
+long ldb_ning,ldb_item,ldb_nproc,ldb_fila
+string ls_cling
+
+ldb_fila=dw_notas.getrow()
+
+ls_cling=dw_notas.getitemstring(ldb_fila,"clugar")
+ldb_ning=dw_notas.getitemnumber(ldb_fila,"ningreso")
+ldb_nproc=dw_notas.getitemnumber(ldb_fila,"nproced")
+ldb_item=dw_notas.getitemnumber(ldb_fila,"item")
+
 st_xa_anular st_anula
 st_anula.tipo='AX'
 openwithparm (w_motiv_anula,st_anula)
@@ -4804,15 +4808,15 @@ st_anula=message.powerobjectparm
 if not isValid(st_anula) then return
 datetime fec_anu
 fec_anu=datetime(today(),now())
-//update hospadmi_obs set estado='2',fecha_anula =:fec_anu,motiv_anula=:st_anula.observacion,cod_anula=:st_anula.motivo,usu_anula =:usuario
-//where nh=:num_hosp and codtingre=:tipo_ingres and clugar=:clug_hadm and item=:item;
+update serviciosadx_notas set estado='2',fecha_anula =:fec_anu,motiv_anula=:st_anula.observacion,cod_anula=:st_anula.motivo,usu_anula =:usuario
+WHERE (((clugar)=:ls_cling) AND ((codaadx)=:i_codarea) AND ((ningreso)=:ldb_ning) AND ((nproced)=:ldb_nproc) AND ((item)=:ldb_item));
 if sqlca.sqlcode=-1 then 
-	messagebox("Error actualizando el estado de Admisión Observacion",sqlca.sqlerrtext)
+	messagebox("Error actualizando el estado de serviciosadx_notas",sqlca.sqlerrtext)
 	rollback;
 	RETURN
 end if
 commit;
-dw_notas.ReselectRow(fila) 
+dw_notas.ReselectRow(ldb_fila) 
 end event
 
 type pb_insn from picturebutton within procesa
@@ -4838,7 +4842,10 @@ if w_principal.dw_1.getitemstring(1,'estado')='1' then
   messagebox("Atención","Este Paciente esta Fallecido no puede adicionar Observaciones")
   return
 end if
-if tab_1.tp_1.dw_procs.getitemstring(tab_1.tp_1.dw_procs.getrow(),"estado")<>"1" then 
+double ldb_fila
+ldb_fila=tab_1.tp_1.dw_procs.getrow()
+
+if tab_1.tp_1.dw_procs.getitemstring(ldb_fila,"estado")<>"1" then 
 	messagebox("Atención",'Esta admisión ya se encuentra cerrada. No la puede modificar')
 	return -1
 end if
@@ -4847,10 +4854,10 @@ maximo=dw_notas.getitemnumber(1,'totales')
 if isnull(maximo) then maximo=0
 maximo++
 fila=dw_notas.insertrow(0)
-dw_notas.setitem(fila,"clugar",clugar)
+dw_notas.setitem(fila,"clugar",tab_1.tp_1.dw_procs.getitemstring(ldb_fila,"clugar"))
 dw_notas.setitem(fila,"codaadx",i_codarea)
-dw_notas.setitem(fila,"ningreso",tab_1.tp_1.dw_procs.getitemnumber(1,"ningreso"))
-dw_notas.setitem(fila,"nproced",tab_1.tp_1.dw_procs.getitemnumber(1,"nproced"))
+dw_notas.setitem(fila,"ningreso",tab_1.tp_1.dw_procs.getitemnumber(ldb_fila,"ningreso"))
+dw_notas.setitem(fila,"nproced",tab_1.tp_1.dw_procs.getitemnumber(ldb_fila,"nproced"))
 dw_notas.setitem(fila,"item",maximo)
 dw_notas.Setitem(fila,"Usuario",usuario)
 dw_notas.setitem(fila,"fecha",datetime(today(),time(string(now()))))
