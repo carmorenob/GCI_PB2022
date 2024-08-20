@@ -338,11 +338,14 @@ type m_tubosmuestra from menu within m_3
 end type
 type m_tipomuestra from menu within m_3
 end type
+type m_notasapdx from menu within m_3
+end type
 type m_3 from menucascade within m_principal
 m_areas m_areas
 m_configuraciónpersonalizada m_configuraciónpersonalizada
 m_tubosmuestra m_tubosmuestra
 m_tipomuestra m_tipomuestra
+m_notasapdx m_notasapdx
 end type
 type m_bancosdefluidos from menucascade within m_principal
 end type
@@ -4913,6 +4916,7 @@ m_areas m_areas
 m_configuraciónpersonalizada m_configuraciónpersonalizada
 m_tubosmuestra m_tubosmuestra
 m_tipomuestra m_tipomuestra
+m_notasapdx m_notasapdx
 end type
 
 on m_3.create
@@ -4944,10 +4948,12 @@ this.m_areas=create m_areas
 this.m_configuraciónpersonalizada=create m_configuraciónpersonalizada
 this.m_tubosmuestra=create m_tubosmuestra
 this.m_tipomuestra=create m_tipomuestra
+this.m_notasapdx=create m_notasapdx
 this.Item[UpperBound(this.Item)+1]=this.m_areas
 this.Item[UpperBound(this.Item)+1]=this.m_configuraciónpersonalizada
 this.Item[UpperBound(this.Item)+1]=this.m_tubosmuestra
 this.Item[UpperBound(this.Item)+1]=this.m_tipomuestra
+this.Item[UpperBound(this.Item)+1]=this.m_notasapdx
 end on
 
 on m_3.destroy
@@ -4956,6 +4962,7 @@ destroy(this.m_areas)
 destroy(this.m_configuraciónpersonalizada)
 destroy(this.m_tubosmuestra)
 destroy(this.m_tipomuestra)
+destroy(this.m_notasapdx)
 end on
 
 type m_areas from menu within m_3
@@ -5110,6 +5117,39 @@ this.bitmapgradient = true
 end on
 
 on m_tipomuestra.destroy
+call super::destroy
+end on
+
+type m_notasapdx from menu within m_3
+end type
+
+on m_notasapdx.create
+call super::create
+this.tag = "Notas Procesamiento"
+this.text = "Notas Procesamiento"
+this.shifttoright = true
+this.menuimage = "ribon_notasp.ico"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_notasapdx.destroy
 call super::destroy
 end on
 
