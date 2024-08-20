@@ -796,7 +796,7 @@ if isvalid(w_admision) then
 	w_admision.dw_tingres.setitem(1,1,tipo_ingres)
 end if
 if isvalid(w_new_at_os) then
-	w_new_at_os.tipo_ingres=tipo_ingres
+	w_new_at_os.is_tipo_ingres=tipo_ingres
 	w_new_at_os.dw_tip_ingres.setitem(1,1,tipo_ingres)
 end if
 if isvalid(w_entrega_med) then

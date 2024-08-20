@@ -1,6 +1,6 @@
 ﻿$PBExportHeader$st_proc_comun.srs
 global type st_proc_comun from structure
-	richtextedit		rte
+	multilineedit		mle
 	datawindow		dw_conducta
 	singlelineedit		sle_cant
 	singlelineedit		sle_proc

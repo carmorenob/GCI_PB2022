@@ -2,7 +2,7 @@
 forward
 global type w_epicris from window
 end type
-type rte_1 from richtextedit within w_epicris
+type mle_1 from multilineedit within w_epicris
 end type
 type pb_cancel from picturebutton within w_epicris
 end type
@@ -21,7 +21,7 @@ long backcolor = 67108864
 string icon = "DosEdit5!"
 boolean clientedge = true
 boolean center = true
-rte_1 rte_1
+mle_1 mle_1
 pb_cancel pb_cancel
 pb_acep pb_acep
 end type
@@ -34,16 +34,16 @@ st_xa_print_histo i_st
 end variables
 
 on w_epicris.create
-this.rte_1=create rte_1
+this.mle_1=create mle_1
 this.pb_cancel=create pb_cancel
 this.pb_acep=create pb_acep
-this.Control[]={this.rte_1,&
+this.Control[]={this.mle_1,&
 this.pb_cancel,&
 this.pb_acep}
 end on
 
 on w_epicris.destroy
-destroy(this.rte_1)
+destroy(this.mle_1)
 destroy(this.pb_cancel)
 destroy(this.pb_acep)
 end on
@@ -137,26 +137,30 @@ else
 	end choose
 end if
 sqlca.autocommit=false
-f_pega_a_rtf(rte_1,string(texto),3)
+f_pega_a_mle(mle_1,string(texto),3)
+
 end event
 
 event close;sqlca.autocommit=false
 closewithreturn(this,i_textnew)
 end event
 
-type rte_1 from richtextedit within w_epicris
+type mle_1 from multilineedit within w_epicris
 integer x = 5
+integer y = 5
 integer width = 4352
 integer height = 1448
 integer taborder = 10
-boolean init_hscrollbar = true
-boolean init_vscrollbar = true
-long init_backcolor = 16777215
-boolean init_wordwrap = true
-long init_leftmargin = 2000
-long init_topmargin = 1000
-long init_rightmargin = 2000
-long init_bottommargin = 1000
+integer textsize = -8
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 16777215
+boolean autohscroll = true
+boolean autovscroll = true
+alignment alignment = Left!
 borderstyle borderstyle = stylelowered!
 end type
 
@@ -210,7 +214,7 @@ string powertiptext = "Guardar Cambios [Alt+G]"
 end type
 
 event clicked;sqlca.autocommit=true
-i_textnew=rte_1.copyrtf(false,detail!)
+i_textnew=mle_1.text
 blob texto
 texto=blob(i_textnew)
 if i_st.p_cod_plant='EPICRIS!' then

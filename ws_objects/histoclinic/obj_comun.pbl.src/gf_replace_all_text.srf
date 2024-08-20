@@ -1,0 +1,27 @@
+﻿$PBExportHeader$gf_replace_all_text.srf
+global type gf_replace_all_text from function_object
+end type
+
+forward prototypes
+global function string gf_replace_all_text (string as_fulltext, string as_text_to_search, string as_text_replace)
+end prototypes
+
+global function string gf_replace_all_text (string as_fulltext, string as_text_to_search, string as_text_replace);long start_pos=1
+string mystring
+mystring = as_fulltext
+
+ 
+// Find the first occurrence of old_str.
+start_pos = Pos(mystring, as_text_to_search, start_pos)
+ 
+// Only enter the loop if you find old_str.
+DO WHILE start_pos > 0
+ 
+    // Replace old_str with new_str.
+    mystring = Replace(mystring, start_pos, Len(as_text_to_search), as_text_replace)
+    // Find the next occurrence of old_str.
+    start_pos = Pos(mystring, as_text_to_search, start_pos+Len(as_text_replace))
+LOOP
+return mystring
+end function
+

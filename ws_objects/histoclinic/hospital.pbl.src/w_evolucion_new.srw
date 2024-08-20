@@ -577,6 +577,7 @@ event clicked;if f_vent_Padre(this).event closequery()=1 then return
 trae historial
 historial.numero=i_stde.contador
 historial.lugar=i_stde.clugar_his
+
 SELECT  profe.control into :i_control
 FROM profe 
 WHERE profe.CodProf=:i_stde.profes ;
@@ -585,13 +586,15 @@ if sqlca.sqlcode=-1 then
 	close(parent)
 	return
 end if
+
 if i_control <= 0 then 
 	i_control=0
 else
 	i_control=i_control - 1
 end if
-update profe set control=:i_control 
-WHERE profe.CodProf=:i_stde.profes ;
+
+update profe set control=:i_control WHERE profe.CodProf=:i_stde.profes ;
+
 if sqlca.sqlcode=-1 then
 	messagebox("Error Actualizando profe",sqlca.sqlerrtext)
 	rollback;
@@ -599,15 +602,9 @@ if sqlca.sqlcode=-1 then
 else
 	commit;
 end if
-If f_imprime='2' then
-//	openwithparm(w_print_histor,historial)
-//	openwithparm(w_print_histor_ole_sec,historial)
-	openwithparm(w_print_histor_new_sec,historial)
-else
-//	openwithparm(w_print_histor_org,historial)
-//	openwithparm(w_print_histor_ole_agr,historial)
-	openwithparm(w_print_histor_new_agr,historial)	
-end if
+
+openwithparm(w_print_histor_txt,historial)
+	
 close(parent)
 end event
 

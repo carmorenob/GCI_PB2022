@@ -116,10 +116,6 @@ tp3 tp3
 tp4 tp4
 t_imagen t_imagen
 end type
-type rte_1 from richtextedit within uo_hclin
-end type
-type rte_3 from richtextedit within uo_hclin
-end type
 type dw_new from datawindow within uo_hclin
 end type
 type dw_new_det from datawindow within uo_hclin
@@ -132,7 +128,11 @@ type dw_plants from datawindow within uo_hclin
 end type
 type dw_res_new from datawindow within uo_hclin
 end type
-type rte_2 from richtextedit within uo_hclin
+type mle_2 from uo_multilineedit within uo_hclin
+end type
+type mle_3 from multilineedit within uo_hclin
+end type
+type mle_1 from uo_multilineedit within uo_hclin
 end type
 end forward
 
@@ -174,15 +174,15 @@ t_procs t_procs
 t_result_old t_result_old
 t_procs_old t_procs_old
 t_result t_result
-rte_1 rte_1
-rte_3 rte_3
 dw_new dw_new
 dw_new_det dw_new_det
 dw_1 dw_1
 dw_deta dw_deta
 dw_plants dw_plants
 dw_res_new dw_res_new
-rte_2 rte_2
+mle_2 mle_2
+mle_3 mle_3
+mle_1 mle_1
 end type
 global uo_hclin uo_hclin
 
@@ -257,8 +257,8 @@ end event
 public subroutine mover (long xpos);dw_histo.width=xpos
 dw_deta.x=xpos+12
 dw_deta.width= width - xpos -12
-rte_1.x=dw_deta.x
-rte_1.width=dw_deta.width
+mle_1.x=dw_deta.x
+mle_1.width=dw_deta.width
 dw_serv_old.x=dw_deta.x
 dw_serv_old.width=dw_deta.width
 dw_res_old.x=dw_deta.x
@@ -269,8 +269,8 @@ end subroutine
 public subroutine mover2 (long xpos);dw_new.width=xpos
 dw_new_det.x=xpos+12
 dw_new_det.width= width - xpos -12
-rte_2.x=dw_new_det.x
-rte_2.width=dw_new_det.width
+mle_2.x=dw_new_det.x
+mle_2.width=dw_new_det.width
 dw_procs_new.x=dw_new_det.x
 dw_procs_new.width=dw_new_det.width
 dw_res_new.x=dw_new_det.x
@@ -289,7 +289,7 @@ dw_histo.height=ypos - 88
 dw_deta.height=dw_histo.height
 st_vertical.height=ypos -8
 st_vert2.height=height - ypos - 165
-rte_1.height=dw_deta.height
+mle_1.height=dw_deta.height
 dw_res_old.height=dw_deta.height
 dw_serv_old.height=dw_deta.height
 dw_img_old.height=dw_deta.height
@@ -305,7 +305,7 @@ dw_new.y = st_muestra.y + st_muestra.height+4
 dw_new_det.y = st_muestra.y + st_muestra.height + 4
 dw_1.y = st_muestra.y + st_muestra.height + 4
 dw_1.height = height - ypos - 210
-rte_2.y = dw_new_det.y
+mle_2.y = dw_new_det.y
 dw_procs_new.y=dw_new_det.y
 dw_res_new.y = dw_new_det.y
 dw_img_new.y = dw_new_det.y
@@ -313,7 +313,7 @@ st_vert2.y = dw_new_det.y -8
 
 dw_new.height = height - ypos - 230
 dw_new_det.height = dw_new.height
-rte_2.height = dw_new_det.height
+mle_2.height = dw_new_det.height
 dw_procs_new.height= dw_new_det.height
 dw_res_new.height = dw_new_det.height
 dw_img_new.height = dw_new_det.height
@@ -371,6 +371,7 @@ long j,donde
 boolean inserto,lbn_si_datos
 uo_datastore ds_result
 ds_result=create uo_datastore
+
 if g_motor='postgres' then
 	ds_result.dataobject='dr_result_postgres'
 end if
@@ -381,6 +382,7 @@ if g_motor='sql' then
 	ds_result.dataobject='dr_result_sqlserver'
 end if
 ds_result.settransobject(sqlca)
+
 
 string err
 integer fila
@@ -502,7 +504,7 @@ dw_res_new.setfilter('')
 dw_res_new.filter()
 dw_procs_new.setfilter('')
 dw_procs_new.filter()
-string epicrisis
+string ls_epicrisis
 for j=1 to dw_campo.rowcount()					//que se hayan bajado examenes
 	if dw_campo.getitemstring(j,'tipo')<>'M' then continue
 	if dw_campo.getitemstring(j,'texto')<>'' or dw_res_new.find('item_hc='+string(dw_campo.getitemnumber(j,'numcampo')),1,dw_res_new.rowcount())>0 or dw_procs_new.find('item_hc='+string(dw_campo.getitemnumber(j,'numcampo')),1,dw_procs_new.rowcount())>0 then
@@ -616,10 +618,8 @@ if lbn_si_datos then
 	end if
 	if guarda_diags()=-1 then return -1
 
-	f_sel_rtf(rte_3)
-	rte_3.clearall()
-	f_sel_rtf(rte_3)
-	rte_3.clearall()
+	mle_3.text=""
+	
 	for j=1 to dw_campo.rowcount()
 		if dw_campo.getitemstring(j,'tipo')<>'M' then continue
 		item=dw_campo.getitemnumber(j,'numcampo')
@@ -638,15 +638,15 @@ if lbn_si_datos then
 				if not fecha then
 					//f_pega_a_rtf(rte_3,'~r~n'+string(dp_1.value,'dd/mm/yyyy HH:mm')+': ',2)
 					if isnull(l_pregistro) then l_pregistro=''
-					f_pega_a_rtf(rte_3,'~r~n'+em_1.text+': ' + ls_descrip_prof + ' ('+descrip_espe+')  REG Nro:'+l_pregistro  ,2)
+					f_pega_a_mle(mle_3,'~r~n'+em_1.text+': ' + ls_descrip_prof + ' ('+descrip_espe+')  REG Nro:'+l_pregistro  ,2)
 					fecha=true
 				end if
-				f_pega_a_rtf(rte_3,'~r~n',2)
-				f_pega_a_rtf(rte_3,dw_campo.getitemstring(j,'descampo')+':~r~n',2)
-				f_pega_a_rtf(rte_3,dw_campo.getitemstring(j,'texto'),2)
+				f_pega_a_mle(mle_3,'~r~n',2)
+				f_pega_a_mle(mle_3,dw_campo.getitemstring(j,'descampo')+':~r~n',2)
+				f_pega_a_mle(mle_3,dw_campo.getitemstring(j,'texto'),2)
 				if dw_campo.getitemstring(j,'tipo_memo')='R' then
 					if ds_result.retrieve(i_contador ,i_clug ,nreg ,item/*,datetime('01/01/2019'),datetime(today(),now())*/)>0 then//R E S U L T A D O S 
-						gf_pasar_result_rtf(ds_result,rte_3)
+						gf_pasar_result_mle(ds_result,mle_3)
 					end if
 				end if				
 			end if
@@ -655,12 +655,12 @@ if lbn_si_datos then
 				if dw_campo.getitemstring(j,'tipo_memo')='R' then
 					if ds_result.retrieve(i_contador ,i_clug ,nreg ,item,datetime('01/01/2019'),datetime(today(),now()))>0 then//R E S U L T A D O S 
 						if not fecha then
-							f_pega_a_rtf(rte_3,'~r~n'+em_1.text+': ',2)
+							f_pega_a_mle(mle_3,'~r~n'+em_1.text+': ',2)
 							fecha=true
 						end if
-						f_pega_a_rtf(rte_3,'~r~n',2)
-						f_pega_a_rtf(rte_3,dw_campo.getitemstring(j,'descampo')+':~r~n',2)
-						gf_pasar_result_rtf(ds_result,rte_3)
+						f_pega_a_mle(mle_3,'~r~n',2)
+						f_pega_a_mle(mle_3,dw_campo.getitemstring(j,'descampo')+':~r~n',2)
+						gf_pasar_result_mle(ds_result,mle_3)
 					end if
 				end if
 			end if
@@ -672,8 +672,10 @@ if lbn_si_datos then
 	sqlca.autocommit=false
 	
 end if
-epicrisis=rte_3.copyrtf(false,detail!)
-if epicrisis<>'' then
+
+ls_epicrisis=mle_3.text
+
+if ls_epicrisis<>'' then
 	blob lee
 	sqlca.autocommit=true
 	selectblob resumeningreso into :lee from evolucionhc where contador=:i_contador and clugar=:i_clug;
@@ -690,9 +692,9 @@ if epicrisis<>'' then
 			return -1
 		end if
 	end if
-	f_pega_a_rtf(rte_3,string(lee),0)
-	epicrisis=rte_3.copyrtf(false,detail!)
-	lee=blob(epicrisis)
+	f_pega_a_mle(mle_3,string(lee),0)
+	ls_epicrisis=mle_3.text
+	lee=blob(ls_epicrisis)
 	updateblob evolucionhc set resumeningreso=:lee where contador=:i_contador and clugar=:i_clug;
 	if sqlca.sqlcode=-1 then
 		messagebox('Error actualizando epicrisis en evolucionhc',sqlca.sqlerrtext)
@@ -709,9 +711,9 @@ i_cambia=false
 dw_campo.event clean_fields()
 dw_captur_histo.event clean_fields()
 dw_new_det.event clean_fields()
-rte_2.clear()
+mle_2.clear()
 
-rte_2.modified=false
+//mle_1.modified=false
 
 
 if i_tipo='Q' then
@@ -803,20 +805,17 @@ i_puede_modif=false
 dw_new.reset()
 i_cambia=false
 dw_plants.setitem(1,1,i_cprof)
-uo_1.dw_diags.Modify("r_diagprin.protect=0")
-uo_1.dw_diags.Modify("finalidad.protect=0")
-uo_1.dw_diags.Modify("causaext.protect=0")	
 uo_1.dw_diags.reset()
 uo_1.dw_cond.reset()
 dw_res_new.reset()
 dw_img_new.reset()
 dw_new_det.reset()
-rte_2.visible=false
+mle_2.visible=false
 dw_res_old.reset()
 dw_img_old.reset()
 dw_deta.reset()
 dw_1.Reset()
-rte_1.visible=false
+mle_1.visible=false
 st_muestra.text=''
 return 1
 end function
@@ -991,9 +990,6 @@ if dw_campo.find('tipo="M" and tipo_memo="D"',1,dw_campo.rowcount())>0 and uo_1.
 	ds_diag.resetupdate()
 	post event cambio_diags()
 end if
-uo_1.dw_diags.Modify("r_diagprin.protect=0")
-uo_1.dw_diags.Modify("finalidad.protect=0")
-uo_1.dw_diags.Modify("causaext.protect=0")	
 return 1
 end function
 
@@ -1078,7 +1074,7 @@ if dw_new.getitemstring(dw_new.getrow(),'tipo')='M' then
 	if dw_res_new.visible then
 		dw_res_new.setfocus()
 	else
-		rte_2.setfocus()
+		mle_2.setfocus()
 	end if
 else
 	dw_new_det.setfocus()
@@ -1118,19 +1114,19 @@ if modo = 'F' then
 						dw_campo.SetItem(f,'texto',texto)
 					end if
 					if dw_campo.GetItemNumber(f,'numcampo') = dw_new.GetItemNumber(dw_new.GetRow(),'numcampo') then
-						f_pega_a_rtf(rte_2,texto,3)
+						f_pega_a_mle(mle_2,texto,3)
 					end if
 				end if
 		end choose
 	next
 else
-	rte_2.Visible = FALSE
+	mle_2.Visible = FALSE
 	for j=1 to dw_campo.rowcount()
 		if dw_campo.getitemstring(1,'tipo')<>'M' then continue
 		if dw_campo.getitemstring(j,'texto')<>'' or dw_res_new.find('item_hc='+string(dw_campo.getitemnumber(j,'numcampo')),1,dw_res_new.rowcount())>0 then
-			f_pega_a_rtf(rte_2,dw_campo.getitemstring(j,'texto'),3)
-			rte_2.SelectTextAll()
-			rte_2.Copy()
+			f_pega_a_mle(mle_2,dw_campo.getitemstring(j,'texto'),3)
+			mle_2.SelectText(1,99999999)
+			mle_2.Copy()
 			dw_1.SetColumn('memo_'+string(dw_campo.getitemnumber(j,'numcampo')))
 			dw_1.Paste()
 		end if
@@ -1323,6 +1319,14 @@ end subroutine
 
 public function integer retrieve (long p_contador, string p_clug, string p_tipo, string p_tingre, string p_ingreso, string p_cespe, string p_cemp, string p_ccont, string p_cprof, long p_nactoqx, string p_clug_qx, string p_plantilla, string p_codfina);//es como un inicia
 
+setpointer(hourglass!)
+w_principal.setMicroHelp('Migrando Historia Clínica !!')
+if gf_revisa_migracion(p_clug , p_contador)<0 then //M I G R A C I O N    D E    H I S T O R I A     C L Í N I C A 
+	setpointer(arrow!)
+	return -1
+end if
+w_principal.setMicroHelp('Gestión Clínica Integrada')
+
 boolean l_paso=false
 i_contador=p_contador
 i_clug=p_clug
@@ -1376,6 +1380,7 @@ if pos('2347T',i_tingre)>0 then //es urg hosp o ambu
 	where contador=:i_contador and clugar_his=:i_clug;
 	IF SQLCA.SQLCode = 100 or SQLCA.SQLCode = -1 THEN
 		MessageBox("No existe registro en HospAdmi", SQLCA.SQLErrText)
+		setpointer(arrow!)
 		Return -1
 	END IF
 	string temp
@@ -1401,14 +1406,14 @@ if i_tingre='1' then
 		dw_plants.enabled=false
 		dw_new.enabled=false
 		dw_new_det.enabled=false
-		rte_2.enabled=false
+		mle_2.enabled=false
 		idw_plants.reset()
 	Else
 		cb_modo.enabled=true
 		dw_plants.enabled=true
 		dw_new.enabled=true	
 		dw_new_det.enabled=true	
-		rte_2.enabled=true	
+		mle_2.enabled=true	
 	end IF
 end If
 if idw_plants.rowcount()=1 then
@@ -1439,6 +1444,7 @@ where
 
 IF SQLCA.SQLCode = 100 or SQLCA.SQLCode = -1 THEN
 	MessageBox("No se puede leer paraclicinos si hay", SQLCA.SQLErrText)
+	setpointer(arrow!)
 	Return -1
 END IF
 	
@@ -1452,6 +1458,7 @@ FROM parametros_gen
 WHERE (((codigo_para)=16));
 if sqlca.sqlnrows=0 then
 	messagebox('Atencíon','No hay parametro 16')
+	setpointer(arrow!)
 	return -1
 end if
 
@@ -1462,8 +1469,10 @@ FROM parametros_gen
 WHERE (((codigo_para)=67));
 if sqlca.sqlnrows=0 then
 	messagebox('Atencíon','No hay parametro 67')
+	setpointer(arrow!)
 	return -1
 end if
+setpointer(arrow!)
 
 return 1
 end function
@@ -1497,15 +1506,15 @@ this.t_procs=create t_procs
 this.t_result_old=create t_result_old
 this.t_procs_old=create t_procs_old
 this.t_result=create t_result
-this.rte_1=create rte_1
-this.rte_3=create rte_3
 this.dw_new=create dw_new
 this.dw_new_det=create dw_new_det
 this.dw_1=create dw_1
 this.dw_deta=create dw_deta
 this.dw_plants=create dw_plants
 this.dw_res_new=create dw_res_new
-this.rte_2=create rte_2
+this.mle_2=create mle_2
+this.mle_3=create mle_3
+this.mle_1=create mle_1
 this.Control[]={this.cb_modo,&
 this.dw_img_new,&
 this.pb_4,&
@@ -1534,15 +1543,15 @@ this.t_procs,&
 this.t_result_old,&
 this.t_procs_old,&
 this.t_result,&
-this.rte_1,&
-this.rte_3,&
 this.dw_new,&
 this.dw_new_det,&
 this.dw_1,&
 this.dw_deta,&
 this.dw_plants,&
 this.dw_res_new,&
-this.rte_2}
+this.mle_2,&
+this.mle_3,&
+this.mle_1}
 end on
 
 on uo_hclin.destroy
@@ -1574,15 +1583,15 @@ destroy(this.t_procs)
 destroy(this.t_result_old)
 destroy(this.t_procs_old)
 destroy(this.t_result)
-destroy(this.rte_1)
-destroy(this.rte_3)
 destroy(this.dw_new)
 destroy(this.dw_new_det)
 destroy(this.dw_1)
 destroy(this.dw_deta)
 destroy(this.dw_plants)
 destroy(this.dw_res_new)
-destroy(this.rte_2)
+destroy(this.mle_2)
+destroy(this.mle_3)
+destroy(this.mle_1)
 end on
 
 event constructor;ids_hijos_histo=create uo_datastore
@@ -1622,7 +1631,7 @@ if i_modo = 'A' then
 	dw_res_new.Visible = FALSE
 	dw_img_new.Visible = FALSE
 	dw_new_det.Visible = FALSE
-	rte_2.Visible = FALSE
+	mle_2.Visible = FALSE
 	dw_procs_new.visible=false
 	t_result.Visible = FALSE
 	dw_1.Visible = TRUE
@@ -1635,7 +1644,7 @@ else
 	dw_res_new.Visible = TRUE
 	dw_img_new.Visible = TRUE
 	dw_new_det.Visible = TRUE
-	rte_2.Visible = TRUE
+	mle_2.Visible = TRUE
 	t_result.Visible = TRUE
 	dw_1.Visible = FALSE
 	dw_new.event rowfocuschanged(dw_new.getrow())
@@ -1650,7 +1659,7 @@ end event
 
 type dw_img_new from datawindow within uo_hclin
 integer x = 1582
-integer y = 1036
+integer y = 980
 integer width = 4402
 integer height = 1152
 integer taborder = 70
@@ -2438,8 +2447,8 @@ if getitemstring(currentrow,'tipo_campo')='M' then
 	sqlca.autocommit=true
 	selectblob long_texto into :lbl_dato from hclin_reg_valor where contador=:i_contador and clugar=:i_clug and nregistro=:nreg and item=:item;
 	sqlca.autocommit=false
-	f_pega_a_rtf(rte_1,string(lbl_dato),3)
-	rte_1.visible=true
+	f_pega_a_mle(mle_1,string(lbl_dato),3)
+	mle_1.visible=true
 	dw_deta.visible=false
 	if getitemstring(currentrow,'tipo_memo')='R' then //resultados
 		sqlca.autocommit=true
@@ -2461,7 +2470,7 @@ if getitemstring(currentrow,'tipo_campo')='M' then
 	end if
 else
 	t_result_old.visible=false
-	rte_1.visible=false
+	mle_1.visible=false
 	dw_deta.visible=true
 	long j
 	j=dw_deta.setfilter('nregistro='+string(getitemnumber(currentrow,'nregistro'))+' and padre='+string(getitemnumber(currentrow,'item'))+' and tipo<>"E" and tipo<>"M" and mostrar="1"')
@@ -2569,7 +2578,7 @@ boolean visible = false
 integer x = 2011
 integer y = 924
 integer width = 2002
-integer height = 60
+integer height = 56
 integer taborder = 50
 integer textsize = -8
 integer weight = 400
@@ -2637,21 +2646,21 @@ boolean livescroll = true
 borderstyle borderstyle = stylelowered!
 end type
 
-event clean_fields();setfilter('')
+event clean_fields;setfilter('')
 filter()
-long ldb_j,ldb_null
+long j,ll_null
 datetime ldt_null
 string ls_null
 
 setnull(ldt_null)
 setnull(ls_null)
-setnull(ldb_null)
+setnull(ll_null)
 
-for ldb_j=1 to rowcount()
-	setitem(ldb_j,'numero',ldb_null)
-	setitem(ldb_j,'fecha_cap',ldt_null)
-	setitem(ldb_j,'texto',ls_null)
-	setitem(ldb_j,'sino',ls_null)
+for j=1 to rowcount()
+	setitem(j,'numero',ll_null)
+	setitem(j,'fecha_cap',ll_null)
+	setitem(j,'texto',ls_null)
+	setitem(j,'sino',ls_null)
 next
 
 resetupdate()
@@ -2694,8 +2703,8 @@ end event
 
 type pb_pvisible from picturebutton within uo_hclin
 boolean visible = false
-integer x = 4110
-integer y = 884
+integer x = 4087
+integer y = 900
 integer width = 759
 integer height = 92
 integer taborder = 20
@@ -2903,8 +2912,8 @@ end event
 
 type t_procs from tab within uo_hclin
 boolean visible = false
-integer x = 4859
-integer y = 940
+integer x = 4864
+integer y = 892
 integer width = 8498
 integer height = 92
 integer taborder = 70
@@ -2940,14 +2949,14 @@ end on
 
 event selectionchanged;if selectedtab=2 then
 	dw_procs_new.visible=true
-	rte_2.visible=false
+	mle_2.visible=false
 	uo_1.pb_del_proc.enabled=true
 	uo_1.pb_procs.enabled=true
 	uo_1.pb_lleva.enabled=false
 	st_muestra.visible=true
 else
 	dw_procs_new.visible=false
-	rte_2.visible=true
+	mle_2.visible=true
 	uo_1.pb_del_proc.enabled=false
 	uo_1.pb_procs.enabled=false
 	uo_1.pb_lleva.enabled=true
@@ -3027,15 +3036,15 @@ end on
 event selectionchanged;choose case selectedtab
 	case 1 
 		dw_res_old.visible=false
-		rte_1.visible=true
+		mle_1.visible=true
 		dw_img_old.visible=false
 	case 2 
 		dw_res_old.visible=true
-		rte_1.visible=false
+		mle_1.visible=false
 		dw_img_old.visible=false
 	case 3 
 		dw_res_old.visible=false
-		rte_1.visible=false
+		mle_1.visible=false
 		dw_img_old.visible=true
 		//retieve hacer
 	//	t_result_old.tp9.event mostar_fotos()
@@ -3121,9 +3130,9 @@ end on
 
 event selectionchanged;if selectedtab=2 then
 	dw_serv_old.visible=true
-	rte_1.visible=false
+	mle_1.visible=false
 else
-	rte_1.visible=true
+	mle_1.visible=true
 	dw_serv_old.visible=false
 end if
 end event
@@ -3184,12 +3193,12 @@ event selectionchanged;choose case selectedtab
 	case 1 
 		dw_res_new.visible=false
 		dw_img_new.visible=false
-		rte_2.visible=true
+		mle_2.visible=true
 		uo_1.pb_result.visible=false
 	case 2  
 		dw_res_new.visible=true
 		dw_img_new.visible=false
-		rte_2.visible=false
+		mle_2.visible=false
 		uo_1.pb_result.visible=true
 	case 3 
 		///aqui pilas ajuste
@@ -3256,66 +3265,6 @@ long tabtextcolor = 33554432
 string picturename = "rx.ico"
 long picturemaskcolor = 536870912
 end type
-
-type rte_1 from richtextedit within uo_hclin
-integer x = 2098
-integer y = 88
-integer width = 3849
-integer height = 628
-integer taborder = 10
-boolean bringtotop = true
-integer textsize = -8
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-boolean init_hscrollbar = true
-boolean init_vscrollbar = true
-boolean init_inputfieldsvisible = true
-boolean init_inputfieldnamesvisible = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event key;if  key=i_nextitem or key=i_previtem or key=i_nextchild then 
-	navegar(key)
-else
-	i_cambia=true
-	if g_ctrlv<>'1' then 
-		If keyflags = 2 or keydown(KeyControl!) then
-			if key=keyv! then return 1	
-			IF keydown(KeyAlt!) THEN 
-				if key=keyv! then return 1
-			end if
-		else
-			IF keyflags = 1 THEN
-				if key=keyinsert! then return 1
-			end if
-		end if
-	end if
-end if
-
-
-end event
-
-type rte_3 from richtextedit within uo_hclin
-boolean visible = false
-integer x = 613
-integer y = 2172
-integer width = 279
-integer height = 48
-integer taborder = 70
-boolean bringtotop = true
-integer textsize = -8
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-boolean init_wordwrap = true
-boolean init_inputfieldsvisible = true
-boolean init_inputfieldnamesvisible = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event losefocus;dw_new.setitem(dw_new.getrow(),'captura',1)
-end event
 
 type dw_new from datawindow within uo_hclin
 event type long inserta ( long p_pos,  string p_label,  integer p_nivel,  long p_padre,  long p_hijos,  string p_tipo_campo,  long p_contador,  string p_clug,  long p_nreg,  long p_item,  string p_tipomemo,  long p_orden,  string p_oblig,  integer p_captura,  string p_ant,  string p_cod_ant,  string p_alergia )
@@ -3450,7 +3399,7 @@ end event
 event rowfocuschanged;if getrow()<1 then return
 dw_new_det.accepttext()
 if getitemstring(getrow(),'tipo')='M'  then
-	rte_2.visible=true
+	mle_2.visible=true
 	dw_new_det.visible=false
 	long cual
 	cual=dw_campo.find('numcampo='+string(getitemnumber(getrow(),'numcampo')),1,dw_campo.rowcount())
@@ -3465,7 +3414,7 @@ if getitemstring(getrow(),'tipo')='M'  then
 	end if
 	boolean temp
 	temp=i_cambia
-	f_pega_a_rtf(rte_2,dw_campo.getitemstring(cual,'texto'),3)
+	f_pega_a_mle(mle_2,dw_campo.getitemstring(cual,'texto'),3)
 	uo_1.retrieve(getitemnumber(getrow(),'numcampo'),getitemstring(getrow(),'tipo_memo'),getitemstring(getrow(),'ant'),getitemstring(getrow(),'cod_ant'),getitemstring(getrow(),'alergia'),i_cpo)
 	i_cambia=temp
 	if getitemstring(getrow(),'tipo_memo')='C' or  getitemstring(getrow(),'tipo_memo')='D' then
@@ -3475,19 +3424,13 @@ if getitemstring(getrow(),'tipo')='M'  then
 	end if
 	if ls_antece_si='1' then
 		if getitemstring(getrow(),'ant')='1' then
-			rte_2.displayonly=true
+			mle_2.displayonly=true
 		else
 			 if getitemstring(getrow(),'tipo_memo')='D' then		
-				rte_2.displayonly=true
+				mle_2.displayonly=true
 			else
-				rte_2.displayonly=false
+				mle_2.displayonly=false
 			end if
-		end if
-	else
-		 if getitemstring(getrow(),'tipo_memo')='D' then		
-			rte_2.displayonly=true
-		else
-			rte_2.displayonly=false
 		end if
 	end if
 	
@@ -3512,7 +3455,7 @@ else
 	t_result.visible=false
 	t_procs.visible=false
 	uo_1.retrieve(0,'','','','',i_cpo)
-	rte_2.visible=false
+	mle_2.visible=false
 	dw_new_det.setfilter('padre='+string(getitemnumber(getrow(),'numcampo')))
 	dw_new_det.setredraw(false)
 	dw_new_det.filter()
@@ -3533,23 +3476,17 @@ if getitemstring(currentrow,'tipo')='M' then
 	long cual
 	if ls_antece_si='1' then
 		if getitemstring(currentrow,'ant')='1' then
-			rte_2.displayonly=true
+			mle_2.displayonly=true
 		else
 			if getitemstring(currentrow,'tipo_memo')='D' then		
-				rte_2.displayonly=true
+				mle_2.displayonly=true
 			else
-				rte_2.displayonly=false
+				mle_2.displayonly=false
 			end if
-		end if
-	else
-		if getitemstring(getrow(),'tipo_memo')='D' then		
-			rte_2.displayonly=true
-		else
-			rte_2.displayonly=false
 		end if
 	end if
 	cual=dw_campo.find('numcampo='+string(getitemnumber(currentrow,'numcampo')),1,dw_campo.rowcount())
-	dw_campo.setitem(cual,'texto',rte_2.copyrtf(false,detail!))
+	dw_campo.setitem(cual,'texto',mle_2.text)
 	if dw_campo.getitemnumber(cual,'falta')=0 then
 		dw_new.setitem(currentrow,'captura',1)
 	else
@@ -3562,8 +3499,8 @@ end event
 type dw_new_det from datawindow within uo_hclin
 event keypres pbm_dwnkey
 event clean_fields ( )
-integer x = 1563
-integer y = 1028
+integer x = 1554
+integer y = 984
 integer width = 4402
 integer height = 1152
 integer taborder = 30
@@ -3583,20 +3520,20 @@ end event
 
 event clean_fields();setfilter('')
 filter()
-long ldb_j,ldb_null
+long j,ll_null
 datetime ldt_null
 string ls_null
 
 setnull(ldt_null)
 setnull(ls_null)
-setnull(ldb_null)
+setnull(ll_null)
 
-for ldb_j=1 to rowcount()
-	setitem(ldb_j,'numero',ldb_null)
-	setitem(ldb_j,'fecha_cap', ldt_null)
-	setitem(ldb_j,'texto',ls_null)
-	setitem(ldb_j,'tiempo',ldb_null)
-	setitem(ldb_j,'sino',ls_null)
+for j=1 to rowcount()
+	setitem(j,'numero',ll_null)
+	setitem(j,'fecha_cap',ll_null)
+	setitem(j,'texto',ls_null)
+	setitem(j,'tiempo',ll_null)
+	setitem(j,'sino',ls_null)
 next
 
 resetupdate()
@@ -4110,6 +4047,7 @@ if dwo.name='b_for' then
 	j=pos(ls_formula,'#',1)
 	dw_new_det.setfilter("")
 	dw_new_det.Filter( )
+	
 	do while j>0
 		fin=len(ls_formula) +1
 		k=pos(ls_formula,',',j+1)
@@ -4221,8 +4159,9 @@ end event
 
 type dw_1 from datawindow within uo_hclin
 event keypress pbm_dwnkey
-integer x = 14
-integer y = 1032
+boolean visible = false
+integer x = 5
+integer y = 984
 integer width = 4800
 integer height = 1200
 integer taborder = 50
@@ -4398,7 +4337,7 @@ PosY = 10
 altura=0
 colum = 0
 dw_1.Reset()
-rte_2.visible=false
+mle_2.visible=false
 dw_campo.Retrieve(is_cplant,sex_busca)
 if dw_campo.event revisar()=-1 THEN 
 
@@ -4406,7 +4345,7 @@ if dw_campo.event revisar()=-1 THEN
 	setpointer(arrow!)
 	return
 end if
-uo_1.inicia(i_contador,i_clug,0,is_cplant,i_ing_sal,i_tipo,i_tingre,st_muestra,rte_2,i_cemp,i_ccont,i_cprof,dw_res_new,dw_new_det,dw_campo,dw_1,i_cespe)
+uo_1.inicia(i_contador,i_clug,0,is_cplant,i_ing_sal,i_tipo,i_tingre,st_muestra,mle_2,i_cemp,i_ccont,i_cprof,dw_res_new,dw_new_det,dw_campo,dw_1,i_cespe)
 //dw_memos.retrieve(is_cplant,sex_busca)
 dw_new_det.setfilter('')
 dw_new_det.retrieve(is_cplant,sex_busca)
@@ -4444,7 +4383,7 @@ if i_modo = 'F' then
 	st_vert2.Visible = FALSE
 	dw_res_new.Visible = FALSE
 	dw_new_det.Visible = FALSE
-	rte_2.Visible = FALSE
+	mle_2.Visible = FALSE
 	t_result.Visible = FALSE
 	dw_1.Visible = TRUE
 else
@@ -4453,7 +4392,7 @@ else
 	st_vert2.Visible = TRUE
 	dw_res_new.Visible = TRUE
 	dw_new_det.Visible = TRUE
-	rte_2.Visible = TRUE
+	mle_2.Visible = TRUE
 	t_result.Visible = TRUE
 	dw_1.Visible = FALSE
 end if
@@ -4526,56 +4465,51 @@ end event
 event clicked;if row>0 and row<>getrow() then setrow(row)
 end event
 
-type rte_2 from richtextedit within uo_hclin
+type mle_2 from uo_multilineedit within uo_hclin
 boolean visible = false
-integer x = 1563
-integer y = 1028
+integer x = 1545
+integer y = 984
 integer width = 4402
-integer height = 1152
+integer height = 1200
 integer taborder = 40
-integer textsize = -8
+boolean bringtotop = true
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-boolean init_hscrollbar = true
-boolean init_vscrollbar = true
-boolean init_inputfieldsvisible = true
-boolean init_inputfieldnamesvisible = true
+string facename = "Arial"
+long textcolor = 33554432
 borderstyle borderstyle = stylelowered!
 end type
 
-event key;if  key=i_nextitem or key=i_previtem or key=i_nextchild then 
-	navegar(key)
-else
-	i_cambia=true
-	if g_ctrlv<>'1' then 
-		If keyflags = 2 or keydown(KeyControl!) then
-			if key=keyv! then return 1	
-			IF keydown(KeyAlt!) THEN 
-				if key=keyv! then return 1
-			end if
-			IF keydown(KeyAlt!) THEN 
-				if key=keyd! then return 1
-			end if			
-		else
-			IF keyflags = 1 THEN
-				if key=keyinsert! then return 1
-			end if
-		end if
-	end if
-end if
-
-end event
-
-event losefocus;dw_new.Event RowFocusChanging(dw_new.GetRow(),dw_new.GetRow())
-
-
-end event
-
-event constructor;if i_displayonly = TRUE then Visible = FALSE
-
-end event
-
 event modified;i_cambia=true
 end event
+
+type mle_3 from multilineedit within uo_hclin
+boolean visible = false
+integer x = 969
+integer y = 2176
+integer width = 411
+integer height = 324
+integer taborder = 80
+boolean bringtotop = true
+integer textsize = -8
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+string text = "none"
+borderstyle borderstyle = stylelowered!
+end type
+
+type mle_1 from uo_multilineedit within uo_hclin
+integer x = 2098
+integer y = 88
+integer width = 3849
+integer height = 628
+integer taborder = 50
+boolean bringtotop = true
+end type
 

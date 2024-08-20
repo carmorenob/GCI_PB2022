@@ -46,17 +46,17 @@ type st_6 from statictext within w_reporte_gral
 end type
 type gb_1 from groupbox within w_reporte_gral
 end type
+type rte2 from richtextedit within w_reporte_gral
+end type
+type rte from richtextedit within w_reporte_gral
+end type
 type dw_temp from datawindow within w_reporte_gral
 end type
 type rte_1 from richtextedit within w_reporte_gral
 end type
 type dw_rte from datawindow within w_reporte_gral
 end type
-type rte2 from richtextedit within w_reporte_gral
-end type
 type dw_rep from datawindow within w_reporte_gral
-end type
-type rte from richtextedit within w_reporte_gral
 end type
 end forward
 
@@ -64,16 +64,15 @@ global type w_reporte_gral from window
 integer width = 3927
 integer height = 2224
 boolean titlebar = true
-string title = "Reportes"
 boolean controlmenu = true
 boolean minbox = true
 boolean maxbox = true
-windowtype windowtype = popup!
+windowtype windowtype = child!
 long backcolor = 67108864
 string icon = "graph9.ico"
 string pointer = "Arrow!"
 boolean center = true
-windowdockstate windowdockstate = windowdockstatefloating!
+integer animationtime = 50
 event colocapagin pbm_open
 event inicialize pbm_open
 event p_pinta ( )
@@ -99,12 +98,12 @@ cbx_1 cbx_1
 st_1 st_1
 st_6 st_6
 gb_1 gb_1
+rte2 rte2
+rte rte
 dw_temp dw_temp
 rte_1 rte_1
 dw_rte dw_rte
-rte2 rte2
 dw_rep dw_rep
-rte rte
 end type
 global w_reporte_gral w_reporte_gral
 
@@ -114,6 +113,7 @@ uo_param i_param[]//los objectos de parametros del reporte
 menu i_menuexport
 uo_report pb_rep
 st_xa_print_histo i_st
+boolean ibn_reset_before_retrieve=false
 end variables
 
 forward prototypes
@@ -125,6 +125,7 @@ public function integer pasar_a_rtf ()
 public function integer pasar_rtf_dw (integer p_donde)
 public subroutine f_filtrar (integer cual, string p_tipo, string p_dato)
 public function integer pasar_a_rtf (st_xa_print_histo p_param)
+public function integer wf_imprime_historia (datawindow adw_registros, string as_tipo_impre)
 end prototypes
 
 event p_pinta();setredraw(true)
@@ -141,7 +142,6 @@ if dw_rep.rowcount() < 1 then return
 st_6.text="Pag Horizontal~n~r " + dw_rep.describe("Evaluate('PageAcross()', 0)") + " de "+dw_rep.describe("Evaluate('pagecountAcross()', 0)")
 sle_1.text=dw_rep.describe("Evaluate('page()', 0)") + "/" + dw_rep.describe("Evaluate('pagecount()', 0)")
 w_reporte_gral.SetPosition(TopMost!)
-
 end subroutine
 
 public function integer inicialize (string p_tipo, string p_rep_docu, string p_descrip);// p_tipo es el que va a decir si p_rep_docu es:
@@ -382,6 +382,9 @@ for j=1 to dw_rep.rowcount()
 	rte.pastertf(dw_rep.copyrtf(false,Detail!),Detail!)
 	for k=1 to ds_objects.rowcount()
 		cual=ds_objects.getitemstring(k,'nombre')
+		if cual ='APGAR FAMILIAR' then
+			cual ='APGAR FAMILIAR' 
+		end if
 		reemp=rte.InputFieldLocate ( first! , cual )
 		do while reemp<>''
 			rte.InputFieldDeleteCurrent ( )
@@ -417,11 +420,21 @@ public function integer pasar_rtf_dw (integer p_donde);choose case p_donde
 	case 0//al principio
 	case 1//donde este
 	case 2//al final
-		rte_1.selecttext(99999,9999,0,0)
-		rte_1.pastertf(rte.copyrtf(false,Detail!),Detail!)
-
+	rte_1.selecttext(99999,9999,0,0)
+	rte_1.pastertf(rte.copyrtf(false,Detail!),Detail!)
+//		dw_rte.selecttext(99999,9999,0,0)
+//		dw_rte.pastertf(rte.copyrtf(false,Detail!),Detail!)
 	case 3//reemplazar todo
+//		dw_rte.setredraw(FALSE)
+//		dw_rte.reset()
 		dw_rte.retrieve(rte_1.pagecount())
+//		dw_rte.selecttextall(Header!)
+//		dw_rte.clear()
+//		dw_rte.selecttextall(Detail!)
+//		dw_rte.clear()
+//		dw_rte.pastertf(rte.copyrtf(false,Header!),Header!)
+//		dw_rte.pastertf(rte.copyrtf(false,Detail!),Detail!)
+//		dw_rte.groupcalc()
 		////	
 		rte_1.setredraw(FALSE)
 		rte_1.selecttextall(Header!)
@@ -435,19 +448,21 @@ public function integer pasar_rtf_dw (integer p_donde);choose case p_donde
 		rte_1.ShowHeadFoot(true,false)
 		rte_1.InputFieldInsert("PAGENO")
 		
-		string pie
-		pie= 'Pagina. ' +string(rte_1.selectedPage() )+ " de " +string(rte_1.PageCount()) 
-		pie=string(rte_1.InputFieldChangeData("PAGENO",pie ))
+string pie
+pie= 'Pagina. ' +string(rte_1.selectedPage() )+ " de " +string(rte_1.PageCount()) 
+pie=string(rte_1.InputFieldChangeData("PAGENO",pie ))
+
+//pie=string(rte_1.pagecount()) 
+//pie=string(rte_1.InputFieldChangeData("numero",pie ))
+//rte_1.InputFieldChangeData("PAGENO"," Page "+string(rte_1.selectedPage())+ " Of " +string(rte_1.PageCount()) )
+rte_1.ShowHeadFoot(false,false)
+		/////
 		
-		rte_1.ShowHeadFoot(false,false)
+		
 		colocapagin()
-		if isvalid(w_impresion_masiva) then
-			rte_1.Preview(false)
-			rte_1.SaveDocumentAsPDF(i_st.p_ruta)
-		else
-			rte_1.setredraw(true)
-			rte_1.Preview(TRUE)
-		end if
+		rte_1.setredraw(true)
+				rte_1.Preview(TRUE)
+	//	dw_rte.setredraw(true)
 end choose
 return 1
 end function
@@ -486,7 +501,7 @@ rte2.ClearAll()
 if p_param.p_encab_ingreso<>'' then f_pega_a_rtf(rte2,p_param.p_encab_ingreso,2)
 tt=rte2.copyrtf(false,detail!)
 if p_param.p_cod_plant<>'NotasQX' then
-	f_pega_a_rtf(rte2,'~r~n'+upper(p_param.p_ds.getitemstring(1,'desplantilla')),2)
+	f_pega_a_rtf(rte2,upper(p_param.p_ds.getitemstring(1,'desplantilla')),2)
 	nreg=0
 	tt=rte2.copyrtf(false,detail!)
 	for j=1 to p_param.p_ds.rowcount()//filas del sql(hojas del rtf)
@@ -510,6 +525,9 @@ if p_param.p_cod_plant<>'NotasQX' then
 			item=p_param.p_ds.getitemnumber(j,'item')
 			tipo_memo=p_param.p_ds.getitemstring(j,'tipo_memo')
 			if tipo_memo='R' then result=true	
+		end if
+		if j=19 then
+			j=j
 		end if
 		rte2.SelectText ( 9999999, 999999, 0, 0 ,detail! )
 		rte2.pastertf(p_param.p_ds.copyrtf(false,detail!),detail!)
@@ -629,6 +647,84 @@ destroy ds_objects
 return 1
 end function
 
+public function integer wf_imprime_historia (datawindow adw_registros, string as_tipo_impre);dw_rep.visible=true
+rte2.visible=false
+rte_1.visible=false
+dw_rte.visible=false
+dw_rep.enabled=true
+
+long j , ll_contador=0
+
+string ls_sql , ls_result , ls_clug=''
+
+ibn_reset_before_retrieve=true
+
+dw_rep.dataobject='dr_historia_txt'
+dw_rep.settransobject(sqlca)
+
+choose case as_tipo_impre
+
+case '1'//Normal
+	for j=1 to adw_registros.rowcount()
+		
+		if adw_registros.getitemstring(j,'sel_plant')='0' then continue
+		
+		if adw_registros.getitemstring(j,'clugar')<> ls_clug or adw_registros.getitemnumber(j,'contador')<>ll_contador then
+			
+			ls_clug=adw_registros.getitemstring(j,'clugar')
+			ll_contador=adw_registros.getitemnumber(j,'contador')
+			
+			if gf_revisa_migracion(ls_clug,ll_contador)<0 then return -1
+			
+		end if
+		
+		dw_rep.retrieve(ls_clug,ll_contador,adw_registros.getitemnumber(j,'nregistro'),as_tipo_impre)
+		
+	next
+case '2' , '3' //resumen , referencia
+	
+	uo_datastore lds_rep
+	lds_rep=create uo_datastore
+	
+	for j=1 to  adw_registros.rowcount()
+		
+		if adw_registros.getitemstring(j,'sel_plant')='0' then continue
+		
+		if adw_registros.getitemstring(j,'clugar')<> ls_clug or adw_registros.getitemnumber(j,'contador')<>ll_contador then
+			
+			ls_clug=adw_registros.getitemstring(j,'clugar')
+			ll_contador=adw_registros.getitemnumber(j,'contador')
+			
+			if gf_revisa_migracion(ls_clug,ll_contador)<0 then return -1
+			
+		end if
+		
+		choose case adw_registros.getitemstring(j,'cual')
+			case 'EPI'
+				lds_rep.dataobject='dr_historia_txt_resumen'
+			case 'NQX'
+				//ya no existe esta opción de Notas en Salas Qx
+			case else
+				lds_rep.dataobject='dr_historia_txt'
+		end choose
+		ls_sql=lds_rep.describe("DataWindow.Table.Select")
+		ls_result=dw_rep.Modify('DataWindow.Table.Select="'+ls_sql+'"')
+		dw_rep.retrieve(ls_clug,ll_contador,adw_registros.getitemnumber(j,'nregistro'),as_tipo_impre)
+	next
+	
+end choose
+
+dw_rep.modify("datawindow.print.preview= 'Yes'")
+
+dw_rep.groupcalc()
+
+ibn_reset_before_retrieve=false
+
+resizable=true
+
+return 1
+end function
+
 on w_reporte_gral.create
 this.pb_6=create pb_6
 this.pb_3=create pb_3
@@ -652,12 +748,12 @@ this.cbx_1=create cbx_1
 this.st_1=create st_1
 this.st_6=create st_6
 this.gb_1=create gb_1
+this.rte2=create rte2
+this.rte=create rte
 this.dw_temp=create dw_temp
 this.rte_1=create rte_1
 this.dw_rte=create dw_rte
-this.rte2=create rte2
 this.dw_rep=create dw_rep
-this.rte=create rte
 this.Control[]={this.pb_6,&
 this.pb_3,&
 this.pb_5,&
@@ -680,12 +776,12 @@ this.cbx_1,&
 this.st_1,&
 this.st_6,&
 this.gb_1,&
+this.rte2,&
+this.rte,&
 this.dw_temp,&
 this.rte_1,&
 this.dw_rte,&
-this.rte2,&
-this.dw_rep,&
-this.rte}
+this.dw_rep}
 end on
 
 on w_reporte_gral.destroy
@@ -711,12 +807,12 @@ destroy(this.cbx_1)
 destroy(this.st_1)
 destroy(this.st_6)
 destroy(this.gb_1)
+destroy(this.rte2)
+destroy(this.rte)
 destroy(this.dw_temp)
 destroy(this.rte_1)
 destroy(this.dw_rte)
-destroy(this.rte2)
 destroy(this.dw_rep)
-destroy(this.rte)
 end on
 
 event resize;dw_rep.width=this.width -55
@@ -732,7 +828,10 @@ end if
 
 end event
 
-event open;int j,k
+event open;
+if isnull(message.powerobjectparm) then return
+
+int j,k
 string new_syntax, error_create
 
 if message.powerobjectparm.classname()='st_xa_print_histo' then
@@ -776,6 +875,7 @@ else
 		pb_retri.triggerevent(clicked!)
 	end if
 end if
+
 
 end event
 
@@ -1415,75 +1515,6 @@ long textcolor = 33554432
 long backcolor = 67108864
 end type
 
-type dw_temp from datawindow within w_reporte_gral
-string tag = "para los datawindows pequeñitos de os parametros"
-boolean visible = false
-integer x = 2770
-integer y = 188
-integer width = 82
-integer height = 44
-boolean bringtotop = true
-boolean enabled = false
-string title = "none"
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-type rte_1 from richtextedit within w_reporte_gral
-boolean visible = false
-integer y = 256
-integer width = 3822
-integer height = 1816
-integer taborder = 70
-integer textsize = -10
-integer weight = 400
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-boolean init_hscrollbar = true
-boolean init_vscrollbar = true
-boolean init_wordwrap = true
-boolean init_headerfooter = true
-long init_leftmargin = 2000
-long init_topmargin = 1000
-long init_rightmargin = 1000
-long init_bottommargin = 1000
-string init_documentname = "Historia Clinica"
-boolean init_displayonly = true
-end type
-
-type dw_rte from datawindow within w_reporte_gral
-event keypres pbm_dwnkey
-event p_undo ( )
-boolean visible = false
-integer y = 260
-integer width = 3813
-integer height = 1816
-integer taborder = 70
-boolean enabled = false
-string dataobject = "dw_partfs"
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean hsplitscroll = true
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event keypres;if (key=keyc! and keyflags=2) or keyflags=2 or keyflags=1 or key=KeyLeftArrow! or key=KeyUpArrow! or key=KeyRightArrow! or key=KeyDownArrow! then return 0
-selecttext(selectedline(),selectedstart(),0,0)
-post event p_undo()
-return 1
-end event
-
-event p_undo();undo()
-undo()
-end event
-
-event constructor;settransobject(sqlca)
-end event
-
 type rte2 from richtextedit within w_reporte_gral
 event p_undo ( boolean p_cambiar )
 string tag = "se coloca un registro y se va reemplazando"
@@ -1510,61 +1541,6 @@ boolean enabled = false
 borderstyle borderstyle = stylelowered!
 end type
 
-type dw_rep from datawindow within w_reporte_gral
-event pagderecha pbm_vscroll
-event mousemove pbm_dwnmousemove
-integer y = 260
-integer width = 3813
-integer height = 1816
-integer taborder = 150
-string dragicon = "none!"
-boolean enabled = false
-string dataobject = "dw_partfs"
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean hsplitscroll = true
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event mousemove;return
-end event
-
-event retrieveend;if this.rowcount()<1 then
-	messagebox("Atención","No se encontraron registros")
-	this.insertrow(0)
-	this.enabled=false
-else
-	this.enabled=true
-end if
-
-end event
-
-event doubleclicked;return
-end event
-
-event clicked;return
-end event
-
-event getfocus;return
-end event
-
-event scrollvertical;if this.rowcount() >=1 then colocapagin()
-end event
-
-event scrollhorizontal;if this.rowcount() >=1 then colocapagin()
-end event
-
-event rowfocuschanged;if this.rowcount() >=1 then colocapagin()
-end event
-
-event rbuttondown;st_dw_xa_funciones st_dw
-st_dw.dw=this
-st_dw.dwo=dwo
-st_dw.row=row
-openwithparm(w_funcion_dw,st_dw)
-end event
-
 type rte from richtextedit within w_reporte_gral
 string tag = "donde se va armado todo"
 boolean visible = false
@@ -1587,4 +1563,125 @@ long init_rightmargin = 1000
 long init_bottommargin = 1000
 borderstyle borderstyle = styleraised!
 end type
+
+type dw_temp from datawindow within w_reporte_gral
+string tag = "para los datawindows pequeñitos de os parametros"
+boolean visible = false
+integer x = 2770
+integer y = 188
+integer width = 82
+integer height = 44
+boolean bringtotop = true
+boolean enabled = false
+string title = "none"
+boolean hscrollbar = true
+boolean vscrollbar = true
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+type rte_1 from richtextedit within w_reporte_gral
+boolean visible = false
+integer y = 256
+integer width = 3822
+integer height = 1816
+integer taborder = 70
+boolean bringtotop = true
+integer textsize = -10
+integer weight = 400
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+boolean init_hscrollbar = true
+boolean init_vscrollbar = true
+boolean init_wordwrap = true
+boolean init_headerfooter = true
+long init_leftmargin = 2000
+long init_topmargin = 1000
+long init_rightmargin = 1000
+long init_bottommargin = 1000
+string init_documentname = "Historia Clinica"
+boolean init_displayonly = true
+end type
+
+type dw_rte from datawindow within w_reporte_gral
+event keypres pbm_dwnkey
+event p_undo ( )
+boolean visible = false
+integer y = 260
+integer width = 3813
+integer height = 1816
+integer taborder = 70
+boolean bringtotop = true
+boolean enabled = false
+string dataobject = "dw_partfs"
+boolean hscrollbar = true
+boolean vscrollbar = true
+boolean hsplitscroll = true
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event keypres;if (key=keyc! and keyflags=2) or keyflags=2 or keyflags=1 or key=KeyLeftArrow! or key=KeyUpArrow! or key=KeyRightArrow! or key=KeyDownArrow! then return 0
+selecttext(selectedline(),selectedstart(),0,0)
+post event p_undo()
+return 1
+end event
+
+event p_undo();undo()
+undo()
+end event
+
+event constructor;settransobject(sqlca)
+end event
+
+type dw_rep from datawindow within w_reporte_gral
+event pagderecha pbm_vscroll
+event mousemove pbm_dwnmousemove
+integer y = 260
+integer width = 3813
+integer height = 1816
+integer taborder = 150
+string dragicon = "none!"
+boolean bringtotop = true
+boolean enabled = false
+string dataobject = "dw_partfs"
+boolean hscrollbar = true
+boolean vscrollbar = true
+boolean hsplitscroll = true
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event retrieveend;if this.rowcount()<1 then
+	messagebox("Atención","No se encontraron registros")
+	this.insertrow(0)
+	this.enabled=false
+else
+	this.enabled=true
+end if
+
+end event
+
+event getfocus;return
+end event
+
+event scrollvertical;if this.rowcount() >=1 then colocapagin()
+end event
+
+event scrollhorizontal;if this.rowcount() >=1 then colocapagin()
+end event
+
+event rowfocuschanged;if this.rowcount() >=1 then colocapagin()
+end event
+
+event rbuttondown;st_dw_xa_funciones st_dw
+st_dw.dw=this
+st_dw.dwo=dwo
+st_dw.row=row
+openwithparm(w_funcion_dw,st_dw)
+end event
+
+event retrievestart;if ibn_reset_before_retrieve then return 2
+end event
 

@@ -2,11 +2,11 @@
 forward
 global type w_alergias_paciente from window
 end type
+type mle_1 from multilineedit within w_alergias_paciente
+end type
 type pb_1 from picturebutton within w_alergias_paciente
 end type
 type dw_2 from datawindow within w_alergias_paciente
-end type
-type rte_1 from richtextedit within w_alergias_paciente
 end type
 type pb_ok from picturebutton within w_alergias_paciente
 end type
@@ -26,9 +26,9 @@ windowtype windowtype = popup!
 long backcolor = 67108864
 string icon = "AppIcon!"
 boolean center = true
+mle_1 mle_1
 pb_1 pb_1
 dw_2 dw_2
-rte_1 rte_1
 pb_ok pb_ok
 pb_cancel pb_cancel
 dw_1 dw_1
@@ -41,24 +41,24 @@ DataWindowChild iparen
 end variables
 
 on w_alergias_paciente.create
+this.mle_1=create mle_1
 this.pb_1=create pb_1
 this.dw_2=create dw_2
-this.rte_1=create rte_1
 this.pb_ok=create pb_ok
 this.pb_cancel=create pb_cancel
 this.dw_1=create dw_1
-this.Control[]={this.pb_1,&
+this.Control[]={this.mle_1,&
+this.pb_1,&
 this.dw_2,&
-this.rte_1,&
 this.pb_ok,&
 this.pb_cancel,&
 this.dw_1}
 end on
 
 on w_alergias_paciente.destroy
+destroy(this.mle_1)
 destroy(this.pb_1)
 destroy(this.dw_2)
-destroy(this.rte_1)
 destroy(this.pb_ok)
 destroy(this.pb_cancel)
 destroy(this.dw_1)
@@ -67,6 +67,22 @@ end on
 event open;i_st=message.powerobjectparm
 dw_1.retrieve(i_st.c_otro,tipdoc,docu)
 end event
+
+type mle_1 from multilineedit within w_alergias_paciente
+boolean visible = false
+integer x = 3013
+integer y = 1520
+integer width = 411
+integer height = 84
+integer taborder = 50
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+borderstyle borderstyle = stylelowered!
+end type
 
 type pb_1 from picturebutton within w_alergias_paciente
 integer x = 1783
@@ -86,16 +102,7 @@ alignment htextalign = left!
 string powertiptext = "No refiere"
 end type
 
-event clicked;i_st.rte.SelectTextAll ( header! )
-i_st.rte.clearall()
-i_st.rte.SelectTextAll ( detail! )
-i_st.rte.clearall()
-i_st.rte.SelectTextAll ( header! )
-i_st.rte.clearall()
-i_st.rte.SelectTextAll ( detail! )
-i_st.rte.clearall()
-f_pega_a_rtf(rte_1,'NO REFIERE',2)
-i_st.rte.pastertf(rte_1.copyrtf(false,detail!))
+event clicked;i_st.mle.text='NO REFIERE'
 close(f_vent_padre(this))
 end event
 
@@ -114,22 +121,6 @@ end type
 
 event constructor;SetTransObject (sqlca)
 end event
-
-type rte_1 from richtextedit within w_alergias_paciente
-boolean visible = false
-integer x = 2661
-integer y = 1520
-integer width = 261
-integer height = 72
-integer taborder = 40
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-borderstyle borderstyle = stylelowered!
-end type
 
 type pb_ok from picturebutton within w_alergias_paciente
 integer x = 1961
@@ -172,14 +163,16 @@ for li=1 to dw_1.rowcount()
 		if lx=1 then
 			if dw_1.getitemnumber(li,'sumas')>=1 then
 				l_apegar=dw_1.getitemstring(li,'ta_desp_tipo')+'~r~n'
-				f_pega_a_rtf(rte_1,l_apegar,2)
+				//f_pega_a_mle(mle_1,l_apegar,2)
+				mle_1.text+=l_apegar
 			end if
 		end if
 		lx=lx+1
 	else
 		ltipo= dw_1.getitemstring(li,'ta_desp_tipo')
 		l_apegar='~r~n'+dw_1.getitemstring(li,'ta_desp_tipo')+'~r~n'
-		f_pega_a_rtf(rte_1,l_apegar,2)
+		//f_pega_a_mle(mle_1,l_apegar,2)
+		mle_1.text+=l_apegar
 		lx=2
 	end if
 	l_fila=dw_2.insertrow(0)
@@ -240,7 +233,8 @@ for li=1 to dw_1.rowcount()
 	else
 		l_apegar='  ▪  '+dw_1.getitemstring(li,'pa_desp_alergia')+datos +	'~r~n'
 	end if 
-	f_pega_a_rtf(rte_1,l_apegar,2)
+//	f_pega_a_mle(mle_1,l_apegar,2)
+	mle_1.text+=l_apegar
 	setnull(datos)
 next
 dw_1.setfilter('')
@@ -251,15 +245,7 @@ if dw_2.update()=-1 then
 	return
 end if
 commit;
-i_st.rte.SelectTextAll ( header! )
-i_st.rte.clearall()
-i_st.rte.SelectTextAll ( detail! )
-i_st.rte.clearall()
-i_st.rte.SelectTextAll ( header! )
-i_st.rte.clearall()
-i_st.rte.SelectTextAll ( detail! )
-i_st.rte.clearall()
-i_st.rte.pastertf(rte_1.copyrtf(false,detail!))
+i_st.mle.text=(mle_1.text)
 close(f_vent_padre(this))
 
 end event

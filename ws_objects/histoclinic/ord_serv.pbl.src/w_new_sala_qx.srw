@@ -10,10 +10,6 @@ type dw_canasta from datawindow within w_new_sala_qx
 end type
 type dw_sum_cab from datawindow within w_new_sala_qx
 end type
-type rte_1 from richtextedit within w_new_sala_qx
-end type
-type pb_print_notas from pb_report within w_new_sala_qx
-end type
 type dw_admi from datawindow within w_new_sala_qx
 end type
 type pb_traer_prog from picturebutton within w_new_sala_qx
@@ -23,8 +19,6 @@ end type
 type dw_primerorden from datawindow within w_new_sala_qx
 end type
 type pb_save from picturebutton within w_new_sala_qx
-end type
-type dw_print_notas from datawindow within w_new_sala_qx
 end type
 type dw_historial_ori from datawindow within w_new_sala_qx
 end type
@@ -168,78 +162,6 @@ sle_diag3 sle_diag3
 gb_6 gb_6
 gb_7 gb_7
 end type
-type tabp_evo from userobject within tab_servicios
-end type
-type pb_3 from picturebutton within tabp_evo
-end type
-type rte_2 from richtextedit within tabp_evo
-end type
-type rte_not_qx from richtextedit within tabp_evo
-end type
-type barra2 from vprogressbar within tabp_evo
-end type
-type cb_8 from picturebutton within tabp_evo
-end type
-type st_5 from statictext within tabp_evo
-end type
-type gb_1 from groupbox within tabp_evo
-end type
-type st_4 from statictext within tabp_evo
-end type
-type tabp_evo from userobject within tab_servicios
-pb_3 pb_3
-rte_2 rte_2
-rte_not_qx rte_not_qx
-barra2 barra2
-cb_8 cb_8
-st_5 st_5
-gb_1 gb_1
-st_4 st_4
-end type
-type tabp_ane from userobject within tab_servicios
-end type
-type pb_4 from picturebutton within tabp_ane
-end type
-type st_12 from statictext within tabp_ane
-end type
-type rte_nuev_ane from richtextedit within tabp_ane
-end type
-type rte_not_ane from richtextedit within tabp_ane
-end type
-type st_ane from statictext within tabp_ane
-end type
-type cb_grab_notane from picturebutton within tabp_ane
-end type
-type barra1 from vprogressbar within tabp_ane
-end type
-type gb_ane from groupbox within tabp_ane
-end type
-type tabp_ane from userobject within tab_servicios
-pb_4 pb_4
-st_12 st_12
-rte_nuev_ane rte_nuev_ane
-rte_not_ane rte_not_ane
-st_ane st_ane
-cb_grab_notane cb_grab_notane
-barra1 barra1
-gb_ane gb_ane
-end type
-type tp_epi from userobject within tab_servicios
-end type
-type uo_1 from uo_hclin within tp_epi
-end type
-type pb_evo2 from picturebutton within tp_epi
-end type
-type pb_5 from picturebutton within tp_epi
-end type
-type dw_cir_esp from datawindow within tp_epi
-end type
-type tp_epi from userobject within tab_servicios
-uo_1 uo_1
-pb_evo2 pb_evo2
-pb_5 pb_5
-dw_cir_esp dw_cir_esp
-end type
 type tabpage_2 from userobject within tab_servicios
 end type
 type dw_imagenes from datawindow within tabpage_2
@@ -266,9 +188,6 @@ type tab_servicios from tab within w_new_sala_qx
 tabpage_1 tabpage_1
 tabpage_3 tabpage_3
 tabp_diags tabp_diags
-tabp_evo tabp_evo
-tabp_ane tabp_ane
-tp_epi tp_epi
 tabpage_2 tabpage_2
 end type
 type dw_cont_det from datawindow within w_new_sala_qx
@@ -286,8 +205,8 @@ end type
 end forward
 
 global type w_new_sala_qx from window
-integer width = 6597
-integer height = 2748
+integer width = 5989
+integer height = 2584
 boolean titlebar = true
 string title = "Salas Quirúrgicas"
 boolean controlmenu = true
@@ -308,14 +227,11 @@ dw_mvto_cpo dw_mvto_cpo
 dw_lote dw_lote
 dw_canasta dw_canasta
 dw_sum_cab dw_sum_cab
-rte_1 rte_1
-pb_print_notas pb_print_notas
 dw_admi dw_admi
 pb_traer_prog pb_traer_prog
 pb_traer_os pb_traer_os
 dw_primerorden dw_primerorden
 pb_save pb_save
-dw_print_notas dw_print_notas
 dw_historial_ori dw_historial_ori
 dw_segrespon dw_segrespon
 dw_new dw_new
@@ -348,7 +264,6 @@ end variables
 
 forward prototypes
 public subroutine rn ()
-public function string lf_reemp_campos (string p_todo, uo_datastore p_dw)
 public function long f_newingre (long nh, string clug_hadm)
 end prototypes
 
@@ -369,81 +284,6 @@ else
 	tab_servicios.tabpage_1.pb_rn.enabled=false
 end if
 end subroutine
-
-public function string lf_reemp_campos (string p_todo, uo_datastore p_dw);long num_object,largo,k,numeroingreso , j
-string cual,coltype,reemp,apegar,clug
-blob trae
-datastore ds_objects
-ds_objects=create datastore
-ds_objects.dataobject='dw_campos_de_rtfs'
-f_sel_rtf(rte_1)
-rte_1.clearall()
-f_sel_rtf(rte_1)
-rte_1.clearall()
-num_object=f_objects_ds(p_dw,ds_objects)
-for j=1 to p_dw.rowcount()
-	f_pega_a_rtf(rte_1,p_todo,2)
-	p_dw.setrow(j)
-	for k=1 to ds_objects.rowcount()
-		cual=ds_objects.getitemstring(k,'nombre')
-		reemp=rte_1.InputFieldLocate ( first! , cual )
-		do while reemp<>'' and reemp=cual
-			rte_1.InputFieldDeleteCurrent ( )
-			choose case ds_objects.getitemstring(k,'tipo')
-				case 'column','compute'
-					choose case ds_objects.getitemstring(k,'coltype')
-						case 'char'
-							if ds_objects.getitemnumber(k,'largo')>255 then
-								choose case lower(cual)
-									case 'notas_ane'
-										numeroingreso=p_dw.getitemnumber(j,'numero_ingre')
-										clug=p_dw.getitemstring(1,'clugar')
-										sqlca.autocommit=true
-										selectblob notas_ane into :trae from qxcabacto where numero_ingre=:numeroingreso and clugar=:clug;
-										sqlca.autocommit=false
-									case 'notasqx'
-										numeroingreso=p_dw.getitemnumber(j,'numero_ingre')
-										clug=p_dw.getitemstring(1,'clugar')
-										sqlca.autocommit=true
-										selectblob notasqx into :trae from qxcabacto where numero_ingre=:numeroingreso and clugar=:clug;
-										sqlca.autocommit=false
-									end choose
-											apegar=string(trae)
-							else//es menor a 255
-								apegar=p_dw.getitemstring(j,cual)
-							end if
-						case 'long','number','real'
-							long ojo
-							ojo=p_dw.getitemnumber(j,cual)
-							apegar=string(ojo)
-						case 'decimal'
-							apegar=string(p_dw.getitemdecimal(j,cual))
-						case 'datetime'
-							choose case cual
-								case 'fechainicio','fechafin', 'fecha_nace'
-									apegar=string(p_dw.getitemdatetime(j,cual),'dd/mm/yyyy')
-								case 'horainicio','horafin'
-									apegar=string(p_dw.getitemdatetime(j,cual),'hh:mm AM/PM')
-								case else
-									apegar=string(p_dw.getitemdatetime(j,cual))
-							end choose
-						case 'date'
-							apegar=string(p_dw.getitemdate(j,cual))
-						case 'time'
-							apegar=string(p_dw.getitemtime(j,cual))
-					end choose
-			end choose
-			if isnull(apegar) then apegar=''
-			f_pega_a_rtf(rte_1,apegar,1)
-			reemp=rte_1.InputFieldLocate ( next! , cual )
-			setnull(apegar)
-		loop
-	next
-next
-reemp=rte_1.copyrtf(false,detail!)
-destroy ds_objects
-return reemp
-end function
 
 public function long f_newingre (long nh, string clug_hadm);string clug_his,emp,cont
 boolean abre=false
@@ -509,14 +349,11 @@ this.dw_mvto_cpo=create dw_mvto_cpo
 this.dw_lote=create dw_lote
 this.dw_canasta=create dw_canasta
 this.dw_sum_cab=create dw_sum_cab
-this.rte_1=create rte_1
-this.pb_print_notas=create pb_print_notas
 this.dw_admi=create dw_admi
 this.pb_traer_prog=create pb_traer_prog
 this.pb_traer_os=create pb_traer_os
 this.dw_primerorden=create dw_primerorden
 this.pb_save=create pb_save
-this.dw_print_notas=create dw_print_notas
 this.dw_historial_ori=create dw_historial_ori
 this.dw_segrespon=create dw_segrespon
 this.dw_new=create dw_new
@@ -535,14 +372,11 @@ this.Control[]={this.dw_mvto_cpo,&
 this.dw_lote,&
 this.dw_canasta,&
 this.dw_sum_cab,&
-this.rte_1,&
-this.pb_print_notas,&
 this.dw_admi,&
 this.pb_traer_prog,&
 this.pb_traer_os,&
 this.dw_primerorden,&
 this.pb_save,&
-this.dw_print_notas,&
 this.dw_historial_ori,&
 this.dw_segrespon,&
 this.dw_new,&
@@ -564,14 +398,11 @@ destroy(this.dw_mvto_cpo)
 destroy(this.dw_lote)
 destroy(this.dw_canasta)
 destroy(this.dw_sum_cab)
-destroy(this.rte_1)
-destroy(this.pb_print_notas)
 destroy(this.dw_admi)
 destroy(this.pb_traer_prog)
 destroy(this.pb_traer_os)
 destroy(this.dw_primerorden)
 destroy(this.pb_save)
-destroy(this.dw_print_notas)
 destroy(this.dw_historial_ori)
 destroy(this.dw_segrespon)
 destroy(this.dw_new)
@@ -594,7 +425,6 @@ pide_conf=true
 i_clughis=clugar
 dw_historial.reset()
 dw_admi.reset()
-tab_servicios.tp_epi.uo_1.reset()
 if tipdoc<>"" and docu<>"" then dw_admi.retrieve(tipdoc,docu)
 dw_historial.setfocus()
 SELECT min(Profe.edita) into :i_cambia_histo
@@ -611,21 +441,7 @@ if sqlca.sqlnrows=0 then
 	return 
 end if
 
-if si_notas='1' then
-	tab_servicios.tabp_ane.visible=false
-	tab_servicios.tabp_ane.enabled=false
-	tab_servicios.tabp_evo.visible=false
-	tab_servicios.tabp_evo.enabled=false
-	tab_servicios.tp_epi.visible=false
-	tab_servicios.tp_epi.enabled=false
-else
-	tab_servicios.tabp_ane.visible=true
-	tab_servicios.tabp_ane.enabled=true
-	tab_servicios.tabp_evo.visible=true
-	tab_servicios.tabp_evo.enabled=true
-	tab_servicios.tp_epi.visible=true
-	tab_servicios.tp_epi.enabled=true	
-end if
+
 SELECT cadena into :l_repositorio_qx
 FROM parametros_gen
 WHERE (((codigo_para)=27));
@@ -652,7 +468,7 @@ else
 	this.hscrollbar=true
 end if
 tab_servicios.resize(newwidth - 20 , newheight - tab_servicios.y)
-tab_servicios.tp_epi.uo_1.tamanyo(newwidth - 70,newheight - tab_servicios.y - 230)
+
 end event
 
 event close;sqlca.autocommit=false
@@ -750,90 +566,6 @@ end event
 event dberror;return f_dw_error(sqldbcode,sqlerrtext,sqlsyntax,dataobject)
 end event
 
-type rte_1 from richtextedit within w_new_sala_qx
-boolean visible = false
-integer x = 4206
-integer y = 536
-integer width = 187
-integer height = 44
-integer taborder = 90
-boolean init_wordwrap = true
-boolean init_inputfieldsvisible = true
-boolean init_inputfieldnamesvisible = true
-borderstyle borderstyle = stylelowered!
-end type
-
-type pb_print_notas from pb_report within w_new_sala_qx
-integer x = 3877
-integer y = 448
-integer taborder = 80
-string picturename = "print2.gif"
-string disabledname = "d_print2.gif"
-string powertiptext = "Imprimir Notas Quirúrgicas y Anestesiológicas"
-string cod_rep = "NQX"
-string nombre_rep = "Notas Quirúrgicas"
-string tipo_rep = "externo!"
-boolean v_preliminar = true
-end type
-
-event clicked;call super::clicked;if tab_servicios.tabpage_1.dw_serv_ing.rowcount()=0 then return
-blob encabezado, detalle, notas
-long j
-datetime l_fecha
-
-if isvalid(w_reporte_gral) then close(w_reporte_gral)
-st_xa_print_histo st
-st.p_contador=0
-
-i_rep.dataobject='dw_encab_histo'
-i_rep.settransobject(sqlca)
-
-st.p_contador=dw_historial.getitemnumber(dw_historial.getrow(),'numero_ingre')
-st.p_clug=dw_historial.getitemstring(dw_historial.getrow(),'clugar')
-st.p_cod_plant='NotasQX'
-l_fecha=dw_historial.getitemdatetime(dw_historial.getrow(),'fechainicio')
-j=i_rep.retrieve(tipdoc,docu,l_fecha)
-sqlca.autocommit=true
-
-selectblob encab_qx into :encabezado from lugar where codlugar=:st.p_clug; // Hace encabezado
-sqlca.autocommit=false
-if isnull(encabezado) then encabezado=blob('')
-st.p_header= lf_reemp_campos(string(encabezado),i_rep)
-sqlca.autocommit=true
-selectblob notas_qx  into :notas from lugar where codlugar=:st.p_clug;//HAce notas
-sqlca.autocommit=false
-if isnull(notas) then notas=blob('')
-i_rep.dataobject='dr_ingresoqx'
-i_rep.settransobject(sqlca)
-j=i_rep.retrieve(st.p_contador,st.p_clug)
-st.p_notaqx=  lf_reemp_campos(string(notas),i_rep)
-sqlca.autocommit=true
-selectblob  deta_proc_qx  into  :detalle from lugar where codlugar=:st.p_clug;//Hace detalle
-sqlca.autocommit=false
-if isnull(detalle) then detalle=blob('')
-if g_motor='postgres' then
-	i_rep.dataobject='dr_detalleqx_postgres'	
-else
-	i_rep.dataobject='dr_detalleqx'
-end if
-i_rep.settransobject(sqlca)
-i_rep.retrieve(st.p_contador,st.p_clug)
-st.p_detalle_qx= lf_reemp_campos(string(detalle),i_rep)
-st.p_ds=i_rep
-if g_motor='postgres' then
-	st.p_ds.dataobject='dr_historia_postgres'			
-else
-	st.p_ds.dataobject='dr_historia'			
-end if
-if isvalid(w_reporte_gral) then
-	w_reporte_gral.pasar_a_rtf(st)
-else
-	opensheetwithparm(w_reporte_gral,st,w_principal,7,original!)
-end if
-if isvalid(w_reporte_gral) then w_reporte_gral.pasar_rtf_dw(3)
-
-end event
-
 type dw_admi from datawindow within w_new_sala_qx
 integer x = 27
 integer y = 56
@@ -853,7 +585,6 @@ end event
 
 event rowfocuschanged;dw_historial.reset()
 dw_cont_det.reset()
-tab_servicios.tp_epi.uo_1.reset()
 if getrow()<1 then return
 
 tipo_ingres=getitemstring(getrow(),"codtingre")
@@ -992,18 +723,6 @@ else
 end if
 end event
 
-type dw_print_notas from datawindow within w_new_sala_qx
-boolean visible = false
-integer x = 4434
-integer y = 508
-integer width = 133
-integer height = 100
-boolean enabled = false
-string title = "none"
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
 type dw_historial_ori from datawindow within w_new_sala_qx
 boolean visible = false
 integer x = 4485
@@ -1084,14 +803,9 @@ trae historial
 historial.numero=contador
 historial.lugar=i_clugar_his
 historial.tingres=tipo_ingres
-If f_imprime='2' then
-	//openwithparm(w_print_histor,historial)
-	openwithparm(w_print_histor_new_sec,historial)
-else
-//	openwithparm(w_print_histor_org,historial)
-	openwithparm(w_print_histor_new_agr,historial)	
-end if
-//openwithparm(w_print_histor,historial)
+
+openwithparm(w_print_histor_txt,historial)
+
 
 
 end event
@@ -1203,7 +917,6 @@ dw_mvto_cpo.reset()
 tab_servicios.tabpage_1.dw_serv_ing.reset()
 i_dw_escoger.reset()
 i_dw_escoger2.reset()
-tab_servicios.tp_epi.uo_1.reset()
 long nulo
 setnull(nulo)
 tab_servicios.tabpage_3.dw_escoge.setitem(1,1,nulo)
@@ -1217,14 +930,7 @@ tab_servicios.tabp_diags.sle_textdiag2.text=''
 tab_servicios.tabp_diags.sle_textdiag3.text=''
 tab_servicios.tabp_diags.dw_fina.setitem(1,1,'')
 tab_servicios.tabp_diags.dw_t_acto.setitem(1,1,'')
-f_sel_rtf(tab_servicios.tabp_evo.rte_not_qx)
-tab_servicios.tabp_evo.rte_not_qx.clearall()
-f_sel_rtf(tab_servicios.tabp_evo.rte_2)
-tab_servicios.tabp_evo.rte_2.clearall()
-f_sel_rtf(tab_servicios.tabp_ane.rte_not_ane)
-tab_servicios.tabp_ane.rte_not_ane.clearall()
-f_sel_rtf(tab_servicios.tabp_ane.rte_nuev_ane)
-tab_servicios.tabp_ane.rte_nuev_ane.clearall()
+
 i_cambiar_rte=true
 
 
@@ -1254,9 +960,7 @@ if dw_canasta.retrieve(contador,i_clugar_his)>0 then
 end if
 ///
 tab_servicios.triggerevent(selectionchanged!)
-if si_notas='0' then 
-	tab_servicios.tp_epi.uo_1.retrieve(contador, i_clugar_his,'Q',dw_admi.getitemstring(dw_admi.getrow(),'codtingre'),'',tab_servicios.tp_epi.dw_cir_esp.getitemstring(1,'cesp'),dw_admi.getitemstring(dw_admi.getrow(),'cemp'),dw_admi.getitemstring(dw_admi.getrow(),'ccontrato'),tab_servicios.tp_epi.dw_cir_esp.getitemstring(1,'codprof'),getitemnumber(fila,'numero_ingre'),getitemstring(fila,'clugar'),'','')
-end if
+
 tab_servicios.tabpage_2.dw_imagenes.retrieve(n_ingres,clugar_acto)
 end event
 
@@ -1266,7 +970,7 @@ end event
 type tab_servicios from tab within w_new_sala_qx
 event mousemove pbm_mousemove
 integer y = 616
-integer width = 6441
+integer width = 5851
 integer height = 1784
 string dragicon = "none!"
 integer textsize = -8
@@ -1286,9 +990,6 @@ integer selectedtab = 1
 tabpage_1 tabpage_1
 tabpage_3 tabpage_3
 tabp_diags tabp_diags
-tabp_evo tabp_evo
-tabp_ane tabp_ane
-tp_epi tp_epi
 tabpage_2 tabpage_2
 end type
 
@@ -1296,16 +997,10 @@ on tab_servicios.create
 this.tabpage_1=create tabpage_1
 this.tabpage_3=create tabpage_3
 this.tabp_diags=create tabp_diags
-this.tabp_evo=create tabp_evo
-this.tabp_ane=create tabp_ane
-this.tp_epi=create tp_epi
 this.tabpage_2=create tabpage_2
 this.Control[]={this.tabpage_1,&
 this.tabpage_3,&
 this.tabp_diags,&
-this.tabp_evo,&
-this.tabp_ane,&
-this.tp_epi,&
 this.tabpage_2}
 end on
 
@@ -1313,9 +1008,6 @@ on tab_servicios.destroy
 destroy(this.tabpage_1)
 destroy(this.tabpage_3)
 destroy(this.tabp_diags)
-destroy(this.tabp_evo)
-destroy(this.tabp_ane)
-destroy(this.tp_epi)
 destroy(this.tabpage_2)
 end on
 
@@ -1323,8 +1015,6 @@ event selectionchanged;long nulo
 string profesi_sala,usu_sala,evolu_sala
 
 setnull(nulo)
-tabp_evo.rte_2.enabled=false
-tabp_ane.rte_nuev_ane.enabled=false
 if selectedtab=3 then//diags
 	string diags[3],finalidad,tip_acto
 	if tabpage_1.dw_serv_ing.rowcount()>0 then	
@@ -1370,85 +1060,14 @@ if selectedtab=3 then//diags
 	tabp_diags.dw_t_acto.setitem(1,1,tip_acto)
 end if
 blob texto
-if selectedtab=4 and tabpage_1.dw_serv_ing.rowcount()>0 then
-    If messagebox('Atención','Verifique Equipo Qx',question!,yesno!,2) = 1 then
-		tab_servicios.SelectTab(1)
 
-//		SetFocus(tab_servicios.tabpage_1.dw_serv_ing)
-		return
-	 End IF 
-	setpointer(hourglass!)
-	tabp_evo.barra2.position=20
-	tabp_evo.barra2.visible=true
-	tabp_evo.barra2.position=100
-	tabp_evo.barra2.visible=false
-	w_principal.SetMicroHelp ( 'Leyendo' )
-	sqlca.autocommit=true
-	selectblob notasqx into :texto from qxcabacto where numero_ingre=:n_ingres and clugar=:clugar_acto;
-	if sqlca.sqlcode=-1 then messagebox("Error leyendo Notas Qx",sqlca.sqlerrtext)
-	sqlca.autocommit=false
-	tabp_evo.barra2.position=80
-	w_principal.SetMicroHelp ( 'Dando Formato' )
-	i_cambiar_rte=true
-	f_pega_a_rtf(tabp_evo.rte_not_qx,string(texto),3)
-	w_principal.SetMicroHelp ( 'Gestión Clínica Integrada' )
-	
-	//para validar usuario a ver si se puede
-	profesi_sala=tabpage_1.dw_serv_ing.getitemstring(1,'especialista')
-	if isnull(profesi_sala) then
-		messagebox("Atención","Elija un Especialista para poder atender los servicios")
-		return
-	end if
-	select usuario,evoluciona into :usu_sala,:evolu_sala from profe where codprof=:profesi_sala;
-	if isnull(usu_sala) or evolu_sala='0' then
-		Messagebox("Atención","El profesional que eligió no tiene relación con Usuarios o no tiene permiso para realizar evoluciones")
-		return
-	end if
-	openwithparm(w_conecta_evol,profesi_sala)
-	if message.stringparm<>'!' then 
-		tabp_evo.rte_2.enabled=true
-	else
-		return
-	end if
-end if
-if selectedtab=5 and tabpage_1.dw_serv_ing.rowcount()>0 then
-	tabp_ane.barra1.visible=true
-	tabp_ane.barra1.position=20
-	sqlca.autocommit=true
-	selectblob notas_ane into :texto from qxcabacto where numero_ingre=:n_ingres and clugar=:clugar_acto;
-	if sqlca.sqlcode=-1 then messagebox("Error leyendo Notas Anes.",sqlca.sqlerrtext)
-	sqlca.autocommit=false
-	tabp_ane.barra1.position=80
-	i_cambiar_rte=true
-	f_pega_a_rtf(tabp_ane.rte_not_ane,string(texto),3)
-	tabp_ane.barra1.position=100
-	tabp_ane.barra1.visible=false
-	
-//para validar usuario a ver si se puede
-	profesi_sala=tabpage_1.dw_serv_ing.getitemstring(1,'anestesiologo')
-	if isnull(profesi_sala) then
-		messagebox("Atención","Elija un Anestesiologo para poder atender los servicios")
-		return
-	end if
-	select usuario,evoluciona into :usu_sala,:evolu_sala from profe where codprof=:profesi_sala;
-	if isnull(usu_sala) or evolu_sala='0' then
-		Messagebox("Atención","El profesional que eligió no tiene relación con Usuarios o no tiene permiso para realizar evoluciones")
-		return
-	end if
-	openwithparm(w_conecta_evol,profesi_sala)
-	if message.stringparm<>'!' then 		
-		tabp_ane.rte_nuev_ane.enabled=true
-	else
-	    return
-	end if
-end if
 if tabpage_1.dw_serv_ing.rowcount()=0 then tab_servicios.tabpage_3.dw_escoge.setitem(1,1,nulo)
 end event
 
 type tabpage_1 from userobject within tab_servicios
 integer x = 18
 integer y = 112
-integer width = 6405
+integer width = 5815
 integer height = 1656
 string dragicon = "none!"
 long backcolor = 67108864
@@ -1947,7 +1566,7 @@ end event
 type tabpage_3 from userobject within tab_servicios
 integer x = 18
 integer y = 112
-integer width = 6405
+integer width = 5815
 integer height = 1656
 string dragicon = "none!"
 long backcolor = 67108864
@@ -2013,7 +1632,7 @@ end on
 type tabp_diags from userobject within tab_servicios
 integer x = 18
 integer y = 112
-integer width = 6405
+integer width = 5815
 integer height = 1656
 long backcolor = 67108864
 string text = "Diagnósticos"
@@ -2741,807 +2360,10 @@ long backcolor = 67108864
 string text = "Tipo Acto (RIP):"
 end type
 
-type tabp_evo from userobject within tab_servicios
-integer x = 18
-integer y = 112
-integer width = 6405
-integer height = 1656
-string dragicon = "none!"
-long backcolor = 67108864
-string pointer = "Arrow!"
-string text = "Notas Qx"
-long tabtextcolor = 33554432
-string picturename = "nota_qx.ico"
-long picturemaskcolor = 536870912
-string powertiptext = "Grabar las Notas Quirúrgicas por Acto QX"
-pb_3 pb_3
-rte_2 rte_2
-rte_not_qx rte_not_qx
-barra2 barra2
-cb_8 cb_8
-st_5 st_5
-gb_1 gb_1
-st_4 st_4
-end type
-
-on tabp_evo.create
-this.pb_3=create pb_3
-this.rte_2=create rte_2
-this.rte_not_qx=create rte_not_qx
-this.barra2=create barra2
-this.cb_8=create cb_8
-this.st_5=create st_5
-this.gb_1=create gb_1
-this.st_4=create st_4
-this.Control[]={this.pb_3,&
-this.rte_2,&
-this.rte_not_qx,&
-this.barra2,&
-this.cb_8,&
-this.st_5,&
-this.gb_1,&
-this.st_4}
-end on
-
-on tabp_evo.destroy
-destroy(this.pb_3)
-destroy(this.rte_2)
-destroy(this.rte_not_qx)
-destroy(this.barra2)
-destroy(this.cb_8)
-destroy(this.st_5)
-destroy(this.gb_1)
-destroy(this.st_4)
-end on
-
-type pb_3 from picturebutton within tabp_evo
-integer x = 9
-integer y = 772
-integer width = 146
-integer height = 128
-integer taborder = 130
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-string picturename = "editar.gif"
-alignment htextalign = left!
-string powertiptext = "Cargar Datos desde Plantillas"
-end type
-
-event clicked;if tab_servicios.tabpage_1.dw_serv_ing.rowcount()=0 then return
-st_rte st
-st.c_prof=tab_servicios.tabpage_1.dw_serv_ing.getitemstring(tab_servicios.tabpage_1.dw_serv_ing.getrow(),'especialista')
-st.ventana='QX'
-st.rte=rte_2
-st.dw_pac=w_principal.dw_1
-openwithparm(w_plant_rtf,st)
-end event
-
-type rte_2 from richtextedit within tabp_evo
-integer x = 206
-integer y = 900
-integer width = 4320
-integer height = 800
-integer taborder = 110
-boolean init_hscrollbar = true
-boolean init_vscrollbar = true
-long init_backcolor = 16777215
-boolean init_wordwrap = true
-borderstyle borderstyle = styleraised!
-end type
-
-type rte_not_qx from richtextedit within tabp_evo
-event p_undo ( boolean p_cambiar )
-integer x = 206
-integer y = 48
-integer width = 4302
-integer height = 800
-integer taborder = 22
-boolean init_hscrollbar = true
-boolean init_vscrollbar = true
-long init_backcolor = 67108864
-boolean init_wordwrap = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event p_undo(boolean p_cambiar);if not p_cambiar then
-	this.undo()
-end if
-this.modified=false
-i_cambiar_rte=false
-end event
-
-event modified;post event p_undo(i_cambiar_rte)
-end event
-
-event key;return f_rte_key(this,keyflags,key)
-end event
-
-event rbuttondown;if i_cambia_histo='1' then
-	m_edita= create m_edita
-	st_xa_print_histo st
-	st.p_contador=n_ingres
-	st.p_clug=clugar_acto
-	st.p_cod_plant='NOTAQX!'
-	message.powerobjectparm=st
-	m_edita.popmenu(w_principal.pointerx(),w_principal.pointery())
-	if message.stringparm<>'!' and message.stringparm<>'' then
-		f_pega_a_rtf(this,message.stringparm,3)
-	end if
-end if
-end event
-
-type barra2 from vprogressbar within tabp_evo
-boolean visible = false
-integer x = 64
-integer y = 44
-integer width = 46
-integer height = 476
-unsignedinteger maxposition = 100
-unsignedinteger position = 50
-integer setstep = 10
-end type
-
-type cb_8 from picturebutton within tabp_evo
-event mousemove pbm_mousemove
-integer x = 9
-integer y = 628
-integer width = 146
-integer height = 128
-integer taborder = 110
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-string text = "        &g"
-boolean originalsize = true
-string picturename = "guardar2.GIF"
-string disabledname = "d_guardar2.GIF"
-alignment htextalign = left!
-string powertiptext = "Guardar Notas Quirúrgicas [Alt+G]"
-end type
-
-event clicked;if dw_historial.rowcount()=0 then return
-blob texto
-string grabado=''
-if f_sel_rtf(rte_2)>0 then
-	barra2.visible=true
-	barra2.position=3
-	sqlca.autocommit=true
-	selectblob notasqx into :texto from qxcabacto where numero_ingre=:n_ingres and clugar=:clugar_acto;
-	if sqlca.sqlcode=-1 then 
-		messagebox("Error leyendo Notas Qx",sqlca.sqlerrtext)
-		barra2.visible=false
-		sqlca.autocommit=false
-		return
-	end if
-	grabado=string(texto)
-	if isnull(grabado) then grabado=""
-	if grabado<>"" then 
-		f_pega_a_rtf(rte_2,"~n",0)
-	else
-		f_pega_a_rtf(rte_2,string(today(),"dd/mm/yyyy")+" "+string(now(),"HH:mm")+" "+"-",0)
-	end if
-	f_pega_a_rtf(rte_2,grabado,0)
-	f_sel_rtf(rte_2)
-	grabado=rte_2.copyrtf()
-	texto=blob(grabado)
-	updateblob qxcabacto set notasqx=:texto  where numero_ingre=:n_ingres and clugar=:clugar_acto ;
-	if sqlca.sqlcode=-1 then
-		messagebox("Error actualizando notasqx",sqlca.sqlerrtext)
-		rollback;
-		sqlca.autocommit=false
-		barra2.visible=false
-		return
-	end if
-	sqlca.autocommit=false
-	commit;
-	i_cambiar_rte=true
-	f_pega_a_rtf(rte_not_qx,grabado,3)
-	barra2.position=100
-	rte_2.clearall()
-	barra2.visible=false
-end if
-end event
-
-type st_5 from statictext within tabp_evo
-integer x = 18
-integer y = 536
-integer width = 169
-integer height = 52
-string dragicon = "none!"
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-string pointer = "Arrow!"
-long textcolor = 33554432
-long backcolor = 67108864
-boolean enabled = false
-string text = "Nuevo:"
-boolean focusrectangle = false
-end type
-
-type gb_1 from groupbox within tabp_evo
-integer x = 178
-integer width = 4366
-integer height = 884
-integer taborder = 30
-string dragicon = "none!"
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-string pointer = "Arrow!"
-long textcolor = 16711680
-long backcolor = 67108864
-boolean enabled = false
-borderstyle borderstyle = styleraised!
-end type
-
-type st_4 from statictext within tabp_evo
-integer x = 3163
-integer width = 242
-integer height = 48
-string dragicon = "none!"
-boolean bringtotop = true
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-string pointer = "Arrow!"
-long textcolor = 33554432
-long backcolor = 67108864
-boolean enabled = false
-string text = "Archivado:"
-boolean focusrectangle = false
-end type
-
-type tabp_ane from userobject within tab_servicios
-event create ( )
-event destroy ( )
-integer x = 18
-integer y = 112
-integer width = 6405
-integer height = 1656
-long backcolor = 67108864
-string text = "Notas Anest."
-long tabtextcolor = 33554432
-string picturename = "nota_ane.ico"
-long picturemaskcolor = 536870912
-string powertiptext = "Notas del Anestesiólogo por Acto Quirúrgico"
-pb_4 pb_4
-st_12 st_12
-rte_nuev_ane rte_nuev_ane
-rte_not_ane rte_not_ane
-st_ane st_ane
-cb_grab_notane cb_grab_notane
-barra1 barra1
-gb_ane gb_ane
-end type
-
-on tabp_ane.create
-this.pb_4=create pb_4
-this.st_12=create st_12
-this.rte_nuev_ane=create rte_nuev_ane
-this.rte_not_ane=create rte_not_ane
-this.st_ane=create st_ane
-this.cb_grab_notane=create cb_grab_notane
-this.barra1=create barra1
-this.gb_ane=create gb_ane
-this.Control[]={this.pb_4,&
-this.st_12,&
-this.rte_nuev_ane,&
-this.rte_not_ane,&
-this.st_ane,&
-this.cb_grab_notane,&
-this.barra1,&
-this.gb_ane}
-end on
-
-on tabp_ane.destroy
-destroy(this.pb_4)
-destroy(this.st_12)
-destroy(this.rte_nuev_ane)
-destroy(this.rte_not_ane)
-destroy(this.st_ane)
-destroy(this.cb_grab_notane)
-destroy(this.barra1)
-destroy(this.gb_ane)
-end on
-
-type pb_4 from picturebutton within tabp_ane
-integer x = 14
-integer y = 840
-integer width = 142
-integer height = 124
-integer taborder = 140
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-string picturename = "editar.gif"
-alignment htextalign = left!
-string powertiptext = "Cargar Datos desde Plantillas"
-end type
-
-event clicked;if tab_servicios.tabpage_1.dw_serv_ing.rowcount()=0 then return
-st_rte st
-st.c_prof=tab_servicios.tabpage_1.dw_serv_ing.getitemstring(tab_servicios.tabpage_1.dw_serv_ing.getrow(),'anestesiologo')
-st.ventana='QX'
-st.rte=rte_nuev_ane
-st.dw_pac=w_principal.dw_1
-openwithparm(w_plant_rtf,st)
-end event
-
-type st_12 from statictext within tabp_ane
-integer x = 3150
-integer width = 242
-integer height = 48
-string dragicon = "none!"
-boolean bringtotop = true
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-string pointer = "Arrow!"
-long textcolor = 33554432
-long backcolor = 67108864
-boolean enabled = false
-string text = "Archivado:"
-boolean focusrectangle = false
-end type
-
-type rte_nuev_ane from richtextedit within tabp_ane
-integer x = 206
-integer y = 900
-integer width = 4338
-integer height = 800
-integer taborder = 130
-boolean init_hscrollbar = true
-boolean init_vscrollbar = true
-long init_backcolor = 16777215
-boolean init_wordwrap = true
-borderstyle borderstyle = styleraised!
-end type
-
-type rte_not_ane from richtextedit within tabp_ane
-event p_undo ( boolean p_cambiar )
-integer x = 206
-integer y = 48
-integer width = 4302
-integer height = 800
-integer taborder = 30
-boolean init_hscrollbar = true
-boolean init_vscrollbar = true
-long init_backcolor = 67108864
-boolean init_wordwrap = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event p_undo(boolean p_cambiar);if not p_cambiar then
-	this.undo()
-end if
-this.modified=false
-i_cambiar_rte=false
-end event
-
-event key;return f_rte_key(this,keyflags,key)
-end event
-
-event modified;post event p_undo(i_cambiar_rte)
-end event
-
-event rbuttondown;if i_cambia_histo='1' then
-	m_edita= create m_edita
-	st_xa_print_histo st
-	st.p_contador=n_ingres
-	st.p_clug=clugar_acto
-	st.p_cod_plant='NOTAANE!'
-	message.powerobjectparm=st
-	m_edita.popmenu(w_principal.pointerx(),w_principal.pointery())
-	if message.stringparm<>'!' and message.stringparm<>'' then
-		f_pega_a_rtf(this,message.stringparm,3)
-	end if
-end if
-end event
-
-type st_ane from statictext within tabp_ane
-integer x = 5
-integer y = 544
-integer width = 169
-integer height = 52
-string dragicon = "none!"
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-string pointer = "Arrow!"
-long textcolor = 33554432
-long backcolor = 67108864
-boolean enabled = false
-string text = "Nuevo:"
-boolean focusrectangle = false
-end type
-
-type cb_grab_notane from picturebutton within tabp_ane
-event mousemove pbm_mousemove
-integer x = 14
-integer y = 676
-integer width = 146
-integer height = 128
-integer taborder = 120
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-string text = "        &g"
-boolean originalsize = true
-string picturename = "guardar2.GIF"
-string disabledname = "d_guardar2.GIF"
-alignment htextalign = left!
-string powertiptext = "Guardar Notas Anestesiológicas [Alt+G]"
-end type
-
-event clicked;if dw_historial.rowcount()=0 then return
-string grabado=''
-blob texto
-if f_sel_rtf(rte_nuev_ane)>0 then
-	barra1.visible=true
-	barra1.position=10
-	sqlca.autocommit=true
-	selectblob notas_ane into :texto from qxcabacto where numero_ingre=:n_ingres and clugar=:clugar_acto;
-	if sqlca.sqlcode=-1 then 
-		messagebox("Error leyendo Notas Anes.",sqlca.sqlerrtext)
-		rollback;
-		sqlca.autocommit=false
-		barra1.visible=false
-		return
-	end if
-	barra1.position=50
-	grabado=string(texto)
-	if isnull(grabado) then grabado=''
-	if grabado<>"" then 
-		f_pega_a_rtf(rte_nuev_ane,"~n",0)
-	else
-		f_pega_a_rtf(rte_nuev_ane,string(today(),"dd/mm/yyyy")+" "+string(now(),"HH:mm")+" "+"-",0)
-	end if
-	f_pega_a_rtf(rte_nuev_ane,grabado,0)
-	f_sel_rtf(rte_nuev_ane)
-	grabado=rte_nuev_ane.copyrtf()
-	texto=blob(grabado)
-	updateblob qxcabacto set notas_ane=:texto where numero_ingre=:n_ingres and clugar=:clugar_acto;
-	if sqlca.sqlcode=-1 then
-		messagebox("Error actualizando Notas nes.",sqlca.sqlerrtext)
-		barra1.visible=false
-		rollback;
-		sqlca.autocommit=false
-		return
-	end if
-	sqlca.autocommit=false
-	commit;
-	barra1.position=100
-	i_cambiar_rte=true
-	f_pega_a_rtf(rte_not_ane,grabado,3)
-	rte_nuev_ane.clearall()
-	barra1.visible=false
-end if
-end event
-
-type barra1 from vprogressbar within tabp_ane
-boolean visible = false
-integer x = 64
-integer y = 44
-integer width = 46
-integer height = 476
-unsignedinteger maxposition = 100
-unsignedinteger position = 50
-integer setstep = 10
-end type
-
-type gb_ane from groupbox within tabp_ane
-integer x = 178
-integer width = 4370
-integer height = 880
-integer taborder = 10
-string dragicon = "none!"
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-string pointer = "Arrow!"
-long textcolor = 16711680
-long backcolor = 67108864
-boolean enabled = false
-end type
-
-type tp_epi from userobject within tab_servicios
-integer x = 18
-integer y = 112
-integer width = 6405
-integer height = 1656
-long backcolor = 67108864
-string text = "Epicrisis"
-long tabtextcolor = 33554432
-string picturename = "ToDoList!"
-long picturemaskcolor = 536870912
-string powertiptext = "Epicrisis Ambulatoria"
-uo_1 uo_1
-pb_evo2 pb_evo2
-pb_5 pb_5
-dw_cir_esp dw_cir_esp
-end type
-
-on tp_epi.create
-this.uo_1=create uo_1
-this.pb_evo2=create pb_evo2
-this.pb_5=create pb_5
-this.dw_cir_esp=create dw_cir_esp
-this.Control[]={this.uo_1,&
-this.pb_evo2,&
-this.pb_5,&
-this.dw_cir_esp}
-end on
-
-on tp_epi.destroy
-destroy(this.uo_1)
-destroy(this.pb_evo2)
-destroy(this.pb_5)
-destroy(this.dw_cir_esp)
-end on
-
-type uo_1 from uo_hclin within tp_epi
-event destroy ( )
-integer x = 5
-integer y = 80
-integer width = 4544
-integer height = 1620
-integer taborder = 22
-boolean enabled = true
-end type
-
-on uo_1.destroy
-call uo_hclin::destroy
-end on
-
-event constructor;call super::constructor;//tamanyo(3493,964)
-moverv(400)
-singlelineedit isle_otros
-inicia_objs_ordenes(tab_servicios.tabpage_3.uo_2.tab_1.tp_1.sle_1,tab_servicios.tabpage_3.uo_2.tab_1.tp_2.sle_2,tab_servicios.tabpage_3.uo_2.cb_nvorden,tab_servicios.tabpage_3.uo_2.dw_oscab,isle_otros,isle_otros,'',isle_otros)
-end event
-
-type pb_evo2 from picturebutton within tp_epi
-event mousemove pbm_mousemove
-integer x = 2469
-integer width = 96
-integer height = 88
-integer taborder = 190
-boolean bringtotop = true
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-string picturename = "contrato.GIF"
-string disabledname = "d_contrato.GIF"
-alignment htextalign = left!
-string powertiptext = "Evolución del Paciente"
-end type
-
-event clicked;if dw_historial.rowcount()=0 then return
-string estado,profesi,usu,evolu
-long j,cuantos
-cuantos=0
-profesi=dw_cir_esp.getitemstring(1,1)
-if isnull(profesi) then
-	messagebox("Atención","Elija un profesional para entrar a la evolución del paciente")
-	return
-end if
-select usuario,evoluciona into :usu,:evolu from profe where codprof=:profesi;
-if isnull(usu) or evolu='0' then
-	Messagebox("Atención","El profesional que eligió no tiene relación con Usuarios o no tiene permiso para realizar evoluciones")
-	return
-end if
-st_pa_evolucion str
-///str.sle_proc=tab_servicios.tabpage_3.sle_1
-///str.dw_proc=tab_servicios.tabpage_3.dw_oscuerpo
-str.campo_cant_proc='solicitado'
-///str.sle_med=tab_servicios.tabpage_4.sle_med
-///str.dw_med=tab_servicios.tabpage_4.dw_formula
-str.campo_cant_med='solicitado'
-str.ventana=f_vent_padre(this)
-str.contador=contador
-str.clugar_his=i_clugar_his
-str.nh=i_nh
-str.clug_hadm=i_clugar_hadm
-str.tingres=tipo_ingres
-str.profes=dw_cir_esp.getitemstring(1,1)
-str.mostrar=true
-str.emp=dw_admi.getitemstring(dw_admi.getrow(),'cemp')
-str.cont=dw_admi.getitemstring(dw_admi.getrow(),'ccontrato')
-openwithparm(w_conecta_evol,str.profes)
-if message.stringparm='!' then return
-
-string respon,espe
-datetime fentra,hentra
-setnull(respon)
-if g_motor='postgres' then
-	SELECT profe.nombre1|| case when profe.nombre2  is null then ' ' else  '  '||profe.nombre2 end ||' '|| 
-	 profe.apellido1|| case when profe.apellido2 is null then ' ' else  '  '||profe.apellido2 end as desprof into :respon
-	FROM HospRespon, Profe
-	WHERE HospRespon.CodProf=profe.codprof AND HospRespon.NH=:i_nh and clugar=:i_clugar_hadm AND HospRespon.CodTIngre=:tipo_ingres AND HospRespon.fecha_fin Is Null;
-else
-	SELECT profe.nombre1+ case when profe.nombre2  is null then ' ' else  '  '+profe.nombre2 end +' '+ 
-	 profe.apellido1+ case when profe.apellido2 is null then ' ' else  '  '+profe.apellido2 end as desprof into :respon
-	FROM HospRespon, Profe
-	WHERE HospRespon.CodProf=profe.codprof AND HospRespon.NH=:i_nh and clugar=:i_clugar_hadm AND HospRespon.CodTIngre=:tipo_ingres AND HospRespon.fecha_fin Is Null;
-end if
-if sqlca.sqlcode=-1 then
-	messagebox("Error Consultando responsable actual",sqlca.sqlerrtext)
-	return
-end if
-if isnull(respon) then
-	fentra=datetime(today())
-	hentra=datetime(today(),time(string(now())))
-	int cuantas
-	select count(cesp) into :cuantas from espprof where codprof=:profesi and estado='1';
-	choose case cuantas
-		case 0 
-			messagebox("Atención","El profesional no tiene asignadas especialidades en la tabla EspProf, dede adicionarle una especialidad para poder continuar")
-			return
-		case 1
-			select cesp into :espe from espprof where codprof=:profesi and estado='1';
-			if sqlca.sqlcode=-1 then
-				messagebox("Error leyendo EspProf",sqlca.sqlerrtext)
-				return
-			end if
-			INSERT INTO HospRespon ( NH,clugar, CodTIngre, nitem, CodProf, CEsp, fecha_ini, hora_ini)
-			values (:str.nh,:str.clug_hadm,:str.tingres,1,:profesi,:espe,:fentra,:hentra);
-			if sqlca.sqlcode=-1 then
-				messagebox("Error insertando fila en HospRespon",sqlca.sqlerrtext)
-				rollback;
-				return
-			else
-				commit;
-			end if
-		case else
-			openwithparm(w_escog_espe,str)
-	end choose
-end if
-openwithparm(w_evolucion_new,str)
-end event
-
-type pb_5 from picturebutton within tp_epi
-boolean visible = false
-integer x = 2359
-integer width = 96
-integer height = 88
-integer taborder = 20
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-string picturename = "editar.gif"
-string powertiptext = "Modificar Epicrisis"
-end type
-
-event clicked;if contador = -1 or dw_admi.rowcount()=0 then return
-string usu,profesi,espe
-espe=dw_cir_esp.getitemstring(1,2)
-profesi=dw_cir_esp.getitemstring(1,1)
-if espe='' or isnull(espe) then
-	messagebox('Atención','Debe escojer el profesional y la especialidad')
-	return
-end if
-select usuario into :usu from profe where codprof=:profesi;
-if isnull(usu)  then
-	Messagebox("Atención","El profesional que eligió no tiene relación con Usuarios")
-	return
-end if
-openwithparm(w_conecta_evol,profesi)
-if message.stringparm='!' then return
-
-//if uo_1.GetView() = '1' then
-//	st_formulario st_p
-//
-//	st_p.contador = contador
-//	st_p.clugar = i_clugar_his
-//	st_p.codplantilla = uo_1.codplantilla
-//	st_p.codprof = profesi
-//	st_p.cesp = espe
-//	st_p.indapdx = 'Q'
-//	st_p.codtingre = tipo_ingres
-//	st_p.dw_hist = dw_admi
-//	st_p.cemp=dw_admi.getitemstring(dw_admi.getrow(),'cemp')
-//	st_p.ccont=dw_admi.getitemstring(dw_admi.getrow(),'ccontrato')
-//	openSheetWithParm(w_formulario,st_p,w_principal,0,layered!)
-//else
-//	opensheetwithparm(w_test,dw_admi,w_principal,0,layered!)
-//	w_test.uo_1.Retrieve(contador, i_clugar_his,uo_1.codplantilla,profesi,espe,'Q',tipo_ingres,dw_admi.getitemstring(dw_admi.getrow(),'cemp'),dw_admi.getitemstring(dw_admi.getrow(),'ccontrato'))
-//end if
-//
-end event
-
-type dw_cir_esp from datawindow within tp_epi
-integer x = 18
-integer y = -4
-integer width = 2309
-integer height = 92
-integer taborder = 20
-string title = "none"
-string dataobject = "dw_combo_ciruj_espe"
-boolean border = false
-boolean livescroll = true
-end type
-
-event constructor;settransobject(sqlca)
-getchild('cesp',idw_esp_prof)
-idw_esp_prof.settransobject(sqlca)
-insertrow(1)
-setitem(1,1,g_profe)
-event itemchanged(1,object.codprof,g_profe)
-end event
-
-event itemchanged;string lprofe,lcesp, i_plantilla,lugarqx
-double ingreqx
-
-choose case getcolumnname()
-	case 'codprof'
-		setitem(1,2,'')
-		if idw_esp_prof.retrieve(data)=1 then
-			setitem(1,2,idw_esp_prof.getitemstring(1,'cesp'))
-		end if
-		lprofe=data
-		lcesp=idw_esp_prof.getitemstring(1,'cesp')
-		if si_notas='0' then 
-			if dw_admi.rowcount()=0 then
-				uo_1.Retrieve(contador, i_clugar_his,'Q',tipo_ingres,'',lcesp,'','',lprofe,n_ingres,clugar_acto,'1','')
-			else
-				uo_1.Retrieve(contador, i_clugar_his,'Q',tipo_ingres,'',lcesp,dw_admi.getitemstring(dw_admi.getrow(),'cemp'),dw_admi.getitemstring(dw_admi.getrow(),'ccontrato'),lprofe,n_ingres,clugar_acto,'','')
-			end if
-		end if
-	case 'cesp'
-		lprofe=getitemstring(1,1)
-		lcesp=data
-		if si_notas='0' then  
-			if dw_admi.rowcount()=0 then
-				uo_1.Retrieve(contador, i_clugar_his,'Q',tipo_ingres,'',lcesp,'','',lprofe,n_ingres,clugar_acto,'1','')
-			else
-				uo_1.Retrieve(contador, i_clugar_his,'Q',tipo_ingres,'',lcesp,dw_admi.getitemstring(dw_admi.getrow(),'cemp'),dw_admi.getitemstring(dw_admi.getrow(),'ccontrato'),lprofe,n_ingres,clugar_acto,'','')
-			end if
-		end if
-end choose
-
-end event
-
 type tabpage_2 from userobject within tab_servicios
 integer x = 18
 integer y = 112
-integer width = 6405
+integer width = 5815
 integer height = 1656
 long backcolor = 67108864
 string text = "Imagenes"
@@ -3912,7 +2734,7 @@ end type
 type gb_5 from groupbox within w_new_sala_qx
 integer x = 3323
 integer y = 404
-integer width = 754
+integer width = 571
 integer height = 200
 integer taborder = 90
 integer textsize = -8

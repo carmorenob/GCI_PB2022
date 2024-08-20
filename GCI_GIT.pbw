@@ -7,6 +7,8 @@ Save Format v3.0(19990112)
  1 "configurador\\conf_apdx.pbt";
  2 "actualizador\\actualizador.pbt";
  3 "adm\\gci_adm.pbt";
+ 4 "clientes\\clientes.pbt";
+ 5 "mipres\\mipres.pbt";
 @end;
 DefaultTarget "histoclinic\\histo_clinic.pbt";
 DefaultRemoteTarget "histoclinic\\histo_clinic.pbt";
