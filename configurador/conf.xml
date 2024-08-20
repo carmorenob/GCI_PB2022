@@ -117,6 +117,7 @@
               <Item Checked="false" Clicked="e_apdxper" Enabled="true" PictureName="ribon_area_pe.ico" Tag="Apoyo Dx Configuración" Text="Configuración" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_apdxtubo" Enabled="true" PictureName="ribon_tubo_lab.ico" Tag="Tubos Muestra" Text="Tubos Muestra" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_apdxtmu" Enabled="true" PictureName="ribon_barras.ico" Tag="Tipo Muestra" Text="Tipo Muestra" Type="0" Visible="true" />
+               <Item Checked="false" Clicked="e_apdxnotap" Enabled="true" PictureName="ribon_notasp.ico" Tag="Notas Procesamiento" Text="Notas Procesamiento" Type="0" Visible="true" />
             </Menu>
           </LargeButton>
           <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_banco.bmp" Text="Bancos Fluidos" Visible="true">
