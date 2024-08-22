@@ -663,7 +663,6 @@ dw_rep.dataobject='dr_historia_txt'
 dw_rep.settransobject(sqlca)
 
 choose case as_tipo_impre
-
 case '1'//Normal
 	for j=1 to adw_registros.rowcount()
 		
@@ -681,6 +680,7 @@ case '1'//Normal
 		dw_rep.retrieve(ls_clug,ll_contador,adw_registros.getitemnumber(j,'nregistro'),as_tipo_impre)
 		
 	next
+	
 case '2' , '3' //resumen , referencia
 	
 	uo_datastore lds_rep

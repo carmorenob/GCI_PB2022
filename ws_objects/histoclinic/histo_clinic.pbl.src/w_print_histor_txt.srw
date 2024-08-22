@@ -174,7 +174,7 @@ end event
 
 type cbx_1 from checkbox within w_print_histor_txt
 boolean visible = false
-integer x = 1906
+integer x = 1966
 integer y = 76
 integer width = 361
 integer height = 80
@@ -191,7 +191,7 @@ end type
 
 type dw_3 from datawindow within w_print_histor_txt
 boolean visible = false
-integer x = 2395
+integer x = 2455
 integer y = 4
 integer width = 114
 integer height = 116
@@ -203,7 +203,7 @@ end type
 
 type pb_3 from picturebutton within w_print_histor_txt
 boolean visible = false
-integer x = 1737
+integer x = 1797
 integer y = 28
 integer width = 146
 integer height = 128
@@ -336,7 +336,7 @@ end event
 
 type gb_1 from groupbox within w_print_histor_txt
 integer x = 37
-integer width = 1682
+integer width = 1719
 integer height = 160
 integer taborder = 20
 integer textsize = -8

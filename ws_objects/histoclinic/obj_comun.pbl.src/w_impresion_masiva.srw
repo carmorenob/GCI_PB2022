@@ -2,8 +2,6 @@
 forward
 global type w_impresion_masiva from window
 end type
-type rte_local from richtextedit within w_impresion_masiva
-end type
 type dw_rte from datawindow within w_impresion_masiva
 end type
 type sle_1 from singlelineedit within w_impresion_masiva
@@ -61,7 +59,6 @@ boolean resizable = true
 long backcolor = 67108864
 string icon = "AppIcon!"
 boolean center = true
-rte_local rte_local
 dw_rte dw_rte
 sle_1 sle_1
 ddlb_archivos ddlb_archivos
@@ -100,95 +97,95 @@ public function string lf_reemp_campos (string p_todo, datastore p_dw)
 public function string lf_encab_agrupa (string p_tipo, long p_contador, string p_clugar, string p_indapdx)
 end prototypes
 
-public function string lf_reemp_campos (string p_todo, datastore p_dw);long num_object,largo,k,numeroingreso,j
-string objects,cual,coltype,reemp,apegar,clug
-blob trae
-
-datastore ds_objects
-ds_objects=create datastore
-ds_objects.dataobject='dw_campos_de_rtfs'
-num_object=f_objects_ds(p_dw,ds_objects)
-f_sel_rtf(rte_local)
-rte_local.clearall()
-f_sel_rtf(rte_local)
-rte_local.clearall()
-for j=1 to p_dw.rowcount()
-	p_dw.setrow(j)
-	f_pega_a_rtf(rte_local,p_todo,2)
-	for k=1 to ds_objects.rowcount()
-		cual=ds_objects.getitemstring(k,'nombre')
-
-		reemp=rte_local.InputFieldLocate ( first! , cual )
-		do while reemp<>'' and reemp=cual
-			rte_local.InputFieldDeleteCurrent ( )
-			choose case ds_objects.getitemstring(k,'tipo')
-   			   case 'column','compute'
-					choose case ds_objects.getitemstring(k,'coltype')
-						case 'imagen'
-							if ds_objects.getitemnumber(k,'largo')>255 then
-								apegar=string(trae)
-							else//es menor a 255
-								apegar=p_dw.getitemstring(j,cual)
-							end if
-							//string arch,nombre
-							rte_local.InsertPicture ( apegar)
-							setnull( apegar)
-
-						case 'char'
-							if ds_objects.getitemnumber(k,'largo')>255 then
-								choose case lower(cual)
-									case 'notas_ane'
-										numeroingreso=p_dw.getitemnumber(j,'numero_ingre')
-										clug=p_dw.getitemstring(1,'clugar')
-										sqlca.autocommit=true
-										selectblob notas_ane into :trae from qxcabacto where numero_ingre=:numeroingreso and clugar=:clug;
-										sqlca.autocommit=false
-									case 'notasqx'
-										numeroingreso=p_dw.getitemnumber(j,'numero_ingre')
-										clug=p_dw.getitemstring(1,'clugar')
-										sqlca.autocommit=true
-										selectblob notasqx into :trae from qxcabacto where numero_ingre=:numeroingreso and clugar=:clug;
-										sqlca.autocommit=false							
-								end choose
-									apegar=string(trae)
-							else//es menor a 255
-								apegar=p_dw.getitemstring(j,cual)
-							end if
-						case 'long','number','real'
-							long ojo
-							ojo=p_dw.getitemnumber(j,cual)
-							apegar=string(ojo)
-						case 'decimal'
-							apegar=string(p_dw.getitemdecimal(j,cual))
-						case 'datetime'
-							choose case cual
-								case 'fechainicio','fechafin', 'fecha_nace'
-									apegar=string(p_dw.getitemdatetime(j,cual),'dd/mm/yyyy')
-								case 'horainicio','horafin'
-									apegar=string(p_dw.getitemdatetime(j,cual),'HH:mm')
-								case else
-									apegar=string(p_dw.getitemdatetime(j,cual))
-							end choose
-						case 'date'
-							apegar=string(p_dw.getitemdate(j,cual))
-						case 'time'
-							apegar=string(p_dw.getitemtime(j,cual))
-					end choose
-			end choose
-			
-			if isnull(apegar) then apegar=''
-			f_pega_a_rtf(rte_local,apegar,1)
-			reemp=rte_local.InputFieldLocate ( next! , cual )
-			setnull(apegar)
-		loop
-	next
-next
-destroy ds_objects
-reemp=rte_local.copyrtf(false,Detail!)
-f_sel_rtf(rte_local)
-rte_local.clearall()
-f_sel_rtf(rte_local)
-rte_local.clearall()
+public function string lf_reemp_campos (string p_todo, datastore p_dw);//long num_object,largo,k,numeroingreso,j
+string reemp//,objects,cual,coltype,apegar,clug
+//blob trae
+//
+//datastore ds_objects
+//ds_objects=create datastore
+//ds_objects.dataobject='dw_campos_de_rtfs'
+//num_object=f_objects_ds(p_dw,ds_objects)
+//f_sel_rtf(rte_local)
+//rte_local.clearall()
+//f_sel_rtf(rte_local)
+//rte_local.clearall()
+//for j=1 to p_dw.rowcount()
+//	p_dw.setrow(j)
+//	f_pega_a_rtf(rte_local,p_todo,2)
+//	for k=1 to ds_objects.rowcount()
+//		cual=ds_objects.getitemstring(k,'nombre')
+//
+//		reemp=rte_local.InputFieldLocate ( first! , cual )
+//		do while reemp<>'' and reemp=cual
+//			rte_local.InputFieldDeleteCurrent ( )
+//			choose case ds_objects.getitemstring(k,'tipo')
+//   			   case 'column','compute'
+//					choose case ds_objects.getitemstring(k,'coltype')
+//						case 'imagen'
+//							if ds_objects.getitemnumber(k,'largo')>255 then
+//								apegar=string(trae)
+//							else//es menor a 255
+//								apegar=p_dw.getitemstring(j,cual)
+//							end if
+//							//string arch,nombre
+//							rte_local.InsertPicture ( apegar)
+//							setnull( apegar)
+//
+//						case 'char'
+//							if ds_objects.getitemnumber(k,'largo')>255 then
+//								choose case lower(cual)
+//									case 'notas_ane'
+//										numeroingreso=p_dw.getitemnumber(j,'numero_ingre')
+//										clug=p_dw.getitemstring(1,'clugar')
+//										sqlca.autocommit=true
+//										selectblob notas_ane into :trae from qxcabacto where numero_ingre=:numeroingreso and clugar=:clug;
+//										sqlca.autocommit=false
+//									case 'notasqx'
+//										numeroingreso=p_dw.getitemnumber(j,'numero_ingre')
+//										clug=p_dw.getitemstring(1,'clugar')
+//										sqlca.autocommit=true
+//										selectblob notasqx into :trae from qxcabacto where numero_ingre=:numeroingreso and clugar=:clug;
+//										sqlca.autocommit=false							
+//								end choose
+//									apegar=string(trae)
+//							else//es menor a 255
+//								apegar=p_dw.getitemstring(j,cual)
+//							end if
+//						case 'long','number','real'
+//							long ojo
+//							ojo=p_dw.getitemnumber(j,cual)
+//							apegar=string(ojo)
+//						case 'decimal'
+//							apegar=string(p_dw.getitemdecimal(j,cual))
+//						case 'datetime'
+//							choose case cual
+//								case 'fechainicio','fechafin', 'fecha_nace'
+//									apegar=string(p_dw.getitemdatetime(j,cual),'dd/mm/yyyy')
+//								case 'horainicio','horafin'
+//									apegar=string(p_dw.getitemdatetime(j,cual),'HH:mm')
+//								case else
+//									apegar=string(p_dw.getitemdatetime(j,cual))
+//							end choose
+//						case 'date'
+//							apegar=string(p_dw.getitemdate(j,cual))
+//						case 'time'
+//							apegar=string(p_dw.getitemtime(j,cual))
+//					end choose
+//			end choose
+//			
+//			if isnull(apegar) then apegar=''
+//			f_pega_a_rtf(rte_local,apegar,1)
+//			reemp=rte_local.InputFieldLocate ( next! , cual )
+//			setnull(apegar)
+//		loop
+//	next
+//next
+//destroy ds_objects
+//reemp=rte_local.copyrtf(false,Detail!)
+//f_sel_rtf(rte_local)
+//rte_local.clearall()
+//f_sel_rtf(rte_local)
+//rte_local.clearall()
 return reemp
 end function
 
@@ -221,7 +218,6 @@ return lf_reemp_campos(string(formato),dw)
 end function
 
 on w_impresion_masiva.create
-this.rte_local=create rte_local
 this.dw_rte=create dw_rte
 this.sle_1=create sle_1
 this.ddlb_archivos=create ddlb_archivos
@@ -245,8 +241,7 @@ this.pb_traer=create pb_traer
 this.dw_1=create dw_1
 this.gb_6=create gb_6
 this.gb_1=create gb_1
-this.Control[]={this.rte_local,&
-this.dw_rte,&
+this.Control[]={this.dw_rte,&
 this.sle_1,&
 this.ddlb_archivos,&
 this.dw_4,&
@@ -272,7 +267,6 @@ this.gb_1}
 end on
 
 on w_impresion_masiva.destroy
-destroy(this.rte_local)
 destroy(this.dw_rte)
 destroy(this.sle_1)
 destroy(this.ddlb_archivos)
@@ -315,49 +309,7 @@ Next
 
 dw_2.retrieve()
 
-if g_motor='postgres' then
-	sql_historia="SELECT	hclin_reg_valor.nregistro, hclin_reg_valor.item, hclin_registro.desplantilla, hclin_registro.tipo as otipo, HISTORIAL.INDAPDX as codtingre, hclin_registro.ingreso, &
-	hclin_registro.fecha AS fecha_reg, hclin_reg_valor.orden, hclin_reg_valor.descampo, &
-	CASE WHEN hclin_reg_valor.tipo='S' THEN 'T' else hclin_reg_valor.tipo end  as tipo, &
-	CASE WHEN hclin_reg_valor.tipo='S' THEN  CASE WHEN hclin_reg_valor.texto is not null THEN 'SI' else 'NO' end else hclin_reg_valor.texto end texto, &
-	CASE WHEN hclin_reg_valor.sino is not null then case when hclin_reg_valor.sino='1' then 'SI' else 'NO' end else hclin_reg_valor.sino end as sinob, &
-	 hclin_reg_valor.numero, hclin_reg_valor.fecha, &
-	 profe.nombre1|| case when profe.nombre2  is null then ' ' else  '  '||profe.nombre2 end||' '||&
-	 profe.apellido1|| case when profe.apellido2 is null then ' ' else  '  '||profe.apellido2 end as desprof, &
-	hclin_reg_valor.tipo_memo, Especialidades.DesEsp, Profe.registro, hclin_plantcampo.medida,hclin_reg_valor.padre,&
-	hclin_reg_valor.long_texto&
-	FROM ((((hclin_registro INNER JOIN Profe ON hclin_registro.CODPROF = Profe.CODPROF) INNER JOIN Especialidades ON hclin_registro.CESP = Especialidades.CODESP) INNER JOIN hclin_reg_valor ON (hclin_registro.CONTADOR = hclin_reg_valor.CONTADOR) AND (hclin_registro.CLUGAR = hclin_reg_valor.CLUGAR) AND (hclin_registro.NREGISTRO = hclin_reg_valor.NREGISTRO)) INNER JOIN hclin_plantcampo ON (hclin_reg_valor.PADRE = hclin_plantcampo.PADRE) AND (hclin_reg_valor.ITEM = hclin_plantcampo.NUMCAMPO) AND (hclin_registro.CODPLANTILLA = hclin_plantcampo.CODPLANTILLA)) INNER JOIN HISTORIAL ON (hclin_registro.CLUGAR = HISTORIAL.CLUGAR) AND (hclin_registro.CONTADOR = HISTORIAL.CONTADOR) WHERE"
-else
-	sql_historia="SELECT	hclin_reg_valor.nregistro, hclin_reg_valor.item, hclin_registro.desplantilla, hclin_registro.tipo as otipo, HISTORIAL.INDAPDX as codtingre, hclin_registro.ingreso, &
-	hclin_registro.fecha AS fecha_reg, hclin_reg_valor.orden, hclin_reg_valor.descampo, &
-	CASE WHEN hclin_reg_valor.tipo='S' THEN 'T' else hclin_reg_valor.tipo end  as tipo, &
-	CASE WHEN hclin_reg_valor.tipo='S' THEN  CASE WHEN hclin_reg_valor.texto is not null THEN 'SI' else 'NO' end else hclin_reg_valor.texto end texto, &
-	CASE WHEN hclin_reg_valor.sino is not null then case when hclin_reg_valor.sino='1' then 'SI' else 'NO' end else hclin_reg_valor.sino end as sinob, &
-	 hclin_reg_valor.numero, hclin_reg_valor.fecha, &
-	 profe.nombre1+ case when profe.nombre2  is null then ' ' else  '  '+profe.nombre2 end+' '+&
-	 profe.apellido1+ case when profe.apellido2 is null then ' ' else  '  '+profe.apellido2 end as desprof, &
-	hclin_reg_valor.tipo_memo, Especialidades.DesEsp, Profe.registro, hclin_plantcampo.medida,hclin_reg_valor.padre,&
-	hclin_reg_valor.long_texto&
-	FROM ((((hclin_registro INNER JOIN Profe ON hclin_registro.CODPROF = Profe.CODPROF) INNER JOIN Especialidades ON hclin_registro.CESP = Especialidades.CODESP) INNER JOIN hclin_reg_valor ON (hclin_registro.CONTADOR = hclin_reg_valor.CONTADOR) AND (hclin_registro.CLUGAR = hclin_reg_valor.CLUGAR) AND (hclin_registro.NREGISTRO = hclin_reg_valor.NREGISTRO)) INNER JOIN hclin_plantcampo ON (hclin_reg_valor.PADRE = hclin_plantcampo.PADRE) AND (hclin_reg_valor.ITEM = hclin_plantcampo.NUMCAMPO) AND (hclin_registro.CODPLANTILLA = hclin_plantcampo.CODPLANTILLA)) INNER JOIN HISTORIAL ON (hclin_registro.CLUGAR = HISTORIAL.CLUGAR) AND (hclin_registro.CONTADOR = HISTORIAL.CONTADOR) WHERE "
-end If
-
 end event
-
-type rte_local from richtextedit within w_impresion_masiva
-boolean visible = false
-integer x = 2615
-integer y = 104
-integer width = 343
-integer height = 92
-integer taborder = 50
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-borderstyle borderstyle = stylelowered!
-end type
 
 type dw_rte from datawindow within w_impresion_masiva
 boolean visible = false
@@ -380,7 +332,7 @@ integer x = 41
 integer y = 1540
 integer width = 1797
 integer height = 68
-integer taborder = 130
+integer taborder = 170
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -397,7 +349,7 @@ integer x = 1929
 integer y = 204
 integer width = 411
 integer height = 88
-integer taborder = 130
+integer taborder = 180
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -413,9 +365,9 @@ integer x = 2587
 integer y = 220
 integer width = 361
 integer height = 64
-integer taborder = 50
+integer taborder = 60
 string title = "none"
-string dataobject = "dw_histo_plant_imp_masiva"
+string dataobject = "dr_historia_txt"
 boolean border = false
 boolean livescroll = true
 borderstyle borderstyle = stylelowered!
@@ -446,7 +398,7 @@ integer x = 1769
 integer y = 452
 integer width = 1225
 integer height = 72
-integer taborder = 120
+integer taborder = 150
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -466,7 +418,7 @@ integer x = 32
 integer y = 148
 integer width = 1326
 integer height = 136
-integer taborder = 40
+integer taborder = 20
 string title = "none"
 string dataobject = "dw_empresa_contrato"
 boolean border = false
@@ -543,7 +495,7 @@ integer x = 1669
 integer y = 368
 integer width = 82
 integer height = 72
-integer taborder = 20
+integer taborder = 60
 boolean bringtotop = true
 integer textsize = -8
 integer weight = 400
@@ -602,7 +554,7 @@ integer x = 37
 integer y = 672
 integer width = 3054
 integer height = 852
-integer taborder = 120
+integer taborder = 160
 string title = "none"
 string dataobject = "dw_pac_cohorte_hc"
 boolean hscrollbar = true
@@ -670,7 +622,7 @@ integer x = 2098
 integer y = 52
 integer width = 146
 integer height = 128
-integer taborder = 110
+integer taborder = 140
 boolean bringtotop = true
 integer textsize = -8
 integer weight = 400
@@ -711,11 +663,9 @@ end type
 
 event clicked;double  l_j,li_i,i_numarc
 integer li_rtn	
-st_xa_print_histo st
-uo_datastore i_rep
+string ls_tipo_impr='1'
 string p_sql_todo, ldt,ls_sal,dir_sale
 
-i_rep=create uo_datastore
 barra.Position = 0
 barra.minposition=0
 barra.maxposition=dw_3.rowcount()
@@ -732,7 +682,7 @@ if i_numarc=-1 then
 end if
 filewrite(i_numarc,'Inicia '+String(Today(), "d/mm/yyyy hh:mm:ss"))
 for li_i=1 to dw_3.rowcount()
-	dw_4.retrieve(dw_3.getitemnumber(li_i,'contador'), dw_3.getitemstring(li_i,'clugar'))
+	dw_4.retrieve(dw_3.getitemstring(li_i,'clugar'),dw_3.getitemnumber(li_i,'contador'), dw_3.getitemnumber(li_i,'nregistro'),'0')
 	if dw_4.rowcount()>0 then
 		ls_tipdoc=dw_3.getitemstring(li_i,'tipodoc')
 		ls_docu=dw_3.getitemstring(li_i,'documento')
@@ -743,53 +693,18 @@ for li_i=1 to dw_3.rowcount()
 		ldt=f_remplaza(ldt,':','')
 		ls_sal=sle_dir.text+ls_tipdoc+'_'+ls_docu+'_'+ldt+".pdf"			
 		sle_1.text=ls_tipdoc+'_'+ls_docu+'_'+ldt+string(li_i)
-		st.p_ruta=ls_sal
-		for l_j=1 to dw_4.rowcount()
-			if dw_4.getitemstring(l_j,'sel_plant')='1' then
-				st.p_contador=0
-				st.p_header=lf_encab_agrupa('E',0,'','')
-				st.p_fecha=dw_4.getitemdatetime(l_j,'fecha')
-				st.p_Fechaf=datetime(today(),now())
-				if g_motor='postgres' then
-					i_rep.dataobject='dw_imp_historia_sec_rt_postgres'			
-				else
-					i_rep.dataobject='dw_imp_historia_sec_rt'
-				end if				
-				i_rep.settransobject(sqlca)
-				if st.p_contador<>dw_4.getitemnumber(l_j,'contador') then //ingreso nuevo colocar el agrupamiento de ese ingreso
-					st.p_encab_ingreso=lf_encab_agrupa('A',dw_4.getitemnumber(l_j,'contador'),dw_4.getitemstring(l_j,'clugar'),dw_4.getitemstring(l_j,'indapdx'))+'~r~n'
-					st.p_contador=dw_4.getitemnumber(l_j,'contador')
-					st.p_clug=dw_4.getitemstring(l_j,'clugar')				
-				else
-					st.p_encab_ingreso=''
-				end if
-				p_sql_todo=sql_historia+"((hclin_registro.Contador="+string(dw_4.getitemnumber(l_j,'contador')) +") AND (hclin_reg_valor.clugar='"+dw_4.getitemstring(l_j,'clugar')+"') AND (hclin_registro.nregistro="+string(dw_4.getitemnumber(l_j,'nregistro'))
-				p_sql_todo+="))"+"order by HISTORIAL.INDAPDX,hclin_registro.fecha,case when hclin_registro.tipo='H' then  case when hclin_registro.ingreso ='I' then  0  else  10 end else case when hclin_registro.tipo='E' then 1 else case when hclin_registro.tipo='R' then 2 else case when hclin_registro.tipo='Q' then 3 else case when hclin_registro.tipo='F' then 4 else case when hclin_registro.tipo='L' then 5 else case when hclin_registro.tipo='P' then 6  end end end end end end end, hclin_reg_valor.orden"
-				if i_rep.setsqlselect(p_sql_todo)=-1 then
-					p_sql_todo=i_rep.describe('DataWindow.Table.Select')
-				end if
-				p_sql_todo=i_rep.describe('DataWindow.Table.Select')
-				i_rep.retrieve()
-				if i_rep.rowcount()>0 then
-					st.p_ds=i_rep
-					if isvalid(w_reporte_gral) then
-						w_reporte_gral.pasar_a_rtf(st)
-					else
-						opensheetwithparm(w_reporte_gral,st,w_principal,7,original!)
-					end if
-				end if
-				if isvalid(w_reporte_gral) then 
-					w_reporte_gral.pasar_rtf_dw(3)
-					close(w_reporte_gral)
-				end if
-			end if
-		next
+				
+		dw_4.Object.DataWindow.Export.PDF.Method = NativePDF!
+		dw_4.Object.DataWindow.Export.PDF.NativePDF.Restrictions = 'noprint!,nocopy!'
+		li_rtn =dw_4.SaveAs(ls_sal,PDF!, true)
+
 		filewrite(i_numarc,'Generado '+ls_sal+'---> '+String(Today(), "dd/mm/yyyy hh:mm:ss"))
 		if l_j >dw_1.rowcount() then l_j=dw_1.rowcount()
 	end if
 	dw_3.setitem(li_i,'esc',0)
 	barra.position=li_i
 next
+if isvalid(w_reporte_gral) then close(w_reporte_gral)
 filewrite(i_numarc,'Finaliza '+String(Today(), "d/mm/yyyy hh:mm:ss"))
 fileclose(i_numarc)
 messagebox("Proceso terminado",'Revise el archivo de log para ver Resultados')
@@ -801,7 +716,7 @@ integer x = 37
 integer y = 328
 integer width = 1362
 integer height = 312
-integer taborder = 50
+integer taborder = 30
 string title = "none"
 string dataobject = "dw_lista_hc_impresion_masiva"
 boolean livescroll = true
@@ -816,7 +731,7 @@ integer x = 1445
 integer y = 196
 integer width = 384
 integer height = 84
-integer taborder = 80
+integer taborder = 50
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -854,7 +769,7 @@ integer x = 1440
 integer y = 96
 integer width = 384
 integer height = 84
-integer taborder = 60
+integer taborder = 40
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -950,7 +865,7 @@ integer x = 1408
 integer y = 24
 integer width = 471
 integer height = 284
-integer taborder = 70
+integer taborder = 100
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -968,7 +883,7 @@ integer x = 1431
 integer y = 312
 integer width = 1650
 integer height = 248
-integer taborder = 60
+integer taborder = 90
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
