@@ -151,8 +151,8 @@ end type
 end forward
 
 global type uo_orden_formula_cost from userobject
-integer width = 6135
-integer height = 2116
+integer width = 6971
+integer height = 2528
 long backcolor = 67108864
 string text = "none"
 long tabtextcolor = 33554432
@@ -544,14 +544,14 @@ choose case p_indapdx
 		tab_1.tp_2.dw_formula.dataobject='dw_oscpo_form_hadm'
 		tab_1.tp_2.dw_formula.settransobject(sqlca)
 		cb_bus_diag.visible=false
-		tab_1.move(5,612)
-		dw_oscab.resize(2850,472)
-		dw_oscab.move(2550,166)
+		tab_1.move(5,740)
+		dw_oscab.resize(3817,504)
+		dw_oscab.move(3063,184)
 		f_titulos_dw_gb(dw_profe,'ATOS',gb_1)
-		gb_1.resize(2930,658)
-		gb_1.move(2500,0)
-		st_2.move(2550,80)
-		dw_profe.move(2861,60)
+		gb_1.resize(3886,720)
+		gb_1.move(3031,4)
+		st_2.move(3054,80)
+		dw_profe.move(3365,68)
 	case '5' //odonto
 	case '6' //pyp
 	case 'Q' //qx
@@ -1270,7 +1270,7 @@ end type
 type dw_obs from datawindow within uo_orden_formula_cost
 boolean visible = false
 integer x = 1623
-integer y = 2076
+integer y = 2524
 integer width = 133
 integer height = 48
 integer taborder = 220
@@ -1305,8 +1305,8 @@ end type
 type pb_banco from picturebutton within uo_orden_formula_cost
 event mousemove pbm_mousemove
 boolean visible = false
-integer x = 3017
-integer y = 32
+integer x = 3758
+integer y = 36
 integer width = 55
 integer height = 52
 integer taborder = 150
@@ -1354,7 +1354,7 @@ type dw_mvto_cpo from datawindow within uo_orden_formula_cost
 string tag = "tabla: sum_mvto_cpo"
 boolean visible = false
 integer x = 1774
-integer y = 2072
+integer y = 2520
 integer width = 50
 integer height = 52
 integer taborder = 240
@@ -1373,7 +1373,7 @@ type dw_lote from datawindow within uo_orden_formula_cost
 string tag = "tabla: sum_lote_mov"
 boolean visible = false
 integer x = 1897
-integer y = 2072
+integer y = 2520
 integer width = 50
 integer height = 52
 integer taborder = 290
@@ -1392,7 +1392,7 @@ type dw_sum_cab from datawindow within uo_orden_formula_cost
 string tag = "tabla: sum_mvto_cab"
 boolean visible = false
 integer x = 1838
-integer y = 2080
+integer y = 2528
 integer width = 50
 integer height = 52
 integer taborder = 170
@@ -1409,7 +1409,7 @@ end event
 
 type pb_np from picturebutton within uo_orden_formula_cost
 event mousemove pbm_mousemove
-integer x = 5861
+integer x = 6725
 integer y = 1020
 integer width = 146
 integer height = 128
@@ -1459,7 +1459,7 @@ end event
 type pb_enf from picturebutton within uo_orden_formula_cost
 event mousemove pbm_mousemove
 integer x = 3877
-integer y = 732
+integer y = 856
 integer width = 146
 integer height = 128
 integer taborder = 140
@@ -1518,8 +1518,8 @@ end type
 
 type cbx_banco from checkbox within uo_orden_formula_cost
 boolean visible = false
-integer x = 3918
-integer y = 64
+integer x = 4997
+integer y = 68
 integer width = 233
 integer height = 76
 integer textsize = -8
@@ -1563,9 +1563,10 @@ event constructor;settransobject(sqlca)
 end event
 
 type gb_1 from groupbox within uo_orden_formula_cost
-integer x = 1691
-integer width = 3305
-integer height = 656
+integer x = 3031
+integer y = 4
+integer width = 3886
+integer height = 720
 integer taborder = 10
 integer textsize = -8
 integer weight = 400
@@ -1582,8 +1583,8 @@ end type
 type pb_rn from picturebutton within uo_orden_formula_cost
 event mousemove pbm_mousemove
 boolean visible = false
-integer x = 5861
-integer y = 1160
+integer x = 6729
+integer y = 1148
 integer width = 146
 integer height = 128
 integer taborder = 200
@@ -1616,8 +1617,8 @@ end event
 
 type pb_rip from picturebutton within uo_orden_formula_cost
 event mousemove pbm_mousemove
-integer x = 5861
-integer y = 884
+integer x = 6729
+integer y = 1004
 integer width = 146
 integer height = 128
 integer taborder = 160
@@ -1661,7 +1662,7 @@ end event
 type pb_evol from picturebutton within uo_orden_formula_cost
 event mousemove pbm_mousemove
 integer x = 3721
-integer y = 732
+integer y = 856
 integer width = 146
 integer height = 128
 integer taborder = 130
@@ -1810,7 +1811,7 @@ end event
 
 type dw_profe_atiende from datawindow within uo_orden_formula_cost
 integer x = 1993
-integer y = 776
+integer y = 896
 integer width = 1527
 integer height = 84
 integer taborder = 110
@@ -1833,7 +1834,7 @@ end event
 
 type st_5 from statictext within uo_orden_formula_cost
 integer x = 1998
-integer y = 724
+integer y = 844
 integer width = 599
 integer height = 52
 boolean bringtotop = true
@@ -1852,7 +1853,7 @@ end type
 
 type st_respon from statictext within uo_orden_formula_cost
 integer x = 1115
-integer y = 784
+integer y = 904
 integer width = 873
 integer height = 72
 integer textsize = -8
@@ -1872,7 +1873,7 @@ end type
 
 type st_6 from statictext within uo_orden_formula_cost
 integer x = 1106
-integer y = 728
+integer y = 848
 integer width = 466
 integer height = 56
 integer textsize = -8
@@ -1891,7 +1892,7 @@ end type
 type pb_2 from picturebutton within uo_orden_formula_cost
 event mousemove pbm_mousemove
 integer x = 946
-integer y = 728
+integer y = 856
 integer width = 146
 integer height = 128
 integer taborder = 250
@@ -1948,8 +1949,8 @@ openwithparm(w_kit_new,st_pc)
 end event
 
 type dw_profe from datawindow within uo_orden_formula_cost
-integer x = 2075
-integer y = 64
+integer x = 3365
+integer y = 68
 integer width = 1545
 integer height = 84
 integer taborder = 20
@@ -1979,7 +1980,7 @@ event itemchanged;accepttext()
 end event
 
 type st_2 from statictext within uo_orden_formula_cost
-integer x = 1760
+integer x = 3054
 integer y = 80
 integer width = 311
 integer height = 72
@@ -1998,8 +1999,8 @@ end type
 
 type cb_bus_diag from picturebutton within uo_orden_formula_cost
 event mousemove pbm_mousemove
-integer x = 5015
-integer y = 40
+integer x = 5911
+integer y = 44
 integer width = 146
 integer height = 128
 integer taborder = 30
@@ -2049,8 +2050,8 @@ end event
 
 type cb_borrorden from picturebutton within uo_orden_formula_cost
 event mousemove pbm_mousemove
-integer x = 4562
-integer y = 40
+integer x = 5422
+integer y = 48
 integer width = 146
 integer height = 128
 integer taborder = 60
@@ -2092,8 +2093,8 @@ end event
 
 type pb_abre from picturebutton within uo_orden_formula_cost
 event mousemove pbm_mousemove
-integer x = 4713
-integer y = 40
+integer x = 5573
+integer y = 48
 integer width = 146
 integer height = 128
 integer taborder = 80
@@ -2147,8 +2148,8 @@ end event
 
 type pb_ordenes from picturebutton within uo_orden_formula_cost
 event mousemove pbm_mousemove
-integer x = 4859
-integer y = 36
+integer x = 5719
+integer y = 48
 integer width = 146
 integer height = 128
 integer taborder = 100
@@ -2183,7 +2184,7 @@ end event
 type pb_new from picturebutton within uo_orden_formula_cost
 event mousemove pbm_mousemove
 integer x = 3566
-integer y = 732
+integer y = 856
 integer width = 146
 integer height = 128
 integer taborder = 120
@@ -2295,10 +2296,10 @@ end event
 type dw_oscab from datawindow within uo_orden_formula_cost
 event keypress pbm_dwnkey
 event pe_changed ( )
-integer x = 1742
-integer y = 180
-integer width = 3195
-integer height = 424
+integer x = 3063
+integer y = 184
+integer width = 3817
+integer height = 504
 integer taborder = 70
 string dragicon = "none!"
 boolean bringtotop = true
@@ -2388,9 +2389,9 @@ type tab_1 from tab within uo_orden_formula_cost
 event create ( )
 event destroy ( )
 integer x = 18
-integer y = 600
-integer width = 6085
-integer height = 1488
+integer y = 740
+integer width = 6903
+integer height = 1772
 integer taborder = 210
 integer textsize = -8
 integer weight = 400
@@ -2426,8 +2427,8 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 6048
-integer height = 1360
+integer width = 6866
+integer height = 1644
 long backcolor = 67108864
 string text = "Procedimientos"
 long tabtextcolor = 33554432
@@ -2499,8 +2500,8 @@ destroy(this.st_18)
 end on
 
 type pb_save_insumo from picturebutton within tp_1
-integer x = 901
-integer y = 704
+integer x = 914
+integer y = 928
 integer width = 146
 integer height = 128
 integer taborder = 40
@@ -2538,8 +2539,8 @@ end if
 end event
 
 type st_1 from statictext within tp_1
-integer x = 197
-integer y = 696
+integer x = 210
+integer y = 920
 integer width = 389
 integer height = 52
 integer textsize = -8
@@ -2555,8 +2556,8 @@ boolean focusrectangle = false
 end type
 
 type pb_del_insumo from picturebutton within tp_1
-integer x = 745
-integer y = 704
+integer x = 759
+integer y = 928
 integer width = 146
 integer height = 128
 integer taborder = 30
@@ -2603,8 +2604,8 @@ return 1
 end event
 
 type pb_insert_insumo from picturebutton within tp_1
-integer x = 37
-integer y = 704
+integer x = 50
+integer y = 928
 integer width = 146
 integer height = 128
 integer taborder = 40
@@ -2658,8 +2659,8 @@ return j
 end event
 
 type pb_1 from picturebutton within tp_1
-integer x = 594
-integer y = 704
+integer x = 608
+integer y = 928
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -2700,8 +2701,8 @@ openwithparm(w_busca_gener,sle_3)
 end event
 
 type sle_3 from singlelineedit within tp_1
-integer x = 192
-integer y = 748
+integer x = 206
+integer y = 972
 integer width = 384
 integer height = 80
 integer taborder = 30
@@ -2747,10 +2748,10 @@ end event
 type dw_canasta from datawindow within tp_1
 event p_itemchanged ( )
 event key pbm_dwnkey
-integer x = 23
-integer y = 840
-integer width = 5751
-integer height = 488
+integer x = 37
+integer y = 1064
+integer width = 6816
+integer height = 552
 integer taborder = 30
 string title = "none"
 string dataobject = "dw_insum_hosp"
@@ -2856,7 +2857,7 @@ idw_genericos.retrieve(getitemstring(getrow(),'cod_insumo'))
 end event
 
 type pb_ord from pb_report within tp_1
-integer x = 5824
+integer x = 6688
 integer y = 8
 integer taborder = 40
 string text = "          &o"
@@ -2881,8 +2882,8 @@ event keypress pbm_dwnkey
 event p_itemchanged ( )
 integer x = 27
 integer y = 156
-integer width = 5751
-integer height = 520
+integer width = 6638
+integer height = 712
 integer taborder = 20
 string dragicon = "none!"
 string dataobject = "dw_oscpo_hadm"
@@ -3414,8 +3415,8 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 6048
-integer height = 1360
+integer width = 6866
+integer height = 1644
 long backcolor = 67108864
 string text = "Medicamentos"
 long tabtextcolor = 33554432
@@ -3463,8 +3464,8 @@ destroy(this.sle_2)
 end on
 
 type pb_for from pb_report within tp_2
-integer x = 5819
-integer y = 24
+integer x = 6683
+integer y = 20
 integer taborder = 40
 string text = "      &F"
 string powertiptext = "Imprimir Fórmula Médica [Alt+F]"
@@ -3486,8 +3487,8 @@ event keypress pbm_dwnkey
 event p_itemchanged ( )
 integer x = 32
 integer y = 148
-integer width = 5765
-integer height = 1180
+integer width = 6624
+integer height = 1480
 integer taborder = 46
 string dragicon = "none!"
 string dataobject = "dw_oscpo_form_hadm"
@@ -3833,8 +3834,8 @@ end type
 
 type pb_med_ag from picturebutton within tp_2
 boolean visible = false
-integer x = 5819
-integer y = 600
+integer x = 6693
+integer y = 596
 integer width = 142
 integer height = 124
 integer taborder = 80
@@ -3934,8 +3935,8 @@ end event
 type cb_nvorden from picturebutton within uo_orden_formula_cost
 event mousemove pbm_mousemove
 string tag = "c"
-integer x = 4416
-integer y = 44
+integer x = 5275
+integer y = 48
 integer width = 146
 integer height = 128
 integer taborder = 40

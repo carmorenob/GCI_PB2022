@@ -25,7 +25,7 @@ end type
 end forward
 
 global type w_new_atiende_pqx from window
-integer width = 3191
+integer width = 3657
 integer height = 1880
 boolean titlebar = true
 string title = "Datos del Procedimiento Quirúrgico"
@@ -128,7 +128,7 @@ end event
 type st_1 from statictext within w_new_atiende_pqx
 integer x = 1381
 integer y = 8
-integer width = 1751
+integer width = 2231
 integer height = 124
 integer textsize = -8
 integer weight = 400
@@ -164,8 +164,8 @@ boolean focusrectangle = false
 end type
 
 type pb_2 from picturebutton within w_new_atiende_pqx
-integer x = 1294
-integer y = 1616
+integer x = 1847
+integer y = 1624
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -313,8 +313,8 @@ st_va.text='Cirugía: '+string(va)+' de'+string(ids_proces.rowcount())
 end event
 
 type pb_1 from picturebutton within w_new_atiende_pqx
-integer x = 1467
-integer y = 1616
+integer x = 2021
+integer y = 1624
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -335,10 +335,10 @@ end event
 
 type dw_qxconf from datawindow within w_new_atiende_pqx
 boolean visible = false
-integer x = 3182
-integer y = 72
-integer width = 329
-integer height = 720
+integer x = 3730
+integer y = 24
+integer width = 128
+integer height = 128
 boolean enabled = false
 string title = "none"
 string dataobject = "dw_qxconf"
@@ -369,7 +369,7 @@ end type
 type dw_busca from datawindow within w_new_atiende_pqx
 integer x = 73
 integer y = 196
-integer width = 2994
+integer width = 3515
 integer height = 484
 integer taborder = 30
 string title = "none"
@@ -661,7 +661,7 @@ type dw_1 from datawindow within w_new_atiende_pqx
 event key pbm_dwnkey
 integer x = 91
 integer y = 756
-integer width = 2994
+integer width = 3506
 integer height = 836
 integer taborder = 40
 string title = "none"
@@ -733,7 +733,7 @@ end event
 type gb_1 from groupbox within w_new_atiende_pqx
 integer x = 41
 integer y = 704
-integer width = 3077
+integer width = 3575
 integer height = 896
 integer textsize = -8
 integer weight = 400
@@ -750,7 +750,7 @@ end type
 type gb_2 from groupbox within w_new_atiende_pqx
 integer x = 37
 integer y = 136
-integer width = 3081
+integer width = 3579
 integer height = 568
 integer textsize = -8
 integer weight = 400

@@ -23,8 +23,8 @@ end type
 end forward
 
 global type w_new_at_os from window
-integer width = 6176
-integer height = 2416
+integer width = 7040
+integer height = 2772
 boolean titlebar = true
 string title = "Atención de órdenes de Servicio"
 boolean controlmenu = true
@@ -53,6 +53,7 @@ DataWindowChild Hab,Camas
 datawindowchild dw_lista
 String Pabellon, Habitacion, Cdemp, Ctemp,cama
 end variables
+
 forward prototypes
 public subroutine rn ()
 end prototypes
@@ -233,7 +234,7 @@ end event
 type st_3 from statictext within w_new_at_os
 integer x = 27
 integer y = 292
-integer width = 2405
+integer width = 2967
 integer height = 68
 integer textsize = -8
 integer weight = 400
@@ -252,8 +253,8 @@ end type
 type dw_historial from datawindow within w_new_at_os
 integer x = 27
 integer y = 352
-integer width = 2400
-integer height = 328
+integer width = 2967
+integer height = 488
 integer taborder = 20
 string title = "none"
 string dataobject = "dw_admi_pasa"
@@ -302,8 +303,8 @@ end type
 type gb_2 from groupbox within w_new_at_os
 integer x = 14
 integer y = 120
-integer width = 2459
-integer height = 592
+integer width = 3008
+integer height = 680
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -317,10 +318,9 @@ borderstyle borderstyle = styleraised!
 end type
 
 type uo_1 from uo_orden_formula_cost within w_new_at_os
-integer x = 27
 integer y = 116
-integer width = 6121
-integer height = 2152
+integer width = 6944
+integer height = 2540
 integer taborder = 50
 string i_codrep_formula = "FH"
 string i_codrep_orden = "OSHU"
