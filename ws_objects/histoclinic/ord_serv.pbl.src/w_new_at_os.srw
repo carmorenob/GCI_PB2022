@@ -145,7 +145,7 @@ dw_historial.retrieve(tipdoc,docu,is_tipo_ingres,clugar)
 end event
 
 type dw_inf from datawindow within w_new_at_os
-integer width = 6139
+integer width = 6894
 integer height = 128
 integer taborder = 110
 string title = "none"
