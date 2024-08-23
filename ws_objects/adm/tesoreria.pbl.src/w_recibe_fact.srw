@@ -1243,8 +1243,8 @@ end event
 type dw_rela from datawindow within w_recibe_fact
 boolean visible = false
 integer x = 4064
-integer width = 1458
-integer height = 168
+integer width = 1696
+integer height = 108
 boolean enabled = false
 string title = "none"
 string dataobject = "dw_mod_rel_orig"
