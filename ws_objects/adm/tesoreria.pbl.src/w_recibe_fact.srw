@@ -1244,7 +1244,7 @@ type dw_rela from datawindow within w_recibe_fact
 boolean visible = false
 integer x = 4064
 integer width = 1696
-integer height = 108
+integer height = 104
 boolean enabled = false
 string title = "none"
 string dataobject = "dw_mod_rel_orig"
@@ -1399,7 +1399,7 @@ event destroy ( )
 integer x = 2926
 integer y = 728
 integer width = 3122
-integer height = 1124
+integer height = 1224
 integer taborder = 84
 integer textsize = -8
 integer weight = 400
@@ -1429,7 +1429,7 @@ event destroy ( )
 integer x = 18
 integer y = 112
 integer width = 3086
-integer height = 996
+integer height = 1096
 long backcolor = 67108864
 string text = "Conceptos Pago"
 long tabtextcolor = 33554432
@@ -1452,7 +1452,7 @@ event p_itemchanged ( )
 integer x = 27
 integer y = 28
 integer width = 2994
-integer height = 964
+integer height = 1040
 integer taborder = 40
 string title = "none"
 string dataobject = "dw_concep_cont"
@@ -1512,7 +1512,7 @@ event destroy ( )
 integer x = 14
 integer y = 728
 integer width = 2834
-integer height = 1136
+integer height = 1300
 integer taborder = 54
 integer textsize = -8
 integer weight = 400
@@ -1546,7 +1546,7 @@ event destroy ( )
 integer x = 18
 integer y = 112
 integer width = 2798
-integer height = 1008
+integer height = 1172
 long backcolor = 67108864
 string text = "Pagos A Terceros"
 long tabtextcolor = 33554432
@@ -1568,7 +1568,7 @@ type dw_fpag from datawindow within tabfp
 integer x = 27
 integer y = 28
 integer width = 2729
-integer height = 948
+integer height = 1100
 integer taborder = 40
 string title = "none"
 string dataobject = "dw_f_pagos"
@@ -1582,6 +1582,16 @@ event rowfocuschanged;if rowCount() = 0 then return
 tab_2.t2_1.tab_1.tabconp.dw_concep_cont.retrieve(idb_ano,idb_ncont,idb_otrosi,getItemNumber(getrow(),'item'))
 tab_2.t2_1.tab_fp.tabcau.dw_causa.setFilter( "item="+String(getItemNumber(getrow(),'item')) )
 tab_2.t2_1.tab_fp.tabcau.dw_causa.filter()
+
+//long ldb_nrel
+//string ls_clug,ls_cdoc
+//
+//
+//ldb_nrel=dw_fpag.getitemnumber(dw_fpag.getrow(),'nrelacion_relfact')
+//ls_clug=dw_fpag.getitemstring(dw_fpag.getrow(),'clugar_relfact')
+//ls_cdoc=dw_fpag.getitemstring(dw_fpag.getrow(),'coddoc_relfact')
+//
+//dw_rela.retrieve(ls_clug,ls_cdoc,ldb_nrel)
 end event
 
 event itemchanged;choose case dwo.name
@@ -1624,7 +1634,7 @@ event destroy ( )
 integer x = 18
 integer y = 112
 integer width = 2798
-integer height = 1008
+integer height = 1172
 long backcolor = 67108864
 string text = "Causación"
 long tabtextcolor = 33554432
@@ -1645,8 +1655,8 @@ end on
 type dw_causa from datawindow within tabcau
 integer x = 27
 integer y = 28
-integer width = 3141
-integer height = 960
+integer width = 2770
+integer height = 1108
 integer taborder = 40
 string title = "none"
 string dataobject = "dw_contra_fpago_causacion"
@@ -2021,14 +2031,12 @@ end type
 event constructor;settransobject(sqlca)
 end event
 
-event rowfocuschanged;//double ldb_ano,ldb_ncont,ldb_otrosi
-tab_2.t2_1.tab_fp.tabfp.dw_fpag.reset()
+event rowfocuschanged;tab_2.t2_1.tab_fp.tabfp.dw_fpag.reset()
 tab_2.t2_1.tab_fp.tabcau.dw_causa.reset()
 tab_2.t2_1.dw_timpucontra.reset()
 tab_2.t2_1.tab_1.tabconp.dw_concep_cont.reset()
 dw_resu.reset()
 tab_2.t2_3.t_ret.t_o.dw_rte.reset()
-dw_rela.reset()
 tab_2.t2_3.tab_4.t4_2.dw_tot.reset()
 tab_2.t2_4.dw_ord_pag.reset()
 if getrow()<1 then return
@@ -2556,6 +2564,7 @@ end type
 
 event clicked;Integer i, fc, fila, nconcep
 
+dw_rela.reset()
 if tab_2.t2_1.tab_fp.tabfp.dw_fpag.find("esco='1'", 1, tab_2.t2_1.tab_fp.tabfp.dw_fpag.rowCount()) = 0 then
 	messageBox("Atención","Debe seleccionar una forma de pago")
 	return 0
@@ -2767,7 +2776,7 @@ dw_hist.setitem(dw_hist.getrow(),'cod_anula',st_anula.motivo)
 
 string nulo,clug_rel,err,clug_res,cdoc_res,cdoc,tdoc,docum,clug_anti,ls_crel
 datetime fnulo
-long nnulo,j,nrel,nres,item_cpo,nanti,item_anti, nomina, fila,l_año,l_con,l_otrs,l_item,l_filas
+long nnulo,j,nrel,nres,item_cpo,nanti,item_anti, nomina, fila,l_año,l_con,l_otrs,l_item,l_filas,ldb_k
 dec monto,valor
 
 setnull(nnulo)
@@ -2827,28 +2836,40 @@ choose case is_orig
 				
 				//devuelve montos interfaz
 				if tab_2.t2_3.tab_4.t4_1.dw_cab.getitemstring(tab_2.t2_3.tab_4.t4_1.dw_cab.getrow(),'definitivo')='1' then
-					nres=tab_2.t2_3.t5.t5_1.dw_cpo.getitemnumber(j,'nrelacion')
-					clug_res=tab_2.t2_3.t5.t5_1.dw_cpo.getitemstring(j,'clugar')
-					cdoc_res=tab_2.t2_3.t5.t5_1.dw_cpo.getitemstring(j,'coddoc')
-					item_cpo=tab_2.t2_3.t5.t5_1.dw_cpo.getitemnumber(j,'item')
-									
-					update pre_docu_cp set monto_interfaz=monto_interfaz -:valor where
-					coddoc=:cdoc_res and clugar=:clug_res and numdoc=:nres and item=:item_cpo;
-					if sqlca.sqlcode=-1 then
-						err=sqlca.sqlerrtext
-						messagebox("Error actualizando 'monto_interfaz' de Pre_docu_Cp",err)
-						goto error
-					end if
-					
-					update pre_dispo_ter set monto_reser=monto_reser - :valor where
-					coddocu=:cdoc_res and clugar=:clug_res and numdoc=:nres and tipodoc=:tdoc and documento=:docum;
-					if sqlca.sqlcode=-1 then
-						err=sqlca.sqlerrtext
-						messagebox('Error actualizando pre_dispo_ter',err)
-						rollback;
-						return -1
-					end if 
-				end if			
+					for ldb_k=1 to dw_rela.rowcount()
+						nres=dw_rela.getitemnumber(ldb_k,'num_orig1')
+						clug_res=dw_rela.getitemstring(ldb_k,'char_orig2')
+						cdoc_res=dw_rela.getitemstring(ldb_k,'char_orig1')
+						item_cpo=dw_rela.getitemnumber(ldb_k,'num_orig2')
+						valor=round(dw_rela.getitemnumber(ldb_k,'valor'),2)
+						tdoc=dw_rela.getitemstring(ldb_k,'char_orig3')
+						docum=dw_rela.getitemstring(ldb_k,'char_doc3')
+						update 
+							pre_docu_cp 
+						set 
+							monto_interfaz=monto_interfaz -:valor 
+						where
+							coddoc=:cdoc_res and clugar=:clug_res and numdoc=:nres and item=:item_cpo;
+						if sqlca.sqlcode=-1 then
+							err=sqlca.sqlerrtext
+							messagebox("Error actualizando 'monto_interfaz' de Pre_docu_Cp",err)
+							goto error
+						end if
+		
+						update 
+							pre_dispo_ter 
+						set 
+							monto_reser=monto_reser - :valor 
+						where
+							coddocu=:cdoc_res and clugar=:clug_res and numdoc=:nres and tipodoc=:tdoc and documento=:docum;
+						if sqlca.sqlcode=-1 then
+							err=sqlca.sqlerrtext
+							messagebox('Error actualizando pre_dispo_ter',err)
+							rollback;
+							return -1
+						end if
+					next		
+				end if
 			next
 			tab_2.t2_1.tab_fp.tabfp.dw_fpag.setitem(fila,'clugar_relfact',nulo)
 			tab_2.t2_1.tab_fp.tabfp.dw_fpag.setitem(fila,'coddoc_relfact',nulo)
@@ -3168,8 +3189,8 @@ end event
 type dw_hist from datawindow within t2_2
 integer x = 55
 integer y = 172
-integer width = 6025
-integer height = 1740
+integer width = 6007
+integer height = 1864
 integer taborder = 31
 string title = "none"
 string dataobject = "dw_hist_tesrelfac"
@@ -3207,11 +3228,14 @@ tab_2.t2_3.tab_4.t4_1.dw_cab.retrieve(clug,is_cdoc,nrel)
 tab_2.t2_3.t5.t5_4.tab_legal.tab_devo.dw_devo.retrieve(clug,is_cdoc,nrel)
 tab_2.t2_3.tab_4.t4_2.dw_tot.retrieve(clug,is_cdoc,nrel)
 dw_rela.retrieve(clug,is_cdoc,nrel)
+int jaer
+jaer=dw_rela.rowcount()
 tab_2.t2_3.t_ret.t_o.dw_rte.retrieve(clug,is_cdoc,nrel)
 tab_2.t2_3.t_ret.t_c.dw_rtem.retrieve(clug,is_cdoc,nrel)
 tab_2.t2_3.t5.t5_2.dw_anti.retrieve(clug,is_cdoc,nrel)
 tab_2.t2_3.t5.t5_3.dw_tz.retrieve(clug,is_cdoc,nrel)
 tab_2.t2_3.t5.tabpage_1.dw_entradas.retrieve(clug,is_cdoc,nrel)
+
 idb_ncont=dw_hist.getitemnumber(dw_hist.getrow(),'ncontrato')
 idb_otrosi=dw_hist.getitemnumber(dw_hist.getrow(),'otrosi')
 idb_ano=dw_hist.getitemnumber(dw_hist.getrow(),'ano')	
