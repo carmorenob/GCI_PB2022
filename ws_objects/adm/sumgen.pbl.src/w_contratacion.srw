@@ -2606,6 +2606,8 @@ integer height = 656
 integer taborder = 30
 string title = "none"
 string dataobject = "dw_contra_fpago_causa"
+boolean hscrollbar = true
+boolean vscrollbar = true
 boolean livescroll = true
 borderstyle borderstyle = stylelowered!
 end type
