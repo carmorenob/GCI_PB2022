@@ -91,7 +91,7 @@ end on
 event open;st_ord=message.powerobjectparm
 idw_concep_cont1.retrieve('01','R','1')
 
-st_ord.dw_cpo.rowscopy(st_ord.ld_fila,st_ord.ld_fila,primary!,tab_1.t1.dw_cab,1,primary!)
+st_ord.dw_cpo.rowscopy(st_ord.ld_item,st_ord.ld_item,primary!,tab_1.t1.dw_cab,1,primary!)
 st_ord.dw_rten.rowscopy(1,st_ord.dw_rten.rowcount(),primary!,tab_2.t2.dw_2,1,primary!)
 int i
 decimal bruto

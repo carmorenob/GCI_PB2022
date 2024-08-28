@@ -7,5 +7,6 @@ global type st_xa_antis from structure
 	string		ps_flujo
 	string		ps_tipodoc
 	string		ps_docu
+	double		ld_item
 end type
 

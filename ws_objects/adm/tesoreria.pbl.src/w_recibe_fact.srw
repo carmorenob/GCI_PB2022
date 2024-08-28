@@ -1243,8 +1243,8 @@ end event
 type dw_rela from datawindow within w_recibe_fact
 boolean visible = false
 integer x = 4064
-integer width = 1696
-integer height = 104
+integer width = 1536
+integer height = 132
 boolean enabled = false
 string title = "none"
 string dataobject = "dw_mod_rel_orig"
@@ -2557,6 +2557,7 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
+boolean originalsize = true
 string picturename = "llevar.gif"
 string disabledname = "d_llevar.gif"
 string powertiptext = "Distribuir Presupuesto"
@@ -2651,6 +2652,7 @@ if tab_2.t2_1.tab_1.tabconp.dw_concep_cont.rowcount()>0 then
 		st_ppc.dw_intfaz=dw_rela
 		st_ppc.dw_rten=dw_ppto
 		st_ppc.ld_fila= ldb_donde
+		st_ppc.ld_item= ldb_l
 		st_ppc.ps_flujo=is_flujo
 		st_ppc.ps_tipodoc=dw_cont.getItemString(dw_cont.getRow(), 'tipodoc')
 		st_ppc.ps_docu=dw_cont.getItemString(dw_cont.getRow(), 'documento')
