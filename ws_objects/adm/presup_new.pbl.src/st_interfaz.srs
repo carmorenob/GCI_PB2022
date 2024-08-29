@@ -11,5 +11,6 @@ global type st_interfaz from structure
 	double		cod_vigencia
 	datawindow		dw_fte
 	string		otrosi
+	double		ld_row
 end type
 

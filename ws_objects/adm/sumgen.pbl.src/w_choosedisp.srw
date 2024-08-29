@@ -25,7 +25,7 @@ end type
 end forward
 
 global type w_choosedisp from window
-integer width = 3950
+integer width = 4430
 integer height = 1800
 boolean titlebar = true
 string title = "Interfaz Presupuesto"
@@ -48,12 +48,11 @@ end type
 global w_choosedisp w_choosedisp
 
 type variables
-
+int i_dec_gral,i_aprox_gral
 string codDocumento, codmodulo, orig, dest, ventan
 st_interfaz st_parm
 
 end variables
-
 on w_choosedisp.create
 this.pb_2=create pb_2
 this.pb_1=create pb_1
@@ -112,13 +111,29 @@ dw_rubro.SetTransObject(SQLCA)
 
 dw_vigen.InsertRow(0)
 
+SELECT ENTERO into :i_dec_gral
+FROM parametros_gen
+WHERE (((codigo_para)=29));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 29')
+	return 
+end if
+
+SELECT ENTERO into :i_aprox_gral
+FROM parametros_gen
+WHERE (((codigo_para)=18));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 18')
+	return 
+end if
+if i_aprox_gral=0 then i_aprox_gral=1
 end event
 
 type pb_2 from picturebutton within w_choosedisp
 event mousemove pbm_mousemove
 string tag = "Cerrar"
-integer x = 1769
-integer y = 1548
+integer x = 2126
+integer y = 1556
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -142,8 +157,8 @@ end event
 type pb_1 from picturebutton within w_choosedisp
 event mousemove pbm_mousemove
 string tag = "Llevar &Disponibilidad"
-integer x = 1929
-integer y = 1548
+integer x = 2286
+integer y = 1556
 integer width = 146
 integer height = 128
 integer taborder = 60
@@ -170,6 +185,12 @@ dw_ter.DataObject = 'dw_pre_doc_ter'
 dw_ter.SetTransObject(SQLCA)
 
 if dw_disp.RowCount() = 0 then Return
+
+If dw_rubro.getItemNumber(1,'monto_usar')> st_parm.dw_cab.getitemnumber(st_parm.ld_row,'monto') then
+	MessageBox('Atención','Excede el monto del contrato')
+	Return -1
+end if
+
 cd = dw_disp.GetItemString(dw_disp.getRow(),'coddoc')
 cl = dw_disp.GetItemString(dw_disp.getRow(),'cLugar')
 nd = dw_disp.GetItemNumber(dw_disp.getRow(),'numdoc')
@@ -357,7 +378,7 @@ end event
 type dw_rubro from datawindow within w_choosedisp
 integer x = 87
 integer y = 872
-integer width = 3575
+integer width = 4187
 integer height = 616
 integer taborder = 40
 string title = "none"
@@ -371,7 +392,7 @@ end type
 type dw_disp from datawindow within w_choosedisp
 integer x = 78
 integer y = 236
-integer width = 3730
+integer width = 4215
 integer height = 504
 integer taborder = 30
 string title = "none"
@@ -385,18 +406,29 @@ end type
 event rowfocuschanged;dw_rubro.Reset()
 if rowCount() = 0 or currentrow = 0 then Return
 dw_rubro.Retrieve(GetItemString(GetRow(),'coddoc'),GetItemString(GetRow(),'clugar'),GetItemNumber(GetRow(),'numdoc'))
-
 end event
 
-event itemchanged;
-if dwo.name = 'selec' and row > 0 then
-	long f
+event itemchanged;if dwo.name = 'selec' and row > 0 then
+	long f,ld_monto
 	f = find("selec=1",1,RowCount())
 	if f > 0 and row = f then
 		SetItem(f,'selec',0)
 	else
 		SetItem(row,'selec',1)
 		SetItem(f,'selec',0)
+	end if
+	if dw_rubro.rowcount()>0 then
+		ld_monto=st_parm.dw_cab.getitemnumber(st_parm.ld_row,'monto') / dw_rubro.rowcount()
+		
+		ld_monto=round(dec(ld_monto),i_dec_gral)
+		if i_dec_gral=0 then
+			ld_monto=long(ld_monto/i_aprox_gral)*i_aprox_gral +i_aprox_gral*round((ld_monto - long(ld_monto/i_aprox_gral)*i_aprox_gral)/i_aprox_gral,0)
+		end if
+	
+		for f=1 to dw_rubro.rowcount()
+			dw_rubro.setitem(f,'monto',ld_monto)	
+		next
+		accepttext()
 	end if
 end if
 
@@ -413,7 +445,7 @@ end event
 type gb_1 from groupbox within w_choosedisp
 integer x = 41
 integer y = 164
-integer width = 3813
+integer width = 4293
 integer height = 608
 integer textsize = -8
 integer weight = 700
@@ -429,7 +461,7 @@ end type
 type gb_2 from groupbox within w_choosedisp
 integer x = 41
 integer y = 804
-integer width = 3803
+integer width = 4288
 integer height = 720
 integer textsize = -8
 integer weight = 700

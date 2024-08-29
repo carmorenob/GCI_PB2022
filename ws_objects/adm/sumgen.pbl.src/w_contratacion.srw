@@ -855,9 +855,9 @@ end event
 
 type dw_cargo from datawindow within w_contratacion
 boolean visible = false
-integer x = 5403
+integer x = 5627
 integer y = 1268
-integer width = 329
+integer width = 105
 integer height = 120
 integer taborder = 50
 boolean enabled = false
@@ -2047,7 +2047,7 @@ end on
 type mle_1 from multilineedit within p3
 integer x = 32
 integer y = 860
-integer width = 4978
+integer width = 5440
 integer height = 580
 integer taborder = 80
 integer textsize = -8
@@ -2066,8 +2066,8 @@ end type
 type pb_del_ppto from picturebutton within p3
 event mousemove pbm_mousemove
 string tag = "Borrar Registro"
-integer x = 5152
-integer y = 156
+integer x = 5522
+integer y = 152
 integer width = 146
 integer height = 128
 integer taborder = 30
@@ -2099,8 +2099,8 @@ end event
 type pb_add_ppto from picturebutton within p3
 event mousemove pbm_mousemove
 string tag = "Adicionar"
-integer x = 5152
-integer y = 28
+integer x = 5522
+integer y = 24
 integer width = 142
 integer height = 124
 integer taborder = 3
@@ -2128,12 +2128,13 @@ st_interfaz st_parm
 st_parm.dw_obj = dw_ppto
 st_parm.dw_cab = t1.p1.dw_concab
 st_parm.otrosi='0'
-if t1.p1.dw_concab.GetItemString(1,'coddoc') = 'SCT' then
+st_parm.ld_row=t1.p1.dw_concab.getrow()
+if t1.p1.dw_concab.GetItemString(st_parm.ld_row,'coddoc') = 'SCT' then
 	st_parm.filtro = "%SCT"
 else
 	st_parm.filtro = "%NC"
 end if
-st_parm.codmod = t1.p1.dw_concab.GetItemString(1,'cod_flujo')
+st_parm.codmod = t1.p1.dw_concab.GetItemString(st_parm.ld_row,'cod_flujo')
 openwithparm(w_choosedisp, st_parm)
 
 uo_datastore dw_fr, dw_obra
@@ -2190,7 +2191,7 @@ type dw_ppto from datawindow within p3
 event type long insertafila ( long fila )
 integer x = 32
 integer y = 32
-integer width = 4987
+integer width = 5454
 integer height = 800
 integer taborder = 2
 string title = "none"
