@@ -2067,7 +2067,7 @@ type pb_del_ppto from picturebutton within p3
 event mousemove pbm_mousemove
 string tag = "Borrar Registro"
 integer x = 5522
-integer y = 152
+integer y = 164
 integer width = 146
 integer height = 128
 integer taborder = 30
@@ -2101,8 +2101,8 @@ event mousemove pbm_mousemove
 string tag = "Adicionar"
 integer x = 5522
 integer y = 24
-integer width = 142
-integer height = 124
+integer width = 146
+integer height = 128
 integer taborder = 3
 integer textsize = -8
 integer weight = 400
@@ -2110,6 +2110,7 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
+boolean originalsize = true
 string picturename = "llevar.gif"
 string disabledname = "d_llevar.gif"
 alignment htextalign = left!

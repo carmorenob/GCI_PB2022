@@ -25,7 +25,7 @@ end type
 end forward
 
 global type w_choosedisp from window
-integer width = 4430
+integer width = 4937
 integer height = 1800
 boolean titlebar = true
 string title = "Interfaz Presupuesto"
@@ -53,6 +53,7 @@ string codDocumento, codmodulo, orig, dest, ventan
 st_interfaz st_parm
 
 end variables
+
 on w_choosedisp.create
 this.pb_2=create pb_2
 this.pb_1=create pb_1
@@ -132,8 +133,8 @@ end event
 type pb_2 from picturebutton within w_choosedisp
 event mousemove pbm_mousemove
 string tag = "Cerrar"
-integer x = 2126
-integer y = 1556
+integer x = 2501
+integer y = 1560
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -157,8 +158,8 @@ end event
 type pb_1 from picturebutton within w_choosedisp
 event mousemove pbm_mousemove
 string tag = "Llevar &Disponibilidad"
-integer x = 2286
-integer y = 1556
+integer x = 2661
+integer y = 1560
 integer width = 146
 integer height = 128
 integer taborder = 60
@@ -378,7 +379,7 @@ end event
 type dw_rubro from datawindow within w_choosedisp
 integer x = 87
 integer y = 872
-integer width = 4187
+integer width = 4745
 integer height = 616
 integer taborder = 40
 string title = "none"
@@ -389,10 +390,27 @@ boolean livescroll = true
 borderstyle borderstyle = stylelowered!
 end type
 
+event itemchanged;dec ld_valor
+ld_valor=round(dec(data),i_dec_gral)
+if i_dec_gral=0 then
+	ld_valor=long(ld_valor/i_aprox_gral)*i_aprox_gral +i_aprox_gral*round((ld_valor -long(ld_valor/i_aprox_gral)*i_aprox_gral)/i_aprox_gral,0)
+end if
+
+if ld_valor > (dw_rubro.getitemnumber(row,'monto_vigente') - dw_rubro.getitemnumber(row,'monto_interfaz') )  then
+	settext('0')
+	setitem(row,'monto',0)
+	return 1
+end if
+accepttext()
+setitem(row,'monto',double(data))	
+return 2
+
+end event
+
 type dw_disp from datawindow within w_choosedisp
 integer x = 78
 integer y = 236
-integer width = 4215
+integer width = 4722
 integer height = 504
 integer taborder = 30
 string title = "none"
@@ -409,7 +427,7 @@ dw_rubro.Retrieve(GetItemString(GetRow(),'coddoc'),GetItemString(GetRow(),'cluga
 end event
 
 event itemchanged;if dwo.name = 'selec' and row > 0 then
-	long f,ld_monto
+	long f,ld_monto,ld_falta=0
 	f = find("selec=1",1,RowCount())
 	if f > 0 and row = f then
 		SetItem(f,'selec',0)
@@ -426,7 +444,18 @@ event itemchanged;if dwo.name = 'selec' and row > 0 then
 		end if
 	
 		for f=1 to dw_rubro.rowcount()
-			dw_rubro.setitem(f,'monto',ld_monto)	
+			if  ld_monto > dw_rubro.getitemnumber(f,'monto_vigente') - dw_rubro.getitemnumber(f,'monto_interfaz') then
+				dw_rubro.setitem(f,'monto',(dw_rubro.getitemnumber(f,'monto_vigente') - dw_rubro.getitemnumber(f,'monto_interfaz')))	
+				ld_falta+=(dw_rubro.getitemnumber(f,'monto_vigente') - dw_rubro.getitemnumber(f,'monto_interfaz'))
+				if dw_rubro.rowcount() - f > 0 then
+					ld_monto=(st_parm.dw_cab.getitemnumber(st_parm.ld_row,'monto') - ld_falta)  / (dw_rubro.rowcount() - f)
+				else
+					ld_monto=(st_parm.dw_cab.getitemnumber(st_parm.ld_row,'monto') - ld_falta) 
+				end if
+			else
+				dw_rubro.setitem(f,'monto',ld_monto)	
+				ld_falta+=ld_monto
+			end if
 		next
 		accepttext()
 	end if
@@ -445,7 +474,7 @@ end event
 type gb_1 from groupbox within w_choosedisp
 integer x = 41
 integer y = 164
-integer width = 4293
+integer width = 4805
 integer height = 608
 integer textsize = -8
 integer weight = 700
@@ -461,7 +490,7 @@ end type
 type gb_2 from groupbox within w_choosedisp
 integer x = 41
 integer y = 804
-integer width = 4288
+integer width = 4823
 integer height = 720
 integer textsize = -8
 integer weight = 700
