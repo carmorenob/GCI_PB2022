@@ -2279,7 +2279,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-09-02"), Time("11:57:01.000000"))
+datetime value = DateTime(Date("2024-09-02"), Time("15:46:06.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2301,7 +2301,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-09-02"), Time("11:57:01.000000"))
+datetime value = DateTime(Date("2024-09-02"), Time("15:46:06.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -3490,7 +3490,6 @@ if dw_prof_resu.retrieve(cod_doc,clug,nrepor)>0 then
 		end if
 		i_tempo="c:\windows\temp\"
 		tmp_file = i_tempo +l_prof+cod_doc+clug+string(nrepor)+".jpg"
-	//	tmp_file_mod[l_i] = i_tempo +l_prof+cod_doc+clug+string(nrepor)+".jpg"
 		li_FileNum = FileOpen(tmp_file, StreamMode!, Write!, LockWrite!, Replace!)
 		if isNull(li_FileNum) or li_FileNum < 1 then
 			MessageBox('Atención','Error creando archivo temporal de imágen')

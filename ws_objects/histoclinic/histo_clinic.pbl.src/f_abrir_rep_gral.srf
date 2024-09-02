@@ -7,7 +7,7 @@ forward prototypes
 global subroutine f_abrir_rep_gral (uo_report p_rep)
 end prototypes
 
-global subroutine f_abrir_rep_gral (uo_report p_rep);if isvalid(w_evolucion_new) then
+global subroutine f_abrir_rep_gral (uo_report p_rep);if isvalid(w_evolucion_new) or isvalid(w_apoyo_diag2) then
 	openwithparm(w_reporte_gral,p_rep)
 else
 	opensheetwithparm(w_reporte_gral,p_rep,w_principal,7,Layered!)	
