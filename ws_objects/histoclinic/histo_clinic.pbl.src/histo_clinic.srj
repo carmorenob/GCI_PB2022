@@ -121,6 +121,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_campo_pla
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,dw_lab_integra,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_combo_prof,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_vacuna_config,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,dw_antecedente_pac_elimina_postgres,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,f_dias_365,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_busca_afil_new,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_dwr_service,u
@@ -688,6 +689,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hospital.pbl,dw_para_cambi
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\maps.pbl,dw_map_deptos,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_buscar_gral,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_check_diag2,f
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,dw_alergias_pac_elimina,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,st_rango_edad,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,dw_pacientes_vulnerable,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,gf_set_trans_userobject,f
