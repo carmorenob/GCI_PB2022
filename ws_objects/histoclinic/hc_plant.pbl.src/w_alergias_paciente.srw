@@ -2,6 +2,8 @@
 forward
 global type w_alergias_paciente from window
 end type
+type pb_del_alergia from picturebutton within w_alergias_paciente
+end type
 type mle_1 from multilineedit within w_alergias_paciente
 end type
 type pb_1 from picturebutton within w_alergias_paciente
@@ -26,6 +28,7 @@ windowtype windowtype = popup!
 long backcolor = 67108864
 string icon = "AppIcon!"
 boolean center = true
+pb_del_alergia pb_del_alergia
 mle_1 mle_1
 pb_1 pb_1
 dw_2 dw_2
@@ -41,13 +44,15 @@ DataWindowChild iparen
 end variables
 
 on w_alergias_paciente.create
+this.pb_del_alergia=create pb_del_alergia
 this.mle_1=create mle_1
 this.pb_1=create pb_1
 this.dw_2=create dw_2
 this.pb_ok=create pb_ok
 this.pb_cancel=create pb_cancel
 this.dw_1=create dw_1
-this.Control[]={this.mle_1,&
+this.Control[]={this.pb_del_alergia,&
+this.mle_1,&
 this.pb_1,&
 this.dw_2,&
 this.pb_ok,&
@@ -56,6 +61,7 @@ this.dw_1}
 end on
 
 on w_alergias_paciente.destroy
+destroy(this.pb_del_alergia)
 destroy(this.mle_1)
 destroy(this.pb_1)
 destroy(this.dw_2)
@@ -66,6 +72,65 @@ end on
 
 event open;i_st=message.powerobjectparm
 dw_1.retrieve(i_st.c_otro,tipdoc,docu)
+end event
+
+type pb_del_alergia from picturebutton within w_alergias_paciente
+integer x = 2286
+integer y = 1504
+integer width = 146
+integer height = 128
+integer taborder = 60
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+boolean originalsize = true
+string picturename = "borrador.GIF"
+alignment htextalign = left!
+string powertiptext = "Elimina Antecentente Alergia"
+end type
+
+event clicked;if f_permiso_boton(this,'AAHC')=0 then return
+if dw_1.rowcount()<1 then return
+
+If messageBox('Atención','Está seguro de querer eliminar definitivamente el antecendete?',question!,yesno!,2) = 2 then Return 
+
+st_xa_anular st_anula
+datetime fec_anu
+string ls_codtipo,ls_codale
+
+st_anula.tipo='AH'
+openwithparm (w_motiv_anula,st_anula)
+st_anula=message.powerobjectparm
+if not isValid(st_anula) then return
+
+fec_anu=datetime(today(),now())
+ls_codtipo=dw_1.getitemstring(dw_1.getrow(),'cod_tipo')
+ls_codale=dw_1.getitemstring(dw_1.getrow(),'cod_alergia')
+
+
+insert into pacientes_alergias_elimina ( tipodoc, documento, cod_tipoa, cod_tipo, cod_alergia, fecha, cprof, tipo, texto, sino, numero, fecha_cap, parentesco, cod_atc, fecha_anula, motiv_anula, usu_anula, cod_anula )
+select tipodoc, documento, cod_tipoa, cod_tipo, cod_alergia, fecha, cprof, tipo, texto, sino, numero, fecha_cap, parentesco, cod_atc, :fec_anu,:st_anula.observacion,:usuario,:st_anula.motivo
+from pacientes_alergias
+where tipodoc=:tipdoc and documento=:docu and cod_tipoa=:i_st.c_otro and cod_tipo=:ls_codtipo and cod_alergia=:ls_codale;
+if sqlca.sqlcode=-1 then
+	messagebox("Error Insertando Alergias Paciente elimina",sqlca.sqlerrtext)
+	rollback;
+	return
+end if
+
+delete from pacientes_alergias 
+where tipodoc=:tipdoc and documento=:docu and cod_tipoa=:i_st.c_otro and cod_tipo=:ls_codtipo and cod_alergia=:ls_codale;
+if sqlca.sqlcode=-1 then
+	messagebox("Error Eliminando Alergias Paciente",sqlca.sqlerrtext)
+	rollback;
+	return
+end if
+commit;
+
+dw_1.ReselectRow(1) 
 end event
 
 type mle_1 from multilineedit within w_alergias_paciente
@@ -108,8 +173,8 @@ end event
 
 type dw_2 from datawindow within w_alergias_paciente
 boolean visible = false
-integer x = 2350
-integer y = 1504
+integer x = 736
+integer y = 1520
 integer width = 283
 integer height = 104
 integer taborder = 50
@@ -300,8 +365,6 @@ event buttonclicking;if dwo.name='b_1' then
 	open(w_busca_atc)	
 	st_med = Message.PowerObjectParm
 	if not isValid(st_med) then Return -1
-//	dw_1.setitem(fila,'antecedentes',st_med.medicamento)
-//	dw_1.setitem(fila,'cod_atc',st_med.cmedica)
 end if
 end event
 

@@ -2,6 +2,8 @@
 forward
 global type w_antecedentes_paciente from window
 end type
+type pb_del_antece from picturebutton within w_antecedentes_paciente
+end type
 type mle_1 from multilineedit within w_antecedentes_paciente
 end type
 type pb_1 from picturebutton within w_antecedentes_paciente
@@ -32,6 +34,7 @@ windowtype windowtype = response!
 long backcolor = 67108864
 string icon = "AppIcon!"
 boolean center = true
+pb_del_antece pb_del_antece
 mle_1 mle_1
 pb_1 pb_1
 sle_1 sle_1
@@ -52,6 +55,7 @@ DataWindowChild iparen,ihosp,iplani
 end variables
 
 on w_antecedentes_paciente.create
+this.pb_del_antece=create pb_del_antece
 this.mle_1=create mle_1
 this.pb_1=create pb_1
 this.sle_1=create sle_1
@@ -61,7 +65,8 @@ this.pb_ins=create pb_ins
 this.pb_cancel=create pb_cancel
 this.pb_ok=create pb_ok
 this.dw_1=create dw_1
-this.Control[]={this.mle_1,&
+this.Control[]={this.pb_del_antece,&
+this.mle_1,&
 this.pb_1,&
 this.sle_1,&
 this.pb_gua,&
@@ -73,6 +78,7 @@ this.dw_1}
 end on
 
 on w_antecedentes_paciente.destroy
+destroy(this.pb_del_antece)
 destroy(this.mle_1)
 destroy(this.pb_1)
 destroy(this.sle_1)
@@ -152,6 +158,63 @@ if ls_vac='0' then
 else
 	dw_1.retrieve(tipdoc,docu,cod_ant,ls_se)
 end if
+end event
+
+type pb_del_antece from picturebutton within w_antecedentes_paciente
+integer x = 4050
+integer y = 884
+integer width = 146
+integer height = 128
+integer taborder = 60
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+boolean originalsize = true
+string picturename = "borrador.GIF"
+alignment htextalign = left!
+string powertiptext = "Elimina Antecentente"
+end type
+
+event clicked;if f_permiso_boton(this,'AAHC')=0 then return
+if dw_1.rowcount()<1 then return
+
+If messageBox('Atención','Está seguro de querer eliminar definitivamente el antecendete?',question!,yesno!,2) = 2 then Return 
+
+st_xa_anular st_anula
+double  ldb_item
+datetime fec_anu
+
+st_anula.tipo='AH'
+openwithparm (w_motiv_anula,st_anula)
+st_anula=message.powerobjectparm
+if not isValid(st_anula) then return
+
+fec_anu=datetime(today(),now())
+ldb_item=dw_1.getitemnumber(dw_1.getrow(),'item')
+
+insert into pacientes_antecedente_elimina ( tipodoc, documento, cod_tipoa, item, fecha, cprof, antecedente, dx, parentesco, dosificacion, codproced, cod_atc, fecha_dx, hospi, hemod, numero, uaño, causat, plani, geni, rta, quien, fecha_anula, motiv_anula, usu_anula, cod_anula )
+select tipodoc, , pacientes_antecedente.cod_tipoa, pacientes_antecedente.item, pacientes_antecedente.fecha, pacientes_antecedente.cprof, pacientes_antecedente.antecedente, pacientes_antecedente.dx, pacientes_antecedente.parentesco, pacientes_antecedente.dosificacion, pacientes_antecedente.codproced, pacientes_antecedente.cod_atc, pacientes_antecedente.fecha_dx, pacientes_antecedente.hospi, pacientes_antecedente.hemod, pacientes_antecedente.numero, pacientes_antecedente.uaño, pacientes_antecedente.causat, pacientes_antecedente.plani, pacientes_antecedente.geni, pacientes_antecedente.rta, pacientes_antecedente.quien,:fec_anu,:st_anula.observacion,:usuario,:st_anula.motivo
+from pacientes_antecedente
+where tipodoc=:tipdoc and documento=:docu and cod_tipoa=:i_st.c_otro and cod_tipoa=:cod_ant and item=:ldb_item;
+if sqlca.sqlcode=-1 then
+	messagebox("Error Insertando Antecedente Paciente elimina",sqlca.sqlerrtext)
+	rollback;
+	return
+end if
+
+delete from pacientes_antecedente
+where tipodoc=:tipdoc and documento=:docu and cod_tipoa=:i_st.c_otro and cod_tipoa=:cod_ant and item=:ldb_item;
+if sqlca.sqlcode=-1 then
+	messagebox("Error Eliminando Antecenedete Paciente",sqlca.sqlerrtext)
+	rollback;
+	return
+end if
+commit;
+
+dw_1.ReselectRow(1) 
 end event
 
 type mle_1 from multilineedit within w_antecedentes_paciente
