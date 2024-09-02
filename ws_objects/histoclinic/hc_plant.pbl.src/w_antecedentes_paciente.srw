@@ -284,8 +284,18 @@ if not isValid(st_anula) then return
 fec_anu=datetime(today(),now())
 ldb_item=dw_1.getitemnumber(dw_1.getrow(),'item')
 
-insert into pacientes_antecedente_elimina ( tipodoc, documento, cod_tipoa, item, fecha, cprof, antecedente, dx, parentesco, dosificacion, codproced, cod_atc, fecha_dx, hospi, hemod, numero, uaño, causat, plani, geni, rta, quien, fecha_anula, motiv_anula, usu_anula, cod_anula )
-select tipodoc,documento,cod_tipoa, item, fecha, cprof, antecedente, dx, parentesco, dosificacion, codproced, cod_atc, fecha_dx, hospi, hemod, numero, uaño, causat, plani, geni, rta, quien,:fec_anu,:st_anula.observacion,:usuario,:st_anula.motivo
+select sitem into :ldb_item
+from pacientes_antecedente_elimina
+where tipodoc=:tipdoc and documento=:docu and cod_tipoa=:i_st.c_otro and cod_tipoa=:cod_ant and item=:ldb_item;
+if isnull(ldb_item) then
+	ldb_item=0
+end if
+
+ldb_item++
+
+
+insert into pacientes_antecedente_elimina ( tipodoc, documento, cod_tipoa, item,sitem, fecha, cprof, antecedente, dx, parentesco, dosificacion, codproced, cod_atc, fecha_dx, hospi, hemod, numero, uaño, causat, plani, geni, rta, quien, fecha_anula, motiv_anula, usu_anula, cod_anula )
+select tipodoc,documento,cod_tipoa, item,:ldb_item, fecha, cprof, antecedente, dx, parentesco, dosificacion, codproced, cod_atc, fecha_dx, hospi, hemod, numero, uaño, causat, plani, geni, rta, quien,:fec_anu,:st_anula.observacion,:usuario,:st_anula.motivo
 from pacientes_antecedente
 where tipodoc=:tipdoc and documento=:docu and cod_tipoa=:i_st.c_otro and cod_tipoa=:cod_ant and item=:ldb_item;
 if sqlca.sqlcode=-1 then
