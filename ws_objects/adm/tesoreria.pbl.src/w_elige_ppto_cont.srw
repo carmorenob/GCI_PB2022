@@ -38,7 +38,7 @@ end forward
 
 global type w_elige_ppto_cont from window
 integer width = 4311
-integer height = 1692
+integer height = 1920
 boolean titlebar = true
 string title = "Elige Preupuesto para Contrato"
 windowtype windowtype = response!
@@ -105,9 +105,9 @@ bruto = tab_1.t1.dw_cab.getItemNumber(st_ord.ld_fila,'t_bruto')
 if bruto > 0 then
 	i = 1
 	do while bruto > 0 and i <= tab_2.t2.dw_2.rowCount()
-		if bruto >tab_2.t2.dw_2.getItemNumber(i, "monto_vigente") - tab_2.t2.dw_2.getItemNumber(i, "monto_utilizado") then
-			tab_2.t2.dw_2.setItem(i, "a_usar",tab_2.t2.dw_2.getItemNumber(i, "monto_vigente") -tab_2.t2.dw_2.getItemNumber(i, "monto_utilizado"))
-			bruto = bruto - ( tab_2.t2.dw_2.getItemNumber(i, "monto_vigente") - tab_2.t2.dw_2.getItemNumber(i, "monto_utilizado") )
+		if bruto >tab_2.t2.dw_2.getItemNumber(i, "monto_vigente") - tab_2.t2.dw_2.getItemNumber(i, "monto_interfaz") then
+			tab_2.t2.dw_2.setItem(i, "a_usar",tab_2.t2.dw_2.getItemNumber(i, "monto_vigente") -tab_2.t2.dw_2.getItemNumber(i, "monto_interfaz"))
+			bruto = bruto - ( tab_2.t2.dw_2.getItemNumber(i, "monto_vigente") - tab_2.t2.dw_2.getItemNumber(i, "monto_interfaz") )
 			i++
 		else
 			tab_2.t2.dw_2.setItem(i, "a_usar",  bruto)
@@ -121,6 +121,23 @@ end if
 
 tab_2.t2.dw_2.setfilter('cod_vigencia =0')
 tab_2.t2.dw_2.filter()
+
+SELECT ENTERO into :i_dec_gral
+FROM parametros_gen
+WHERE (((codigo_para)=29));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 29')
+	return 
+end if
+
+SELECT ENTERO into :i_aprox_gral
+FROM parametros_gen
+WHERE (((codigo_para)=18));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 18')
+	return 
+end if
+if i_aprox_gral=0 then i_aprox_gral=1
 end event
 
 type st_3 from statictext within w_elige_ppto_cont
@@ -168,7 +185,7 @@ end event
 
 type pb_ok from picturebutton within w_elige_ppto_cont
 integer x = 1938
-integer y = 1448
+integer y = 1692
 integer width = 146
 integer height = 128
 integer taborder = 30
@@ -227,7 +244,7 @@ end event
 
 type pb_can from picturebutton within w_elige_ppto_cont
 integer x = 2107
-integer y = 1448
+integer y = 1692
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -249,7 +266,7 @@ type tab_2 from tab within w_elige_ppto_cont
 integer x = 23
 integer y = 828
 integer width = 4251
-integer height = 604
+integer height = 852
 integer taborder = 40
 integer textsize = -8
 integer weight = 400
@@ -277,7 +294,7 @@ type t2 from userobject within tab_2
 integer x = 18
 integer y = 112
 integer width = 4215
-integer height = 476
+integer height = 724
 long backcolor = 67108864
 string text = "Rubros Presupuesto"
 long tabtextcolor = 33554432
@@ -301,7 +318,7 @@ event p_scrollto ( integer p_fila,  string p_column )
 integer x = 27
 integer y = 28
 integer width = 4169
-integer height = 440
+integer height = 672
 integer taborder = 30
 boolean bringtotop = true
 string title = "none"
@@ -319,6 +336,23 @@ setredraw(true)
 end event
 
 event constructor;settransobject(sqlca)
+end event
+
+event itemchanged;dec ld_valor
+ld_valor=round(dec(data),i_dec_gral)
+if i_dec_gral=0 then
+	ld_valor=long(ld_valor/i_aprox_gral)*i_aprox_gral +i_aprox_gral*round((ld_valor -long(ld_valor/i_aprox_gral)*i_aprox_gral)/i_aprox_gral,0)
+end if
+
+if ld_valor > (dw_2.getitemnumber(row,'monto_vigente') - dw_2.getitemnumber(row,'monto_interfaz') )  then
+	settext('0')
+	setitem(row,'a_usar',0)
+	return 1
+end if
+accepttext()
+setitem(row,'a_usar',double(data))	
+return 2
+
 end event
 
 type tab_1 from tab within w_elige_ppto_cont

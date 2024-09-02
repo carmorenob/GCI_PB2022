@@ -1243,8 +1243,8 @@ end event
 type dw_rela from datawindow within w_recibe_fact
 boolean visible = false
 integer x = 4064
-integer width = 1536
-integer height = 132
+integer width = 1605
+integer height = 116
 boolean enabled = false
 string title = "none"
 string dataobject = "dw_mod_rel_orig"
@@ -1399,7 +1399,7 @@ event destroy ( )
 integer x = 2926
 integer y = 728
 integer width = 3122
-integer height = 1224
+integer height = 1296
 integer taborder = 84
 integer textsize = -8
 integer weight = 400
@@ -1429,7 +1429,7 @@ event destroy ( )
 integer x = 18
 integer y = 112
 integer width = 3086
-integer height = 1096
+integer height = 1168
 long backcolor = 67108864
 string text = "Conceptos Pago"
 long tabtextcolor = 33554432
@@ -1452,7 +1452,7 @@ event p_itemchanged ( )
 integer x = 27
 integer y = 28
 integer width = 2994
-integer height = 1040
+integer height = 1116
 integer taborder = 40
 string title = "none"
 string dataobject = "dw_concep_cont"
@@ -1582,16 +1582,6 @@ event rowfocuschanged;if rowCount() = 0 then return
 tab_2.t2_1.tab_1.tabconp.dw_concep_cont.retrieve(idb_ano,idb_ncont,idb_otrosi,getItemNumber(getrow(),'item'))
 tab_2.t2_1.tab_fp.tabcau.dw_causa.setFilter( "item="+String(getItemNumber(getrow(),'item')) )
 tab_2.t2_1.tab_fp.tabcau.dw_causa.filter()
-
-//long ldb_nrel
-//string ls_clug,ls_cdoc
-//
-//
-//ldb_nrel=dw_fpag.getitemnumber(dw_fpag.getrow(),'nrelacion_relfact')
-//ls_clug=dw_fpag.getitemstring(dw_fpag.getrow(),'clugar_relfact')
-//ls_cdoc=dw_fpag.getitemstring(dw_fpag.getrow(),'coddoc_relfact')
-//
-//dw_rela.retrieve(ls_clug,ls_cdoc,ldb_nrel)
 end event
 
 event itemchanged;choose case dwo.name
