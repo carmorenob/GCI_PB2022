@@ -386,6 +386,135 @@ alignment htextalign = left!
 string powertiptext = "Aceptar"
 end type
 
+event clicked;int li,l_fila,lx
+string l_apegar,ltipo,l_alergia,ls_ttx,ls_ctx
+if ls_vac='0' then
+	for li=1 to dw_1.rowcount()
+		if dw_1.getitemstring(li,'tdx')='1' then
+			l_apegar='  ▪  '+string(dw_1.getitemdatetime(li,'fecha_dx'),'dd/mm/yyyy')+'  '+dw_1.getitemstring(li,'antecedentes')+'~r~n'
+		end if
+		if dw_1.getitemstring(li,'fm')='1' then
+			l_apegar='  ▪  '+dw_1.getitemstring(li,'antecedentes')+'  - Parentesco:'+dw_1.getitemstring(li,'despar')+'~r~n'
+		end if
+		if dw_1.getitemstring(li,'qx')='1' then
+			l_apegar='  ▪  '+string(dw_1.getitemdatetime(li,'fecha_dx'),'dd/mm/yyyy')+'  '+dw_1.getitemstring(li,'antecedentes')+'~r~n'
+		end if
+		if dw_1.getitemstring(li,'md')='1' then
+			l_apegar='  ▪  '+'  '+dw_1.getitemstring(li,'antecedentes')+' Dósis '+dw_1.getitemstring(li,'dosificacion')+'~r~n'
+		end if	
+		if dw_1.getitemstring(li,'thospi')='1' then
+			l_fila=ihosp.find("cod='"+dw_1.getitemstring(li,'hospi')+"'",1,ihosp.rowcount())
+			l_apegar='  ▪  '+string(dw_1.getitemdatetime(li,'fecha'),'dd/mm/yyyy') +' SERVICIO: '+ihosp.getitemstring(l_fila,'nom')+'  Días de Estancia:'+string(dw_1.getitemnumber(li,'numero'))
+			 if long(dw_1.getitemstring(li,'uaño'))>0 then 
+				l_apegar=l_apegar+	' En el Ultimo año:'+dw_1.getitemstring(li,'uaño')
+			end if
+			if l_fila>0 then 
+				l_apegar=l_apegar+' Causa: '+	dw_1.getitemstring(li,'antecedentes')
+			end if
+			l_apegar=l_apegar+	'~r~n'
+		end if		
+		if dw_1.getitemstring(li,'tdx')<>'1' and dw_1.getitemstring(li,'fm')<>'1' and dw_1.getitemstring(li,'qx')<>'1' and dw_1.getitemstring(li,'md')<>'1' and dw_1.getitemstring(li,'thospi')<>'1'  then
+			l_apegar='  ▪  '+string(dw_1.getitemdatetime(li,'fecha'),'dd/mm/yyyy')+dw_1.getitemstring(li,'antecedente')+'~r~n'
+		end if
+		
+		if dw_1.getitemstring(li,'trans')='1' then
+			CHOOSE CASE dw_1.getitemstring(li,'hemod')
+				case 'GR'  
+					ls_ttx ='GLÓBULOS ROJOS'
+				case 'PQ'  
+					ls_ttx ='PLAQUETAS'
+				case 'ST'  
+					ls_ttx ='SANGRE TOTAL'
+				case 'PF'  
+					ls_ttx ='PLASMA FRESCO'
+				case 'OT'  
+					ls_ttx ='OTROS	'		
+			END CHOOSE
+			CHOOSE CASE dw_1.getitemstring(li,'causat')
+				case 'AN'  
+					ls_ctx ='ANEMIA'
+				case 'LE'  
+					ls_ctx ='LEUCEMIA'
+				case 'HO'  
+					ls_ctx ='HEMORRAGIA OBSTÉTRICA'
+				case 'HU'  
+					ls_ctx ='HEMORRAGIA UTERINA ANORMAL'
+				case 'DG'  
+					ls_ctx='DENGUE'		
+				case 'PU'  
+					ls_ctx='PÚRPURA	'						
+			END CHOOSE		
+			l_apegar='  ▪  '+string(dw_1.getitemdatetime(li,'fecha'),'dd/mm/yyyy')+' Hemocomponente '+ls_ttx+' UND '+string(dw_1.getitemnumber(li,'numero'))+' Motivo '+ls_ctx+'~r~n'
+		end if	
+		
+		if dw_1.getitemstring(li,'genix')='1' then
+			setnull(ls_ttx )
+			CHOOSE CASE dw_1.getitemstring(li,'geni')		
+				case 'HF'  
+					ls_ttx ='HEMOFILIA'
+				case 'TC'  
+					ls_ttx ='TRASTORNOS DE COAGULACIÓN'
+				case 'AF'  
+					ls_ttx ='ANEMIA FALCIFORME'
+				case 'TL'  
+					ls_ttx ='TALASEMIA'
+				case 'SD'  
+					ls_ttx ='SÍNDROME DE DOWN'
+				case 'RM'  
+					ls_ttx ='RETRASO MENTAL'	
+				case 'OC'  
+					ls_ttx ='OTRAS CROMOSOPATÍAS'	
+				case 'TY'  
+					ls_ttx ='ENFERMEDAD DE TAY-SACHS'
+				case 'DM'  
+					ls_ttx ='DISTROFIA MUSCULAR'
+				case 'FQ'  
+					ls_ttx ='FIBROSIS QUÍSTICA'								
+			END CHOOSE
+			
+			setnull(ls_ctx)
+			CHOOSE CASE dw_1.getitemstring(li,'quien')
+				case 'S'  
+					ls_ctx ='Ella'
+				case 'H'  
+					ls_ctx ='El'
+				case 'FS'  
+					ls_ctx ='Familia de Ella'			
+				case 'FH'  
+					ls_ctx ='Familia de El'					
+			END CHOOSE	
+			l_apegar='  ▪   Antecedente: '+ls_ttx
+			
+			
+			CHOOSE CASE dw_1.getitemstring(li,'rta')
+				case '1'  
+					l_apegar=l_apegar+'  Si Quien:'+ls_ctx+'~r~n'
+				case '0'  
+					l_apegar=l_apegar+'  No'+'~r~n'
+				case '2'  
+					l_apegar=l_apegar+'  No Refiere'+'~r~n'	
+			END CHOOSE	
+		end if
+		mle_1.text+=l_apegar
+	next
+	dw_1.setfilter('')
+	dw_1.filter()
+else
+	dw_1.setfilter("realizado ='1' or realizado ='2'")
+	dw_1.filter()
+	for li=1 to dw_1.rowcount()
+		l_apegar='  ▪  '+	dw_1.getitemstring(li,'descripcion')+ ' '+dw_1.getitemstring(li,'dosis')+' '+string(dw_1.getitemdatetime(li,'fechavac'),'dd/mm/yyyy')+'~r~n'
+		mle_1.text+=l_apegar
+	next
+	dw_1.setfilter('')
+	dw_1.filter()	
+end if
+dw_1.SetRedraw(true)
+i_st.mle.text=(mle_1.text)
+close(f_vent_padre(this))
+
+end event
+
 type pb_gua from picturebutton within t1
 integer x = 4046
 integer y = 308

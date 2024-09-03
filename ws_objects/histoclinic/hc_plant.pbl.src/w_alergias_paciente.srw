@@ -283,7 +283,6 @@ for li=1 to dw_1.rowcount()
 		if lx=1 then
 			if dw_1.getitemnumber(li,'sumas')>=1 then
 				l_apegar=dw_1.getitemstring(li,'ta_desp_tipo')+'~r~n'
-				//f_pega_a_mle(mle_1,l_apegar,2)
 				mle_1.text+=l_apegar
 			end if
 		end if
@@ -291,7 +290,6 @@ for li=1 to dw_1.rowcount()
 	else
 		ltipo= dw_1.getitemstring(li,'ta_desp_tipo')
 		l_apegar='~r~n'+dw_1.getitemstring(li,'ta_desp_tipo')+'~r~n'
-		//f_pega_a_mle(mle_1,l_apegar,2)
 		mle_1.text+=l_apegar
 		lx=2
 	end if
