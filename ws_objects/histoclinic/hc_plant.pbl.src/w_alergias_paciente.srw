@@ -177,7 +177,7 @@ If messageBox('Atención','Está seguro de querer eliminar definitivamente el an
 
 st_xa_anular st_anula
 datetime fec_anu
-double ldb_item
+double ldb_item,ldb_sitem
 string ls_codtipo,ls_codale
 
 st_anula.tipo='AH'
@@ -190,18 +190,18 @@ ls_codtipo=dw_1.getitemstring(dw_1.getrow(),'cod_tipo')
 ls_codale=dw_1.getitemstring(dw_1.getrow(),'cod_alergia')
 
 
-select item into :ldb_item
+select item into :ldb_sitem
 from pacientes_alergias_elimina
 where tipodoc=:tipdoc and documento=:docu and cod_tipoa=:i_st.c_otro and cod_tipo=:ls_codtipo and cod_alergia=:ls_codale;
 
-if isnull(ldb_item) then
-	ldb_item=0
+if isnull(ldb_sitem) then
+	ldb_sitem=0
 end if
 
-ldb_item++
+ldb_sitem++
 
 insert into pacientes_alergias_elimina ( tipodoc, documento, cod_tipoa, cod_tipo, cod_alergia,item, fecha, cprof, tipo, texto, sino, numero, fecha_cap, parentesco, cod_atc, fecha_anula, motiv_anula, usu_anula, cod_anula )
-select tipodoc, documento, cod_tipoa, cod_tipo, cod_alergia,:ldb_item, fecha, cprof, tipo, texto, sino, numero, fecha_cap, parentesco, cod_atc, :fec_anu,:st_anula.observacion,:usuario,:st_anula.motivo
+select tipodoc, documento, cod_tipoa, cod_tipo, cod_alergia,:ldb_sitem, fecha, cprof, tipo, texto, sino, numero, fecha_cap, parentesco, cod_atc, :fec_anu,:st_anula.observacion,:usuario,:st_anula.motivo
 from pacientes_alergias
 where tipodoc=:tipdoc and documento=:docu and cod_tipoa=:i_st.c_otro and cod_tipo=:ls_codtipo and cod_alergia=:ls_codale;
 if sqlca.sqlcode=-1 then
