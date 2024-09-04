@@ -212,8 +212,6 @@ type dw_pag from datawindow within w_teso_cartera
 end type
 type hpb_1 from hprogressbar within w_teso_cartera
 end type
-type dw_gloa from datawindow within w_teso_cartera
-end type
 type pb_7 from picturebutton within w_teso_cartera
 end type
 type dw_nc from datawindow within w_teso_cartera
@@ -222,12 +220,14 @@ type dw_detc from datawindow within w_teso_cartera
 end type
 type dw_electronica from uo_datawindow within w_teso_cartera
 end type
+type dw_gloa from datawindow within w_teso_cartera
+end type
 end forward
 
 global type w_teso_cartera from w_center
 string tag = "Realizó cambios a un Cobro, desea guardarlos ?"
 integer width = 6903
-integer height = 2528
+integer height = 2752
 string title = "Cartera - Movimientos"
 boolean maxbox = false
 boolean resizable = false
@@ -254,11 +254,11 @@ st_7 st_7
 st_8 st_8
 dw_pag dw_pag
 hpb_1 hpb_1
-dw_gloa dw_gloa
 pb_7 pb_7
 dw_nc dw_nc
 dw_detc dw_detc
 dw_electronica dw_electronica
+dw_gloa dw_gloa
 end type
 global w_teso_cartera w_teso_cartera
 
@@ -725,11 +725,11 @@ this.st_7=create st_7
 this.st_8=create st_8
 this.dw_pag=create dw_pag
 this.hpb_1=create hpb_1
-this.dw_gloa=create dw_gloa
 this.pb_7=create pb_7
 this.dw_nc=create dw_nc
 this.dw_detc=create dw_detc
 this.dw_electronica=create dw_electronica
+this.dw_gloa=create dw_gloa
 iCurrent=UpperBound(this.Control)
 this.Control[iCurrent+1]=this.gb_1
 this.Control[iCurrent+2]=this.st_1
@@ -750,11 +750,11 @@ this.Control[iCurrent+16]=this.st_7
 this.Control[iCurrent+17]=this.st_8
 this.Control[iCurrent+18]=this.dw_pag
 this.Control[iCurrent+19]=this.hpb_1
-this.Control[iCurrent+20]=this.dw_gloa
-this.Control[iCurrent+21]=this.pb_7
-this.Control[iCurrent+22]=this.dw_nc
-this.Control[iCurrent+23]=this.dw_detc
-this.Control[iCurrent+24]=this.dw_electronica
+this.Control[iCurrent+20]=this.pb_7
+this.Control[iCurrent+21]=this.dw_nc
+this.Control[iCurrent+22]=this.dw_detc
+this.Control[iCurrent+23]=this.dw_electronica
+this.Control[iCurrent+24]=this.dw_gloa
 end on
 
 on w_teso_cartera.destroy
@@ -778,11 +778,11 @@ destroy(this.st_7)
 destroy(this.st_8)
 destroy(this.dw_pag)
 destroy(this.hpb_1)
-destroy(this.dw_gloa)
 destroy(this.pb_7)
 destroy(this.dw_nc)
 destroy(this.dw_detc)
 destroy(this.dw_electronica)
+destroy(this.dw_gloa)
 end on
 
 event timer;call super::timer;if i_fila=dw_hist.getrow() then return
@@ -4236,23 +4236,6 @@ unsignedinteger position = 50
 integer setstep = 10
 end type
 
-type dw_gloa from datawindow within w_teso_cartera
-boolean visible = false
-integer x = 2862
-integer y = 988
-integer width = 229
-integer height = 112
-integer taborder = 130
-boolean bringtotop = true
-string title = "none"
-string dataobject = "dw_objeini_archivo"
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event constructor;settransobject(sqlca)
-end event
-
 type pb_7 from picturebutton within w_teso_cartera
 integer x = 4338
 integer y = 560
@@ -4322,4 +4305,20 @@ integer taborder = 60
 boolean bringtotop = true
 string dataobject = "asis_int_factura_ele_cap"
 end type
+
+type dw_gloa from datawindow within w_teso_cartera
+integer x = 2862
+integer y = 988
+integer width = 2409
+integer height = 444
+integer taborder = 130
+boolean bringtotop = true
+string title = "none"
+string dataobject = "dw_objeini_archivo"
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event constructor;settransobject(sqlca)
+end event
 
