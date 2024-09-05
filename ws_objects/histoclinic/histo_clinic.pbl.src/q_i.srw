@@ -195,7 +195,7 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 long textcolor = 33554432
-string text = "06"
+string text = "01"
 borderstyle borderstyle = stylelowered!
 end type
 
@@ -212,12 +212,11 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 long textcolor = 33554432
-string text = "52706"
+string text = "550"
 borderstyle borderstyle = stylelowered!
 end type
 
 type cb_5 from commandbutton within q_i
-boolean visible = false
 integer x = 101
 integer y = 324
 integer width = 402
@@ -833,195 +832,10 @@ string facename = "Tahoma"
 string text = "none"
 end type
 
-event clicked;nvo_generic_ole_object loo_Glob
-int li_rc , li_Success , li_Status
-
-loo_Glob = create nvo_generic_ole_object
-li_rc = loo_Glob.ConnectToNewObject("Chilkat_9_5_0.Global")
-if li_rc < 0 then
-    destroy loo_Glob
-    MessageBox("Error of_desbloquear_chilkat","Connecting to COM object failed: Chilkat_9_5_0.Global")
-    return -1
-end if
-li_Success = loo_Glob.UnlockBundle("Anything for 30-day trial")
-if li_Success <> 1 then
-    messagebox("Error de desbloqueo de ChilKat_9.5.0", string(loo_Glob.LastErrorText))
-    destroy loo_Glob
-    return -1
-end if
-
-li_Status = loo_Glob.UnlockStatus
-if li_Status = 2 then
-  //  messagebox("Estado Desbloqueo", "Unlocked using purchased unlock code.")
-else
-  //   messagebox("Estado Desbloqueo", "Unlocked in trial mode.")
-end if
-
-destroy loo_Glob
-return 1
-
-
-
-//dw_2.importFile(XML!,'C:\Gci_2021\Fact_xml\fv08060103050002300003430_test_ret.xml')
-//dw_2.sort()		
-//dw_2.SaveAs("C:\Temp.xls", Excel!, true)
-//dw_2.SaveAs("C:\Temp.xml", Xml!, true)
-
-
-//dw_facturas_envio
-//dw_facturas_envio_e1
-//asis_int_factura_ele
-string entrada, salida,ls_asun,ls_cpo, as_tipo='f'
-/*string is_server_email,is_cuenta_email,is_clave_email,is_ssl, is_tls,is_cuenta_email1,is_nombre_lugar
-string docnm='FV', cl,is_ruta_facturas
-string as_tipofac='F'
-double jaer,ii_puerto_email,as_nfact
-
-int li_rc , li_Success,ciclo
-string ls_ojo
-nvo_generic_ole_object loo_Mailman , loo_Email
-
-dw_1.retrieve()
-for ciclo=1 to dw_1.rowcount()
-	as_nfact=dw_1.getitemnumber(ciclo,'nfact')
-	cl=dw_1.getitemstring(ciclo,'clugar')
-	is_ruta_facturas='\\10.10.20.45\esehlci2022\Gci\Fact_xml\'+dw_1.getitemstring(ciclo,'file_name_zip_anul')
-
-	//evento
-	//	ads_datos.retrieve(as_nfact,'1',cl,as_tipofac)
-	//capita
-	ads_datos.retrieve(as_nfact,cl,as_tipofac)
-
-	if ads_datos.rowcount()>0 then		
-		loo_Mailman = create nvo_generic_ole_object
-		li_rc = loo_Mailman.ConnectToNewObject("Chilkat_9_5_0.MailMan")
-		if li_rc < 0 then
-			 destroy loo_Mailman
-			 MessageBox("Error","Connecting to COM object failed")
-			 return -1
-		end if
-		
-		select servidor, puerto, usuario, clave,autentica,conexion,usuario_adc
-		into :is_server_email,:ii_puerto_email,:is_cuenta_email,:is_clave_email,:is_ssl, :is_tls,:is_cuenta_email1
-		from documentos
-		where (((coddoc)=:docnm) and ((clugar)=:cl));
-		
-		
-		/*is_server_email='smtp.office365.com'
-		ii_puerto_email=587
-		is_cuenta_email='jespinr@gcicolombia.com'
-		is_clave_email='Gal27795p*'
-		is_ssl='1'
-		is_tls='0'*/
-		
-		is_nombre_lugar='EMPRESA SOCIAL DEL ESTADO -ESE- HOSPITAL LOCAL CARTAGENA DE INDIAS'
-		is_clave_email=f_descripta_new(is_clave_email,'1')
-		
-		loo_Mailman = create nvo_generic_ole_object
-		li_rc = loo_Mailman.ConnectToNewObject("Chilkat_9_5_0.MailMan")
-		if li_rc < 0 then
-			 destroy loo_Mailman
-			 MessageBox("Error","Connecting to COM object failed")
-			 return -1
-		end if
-		
-		// Set the SMTP server.
-		loo_Mailman.SmtpHost = is_server_email// "smtp.gmail.com"
-		
-		loo_Mailman.SmtpUsername = is_cuenta_email//"mySmtpLogin"
-		loo_Mailman.SmtpPassword = is_clave_email//"myPassword"
-		loo_Mailman.SmtpPort = ii_puerto_email
-		loo_Mailman.SmtpSsl = 1
-		//loo_Mailman.StartTLS =true
-		
-		// Create a new email object
-		loo_Email = create nvo_generic_ole_object
-		li_rc = loo_Email.ConnectToNewObject("Chilkat_9_5_0.Email")
-		
-		ls_asun=ads_datos.getitemstring(1,"ips_nit")+';'
-		ls_asun+=is_nombre_lugar+';'
-		ls_asun+=ads_datos.getitemstring(1,"ls_numfact")+';'
-		ls_asun=ads_datos.getitemstring(1,"ips_nit")+';'+is_nombre_lugar+';'+ads_datos.getitemstring(1,"ls_numfact")+';'
-		if as_tipo='f' then
-			ls_asun+='01'
-		end if
-		if as_tipo='a' then
-			ls_asun+= '91'
-		end if
-		ls_asun+=';'+is_nombre_lugar
+event clicked;	nvo_fevrips u_rips
 	
-		loo_Email.Subject = ls_asun
-		
-		ls_cpo="Señores:~r~n"+ads_datos.getitemstring(1,"razon_social")+"~r~n"
-		ls_cpo+="NIT/CC"+ads_datos.getitemstring(1,"ls_nit")+"~r~n~r~n"
-		if as_tipo='f' then
-			ls_cpo+="Les informamos ha recibido un documento de Factura Electronica de venta emitida por "+is_nombre_lugar
-		end if
-		if as_tipo='a' then
-			ls_cpo= "Les informamos ha recibido un documento Nota Credito factura de venta emitida por "+is_nombre_lugar+".~r~n~r~nFeliz día."
-		end if
-		ls_cpo+=" Numero de documento "+ads_datos.getitemstring(1,"ls_numfact")+"~r~n~r~n"
-		
-		if as_tipo='f' then
-			ls_cpo+= "Fecha de Emisión "+string(ads_datos.getitemdatetime(1,"fecha_factura"),'yyyy-mm-dd')+"~r~n~r~n"
-			ls_cpo+= "Valor "+string(ads_datos.getitemnumber(1,'vtemp'),"##,##0.00")+"~r~n~r~n"
-		end if
-		ls_cpo+='-----------------------------------------------------------------------------------'+"~r~n~r~n"
-		ls_cpo+='Este es un sistema automático de aviso, por favor no responda este mensaje'+"~r~n~r~n"
-		ls_cpo+='-----------------------------------------------------------------------------------'+"~r~n~r~n"
-		
-		loo_Email.Body =ls_cpo
-		loo_Email.From = is_nombre_lugar+" <"+is_cuenta_email+">"
-		li_Success = loo_Email.AddTo(ads_datos.getitemstring(1,"razon_social"),ads_datos.getitemstring(1,"email_cliente"))
-		li_Success = loo_Email.AddTo('Copia',is_cuenta_email1)
-		
-		loo_Email.AddFileAttachment(is_ruta_facturas)
-		if loo_Email.LastMethodSuccess <> 1 then
-			messagebox("Error adjuntando archivo of_enviar_correo",string( loo_Mailman.LastErrorText))
-			 destroy loo_Mailman
-			 destroy loo_Email
-			 return -1
-		end if
-		
-		li_Success = loo_Mailman.SendEmail(loo_Email)
-		if li_Success <> 1 then
-			 messagebox("Error Enviando Correo of_enviar_correo",string( loo_Mailman.LastErrorText))
-			 destroy loo_Mailman
-			 destroy loo_Email
-			 return -1
-		end if
-		
-		li_Success = loo_Mailman.CloseSmtpConnection()
-		if li_Success <> 1 then
-			 messagebox("Error cerrando conexion a correo", "Connection to SMTP server not closed cleanly.")
-		end if
-		
-		destroy loo_Mailman
-		destroy loo_Email
-	end if
-next
-
-
- messagebox("Listo", "listo")*/
-
-
-//
-//
-blob ent
-
-selectblob long_texto  into :ent from HCLIN_REG_VALOR
-where CONTADOR=112128 and CLUGAR='05' and NREGISTRO=1 and item=48;
-
-//selectblob resumeningreso  into :ent from evolucionhc
-//where CONTADOR=1924 and CLUGAR='71'  ;
-//selectblob AGRUPA_HISTORIA  into :ent from tipoingreso
-//where CODTINGRE='2' ;
-
-entrada=string(ent)
-mle_1.text=entrada
-salida=f_rtf_a_txt(entrada)
-//mle_2.text=f_encripta_sha('1650000','SHA3-512')
-mle_2.text=salida
-////
+	u_rips=create nvo_fevrips
+	u_rips.LoginSispro('2','CC','9298274','Giselle08+','806010305')
+	destroy 	u_rips
 end event
 
