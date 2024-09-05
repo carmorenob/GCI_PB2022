@@ -1426,7 +1426,7 @@ end event
 type gb_4 from groupbox within tabpage_1
 integer x = 78
 integer y = 980
-integer width = 4055
+integer width = 4585
 integer height = 644
 integer taborder = 80
 integer textsize = -8
