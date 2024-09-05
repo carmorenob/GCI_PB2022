@@ -315,7 +315,7 @@ end type
 end forward
 
 global type win_regis_pac from window
-integer width = 4805
+integer width = 5111
 integer height = 2492
 boolean titlebar = true
 string title = "Datos generales paciente"
@@ -821,7 +821,7 @@ end event
 
 type ole_1 from olecustomcontrol within win_regis_pac
 boolean visible = false
-integer x = 4526
+integer x = 4850
 integer y = 48
 integer width = 128
 integer height = 112
@@ -840,7 +840,7 @@ end type
 
 type p_foto_org from picture within win_regis_pac
 boolean visible = false
-integer x = 4507
+integer x = 4832
 integer y = 172
 integer width = 133
 integer height = 80
@@ -850,7 +850,7 @@ boolean focusrectangle = false
 end type
 
 type pb_9 from picturebutton within win_regis_pac
-integer x = 4361
+integer x = 4686
 integer y = 324
 integer width = 146
 integer height = 128
@@ -870,7 +870,7 @@ event clicked;ole_1.object.TwainSelectSource()
 end event
 
 type pb_8 from picturebutton within win_regis_pac
-integer x = 4361
+integer x = 4686
 integer y = 172
 integer width = 146
 integer height = 128
@@ -932,7 +932,7 @@ End If
 end event
 
 type pb_7 from picturebutton within win_regis_pac
-integer x = 4361
+integer x = 4686
 integer y = 32
 integer width = 146
 integer height = 128
@@ -992,7 +992,7 @@ end if
 end event
 
 type p_foto from picture within win_regis_pac
-integer x = 3726
+integer x = 4050
 integer y = 20
 integer width = 617
 integer height = 408
@@ -1107,7 +1107,7 @@ end event
 type dw_2 from datawindow within win_regis_pac
 integer x = 50
 integer y = 100
-integer width = 3621
+integer width = 3886
 integer height = 324
 integer taborder = 40
 string dragicon = "none!"
@@ -1136,7 +1136,7 @@ event mousemove pbm_mousemove
 event mover ( )
 integer x = 23
 integer y = 460
-integer width = 4489
+integer width = 4951
 integer height = 1772
 integer taborder = 20
 string dragicon = "none!"
@@ -1208,7 +1208,7 @@ type tabpage_1 from userobject within tab_1
 event mousemove pbm_mousemove
 integer x = 18
 integer y = 112
-integer width = 4453
+integer width = 4914
 integer height = 1644
 string dragicon = "none!"
 long backcolor = 67108864
@@ -1268,7 +1268,7 @@ end type
 
 type pb_ayuda from picturebutton within tabpage_1
 boolean visible = false
-integer x = 4251
+integer x = 4704
 integer y = 392
 integer width = 146
 integer height = 128
@@ -1287,7 +1287,7 @@ string powertiptext = "Ayuda sobre como crear Pacientes [Alt+Y]"
 end type
 
 type pb_refresh from picturebutton within tabpage_1
-integer x = 4251
+integer x = 4704
 integer y = 252
 integer width = 146
 integer height = 128
@@ -1309,7 +1309,7 @@ event clicked;sle_1.triggerevent(modified!)
 end event
 
 type cb_guarda from picturebutton within tabpage_1
-integer x = 4251
+integer x = 4704
 integer y = 108
 integer width = 146
 integer height = 128
@@ -1341,7 +1341,7 @@ type dw_1 from datawindow within tabpage_1
 event mousemove pbm_mousemove
 integer x = 32
 integer y = 120
-integer width = 4178
+integer width = 4663
 integer height = 856
 integer taborder = 20
 string dragicon = "none!"
@@ -1458,7 +1458,7 @@ type tab_afilia from userobject within tab_1
 event mousemove pbm_mousemove
 integer x = 18
 integer y = 112
-integer width = 4453
+integer width = 4914
 integer height = 1644
 string dragicon = "none!"
 long backcolor = 79741120
@@ -1510,7 +1510,7 @@ end on
 type dw_req from datawindow within tab_afilia
 integer x = 101
 integer y = 272
-integer width = 3973
+integer width = 4731
 integer height = 392
 integer taborder = 80
 string title = "none"
@@ -1532,7 +1532,7 @@ event create ( )
 event destroy ( )
 integer x = 46
 integer y = 728
-integer width = 4219
+integer width = 4850
 integer height = 896
 integer taborder = 70
 integer textsize = -8
@@ -1566,7 +1566,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 4183
+integer width = 4814
 integer height = 768
 long backcolor = 79741120
 string text = "EAPB Actual"
@@ -1603,7 +1603,7 @@ destroy(this.dw_emppacg)
 end on
 
 type pb_3 from picturebutton within tabpage_8
-integer x = 3982
+integer x = 4645
 integer y = 428
 integer width = 146
 integer height = 128
@@ -1625,7 +1625,7 @@ event clicked;ShowHelp(dir_insta+"Gciltda.hlp", keyword!,"Afiliación del Pacien
 end event
 
 type pb_1 from picturebutton within tabpage_8
-integer x = 3982
+integer x = 4645
 integer y = 292
 integer width = 146
 integer height = 128
@@ -1708,7 +1708,7 @@ end if
 end event
 
 type cb_save from picturebutton within tabpage_8
-integer x = 3982
+integer x = 4645
 integer y = 160
 integer width = 146
 integer height = 128
@@ -1746,7 +1746,7 @@ tab_1.tab_afilia.cbx_act.triggerevent(clicked!)
 end event
 
 type cb_dele from picturebutton within tabpage_8
-integer x = 3982
+integer x = 4645
 integer y = 28
 integer width = 146
 integer height = 128
@@ -1780,6 +1780,13 @@ if cuantos>0 then
 	messagebox("Atención","El paciente tiene con esta empresa y contrato un ingreso en Hospitalización y/o Urgencias activo, no puede borrar este contrato. Para borrarlo debe cambiar el responsable de la admisión.")
 	return
 end if
+select count(cemp) into :cuantos from factcpo where tipodoc=:tipdoc and documento=:docu and cemp=:emp and  ccontrato=:cont;
+if cuantos>0 then
+	messagebox("Atención","El paciente tiene con esta empresa y contrato Servicios Fcaturados , no puede borrar este contrato. Para borrarlo debe cambiar el responsable de la admisión.")
+	return
+end if
+
+
 cuantos=tab_1.tab_afilia.dw_serv.retrieve(tipdoc,docu,emp,cont)
 if cuantos>0 then
 	tab_1.tab_afilia.dw_esco.retrieve(tipdoc,docu,emp,cont)
@@ -1816,7 +1823,7 @@ end event
 type dw_emppacg from datawindow within tabpage_8
 integer x = 50
 integer y = 28
-integer width = 3854
+integer width = 4581
 integer height = 704
 integer taborder = 70
 string title = "none"
@@ -1834,7 +1841,7 @@ end event
 type tabpage_6 from userobject within tab_3
 integer x = 18
 integer y = 112
-integer width = 4183
+integer width = 4814
 integer height = 768
 long backcolor = 79741120
 string text = "Arbol de Servicios"
@@ -1859,7 +1866,7 @@ destroy(this.dw_tree)
 end on
 
 type pb_exp from picturebutton within tabpage_6
-integer x = 4009
+integer x = 4613
 integer y = 32
 integer width = 146
 integer height = 128
@@ -1884,7 +1891,7 @@ end event
 type dw_tree from datawindow within tabpage_6
 integer x = 82
 integer y = 28
-integer width = 3904
+integer width = 4489
 integer height = 708
 integer taborder = 50
 string title = "none"
@@ -1925,8 +1932,8 @@ tab_1.tab_afilia.tab_3.tabpage_8.dw_emppacg.filter()
 end event
 
 type cb_inser from picturebutton within tab_afilia
-integer x = 4087
-integer y = 80
+integer x = 4681
+integer y = 92
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -1999,8 +2006,8 @@ end event
 
 type dw_esco from datawindow within tab_afilia
 boolean visible = false
-integer x = 4288
-integer y = 964
+integer x = 4677
+integer y = 816
 integer width = 155
 integer height = 108
 integer taborder = 50
@@ -2035,7 +2042,7 @@ type dw_empac from datawindow within tab_afilia
 event mousemove pbm_mousemove
 integer x = 96
 integer y = 92
-integer width = 4005
+integer width = 4229
 integer height = 144
 integer taborder = 50
 string dragicon = "none!"
@@ -2089,7 +2096,7 @@ end event
 type gb_1 from groupbox within tab_afilia
 integer x = 46
 integer y = 16
-integer width = 4215
+integer width = 4837
 integer height = 692
 integer taborder = 20
 integer textsize = -8
@@ -2106,7 +2113,7 @@ type tabpage_2 from userobject within tab_1
 event mousemove pbm_mousemove
 integer x = 18
 integer y = 112
-integer width = 4453
+integer width = 4914
 integer height = 1644
 string dragicon = "none!"
 long backcolor = 67108864
@@ -2260,7 +2267,7 @@ type dw_3 from datawindow within tabpage_2
 event mousemove pbm_mousemove
 integer x = 59
 integer y = 96
-integer width = 4357
+integer width = 4791
 integer height = 1260
 integer taborder = 40
 string dragicon = "none!"
@@ -2339,7 +2346,7 @@ type tabpage_3 from userobject within tab_1
 event mousemove pbm_mousemove
 integer x = 18
 integer y = 112
-integer width = 4453
+integer width = 4914
 integer height = 1644
 string dragicon = "none!"
 long backcolor = 67108864
@@ -2603,7 +2610,7 @@ type tabpage_4 from userobject within tab_1
 event mousemove pbm_mousemove
 integer x = 18
 integer y = 112
-integer width = 4453
+integer width = 4914
 integer height = 1644
 long backcolor = 79741120
 string text = "Ubicación"
@@ -2892,7 +2899,7 @@ end event
 type biometria from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 4453
+integer width = 4914
 integer height = 1644
 long backcolor = 79741120
 string text = "Biometria"
@@ -3072,7 +3079,7 @@ end event
 type log_es from listbox within biometria
 integer x = 2071
 integer y = 576
-integer width = 1344
+integer width = 2153
 integer height = 460
 integer taborder = 30
 integer textsize = -8
@@ -3119,7 +3126,7 @@ end type
 type mle_1 from multilineedit within biometria
 integer x = 2071
 integer y = 100
-integer width = 1344
+integer width = 2194
 integer height = 316
 integer taborder = 30
 integer textsize = -8
@@ -3144,7 +3151,7 @@ event mostrar_fotos ( )
 boolean visible = false
 integer x = 18
 integer y = 112
-integer width = 4453
+integer width = 4914
 integer height = 1644
 boolean enabled = false
 long backcolor = 67108864
@@ -3918,7 +3925,7 @@ end event
 type cambios from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 4453
+integer width = 4914
 integer height = 1644
 long backcolor = 79741120
 string text = "Cambios Documento"
@@ -3951,7 +3958,7 @@ destroy(this.dw_cambio)
 end on
 
 type pb_5 from picturebutton within cambios
-integer x = 3785
+integer x = 4741
 integer y = 216
 integer width = 146
 integer height = 128
@@ -3975,7 +3982,7 @@ commit;
 end event
 
 type pb_4 from pb_report within cambios
-integer x = 3785
+integer x = 4741
 integer y = 352
 integer taborder = 90
 string powertiptext = "INCOSNISTENCIA BASE DE DATOS"
@@ -3996,7 +4003,7 @@ imprimir(par,'','0')
 end event
 
 type pb_2 from picturebutton within cambios
-integer x = 3781
+integer x = 4736
 integer y = 76
 integer width = 146
 integer height = 128
@@ -4033,7 +4040,7 @@ end event
 type dw_cambio from datawindow within cambios
 integer x = 82
 integer y = 68
-integer width = 3680
+integer width = 4622
 integer height = 1392
 integer taborder = 110
 string dataobject = "dw_pacientes_cambio"
@@ -4047,7 +4054,7 @@ end event
 type docs from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 4453
+integer width = 4914
 integer height = 1644
 long backcolor = 79741120
 string text = "Documentos"
@@ -4288,7 +4295,7 @@ end event
 
 type gb_3 from groupbox within win_regis_pac
 integer x = 23
-integer width = 3662
+integer width = 3973
 integer height = 440
 integer taborder = 30
 integer textsize = -9
