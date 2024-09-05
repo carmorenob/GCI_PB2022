@@ -22,18 +22,19 @@ table(column=(type=char(7) updatewhereclause=yes name=codsuper dbname="tipoident
  column=(type=char(60) updatewhereclause=yes name=nombre2 dbname="tipoidentificacion.nombre2" )
  column=(type=char(3) updatewhereclause=yes name=pais dbname="pais" )
  retrieve="SELECT DISTINCT
-	empresa.CodSuper, factcpo.TipoDoc, factcpo.Documento, pacientes.TU, 
+	empresa.CodSuper, factcpo.TipoDoc, factcpo.Documento, tipousuario.c3374 as TU, 
 	emppac.codta, ocupaciones.codigo, 
 	pacientes.FNacimiento, pacientes.Sexo, pacientes.CDepto, pacientes.CCiudad, 
 	pacientes.ZonaR,pacientes.Apellido1, pacientes.Apellido2, pacientes.Nombre1, pacientes.Nombre2, 
 	case when tipoidentificacion.pais='1' then  pacientes.pais else null end as pais 
 FROM 
-	(((((factcab 
+	((((((factcab 
 	INNER JOIN factcpo ON (factcab.TIPO = factcpo.TIPO) AND (factcab.clugar = factcpo.clugar) AND (factcab.NFact = factcpo.NFact)) 
 	INNER JOIN pacientes ON (factcpo.Documento = pacientes.Documento) AND (factcpo.TipoDoc = pacientes.TipoDoc)) 
 	INNER JOIN empresa ON factcab.CEmp = empresa.CodEmp) LEFT JOIN ocupaciones ON pacientes.codocup = ocupaciones.todo) 
 	LEFT JOIN emppac ON (factcpo.tipodoc = emppac.tipodoc) AND (factcpo.documento = emppac.documento) AND (factcpo.cemp = emppac.codemp) AND (factcpo.ccontrato = emppac.codcontrato)) 
-	INNER JOIN tipoidentificacion ON pacientes.TIPODOC = tipoidentificacion.CODTIPOIDENT
+	INNER JOIN tipoidentificacion ON pacientes.TIPODOC = tipoidentificacion.CODTIPOIDENT) 
+	INNER JOIN tipousuario ON pacientes.tu = tipousuario.tipousuario
 WHERE 
 	(((factcab.nradica)=:num_radica) AND ((factcab.clugar_rad)=:clugar_rad)  AND ((factcab.tipo_rad)=:tipo_rad) AND ((factcab.estado) Is Null))" arguments=(("num_radica", number),("fecha_fin", datetime),("clugar_rad", string),("tipo_rad", string))  sort="tipodoc A documento A " )
 text(band=header alignment="2" text="Codsuper" border="0" color="33554432" x="9" y="8" height="64" width="251" html.valueishtml="0"  name=codsuper_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
@@ -85,4 +86,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=0 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 

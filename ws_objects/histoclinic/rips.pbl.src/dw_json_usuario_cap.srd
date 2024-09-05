@@ -42,11 +42,11 @@ FROM
 				'I'
 			END 
 		END sexo,
-		paises.cod_pais AS pais, ciudades.codciudad, departamentos.coddepar, pacientes.zonar, Null AS incapacidad,
-		paises_1.cod_pais as paisorg,
+		paises.iso_num AS pais, ciudades.codciudad, departamentos.coddepar, zonaresi.znv2 as zonar, Null AS incapacidad,
+		paises_1.iso_num as paisorg,
 		factcab.nradica, factcab.clugar_rad, factcab.tipo_rad
 	FROM 
-		((((((((factcab 
+		(((((((((factcab 
 		INNER JOIN factcpo ON (factcab.tipo = factcpo.tipo) AND (factcab.clugar = factcpo.clugar) AND (factcab.nfact = factcpo.nfact)) 
 		INNER JOIN contratos ON (factcpo.ccontrato = contratos.codcontrato) AND (factcpo.cemp = contratos.codemp)) 
 		INNER JOIN empresa ON contratos.codemp = empresa.codemp) 
@@ -55,7 +55,8 @@ FROM
 		INNER JOIN departamentos ON pacientes.cdepto = departamentos.coddepar) 
 		INNER JOIN ciudades ON (pacientes.cciudad = ciudades.codciudad) AND (pacientes.cdepto = ciudades.cdepto)) 
 		INNER JOIN paises ON departamentos.cod_pais = paises.cod_pais) 
-		LEFT JOIN paises AS paises_1 ON pacientes.pais = paises_1.cod_pais
+		LEFT JOIN paises AS paises_1 ON pacientes.pais = paises_1.cod_pais) 
+		INNER JOIN zonaresi ON pacientes.zonar = zonaresi.codzona
 	WHERE 
 		(((factcab.nradica)=:nf) AND ((factcab.clugar_rad)=:lug) AND ((factcab.tipo_rad)=:tipo))
 ) as Todo;;
