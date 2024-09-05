@@ -1426,7 +1426,7 @@ end event
 type gb_4 from groupbox within tabpage_1
 integer x = 78
 integer y = 980
-integer width = 4585
+integer width = 4805
 integer height = 644
 integer taborder = 80
 integer textsize = -8
@@ -1443,7 +1443,7 @@ end type
 type dw_6 from datawindow within tabpage_1
 integer x = 110
 integer y = 1044
-integer width = 3968
+integer width = 4613
 integer height = 552
 integer taborder = 70
 boolean bringtotop = true
