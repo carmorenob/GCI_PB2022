@@ -349,7 +349,7 @@ end type
 global win_regis_pac win_regis_pac
 
 type variables
-DataWindowChild ciudad,barrio,ciudad_fam,contra,entrepano,estan,gc_emp,gc_regimen,idw_escola,idw_paren
+DataWindowChild ciudad,barrio,ciudad_fam,contra,entrepano,estan,gc_emp,gc_regimen,idw_escola,idw_paren,idw_tusu
 long nuevo,xant,yant,li_dias
 blob imags[],objs[]
 string exte[],borrar[],l_contrato, l_repositorio,nom_imag[]
@@ -360,7 +360,6 @@ long ancho_ori, alto_ori
 boolean l_cambio_foto
 
 end variables
-
 forward prototypes
 public subroutine blanquea ()
 public function integer f_grabar_emp ()
@@ -1421,6 +1420,8 @@ end event
 event constructor;settransobject(sqlca)
 getchild('escolaridad',idw_escola)
 idw_escola.settransobject(sqlca)
+getchild('tu',idw_tusu)
+idw_tusu.settransobject(sqlca)
 insertrow(1)
 
 end event
@@ -1784,7 +1785,7 @@ if cuantos>0 then
 end if
 select count(cemp) into :cuantos from factcpo where tipodoc=:tipdoc and documento=:docu and cemp=:emp and  ccontrato=:cont;
 if cuantos>0 then
-	messagebox("Atención","El paciente tiene con esta empresa y contrato Servicios Fcaturados , no puede borrar este contrato. Para borrarlo debe cambiar el responsable de la admisión.")
+	messagebox("Atención","El paciente tiene con esta empresa y contrato Servicios Facturados , no puede borrar este contrato.")
 	return
 end if
 
@@ -2025,8 +2026,8 @@ end event
 
 type dw_serv from datawindow within tab_afilia
 boolean visible = false
-integer x = 4261
-integer y = 664
+integer x = 4448
+integer y = 84
 integer width = 110
 integer height = 108
 integer taborder = 40
@@ -2064,6 +2065,7 @@ if this.getcolumnname() = "codemp" then
 	codem=this.getitemstring(1,"codemp")
 	gc_regimen.retrieve(codem)
 end if
+
 if this.getcolumnname() = "ctreg" then
 	this.accepttext()
 	codem=this.getitemstring(1,"codemp")
@@ -2078,10 +2080,12 @@ if this.getcolumnname() = "ctreg" then
 	this.setitem(1,"tafil",contra.getitemstring(contra.getrow(),'tafilr'))
 	this.setitem(1,"codta",'')
 end if
+
 if this.getcolumnname() = "codcontrato" then
 	codem=this.getitemstring(1,"codemp")
 	dw_req.retrieve(codem,data)
 	this.setitem(1,"tafil",contra.getitemstring(contra.getrow(),'tafilr'))
+	this.setitem(1,"codta",idw_tusu.getitemstring(idw_tusu.getrow(),'codta'))
 end if
 end event
 

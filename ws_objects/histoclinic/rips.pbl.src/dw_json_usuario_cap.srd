@@ -21,7 +21,9 @@ table(column=(type=char(3) updatewhereclause=yes name=tipodoc dbname="tipodoc" )
  column=(type=char(2) updatewhereclause=yes name=clugar_rad dbname="clugar_rad" )
  column=(type=char(1) updatewhereclause=yes name=tipo_rad dbname="tipo_rad" )
  retrieve="SELECT
-	tipodoc,documento,tipousuario,fnacimiento,sexo,
+	tipodoc,documento,
+	tipousuario.tipousuario AS tipousuario,
+	fnacimiento,sexo,
 	pais,codciudad,coddepar,zonar,incapacidad,
 	ROW_NUMBER () OVER (ORDER BY tipodoc, documento) AS orde,
 	paisorg,nradica,clugar_rad,tipo_rad
@@ -50,13 +52,13 @@ FROM
 		INNER JOIN factcpo ON (factcab.tipo = factcpo.tipo) AND (factcab.clugar = factcpo.clugar) AND (factcab.nfact = factcpo.nfact)) 
 		INNER JOIN contratos ON (factcpo.ccontrato = contratos.codcontrato) AND (factcpo.cemp = contratos.codemp)) 
 		INNER JOIN empresa ON contratos.codemp = empresa.codemp) 
-		INNER JOIN tiporegimen ON contratos.ctreg = tiporegimen.tipo) 
 		INNER JOIN pacientes ON (factcpo.documento = pacientes.documento) AND (factcpo.tipodoc = pacientes.tipodoc)) 
 		INNER JOIN departamentos ON pacientes.cdepto = departamentos.coddepar) 
 		INNER JOIN ciudades ON (pacientes.cciudad = ciudades.codciudad) AND (pacientes.cdepto = ciudades.cdepto)) 
 		INNER JOIN paises ON departamentos.cod_pais = paises.cod_pais) 
 		LEFT JOIN paises AS paises_1 ON pacientes.pais = paises_1.cod_pais) 
-		INNER JOIN zonaresi ON pacientes.zonar = zonaresi.codzona
+		INNER JOIN zonaresi ON pacientes.zonar = zonaresi.codzona) 
+		INNER JOIN tipousuario ON pacientes.tu = tipousuario.tipousuario
 	WHERE 
 		(((factcab.nradica)=:nf) AND ((factcab.clugar_rad)=:lug) AND ((factcab.tipo_rad)=:tipo))
 ) as Todo;;
@@ -101,4 +103,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=2 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 
