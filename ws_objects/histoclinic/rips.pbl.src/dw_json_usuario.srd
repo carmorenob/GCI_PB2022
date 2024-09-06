@@ -19,7 +19,8 @@ table(column=(type=char(3) updatewhereclause=yes name=tipodoc dbname="zonaresi.t
  column=(type=char(3) updatewhereclause=yes name=paisorg dbname="zonaresi.paisorg" dbalias=".paisorg" )
  retrieve="SELECT DISTINCT 
 	factcpo.tipodoc, factcpo.documento, 
-	tiporegimen.tipo AS tipousuario, pacientes.fnacimiento, 
+	tiporegimen.tipo AS tipousuario, 
+	pacientes.fnacimiento, 
 	case when 
 		pacientes.sexo ='F' 
 	THEN 

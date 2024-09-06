@@ -686,8 +686,8 @@ end event
 
 type pb_pvisible from picturebutton within w_evolucion_new
 boolean visible = false
-integer x = 4453
-integer y = 16
+integer x = 4933
+integer y = 140
 integer width = 759
 integer height = 92
 integer taborder = 60
@@ -1541,7 +1541,7 @@ call uo_orden_formula::destroy
 end on
 
 type dw_inf from datawindow within w_evolucion_new
-integer width = 4475
+integer width = 5838
 integer height = 128
 string title = "none"
 string dataobject = "dw_inf_emp_cama"

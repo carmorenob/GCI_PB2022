@@ -1361,10 +1361,12 @@ CASE "cdepto"
 	ciudad.filter()
 	tab_1.tabpage_1.dw_1.setitem(1,"cciudad",nul)
 	tab_1.tabpage_1.dw_1.setitem(1,"cbarrio",nul)
+	
 CASE "cciudad"
 	barrio.setfilter("cdepto='"+depto+"' and cciudad='"+ciud+"'")
 	barrio.filter()
 	tab_1.tabpage_1.dw_1.setitem(1,"cbarrio",nul)
+	
 CASE "ocodigo"	
 	string todo
 	
