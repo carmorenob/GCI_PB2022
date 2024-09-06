@@ -22,15 +22,15 @@ table(column=(type=char(3) updatewhereclause=yes name=tipodoc dbname="tipodoc" )
  column=(type=char(1) updatewhereclause=yes name=tipo_rad dbname="tipo_rad" )
  retrieve="SELECT
 	tipodoc,documento,
-	tipousuario.tipousuario AS tipousuario,
-	fnacimiento,sexo,
+	tipousuario,	fnacimiento,sexo,
 	pais,codciudad,coddepar,zonar,incapacidad,
 	ROW_NUMBER () OVER (ORDER BY tipodoc, documento) AS orde,
 	paisorg,nradica,clugar_rad,tipo_rad
 FROM
 (	SELECT DISTINCT 
 		factcpo.tipodoc, factcpo.documento, 
-		tiporegimen.tipo AS tipousuario, pacientes.fnacimiento, 
+		tipousuario.tipousuario AS tipousuario, 
+		pacientes.fnacimiento, 
 		case when 
 			pacientes.sexo ='F' 
 		THEN 
