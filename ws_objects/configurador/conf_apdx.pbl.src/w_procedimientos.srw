@@ -27,8 +27,8 @@ end type
 end forward
 
 global type w_procedimientos from window
-integer width = 4594
-integer height = 2080
+integer width = 6821
+integer height = 2320
 boolean titlebar = true
 string title = "Procedimientos"
 boolean controlmenu = true
@@ -143,8 +143,8 @@ end event
 
 type pb_1 from picturebutton within w_procedimientos
 string tag = "&Insertar"
-integer x = 1902
-integer y = 1836
+integer x = 2171
+integer y = 2068
 integer width = 146
 integer height = 128
 integer taborder = 110
@@ -176,8 +176,8 @@ end event
 
 type pb_2 from picturebutton within w_procedimientos
 string tag = "&Borrar"
-integer x = 2080
-integer y = 1836
+integer x = 2350
+integer y = 2068
 integer width = 146
 integer height = 128
 integer taborder = 110
@@ -197,8 +197,8 @@ end event
 
 type pb_3 from picturebutton within w_procedimientos
 string tag = "&Refrescar"
-integer x = 2441
-integer y = 1836
+integer x = 2711
+integer y = 2068
 integer width = 146
 integer height = 128
 integer taborder = 110
@@ -218,8 +218,8 @@ end event
 
 type pb_4 from picturebutton within w_procedimientos
 string tag = "&Guardar"
-integer x = 2254
-integer y = 1836
+integer x = 2523
+integer y = 2068
 integer width = 146
 integer height = 128
 integer taborder = 100
@@ -298,8 +298,8 @@ end type
 type dw_6 from datawindow within w_procedimientos
 integer x = 41
 integer y = 1092
-integer width = 4475
-integer height = 728
+integer width = 6729
+integer height = 936
 integer taborder = 60
 string title = "none"
 string dataobject = "dw_proced"
@@ -406,7 +406,7 @@ end event
 type dw_5 from datawindow within w_procedimientos
 integer x = 46
 integer y = 580
-integer width = 3077
+integer width = 4370
 integer height = 420
 integer taborder = 50
 string title = "none"
