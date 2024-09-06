@@ -25,7 +25,7 @@ end type
 end forward
 
 global type w_busca_solo_cups from window
-integer width = 2889
+integer width = 3945
 integer height = 1692
 boolean titlebar = true
 string title = "Buscar CUPS"
@@ -175,7 +175,7 @@ type sle_2 from singlelineedit within w_busca_solo_cups
 event key pbm_keyup
 integer x = 411
 integer y = 144
-integer width = 2386
+integer width = 3383
 integer height = 84
 integer taborder = 20
 integer textsize = -8
@@ -220,8 +220,8 @@ st_1.text=string(dw_2.rowcount())+' regs.'
 end event
 
 type st_1 from statictext within w_busca_solo_cups
-integer x = 2144
-integer y = 1388
+integer x = 3237
+integer y = 1380
 integer width = 645
 integer height = 64
 integer textsize = -8
@@ -237,7 +237,7 @@ boolean focusrectangle = false
 end type
 
 type pb_1 from picturebutton within w_busca_solo_cups
-integer x = 1426
+integer x = 1879
 integer y = 1416
 integer width = 146
 integer height = 128
@@ -260,7 +260,7 @@ event clicked;close(parent)
 end event
 
 type pb_ok from picturebutton within w_busca_solo_cups
-integer x = 1266
+integer x = 1719
 integer y = 1416
 integer width = 146
 integer height = 128
@@ -285,7 +285,7 @@ end event
 type dw_2 from datawindow within w_busca_solo_cups
 integer x = 41
 integer y = 280
-integer width = 2757
+integer width = 3854
 integer height = 1100
 integer taborder = 20
 string title = "none"
