@@ -222,7 +222,7 @@ end type
 end forward
 
 global type w_contratos from window
-integer width = 4270
+integer width = 5509
 integer height = 2072
 boolean titlebar = true
 string title = "Asistente de contratación"
@@ -247,6 +247,7 @@ string empres,i_contrat,anterior,tipoingreso,orden,i_mostrar='0'//1:activos 0:to
 string lugar_seg, l_contrato,i_plan,i_tipo,l_ppto
 datawindowchild contrato, ciudad,ciudad1,ciudad2,ciudad3
 end variables
+
 forward prototypes
 public function boolean valida_prior ()
 end prototypes
@@ -599,7 +600,7 @@ end event
 type tab_1 from tab within w_contratos
 integer x = 32
 integer y = 36
-integer width = 4155
+integer width = 5394
 integer height = 1744
 integer taborder = 10
 integer textsize = -8
@@ -646,7 +647,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 4119
+integer width = 5358
 integer height = 1616
 long backcolor = 67108864
 string text = " Escoger Empresa"
@@ -774,7 +775,7 @@ end event
 type st_3 from statictext within tp_1
 integer x = 1093
 integer y = 152
-integer width = 2642
+integer width = 3799
 integer height = 456
 integer textsize = -14
 integer weight = 400
@@ -793,7 +794,7 @@ end type
 type tp_2 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 4119
+integer width = 5358
 integer height = 1616
 boolean enabled = false
 long backcolor = 67108864
@@ -1046,7 +1047,7 @@ end event
 type st_5 from statictext within tp_2
 integer x = 1915
 integer y = 1412
-integer width = 2085
+integer width = 3323
 integer height = 128
 integer textsize = -8
 integer weight = 400
@@ -1097,7 +1098,7 @@ event p_itemchanged ( )
 event keyup pbm_dwnkey
 integer x = 41
 integer y = 600
-integer width = 3968
+integer width = 5216
 integer height = 748
 integer taborder = 50
 string dataobject = "dw_contrato"
@@ -1192,7 +1193,7 @@ end type
 type gb_1 from groupbox within tp_2
 integer x = 14
 integer y = 516
-integer width = 4027
+integer width = 5294
 integer height = 1080
 integer textsize = -8
 integer weight = 400
@@ -1210,7 +1211,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 4119
+integer width = 5358
 integer height = 1616
 boolean enabled = false
 long backcolor = 67108864
@@ -1273,8 +1274,8 @@ end on
 
 type cb_p3_req from picturebutton within tp_3
 string tag = "Requisitos"
-integer x = 37
-integer y = 1448
+integer x = 1833
+integer y = 776
 integer width = 146
 integer height = 128
 integer taborder = 12
@@ -1295,8 +1296,8 @@ end event
 type dw_p3_2 from datawindow within tp_3
 integer x = 32
 integer y = 784
-integer width = 1147
-integer height = 652
+integer width = 1774
+integer height = 768
 integer taborder = 1
 string title = "none"
 string dataobject = "dw_lista_contratos"
@@ -1334,7 +1335,7 @@ end event
 type st_7 from statictext within tp_3
 integer x = 18
 integer y = 476
-integer width = 1193
+integer width = 2007
 integer height = 236
 integer textsize = -8
 integer weight = 400
@@ -1377,7 +1378,7 @@ end event
 type gb_2 from groupbox within tp_3
 integer x = 9
 integer y = 716
-integer width = 1198
+integer width = 2021
 integer height = 880
 integer textsize = -8
 integer weight = 700
@@ -1391,7 +1392,7 @@ string text = "Contratos"
 end type
 
 type st_6 from statictext within tp_3
-integer x = 1248
+integer x = 2117
 integer y = 412
 integer width = 1193
 integer height = 88
@@ -1410,7 +1411,7 @@ end type
 
 type cb_7 from picturebutton within tp_3
 string tag = "Borrar"
-integer x = 3872
+integer x = 4631
 integer y = 600
 integer width = 146
 integer height = 128
@@ -1434,8 +1435,8 @@ end event
 
 type cb_2 from picturebutton within tp_3
 string tag = "Guardar"
-integer x = 3607
-integer y = 1384
+integer x = 4686
+integer y = 1372
 integer width = 146
 integer height = 128
 integer taborder = 13
@@ -1459,7 +1460,7 @@ end if
 end event
 
 type dw_p3_3 from datawindow within tp_3
-integer x = 1317
+integer x = 2071
 integer y = 552
 integer width = 2761
 integer height = 992
@@ -1571,8 +1572,8 @@ end event
 type cb_cop from picturebutton within tp_3
 string tag = "Copago"
 boolean visible = false
-integer x = 1915
-integer y = 972
+integer x = 2711
+integer y = 988
 integer width = 146
 integer height = 128
 integer taborder = 16
@@ -1594,8 +1595,8 @@ end event
 type cb_cr from picturebutton within tp_3
 string tag = "Cuota Recuperación"
 boolean visible = false
-integer x = 1915
-integer y = 972
+integer x = 2706
+integer y = 988
 integer width = 146
 integer height = 128
 integer taborder = 42
@@ -1617,7 +1618,7 @@ end event
 type tp_4 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 4119
+integer width = 5358
 integer height = 1616
 boolean enabled = false
 long backcolor = 67108864
@@ -1699,7 +1700,7 @@ destroy(this.gb_5)
 end on
 
 type dw_p4_3 from datawindow within tp_4
-integer x = 818
+integer x = 1947
 integer y = 828
 integer width = 3291
 integer height = 600
@@ -1777,8 +1778,8 @@ event constructor;this.settransobject(sqlca)
 end event
 
 type st_10 from statictext within tp_4
-integer x = 818
-integer y = 728
+integer x = 1966
+integer y = 732
 integer width = 361
 integer height = 64
 integer textsize = -8
@@ -1794,7 +1795,7 @@ boolean focusrectangle = false
 end type
 
 type ddlb_1 from dropdownlistbox within tp_4
-integer x = 1193
+integer x = 2350
 integer y = 712
 integer width = 1038
 integer height = 400
@@ -1836,7 +1837,7 @@ end event
 type dw_p4_2 from datawindow within tp_4
 integer x = 59
 integer y = 712
-integer width = 681
+integer width = 1774
 integer height = 864
 integer taborder = 1
 string title = "none"
@@ -1875,7 +1876,7 @@ end event
 type st_9 from statictext within tp_4
 integer x = 87
 integer y = 488
-integer width = 4069
+integer width = 5207
 integer height = 140
 integer textsize = -8
 integer weight = 400
@@ -1935,7 +1936,7 @@ end type
 type gb_4 from groupbox within tp_4
 integer x = 27
 integer y = 640
-integer width = 745
+integer width = 1847
 integer height = 956
 integer textsize = -10
 integer weight = 700
@@ -2036,7 +2037,7 @@ end event
 
 type cb_p4_adi from picturebutton within tp_4
 string tag = "Adicionar"
-integer x = 2103
+integer x = 3241
 integer y = 1448
 integer width = 146
 integer height = 128
@@ -2063,7 +2064,7 @@ end event
 
 type cb_p4_bor from picturebutton within tp_4
 string tag = "Borrar"
-integer x = 2267
+integer x = 3406
 integer y = 1448
 integer width = 146
 integer height = 128
@@ -2084,7 +2085,7 @@ end event
 
 type cb_p4_ref from picturebutton within tp_4
 string tag = "Refrescar"
-integer x = 2437
+integer x = 3575
 integer y = 1448
 integer width = 146
 integer height = 128
@@ -2106,7 +2107,7 @@ end event
 
 type cb_p4_gua from picturebutton within tp_4
 string tag = "Guardar"
-integer x = 2606
+integer x = 3744
 integer y = 1448
 integer width = 146
 integer height = 128
@@ -2132,9 +2133,9 @@ end if
 end event
 
 type gb_5 from groupbox within tp_4
-integer x = 809
+integer x = 1902
 integer y = 640
-integer width = 3355
+integer width = 3401
 integer height = 956
 integer textsize = -10
 integer weight = 700
@@ -2149,7 +2150,7 @@ end type
 type tp_5 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 4119
+integer width = 5358
 integer height = 1616
 boolean enabled = false
 long backcolor = 67108864
@@ -2232,7 +2233,7 @@ end on
 
 type cb_p5_taf from picturebutton within tp_5
 string tag = "Tipo Afiliado"
-integer x = 3744
+integer x = 4645
 integer y = 1152
 integer width = 146
 integer height = 128
@@ -2255,7 +2256,7 @@ end event
 
 type cb_p5_cre from picturebutton within tp_5
 string tag = "Cuota Recuperación"
-integer x = 3570
+integer x = 4471
 integer y = 1152
 integer width = 146
 integer height = 128
@@ -2278,7 +2279,7 @@ end event
 
 type cb_p5_cmo from picturebutton within tp_5
 string tag = "Cuota Moderadora"
-integer x = 3387
+integer x = 4288
 integer y = 1152
 integer width = 146
 integer height = 128
@@ -2301,7 +2302,7 @@ end event
 
 type cb_p5_cop from picturebutton within tp_5
 string tag = "Copago"
-integer x = 3214
+integer x = 4114
 integer y = 1152
 integer width = 146
 integer height = 128
@@ -2324,7 +2325,7 @@ end event
 
 type cb_3 from picturebutton within tp_5
 string tag = "Guardar"
-integer x = 3145
+integer x = 4046
 integer y = 1416
 integer width = 146
 integer height = 128
@@ -2348,7 +2349,7 @@ end if
 end event
 
 type dw_p5_4 from datawindow within tp_5
-integer x = 3177
+integer x = 4078
 integer y = 760
 integer width = 654
 integer height = 376
@@ -2603,9 +2604,9 @@ event constructor;this.settransobject(sqlca)
 end event
 
 type dw_p5_3 from datawindow within tp_5
-integer x = 1335
+integer x = 1920
 integer y = 860
-integer width = 1499
+integer width = 1984
 integer height = 672
 integer taborder = 3
 string title = "none"
@@ -2637,9 +2638,9 @@ event constructor;this.settransobject(sqlca)
 end event
 
 type dw_p5_2 from datawindow within tp_5
-integer x = 59
-integer y = 712
-integer width = 1138
+integer x = 46
+integer y = 716
+integer width = 1774
 integer height = 844
 integer taborder = 1
 string title = "none"
@@ -2677,7 +2678,7 @@ event constructor;this.settransobject(sqlca)
 end event
 
 type ddlb_2 from dropdownlistbox within tp_5
-integer x = 1815
+integer x = 2400
 integer y = 728
 integer width = 795
 integer height = 400
@@ -2717,8 +2718,8 @@ dw_p5_3.filter()
 end event
 
 type st_13 from statictext within tp_5
-integer x = 1353
-integer y = 748
+integer x = 1938
+integer y = 756
 integer width = 343
 integer height = 64
 integer textsize = -8
@@ -2736,7 +2737,7 @@ end type
 type st_12 from statictext within tp_5
 integer x = 41
 integer y = 512
-integer width = 4050
+integer width = 5179
 integer height = 116
 integer textsize = -8
 integer weight = 400
@@ -2785,7 +2786,7 @@ boolean focusrectangle = false
 end type
 
 type gb_6 from groupbox within tp_5
-integer x = 3122
+integer x = 4023
 integer y = 660
 integer width = 969
 integer height = 676
@@ -2804,7 +2805,7 @@ end type
 type gb_7 from groupbox within tp_5
 integer x = 14
 integer y = 652
-integer width = 1230
+integer width = 1842
 integer height = 944
 integer textsize = -8
 integer weight = 400
@@ -2819,9 +2820,9 @@ borderstyle borderstyle = styleraised!
 end type
 
 type gb_8 from groupbox within tp_5
-integer x = 1303
+integer x = 1888
 integer y = 660
-integer width = 1637
+integer width = 2075
 integer height = 924
 integer textsize = -8
 integer weight = 400
