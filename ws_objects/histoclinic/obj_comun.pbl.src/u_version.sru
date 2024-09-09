@@ -23,7 +23,7 @@ call super::destroy
 end on
 
 event constructor;i_version_asis='6.0.0.113'
-i_version_adm='5.0.0.76'
+i_version_adm='5.0.0.77'
 i_vers_conf='6.0.0.40'
 i_vers_grep='2.0.0.3'
 end event
