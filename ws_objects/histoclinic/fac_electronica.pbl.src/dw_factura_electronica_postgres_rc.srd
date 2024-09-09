@@ -116,8 +116,8 @@ table(column=(type=char(8190) updatewhereclause=yes name=cufe dbname="cufe" )
  column=(type=char(30) updatewhereclause=yes name=ape2_rpl dbname="ape2_rpl" )
  column=(type=char(255) updatewhereclause=yes name=ruta_certificado dbname="ruta_certificado" )
  column=(type=char(50) updatewhereclause=yes name=clave_certificado dbname="clave_certificado" )
- column=(type=char(4) updatewhereclause=yes name=cod_tipousuario dbname="cod_tipousuario" )
- column=(type=char(50) updatewhereclause=yes name=nom_tipousuario dbname="nom_tipousuario" )
+ column=(type=char(2) updatewhereclause=yes name=cod_tipousuario dbname="cod_tipousuario" )
+ column=(type=char(100) updatewhereclause=yes name=nom_tipousuario dbname="nom_tipousuario" )
  column=(type=char(4) updatewhereclause=yes name=cumdp dbname="cumdp" )
  column=(type=char(255) updatewhereclause=yes name=nom_umdp dbname="nom_umdp" )
  column=(type=char(5) updatewhereclause=yes name=cemp dbname="cemp" )
@@ -190,8 +190,8 @@ table(column=(type=char(8190) updatewhereclause=yes name=cufe dbname="cufe" )
 	contratos.nro_contrato, null as poliza,ips.nom1_rpl,ips.nom2_rpl,ips.ape1_rpl,ips.ape2_rpl,
 	documentos.ruta_certificado, documentos.clave_certificado,
 
-	(select codigo from pm_tipousuario_fems where tipo_reg=contratos.ctreg and (codta =emppac.codta  or codta is null)) as cod_tipousuario,
-	(select descripcion from pm_tipousuario_fems where tipo_reg=contratos.ctreg and (codta =emppac.codta  or codta is null)) as nom_tipousuario,
+	(select tipousuario from tipousuario where tipousuario=pacientes.tu and (codta =emppac.codta  or codta is null)) as cod_tipousuario,
+	(select descripcion from tipousuario where tipousuario=pacientes.tu and (codta =emppac.codta  or codta is null)) as nom_tipousuario,
 	 pm_umedida_dian_1.cumd as cumdp, pm_umedida_dian_1.nom_umd as nom_umdp,
 	factcab.cemp, tipoidentificacion.tdian,factcab.vtdescuentos+ factcab.vtdescpac as desctos,
 	case when 
@@ -263,7 +263,7 @@ GROUP BY
 	pacientes.cciudad,	departamentos_1.nombre, ciudades_1.desciudad, 
 	ips.cod_postal,  
  	contratos.observacion, 
-	pacientes.email,factcab.estado_dian, 
+	pacientes.email,factcab.estado_dian, pacientes.tu,
 	factcab.file_name_fact, factcab.file_name_zip, factcab.track_id, ips.c_supersalud, 
 	
 	factcpo.tipodoc,pm_tipoidentificacion_fems.descripcion, factcpo.documento, pacientes.apellido1, 
