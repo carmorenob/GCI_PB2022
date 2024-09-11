@@ -2,6 +2,10 @@
 forward
 global type q_i from window
 end type
+type pb_2 from picturebutton within q_i
+end type
+type dw_electronica_cap from uo_datawindow within q_i
+end type
 type dw_electronica from uo_datawindow within q_i
 end type
 type pb_1 from picturebutton within q_i
@@ -45,6 +49,8 @@ windowtype windowtype = response!
 long backcolor = 67108864
 string icon = "AppIcon!"
 boolean center = true
+pb_2 pb_2
+dw_electronica_cap dw_electronica_cap
 dw_electronica dw_electronica
 pb_1 pb_1
 st_2 st_2
@@ -65,6 +71,8 @@ end type
 global q_i q_i
 
 on q_i.create
+this.pb_2=create pb_2
+this.dw_electronica_cap=create dw_electronica_cap
 this.dw_electronica=create dw_electronica
 this.pb_1=create pb_1
 this.st_2=create st_2
@@ -81,7 +89,9 @@ this.ads_datos=create ads_datos
 this.mle_2=create mle_2
 this.mle_1=create mle_1
 this.cb_1=create cb_1
-this.Control[]={this.dw_electronica,&
+this.Control[]={this.pb_2,&
+this.dw_electronica_cap,&
+this.dw_electronica,&
 this.pb_1,&
 this.st_2,&
 this.st_1,&
@@ -100,6 +110,8 @@ this.cb_1}
 end on
 
 on q_i.destroy
+destroy(this.pb_2)
+destroy(this.dw_electronica_cap)
 destroy(this.dw_electronica)
 destroy(this.pb_1)
 destroy(this.st_2)
@@ -118,6 +130,59 @@ destroy(this.mle_1)
 destroy(this.cb_1)
 end on
 
+type pb_2 from picturebutton within q_i
+integer x = 82
+integer y = 548
+integer width = 146
+integer height = 128
+integer taborder = 100
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+boolean originalsize = true
+string picturename = "dian.gif"
+alignment htextalign = left!
+string powertiptext = "Capita"
+end type
+
+event clicked;////////ELECTRONICA	
+double l_i,l_nfactura
+string ls_clugar,ls_tfac,ls_filename
+nvo_factura_electronica u_elec
+st_ret_dian    lst_lle
+
+u_elec=create nvo_factura_electronica
+
+//--588,'01'
+
+if dw_1.retrieve(double(sle_f.text),sle_l.text,'F')>0 then
+	l_nfactura=dw_1.getitemnumber(1,'nfact')
+	ls_clugar=dw_1.getitemstring(1,'clugar')
+	ls_tfac=dw_1.getitemstring(1,'tipo')
+	ls_filename=dw_1.getitemstring(1,'file_name_fact')
+	
+	lst_lle=u_elec.envio_sin_validacion19(dw_electronica_cap,l_nfactura,ls_clugar,ls_tfac,0,'f','RV') 
+	u_elec.of_enviar_new_correo_fevs(l_nfactura,ls_clugar,ls_tfac,0,'',ls_filename,'C')
+end if
+messagebox('','Proceso Finalizado')
+////////ELECTRONICA
+
+end event
+
+type dw_electronica_cap from uo_datawindow within q_i
+boolean visible = false
+integer x = 2523
+integer y = 556
+integer width = 521
+integer height = 388
+integer taborder = 10
+boolean enabled = false
+string dataobject = "asis_int_factura_ele_cap19"
+end type
+
 type dw_electronica from uo_datawindow within q_i
 boolean visible = false
 integer x = 2519
@@ -130,8 +195,8 @@ string dataobject = "dw_factura_electronica_postgres19_src"
 end type
 
 type pb_1 from picturebutton within q_i
-integer x = 146
-integer y = 456
+integer x = 96
+integer y = 332
 integer width = 146
 integer height = 128
 integer taborder = 90
@@ -218,7 +283,7 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 long textcolor = 33554432
-string text = "03"
+string text = "01"
 borderstyle borderstyle = stylelowered!
 end type
 
@@ -235,14 +300,13 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 long textcolor = 33554432
-string text = "76313"
+string text = "588"
 borderstyle borderstyle = stylelowered!
 end type
 
 type cb_5 from commandbutton within q_i
-boolean visible = false
-integer x = 101
-integer y = 324
+integer x = 549
+integer y = 176
 integer width = 402
 integer height = 112
 integer taborder = 80
@@ -252,7 +316,7 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
-string text = "Capita"
+string text = "josnCapita"
 end type
 
 event clicked;	nvo_rips_json u_rips
@@ -454,8 +518,8 @@ end type
 
 type cb_1 from commandbutton within q_i
 boolean visible = false
-integer x = 87
-integer y = 624
+integer x = 59
+integer y = 812
 integer width = 402
 integer height = 112
 integer taborder = 20

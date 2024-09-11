@@ -2409,7 +2409,7 @@ if as_origen='C' then
 			end if	
 		else	
 			if g_motor='postgres' then
-				ldw_factura.dataobject='asis_int_factura_ele_cap'
+				ldw_factura.dataobject='asis_int_factura_ele_cap19'
 			else
 				ldw_factura.dataobject='dw_factura_electronica_cap_sql' 
 			end if			

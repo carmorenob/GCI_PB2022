@@ -8,7 +8,7 @@ detail(height=92 color="536870912" transparency="0" gradient.color="8421504" gra
 table(column=(type=number update=yes updatewhereclause=yes key=yes name=nfact dbname="factcab.nfact" dbalias=".nfact" )
  column=(type=char(2) update=yes updatewhereclause=yes key=yes name=clugar dbname="factcab.clugar" dbalias=".clugar" )
  column=(type=char(1) update=yes updatewhereclause=yes key=yes name=tipo dbname="factcab.tipo" dbalias=".tipo" )
- column=(type=char(10) update=yes updatewhereclause=yes name=estado dbname="factcab.estado" dbalias=".estado" )
+ column=(type=char(255) update=yes updatewhereclause=yes name=estado dbname="factcab.estado" dbalias=".estado" )
  column=(type=char(2) update=yes updatewhereclause=yes name=estado_dian dbname="factcab.estado_dian" dbalias=".estado_dian" )
  column=(type=char(30) update=yes updatewhereclause=yes name=file_name_zip dbname="factcab.file_name_zip" dbalias=".file_name_zip" )
  column=(type=char(30) updatewhereclause=yes name=file_name_zip_anul dbname="factcab.file_name_zip_anul" dbalias=".file_name_zip_anul" )
@@ -22,6 +22,14 @@ WHERE
 AND clugar=:cl
 AND tipo=:tp
 )
+UNION ALL
+SELECT 
+	ripsradica.num_radicacion, ripsradica.clugar, ripsradica.tipo, ripsradica.estado, ripsradica.estado_dian, 
+	ripsradica.file_name_zip, ripsradica.file_name_zip_anul, ripsradica.file_name_fact
+FROM 
+	ripsradica
+WHERE 
+	(((ripsradica.num_radicacion)=:nf) AND ((ripsradica.clugar)=:cl) AND ((ripsradica.tipo)=:tp));
 " update="factcab" updatewhere=1 updatekeyinplace=no arguments=(("nf", number),("cl", string),("tp", string))  sort="file_name_zip A " )
 text(band=header alignment="2" text="Nfact" border="0" color="33554432" x="9" y="8" height="64" width="640" html.valueishtml="0"  name=nfact_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="2" text="Clugar" border="0" color="33554432" x="658" y="8" height="64" width="224" html.valueishtml="0"  name=clugar_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
