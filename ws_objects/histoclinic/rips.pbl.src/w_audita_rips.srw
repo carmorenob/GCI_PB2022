@@ -277,8 +277,8 @@ type variables
 datawindowchild dw_contrato,idw_emp,gc_regimen
 long xant,yant,maxi
 string anterior,orden,l_soat,l_sql,is_elec
+datetime ldt_iniciafevs
 end variables
-
 forward prototypes
 public subroutine cuenta ()
 public subroutine reset_todo ()
@@ -371,6 +371,14 @@ FROM parametros_gen
 WHERE (((codigo_para)=66));
 if sqlca.sqlnrows=0 then
 	messagebox('Atencíon','No hay parametro 66')
+	return
+end if
+
+SELECT fecha into :ldt_iniciafevs
+FROM parametros_gen
+WHERE (((codigo_para)=79));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 79')
 	return
 end if
 
@@ -1758,32 +1766,45 @@ if is_elec='2' then
 	u_elec=create nvo_factura_electronica
 
 	for l_i =1 to dw_facturas.rowcount()
-		if g_motor='postgres' then
-			dw_electronica.dataobject="dw_factura_electronica_postgres"
-		else
-			dw_electronica.dataobject="dw_factura_electronica"
-		end if
-		dw_electronica.settransobject(sqlca)		
-	
+		
 		if dw_facturas.getitemstring(l_i,'tipo')= 'C'  then continue
 		if dw_facturas.getitemstring(l_i,'envio_xml')='0' then continue
 		if dw_facturas.getitemstring(l_i,'estado_dian')='1' then continue
 		if dw_facturas.getitemstring(l_i,'file_name_fact')='0' then continue
 		
+		if dw_facturas.getitemdatetime(l_i,'fecha')>ldt_iniciafevs then
+			if g_motor='postgres' then
+				dw_electronica.dataobject="dw_factura_electronica_postgres19"
+			else
+				dw_electronica.dataobject="dw_factura_electronica"
+			end if
+		else
+			if g_motor='postgres' then
+				dw_electronica.dataobject="dw_factura_electronica_postgres"
+			else
+				dw_electronica.dataobject="dw_factura_electronica"
+			end if
+			
+		end if
+		dw_electronica.settransobject(sqlca)		
+			
 		l_nfactura=dw_facturas.getitemnumber(l_i,'nfact')
 		ls_clugar=dw_facturas.getitemstring(l_i,'clugar')
 		ls_tfac=dw_facturas.getitemstring(l_i,'tipo')
 		
 		lst_lle=u_elec.sign_chilkat(dw_electronica,l_nfactura,ls_clugar,ls_tfac,0,'f','FV')
-		if (dw_facturas.getitemnumber(l_i,'vtproced')<>dw_facturas.getitemnumber(l_i,'vtemp') ) and dw_empresa.getitemstring(1,"codemp")<>'0' then 
-			if g_motor='postgres' then
-				dw_electronica.dataobject="dw_factura_electronica_postgres_rc"
-			else
-				dw_electronica.dataobject="dw_factura_electronica_rc"
+		
+		if dw_facturas.getitemdatetime(l_i,'fecha')>ldt_iniciafevs then
+			if (dw_facturas.getitemnumber(l_i,'vtproced')<>dw_facturas.getitemnumber(l_i,'vtemp') ) and dw_empresa.getitemstring(1,"codemp")<>'0' then 
+				if g_motor='postgres' then
+					dw_electronica.dataobject="dw_factura_electronica_postgres_rc"
+				else
+					dw_electronica.dataobject="dw_factura_electronica_rc"
+				end if
+				dw_electronica.settransobject(sqlca)		
+							
+				lst_lle=u_elec.sign_chilkat(dw_electronica,l_nfactura,ls_clugar,ls_tfac,0,'r','RC')
 			end if
-			dw_electronica.settransobject(sqlca)		
-						
-			lst_lle=u_elec.sign_chilkat(dw_electronica,l_nfactura,ls_clugar,ls_tfac,0,'r','RC')
 		end if
 		
 		update factcab set envio_xml='1' 

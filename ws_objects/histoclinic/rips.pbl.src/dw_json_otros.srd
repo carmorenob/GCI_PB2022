@@ -5,34 +5,34 @@ header(height=84 color="536870912" transparency="0" gradient.color="8421504" gra
 summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 detail(height=68 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
-table(column=(type=char(12) updatewhereclause=yes name=c_supersalud dbname="documentos_autfact.c_supersalud" )
- column=(type=char(30) updatewhereclause=yes name=autorizacion dbname="documentos_autfact.autorizacion" )
+table(column=(type=char(12) updatewhereclause=yes name=c_supersalud dbname="documentos_autfact.c_supersalud" dbalias=".c_supersalud" )
+ column=(type=char(30) updatewhereclause=yes name=autorizacion dbname="documentos_autfact.autorizacion" dbalias=".autorizacion" )
  column=(type=char(8190) updatewhereclause=no name=idmipres dbname="idmipres" )
- column=(type=datetime updatewhereclause=yes name=fecha dbname="documentos_autfact.fecha" )
- column=(type=char(255) updatewhereclause=yes name=codigo_uni dbname="documentos_autfact.codigo_uni" )
- column=(type=char(255) updatewhereclause=yes name=medicamento dbname="documentos_autfact.medicamento" )
- column=(type=number updatewhereclause=yes name=cantidad dbname="documentos_autfact.cantidad" )
+ column=(type=datetime updatewhereclause=yes name=fecha dbname="documentos_autfact.fecha" dbalias=".fecha" )
+ column=(type=char(255) updatewhereclause=yes name=codigo_uni dbname="documentos_autfact.codigo_uni" dbalias=".codigo_uni" )
+ column=(type=char(255) updatewhereclause=yes name=medicamento dbname="documentos_autfact.medicamento" dbalias=".medicamento" )
+ column=(type=number updatewhereclause=yes name=cantidad dbname="documentos_autfact.cantidad" dbalias=".cantidad" )
  column=(type=decimal(6) updatewhereclause=yes name=vuni dbname="vuni" )
- column=(type=decimal(2) updatewhereclause=yes name=vproced dbname="documentos_autfact.vproced" )
- column=(type=long updatewhereclause=yes name=nitem dbname="documentos_autfact.nitem" )
- column=(type=datetime updatewhereclause=yes name=fecha dbname="documentos_autfact.fecha" )
- column=(type=char(2) updatewhereclause=yes name=clugar_fac dbname="documentos_autfact.clugar_fac" )
- column=(type=char(12) updatewhereclause=yes name=csuper_ips dbname="documentos_autfact.csuper_ips" )
- column=(type=char(15) updatewhereclause=yes name=cum dbname="documentos_autfact.cum" )
- column=(type=char(1) updatewhereclause=yes name=tipo_fac dbname="documentos_autfact.tipo_fac" )
- column=(type=char(4) updatewhereclause=yes name=prefijo dbname="documentos_autfact.prefijo" )
- column=(type=char(255) updatewhereclause=yes name=cum_espe dbname="documentos_autfact.cum_espe" )
- column=(type=number updatewhereclause=yes name=nfact dbname="documentos_autfact.nfact" )
- column=(type=char(2) updatewhereclause=yes name=tdoc dbname="documentos_autfact.tdoc" )
- column=(type=char(15) updatewhereclause=yes name=documento dbname="documentos_autfact.documento" )
+ column=(type=decimal(2) updatewhereclause=yes name=vproced dbname="documentos_autfact.vproced" dbalias=".vproced" )
+ column=(type=long updatewhereclause=yes name=nitem dbname="documentos_autfact.nitem" dbalias=".nitem" )
+ column=(type=datetime updatewhereclause=yes name=fecha dbname="documentos_autfact.fecha" dbalias=".fecha" )
+ column=(type=char(2) updatewhereclause=yes name=clugar_fac dbname="documentos_autfact.clugar_fac" dbalias=".clugar_fac" )
+ column=(type=char(12) updatewhereclause=yes name=csuper_ips dbname="documentos_autfact.csuper_ips" dbalias=".csuper_ips" )
+ column=(type=char(15) updatewhereclause=yes name=cum dbname="documentos_autfact.cum" dbalias=".cum" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_fac dbname="documentos_autfact.tipo_fac" dbalias=".tipo_fac" )
+ column=(type=char(4) updatewhereclause=yes name=prefijo dbname="documentos_autfact.prefijo" dbalias=".prefijo" )
+ column=(type=char(255) updatewhereclause=yes name=cum_espe dbname="documentos_autfact.cum_espe" dbalias=".cum_espe" )
+ column=(type=number updatewhereclause=yes name=nfact dbname="documentos_autfact.nfact" dbalias=".nfact" )
+ column=(type=char(2) updatewhereclause=yes name=tdoc dbname="documentos_autfact.tdoc" dbalias=".tdoc" )
+ column=(type=char(15) updatewhereclause=yes name=documento dbname="documentos_autfact.documento" dbalias=".documento" )
  column=(type=char(8190) updatewhereclause=no name=vtmd dbname="vtmd" )
  column=(type=decimal(6) updatewhereclause=yes name=vpm dbname="vpm" )
- column=(type=char(4) updatewhereclause=yes name=prefijo dbname="documentos_autfact.prefijo" )
+ column=(type=char(4) updatewhereclause=yes name=prefijo dbname="documentos_autfact.prefijo" dbalias=".prefijo" )
  column=(type=decimal(0) updatewhereclause=yes name=orde dbname="orde" )
- column=(type=char(255) updatewhereclause=yes name=ium dbname="documentos_autfact.ium" )
- column=(type=char(2) updatewhereclause=yes name=tipoos dbname="documentos_autfact.tipoos" )
- column=(type=number updatewhereclause=yes name=nrcaj dbname="documentos_autfact.nrcaj" )
- column=(type=char(4) updatewhereclause=yes name=pref_rc dbname="documentos_autfact.pref_rc" )
+ column=(type=char(255) updatewhereclause=yes name=ium dbname="documentos_autfact.ium" dbalias=".ium" )
+ column=(type=char(2) updatewhereclause=yes name=tipoos dbname="documentos_autfact.tipoos" dbalias=".tipoos" )
+ column=(type=number updatewhereclause=yes name=nrcaj dbname="documentos_autfact.nrcaj" dbalias=".nrcaj" )
+ column=(type=char(4) updatewhereclause=yes name=pref_rc dbname="documentos_autfact.pref_rc" dbalias="documentos_autfact_1.pref_rc" )
  retrieve="SELECT 
 	Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
 	serviciosingreso.fecha,
@@ -66,7 +66,7 @@ table(column=(type=char(12) updatewhereclause=yes name=c_supersalud dbname="docu
 	factcpo.vcopago+factcpo.vcm+factcpo.vpart+factcpo.vcr as vpm,
 	documentos_autfact.prefijo, 
  	ROW_NUMBER () OVER (ORDER BY factcab.nfact) AS orde,
-	sumarticulo.ium,  agrupservicios.tipo_serv as tipoos,
+	sumarticulo.ium,  agrupservicios.rips as tipoos,
 	tesorecajcpo.nrcaj, documentos_autfact_1.prefijo as pref_rc
 FROM 
 	((((((((((((((factcab 
@@ -129,7 +129,7 @@ SELECT
 	factcpo.vcopago+factcpo.vcm+factcpo.vpart+factcpo.vcr as vpm,
 	documentos_autfact.prefijo, 
  	ROW_NUMBER () OVER (ORDER BY factcab.nfact) AS orde,
-	'' as ium,  agrupservicios.tipo_serv as tipoos,
+	'' as ium,  agrupservicios.rips as tipoos,
 	tesorecajcpo.nrcaj, documentos_autfact_1.prefijo as pref_rc
 FROM 
 	(((((((((((((factcab 
@@ -221,3 +221,4 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=2 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
+ 

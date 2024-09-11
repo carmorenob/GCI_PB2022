@@ -35,6 +35,8 @@ private function integer of_enviar_correo (ref datawindow ads_datos, decimal ad_
 public function integer of_enviar_new_correo (decimal adc_nro_factura, string as_clug_factura, string as_tipofac, integer as_nnota, string as_tnota, string as_filename, string as_origen)
 public subroutine of_files_names (ref uo_datawindow adw_factura, ref string as_filename, ref string as_zipname, ref decimal al_nro_fact_x_anyo, ref decimal al_nro_zip_x_anyo, ref boolean abn_actu_consec_fact, ref boolean abn_actu_consec_zip, string as_tipo_docu, string as_tipo_ambiente, integer ai_anyo, string as_coddoc, string as_lsdoc)
 public function integer of_estado_factura_email (decimal al_nfact, string as_clug_fact, string as_tipofac, integer as_nnota, string as_estado, string as_tipo, string as_coddoc)
+public function integer of_enviar_new_correo_fevs (decimal adc_nro_factura, string as_clug_factura, string as_tipofac, integer as_nnota, string as_tnota, string as_filename, string as_origen)
+public function st_ret_dian envio_sin_validacion19 (ref uo_datawindow adw_factura, decimal al_nro_fact, string as_clug_factura, string as_tipofac, integer as_nnota, string as_tipo_docu, string as_coddoc)
 end prototypes
 
 public function longlong hex_to_dec (string as_hexadecimal);string ls_binario
@@ -2368,6 +2370,739 @@ if sqlca.sqlcode<0 then
 	return -1
 end if
 return 1
+end function
+
+public function integer of_enviar_new_correo_fevs (decimal adc_nro_factura, string as_clug_factura, string as_tipofac, integer as_nnota, string as_tnota, string as_filename, string as_origen);uo_datastore ldw_factura,ldw_result
+
+uo_datastore 	lds_xml_attached
+
+string 		ls_cufe,				ls_small_cufe,				ls_xml_factura,				ls_xml_retorno
+string			ls_sfc,				ls_sfc_384,					ls_testp,						ls_small_cufex
+string			ls_asun,				ls_cpo,						ls_retc,						ls_retdes
+string 		ls_prefac,			ls_numfact
+blob 			lblb_sha384,		lblb_md5
+int 			li_rc , 				li_file,							li_status					
+
+nvo_generic_ole_object loo_Mailman , loo_Email , loo_Cert
+
+CrypterObject lnv_CrypterObject
+lnv_CrypterObject = Create CrypterObject
+Coderobject lnv_code
+Lnv_code = create coderobject
+
+ldw_factura=create uo_datastore
+lds_xml_attached=create uo_datastore
+
+if as_origen='C' then
+	if as_tnota='C' then 
+		if g_motor='postgres' then
+			ldw_factura.dataobject='asis_int_electronica_cap_ncre'
+		else
+			ldw_factura.dataobject='dw_factura_electronica_cap_sql' 
+		end if	
+	else
+		if as_tnota='D' then 
+			if g_motor='postgres' then
+				ldw_factura.dataobject='asis_int_electronica_cap_ndeb'
+			else
+				ldw_factura.dataobject='dw_factura_electronica_cap_sql' 
+			end if	
+		else	
+			if g_motor='postgres' then
+				ldw_factura.dataobject='asis_int_factura_ele_cap'
+			else
+				ldw_factura.dataobject='dw_factura_electronica_cap_sql' 
+			end if			
+		end if
+	end if
+else
+	if g_motor='postgres' then
+		ldw_factura.dataobject="dw_factura_electronica_postgres19_src"
+	else
+		ldw_factura.dataobject="dw_factura_electronica"
+	end if
+end if
+
+ldw_factura.settransobject(sqlca)		
+
+if as_tnota='C' or  as_tnota='D' then 
+	if ldw_factura.retrieve(adc_nro_factura,as_clug_factura,as_tipofac,as_nnota)<0 then 
+		return -1
+	end if
+else
+	if ldw_factura.retrieve(adc_nro_factura,as_clug_factura,as_tipofac)<0 then 
+		return -1
+	end if
+end if
+
+SELECT cadena into :is_ruta_facturas
+FROM parametros_gen
+WHERE (((codigo_para)=55));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 55')
+	return -1
+end if
+
+ls_testp=ldw_factura.getitemstring(1,'testp')
+is_ruta_firma=ldw_factura.getitemstring(1,'ruta_certificado')
+is_clave_firma=f_descripta_new(ldw_factura.getitemstring(1,'clave_certificado'),'1')
+if isnull(is_ruta_firma) or  trim(is_ruta_firma)='' then
+	return -1
+end if
+
+ls_prefac=ldw_factura.getitemstring(1,'prefijo')
+ls_numfact=string(ldw_factura.getitemnumber(1,'nfact'))
+
+is_ruta_facturas=is_ruta_facturas+'\'+ls_prefac+ls_numfact+'\'
+
+////////////////////  LEER CERTIFICADO
+if of_leer_certificado(loo_Cert)=-1 then
+	 return -1
+end if
+
+ls_sfc= ldw_factura.getitemstring(1,'software_id')+f_descripta_new(ldw_factura.getitemstring(1,'pin'),'1')+ldw_factura.getitemstring(1,'prefijo')+string(ldw_factura.getitemnumber(1,'nfact'))
+
+ls_sfc_384=f_encripta_sha(ls_sfc,'SHA384')
+ldw_factura.setitem(1,'huella',ls_sfc_384)
+
+///CUFE
+ls_small_cufe= ldw_factura.getitemstring(1,'cufe')+f_descripta_new(ldw_factura.getitemstring(1,'clave_tecnica'),'1')+ldw_factura.getitemstring(1,'tipo_ambiente')
+
+ls_sfc=f_encripta_sha(ls_small_cufe,'SHA384')
+ldw_factura.setitem(1,'cufe',upper(ls_sfc))
+
+lblb_sha384=Blob(f_encripta_sha(ls_small_cufe,'SHA384'), EncodingANSI!)
+lblb_md5 = lnv_CrypterObject.MD5(lblb_sha384)
+ls_small_cufex = lnv_code.hexencode(lblb_MD5)
+ldw_factura.setitem(1,'small_cufe',upper(ls_small_cufex))
+destroy Lnv_code
+destroy lnv_CrypterObject
+
+if as_origen='C' then
+	lds_xml_attached.dataobject='dw_attached_document_capita'
+else
+	lds_xml_attached.dataobject='dw_attached_document'
+end if
+lds_xml_attached.settransobject(sqlca)
+
+if lds_xml_attached.retrieve(adc_nro_factura,as_clug_factura,as_tipofac)<0 then
+	messagebox("Error en retrieve de lds_attached_doc: ",sqlca.sqlerrtext)
+	return -1
+end if
+lds_xml_attached.setitem(1,'cufe',lower(ls_sfc))
+lds_xml_attached.setitem(1,'small_cufe',lower(ls_small_cufex))
+
+li_file=fileOpen(is_ruta_facturas + as_filename+".xml",TextMode!)
+li_rc=fileReadEx(li_file,ls_xml_factura)
+li_rc=fileclose(li_file)
+
+
+///////////////////////// REPONSE
+ldw_result=create uo_datastore
+ldw_result.dataobject='dw_retornos_dian'
+li_status=ldw_result.importFile(XML!,is_ruta_facturas+as_filename+'_test_ret.xml')
+	
+if li_status<0 then
+	messagebox('Error importando Respuesta','No es posible importar el mensaje de respuesta de la DIAN:~r~n'+ is_ruta_facturas+'Status_ret.xml')
+	return -1
+end if
+		
+if ldw_result.getitemstring(ldw_result.rowcount(),'statuscode')='00' then 	
+	oleobject loo_Bd
+	loo_Bd = create oleobject
+	li_status= loo_Bd.ConnectToNewObject("Chilkat_9_5_0.BinData")
+	if li_status < 0 then
+		 destroy loo_Bd
+		 MessageBox("Error","Connecting to COM object failed")
+		 return -1
+	end if
+	li_status= loo_Bd.AppendEncoded(ldw_result.getitemstring(ldw_result.rowcount(),'xmlbase64'),"base64")
+	ls_xml_retorno = loo_Bd.GetString("utf-8")
+end if		
+lds_xml_attached.setItem(1,'xml_invoice',ls_xml_factura)
+lds_xml_attached.setItem(1,'xml_response',ls_xml_retorno)
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//loo_Mailman = create nvo_generic_ole_object
+//li_rc = loo_Mailman.ConnectToNewObject("Chilkat_9_5_0.MailMan")
+//if li_rc < 0 then
+//    destroy loo_Mailman
+//    MessageBox("Error","Connecting to COM object failed")
+//    return -1
+//end if
+//
+//if as_origen='C' then
+//	select servidor, puerto, usuario, clave,autentica,conexion,usuario_adc
+//	into :is_server_email,:ii_puerto_email,:is_cuenta_email,:is_clave_email,:is_ssl, :is_tls,:is_cuenta_email1
+//	from documentos
+//	where (((coddoc)='RV') and ((clugar)=:as_clug_factura));
+//else
+//	select servidor, puerto, usuario, clave,autentica,conexion,usuario_adc
+//	into :is_server_email,:ii_puerto_email,:is_cuenta_email,:is_clave_email,:is_ssl, :is_tls,:is_cuenta_email1
+//	from documentos
+//	where (((coddoc)='FV') and ((clugar)=:as_clug_factura));
+//end if
+//
+//if isnull(is_server_email) or isnull(is_cuenta_email)  or isnull(is_clave_email) then
+//    MessageBox("Error","No hay servidor de documento configurado")
+//    return -1
+//end if
+//
+//if as_origen='C' then
+//	is_nombre_lugar=ldw_factura.getitemstring(1,'ips_nombre')
+//else
+//	is_nombre_lugar=ldw_factura.getitemstring(1,'ips_descripcion')
+//end if
+//is_clave_email=f_descripta_new(is_clave_email,'1')
+//loo_Mailman = create nvo_generic_ole_object
+//li_rc = loo_Mailman.ConnectToNewObject("Chilkat_9_5_0.MailMan")
+//if li_rc < 0 then
+//    destroy loo_Mailman
+//    MessageBox("Error","Connecting to COM object failed")
+//    return -1
+//end if
+//
+//// Set the SMTP server.
+//loo_Mailman.SmtpHost = is_server_email// "smtp.gmail.com"
+//
+//loo_Mailman.SmtpUsername = is_cuenta_email//"mySmtpLogin"
+//loo_Mailman.SmtpPassword = is_clave_email//"myPassword"
+//loo_Mailman.SmtpPort = ii_puerto_email
+//loo_Mailman.SmtpSsl = 1
+//
+//// Create a new email object
+//loo_Email = create nvo_generic_ole_object
+//li_rc = loo_Email.ConnectToNewObject("Chilkat_9_5_0.Email")
+//
+//ls_asun=ldw_factura.getitemstring(1,"documento")+';'+is_nombre_lugar+';'+ldw_factura.getitemstring(1,"prefijo")+string(ldw_factura.getitemnumber(1,"nfact"))+';'
+//
+//ls_asun+='01'
+//
+//ls_asun+=';'+is_nombre_lugar
+//loo_Email.Subject = ls_asun
+//
+//
+//ls_cpo="Señores:~r~n"+ldw_factura.getitemstring(1,"razon_social")+"~r~n"
+//ls_cpo+="NIT/CC"+ldw_factura.getitemstring(1,"nit")+"~r~n~r~n"
+//
+//ls_cpo+="Les informamos ha recibido un documento de Factura Electronica de venta emitida por "+is_nombre_lugar
+//
+//ls_cpo+=" Numero de documento "+ldw_factura.getitemstring(1,"prefijo")+string(ldw_factura.getitemnumber(1,"nfact"))+"~r~n~r~n"
+//
+//ls_cpo+= "Fecha de Emisión "+string(ldw_factura.getitemdatetime(1,"fecha_factura"),'yyyy-mm-dd')+"~r~n~r~n"
+//if ldw_factura.getitemnumber(1,'vtemp')<>0 then
+//	ls_cpo+= "Valor "+string(ldw_factura.getitemnumber(1,'vtemp'),"##,##0.00")+"~r~n~r~n"
+//else
+//	if ldw_factura.getitemnumber(1,'vtproced')<>0 then
+//		ls_cpo+= "Valor "+string(ldw_factura.getitemnumber(1,'vtproced'),"##,##0.00")+"~r~n~r~n"
+//	end if
+//end if
+//
+//
+//ls_cpo+='-----------------------------------------------------------------------------------'+"~r~n~r~n"
+//ls_cpo+='Este es un sistema automático de aviso, por favor no responda este mensaje'+"~r~n~r~n"
+//ls_cpo+='-----------------------------------------------------------------------------------'+"~r~n~r~n"
+//loo_Email.Body =ls_cpo
+//
+//loo_Email.From = is_nombre_lugar+" <"+is_cuenta_email+">"
+//li_rc = loo_Email.AddTo(ldw_factura.getitemstring(1,"razon_social"),ldw_factura.getitemstring(1,"email_cliente"))
+//if not isnull(is_cuenta_email1) then
+//	li_rc = loo_Email.AddTo('Copia',is_cuenta_email1)
+//end if
+//
+
+nvo_generic_ole_object loo_SbXml
+
+IF of_firmar_xml_attached(lds_xml_attached,loo_Cert,loo_SbXml )=-1 then
+	 return -2
+end if
+loo_SbXml.WriteFile(is_ruta_facturas+"ad"+mid(as_filename,3)+'.xml','utf-8',0)
+
+//nvo_generic_ole_object loo_zip
+//int li_SaveExtraPath
+//
+//loo_Zip = create nvo_generic_ole_object
+//li_rc = loo_Zip.ConnectToNewObject("Chilkat_9_5_0.Zip")
+//if li_rc < 0 then
+//    destroy loo_Zip
+//    MessageBox("Error","Connecting to COM object failed Chilkat_9_5_0.Zip")
+//    return -1
+//end if
+//
+//li_rc = loo_Zip.NewZip(is_ruta_facturas+"ad"+mid(as_filename,3)+'.zip')
+//
+//if li_rc <> 1 then
+//    messagebox("Error creando Zip",string( loo_Zip.LastErrorText ))
+//    destroy loo_Zip
+//    return -1
+//end if
+
+//li_SaveExtraPath = 0
+//li_rc = loo_Zip.AppendOneFileOrDir(is_ruta_facturas+"ad"+mid(as_filename,3)+'.xml',li_SaveExtraPath)
+//if li_rc <> 1 then
+//    messagebox("Error adicionando Archivo AttachedDocument a Zip AD: ",string( loo_Zip.LastErrorText ))
+//    destroy loo_Zip
+//    return -1
+//end if
+//li_rc = loo_Zip.AppendOneFileOrDir(is_ruta_facturas+as_filename+'.pdf',li_SaveExtraPath)
+//if li_rc <> 1 then
+//    messagebox("Error adicionando PDF al archivo Zip AD: ",string( loo_Zip.LastErrorText ))
+//    destroy loo_Zip
+//    return -1
+//end if
+//
+//li_rc = loo_Zip.WriteZipAndClose()
+//if li_rc <> 1 then
+//    messagebox("Error creando Zip",string( loo_Zip.LastErrorText ))
+//    destroy loo_Zip
+//    return -1
+//end if
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//loo_Email.AddFileAttachment(is_ruta_facturas+"ad"+mid(as_filename,3)+'.zip')//is_ruta_facturas+as_zipname)
+//if loo_Email.LastMethodSuccess <> 1 then
+//	messagebox("Error adjuntando archivo of_enviar_correo",string( loo_Mailman.LastErrorText))
+//    destroy loo_Mailman
+//    destroy loo_Email
+//    return -1
+//end if
+//
+//li_rc = loo_Mailman.SendEmail(loo_Email)
+//if li_rc <> 1 then
+//    messagebox("Error Enviando Correo of_enviar_correo",string( loo_Mailman.LastErrorText))
+//    destroy loo_Mailman
+//    destroy loo_Email
+//    return -1
+//end if
+//
+//li_rc = loo_Mailman.CloseSmtpConnection()
+//if li_rc <> 1 then
+//    messagebox("Error cerrando conexion a correo", "Connection to SMTP server not closed cleanly.")
+//end if
+
+destroy loo_Mailman
+destroy loo_Email
+destroy loo_Bd
+
+return 1
+end function
+
+public function st_ret_dian envio_sin_validacion19 (ref uo_datawindow adw_factura, decimal al_nro_fact, string as_clug_factura, string as_tipofac, integer as_nnota, string as_tipo_docu, string as_coddoc);//as_tipo_docu = f:factura de venta ; a: nota credito de anulacion , c:nota credito , d:nota debito
+
+int 		li_rc,						li_ret,						li_res,						li_donde,						li_file
+string 	ls_data_qr,				is_ruta_qr='c:\windows\temp\'  
+string 	ls_sufijo_campo='',	ls_ojo,					ls_name,					ls_small_cufe,				ls_small_cufex,				ls_sfc,			ls_sfc_384,				ls_testp
+string 	ls_coddoc,				ls_retc,					ls_retdes,				ls_xml_ret,					ls_null,							ls_tipo,			ls_tipo_ambiente
+string 	ls_prefac,				ls_numfact,				ls_t
+
+
+st_ret_dian lst_ret_dian
+Blob 		lblb_data,				lblb_sha384,			lblb_md5
+oleobject loo_Crypt
+st_retorno_gral lst_ret_gral
+
+uo_datastore lds_result,lds_xml_reponse
+boolean 	lbn_actu_consec_fact=false , lbn_actu_consec_zip=false
+Integer 	li_zip_file,			li_Status,				li_anyo  
+
+decimal 	ll_nro_fact_x_anyo ,	ll_nro_zip_x_anyo
+nvo_generic_ole_object loo_Cert , loo_SbXml , loo_SbXmlSOAP
+
+CrypterObject lnv_CrypterObject
+Coderobject lnv_code
+
+lnv_CrypterObject = Create CrypterObject
+Lnv_code = create coderobject
+
+setnull(ls_null)
+
+
+if as_coddoc='RV' or as_coddoc='RC'  then 
+	ls_coddoc='FV'
+else
+	ls_coddoc=as_coddoc
+end if
+
+SELECT cadena into :is_ruta_facturas
+FROM parametros_gen
+WHERE (((codigo_para)=55));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 55')
+	lst_ret_dian.as_estado="-2"
+	return lst_ret_dian
+end if
+
+if as_tipo_docu='f' or as_tipo_docu='r'  then 
+	if adw_factura.retrieve(al_nro_fact,as_clug_factura,as_tipofac)<=0 then 
+		messagebox('Atencíon','No se pueden recuperar datos')
+		lst_ret_dian.as_estado="-2"
+		return lst_ret_dian
+	end if
+else
+	if as_coddoc='RV' then 
+		if adw_factura.retrieve(al_nro_fact,as_clug_factura,as_tipofac,as_nnota)<=0 then 
+			messagebox('Atencíon','No se pueden recuperar datos')
+			lst_ret_dian.as_estado="-2"
+			return lst_ret_dian
+		end if	
+	else
+		if adw_factura.retrieve(al_nro_fact,as_clug_factura,as_tipofac)<=0 then 
+			messagebox('Atencíon','No se pueden recuperar datos')
+			lst_ret_dian.as_estado="-2"
+			return lst_ret_dian
+		end if
+	end if
+end if
+	
+ls_prefac=adw_factura.getitemstring(1,'prefijo')
+ls_numfact=string(adw_factura.getitemnumber(1,'nfact'))
+
+is_ruta_facturas=is_ruta_facturas+'\'+ls_prefac+ls_numfact+'\'
+
+
+If not DirectoryExists ( is_ruta_facturas) Then
+	integer li_filenum
+	CreateDirectory ( is_ruta_facturas)
+	li_filenum = ChangeDirectory( is_ruta_facturas)
+end if
+	
+ls_testp=adw_factura.getitemstring(1,'testp')
+is_ruta_firma=adw_factura.getitemstring(1,'ruta_certificado')
+is_clave_firma=f_descripta_new(adw_factura.getitemstring(1,'clave_certificado'),'1')
+if isnull(is_ruta_firma) or  trim(is_ruta_firma)='' then
+	lst_ret_dian.as_estado="-2"
+	return lst_ret_dian
+end if
+
+//HUELLA
+if as_tipo_docu='f' or as_tipo_docu='r'  then 
+	ls_sfc= adw_factura.getitemstring(1,'software_id')+f_descripta_new(adw_factura.getitemstring(1,'pin'),'1')+adw_factura.getitemstring(1,'prefijo')+string(adw_factura.getitemnumber(1,'nfact'))
+else
+	if as_tipo_docu='a' or as_tipo_docu='c'  then 
+		if as_coddoc='RV' then 
+			ls_sfc= adw_factura.getitemstring(1,'software_id')+f_descripta_new(adw_factura.getitemstring(1,'pin'),'1')+'NC'+adw_factura.getitemstring(1,'prefijo')+string(adw_factura.getitemnumber(1,'nfact'))+string(as_nnota,'00')
+		else
+			ls_sfc= adw_factura.getitemstring(1,'software_id')+f_descripta_new(adw_factura.getitemstring(1,'pin'),'1')+'NC'+adw_factura.getitemstring(1,'prefijo')+string(adw_factura.getitemnumber(1,'nfact'))+'01'
+		end if
+	else
+		ls_sfc= adw_factura.getitemstring(1,'software_id')+f_descripta_new(adw_factura.getitemstring(1,'pin'),'1')+'ND'+adw_factura.getitemstring(1,'prefijo')+string(adw_factura.getitemnumber(1,'nfact'))+string(as_nnota,'00')		
+	end if
+end if
+
+ls_sfc_384=f_encripta_sha(ls_sfc,'SHA384')
+adw_factura.setitem(1,'huella',ls_sfc_384)
+
+///CUFE
+if as_tipo_docu='f' or as_tipo_docu='r' then 
+	ls_small_cufe= adw_factura.getitemstring(1,'cufe')+f_descripta_new(adw_factura.getitemstring(1,'clave_tecnica'),'1')+adw_factura.getitemstring(1,'tipo_ambiente')
+end if
+if as_tipo_docu='a' or as_tipo_docu='c' or as_tipo_docu='d' then 
+	ls_small_cufe= adw_factura.getitemstring(1,'cufe')+f_descripta_new(adw_factura.getitemstring(1,'pin'),'1')+adw_factura.getitemstring(1,'tipo_ambiente')
+end if
+
+ls_sfc=f_encripta_sha(ls_small_cufe,'SHA384')
+adw_factura.setitem(1,'cufe',lower(ls_sfc))
+
+lst_ret_dian.as_cufe=ls_sfc
+
+lblb_sha384=Blob(f_encripta_sha(ls_small_cufe,'SHA384'), EncodingANSI!)
+lblb_md5 = lnv_CrypterObject.MD5(lblb_sha384)
+ls_small_cufex =lnv_code.hexencode(lblb_MD5)
+adw_factura.setitem(1,'small_cufe',lower(ls_small_cufex))
+destroy Lnv_code
+destroy lnv_CrypterObject 
+
+if isnull(adw_factura.getitemstring(1,'prefijo')) then
+	if as_tipo_docu='f' or as_tipo_docu='r' then 	
+		ls_data_qr ='NumFact: '+string(adw_factura.getitemnumber(1,'nfact'))+'~r~n'
+	else
+		if as_tipo_docu='a' or  as_tipo_docu='c'  then 
+			if as_coddoc='RV' then 
+				ls_data_qr ='NumFact: NC'+string(adw_factura.getitemnumber(1,'nfact'))+string(as_nnota,'00')+'~r~n'
+			else
+				ls_data_qr ='NumFact: NC'+string(adw_factura.getitemnumber(1,'nfact'))+'01'+'~r~n'
+			end if
+		else
+			ls_data_qr ='NumFact: ND'+string(adw_factura.getitemnumber(1,'nfact'))+string(as_nnota,'00')+'~r~n'
+		end if
+	end if
+else			
+	if as_tipo_docu='f' or as_tipo_docu='r' then 		
+		ls_data_qr ='NumFact: '+adw_factura.getitemstring(1,'prefijo')+string(adw_factura.getitemnumber(1,'nfact'))+'~r~n'
+	else
+		if as_tipo_docu='a' or as_tipo_docu='c' then 
+			if as_coddoc='RV' then 
+				ls_data_qr ='NumFact: NC'+adw_factura.getitemstring(1,'prefijo')+string(adw_factura.getitemnumber(1,'nfact'))+string(as_nnota,'00')+'~r~n'
+			else
+				ls_data_qr ='NumFact: NC'+adw_factura.getitemstring(1,'prefijo')+string(adw_factura.getitemnumber(1,'nfact'))+'01'+'~r~n'
+			end if
+		else
+			ls_data_qr ='NumFact: ND'+adw_factura.getitemstring(1,'prefijo')+string(adw_factura.getitemnumber(1,'nfact'))+string(as_nnota,'00')+'~r~n'
+		end if
+	end if
+end if
+
+if as_tipo_docu='f' or as_tipo_docu='r' then 		
+	ls_data_qr+='FecFac: '+string(adw_factura.getitemdatetime(1,'fecha_factura') ,'yyyy-mm-dd')+'~r~n'		
+	ls_data_qr+='HorFac: '+string(adw_factura.getitemdatetime(1,'hora_factura') ,'HH:mm:ss')+'-05:00~r~n'
+else
+	if as_tipo_docu='a'  or as_tipo_docu='c' then 
+		ls_data_qr+='FecFac: '+string(adw_factura.getitemdatetime(1,'fecha_anula') ,'yyyy-mm-dd')+'~r~n'		
+		ls_data_qr+='HorFac: '+string(adw_factura.getitemdatetime(1,'fecha_anula') ,'HH:mm:ss')+'-05:00~r~n'
+	end if
+end if
+ls_data_qr+='NitFac: '+adw_factura.getitemSTring(1,'documento') +'~r~n'
+ls_data_qr+='DocAdq: '+adw_factura.getitemstring(1,'nit') +'~r~n'
+ls_data_qr+='ValFac: '+string(adw_factura.getitemnumber(1,'vtemp') ,'##################.00')+'~r~n'
+ls_data_qr+='ValIva: '+string(adw_factura.getitemnumber(1,'vtiva') ,'##################.00')+'~r~n'
+ls_data_qr+='ValOtroIm: 0.00~r~n'
+ls_data_qr+='ValTolFac: '+string(adw_factura.getitemnumber(1,'vtemp') ,'##################.00')+'~r~n'
+ls_data_qr+='CUFE: '+adw_factura.getitemstring(1,'cufe')+'~r~n'
+ls_data_qr+='QRCode:https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey='+adw_factura.getitemstring(1,'cufe')
+
+draw_qr_code lqr_code
+lqr_code=create draw_qr_code
+ls_name=adw_factura.getitemstring(1,'prefijo')+string(adw_factura.getitemnumber(1,'nfact'))
+lqr_code.draw_msg(ls_data_qr,"",is_ruta_qr+'qr_'+ls_name+'.bmp')
+destroy lqr_code
+
+lst_ret_dian.as_qrcode=is_ruta_qr+'qr_'+ls_name+'.bmp"'
+//////////////////////// VALIDAR CAMPOS OBLIGATORIOS
+if of_validar_campos(adw_factura)=-1 then
+	lst_ret_dian.as_estado="-2"
+	return lst_ret_dian
+end if
+
+
+////////////////////   DESBLOQUEAR LIBRERIAS DE CHILKAT
+IF of_desbloquear_chilkat()=-1 then
+	lst_ret_dian.as_estado="-2"
+	 return lst_ret_dian
+end if
+////////////////////  LEER CERTIFICADO
+if of_leer_certificado(loo_Cert)=-1 then
+	lst_ret_dian.as_estado="-2"
+	 return lst_ret_dian
+end if
+
+ls_tipo_ambiente=adw_factura.getitemstring(1,'tipo_ambiente')
+li_anyo=year(date(adw_factura.getitemdatetime(1,'fecha_factura')))
+if as_tipo_docu='a'  or as_tipo_docu='d'  or as_tipo_docu='c' then 
+	if as_coddoc='RV' then 
+		ls_sufijo_campo='_nota'
+	else
+		ls_sufijo_campo='_anul'
+	end if
+end if
+////////////////NOMBRES y consecutivos de los ARCHIVOS
+of_files_names(adw_factura , lst_ret_dian.as_filename , lst_ret_dian.as_zipname , ll_nro_fact_x_anyo , ll_nro_zip_x_anyo , lbn_actu_consec_fact , lbn_actu_consec_zip , as_tipo_docu , ls_tipo_ambiente , li_anyo,ls_coddoc,as_coddoc)
+
+if lbn_actu_consec_fact then
+	ls_tipo=as_tipo_docu
+	if as_tipo_docu='a' then ls_tipo='c' //las anulaciones tambien son una nota credito
+	if of_actu_consecs_files_fact_elect(ls_coddoc,ls_tipo_ambiente,ls_tipo,li_anyo,ll_nro_fact_x_anyo -1,ls_coddoc)=-1 then
+		lst_ret_dian.as_estado="-2"
+		return lst_ret_dian
+	end if
+end if
+
+if lbn_actu_consec_zip then
+	if of_actu_consecs_files_fact_elect(ls_coddoc,ls_tipo_ambiente,'z',li_anyo,ll_nro_zip_x_anyo -1,ls_coddoc)=-1 then
+		lst_ret_dian.as_estado="-2"
+		return lst_ret_dian
+	end if
+end if
+
+if lbn_actu_consec_fact or lbn_actu_consec_zip then
+	//if of_actu_estado_factura(al_nro_fact,as_clug_factura,as_tipofac,ls_null,lst_ret_dian.as_filename,lst_ret_dian.as_zipname,lst_ret_dian.as_track_id,as_tipo_docu,ls_coddoc,lst_ret_dian.as_cufe)=-1 then 
+	if as_coddoc='FV' or as_coddoc='RV' then
+		if of_actu_estado_factura(al_nro_fact,as_clug_factura,as_tipofac,as_nnota,ls_null,lst_ret_dian.as_filename,lst_ret_dian.as_zipname,lst_ret_dian.as_track_id,as_tipo_docu,as_coddoc,lst_ret_dian.as_cufe)=-1 then 
+			lst_ret_dian.as_estado="-2"
+			return lst_ret_dian
+		end if
+	else
+		if of_actu_estado_factura(double(ls_numfact),as_clug_factura,'',0,ls_null,lst_ret_dian.as_filename,lst_ret_dian.as_zipname,lst_ret_dian.as_track_id,as_tipo_docu,as_coddoc,lst_ret_dian.as_cufe)=-1 then 
+			lst_ret_dian.as_estado="-2"
+			return lst_ret_dian
+		end if
+	end if
+end if
+		
+commit;
+
+
+lds_result=create uo_datastore
+
+if isnull(adw_factura.getitemstring(1,'estado_dian'+ls_sufijo_campo)) or adw_factura.getitemstring(1,'estado_dian'+ls_sufijo_campo)="-1" then //primer vez que se envía o ya se habia enviado antes pero tuvo errores (cuando tuvo errores se vuelve a enviar todo, solo que se conservan los nombres de archivos anteriores)
+    ////////////////////////////////////////////////////// P R I M E R   V E Z    Q U E    S E    E N V Í A ////////////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////  FIRMAR XML DE LA FACTURA
+	IF of_firmar_xml(adw_factura,loo_Cert,loo_SbXml , as_tipo_docu)=-1 then
+		lst_ret_dian.as_estado="-2"
+		 return lst_ret_dian
+	end if
+	
+	//guarda XML firmado en la ruta de la variable
+	li_status=loo_SbXml.WriteFile(is_ruta_facturas+lst_ret_dian.as_filename+'.xml','utf-8',0)	
+	if li_status<0 then
+		messagebox("Error función sing_chilkat","Error exportando el XML en: "+is_ruta_facturas+lst_ret_dian.as_filename+'.xml')
+		lst_ret_dian.as_estado="-2"
+		return lst_ret_dian
+	end if
+	//crear zip con la factura en XML
+	if of_zip(is_ruta_facturas+lst_ret_dian.as_zipname , is_ruta_facturas+lst_ret_dian.as_filename+'.xml','n')=-1 then
+		lst_ret_dian.as_estado="-2"
+		 return lst_ret_dian
+	end if
+	if ls_tipo_ambiente='2' then //pruebas
+		///////////// C R E A R    M E N S A J E   S O A P    F I R M A D O //////////////////////
+		//allá se le adiciona el ZIP cifrado en B64 al SOAP a enviar, el metodo 1 es async y el 3 sync
+		if of_soap_xml_firmado(loo_SbXmlSOAP,lst_ret_dian.as_zipname,loo_Cert,1,ls_testp)=-1 then
+			lst_ret_dian.as_estado="-2"
+		 	return lst_ret_dian
+		end if
+
+		lds_result.dataobject='dw_retorno_dian_async'
+		lst_ret_gral=of_html_request(string( loo_SbXmlSOAP.GetAsString()) , is_ruta_facturas+lst_ret_dian.as_filename+'_test_ret.xml',ls_tipo_ambiente)
+		if lst_ret_gral.i_valor=-1 then
+			rollback;
+			lst_ret_dian.as_estado="-2"
+			 return lst_ret_dian
+		end if
+			
+		li_status=lds_result.importFile(XML!,is_ruta_facturas+lst_ret_dian.as_filename+'_test_ret.xml')
+		
+		if li_status<0 then
+			messagebox('Error importando Respuesta','No es posible importar el mensaje de respuesta de la DIAN:~r~n'+is_ruta_facturas+lst_ret_dian.as_filename+'_test_ret.xml')
+			lst_ret_dian.as_estado="-2"
+			return lst_ret_dian
+		end if
+		
+		if lds_result.getitemstring(lds_result.rowcount(),'message')='Archivo no enviado.' then
+			lst_ret_dian.as_estado="-2"
+		 	return lst_ret_dian
+		end if
+		
+		lst_ret_dian.as_track_id=lds_result.getitemstring(lds_result.rowcount(),'zipkey')
+		
+		//if of_actu_estado_factura(al_nro_fact,as_clug_factura,as_tipofac,'0',lst_ret_dian.as_filename,lst_ret_dian.as_zipname,lst_ret_dian.as_track_id,as_tipo_docu,ls_coddoc,lst_ret_dian.as_cufe)=-1 then 
+		if of_actu_estado_factura(al_nro_fact,as_clug_factura,as_tipofac,as_nnota,ls_null,lst_ret_dian.as_filename,lst_ret_dian.as_zipname,lst_ret_dian.as_track_id,as_tipo_docu,as_coddoc,lst_ret_dian.as_cufe)=-1 then 
+			lst_ret_dian.as_estado="-2"
+		 	return lst_ret_dian
+		end if
+		
+			
+	else //1:produccion
+		//allá se le adiciona el ZIP cifrado en B64 al SOAP a enviar, el metodo 1 es async y el 3 sync
+		if of_soap_xml_firmado(loo_SbXmlSOAP,lst_ret_dian.as_zipname,loo_Cert,3,ls_testp)=-1 then
+			lst_ret_dian.as_estado="-2"
+		 	return lst_ret_dian
+		end if
+	/*	lds_result.dataobject='dw_retornos_dian'
+		lst_ret_gral=of_html_request(string( loo_SbXmlSOAP.GetAsString()) , is_ruta_facturas+lst_ret_dian.as_filename+'_test_ret.xml',ls_tipo_ambiente)
+		if lst_ret_gral.i_valor=-1 then
+			rollback;
+			lst_ret_dian.as_estado="-2"
+			 return lst_ret_dian
+		end if
+		li_status=lds_result.importFile(XML!,is_ruta_facturas+lst_ret_dian.as_filename+'_test_ret.xml')
+		if li_status<0 then
+			messagebox('Error importando Respuesta','No es posible importar el mensaje de respuesta de la DIAN:~r~n'+is_ruta_facturas+lst_ret_dian.as_filename+'_sync_ret.xml')
+			lst_ret_dian.as_estado="-2"
+			return lst_ret_dian
+		end if	
+		if lds_result.getitemstring(lds_result.rowcount(),'StatusCode')='99' then
+			lst_ret_dian.as_estado="-2"
+		 	return lst_ret_dian
+		end if*/
+		
+		//if of_estado_factura_dian(al_nro_fact,as_clug_factura,as_tipofac,as_nnota,'1',as_tipo_docu,as_coddoc)=-1 then
+		//	lst_ret_dian.as_estado="-2"
+		//	return lst_ret_dian
+		//end if
+		
+		oleobject loo_Bd
+		loo_Bd = create oleobject
+//		li_status= loo_Bd.ConnectToNewObject("Chilkat_9_5_0.BinData")
+//		if li_status < 0 then
+//			 destroy loo_Bd
+//			 MessageBox("Error","Connecting to COM object failed")
+//			lst_ret_dian.as_estado="-2"
+//			return lst_ret_dian
+//		end if
+//		li_status= loo_Bd.AppendEncoded(lds_result.getitemstring(lds_result.rowcount(),'xmlbase64'),"base64")
+//		ls_xml_ret = loo_Bd.GetString("utf-8")	
+
+		commit;
+	end if	 //produccion
+	lst_ret_dian.as_estado="0"	
+elseif adw_factura.getitemstring(1,'estado_dian'+ls_sufijo_campo)='0' then //ya se habia enviado y debe validar que pasó con el primer envío
+	/////////////////////////////////////////////// Y A    S E   H A B Í A    E N V I A D O    Y    H A Y    Q U E   V A L I D A R    Q U E    P A S Ó///////////////////////////////////////////////////////////////
+	
+	///////////// C R E A R    M E N S A J E   S O A P    F I R M A D O //////////////////////
+	of_soap_xml_firmado(loo_SbXmlSOAP,lst_ret_dian.as_zipname,loo_Cert,3,ls_testp)
+	if of_soap_xml_firmado(loo_SbXmlSOAP,adw_factura.getitemstring(1,'track_id'+ls_sufijo_campo),loo_Cert,2,ls_testp)=-1 then
+		lst_ret_dian.as_estado="-2"
+		return lst_ret_dian
+	end if
+		
+	lds_result.dataobject='dw_retorno_dian_status_zip'
+	lst_ret_gral=of_html_request(string( loo_SbXmlSOAP.GetAsString()) , is_ruta_facturas+lst_ret_dian.as_filename+'_zipStatus_ret.xml',ls_tipo_ambiente)
+	if lst_ret_gral.i_valor=-1 then
+		rollback;
+		lst_ret_dian.as_estado="-2"
+		return lst_ret_dian
+	end if
+		
+//	li_status=lds_result.importFile(XML!, is_ruta_facturas+lst_ret_dian.as_filename+'_zipStatus_ret.xml' )
+//	
+//	if li_status<0 then
+//		messagebox('Error importando Respuesta','No es posible importar el mensaje de respuesta de la DIAN:~r~n'+ is_ruta_facturas+lst_ret_dian.as_filename+'_zipStatus_ret.xml')
+//		lst_ret_dian.as_estado="-2"
+//		return lst_ret_dian
+//	end if
+	
+	//validada OK	
+//	if lds_result.getitemstring(lds_result.rowcount(),'statuscode')='00' then
+//		
+//		if of_estado_factura_dian(al_nro_fact,as_clug_factura,as_tipofac,as_nnota,'1',as_tipo_docu,as_coddoc)=-1 then
+//			lst_ret_dian.as_estado="-2"
+//		 	return lst_ret_dian
+//		end if
+//	else //con errores
+//		
+//		if of_estado_factura_dian(al_nro_fact,as_clug_factura,as_tipofac,as_nnota,'-1', as_tipo_docu,as_coddoc )=-1 then
+//			lst_ret_dian.as_estado="-2"
+//		 	return lst_ret_dian
+//		end if
+//		commit;		
+//		messagebox("Atención!!","La validación del documento resultó con errores, por favor revise el archivo de retorno para corregirlos (" + is_ruta_facturas+lst_ret_dian.as_filename+'_zipStatus_ret.xml)')	
+//		lst_ret_dian.as_estado="-1"
+//		return lst_ret_dian
+//	end if
+	commit;
+end if
+
+///********************GENERA JSON SOLO EVENTO***************
+
+if (as_tipo_docu='f' and as_coddoc='FV')  then 
+	nvo_rips_json u_rips
+	u_rips=create nvo_rips_json
+	u_rips.emite_json_evento(al_nro_fact,as_clug_factura,as_tipofac,as_tipo_docu,as_coddoc,is_ruta_facturas+ls_prefac+ls_numfact+'.json')
+	destroy 	u_rips
+end if
+//// **********************E N V I A R    C O R R E O    **********************************
+//if of_enviar_correo(adw_factura,al_nro_fact,as_clug_factura,as_tipofac,as_nnota,as_tipo_docu,as_coddoc,lst_ret_dian.as_qrcode,lst_ret_dian.as_cufe,ls_small_cufex,lst_ret_dian.as_zipname,lst_ret_dian.as_filename,string(loo_SbXml.GetAsString()),ls_xml_ret,loo_Cert)=-1 then 
+//	lst_ret_dian.as_estado="-2"
+//	return lst_ret_dian
+//end if
+//
+destroy loo_Cert
+destroy loo_SbXmlSOAP  
+destroy loo_SbXml
+destroy loo_Bd
+messagebox("Atención", "Factura firmada y envida con éxito !!")
+
+lst_ret_dian.as_estado="1"
+return lst_ret_dian
 end function
 
 on nvo_factura_electronica.create
