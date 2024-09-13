@@ -34,12 +34,12 @@ FROM
 		case when 
 			pacientes.sexo ='F' 
 		THEN 
-			'M'
+			'F'
 		ELSE
 			case when 
 				pacientes.sexo ='M' 
 			THEN 
-				'H'
+				'M'
 			ELSE
 				'I'
 			END 
@@ -103,3 +103,4 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=2 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
+ 
