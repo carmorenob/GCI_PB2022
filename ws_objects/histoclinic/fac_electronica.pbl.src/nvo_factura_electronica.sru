@@ -289,6 +289,8 @@ if li_rc < 0 then
     return -1
 end if
 
+loo_Xml.RemoveChild("cac:PrepaidPayment")
+
 
 loo_Xml.Tag = "xades:QualifyingProperties"
 loo_Xml.AddAttribute("Target","#xmldsig-"+smallcufe_formated)
@@ -354,7 +356,7 @@ end if
 //https://www.chilkatsoft.com/refdoc/xChilkatXmlDSigGenRef.html#prop0
 //ESTA PROPIEDAD ES BIEN IMPORTATE PARA QUE EL MENSAJE PASE BIEN EN LA DIAN!!!!!!
 loo_GenFact.Behaviors = "CompactSignedXml"
-
+	
 li_Success = loo_GenFact.CreateXmlDSigSb(aoo_SbXml)
 if li_Success = 0 then
 	messagebox("Error firmando la factura" ,string( loo_GenFact.LastErrorText ))
@@ -2737,6 +2739,13 @@ if as_tipo_docu='f' or as_tipo_docu='r'  then
 		lst_ret_dian.as_estado="-2"
 		return lst_ret_dian
 	end if
+	
+	if adw_factura.getitemnumber(1,'vproced') - adw_factura.getitemnumber(1,'vemp')<>0 then
+		adw_factura.Modify("DataWindow.Export.XML.UseTemplate = 'dian19' ")
+	else
+		adw_factura.Modify("DataWindow.Export.XML.UseTemplate = 'dian19src' ")
+	end if
+		
 else
 	if as_coddoc='RV' then 
 		if adw_factura.retrieve(al_nro_fact,as_clug_factura,as_tipofac,as_nnota)<=0 then 
@@ -2939,6 +2948,7 @@ if isnull(adw_factura.getitemstring(1,'estado_dian'+ls_sufijo_campo)) or adw_fac
 		lst_ret_dian.as_estado="-2"
 		 return lst_ret_dian
 	end if
+
 	
 	//guarda XML firmado en la ruta de la variable
 	li_status=loo_SbXml.WriteFile(is_ruta_facturas+lst_ret_dian.as_filename+'.xml','utf-8',0)	

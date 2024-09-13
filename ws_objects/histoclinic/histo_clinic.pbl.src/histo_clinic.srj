@@ -368,6 +368,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\pyp_asis.pbl,w_tablero_erc
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hospital.pbl,dw_tab_atenciones_urgencias_obs,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\autoriza.pbl,dw_autoriza,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\fac_electronica.pbl,dw_mipres_prescripcion_nutri,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\rep_compuesto.pbl,asis_int_factura_ele_cap19,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,w_instrumento_eclampsia,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,f_percentil,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_coloca_esp,f
@@ -576,6 +577,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\pyp_asis.pbl,dw_pyp_pendiente,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\bancos.pbl,dw_banco_bolsas,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\autoriza.pbl,dw_servicios,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\fac_electronica.pbl,dw_factura_electronica_postgres19_src,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,w_instrumentos_lfried,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,dw_instrum_ckd_epi,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_biometria_muestra_imagen,f
