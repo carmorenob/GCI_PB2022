@@ -6,6 +6,10 @@ type tab_1 from tab within w_plant_hcs
 end type
 type tp_1 from userobject within tab_1
 end type
+type pb_15 from picturebutton within tp_1
+end type
+type pb_14 from picturebutton within tp_1
+end type
 type t_p from tab within tp_1
 end type
 type p_1 from userobject within t_p
@@ -68,10 +72,6 @@ type dw_lista from datawindow within tp_1
 end type
 type st_2 from statictext within tp_1
 end type
-type cb_2 from picturebutton within tp_1
-end type
-type cb_1 from picturebutton within tp_1
-end type
 type tv_1 from treeview within tp_1
 end type
 type dw_save_campo from datawindow within tp_1
@@ -81,6 +81,8 @@ end type
 type gb_1 from groupbox within tp_1
 end type
 type tp_1 from userobject within tab_1
+pb_15 pb_15
+pb_14 pb_14
 t_p t_p
 pb_4 pb_4
 pb_del pb_del
@@ -90,8 +92,6 @@ pb_conf pb_conf
 dw_tipo dw_tipo
 dw_lista dw_lista
 st_2 st_2
-cb_2 cb_2
-cb_1 cb_1
 tv_1 tv_1
 dw_save_campo dw_save_campo
 dw_l dw_l
@@ -281,7 +281,7 @@ end forward
 
 global type w_plant_hcs from window
 integer width = 6482
-integer height = 2596
+integer height = 3240
 boolean titlebar = true
 string title = "Plantillas de Historia Clínica"
 boolean controlmenu = true
@@ -649,7 +649,7 @@ end event
 type tab_1 from tab within w_plant_hcs
 integer y = 20
 integer width = 6217
-integer height = 2460
+integer height = 3052
 integer taborder = 10
 integer textsize = -8
 integer weight = 400
@@ -685,13 +685,15 @@ type tp_1 from userobject within tab_1
 integer x = 18
 integer y = 112
 integer width = 6181
-integer height = 2332
+integer height = 2924
 long backcolor = 67108864
 string text = "Plantillas"
 long tabtextcolor = 33554432
 string picturename = "rep.ico"
 long picturemaskcolor = 536870912
 string powertiptext = "Configurar las plantillas de Historia clínica"
+pb_15 pb_15
+pb_14 pb_14
 t_p t_p
 pb_4 pb_4
 pb_del pb_del
@@ -701,8 +703,6 @@ pb_conf pb_conf
 dw_tipo dw_tipo
 dw_lista dw_lista
 st_2 st_2
-cb_2 cb_2
-cb_1 cb_1
 tv_1 tv_1
 dw_save_campo dw_save_campo
 dw_l dw_l
@@ -710,6 +710,8 @@ gb_1 gb_1
 end type
 
 on tp_1.create
+this.pb_15=create pb_15
+this.pb_14=create pb_14
 this.t_p=create t_p
 this.pb_4=create pb_4
 this.pb_del=create pb_del
@@ -719,13 +721,13 @@ this.pb_conf=create pb_conf
 this.dw_tipo=create dw_tipo
 this.dw_lista=create dw_lista
 this.st_2=create st_2
-this.cb_2=create cb_2
-this.cb_1=create cb_1
 this.tv_1=create tv_1
 this.dw_save_campo=create dw_save_campo
 this.dw_l=create dw_l
 this.gb_1=create gb_1
-this.Control[]={this.t_p,&
+this.Control[]={this.pb_15,&
+this.pb_14,&
+this.t_p,&
 this.pb_4,&
 this.pb_del,&
 this.pb_1,&
@@ -734,8 +736,6 @@ this.pb_conf,&
 this.dw_tipo,&
 this.dw_lista,&
 this.st_2,&
-this.cb_2,&
-this.cb_1,&
 this.tv_1,&
 this.dw_save_campo,&
 this.dw_l,&
@@ -743,6 +743,8 @@ this.gb_1}
 end on
 
 on tp_1.destroy
+destroy(this.pb_15)
+destroy(this.pb_14)
 destroy(this.t_p)
 destroy(this.pb_4)
 destroy(this.pb_del)
@@ -752,18 +754,75 @@ destroy(this.pb_conf)
 destroy(this.dw_tipo)
 destroy(this.dw_lista)
 destroy(this.st_2)
-destroy(this.cb_2)
-destroy(this.cb_1)
 destroy(this.tv_1)
 destroy(this.dw_save_campo)
 destroy(this.dw_l)
 destroy(this.gb_1)
 end on
 
+type pb_15 from picturebutton within tp_1
+integer x = 5947
+integer y = 1916
+integer width = 146
+integer height = 128
+integer taborder = 140
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+boolean originalsize = true
+string picturename = "borrar_fila.GIF"
+string disabledname = "d_borrar_fila.GIF"
+alignment htextalign = left!
+string powertiptext = "Borrar Registro"
+end type
+
+event clicked;if dw_l.RowCount() > 0 then
+	dw_l.DeleteRow(0)
+	i_cambio=true
+end if
+
+end event
+
+type pb_14 from picturebutton within tp_1
+integer x = 5943
+integer y = 1776
+integer width = 146
+integer height = 128
+integer taborder = 140
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+boolean originalsize = true
+string picturename = "insertar.GIF"
+string disabledname = "d_insertar.GIF"
+alignment htextalign = left!
+string powertiptext = "Adicionar Registro"
+end type
+
+event clicked;integer fila
+string valor
+if dw_save_campo.GetRow() = 0 then Return
+fila = dw_l.InsertRow(0)
+dw_l.SetItem(fila,'codplantilla',dw_save_campo.GetItemString(dw_save_campo.GetRow(),'codplantilla'))
+dw_l.SetItem(fila,'numcampo',dw_save_campo.GetItemNumber(dw_save_campo.GetRow(),'numcampo'))
+valor = dw_l.Describe("Evaluate('max(nitem)',0)")
+dw_l.SetItem(fila,'nitem',long(valor) + 1)
+dw_l.SetItem(fila,'estado','1')
+dw_l.ScrolltoRow(fila)
+i_cambio=true
+
+end event
+
 type t_p from tab within tp_1
 integer x = 3035
 integer y = 8
-integer width = 3077
+integer width = 3145
 integer height = 796
 integer taborder = 90
 integer textsize = -7
@@ -798,7 +857,7 @@ end on
 type p_1 from userobject within t_p
 integer x = 18
 integer y = 112
-integer width = 3040
+integer width = 3109
 integer height = 668
 long backcolor = 67108864
 string text = "Propiedades"
@@ -820,8 +879,8 @@ end on
 type dw_deta from datawindow within p_1
 integer x = 46
 integer y = 28
-integer width = 2601
-integer height = 636
+integer width = 3054
+integer height = 544
 integer taborder = 50
 string title = "none"
 string dataobject = "dw_deta_plant"
@@ -865,7 +924,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 3040
+integer width = 3109
 integer height = 668
 long backcolor = 67108864
 string text = "Edad"
@@ -1018,7 +1077,7 @@ end event
 type p_3 from userobject within t_p
 integer x = 18
 integer y = 112
-integer width = 3040
+integer width = 3109
 integer height = 668
 long backcolor = 67108864
 string text = "Datos Adicionales"
@@ -1516,69 +1575,6 @@ alignment alignment = center!
 boolean focusrectangle = false
 end type
 
-type cb_2 from picturebutton within tp_1
-event mousemove pbm_mousemove
-boolean visible = false
-integer x = 5888
-integer y = 1720
-integer width = 142
-integer height = 124
-integer taborder = 130
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-string text = "        &b"
-string picturename = "borrar_fila.GIF"
-string disabledname = "d_borrar_fila.GIF"
-alignment htextalign = left!
-string powertiptext = "Borrar Registro"
-end type
-
-event clicked;if dw_l.RowCount() > 0 then
-	dw_l.DeleteRow(0)
-	i_cambio=true
-end if
-
-end event
-
-type cb_1 from picturebutton within tp_1
-event mousemove pbm_mousemove
-boolean visible = false
-integer x = 5888
-integer y = 1600
-integer width = 142
-integer height = 124
-integer taborder = 70
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-string text = "        &a"
-string picturename = "insertar.GIF"
-string disabledname = "d_insertar.GIF"
-alignment htextalign = left!
-string powertiptext = "Adicionar Registro"
-end type
-
-event clicked;integer fila
-string valor
-if dw_save_campo.GetRow() = 0 then Return
-fila = dw_l.InsertRow(0)
-dw_l.SetItem(fila,'codplantilla',dw_save_campo.GetItemString(dw_save_campo.GetRow(),'codplantilla'))
-dw_l.SetItem(fila,'numcampo',dw_save_campo.GetItemNumber(dw_save_campo.GetRow(),'numcampo'))
-valor = dw_l.Describe("Evaluate('max(nitem)',0)")
-dw_l.SetItem(fila,'nitem',long(valor) + 1)
-dw_l.SetItem(fila,'estado','1')
-dw_l.ScrolltoRow(fila)
-i_cambio=true
-
-end event
-
 type tv_1 from treeview within tp_1
 event type long rec_inserta ( long p_pos,  long p_numcampo )
 event reset ( )
@@ -1586,7 +1582,7 @@ event copiar_orden ( )
 integer x = 55
 integer y = 868
 integer width = 2816
-integer height = 1408
+integer height = 1984
 integer taborder = 110
 boolean dragauto = true
 integer textsize = -8
@@ -1774,10 +1770,9 @@ end event
 type dw_save_campo from datawindow within tp_1
 integer x = 2967
 integer y = 880
-integer width = 3090
-integer height = 660
+integer width = 3154
+integer height = 1108
 integer taborder = 80
-string title = "none"
 string dataobject = "dw_campos_plant"
 boolean border = false
 end type
@@ -1868,15 +1863,15 @@ if GetColumnName() = 'tipo' then
 		dw_l.setfilter('numcampo='+string(GetItemNumber(getrow(),'numcampo')))
 		dw_l.filter()
 		dw_l.sort()
-		dw_save_campo.height=668
+		dw_save_campo.height=1368
 		if  tipo = 'L' or tipo = 'Y' then 
 			dw_l.Visible = TRUE
-			cb_1.Visible = TRUE
-			cb_2.Visible = TRUE
+			pb_14.Visible = TRUE
+			pb_15.Visible = TRUE
 		else
 			dw_l.Visible = FALSE
-			cb_1.Visible = FALSE
-			cb_2.Visible = FALSE			
+			pb_14.Visible = FALSE
+			pb_15.Visible = FALSE			
 		end if
 	else
 		if tipoAnt = 'L' then
@@ -1893,9 +1888,9 @@ if GetColumnName() = 'tipo' then
 				Return 2
 			end if
 		end if
-		dw_save_campo.height=880
-		cb_1.Visible = FALSE
-		cb_2.Visible = FALSE
+		dw_save_campo.height=1120
+		pb_14.Visible = FALSE
+		pb_15.Visible = FALSE
 		dw_l.Visible = FALSE
 	end if
 	picture=wf_picture(tipo)
@@ -1925,14 +1920,14 @@ if GetItemString(fila,'tipo') = 'L' or GetItemString(fila,'tipo') = 'Y'  then
 	dw_l.setfilter('numcampo='+string(GetItemNumber(fila,'numcampo')))
 	dw_l.filter()
 	dw_l.sort()
-	dw_save_campo.height=668
-	cb_1.Visible = TRUE
-	cb_2.Visible = TRUE
+	dw_save_campo.height=1120
+	pb_14.Visible = TRUE
+	pb_15.Visible = TRUE
 	dw_l.Visible = TRUE
 else
-	dw_save_campo.height=980
-	cb_1.Visible = FALSE
-	cb_2.Visible = FALSE
+	dw_save_campo.height=1384
+	pb_14.Visible = FALSE
+	pb_15.Visible = FALSE
 	dw_l.Visible = FALSE
 end if
 
@@ -1996,11 +1991,12 @@ end event
 
 type dw_l from datawindow within tp_1
 boolean visible = false
-integer x = 2990
-integer y = 1604
-integer width = 2848
-integer height = 368
+integer x = 2985
+integer y = 1784
+integer width = 2939
+integer height = 460
 integer taborder = 120
+boolean bringtotop = true
 string title = "none"
 string dataobject = "dw_lista_campos_hc"
 boolean hscrollbar = true
@@ -2051,8 +2047,8 @@ end event
 type gb_1 from groupbox within tp_1
 integer x = 23
 integer y = 816
-integer width = 6094
-integer height = 1500
+integer width = 6112
+integer height = 2076
 integer taborder = 50
 integer textsize = -7
 integer weight = 700
@@ -2069,7 +2065,7 @@ type tp_2 from userobject within tab_1
 integer x = 18
 integer y = 112
 integer width = 6181
-integer height = 2332
+integer height = 2924
 long backcolor = 67108864
 string text = "Impresión"
 long tabtextcolor = 33554432
@@ -2090,8 +2086,8 @@ end on
 
 type tab_2 from tab within tp_2
 integer x = 5
-integer width = 4768
-integer height = 2332
+integer width = 5559
+integer height = 2908
 integer taborder = 70
 integer textsize = -7
 fontcharset fontcharset = ansi!
@@ -2132,8 +2128,8 @@ end on
 type tp2_1 from userobject within tab_2
 integer x = 18
 integer y = 112
-integer width = 4731
-integer height = 2204
+integer width = 5522
+integer height = 2780
 long backcolor = 67108864
 string text = "Encabezado"
 long tabtextcolor = 33554432
@@ -2315,7 +2311,7 @@ type dw_campo_cab from datawindow within tp2_1
 integer x = 5
 integer y = 252
 integer width = 2409
-integer height = 640
+integer height = 792
 integer taborder = 60
 string dataobject = "dw_campos_encab"
 boolean hscrollbar = true
@@ -2345,9 +2341,10 @@ boolean focusrectangle = false
 end type
 
 type rte_1 from richtextedit within tp2_1
-integer y = 924
+integer x = 5
+integer y = 1116
 integer width = 4645
-integer height = 1160
+integer height = 1604
 integer taborder = 70
 boolean init_hscrollbar = true
 boolean init_vscrollbar = true
@@ -2442,8 +2439,8 @@ end type
 type tp2_2 from userobject within tab_2
 integer x = 18
 integer y = 112
-integer width = 4731
-integer height = 2204
+integer width = 5522
+integer height = 2780
 long backcolor = 67108864
 string text = "Agrupamiento"
 long tabtextcolor = 33554432
@@ -2541,9 +2538,10 @@ rte_2.SetFocus()
 end event
 
 type rte_2 from richtextedit within tp2_2
-integer y = 928
+integer x = 5
+integer y = 1116
 integer width = 4645
-integer height = 1156
+integer height = 1604
 integer taborder = 80
 boolean init_hscrollbar = true
 boolean init_vscrollbar = true
@@ -2561,7 +2559,7 @@ end type
 type dw_campo_grupo from datawindow within tp2_2
 integer y = 228
 integer width = 2254
-integer height = 684
+integer height = 856
 integer taborder = 50
 string title = "none"
 string dataobject = "dw_campos_agrupa"
@@ -2650,8 +2648,8 @@ end event
 type tp2_3 from userobject within tab_2
 integer x = 18
 integer y = 112
-integer width = 4731
-integer height = 2204
+integer width = 5522
+integer height = 2780
 long backcolor = 67108864
 string text = "Ingreso QX"
 long tabtextcolor = 33554432
@@ -3133,8 +3131,8 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 4731
-integer height = 2204
+integer width = 5522
+integer height = 2780
 long backcolor = 67108864
 string text = "Encabezado Enfermería"
 long tabtextcolor = 33554432

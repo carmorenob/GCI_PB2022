@@ -19,7 +19,7 @@ end type
 end forward
 
 global type w_plantcampo from window
-integer width = 2839
+integer width = 3502
 integer height = 1988
 boolean titlebar = true
 string title = "Seleccion de Plantillas"
@@ -328,7 +328,7 @@ end type
 type rte_2 from richtextedit within w_plantcampo
 integer x = 50
 integer y = 720
-integer width = 2711
+integer width = 3333
 integer height = 1148
 integer taborder = 80
 integer textsize = -8
@@ -346,8 +346,8 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type pb_9 from picturebutton within w_plantcampo
-integer x = 722
-integer y = 316
+integer x = 1307
+integer y = 300
 integer width = 146
 integer height = 128
 integer taborder = 30
@@ -367,8 +367,8 @@ event clicked;close(parent)
 end event
 
 type pb_5 from picturebutton within w_plantcampo
-integer x = 722
-integer y = 180
+integer x = 1307
+integer y = 164
 integer width = 146
 integer height = 128
 integer taborder = 70
@@ -409,8 +409,8 @@ Return 0
 end event
 
 type pb_4 from picturebutton within w_plantcampo
-integer x = 722
-integer y = 44
+integer x = 1307
+integer y = 28
 integer width = 146
 integer height = 128
 integer taborder = 60
@@ -435,7 +435,7 @@ end event
 type dw_campo from datawindow within w_plantcampo
 integer x = 41
 integer y = 40
-integer width = 613
+integer width = 1138
 integer height = 632
 integer taborder = 50
 string title = "none"
@@ -460,8 +460,8 @@ end if
 end event
 
 type st_7 from statictext within w_plantcampo
-integer x = 933
-integer y = 48
+integer x = 1632
+integer y = 24
 integer width = 1751
 integer height = 208
 integer textsize = -8
