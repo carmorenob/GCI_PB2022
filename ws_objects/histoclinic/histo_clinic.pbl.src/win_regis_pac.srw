@@ -360,6 +360,7 @@ long ancho_ori, alto_ori
 boolean l_cambio_foto
 
 end variables
+
 forward prototypes
 public subroutine blanquea ()
 public function integer f_grabar_emp ()
@@ -991,8 +992,8 @@ end if
 end event
 
 type p_foto from picture within win_regis_pac
-integer x = 4050
-integer y = 20
+integer x = 3913
+integer y = 28
 integer width = 617
 integer height = 408
 boolean border = true
@@ -1106,7 +1107,7 @@ end event
 type dw_2 from datawindow within win_regis_pac
 integer x = 50
 integer y = 100
-integer width = 3886
+integer width = 3785
 integer height = 324
 integer taborder = 40
 string dragicon = "none!"
@@ -1424,6 +1425,22 @@ getchild('tu',idw_tusu)
 idw_tusu.settransobject(sqlca)
 insertrow(1)
 
+end event
+
+event buttonclicked;string ls_dir
+
+AcceptText()
+if dwo.name='b_dir' then
+	ls_dir=dw_1.getitemstring(1,"direccion")
+	openwithparm(w_editor_direccion,ls_dir)
+	ls_dir=message.stringparm
+	if not isNull(ls_dir) and  ls_dir<>'' then
+		dw_1.setitem(1,"direccion",ls_dir)
+//	else
+//		setnull(ls_dir)
+//		dw_1.setitem(1,"direccion",ls_dir)
+	end if
+end if
 end event
 
 type gb_4 from groupbox within tabpage_1
@@ -4301,7 +4318,7 @@ end event
 
 type gb_3 from groupbox within win_regis_pac
 integer x = 23
-integer width = 3973
+integer width = 3826
 integer height = 440
 integer taborder = 30
 integer textsize = -9
