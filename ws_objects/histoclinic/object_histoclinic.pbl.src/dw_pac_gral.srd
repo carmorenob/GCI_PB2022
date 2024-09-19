@@ -5,27 +5,28 @@ header(height=0 color="536870912" transparency="0" gradient.color="8421504" grad
 summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 detail(height=112 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
-table(column=(type=char(3) update=yes updatewhereclause=yes name=tipodoc dbname="pacientes.tipodoc" initial="CC" validationmsg="'No puede cambiar de paciente ahora'" )
- column=(type=char(15) update=yes updatewhereclause=yes name=documento dbname="pacientes.documento" validationmsg="~"El documento no válido para este tipo de documento~"" )
- column=(type=char(15) update=yes updatewhereclause=yes name=historia dbname="pacientes.historia" )
- column=(type=char(60) updatewhereclause=yes name=nombre1 dbname="pacientes.nombre1" )
- column=(type=char(60) updatewhereclause=yes name=nombre2 dbname="pacientes.nombre2" )
- column=(type=char(60) updatewhereclause=yes name=apellido1 dbname="pacientes.apellido1" )
- column=(type=char(60) updatewhereclause=yes name=apellido2 dbname="pacientes.apellido2" )
- column=(type=datetime updatewhereclause=yes name=fnacimiento dbname="pacientes.fnacimiento" )
- column=(type=char(1) updatewhereclause=yes name=sexo dbname="pacientes.sexo" )
- column=(type=char(30) updatewhereclause=yes name=desestrato dbname="estratos.desestrato" )
- column=(type=char(3) updatewhereclause=yes name=estrato dbname="pacientes.estrato" )
- column=(type=char(100) updatewhereclause=yes name=direccion dbname="pacientes.direccion" )
- column=(type=char(15) updatewhereclause=yes name=tel dbname="pacientes.tel" )
- column=(type=datetime updatewhereclause=yes name=fecha_captura dbname="pacientes.fecha_captura" )
- column=(type=char(200) updatewhereclause=yes name=email dbname="pacientes.email" )
- column=(type=char(1) updatewhereclause=yes name=estado dbname="pacientes.estado" )
- column=(type=datetime updatewhereclause=yes name=fecha_muerte dbname="pacientes.fecha_muerte" )
- column=(type=char(11) updatewhereclause=yes name=codocup dbname="pacientes.codocup" )
- column=(type=char(2) updatewhereclause=yes name=grupoae dbname="pacientes.grupoae" )
- column=(type=char(2) updatewhereclause=yes name=escolaridad dbname="pacientes.escolaridad" )
- column=(type=char(10) updatewhereclause=yes name=usuario dbname="pacientes.usuario" )
+table(column=(type=char(3) update=yes updatewhereclause=yes name=tipodoc dbname="pacientes.tipodoc" dbalias=".tipodoc" initial="CC" validationmsg="'No puede cambiar de paciente ahora'" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=documento dbname="pacientes.documento" dbalias=".documento" validationmsg="~"El documento no válido para este tipo de documento~"" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=historia dbname="pacientes.historia" dbalias=".historia" )
+ column=(type=char(60) updatewhereclause=yes name=nombre1 dbname="pacientes.nombre1" dbalias=".nombre1" )
+ column=(type=char(60) updatewhereclause=yes name=nombre2 dbname="pacientes.nombre2" dbalias=".nombre2" )
+ column=(type=char(60) updatewhereclause=yes name=apellido1 dbname="pacientes.apellido1" dbalias=".apellido1" )
+ column=(type=char(60) updatewhereclause=yes name=apellido2 dbname="pacientes.apellido2" dbalias=".apellido2" )
+ column=(type=datetime updatewhereclause=yes name=fnacimiento dbname="pacientes.fnacimiento" dbalias=".fnacimiento" )
+ column=(type=char(1) updatewhereclause=yes name=sexo dbname="pacientes.sexo" dbalias=".sexo" )
+ column=(type=char(30) updatewhereclause=yes name=desestrato dbname="estratos.desestrato" dbalias=".desestrato" )
+ column=(type=char(3) updatewhereclause=yes name=estrato dbname="pacientes.estrato" dbalias=".estrato" )
+ column=(type=char(100) updatewhereclause=yes name=direccion dbname="pacientes.direccion" dbalias=".direccion" )
+ column=(type=char(15) updatewhereclause=yes name=tel dbname="pacientes.tel" dbalias=".tel" )
+ column=(type=datetime updatewhereclause=yes name=fecha_captura dbname="pacientes.fecha_captura" dbalias=".fecha_captura" )
+ column=(type=char(200) updatewhereclause=yes name=email dbname="pacientes.email" dbalias=".email" )
+ column=(type=char(1) updatewhereclause=yes name=estado dbname="pacientes.estado" dbalias=".estado" )
+ column=(type=datetime updatewhereclause=yes name=fecha_muerte dbname="pacientes.fecha_muerte" dbalias=".fecha_muerte" )
+ column=(type=char(11) updatewhereclause=yes name=codocup dbname="pacientes.codocup" dbalias=".codocup" )
+ column=(type=char(2) updatewhereclause=yes name=grupoae dbname="pacientes.grupoae" dbalias=".grupoae" )
+ column=(type=char(2) updatewhereclause=yes name=escolaridad dbname="pacientes.escolaridad" dbalias=".escolaridad" )
+ column=(type=char(10) updatewhereclause=yes name=usuario dbname="pacientes.usuario" dbalias=".usuario" )
+ column=(type=char(1) updatewhereclause=yes name=fn_val dbname="pacientes.fn_val" dbalias=".fn_val" )
  retrieve="SELECT 
 	pacientes.tipodoc,   
    	pacientes.documento,   
@@ -47,7 +48,8 @@ table(column=(type=char(3) update=yes updatewhereclause=yes name=tipodoc dbname=
 	pacientes.codocup,
 	pacientes.grupoae,
 	pacientes.escolaridad,
-	pacientes.usuario
+	pacientes.usuario,
+	pacientes.fn_val
 FROM 
 	pacientes LEFT OUTER JOIN estratos ON pacientes.estrato = estratos.codestrato
 WHERE 
@@ -90,4 +92,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=0 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 

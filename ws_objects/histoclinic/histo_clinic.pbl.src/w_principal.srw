@@ -91,7 +91,6 @@ elseif j=0 then
 				opensheet (win_regis_pac,w_principal,4,original!)
 				win_regis_pac.dw_2.modify("historia.edit.DisplayOnly=FALSE")
 				win_regis_pac.tab_1.selectedtab=1
-				//win_regis_pac.sle_1.text=docu
 				win_regis_pac.sle_1.triggerevent(modified!)
 			case 3
 				es_nuevo=true
@@ -108,7 +107,6 @@ elseif j=0 then
 			opensheet (win_regis_pac,w_principal,4,original!)
 			win_regis_pac.dw_2.modify("historia.edit.DisplayOnly=FALSE")
 			win_regis_pac.tab_1.selectedtab=1
-			//win_regis_pac.sle_1.text=docu
 			win_regis_pac.sle_1.triggerevent(modified!)
 		else
 			es_nuevo=true
@@ -122,6 +120,11 @@ else
 	es_nuevo=false
 	histo=dw_1.getitemstring(1,"historia")
 	if not isvalid(w_apoyo_diag2) then
+		if isnull(dw_1.getitemstring(1,"fn_val")) or dw_1.getitemstring(1,"fn_val")='0' then
+			messagebox("Atención","Paciente no tienen Dirección en nuevo formato Actualicé Datos",Question! )
+			lb_debe=true
+		end if
+		
 		if isnull(dw_1.getitemstring(1,"direccion")) then
 			messagebox("Atención","Paciente no tienen Dirección Actualicé Datos",Question! )
 			lb_debe=true
@@ -261,9 +264,6 @@ WHERE (((codigo_para)=36));
 if sqlca.sqlnrows=0 then
 	messagebox('Atencíon','No hay parametro 36')
 end if
-
-
-
 
 if l_cita=0 then 
 	m_principal.m_3.m_3_2.m_recordatorio.visible=false

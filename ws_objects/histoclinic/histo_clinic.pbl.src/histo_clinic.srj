@@ -352,6 +352,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\autoriza.pbl,w_solicita_au
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\atu_estadisticas.pbl,f_retrieve_dw_campos,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\atu_estadisticas.pbl,dw_resul,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,dw_instrum_hh_rpsico,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_editor_direccion,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_encripta_new,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,dw_empacguarda_ori,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_dwr_height,u
@@ -1156,6 +1157,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hospital.pbl,dw_tab_tiempo
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\rips.pbl,dw_facturas_radica_deselec,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\rips.pbl,w_audita_rips,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\rips.pbl,dw_audita_med_solo,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_direccion_captura,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\costos_asis.pbl,dw_generi_x_insumo,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,dw_rec_caj_cpo,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,w_escoge_getareo,w

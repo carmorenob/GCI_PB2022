@@ -1428,17 +1428,22 @@ insertrow(1)
 end event
 
 event buttonclicked;string ls_dir
+st_xa_anular st_anul
 
 AcceptText()
 if dwo.name='b_dir' then
-	ls_dir=dw_1.getitemstring(1,"direccion")
-	openwithparm(w_editor_direccion,ls_dir)
+	if dw_1.getitemstring(1,"fn_val")='0' then
+		ls_dir=''
+	else
+		ls_dir=dw_1.getitemstring(1,"direccion")
+	end if
+	st_anul.tipo='PAC'
+	st_anul.motivo=ls_dir
+	openwithparm(w_editor_direccion,st_anul)
 	ls_dir=message.stringparm
 	if not isNull(ls_dir) and  ls_dir<>'' then
 		dw_1.setitem(1,"direccion",ls_dir)
-//	else
-//		setnull(ls_dir)
-//		dw_1.setitem(1,"direccion",ls_dir)
+		dw_1.setitem(1,"fn_val",'1')
 	end if
 end if
 end event
