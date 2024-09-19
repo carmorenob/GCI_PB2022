@@ -37,9 +37,8 @@ global w_editor_direccion w_editor_direccion
 
 type variables
 datawindowchild idw_via,idw_bis,idw_cuad
-
+st_xa_anular st_anulacion
 end variables
-
 forward prototypes
 public subroutine wf_organiza ()
 end prototypes
@@ -52,6 +51,12 @@ for li_i=1 to dw_1.rowcount()
 	
 	if not isnull(dw_1.getitemstring( li_i,'via')) then
 		ls_ped1=dw_1.getitemstring( li_i,'via')
+		if st_anulacion.tipo='DIAN' then 
+			li_fila=idw_via.find("id_abreviatura='"+ls_ped1+"'",1,idw_via.rowcount())
+			if li_fila>0 then
+				ls_ped1=idw_via.getitemstring( li_fila,'dian')
+			end if
+		end if		
 		sle_1.text+=' ' +ls_ped1
 	end if
 	
@@ -115,7 +120,9 @@ event open;integer li_inip=1,li_pos=1,li_fila,li_row=1,li_li
 string ls_parte,ls_cadena,ls_ped
 integer li_v=0,li_n=0
 
-sle_1.text=message.stringparm
+st_anulacion = Message.PowerObjectParm
+sle_1.text=st_anulacion.motivo
+
 ls_cadena=sle_1.text
 li_pos = Pos(ls_cadena,' ',li_inip)
 DO WHILE li_pos  > 0
@@ -130,6 +137,7 @@ DO WHILE li_pos  > 0
 				if li_row>4 then dw_1.insertrow(0)
 				li_n=0
 			end if
+			
 			ls_ped=idw_via.getitemstring(li_fila,'id_abreviatura')
 			dw_1.setitem(li_row,'via',ls_ped)		
 		else
@@ -294,7 +302,7 @@ string facename = "Tahoma"
 long backcolor = 15793151
 textcase textcase = upper!
 boolean displayonly = true
-borderstyle borderstyle = StyleLowered!
+borderstyle borderstyle = stylelowered!
 end type
 
 type dw_1 from datawindow within w_editor_direccion

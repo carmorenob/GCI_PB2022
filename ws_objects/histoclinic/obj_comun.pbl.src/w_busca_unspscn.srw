@@ -33,7 +33,7 @@ end type
 end forward
 
 global type w_busca_unspscn from window
-integer width = 2670
+integer width = 3214
 integer height = 1556
 boolean titlebar = true
 string title = "Buscar UNSPSC"
@@ -191,7 +191,7 @@ end event
 type st_2 from statictext within w_busca_unspscn
 integer x = 1349
 integer y = 64
-integer width = 1189
+integer width = 1509
 integer height = 180
 integer textsize = -8
 integer weight = 400
@@ -359,7 +359,7 @@ end event
 type dw_2 from datawindow within w_busca_unspscn
 integer x = 114
 integer y = 492
-integer width = 2373
+integer width = 2738
 integer height = 644
 integer taborder = 10
 string dragicon = "none!"
@@ -413,7 +413,7 @@ end event
 type gb_1 from groupbox within w_busca_unspscn
 integer x = 37
 integer y = 20
-integer width = 2528
+integer width = 2862
 integer height = 248
 integer taborder = 10
 integer textsize = -8
@@ -431,7 +431,7 @@ end type
 type gb_2 from groupbox within w_busca_unspscn
 integer x = 37
 integer y = 276
-integer width = 2523
+integer width = 2866
 integer height = 1032
 integer taborder = 20
 integer textsize = -8

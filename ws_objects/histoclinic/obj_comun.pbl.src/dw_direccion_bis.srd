@@ -5,10 +5,11 @@ header(height=0 color="536870912" transparency="0" gradient.color="8421504" grad
 summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 detail(height=56 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
-table(column=(type=char(10) update=yes updatewhereclause=yes key=yes name=id_abreviatura dbname="gral_pm_abreviatura_direccion.id_abreviatura" )
- column=(type=char(50) update=yes updatewhereclause=yes name=descripcion_abreviatura dbname="gral_pm_abreviatura_direccion.descripcion_abreviatura" )
+table(column=(type=char(10) update=yes updatewhereclause=yes key=yes name=id_abreviatura dbname="gral_pm_abreviatura_direccion.id_abreviatura" dbalias=".id_abreviatura" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=descripcion_abreviatura dbname="gral_pm_abreviatura_direccion.descripcion_abreviatura" dbalias=".descripcion_abreviatura" )
+ column=(type=char(10) updatewhereclause=yes name=dian dbname="gral_pm_abreviatura_direccion.dian" dbalias=".dian" )
  retrieve="SELECT 
-	id_abreviatura,descripcion_abreviatura  
+	id_abreviatura,descripcion_abreviatura,dian
 FROM 
 	gral_pm_abreviatura_direccion  
 WHERE
