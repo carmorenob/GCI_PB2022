@@ -39,6 +39,7 @@ type variables
 datawindowchild idw_via,idw_bis,idw_cuad
 st_xa_anular st_anulacion
 end variables
+
 forward prototypes
 public subroutine wf_organiza ()
 end prototypes
@@ -327,6 +328,16 @@ idw_bis.settransobject(sqlca)
 
 getchild('cuadrante',idw_cuad)
 idw_cuad.settransobject(sqlca) 
+
+if st_anulacion.tipo='DIAN' then
+	idw_via.retrieve('2')
+	idw_bis.retrieve('2')
+	idw_cuad.retrieve('2')
+else
+	idw_via.retrieve('1')
+	idw_bis.retrieve('1')
+	idw_cuad.retrieve('1')
+end if
 
 InsertRow(0)
 InsertRow(0)
