@@ -70,8 +70,8 @@ end type
 end forward
 
 global type w_cfgterceros from window
-integer width = 4219
-integer height = 1932
+integer width = 5582
+integer height = 2032
 boolean titlebar = true
 string title = "Creación Terceros"
 boolean controlmenu = true
@@ -241,8 +241,8 @@ end event
 
 type dw_ter_tmp from datawindow within w_cfgterceros
 boolean visible = false
-integer x = 1285
-integer y = 1884
+integer x = 1321
+integer y = 1836
 integer width = 626
 integer height = 64
 integer taborder = 40
@@ -256,7 +256,6 @@ end type
 event itemchanged;if isNull(this.GetItemString(this.getRow(),'tipodoc')) then Return
 tab_1.tg_1.tab_2.tabpage_1.dw_tipo.retrieve( this.GetItemString(this.getRow(),'tipodoc'),this.GetItemString(this.getRow(),'documento'))
 tab_1.tg_1.dw_terceros.retrieve( this.GetItemString(this.getRow(),'tipodoc'),this.GetItemString(this.getRow(),'documento'))
-
 
 end event
 
@@ -287,8 +286,8 @@ type tab_1 from tab within w_cfgterceros
 event create ( )
 event destroy ( )
 integer y = 12
-integer width = 4137
-integer height = 1788
+integer width = 5486
+integer height = 1812
 integer taborder = 20
 integer textsize = -7
 integer weight = 400
@@ -318,8 +317,8 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 4101
-integer height = 1660
+integer width = 5449
+integer height = 1684
 long backcolor = 67108864
 string text = "Datos Jurídicos"
 long tabtextcolor = 33554432
@@ -625,8 +624,8 @@ event create ( )
 event destroy ( )
 integer x = 14
 integer y = 720
-integer width = 4087
-integer height = 912
+integer width = 5367
+integer height = 956
 integer taborder = 20
 integer textsize = -7
 integer weight = 400
@@ -658,8 +657,8 @@ end on
 type tabpage_2 from userobject within tab_2
 integer x = 18
 integer y = 112
-integer width = 4050
-integer height = 784
+integer width = 5330
+integer height = 828
 long backcolor = 67108864
 string text = "Direcciones"
 long tabtextcolor = 33554432
@@ -690,8 +689,8 @@ destroy(this.dw_ubi)
 end on
 
 type pb_3 from picturebutton within tabpage_2
-integer x = 2263
-integer y = 616
+integer x = 5157
+integer y = 304
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -725,8 +724,8 @@ end if
 end event
 
 type pb_2 from picturebutton within tabpage_2
-integer x = 2098
-integer y = 624
+integer x = 5157
+integer y = 168
 integer width = 146
 integer height = 128
 integer taborder = 40
@@ -745,8 +744,8 @@ string powertiptext = "Borrar Dirección"
 end type
 
 type pb_1 from picturebutton within tabpage_2
-integer x = 1938
-integer y = 624
+integer x = 5152
+integer y = 28
 integer width = 146
 integer height = 128
 integer taborder = 30
@@ -774,8 +773,8 @@ end event
 type dw_ubi from datawindow within tabpage_2
 integer x = 23
 integer y = 24
-integer width = 3963
-integer height = 580
+integer width = 5115
+integer height = 784
 integer taborder = 30
 string title = "none"
 string dataobject = "dw_cfgterceros_direccion"
@@ -794,6 +793,7 @@ dwc_postal.InsertRow(0)
 end event
 
 event itemchanged;string s_dpto,s_ciudad
+
 if (dwo.Name) = "cdpto" then
 	dwc_ciudad.Retrieve(data)
 end if
@@ -807,11 +807,27 @@ accepttext()
 
 end event
 
+event buttonclicked;string ls_dir
+st_xa_anular st_anul
+
+AcceptText()
+if dwo.name='b_dir' then
+	ls_dir=dw_ubi.getitemstring(dw_ubi.GETROW(),"direccion")
+	st_anul.tipo='DIAN'
+	st_anul.motivo=ls_dir
+	openwithparm(w_editor_direccion,st_anul)
+	ls_dir=message.stringparm
+	if not isNull(ls_dir) and  ls_dir<>'' then
+		dw_ubi.setitem(dw_ubi.getrow(),"direccion",ls_dir)
+	end if
+end if
+end event
+
 type tabpage_1 from userobject within tab_2
 integer x = 18
 integer y = 112
-integer width = 4050
-integer height = 784
+integer width = 5330
+integer height = 828
 long backcolor = 67108864
 string text = "Nómina"
 long tabtextcolor = 33554432
@@ -833,7 +849,7 @@ type dw_tipo from datawindow within tabpage_1
 integer x = 18
 integer y = 24
 integer width = 2304
-integer height = 456
+integer height = 748
 integer taborder = 20
 string dataobject = "dw_cfgterceros_tipo"
 boolean border = false
@@ -973,8 +989,8 @@ end event
 
 type dw_emp from datawindow within w_cfgterceros
 boolean visible = false
-integer x = 608
-integer y = 1880
+integer x = 626
+integer y = 1832
 integer width = 658
 integer height = 68
 integer taborder = 30
