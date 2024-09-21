@@ -397,6 +397,7 @@ event e_grepserv ( long param1,  long param2,  long param3 )
 event e_servcups ( long param1,  long param2,  long param3 )
 event e_servlugar ( long param1,  long param2,  long param3 )
 event e_apdxnotap ( long param1,  long param2,  long param3 )
+event e_adire ( long param1,  long param2,  long param3 )
 integer width = 3191
 integer height = 492
 long backcolor = 15132390
@@ -1064,5 +1065,8 @@ event e_servlugar(long param1, long param2, long param3);mf_abre_tablas2("Reps V
 end event
 
 event e_apdxnotap(long param1, long param2, long param3);mf_abre_tablas("Notas Procesamiento",'dw_pm_notas_apdx',0)
+end event
+
+event e_adire(long param1, long param2, long param3);mf_abre_tablas("Abreviatura Direcciones",'dw_pm_direccion',0)
 end event
 

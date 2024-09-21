@@ -140,6 +140,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_count_text
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_busca_cuenta,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_encripta_new,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_banco_subemp,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_editor_direccion,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_act_econ,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_coloca_esp,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_new_empre,d
@@ -186,6 +187,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,n_osversion,
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_lista_plan,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_hc.pbl,dw_propiedades,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_dverificacion,f
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_xa_anular,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_act_econ,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,w_ips,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_rep_deta,d
@@ -435,6 +437,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_combo_ha
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,w_hora_bas,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,w_empresas,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_contrato_copago,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_direccion_captura,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_categoria,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_qxconf_grupos,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,w_edita_form_apdx,w
