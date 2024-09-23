@@ -56,6 +56,7 @@ st_anula anular
 st_xa_anular st_anulacion
 datawindowchild idw_tipofac
 end variables
+
 forward prototypes
 public function integer lf_anu_rec (long nreci, string clug_rec)
 public function integer lf_anu_fac (long nfact, string clug_fac, string tipo_fac, string tip_ingres, boolean borrar, long nfact_ref, string clug_ref, string tipo_ref)
@@ -597,8 +598,23 @@ for j=desde to hasta
 		end if
 	end if
 	if f_anula_mov_kardex('FC',clug_fac,tipo_fac,nfact)=-1 then //solo anula movimientos si es de cons. externa
-		rollback;													//porque una factura de Hosp/urg no mueve kardex
+		rollback;												//porque una factura de Hosp/urg no mueve kardex
 		return
+	end if
+	
+	nvo_factura_electronica u_elec
+	st_ret_dian    lst_lle
+	u_elec=create nvo_factura_electronica
+	
+	nfact=dw_1.getitemnumber(j,'nfact')
+	clug_fac=dw_1.getitemstring(j,'clugar')
+	tipo_fac=dw_1.getitemstring(j,'tipo')	
+	if tipo_fac='F' and dw_1.getitemstring(j,'estado_dian')='1' and  isnull(dw_1.getitemstring(j,'estado_dian_anul')) then
+		lst_lle=u_elec.sign_chilkat(dw_electronica,nfact,clug_fac,tipo_fac,0,'a','FV')
+		if lst_lle.as_estado<>'1' then
+			rollback;
+			return
+		end if	
 	end if
 	
 next
@@ -607,20 +623,6 @@ if dw_1.update()=-1 then
 	return
 end if
 commit;
-nvo_factura_electronica u_elec
-st_ret_dian    lst_lle
-u_elec=create nvo_factura_electronica
-
-for j=desde to hasta
-	nfact=dw_1.getitemnumber(j,'nfact')
-	clug_fac=dw_1.getitemstring(j,'clugar')
-	tipo_fac=dw_1.getitemstring(j,'tipo')	
-	if tipo_fac='F' and dw_1.getitemstring(j,'estado_dian')='1' and  isnull(dw_1.getitemstring(j,'estado_dian_anul')) then
-		lst_lle=u_elec.sign_chilkat(dw_electronica,nfact,clug_fac,tipo_fac,0,'a','FV')
-	else
-		continue
-	end if
-next
 
 if isvalid(w_apoyo_diag2) then w_apoyo_diag2.dw_hist.event p_rowfocuschanged()
 if isvalid(w_admision) then w_admision.dw_tingres.triggerevent(itemchanged!)

@@ -429,7 +429,7 @@ type dw_1 from datawindow within w_print_histor_txt
 event cambia_estado ( string dato,  long fila_ante,  string filtro_ante )
 event pe_cambio_plant ( long fila_ant,  string filtro_ante )
 integer x = 32
-integer y = 184
+integer y = 176
 integer width = 4178
 integer height = 1280
 integer taborder = 40

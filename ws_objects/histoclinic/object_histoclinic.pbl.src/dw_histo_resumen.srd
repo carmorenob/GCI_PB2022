@@ -12,7 +12,7 @@ table(column=(type=number updatewhereclause=yes name=contador dbname="historial.
  column=(type=char(1) updatewhereclause=yes name=sel_ing dbname="sel_ing" values="	1/	0/	2" )
  column=(type=char(1) updatewhereclause=yes name=sel_plant dbname="sel_plant" initial="1" values="	1/	0" )
  column=(type=char(3) updatewhereclause=yes name=cual dbname="hclin_registro.cual" )
- column=(type=long updatewhereclause=yes name=numero_ingre dbname="numero_ingre" )
+ column=(type=long updatewhereclause=yes name=nregistro dbname="nregistro" )
  column=(type=char(2) updatewhereclause=yes name=clugar_his dbname="clugar_his" )
  column=(type=char(100) updatewhereclause=yes name=desplantilla dbname="hclin_registro.desplantilla" )
  column=(type=char(5) updatewhereclause=yes name=codplantilla dbname="hclin_registro.codplantilla" )
@@ -20,7 +20,7 @@ table(column=(type=number updatewhereclause=yes name=contador dbname="historial.
  column=(type=char(1) updatewhereclause=yes name=tipo dbname="hclin_registro.tipo" )
  retrieve="SELECT 
 	historial.contador, historial.clugar, historial.indapdx, historial.fecha, '1' AS sel_ing, 
-	case when hclin_registro.tipo ='F' then '0' else '1' end AS sel_plant, hclin_registro.tipo AS cual, 0 AS numero_ingre, '  ' AS clugar_his, 
+	case when hclin_registro.tipo ='F' then '0' else '1' end AS sel_plant, hclin_registro.tipo AS cual, 0 AS nregistro, '  ' AS clugar_his, 
 	hclin_registro.desplantilla, hclin_registro.codplantilla, hclin_registro.ingreso, 
 	hclin_registro.tipo
 FROM 
@@ -66,4 +66,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=0 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 
