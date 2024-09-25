@@ -148,18 +148,17 @@ event resize;//st_1.x=(newwidth - st_1.width)/2
 end event
 
 type pb_json from picturebutton within w_busca_fact
-integer x = 1874
+integer x = 1865
 integer y = 1608
 integer width = 146
 integer height = 128
-integer taborder = 90
+integer taborder = 100
 integer textsize = -10
 integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
-boolean enabled = false
 boolean originalsize = true
 string picturename = "json.gif"
 string disabledname = "d_json.gif"
@@ -167,21 +166,21 @@ alignment htextalign = left!
 string powertiptext = "Emite estructura Json"
 end type
 
-event clicked;	nvo_rips_json luo_rips
-	double ldb_nfac
-	string ls_clu,ls_tip
-	
-	ldb_nfac=dw_encuentra.getitemnumber(dw_encuentra.getrow(),'nfact')
-	ls_clu=dw_encuentra.getitemstring(dw_encuentra.getrow(),'clugar')
-	ls_tip=dw_encuentra.getitemstring(dw_encuentra.getrow(),'tipo')
-	luo_rips=create nvo_rips_json
-	luo_rips.emite_json_evento(ldb_nfac,ls_clu,ls_tip,'f','FV','D:\json'+'.json')
-	destroy 	luo_rips
+event clicked;nvo_rips_json luo_rips
+double ldb_nfac
+string ls_clu,ls_tip
+
+ldb_nfac=dw_encuentra.getitemnumber(dw_encuentra.getrow(),'nfact')
+ls_clu=dw_encuentra.getitemstring(dw_encuentra.getrow(),'clugar')
+ls_tip=dw_encuentra.getitemstring(dw_encuentra.getrow(),'tipo')
+luo_rips=create nvo_rips_json
+luo_rips.emite_json_evento(ldb_nfac,ls_clu,ls_tip,'f','FV','D:\json'+'.json')
+destroy 	luo_rips
 end event
 
 type pb_4 from picturebutton within w_busca_fact
 integer x = 2030
-integer y = 1604
+integer y = 1608
 integer width = 146
 integer height = 128
 integer taborder = 80
@@ -360,7 +359,7 @@ end event
 type pb_3 from picturebutton within w_busca_fact
 event mousemove pbm_mousemove
 integer x = 2331
-integer y = 1604
+integer y = 1608
 integer width = 146
 integer height = 128
 integer taborder = 60
@@ -408,7 +407,7 @@ end event
 type pb_1 from picturebutton within w_busca_fact
 event mousemove pbm_mousemove
 integer x = 2181
-integer y = 1604
+integer y = 1608
 integer width = 146
 integer height = 128
 integer taborder = 80
