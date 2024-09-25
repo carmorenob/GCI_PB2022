@@ -611,11 +611,13 @@ for j=desde to hasta
 	nvo_factura_electronica u_elec
 	st_ret_dian    lst_lle
 	u_elec=create nvo_factura_electronica
-
 	
 	nfact=dw_1.getitemnumber(j,'nfact')
 	clug_fac=dw_1.getitemstring(j,'clugar')
 	tipo_fac=dw_1.getitemstring(j,'tipo')	
+	string ls_j
+	ls_j=dw_1.getitemstring(j,'estado_dian')
+	ls_j=dw_1.getitemstring(j,'estado_dian_anul')
 	if tipo_fac='F' and dw_1.getitemstring(j,'estado_dian')='1' and  isnull(dw_1.getitemstring(j,'estado_dian_anul')) then
 		lst_lle=u_elec.sign_chilkat(dw_electronica,nfact,clug_fac,tipo_fac,0,'a','FV')
 		if lst_lle.as_estado<>'1' then

@@ -1275,7 +1275,7 @@ elseif adw_factura.getitemstring(1,'estado_dian'+ls_sufijo_campo)='0' then //ya 
 		end if
 	else //con errores
 		
-		if of_estado_factura_dian(al_nro_fact,as_clug_factura,as_tipofac,as_nnota,'-1', as_tipo_docu,as_coddoc )=-1 then
+		if of_estado_factura_dian(al_nro_fact,as_clug_factura,as_tipofac,as_nnota,'-1', as_tipo_docu,as_coddoc)=-1 then
 			lst_ret_dian.as_estado="-2"
 		 	return lst_ret_dian
 		end if
