@@ -252,7 +252,7 @@ end type
 end forward
 
 global type w_audita_rips from window
-integer width = 6235
+integer width = 7026
 integer height = 2416
 boolean titlebar = true
 string title = "Auditoría y Acumulados de RIPS no Radicados"
@@ -279,6 +279,7 @@ long xant,yant,maxi
 string anterior,orden,l_soat,l_sql,is_elec
 datetime ldt_iniciafevs
 end variables
+
 forward prototypes
 public subroutine cuenta ()
 public subroutine reset_todo ()
@@ -397,9 +398,9 @@ end event
 
 type gb_11 from groupbox within w_audita_rips
 boolean visible = false
-integer x = 2011
-integer width = 2217
-integer height = 112
+integer x = 2304
+integer width = 2057
+integer height = 124
 integer taborder = 220
 integer textsize = -8
 integer weight = 400
@@ -426,7 +427,7 @@ event create ( )
 event destroy ( )
 integer x = 23
 integer y = 16
-integer width = 6149
+integer width = 6939
 integer height = 2260
 integer taborder = 10
 integer textsize = -8
@@ -475,7 +476,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 6112
+integer width = 6903
 integer height = 2132
 long backcolor = 67108864
 string text = "Auditoría General"
@@ -889,7 +890,7 @@ end event
 
 type gb_4 from groupbox within tp_1
 integer x = 5
-integer width = 6007
+integer width = 6857
 integer height = 2104
 integer taborder = 20
 integer textsize = -8
@@ -906,7 +907,7 @@ end type
 type dw_ria from datawindow within tp_1
 event clickup pbm_dwnlbuttonup
 integer y = 420
-integer width = 5979
+integer width = 6798
 integer height = 1648
 integer taborder = 240
 boolean bringtotop = true
@@ -1509,7 +1510,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 6112
+integer width = 6903
 integer height = 2132
 long backcolor = 67108864
 string text = "Acumulados"
@@ -1630,8 +1631,8 @@ destroy(this.gb_8)
 end on
 
 type pb_exp from picturebutton within tp_2
-integer x = 1664
-integer y = 436
+integer x = 1947
+integer y = 228
 integer width = 146
 integer height = 128
 integer taborder = 260
@@ -2012,8 +2013,8 @@ end event
 type dw_con from datawindow within tp_2
 integer x = 37
 integer y = 412
-integer width = 1445
-integer height = 300
+integer width = 2135
+integer height = 348
 integer taborder = 100
 string title = "none"
 string dataobject = "dw_audita_contratos"
@@ -2029,8 +2030,8 @@ event constructor;settransobject(sqlca)
 end event
 
 type pb_traer from picturebutton within tp_2
-integer x = 1490
-integer y = 432
+integer x = 1943
+integer y = 92
 integer width = 146
 integer height = 128
 integer taborder = 250
@@ -2151,9 +2152,9 @@ dw_con.filter()
 end event
 
 type st_diag2 from statictext within tp_2
-integer x = 1952
-integer y = 880
-integer width = 4078
+integer x = 2249
+integer y = 900
+integer width = 4613
 integer height = 128
 integer textsize = -8
 integer weight = 400
@@ -2202,7 +2203,7 @@ end event
 type tab_2 from tab within tp_2
 integer x = 18
 integer y = 1096
-integer width = 6039
+integer width = 6770
 integer height = 996
 integer taborder = 80
 integer textsize = -8
@@ -2254,7 +2255,7 @@ end event
 type tp_c from userobject within tab_2
 integer x = 18
 integer y = 112
-integer width = 6002
+integer width = 6734
 integer height = 868
 long backcolor = 67108864
 string text = "Consultas"
@@ -2277,7 +2278,7 @@ end on
 type dw_cons from datawindow within tp_c
 integer x = 18
 integer y = 20
-integer width = 5952
+integer width = 6679
 integer height = 808
 integer taborder = 200
 string title = "none"
@@ -2421,7 +2422,7 @@ end event
 type tp_p from userobject within tab_2
 integer x = 18
 integer y = 112
-integer width = 6002
+integer width = 6734
 integer height = 868
 long backcolor = 67108864
 string text = "Procedimientos"
@@ -2444,7 +2445,7 @@ end on
 type dw_proc from datawindow within tp_p
 integer x = 18
 integer y = 20
-integer width = 5906
+integer width = 6647
 integer height = 824
 integer taborder = 50
 string title = "none"
@@ -2584,7 +2585,7 @@ end event
 type tp_m from userobject within tab_2
 integer x = 18
 integer y = 112
-integer width = 6002
+integer width = 6734
 integer height = 868
 long backcolor = 67108864
 string text = "Medicamentos"
@@ -2606,7 +2607,7 @@ end on
 type dw_med from datawindow within tp_m
 integer x = 18
 integer y = 20
-integer width = 5906
+integer width = 6679
 integer height = 824
 integer taborder = 210
 string title = "none"
@@ -2624,7 +2625,7 @@ end event
 type tp_o from userobject within tab_2
 integer x = 18
 integer y = 112
-integer width = 6002
+integer width = 6734
 integer height = 868
 long backcolor = 67108864
 string text = "Otros"
@@ -2647,7 +2648,7 @@ end on
 type dw_otro from datawindow within tp_o
 integer x = 18
 integer y = 16
-integer width = 5906
+integer width = 6674
 integer height = 824
 integer taborder = 210
 string title = "none"
@@ -2665,7 +2666,7 @@ end event
 type tp_u from userobject within tab_2
 integer x = 18
 integer y = 112
-integer width = 6002
+integer width = 6734
 integer height = 868
 long backcolor = 67108864
 string text = "Urg/Hosp"
@@ -2688,7 +2689,7 @@ end on
 type dw_urg_hosp from datawindow within tp_u
 integer x = 37
 integer y = 20
-integer width = 5906
+integer width = 6656
 integer height = 824
 integer taborder = 210
 string title = "none"
@@ -2702,7 +2703,7 @@ end type
 type tp_r from userobject within tab_2
 integer x = 18
 integer y = 112
-integer width = 6002
+integer width = 6734
 integer height = 868
 long backcolor = 67108864
 string text = "R. Nacido"
@@ -2725,7 +2726,7 @@ end on
 type dw_rn from datawindow within tp_r
 integer x = 18
 integer y = 20
-integer width = 5906
+integer width = 6656
 integer height = 824
 integer taborder = 210
 string title = "none"
@@ -2741,9 +2742,9 @@ event constructor;this.settransobject(sqlca)
 end event
 
 type dw_facturas from datawindow within tp_2
-integer x = 1970
-integer y = 48
-integer width = 4082
+integer x = 2277
+integer y = 80
+integer width = 4530
 integer height = 788
 integer taborder = 110
 string title = "none"
@@ -3007,7 +3008,7 @@ end event
 
 type gb_9 from groupbox within tp_2
 integer y = 1032
-integer width = 6094
+integer width = 6843
 integer height = 1044
 integer textsize = -8
 integer weight = 400
@@ -3023,7 +3024,7 @@ end type
 type gb_10 from groupbox within tp_2
 integer x = 32
 integer y = 800
-integer width = 1883
+integer width = 2171
 integer height = 212
 integer textsize = -8
 integer weight = 400
@@ -3038,8 +3039,9 @@ borderstyle borderstyle = styleraised!
 end type
 
 type gb_7 from groupbox within tp_2
-integer x = 1943
-integer width = 4142
+integer x = 2249
+integer y = 20
+integer width = 4608
 integer height = 876
 integer textsize = -8
 integer weight = 400
@@ -3055,7 +3057,7 @@ end type
 type gb_6 from groupbox within tp_2
 integer x = 1435
 integer y = 40
-integer width = 462
+integer width = 731
 integer height = 368
 integer textsize = -8
 integer weight = 400
@@ -3071,7 +3073,7 @@ end type
 
 type gb_8 from groupbox within tp_2
 integer x = 23
-integer width = 1888
+integer width = 2190
 integer height = 788
 integer textsize = -8
 integer weight = 400
@@ -3087,7 +3089,7 @@ end type
 
 type rb_8 from radiobutton within w_audita_rips
 boolean visible = false
-integer x = 2597
+integer x = 2889
 integer y = 40
 integer width = 251
 integer height = 64
@@ -3108,7 +3110,7 @@ end event
 
 type rb_7 from radiobutton within w_audita_rips
 boolean visible = false
-integer x = 2309
+integer x = 2601
 integer y = 40
 integer width = 215
 integer height = 64
@@ -3130,7 +3132,7 @@ end event
 
 type st_9 from statictext within w_audita_rips
 boolean visible = false
-integer x = 2043
+integer x = 2336
 integer y = 40
 integer width = 251
 integer height = 56
@@ -3149,9 +3151,9 @@ end type
 
 type dw_lug from datawindow within w_audita_rips
 boolean visible = false
-integer x = 2853
+integer x = 3145
 integer y = 32
-integer width = 1321
+integer width = 1184
 integer height = 76
 integer taborder = 120
 boolean bringtotop = true

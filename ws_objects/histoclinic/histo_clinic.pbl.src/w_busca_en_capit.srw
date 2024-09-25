@@ -437,6 +437,7 @@ string powertiptext = "Aceptar y Crear Paciente"
 end type
 
 event clicked;long j,donde
+string ls_dire
 if i_decual.valida='capi' then
 	dw_3.reset()
 	if dw_1.rowcount()=0 then return
@@ -455,8 +456,9 @@ if i_decual.valida='capi' then
 		dw_1.setitem(j,'apellido1',upper(dw_1.getitemstring(j,'apellido1')))				
 		dw_1.setitem(j,'apellido2',upper(dw_1.getitemstring(j,'apellido2')))	
 		dw_1.setitem(j,'nombre1',upper(dw_1.getitemstring(j,'nombre1')))	
-		dw_1.setitem(j,'nombre2',upper(dw_1.getitemstring(j,'nombre2')))					
-		
+		dw_1.setitem(j,'nombre2',upper(dw_1.getitemstring(j,'nombre2')))
+		setnull(ls_dire)
+		dw_1.setitem(j,'direccion',ls_dire)		
 		dw_1.modify('datawindow.table.updatetable="pacientes"')
 		if dw_1.update(true,false)=-1 then
 			rollback;
