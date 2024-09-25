@@ -65,6 +65,7 @@
               <Item Checked="false" Clicked="e_microt" Enabled="true" PictureName="ribon_microt.ico" Tag="Micro Territorio" Text="Micro Territorio" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_postal" Enabled="true" PictureName="ribon_postal.ico" Tag="Codigo Postal" Text="Codigo Postal" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_ugob" Enabled="true" PictureName="ribon_ugob.ico" Tag="Unidad Gobierno" Text="Unidad Gobierno" Type="0" Visible="true" />
+              <Item Checked="false" Clicked="e_adire" Enabled="true" PictureName="ribon_adirec.ico" Tag="Unidad Abreviatura Direcciones" Text="Abreviatura Direcciones" Type="0" Visible="true" />              
             </Menu>
           </LargeButton>
           <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_tipo.bmp" Text="Tipos" Visible="true">
