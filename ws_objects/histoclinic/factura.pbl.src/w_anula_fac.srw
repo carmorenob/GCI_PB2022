@@ -601,10 +601,17 @@ for j=desde to hasta
 		rollback;												//porque una factura de Hosp/urg no mueve kardex
 		return
 	end if
+	if dw_1.update()=-1 then
+		rollback;
+		return
+	end if
+	commit;
+
 	
 	nvo_factura_electronica u_elec
 	st_ret_dian    lst_lle
 	u_elec=create nvo_factura_electronica
+
 	
 	nfact=dw_1.getitemnumber(j,'nfact')
 	clug_fac=dw_1.getitemstring(j,'clugar')
@@ -612,12 +619,20 @@ for j=desde to hasta
 	if tipo_fac='F' and dw_1.getitemstring(j,'estado_dian')='1' and  isnull(dw_1.getitemstring(j,'estado_dian_anul')) then
 		lst_lle=u_elec.sign_chilkat(dw_electronica,nfact,clug_fac,tipo_fac,0,'a','FV')
 		if lst_lle.as_estado<>'1' then
-			rollback;
-			return
+			string ls_null
+			datetime dtm_null
+			
+			setnull(ls_null)
+			setnull(dtm_null)
+			dw_1.setitem(j,'estado',ls_null)
+			dw_1.setitem(j,'fecha_anula',dtm_null)
+			dw_1.setitem(j,'motivo_anula',ls_null)
+			dw_1.setitem(j,'cod_anula',ls_null)
 		end if	
 	end if
 	
 next
+
 if dw_1.update()=-1 then
 	rollback;
 	return
