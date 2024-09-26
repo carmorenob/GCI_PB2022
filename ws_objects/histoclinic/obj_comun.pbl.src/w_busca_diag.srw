@@ -346,8 +346,7 @@ end type
 
 event modified;string ls_sql
 if trim(text)='' then return
-If ist_ed_sex.antece='1' then
-	
+If ist_ed_sex.antece='1' then	
 	ls_sql=is_sql1+dw_1.getitemstring(1,1)+"' and capdiags.antecedente='X'" 
 	if ddlb_1.text='Código' then
 		ls_sql+=" and diags.coddiag like '%"+text+"%'"
@@ -356,7 +355,6 @@ If ist_ed_sex.antece='1' then
 		ls_sql+=" and diags.desdiag like '%"+text+"%'"
 		ls_sql+=is_sql2+dw_1.getitemstring(1,1)+"' and capdiags.antecedente='1'  and diags.desdiag like '%"+text+"%'"
 	end if
-
 else
 	ls_sql=is_sql1+dw_1.getitemstring(1,1)+"'   and capdiags.antecedente in ('0','1') " 
 	if ddlb_1.text='Código' then
