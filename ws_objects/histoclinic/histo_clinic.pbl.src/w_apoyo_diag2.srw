@@ -1156,9 +1156,7 @@ disconnect using sqllab;
 
 end event
 
-event resize;resize(newwidth - 20 , newheight - 20)
-
-tab_1.resize(newwidth - 50 , newheight - 770)
+event resize;tab_1.resize(newwidth - 50 , newheight - 770)
 tab_1.tp_1.dw_procs.height=  tab_1.height -650
 tab_1.tp_1.pb_save_insumo.y= tab_1.height -300
 tab_1.tp_1.pb_cargar_res.y=tab_1.height -300
@@ -2278,7 +2276,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-09-25"), Time("10:18:03.000000"))
+datetime value = DateTime(Date("2024-09-27"), Time("10:00:24.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2300,7 +2298,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-09-25"), Time("10:18:03.000000"))
+datetime value = DateTime(Date("2024-09-27"), Time("10:00:24.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
