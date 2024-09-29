@@ -28,6 +28,10 @@ type tab_2 from tab within w_rias
 end type
 type tp2_1 from userobject within tab_2
 end type
+type rb_json from radiobutton within tp2_1
+end type
+type rb_txt from radiobutton within tp2_1
+end type
 type cbx_7 from checkbox within tp2_1
 end type
 type cbx_at from checkbox within tp2_1
@@ -333,7 +337,11 @@ type gb_5 from groupbox within tp2_1
 end type
 type sle_dir from singlelineedit within tp2_1
 end type
+type gb_12 from groupbox within tp2_1
+end type
 type tp2_1 from userobject within tab_2
+rb_json rb_json
+rb_txt rb_txt
 cbx_7 cbx_7
 cbx_at cbx_at
 cbx_6 cbx_6
@@ -348,6 +356,7 @@ cb_dir cb_dir
 gb_8 gb_8
 gb_5 gb_5
 sle_dir sle_dir
+gb_12 gb_12
 end type
 type tp2_3 from userobject within tab_2
 end type
@@ -494,8 +503,8 @@ end type
 end forward
 
 global type w_rias from window
-integer width = 6345
-integer height = 2448
+integer width = 6798
+integer height = 2700
 boolean titlebar = true
 string title = "Generador de RIPS"
 boolean controlmenu = true
@@ -2813,8 +2822,8 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 28
-integer width = 6185
-integer height = 2240
+integer width = 6633
+integer height = 2540
 integer taborder = 10
 integer textsize = -8
 integer weight = 400
@@ -2885,14 +2894,16 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 6149
-integer height = 2112
+integer width = 6597
+integer height = 2412
 long backcolor = 67108864
 string text = "Por Empresa"
 long tabtextcolor = 33554432
 string picturename = "guardar.ico"
 long picturemaskcolor = 536870912
 string powertiptext = "Generar RIPS por Empresa"
+rb_json rb_json
+rb_txt rb_txt
 cbx_7 cbx_7
 cbx_at cbx_at
 cbx_6 cbx_6
@@ -2907,9 +2918,12 @@ cb_dir cb_dir
 gb_8 gb_8
 gb_5 gb_5
 sle_dir sle_dir
+gb_12 gb_12
 end type
 
 on tp2_1.create
+this.rb_json=create rb_json
+this.rb_txt=create rb_txt
 this.cbx_7=create cbx_7
 this.cbx_at=create cbx_at
 this.cbx_6=create cbx_6
@@ -2924,7 +2938,10 @@ this.cb_dir=create cb_dir
 this.gb_8=create gb_8
 this.gb_5=create gb_5
 this.sle_dir=create sle_dir
-this.Control[]={this.cbx_7,&
+this.gb_12=create gb_12
+this.Control[]={this.rb_json,&
+this.rb_txt,&
+this.cbx_7,&
 this.cbx_at,&
 this.cbx_6,&
 this.cbx_5,&
@@ -2937,10 +2954,13 @@ this.rb_defecto,&
 this.cb_dir,&
 this.gb_8,&
 this.gb_5,&
-this.sle_dir}
+this.sle_dir,&
+this.gb_12}
 end on
 
 on tp2_1.destroy
+destroy(this.rb_json)
+destroy(this.rb_txt)
 destroy(this.cbx_7)
 destroy(this.cbx_at)
 destroy(this.cbx_6)
@@ -2955,12 +2975,46 @@ destroy(this.cb_dir)
 destroy(this.gb_8)
 destroy(this.gb_5)
 destroy(this.sle_dir)
+destroy(this.gb_12)
 end on
+
+type rb_json from radiobutton within tp2_1
+integer x = 4498
+integer y = 40
+integer width = 210
+integer height = 64
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 67108864
+string text = "Json"
+end type
+
+type rb_txt from radiobutton within tp2_1
+integer x = 4288
+integer y = 44
+integer width = 183
+integer height = 56
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 67108864
+string text = "Txt"
+boolean checked = true
+end type
 
 type cbx_7 from checkbox within tp2_1
 integer x = 3607
 integer y = 36
-integer width = 425
+integer width = 402
 integer height = 64
 integer textsize = -8
 integer weight = 400
@@ -3040,9 +3094,9 @@ end type
 type t1 from tab within tp2_1
 event create ( )
 event destroy ( )
-integer y = 928
-integer width = 6112
-integer height = 1164
+integer y = 1036
+integer width = 6542
+integer height = 1348
 integer taborder = 110
 integer textsize = -8
 integer weight = 400
@@ -3101,8 +3155,8 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 6075
-integer height = 1036
+integer width = 6505
+integer height = 1220
 long backcolor = 67108864
 string text = "Detalle RIPS"
 long tabtextcolor = 33554432
@@ -3272,8 +3326,8 @@ type dw_ria from datawindow within tp1
 event clickup pbm_dwnlbuttonup
 integer x = 14
 integer y = 384
-integer width = 6007
-integer height = 652
+integer width = 6432
+integer height = 816
 integer taborder = 250
 string title = "none"
 string dataobject = "dw_genera_rips"
@@ -3656,8 +3710,8 @@ open(w_busca_rias)
 end event
 
 type st_cuantos from statictext within tp1
-integer x = 5691
-integer y = 152
+integer x = 6094
+integer y = 140
 integer width = 343
 integer height = 68
 integer textsize = -8
@@ -3674,8 +3728,8 @@ boolean focusrectangle = false
 end type
 
 type st_11 from statictext within tp1
-integer x = 5449
-integer y = 152
+integer x = 6103
+integer y = 76
 integer width = 229
 integer height = 52
 integer textsize = -8
@@ -3693,7 +3747,7 @@ end type
 type stt_diag from statictext within tp1
 integer x = 2661
 integer y = 244
-integer width = 3355
+integer width = 3781
 integer height = 68
 integer textsize = -8
 integer weight = 400
@@ -4237,7 +4291,7 @@ end type
 type gb_3 from groupbox within tp1
 integer x = 4933
 integer y = 40
-integer width = 1111
+integer width = 1536
 integer height = 188
 integer taborder = 51
 integer textsize = -8
@@ -4253,7 +4307,7 @@ end type
 
 type gb_2 from groupbox within tp1
 integer y = 12
-integer width = 6057
+integer width = 6482
 integer height = 1024
 integer taborder = 41
 integer textsize = -8
@@ -4463,8 +4517,8 @@ end event
 type fac from userobject within t1
 integer x = 18
 integer y = 112
-integer width = 6075
-integer height = 1036
+integer width = 6505
+integer height = 1220
 boolean enabled = false
 long backcolor = 67108864
 string text = "Facturas Asociadas"
@@ -4488,8 +4542,8 @@ destroy(this.dw_fact)
 end on
 
 type pb_7 from picturebutton within fac
-integer x = 5902
-integer y = 20
+integer x = 6309
+integer y = 12
 integer width = 146
 integer height = 128
 integer taborder = 41
@@ -4578,8 +4632,8 @@ end event
 type dw_fact from datawindow within fac
 integer x = 46
 integer y = 28
-integer width = 5824
-integer height = 1008
+integer width = 6231
+integer height = 1160
 integer taborder = 140
 boolean enabled = false
 string title = "none"
@@ -4609,8 +4663,8 @@ end event
 type tmod from userobject within t1
 integer x = 18
 integer y = 112
-integer width = 6075
-integer height = 1036
+integer width = 6505
+integer height = 1220
 boolean enabled = false
 long backcolor = 67108864
 string text = "Auditoria a Modificaciones"
@@ -4633,8 +4687,8 @@ end on
 type dw_mod from datawindow within tmod
 integer x = 41
 integer y = 20
-integer width = 5600
-integer height = 1156
+integer width = 6368
+integer height = 1160
 integer taborder = 190
 string title = "none"
 string dataobject = "dw_factura_sale"
@@ -4648,8 +4702,8 @@ end event
 type tp2 from userobject within t1
 integer x = 18
 integer y = 112
-integer width = 6075
-integer height = 1036
+integer width = 6505
+integer height = 1220
 long backcolor = 67108864
 string text = "Actividades finales"
 long tabtextcolor = 33554432
@@ -4673,8 +4727,8 @@ destroy(this.dw_act_final)
 end on
 
 type pb_4 from picturebutton within tp2
-integer x = 4562
-integer y = 40
+integer x = 6139
+integer y = 44
 integer width = 146
 integer height = 128
 integer taborder = 30
@@ -4715,8 +4769,8 @@ end event
 type dw_act_final from datawindow within tp2
 integer x = 14
 integer y = 48
-integer width = 4480
-integer height = 1064
+integer width = 6043
+integer height = 1140
 integer taborder = 31
 string title = "none"
 string dataobject = "dw_radica_act_fin"
@@ -4773,8 +4827,8 @@ event create ( )
 event destroy ( )
 integer x = 14
 integer y = 136
-integer width = 6094
-integer height = 780
+integer width = 6551
+integer height = 888
 integer taborder = 70
 boolean bringtotop = true
 integer textsize = -8
@@ -4834,8 +4888,8 @@ event create ( )
 event destroy ( )
 integer x = 128
 integer y = 16
-integer width = 5947
-integer height = 748
+integer width = 6405
+integer height = 856
 long backcolor = 67108864
 long tabtextcolor = 33554432
 string picturename = "guardar.ico"
@@ -4918,7 +4972,7 @@ end type
 
 type pb_2 from picturebutton within tp_1
 event mousemove pbm_mousemove
-integer x = 5769
+integer x = 6190
 integer y = 200
 integer width = 146
 integer height = 128
@@ -5169,7 +5223,7 @@ end event
 
 type pb_3 from picturebutton within tp_1
 event mousemove pbm_mousemove
-integer x = 5769
+integer x = 6190
 integer y = 56
 integer width = 146
 integer height = 128
@@ -5281,7 +5335,7 @@ end event
 type dw_contgenera from datawindow within tp_1
 integer x = 1394
 integer y = 60
-integer width = 4338
+integer width = 4750
 integer height = 460
 integer taborder = 31
 string title = "none"
@@ -5315,8 +5369,8 @@ type mle_objeto from multilineedit within tp_1
 boolean visible = false
 integer x = 1399
 integer y = 536
-integer width = 4334
-integer height = 180
+integer width = 4745
+integer height = 288
 integer taborder = 80
 boolean bringtotop = true
 integer textsize = -8
@@ -5339,8 +5393,8 @@ event create ( )
 event destroy ( )
 integer x = 128
 integer y = 16
-integer width = 5947
-integer height = 748
+integer width = 6405
+integer height = 856
 long backcolor = 67108864
 long tabtextcolor = 33554432
 string picturename = "cambia_doc.ico"
@@ -5491,8 +5545,8 @@ end type
 type dw_radica from datawindow within tp_p
 integer x = 9
 integer y = 76
-integer width = 2981
-integer height = 648
+integer width = 3237
+integer height = 756
 integer taborder = 90
 boolean bringtotop = true
 string title = "none"
@@ -5517,6 +5571,8 @@ double ldb_nrad
 if getitemstring(getrow(),'tipo')='F' then
 	tab_2.tp2_1.cbx_5.enabled=true
 	tab_2.tp2_1.cbx_5.checked=true
+	tab_2.tp2_1.rb_txt.enabled=true
+	tab_2.tp2_1.rb_json.enabled=true	
 	is_capiv='1'
 	tab_2.tp2_1.tab_1.tp_p.tab_3.det.pb_dian.enabled=true
 	tab_2.tp2_1.tab_1.tp_p.tab_3.det.pb_diac.enabled=false
@@ -5530,6 +5586,8 @@ if getitemstring(getrow(),'tipo')='F' then
 else
 	tab_2.tp2_1.cbx_5.enabled=false
 	tab_2.tp2_1.cbx_5.checked=false
+	tab_2.tp2_1.rb_txt.enabled=true
+	tab_2.tp2_1.rb_json.enabled=false
 	is_capiv='0'
 	tab_2.tp2_1.tab_1.tp_p.tab_3.det.pb_dian.enabled=false
 	tab_2.tp2_1.tab_1.tp_p.tab_3.det.pb_diac.enabled=true
@@ -5579,10 +5637,10 @@ end event
 type tab_3 from tab within tp_p
 event create ( )
 event destroy ( )
-integer x = 3045
+integer x = 3296
 integer y = 20
-integer width = 2898
-integer height = 700
+integer width = 3077
+integer height = 816
 integer taborder = 50
 integer textsize = -8
 integer weight = 400
@@ -5616,8 +5674,8 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 2862
-integer height = 572
+integer width = 3040
+integer height = 688
 long backcolor = 67108864
 string text = "Detalle"
 long tabtextcolor = 33554432
@@ -5660,7 +5718,7 @@ destroy(this.dw_det)
 end on
 
 type pb_diacc from picturebutton within det
-integer x = 2706
+integer x = 2871
 integer y = 292
 integer width = 146
 integer height = 128
@@ -5706,7 +5764,7 @@ end if
 end event
 
 type pb_8 from picturebutton within det
-integer x = 2551
+integer x = 2715
 integer y = 292
 integer width = 146
 integer height = 128
@@ -5765,7 +5823,7 @@ end if
 end event
 
 type pb_diac from picturebutton within det
-integer x = 2706
+integer x = 2871
 integer y = 156
 integer width = 146
 integer height = 128
@@ -5826,7 +5884,7 @@ end if
 end event
 
 type pb_anula from picturebutton within det
-integer x = 2551
+integer x = 2715
 integer y = 152
 integer width = 146
 integer height = 128
@@ -5854,7 +5912,7 @@ end if
 end event
 
 type pb_dian from picturebutton within det
-integer x = 2706
+integer x = 2871
 integer y = 16
 integer width = 146
 integer height = 128
@@ -5898,7 +5956,7 @@ destroy u_elec
 end event
 
 type pb_radvi from picturebutton within det
-integer x = 2551
+integer x = 2715
 integer y = 16
 integer width = 146
 integer height = 128
@@ -5932,29 +5990,48 @@ if tab_2.tp2_1.tab_1.tp_p.dw_radica.rowcount()>0 then
 	if not isnull(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"estado")) then
 		Messagebox("Atención","Este número de radicación está anulado.~r~nNo hay registros para generar")
 	else
-		if tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"reserva")='0' then
-			nrad=f_rips(false,tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"num_radicacion"),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"clugar"),tab_2.tp2_1.tab_1.tp_p.tab_3.det.dw_det,'emp',tab_2.tp2_1.rb_4.checked,-1,tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"por_lugar"),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"reserva"),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"tipo"))
+		if tab_2.tp2_1.rb_txt.checked=true then
+			if tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"reserva")='0' then
+				nrad=f_rips(false,tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"num_radicacion"),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"clugar"),tab_2.tp2_1.tab_1.tp_p.tab_3.det.dw_det,'emp',tab_2.tp2_1.rb_4.checked,-1,tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"por_lugar"),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"reserva"),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"tipo"))
+			else
+				nrad=f_rips(true,tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"num_radicacion"),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"clugar"),tab_2.tp2_1.tab_1.tp_p.tab_3.det.dw_det,'emp',tab_2.tp2_1.rb_4.checked,-1,tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"por_lugar"),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"reserva"),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"tipo"))
+			end if
+		
+			choose case nrad
+				case -1,-10
+					rollback;
+				case 0
+				case else
+					messagebox("Atención",'Archivos generados con éxito')
+			end choose
 		else
-			nrad=f_rips(true,tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"num_radicacion"),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"clugar"),tab_2.tp2_1.tab_1.tp_p.tab_3.det.dw_det,'emp',tab_2.tp2_1.rb_4.checked,-1,tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"por_lugar"),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"reserva"),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"tipo"))
+			nvo_rips_json u_rips
+			string ls_nomarch
+			
+			u_rips=create nvo_rips_json
+			if  isnull(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'prefijo')) then
+				ls_nomarch=tab_2.tp2_1.sle_dir.text+'\'+string(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"num_radicacion"))+'.json'
+			else
+				ls_nomarch=tab_2.tp2_1.sle_dir.text+'\'+tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'prefijo')+string(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"num_radicacion"))+'.json'
+			end if
+			u_rips.emite_json_capita(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'num_radicacion'),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'clugar'),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'tipo'),'f','FV',ls_nomarch)
+			destroy 	u_rips
 		end if
-		choose case nrad
-			case -1,-10
-				rollback;
-			case 0
-			case else
-				messagebox("Atención",'Archivos generados con éxito')
-		end choose
 		tab_2.tp2_1.t1.tp1.barra.position=0
 	end if
 end if
 tab_2.tp2_1.tab_1.tp_p.dw_radica.retrieve(CLUGAR)
+
+
+
+
 end event
 
 type dw_det from datawindow within det
 integer x = 23
 integer y = 12
-integer width = 2510
-integer height = 520
+integer width = 2670
+integer height = 652
 integer taborder = 41
 string title = "none"
 string dataobject = "dw_contratos_pa_rias"
@@ -6020,8 +6097,8 @@ end event
 type nota from userobject within tab_3
 integer x = 18
 integer y = 112
-integer width = 2862
-integer height = 572
+integer width = 3040
+integer height = 688
 long backcolor = 67108864
 string text = "Notas"
 long tabtextcolor = 33554432
@@ -6064,7 +6141,7 @@ destroy(this.dw_nc)
 end on
 
 type pb_impnota from picturebutton within nota
-integer x = 2711
+integer x = 2885
 integer y = 292
 integer width = 146
 integer height = 128
@@ -6122,7 +6199,7 @@ end if
 end event
 
 type pb_connota from picturebutton within nota
-integer x = 2706
+integer x = 2880
 integer y = 152
 integer width = 146
 integer height = 128
@@ -6169,7 +6246,7 @@ end if
 end event
 
 type pb_gnota from picturebutton within nota
-integer x = 2546
+integer x = 2720
 integer y = 288
 integer width = 146
 integer height = 128
@@ -6209,7 +6286,7 @@ pb_diann.enabled=true
 end event
 
 type pb_brr from picturebutton within nota
-integer x = 2546
+integer x = 2720
 integer y = 152
 integer width = 146
 integer height = 128
@@ -6234,7 +6311,7 @@ end if
 end event
 
 type pb_diann from picturebutton within nota
-integer x = 2706
+integer x = 2880
 integer y = 24
 integer width = 146
 integer height = 128
@@ -6292,7 +6369,7 @@ end if
 end event
 
 type pb_insn from picturebutton within nota
-integer x = 2546
+integer x = 2720
 integer y = 16
 integer width = 146
 integer height = 128
@@ -6352,8 +6429,8 @@ end event
 type dw_nc from datawindow within nota
 integer x = 27
 integer y = 20
-integer width = 2505
-integer height = 536
+integer width = 2665
+integer height = 652
 integer taborder = 190
 string title = "none"
 string dataobject = "dw_ripsradica_nota"
@@ -6397,7 +6474,7 @@ end if
 end event
 
 type rb_defecto from radiobutton within tp2_1
-integer x = 4151
+integer x = 5070
 integer y = 32
 integer width = 315
 integer height = 64
@@ -6418,7 +6495,7 @@ cb_dir.enabled=true
 end event
 
 type cb_dir from commandbutton within tp2_1
-integer x = 4443
+integer x = 5390
 integer y = 28
 integer width = 82
 integer height = 72
@@ -6456,7 +6533,7 @@ end type
 
 type gb_5 from groupbox within tp2_1
 integer x = 1143
-integer width = 2926
+integer width = 2885
 integer height = 116
 integer taborder = 61
 integer textsize = -7
@@ -6471,7 +6548,7 @@ string text = "Opciones en Emisión"
 end type
 
 type sle_dir from singlelineedit within tp2_1
-integer x = 4535
+integer x = 5481
 integer y = 28
 integer width = 1051
 integer height = 76
@@ -6501,11 +6578,27 @@ end if
 text=ruta_rips
 end event
 
+type gb_12 from groupbox within tp2_1
+integer x = 4101
+integer width = 640
+integer height = 116
+integer taborder = 60
+integer textsize = -7
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Small Fonts"
+long textcolor = 33554432
+long backcolor = 67108864
+string text = "Rips en"
+end type
+
 type tp2_3 from userobject within tab_2
 integer x = 18
 integer y = 112
-integer width = 6149
-integer height = 2112
+integer width = 6597
+integer height = 2412
 long backcolor = 67108864
 string text = "Por Empresa Reemitir"
 long tabtextcolor = 33554432
@@ -7666,8 +7759,8 @@ end type
 type tp2_2 from userobject within tab_2
 integer x = 18
 integer y = 112
-integer width = 6149
-integer height = 2112
+integer width = 6597
+integer height = 2412
 long backcolor = 67108864
 string text = "Por Lotes"
 long tabtextcolor = 33554432
