@@ -503,8 +503,8 @@ end type
 end forward
 
 global type w_rias from window
-integer width = 7008
-integer height = 2700
+integer width = 6299
+integer height = 2612
 boolean titlebar = true
 string title = "Generador de RIPS"
 boolean controlmenu = true
@@ -512,6 +512,7 @@ boolean minbox = true
 boolean maxbox = true
 boolean resizable = true
 windowtype windowtype = child!
+windowstate windowstate = maximized!
 long backcolor = 67108864
 string icon = "rips.ico"
 dw_electronica dw_electronica
@@ -2822,8 +2823,8 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 28
-integer width = 6917
-integer height = 2540
+integer width = 6199
+integer height = 2460
 integer taborder = 10
 integer textsize = -8
 integer weight = 400
@@ -2894,8 +2895,8 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 6880
-integer height = 2412
+integer width = 6162
+integer height = 2332
 long backcolor = 67108864
 string text = "Por Empresa"
 long tabtextcolor = 33554432
@@ -2981,7 +2982,7 @@ end on
 type rb_json from radiobutton within tp2_1
 integer x = 4498
 integer y = 40
-integer width = 210
+integer width = 192
 integer height = 64
 integer textsize = -8
 integer weight = 400
@@ -3095,8 +3096,8 @@ type t1 from tab within tp2_1
 event create ( )
 event destroy ( )
 integer y = 1036
-integer width = 6834
-integer height = 1348
+integer width = 6162
+integer height = 1284
 integer taborder = 110
 integer textsize = -8
 integer weight = 400
@@ -3155,8 +3156,8 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 6798
-integer height = 1220
+integer width = 6126
+integer height = 1156
 long backcolor = 67108864
 string text = "Detalle RIPS"
 long tabtextcolor = 33554432
@@ -3326,8 +3327,8 @@ type dw_ria from datawindow within tp1
 event clickup pbm_dwnlbuttonup
 integer x = 14
 integer y = 384
-integer width = 6738
-integer height = 816
+integer width = 6071
+integer height = 732
 integer taborder = 250
 string title = "none"
 string dataobject = "dw_genera_rips"
@@ -3710,8 +3711,8 @@ open(w_busca_rias)
 end event
 
 type st_cuantos from statictext within tp1
-integer x = 6386
-integer y = 84
+integer x = 5207
+integer y = 148
 integer width = 343
 integer height = 68
 integer textsize = -8
@@ -3728,8 +3729,8 @@ boolean focusrectangle = false
 end type
 
 type st_11 from statictext within tp1
-integer x = 6103
-integer y = 76
+integer x = 4955
+integer y = 164
 integer width = 229
 integer height = 52
 integer textsize = -8
@@ -3747,7 +3748,7 @@ end type
 type stt_diag from statictext within tp1
 integer x = 2661
 integer y = 244
-integer width = 4087
+integer width = 3419
 integer height = 68
 integer textsize = -8
 integer weight = 400
@@ -3764,7 +3765,7 @@ end type
 
 type rb_completo from radiobutton within tp1
 integer x = 5691
-integer y = 88
+integer y = 84
 integer width = 315
 integer height = 64
 boolean bringtotop = true
@@ -3784,7 +3785,7 @@ end event
 
 type rb_incompleto from radiobutton within tp1
 integer x = 5266
-integer y = 88
+integer y = 84
 integer width = 347
 integer height = 64
 boolean bringtotop = true
@@ -3804,7 +3805,7 @@ end event
 
 type rb_todos from radiobutton within tp1
 integer x = 4965
-integer y = 88
+integer y = 84
 integer width = 219
 integer height = 64
 integer taborder = 200
@@ -3825,9 +3826,9 @@ event clicked;cbx_1.triggerevent(clicked!)
 end event
 
 type barra from hprogressbar within tp1
-integer x = 3246
+integer x = 3227
 integer y = 156
-integer width = 1463
+integer width = 1486
 integer height = 56
 boolean bringtotop = true
 unsignedinteger maxposition = 100
@@ -4291,7 +4292,7 @@ end type
 type gb_3 from groupbox within tp1
 integer x = 4933
 integer y = 40
-integer width = 1824
+integer width = 1152
 integer height = 188
 integer taborder = 51
 integer textsize = -8
@@ -4307,8 +4308,8 @@ end type
 
 type gb_2 from groupbox within tp1
 integer y = 12
-integer width = 6789
-integer height = 1200
+integer width = 6121
+integer height = 1136
 integer taborder = 41
 integer textsize = -8
 integer weight = 400
@@ -4517,8 +4518,8 @@ end event
 type fac from userobject within t1
 integer x = 18
 integer y = 112
-integer width = 6798
-integer height = 1220
+integer width = 6126
+integer height = 1156
 boolean enabled = false
 long backcolor = 67108864
 string text = "Facturas Asociadas"
@@ -4632,7 +4633,7 @@ end event
 type dw_fact from datawindow within fac
 integer x = 46
 integer y = 28
-integer width = 6231
+integer width = 6007
 integer height = 1160
 integer taborder = 140
 boolean enabled = false
@@ -4663,8 +4664,8 @@ end event
 type tmod from userobject within t1
 integer x = 18
 integer y = 112
-integer width = 6798
-integer height = 1220
+integer width = 6126
+integer height = 1156
 boolean enabled = false
 long backcolor = 67108864
 string text = "Auditoria a Modificaciones"
@@ -4687,7 +4688,7 @@ end on
 type dw_mod from datawindow within tmod
 integer x = 41
 integer y = 20
-integer width = 6368
+integer width = 6043
 integer height = 1160
 integer taborder = 190
 string title = "none"
@@ -4702,8 +4703,8 @@ end event
 type tp2 from userobject within t1
 integer x = 18
 integer y = 112
-integer width = 6798
-integer height = 1220
+integer width = 6126
+integer height = 1156
 long backcolor = 67108864
 string text = "Actividades finales"
 long tabtextcolor = 33554432
@@ -4769,7 +4770,7 @@ end event
 type dw_act_final from datawindow within tp2
 integer x = 14
 integer y = 48
-integer width = 6043
+integer width = 6071
 integer height = 1140
 integer taborder = 31
 string title = "none"
@@ -4827,7 +4828,7 @@ event create ( )
 event destroy ( )
 integer x = 14
 integer y = 136
-integer width = 6825
+integer width = 6135
 integer height = 888
 integer taborder = 70
 boolean bringtotop = true
@@ -4888,7 +4889,7 @@ event create ( )
 event destroy ( )
 integer x = 128
 integer y = 16
-integer width = 6679
+integer width = 5989
 integer height = 856
 long backcolor = 67108864
 long tabtextcolor = 33554432
@@ -4972,8 +4973,8 @@ end type
 
 type pb_2 from picturebutton within tp_1
 event mousemove pbm_mousemove
-integer x = 6519
-integer y = 200
+integer x = 5806
+integer y = 196
 integer width = 146
 integer height = 128
 integer taborder = 80
@@ -5223,8 +5224,8 @@ end event
 
 type pb_3 from picturebutton within tp_1
 event mousemove pbm_mousemove
-integer x = 6519
-integer y = 56
+integer x = 5806
+integer y = 52
 integer width = 146
 integer height = 128
 integer taborder = 31
@@ -5336,7 +5337,7 @@ type mle_objeto from multilineedit within tp_1
 boolean visible = false
 integer x = 1399
 integer y = 536
-integer width = 5083
+integer width = 4384
 integer height = 288
 integer taborder = 80
 boolean bringtotop = true
@@ -5358,7 +5359,7 @@ end type
 type dw_contgenera from datawindow within tp_1
 integer x = 1394
 integer y = 60
-integer width = 5102
+integer width = 4393
 integer height = 460
 integer taborder = 31
 string title = "none"
@@ -5393,7 +5394,7 @@ event create ( )
 event destroy ( )
 integer x = 128
 integer y = 16
-integer width = 6679
+integer width = 5989
 integer height = 856
 long backcolor = 67108864
 long tabtextcolor = 33554432
@@ -5545,7 +5546,7 @@ end type
 type dw_radica from datawindow within tp_p
 integer x = 9
 integer y = 76
-integer width = 3506
+integer width = 2839
 integer height = 756
 integer taborder = 90
 boolean bringtotop = true
@@ -5637,7 +5638,7 @@ end event
 type tab_3 from tab within tp_p
 event create ( )
 event destroy ( )
-integer x = 3575
+integer x = 2903
 integer y = 20
 integer width = 3077
 integer height = 816
@@ -6474,9 +6475,9 @@ end if
 end event
 
 type rb_defecto from radiobutton within tp2_1
-integer x = 5070
+integer x = 4754
 integer y = 32
-integer width = 315
+integer width = 297
 integer height = 64
 boolean bringtotop = true
 integer textsize = -8
@@ -6495,7 +6496,7 @@ cb_dir.enabled=true
 end event
 
 type cb_dir from commandbutton within tp2_1
-integer x = 5390
+integer x = 5038
 integer y = 28
 integer width = 82
 integer height = 72
@@ -6548,9 +6549,9 @@ string text = "Opciones en Emisión"
 end type
 
 type sle_dir from singlelineedit within tp2_1
-integer x = 5481
+integer x = 5129
 integer y = 28
-integer width = 1051
+integer width = 992
 integer height = 76
 integer taborder = 80
 integer textsize = -8
@@ -6580,7 +6581,7 @@ end event
 
 type gb_12 from groupbox within tp2_1
 integer x = 4101
-integer width = 640
+integer width = 603
 integer height = 116
 integer taborder = 60
 integer textsize = -7
@@ -6597,8 +6598,8 @@ end type
 type tp2_3 from userobject within tab_2
 integer x = 18
 integer y = 112
-integer width = 6880
-integer height = 2412
+integer width = 6162
+integer height = 2332
 long backcolor = 67108864
 string text = "Por Empresa Reemitir"
 long tabtextcolor = 33554432
@@ -7759,8 +7760,8 @@ end type
 type tp2_2 from userobject within tab_2
 integer x = 18
 integer y = 112
-integer width = 6880
-integer height = 2412
+integer width = 6162
+integer height = 2332
 long backcolor = 67108864
 string text = "Por Lotes"
 long tabtextcolor = 33554432

@@ -1318,7 +1318,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-05-11"), Time("10:04:13.000000"))
+datetime value = DateTime(Date("2024-09-30"), Time("14:32:47.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -1345,7 +1345,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-05-11"), Time("10:04:13.000000"))
+datetime value = DateTime(Date("2024-09-30"), Time("14:32:47.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -1679,14 +1679,6 @@ string ls_medio, ls_archivo, ls_cemp,l_via, l_ingre,ls_desemp,ls_email,ls_x_luga
 string ls_servidor, ls_puerto,ls_usuario,ls_clave,ls_autentica,ls_conexion,ls_asunto,ls_desc,p_nombre,ls_obs
 int li_ret, li_intento
 
-
-SELECT cadena into :ls_x_lugar
-FROM parametros_gen
-WHERE (((codigo_para)=64));
-if sqlca.sqlnrows=0 then
-	messagebox('Atencíon','No hay parametro 64')
-	return
-end if
 
 SELECT cadena into :ls_x_lugar
 FROM parametros_gen
@@ -2635,7 +2627,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-05-11"), Time("10:04:13.000000"))
+datetime value = DateTime(Date("2024-09-30"), Time("14:32:47.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2660,7 +2652,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-05-11"), Time("10:04:13.000000"))
+datetime value = DateTime(Date("2024-09-30"), Time("14:32:47.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2851,7 +2843,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-05-11"), Time("10:04:13.000000"))
+datetime value = DateTime(Date("2024-09-30"), Time("14:32:47.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2875,7 +2867,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-05-11"), Time("10:04:13.000000"))
+datetime value = DateTime(Date("2024-09-30"), Time("14:32:47.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
