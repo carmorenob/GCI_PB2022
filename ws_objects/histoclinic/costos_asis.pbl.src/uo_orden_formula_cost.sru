@@ -200,10 +200,9 @@ int ord_ser_item=0,l_temp_ord
 boolean repord_dialogo , repfor_dialogo , repord_vprelim , repfor_vprelim , i_observacion,i_cambio_insumo
 private long i_contador=-1 , i_norden , i_nh , i_nqx , i_consec_qx
 private string i_clug_his , i_profe , i_indapdx , i_clug_hadm , i_est_hadm , i_cemp , i_ccont , i_tingre , i_clug_qx,i_alm,i_cdoc_cons='SC', s_esp
-private string l_evo,l_usu,l_tpu, ori,profesi,l_enfe 
+private string l_evo,l_usu,l_tpu, ori,profesi,l_enfe,ls_aordarea
 datawindowchild idw_procs , idw_genericos , idw_insumo
 end variables
-
 forward prototypes
 public function integer reset ()
 public function long insert_proc (string p_codigo, integer p_cant)
@@ -534,6 +533,12 @@ choose case p_indapdx
 		f_titulos_dw_gb(dw_profe,'COEX',gb_1)	
 	case '1' //apdx
 	case '2', '3' , '4','7'
+		SELECT cadena into :ls_aordarea
+		FROM parametros_gen
+		WHERE (((codigo_para)=80));
+		if sqlca.sqlnrows=0 then
+			ls_aordarea='0'
+		end if
 		//cbx_banco.visible=true
 		tab_1.tp_1.cb_nvserv.enabled=false
 		tab_1.tp_2.cb_adic.enabled=false
@@ -2953,7 +2958,7 @@ if isvalid(dwo) then
 					return 1
 				end if
 			end if
-			if not isnull(getitemstring(j,'codaadx')) and data='1' then
+			if not isnull(getitemstring(j,'codaadx')) and data='1' and ls_aordarea='1' then
 				settext('0')
 				setitem(getrow(),'escog','0')
 				return 1
@@ -2973,7 +2978,7 @@ for j=1 to rowcount()
 	if dwo.text='Escoger' then
 		setrow(j)
 		if tab_1.tp_1.dw_canasta.find("cantidad >0",1,tab_1.tp_1.dw_canasta.rowcount())>0 then continue
-		if not isnull(getitemstring(j,'codaadx')) then continue
+		if not isnull(getitemstring(j,'codaadx')) and ls_aordarea='1' then continue
 		if getitemstring(j,'estado')='1' then setitem(j,'escog','1')
 	else
 		setitem(j,'escog','0')
