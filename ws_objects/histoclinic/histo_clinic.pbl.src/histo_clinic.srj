@@ -937,6 +937,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\citas.pbl,dw_empresa_cont_
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\bancos.pbl,dw_combo_banco_fluid,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\autoriza.pbl,dw_combo_tipo_ingreso,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\fac_electronica.pbl,dw_mipres_prescripcion_dispo,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,dr_historia_txt_fecha,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_xa_buscar_afil,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,d_dw2xls_object_sort,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,dw_cont_deta,d

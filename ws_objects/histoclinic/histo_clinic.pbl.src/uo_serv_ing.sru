@@ -53,8 +53,8 @@ end type
 end forward
 
 global type uo_serv_ing from userobject
-integer width = 4859
-integer height = 1392
+integer width = 5344
+integer height = 1468
 long backcolor = 67108864
 string text = "none"
 long tabtextcolor = 33554432
@@ -547,7 +547,7 @@ end event
 
 type pb_3 from pb_report within uo_serv_ing
 boolean visible = false
-integer x = 4494
+integer x = 4955
 integer y = 724
 integer taborder = 20
 string picturename = "print2.gif"
@@ -555,7 +555,7 @@ string disabledname = "d_print2.gif"
 end type
 
 type pb_2 from picturebutton within uo_serv_ing
-integer x = 4494
+integer x = 4955
 integer y = 584
 integer width = 146
 integer height = 128
@@ -701,7 +701,7 @@ f_restringue(ls_resgt,ls_origen,i_contador, i_clugar_his)
 end event
 
 type pb_guarda_diags from picturebutton within uo_serv_ing
-integer x = 4489
+integer x = 4951
 integer y = 868
 integer width = 146
 integer height = 128
@@ -828,7 +828,7 @@ end if
 end event
 
 type st_8 from statictext within uo_serv_ing
-integer x = 4480
+integer x = 4942
 integer y = 476
 integer width = 283
 integer height = 56
@@ -848,7 +848,7 @@ boolean focusrectangle = false
 end type
 
 type st_7 from statictext within uo_serv_ing
-integer x = 4480
+integer x = 4942
 integer y = 416
 integer width = 283
 integer height = 56
@@ -868,7 +868,7 @@ boolean focusrectangle = false
 end type
 
 type st_6 from statictext within uo_serv_ing
-integer x = 4480
+integer x = 4942
 integer y = 356
 integer width = 283
 integer height = 56
@@ -889,7 +889,7 @@ end type
 
 type cb_est_ria from picturebutton within uo_serv_ing
 event mousemove pbm_mousemove
-integer x = 4494
+integer x = 4955
 integer y = 160
 integer width = 146
 integer height = 128
@@ -1280,7 +1280,7 @@ end type
 type dw_serv_ing from datawindow within uo_serv_ing
 integer x = 14
 integer y = 164
-integer width = 4416
+integer width = 4837
 integer height = 824
 integer taborder = 10
 string dragicon = "none!"
@@ -1405,7 +1405,7 @@ end event
 type dw_diags from datawindow within uo_serv_ing
 integer x = 14
 integer y = 1008
-integer width = 4603
+integer width = 5321
 integer height = 424
 integer taborder = 10
 string title = "none"
@@ -1506,7 +1506,7 @@ accepttext()
 end event
 
 type gb_2 from groupbox within uo_serv_ing
-integer x = 4439
+integer x = 4901
 integer y = 300
 integer width = 379
 integer height = 260

@@ -813,7 +813,7 @@ type dw_profe from uo_datawindow within w_principal
 boolean visible = false
 integer x = 2894
 integer y = 112
-integer width = 2071
+integer width = 2679
 integer height = 112
 integer taborder = 20
 string dragicon = "none!"

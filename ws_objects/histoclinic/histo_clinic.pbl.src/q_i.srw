@@ -324,7 +324,7 @@ event clicked;	nvo_rips_json u_rips
 	
 	u_rips=create nvo_rips_json
 //	u_rips.emite_json_evento(49971,'74','F','f','FV')
-	u_rips.emite_json_capita(double(sle_f.text),sle_l.text,'F','f','FV')
+	u_rips.emite_json_capita(double(sle_f.text),sle_l.text,'F','f','FV','d:\prueba.json')
 	destroy 	u_rips
 end event
 

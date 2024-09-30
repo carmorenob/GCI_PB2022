@@ -225,9 +225,9 @@ type st_1 from statictext within tp_1
 end type
 type cbx_activos from checkbox within tp_1
 end type
-type dw_contgenera from datawindow within tp_1
-end type
 type mle_objeto from multilineedit within tp_1
+end type
+type dw_contgenera from datawindow within tp_1
 end type
 type tp_1 from userobject within tab_1
 cbx_4 cbx_4
@@ -241,8 +241,8 @@ dw_empresa dw_empresa
 pb_3 pb_3
 st_1 st_1
 cbx_activos cbx_activos
-dw_contgenera dw_contgenera
 mle_objeto mle_objeto
+dw_contgenera dw_contgenera
 end type
 type tp_p from userobject within tab_1
 end type
@@ -503,7 +503,7 @@ end type
 end forward
 
 global type w_rias from window
-integer width = 6798
+integer width = 7008
 integer height = 2700
 boolean titlebar = true
 string title = "Generador de RIPS"
@@ -2822,7 +2822,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 28
-integer width = 6633
+integer width = 6917
 integer height = 2540
 integer taborder = 10
 integer textsize = -8
@@ -2894,7 +2894,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 6597
+integer width = 6880
 integer height = 2412
 long backcolor = 67108864
 string text = "Por Empresa"
@@ -3095,7 +3095,7 @@ type t1 from tab within tp2_1
 event create ( )
 event destroy ( )
 integer y = 1036
-integer width = 6542
+integer width = 6834
 integer height = 1348
 integer taborder = 110
 integer textsize = -8
@@ -3155,7 +3155,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 6505
+integer width = 6798
 integer height = 1220
 long backcolor = 67108864
 string text = "Detalle RIPS"
@@ -3326,7 +3326,7 @@ type dw_ria from datawindow within tp1
 event clickup pbm_dwnlbuttonup
 integer x = 14
 integer y = 384
-integer width = 6432
+integer width = 6738
 integer height = 816
 integer taborder = 250
 string title = "none"
@@ -3710,8 +3710,8 @@ open(w_busca_rias)
 end event
 
 type st_cuantos from statictext within tp1
-integer x = 6094
-integer y = 140
+integer x = 6386
+integer y = 84
 integer width = 343
 integer height = 68
 integer textsize = -8
@@ -3747,7 +3747,7 @@ end type
 type stt_diag from statictext within tp1
 integer x = 2661
 integer y = 244
-integer width = 3781
+integer width = 4087
 integer height = 68
 integer textsize = -8
 integer weight = 400
@@ -4291,7 +4291,7 @@ end type
 type gb_3 from groupbox within tp1
 integer x = 4933
 integer y = 40
-integer width = 1536
+integer width = 1824
 integer height = 188
 integer taborder = 51
 integer textsize = -8
@@ -4307,8 +4307,8 @@ end type
 
 type gb_2 from groupbox within tp1
 integer y = 12
-integer width = 6482
-integer height = 1024
+integer width = 6789
+integer height = 1200
 integer taborder = 41
 integer textsize = -8
 integer weight = 400
@@ -4517,7 +4517,7 @@ end event
 type fac from userobject within t1
 integer x = 18
 integer y = 112
-integer width = 6505
+integer width = 6798
 integer height = 1220
 boolean enabled = false
 long backcolor = 67108864
@@ -4663,7 +4663,7 @@ end event
 type tmod from userobject within t1
 integer x = 18
 integer y = 112
-integer width = 6505
+integer width = 6798
 integer height = 1220
 boolean enabled = false
 long backcolor = 67108864
@@ -4702,7 +4702,7 @@ end event
 type tp2 from userobject within t1
 integer x = 18
 integer y = 112
-integer width = 6505
+integer width = 6798
 integer height = 1220
 long backcolor = 67108864
 string text = "Actividades finales"
@@ -4827,7 +4827,7 @@ event create ( )
 event destroy ( )
 integer x = 14
 integer y = 136
-integer width = 6551
+integer width = 6825
 integer height = 888
 integer taborder = 70
 boolean bringtotop = true
@@ -4888,7 +4888,7 @@ event create ( )
 event destroy ( )
 integer x = 128
 integer y = 16
-integer width = 6405
+integer width = 6679
 integer height = 856
 long backcolor = 67108864
 long tabtextcolor = 33554432
@@ -4906,8 +4906,8 @@ dw_empresa dw_empresa
 pb_3 pb_3
 st_1 st_1
 cbx_activos cbx_activos
-dw_contgenera dw_contgenera
 mle_objeto mle_objeto
+dw_contgenera dw_contgenera
 end type
 
 on tp_1.create
@@ -4922,8 +4922,8 @@ this.dw_empresa=create dw_empresa
 this.pb_3=create pb_3
 this.st_1=create st_1
 this.cbx_activos=create cbx_activos
-this.dw_contgenera=create dw_contgenera
 this.mle_objeto=create mle_objeto
+this.dw_contgenera=create dw_contgenera
 this.Control[]={this.cbx_4,&
 this.pb_2,&
 this.pb_1,&
@@ -4935,8 +4935,8 @@ this.dw_empresa,&
 this.pb_3,&
 this.st_1,&
 this.cbx_activos,&
-this.dw_contgenera,&
-this.mle_objeto}
+this.mle_objeto,&
+this.dw_contgenera}
 end on
 
 on tp_1.destroy
@@ -4951,8 +4951,8 @@ destroy(this.dw_empresa)
 destroy(this.pb_3)
 destroy(this.st_1)
 destroy(this.cbx_activos)
-destroy(this.dw_contgenera)
 destroy(this.mle_objeto)
+destroy(this.dw_contgenera)
 end on
 
 type cbx_4 from checkbox within tp_1
@@ -4972,7 +4972,7 @@ end type
 
 type pb_2 from picturebutton within tp_1
 event mousemove pbm_mousemove
-integer x = 6190
+integer x = 6519
 integer y = 200
 integer width = 146
 integer height = 128
@@ -5223,7 +5223,7 @@ end event
 
 type pb_3 from picturebutton within tp_1
 event mousemove pbm_mousemove
-integer x = 6190
+integer x = 6519
 integer y = 56
 integer width = 146
 integer height = 128
@@ -5332,10 +5332,33 @@ end if
 idw_contrato.filter()
 end event
 
+type mle_objeto from multilineedit within tp_1
+boolean visible = false
+integer x = 1399
+integer y = 536
+integer width = 5083
+integer height = 288
+integer taborder = 80
+boolean bringtotop = true
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+long textcolor = 33554432
+long backcolor = 15793151
+boolean hscrollbar = true
+boolean vscrollbar = true
+textcase textcase = upper!
+integer limit = 700
+borderstyle borderstyle = stylelowered!
+end type
+
 type dw_contgenera from datawindow within tp_1
 integer x = 1394
 integer y = 60
-integer width = 4750
+integer width = 5102
 integer height = 460
 integer taborder = 31
 string title = "none"
@@ -5365,35 +5388,12 @@ if isvalid(w_rias) then
 end if
 end event
 
-type mle_objeto from multilineedit within tp_1
-boolean visible = false
-integer x = 1399
-integer y = 536
-integer width = 4745
-integer height = 288
-integer taborder = 80
-boolean bringtotop = true
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-long textcolor = 33554432
-long backcolor = 15793151
-boolean hscrollbar = true
-boolean vscrollbar = true
-textcase textcase = upper!
-integer limit = 700
-borderstyle borderstyle = stylelowered!
-end type
-
 type tp_p from userobject within tab_1
 event create ( )
 event destroy ( )
 integer x = 128
 integer y = 16
-integer width = 6405
+integer width = 6679
 integer height = 856
 long backcolor = 67108864
 long tabtextcolor = 33554432
@@ -5545,7 +5545,7 @@ end type
 type dw_radica from datawindow within tp_p
 integer x = 9
 integer y = 76
-integer width = 3237
+integer width = 3506
 integer height = 756
 integer taborder = 90
 boolean bringtotop = true
@@ -5637,7 +5637,7 @@ end event
 type tab_3 from tab within tp_p
 event create ( )
 event destroy ( )
-integer x = 3296
+integer x = 3575
 integer y = 20
 integer width = 3077
 integer height = 816
@@ -6597,7 +6597,7 @@ end type
 type tp2_3 from userobject within tab_2
 integer x = 18
 integer y = 112
-integer width = 6597
+integer width = 6880
 integer height = 2412
 long backcolor = 67108864
 string text = "Por Empresa Reemitir"
@@ -7759,7 +7759,7 @@ end type
 type tp2_2 from userobject within tab_2
 integer x = 18
 integer y = 112
-integer width = 6597
+integer width = 6880
 integer height = 2412
 long backcolor = 67108864
 string text = "Por Lotes"
