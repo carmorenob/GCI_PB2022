@@ -2953,6 +2953,11 @@ if isvalid(dwo) then
 					return 1
 				end if
 			end if
+			if not isnull(getitemstring(j,'codaadx')) and data='1' then
+				settext('0')
+				setitem(getrow(),'escog','0')
+				return 1
+			end if
 		end if
 	end if
 end if
@@ -2967,8 +2972,8 @@ string p_codigo
 for j=1 to rowcount()
 	if dwo.text='Escoger' then
 		setrow(j)
-//		if tab_1.tp_1.dw_canasta.find("solicitada - entregada - devuelta >0",1,tab_1.tp_1.dw_canasta.rowcount())>0 then continue
 		if tab_1.tp_1.dw_canasta.find("cantidad >0",1,tab_1.tp_1.dw_canasta.rowcount())>0 then continue
+		if not isnull(getitemstring(j,'codaadx')) then continue
 		if getitemstring(j,'estado')='1' then setitem(j,'escog','1')
 	else
 		setitem(j,'escog','0')
@@ -3054,7 +3059,6 @@ if dwo.name='b_2' then
 			if i_alm='' then return -1
 		end if
 		st.alm= i_alm
-//		openwithparm(w_canastas,st)
 		openwithparm(w_canasta_articulo,st)
 		if message.stringparm='ok' then
 			i_cambio_insumo=TRUE

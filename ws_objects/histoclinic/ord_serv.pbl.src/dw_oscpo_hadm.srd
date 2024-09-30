@@ -34,13 +34,15 @@ table(column=(type=number update=yes updatewhereclause=yes key=yes name=contador
  column=(type=char(15) updatewhereclause=yes name=cod_cups dbname="BANCO_TIP_SUBEMPAQ.cod_cups" )
  column=(type=char(4) updatewhereclause=yes name=cod_version dbname="BANCO_TIP_SUBEMPAQ.cod_version" )
  column=(type=char(1) updatewhereclause=yes name=origen dbname="BANCO_TIP_SUBEMPAQ.origen" )
+ column=(type=char(2) updatewhereclause=yes name=codaadx dbname="banco_tip_subempaq.codaadx" dbalias=".codaadx" )
  retrieve="SELECT 
 	oscuerpo.Contador, oscuerpo.clugar, oscuerpo.NSolicitud, oscuerpo.Item, oscuerpo.tipo, oscuerpo.CodProced, 
 	proced.Descripcion, oscuerpo.solicitada, oscuerpo.suministrada, oscuerpo.observaciones, proced.RIPS, 
 	oscuerpo.CodAADX, oscuerpo.facturar, proced.AGRUPSER, oscuerpo.estado, '0' AS escog, 
 	oscuerpo.entregada, oscuerpo.cod_tsubempaq, oscuerpo.cod_banco, banco_tip_subempaq.descrip_tipo,
 	oscuerpo.cesp,proced.especial as especia,oscuerpo.tiempo_cirugia, oscuerpo.tipo_cirugia, 
-	oscuerpo.codtipoanestesia,oscuerpo.cod_late,proced.cod_cups,proced.cod_version,:origen as origen
+	oscuerpo.codtipoanestesia,oscuerpo.cod_late,proced.cod_cups,proced.cod_version,:origen as origen,
+	oscuerpo.codaadx
 FROM 
 	(oscuerpo INNER JOIN proced ON oscuerpo.CodProced = proced.CodProced) 
 	LEFT outer JOIN banco_tip_subempaq ON (oscuerpo.cod_banco = banco_tip_subempaq.cod_banco) 
@@ -122,4 +124,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=0 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 
