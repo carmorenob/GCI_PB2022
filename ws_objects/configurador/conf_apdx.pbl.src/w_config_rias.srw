@@ -15,7 +15,7 @@ end type
 end forward
 
 global type w_config_rias from window
-integer width = 4229
+integer width = 5445
 integer height = 1540
 boolean titlebar = true
 string title = "Configuración de RIPS"
@@ -58,9 +58,16 @@ event open;dw_1.settransobject(SQLCA)
 dw_1.retrieve()
 end event
 
+event resize;dw_1.resize(newwidth - 50 , newheight - 770)
+pb_1.y=dw_1.y+dw_1.height+20
+pb_2.y=dw_1.y+dw_1.height+20
+pb_3.y=dw_1.y+dw_1.height+20
+pb_4.y=dw_1.y+dw_1.height+20
+end event
+
 type pb_4 from picturebutton within w_config_rias
-integer x = 2112
-integer y = 1276
+integer x = 3095
+integer y = 1288
 integer width = 146
 integer height = 128
 integer taborder = 30
@@ -85,8 +92,8 @@ end if
 end event
 
 type pb_3 from picturebutton within w_config_rias
-integer x = 1934
-integer y = 1276
+integer x = 2917
+integer y = 1288
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -104,8 +111,8 @@ event clicked;dw_1.retrieve()
 end event
 
 type pb_2 from picturebutton within w_config_rias
-integer x = 1755
-integer y = 1276
+integer x = 2738
+integer y = 1288
 integer width = 146
 integer height = 128
 integer taborder = 20
@@ -123,8 +130,8 @@ event clicked;dw_1.deleterow(0)
 end event
 
 type pb_1 from picturebutton within w_config_rias
-integer x = 1577
-integer y = 1276
+integer x = 2560
+integer y = 1288
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -145,7 +152,7 @@ end event
 type dw_1 from datawindow within w_config_rias
 integer x = 32
 integer y = 28
-integer width = 4119
+integer width = 5353
 integer height = 1236
 integer taborder = 10
 string title = "none"
