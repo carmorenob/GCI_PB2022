@@ -61,7 +61,7 @@ end type
 end forward
 
 global type w_bancos from window
-integer width = 3666
+integer width = 4315
 integer height = 1488
 boolean titlebar = true
 string title = "Bancos - Configuración"
@@ -104,8 +104,8 @@ event open;dw_1.retrieve()
 end event
 
 type pb_save from picturebutton within w_bancos
-integer x = 3438
-integer y = 76
+integer x = 4119
+integer y = 68
 integer width = 146
 integer height = 128
 integer taborder = 30
@@ -177,7 +177,7 @@ end event
 type tab_1 from tab within w_bancos
 integer x = 46
 integer y = 496
-integer width = 3616
+integer width = 4027
 integer height = 864
 integer taborder = 20
 integer textsize = -8
@@ -211,7 +211,7 @@ end on
 type tp_1 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 3579
+integer width = 3991
 integer height = 736
 long backcolor = 67108864
 string text = "Encuesta"
@@ -252,7 +252,7 @@ destroy(this.dw_item_enc)
 end on
 
 type pb_4 from picturebutton within tp_1
-integer x = 3127
+integer x = 2949
 integer y = 608
 integer width = 146
 integer height = 128
@@ -274,7 +274,7 @@ event clicked;dw_lista_enc.deleterow(0)
 end event
 
 type pb_3 from picturebutton within tp_1
-integer x = 2962
+integer x = 2784
 integer y = 604
 integer width = 146
 integer height = 128
@@ -303,8 +303,8 @@ dw_lista_enc.setitem(donde,'subitem',j)
 end event
 
 type pb_2 from picturebutton within tp_1
-integer x = 2464
-integer y = 228
+integer x = 2519
+integer y = 160
 integer width = 146
 integer height = 128
 integer taborder = 30
@@ -327,8 +327,8 @@ dw_item_enc.deleterow(0)
 end event
 
 type pb_1 from picturebutton within tp_1
-integer x = 2459
-integer y = 100
+integer x = 2514
+integer y = 32
 integer width = 146
 integer height = 128
 integer taborder = 20
@@ -353,9 +353,9 @@ dw_item_enc.setitem(donde,'item',j)
 end event
 
 type dw_lista_enc from datawindow within tp_1
-integer x = 2638
+integer x = 2775
 integer y = 40
-integer width = 928
+integer width = 1216
 integer height = 540
 integer taborder = 60
 string title = "none"
@@ -404,7 +404,7 @@ end event
 type dw_item_enc from datawindow within tp_1
 integer x = 5
 integer y = 36
-integer width = 2441
+integer width = 2491
 integer height = 660
 integer taborder = 10
 string title = "none"
@@ -492,7 +492,7 @@ end event
 type tp_2 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 3579
+integer width = 3991
 integer height = 736
 long backcolor = 67108864
 string text = "Pruebas"
@@ -778,7 +778,7 @@ end type
 type dw_1 from datawindow within w_bancos
 integer x = 37
 integer y = 72
-integer width = 3351
+integer width = 4046
 integer height = 400
 integer taborder = 10
 string title = "none"

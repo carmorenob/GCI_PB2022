@@ -95,7 +95,7 @@ end forward
 
 global type w_areas_apdx from window
 integer width = 6395
-integer height = 2108
+integer height = 2032
 boolean titlebar = true
 string title = "Areas de Apoyo Diagnóstico"
 boolean controlmenu = true
@@ -184,8 +184,8 @@ tab_1.tp_1.pb_del.y=tab_1.tp_1.dw_area.y+tab_1.tp_1.dw_area.height + 10
 end event
 
 type pb_save from picturebutton within w_areas_apdx
-integer x = 2226
-integer y = 1872
+integer x = 2272
+integer y = 1800
 integer width = 146
 integer height = 128
 integer taborder = 190
@@ -208,8 +208,8 @@ end if
 end event
 
 type pb_salir from picturebutton within w_areas_apdx
-integer x = 2395
-integer y = 1872
+integer x = 2441
+integer y = 1800
 integer width = 146
 integer height = 128
 integer taborder = 180

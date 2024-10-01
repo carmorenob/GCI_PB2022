@@ -39,7 +39,7 @@ end type
 end forward
 
 global type w_administra_usuario from window
-integer width = 4023
+integer width = 5271
 integer height = 1788
 boolean titlebar = true
 string title = "Administracion de usuarios"
@@ -133,8 +133,8 @@ event open;dw_1.retrieve()
 end event
 
 type pb_6 from picturebutton within w_administra_usuario
-integer x = 3854
-integer y = 688
+integer x = 5083
+integer y = 672
 integer width = 146
 integer height = 128
 integer taborder = 80
@@ -159,8 +159,8 @@ open(w_borra_usu_rep)
 end event
 
 type pb_biometria from picturebutton within w_administra_usuario
-integer x = 3849
-integer y = 404
+integer x = 5079
+integer y = 388
 integer width = 146
 integer height = 128
 integer taborder = 40
@@ -196,7 +196,7 @@ end if
 end event
 
 type pb_5 from picturebutton within w_administra_usuario
-integer x = 1893
+integer x = 2496
 integer y = 1256
 integer width = 119
 integer height = 100
@@ -224,7 +224,7 @@ dw_2.deleterow(fila)
 end event
 
 type pb_3 from picturebutton within w_administra_usuario
-integer x = 1893
+integer x = 2496
 integer y = 1152
 integer width = 119
 integer height = 100
@@ -270,7 +270,7 @@ boolean focusrectangle = false
 end type
 
 type st_3 from statictext within w_administra_usuario
-integer x = 2112
+integer x = 2715
 integer y = 1072
 integer width = 1147
 integer height = 72
@@ -291,7 +291,7 @@ end type
 type st_2 from statictext within w_administra_usuario
 integer x = 50
 integer y = 28
-integer width = 3781
+integer width = 5010
 integer height = 76
 integer textsize = -8
 integer weight = 400
@@ -308,8 +308,8 @@ boolean focusrectangle = false
 end type
 
 type pb_4 from picturebutton within w_administra_usuario
-integer x = 3849
-integer y = 544
+integer x = 5079
+integer y = 528
 integer width = 146
 integer height = 128
 integer taborder = 70
@@ -332,7 +332,7 @@ end event
 type mle_1 from multilineedit within w_administra_usuario
 integer x = 398
 integer y = 896
-integer width = 3351
+integer width = 4663
 integer height = 88
 integer textsize = -8
 integer weight = 400
@@ -365,7 +365,7 @@ end type
 type dw_3 from datawindow within w_administra_usuario
 integer x = 69
 integer y = 1148
-integer width = 1664
+integer width = 2281
 integer height = 464
 integer taborder = 40
 string title = "none"
@@ -382,9 +382,9 @@ event constructor;this.settransobject(sqlca)
 end event
 
 type dw_2 from datawindow within w_administra_usuario
-integer x = 2107
+integer x = 2711
 integer y = 1144
-integer width = 1673
+integer width = 2281
 integer height = 464
 integer taborder = 50
 string title = "none"
@@ -401,8 +401,8 @@ event constructor;this.settransobject(sqlca)
 end event
 
 type pb_2 from picturebutton within w_administra_usuario
-integer x = 3849
-integer y = 264
+integer x = 5079
+integer y = 248
 integer width = 146
 integer height = 128
 integer taborder = 20
@@ -431,8 +431,8 @@ commit;
 end event
 
 type pb_1 from picturebutton within w_administra_usuario
-integer x = 3849
-integer y = 124
+integer x = 5079
+integer y = 108
 integer width = 146
 integer height = 128
 integer taborder = 30
@@ -457,7 +457,7 @@ end event
 type dw_1 from datawindow within w_administra_usuario
 integer x = 46
 integer y = 112
-integer width = 3785
+integer width = 5015
 integer height = 744
 integer taborder = 10
 string title = "none"
@@ -477,6 +477,7 @@ dw_2.retrieve(i_usuario)
 end event
 
 event doubleclicked;if this.getrow()<1 then return
+
 open(w_usuario_nuevo)
 w_usuario_nuevo.dw_1.retrieve(this.getitemstring(row,"usuario"))
 
@@ -494,9 +495,9 @@ event constructor;this.settransobject(sqlca)
 end event
 
 type gb_1 from groupbox within w_administra_usuario
-integer x = 2080
+integer x = 2683
 integer y = 1016
-integer width = 1733
+integer width = 2373
 integer height = 620
 integer textsize = -8
 integer weight = 400
@@ -513,7 +514,7 @@ end type
 type gb_2 from groupbox within w_administra_usuario
 integer x = 41
 integer y = 1016
-integer width = 1733
+integer width = 2373
 integer height = 620
 integer textsize = -8
 integer weight = 400

@@ -37,8 +37,13 @@ gb_1 gb_1
 end type
 global w_clave_usuario w_clave_usuario
 
-event open;x=300
+type variables
+string ls_campo
+end variables
+event open;ls_campo=message.stringparm
+x=300
 y=300
+
 end event
 
 on w_clave_usuario.create
@@ -120,7 +125,11 @@ hj=len(ocultar)
 If f_valida_usuario(usuario,sle_1.text)<>0 then
 	return -1
 End If
-w_usuario_nuevo.dw_1.setitem(w_usuario_nuevo.dw_1.getrow(),'clave',ocultar)
+if ls_campo='clave' then
+	w_usuario_nuevo.dw_1.setitem(w_usuario_nuevo.dw_1.getrow(),'clave',ocultar)
+else
+	w_usuario_nuevo.dw_1.setitem(w_usuario_nuevo.dw_1.getrow(),'clave_sispro',ocultar)
+end if
 w_usuario_nuevo.dw_1.setitem(w_usuario_nuevo.dw_1.getrow(),'intento',0)
 close(parent)
 end event

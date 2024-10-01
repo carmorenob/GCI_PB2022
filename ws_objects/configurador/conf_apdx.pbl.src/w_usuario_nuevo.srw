@@ -15,7 +15,7 @@ end type
 end forward
 
 global type w_usuario_nuevo from window
-integer width = 3922
+integer width = 5189
 integer height = 768
 boolean titlebar = true
 string title = "Nuevo Usuario"
@@ -61,7 +61,7 @@ end event
 
 type pb_2 from picturebutton within w_usuario_nuevo
 string tag = "Salir"
-integer x = 2030
+integer x = 2373
 integer y = 524
 integer width = 146
 integer height = 128
@@ -89,7 +89,7 @@ end event
 
 type pb_1 from picturebutton within w_usuario_nuevo
 string tag = "Guardar"
-integer x = 1856
+integer x = 2199
 integer y = 524
 integer width = 146
 integer height = 128
@@ -116,8 +116,8 @@ close(parent)
 end event
 
 type st_2 from statictext within w_usuario_nuevo
-integer x = 2199
-integer y = 168
+integer x = 2240
+integer y = 16
 integer width = 1637
 integer height = 64
 integer textsize = -8
@@ -133,7 +133,7 @@ boolean focusrectangle = false
 end type
 
 type st_1 from statictext within w_usuario_nuevo
-integer x = 59
+integer x = 32
 integer y = 32
 integer width = 919
 integer height = 96
@@ -146,16 +146,14 @@ string facename = "Arial"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "REGISTRO USUARIO"
-boolean border = true
-borderstyle borderstyle = stylelowered!
 boolean focusrectangle = false
 end type
 
 type dw_1 from datawindow within w_usuario_nuevo
 integer x = 27
-integer y = 252
-integer width = 3822
-integer height = 248
+integer y = 132
+integer width = 5061
+integer height = 368
 integer taborder = 10
 string title = "none"
 string dataobject = "dw_usuario_nuevo"
@@ -164,7 +162,13 @@ boolean livescroll = true
 borderstyle borderstyle = stylelowered!
 end type
 
-event doubleclicked;if getcolumnname()='clave' then open(w_clave_usuario)
+event doubleclicked;if getcolumnname()='clave' then 
+	openwithparm(w_clave_usuario,'clave')
+end if
+	
+if getcolumnname()='clave_sispro' then 
+	openwithparm(w_clave_usuario,'clave_sispro')
+end if
 if dw_1.rowcount()>0 then
 	dw_1.setitem(dw_1.getrow(),"intento",0)
 	dw_1.setitem(dw_1.getrow(),"tp",1)
