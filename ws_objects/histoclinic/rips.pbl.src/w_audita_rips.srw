@@ -1773,7 +1773,7 @@ if is_elec='2' then
 		if dw_facturas.getitemstring(l_i,'estado_dian')='1' then continue
 		if dw_facturas.getitemstring(l_i,'file_name_fact')='0' then continue
 		
-		if dw_facturas.getitemdatetime(l_i,'fecha')>ldt_iniciafevs then
+		if datetime(dw_facturas.getitemdate(l_i,'fecha'))>ldt_iniciafevs then
 			if g_motor='postgres' then
 				dw_electronica.dataobject="dw_factura_electronica_postgres19"
 			else
