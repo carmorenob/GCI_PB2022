@@ -86,7 +86,11 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 				li_fcon = ripse_json.AddItemObject(li_con)				
 				ripse_json.AddItemString(li_fcon,"codPrestador",lds_rips.getitemstring(li_ci,'c_supersalud'))
 				ripse_json.AddItemString(li_fcon,"fechaInicioAtencion",string(lds_rips.getitemdatetime(1,"fecha"),'yyyy-mm-dd hh:mm'))
-				ripse_json.AddItemString(li_fcon,"numAutorizacion",lds_rips.getitemstring(li_ci,'nautoriza'))
+				if isnull(lds_rips.getitemstring(li_ci,'nautoriza')) or lds_rips.getitemstring(li_ci,'nautoriza')='' then
+					ripse_json.AddItemNull(li_fcon,"numAutorizacion")
+				else
+					ripse_json.AddItemString(li_fcon,"numAutorizacion",lds_rips.getitemstring(li_ci,'nautoriza'))
+				end if
 				ripse_json.AddItemString(li_fcon,"codConsulta",lds_rips.getitemstring(li_ci,'cod_cups'))
 				if isnull(lds_rips.getitemstring(li_ci,'cod_modrel')) then
 					ripse_json.AddItemNull(li_fcon,"modalidadGrupoServicioTecSal")
@@ -578,7 +582,11 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 					ldb_fcon = ripse_json.AddItemObject(ldb_cin)				
 					ripse_json.AddItemString(ldb_fcon,"codPrestador",lds_ripsc.getitemstring(ldb_ci,'c_supersalud'))
 					ripse_json.AddItemString(ldb_fcon,"fechaInicioAtencion",string(lds_ripsc.getitemdatetime(ldb_ci,"fecha"),'yyyy-mm-dd hh:mm'))
-					ripse_json.AddItemString(ldb_fcon,"numAutorizacion",lds_ripsc.getitemstring(ldb_ci,'nautoriza'))
+					if isnull(lds_ripsc.getitemstring(ldb_ci,'nautoriza')) or lds_ripsc.getitemstring(ldb_ci,'nautoriza')='' then
+						ripse_json.AddItemNull(ldb_fcon,"numAutorizacion")
+					else
+						ripse_json.AddItemString(ldb_fcon,"numAutorizacion",lds_ripsc.getitemstring(ldb_ci,'nautoriza'))
+					end if
 					ripse_json.AddItemString(ldb_fcon,"codConsulta",lds_ripsc.getitemstring(ldb_ci,'cod_cups'))
 					if isnull(lds_ripsc.getitemstring(ldb_ci,'cod_modrel')) then
 						ripse_json.AddItemString(ldb_fcon,"modalidadGrupoServicioTecSal")
