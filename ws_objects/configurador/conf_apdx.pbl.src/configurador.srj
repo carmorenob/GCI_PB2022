@@ -262,6 +262,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_biometria_
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_dw_xa_funciones,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_pm_servicios_grilla,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_hc.pbl,dw_lista_campos_hc,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_rtf,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_trae_qxdet_grup,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_lista_medprinactivo,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_buscar_gral,w
