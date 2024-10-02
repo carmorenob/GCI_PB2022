@@ -321,6 +321,7 @@ if p_tipo_fac='' then setnull(p_tipo_fac)
 dw_serv_ing.setitem(fila,"cccosto",p_codcc)
 dw_serv_ing.setitem(fila,"cufuncional",p_coduf)
 dw_serv_ing.setitem(fila,"fecha",datetime(today(),now()))
+dw_serv_ing.setitem(fila,"cod_modrel",'01')
 SELECT Max(ServiciosIngreso.NServicio) into :i_nservicio
 	FROM ServiciosIngreso
 WHERE ServiciosIngreso.Contador=:i_contador and clugar=:i_clugar_his;

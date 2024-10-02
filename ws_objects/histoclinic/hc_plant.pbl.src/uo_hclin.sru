@@ -193,7 +193,7 @@ private long i_contador, posX, posY, colum, altura, consec
 private datawindowchild idw_plants,idw_lista,idw_listan
 //private uo_timer timer
 boolean i_cambia,i_nv_orden//para saber si se ha modificado algo//para saber si ya se insertó una orden de serv
-string i_message,i_clug_nh,i_estado_hadm,i_tingre,i_clug_qx,i_modo,i_fecha,i_interfaz_ord,i_cespe,i_cpo,i_ptipo,i_pingsal
+string i_message,i_clug_nh,i_estado_hadm,i_tingre,i_clug_qx,i_modo,i_fecha,i_interfaz_ord,i_cespe,i_cpo,i_ptipo,i_pingsal,ls_modrel
 singlelineedit isle_proc,isle_med,sle_otros,isle_tiporep,isle_kits ,sle_plant//para crear loas ordenes de serv cunado el objeto se abre en Evolución
 picturebutton ipb_new_orden
 boolean i_displayonly, i_pudo_orden,i_puede_modif//para que si no pudo crear una orden no siga enviando eso//para determinar si el usuario puede modificar la historia despues de cerrada la admision
@@ -817,6 +817,7 @@ dw_deta.reset()
 dw_1.Reset()
 mle_1.visible=false
 st_muestra.text=''
+setnull(ls_modrel)
 return 1
 end function
 
@@ -1173,6 +1174,7 @@ for j=1 to dw_procs_new.rowcount()
 	dw_procs_new.setitem(j,'nservicio',nserv)
 	dw_procs_new.setitem(j,'nregistro_hc',p_nreg)
 	dw_procs_new.setitem(j,'estria',dw_procs_new.getitemstring(j,'estado'))
+	dw_procs_new.setitem(j,'cod_modrel',ls_modrel)
 next
 if dw_procs_new.update(true,false)=-1 then return -1
 for j=1 to dw_procs_new.rowcount()
@@ -1375,9 +1377,9 @@ em_1.text=string(datetime(today(),now()),'dd/mm/yyyy hh:mm')
 i_puede_modif=false
 
 if pos('2347T',i_tingre)>0 then //es urg hosp o ambu
-	select NH,clugar,estado into :i_NH,:i_clug_nh,:i_estado_hadm 
-	from hospadmi
-	where contador=:i_contador and clugar_his=:i_clug;
+	select hospadmi.NH, hospadmi.clugar, hospadmi.estado, tipoingreso.gserv into :i_NH,:i_clug_nh,:i_estado_hadm,:ls_modrel
+	from hospadmi inner join tipoingreso ON hospadmi.codtingre = tipoingreso.codtingre
+	where hospadmi.contador=:i_contador and hospadmi.clugar_his=:i_clug;
 	IF SQLCA.SQLCode = 100 or SQLCA.SQLCode = -1 THEN
 		MessageBox("No existe registro en HospAdmi", SQLCA.SQLErrText)
 		setpointer(arrow!)
@@ -1415,6 +1417,7 @@ if i_tingre='1' then
 		dw_new_det.enabled=true	
 		mle_2.enabled=true	
 	end IF
+	ls_modrel='01'
 end If
 if idw_plants.rowcount()=1 then
 	dw_plants.setitem(1,1,idw_plants.getitemstring(1,'codplantilla'))
@@ -2614,7 +2617,7 @@ event keypres pbm_keydown
 integer x = 1545
 integer y = 768
 integer width = 4402
-integer height = 180
+integer height = 170
 integer taborder = 30
 end type
 
@@ -4473,14 +4476,6 @@ integer width = 4402
 integer height = 1200
 integer taborder = 40
 boolean bringtotop = true
-integer textsize = -10
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-long textcolor = 33554432
-borderstyle borderstyle = stylelowered!
 end type
 
 event modified;i_cambia=true

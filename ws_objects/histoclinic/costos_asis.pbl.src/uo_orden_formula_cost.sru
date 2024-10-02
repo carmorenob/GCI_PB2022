@@ -203,6 +203,7 @@ private string i_clug_his , i_profe , i_indapdx , i_clug_hadm , i_est_hadm , i_c
 private string l_evo,l_usu,l_tpu, ori,profesi,l_enfe,ls_aordarea
 datawindowchild idw_procs , idw_genericos , idw_insumo
 end variables
+
 forward prototypes
 public function integer reset ()
 public function long insert_proc (string p_codigo, integer p_cant)
@@ -1427,6 +1428,7 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 boolean enabled = false
+boolean originalsize = true
 string picturename = "nopos.gif"
 string disabledname = "d_nopos.gif"
 alignment htextalign = left!
@@ -1623,7 +1625,7 @@ end event
 type pb_rip from picturebutton within uo_orden_formula_cost
 event mousemove pbm_mousemove
 integer x = 6729
-integer y = 1004
+integer y = 1020
 integer width = 146
 integer height = 128
 integer taborder = 160
@@ -1635,6 +1637,7 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 string text = "             &i"
+boolean originalsize = true
 string picturename = "rips.gif"
 string disabledname = "d_rips.gif"
 alignment htextalign = left!

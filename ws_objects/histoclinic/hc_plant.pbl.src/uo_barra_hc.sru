@@ -573,7 +573,6 @@ else
 	pb_urg.enabled=false
 end if
 
-
 idw_dats=p_dw_dats
 idw_memos=p_dw_memos
 idw_frm = p_dw_frm
