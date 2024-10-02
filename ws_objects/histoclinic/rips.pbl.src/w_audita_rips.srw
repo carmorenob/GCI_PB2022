@@ -1795,7 +1795,7 @@ if is_elec='2' then
 		
 		lst_lle=u_elec.sign_chilkat(dw_electronica,l_nfactura,ls_clugar,ls_tfac,0,'f','FV')
 		
-		if dw_facturas.getitemdatetime(l_i,'fecha')>ldt_iniciafevs then
+		if datetime(dw_facturas.getitemdate(l_i,'fecha'))>ldt_iniciafevs then
 			if (dw_facturas.getitemnumber(l_i,'vtproced')<>dw_facturas.getitemnumber(l_i,'vtemp') ) and dw_empresa.getitemstring(1,"codemp")<>'0' then 
 				if g_motor='postgres' then
 					dw_electronica.dataobject="dw_factura_electronica_postgres_rc"
