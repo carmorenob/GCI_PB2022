@@ -1608,7 +1608,7 @@ end type
 
 type dw_inf from datawindow within w_new_estad_ria_os
 integer x = 9
-integer width = 4443
+integer width = 5829
 integer height = 132
 string title = "none"
 string dataobject = "dw_inf_emp_cama"
