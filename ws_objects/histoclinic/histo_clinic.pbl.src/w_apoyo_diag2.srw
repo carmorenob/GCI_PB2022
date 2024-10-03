@@ -2276,7 +2276,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-09-27"), Time("10:00:24.000000"))
+datetime value = DateTime(Date("2024-10-03"), Time("07:31:14.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2298,7 +2298,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-09-27"), Time("10:00:24.000000"))
+datetime value = DateTime(Date("2024-10-03"), Time("07:31:14.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -3206,7 +3206,6 @@ choose case estado
 		if isnull(dw_procs.getitemnumber(fila,'nrepor')) then
 			if messagebox("Atención","Está seguro que desea Ingresar o modificar resultados de este procedimiento, esto le implica que no lo puede borrar.",Question!,YesNo!,1) = 2 then return
 		end if
-		///////------jaer
 		if f_crear_resultados('SI',g_profe,datetime(today(), now()),'1')=1 then 
 			tab_1.post selecttab(3)//porque el son of the bitch cuando está en ambiente XP no dejaba el tp_2 como activo
 		end if
@@ -4415,11 +4414,10 @@ end event
 type dw_serving from datawindow within resul
 event type integer insertar ( )
 integer x = 14
-integer y = 24
+integer y = 16
 integer width = 5371
-integer height = 376
+integer height = 396
 integer taborder = 80
-boolean bringtotop = true
 string title = "none"
 string dataobject = "dw_estad_rip_cext"
 boolean border = false
@@ -4439,7 +4437,6 @@ setitem(1,"contador",w_apoyo_diag2.i_contador)
 setitem(1,"clugar",w_apoyo_diag2.i_clughis)
 setitem(1,"cproced",tab_1.tp_1.dw_procs.getitemstring(fila,'codproced'))
 setitem(1,"finalidadproced",tab_1.tp_1.dw_procs.getitemstring(fila,'TipoProc'))
-//setitem(1,"cod_grp_serv",'02')
 
 setitem(1,"cemp",tab_1.tp_1.dw_procs.getitemstring(fila,'cemp'))
 setitem(1,"ccontrato",tab_1.tp_1.dw_procs.getitemstring(fila,'ccontrato'))
@@ -4450,7 +4447,6 @@ setitem(1,"cprocedeq",tab_1.tp_1.dw_procs.getitemstring(fila,'cprocedeq'))
 setitem(1,"cmanual",tab_1.tp_1.dw_procs.getitemstring(fila,'cmanual'))
 
 setitem(1,"rips",tab_1.tp_1.dw_procs.getitemstring(fila,'ria'))
-//setitem(1,"clugar",CLUGAR)
 setitem(1,"cufuncional",tab_1.tp_1.dw_procs.getitemstring(fila,'cufuncional'))
 setitem(1,"cccosto",tab_1.tp_1.dw_procs.getitemstring(fila,'cccosto'))
 select max(nservicio) into :i_nserving from serviciosingreso 
@@ -4511,10 +4507,10 @@ end if
 if update()=-1 then return -1
 
 // ------------------------ C O H O R T E S -------------------------
-	setnull(ls_dx)
-	gf_validar_proc_diag_cohorte(&
-		tipdoc,docu,w_principal.dw_1.getitemstring(1,'sexo'),&
-			w_principal.dw_1.getitemnumber(1,'dias'),tab_1.tp_1.dw_procs.getitemstring(fila,'codproced'),ls_dx,w_apoyo_diag2.i_contador ,w_apoyo_diag2.i_clughis,'0')
+setnull(ls_dx)
+gf_validar_proc_diag_cohorte(&
+	tipdoc,docu,w_principal.dw_1.getitemstring(1,'sexo'),&
+	w_principal.dw_1.getitemnumber(1,'dias'),tab_1.tp_1.dw_procs.getitemstring(fila,'codproced'),ls_dx,w_apoyo_diag2.i_contador ,w_apoyo_diag2.i_clughis,'0')
 
 // ------------------------ C O H O R T E S -------------------------
 
@@ -4528,7 +4524,6 @@ st.dw_canasta=dw_canasta
 st.dw_lote=dw_lote
 st.contador=i_contador
 st.clugar=i_clughis
-//st.item=i_nserving
 st.nserv=i_nserving
 st.alm=i_alm
 openwithparm(w_canasta_articulo,st)

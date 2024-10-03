@@ -46,17 +46,17 @@ type tabp_new from userobject within tab_1
 end type
 type st_1 from statictext within tabp_new
 end type
-type cb_cambiores from picturebutton within tabp_new
-end type
 type st_respon from statictext within tabp_new
 end type
 type uo_ord from uo_hclin within tabp_new
 end type
+type cb_cambiores from picturebutton within tabp_new
+end type
 type tabp_new from userobject within tab_1
 st_1 st_1
-cb_cambiores cb_cambiores
 st_respon st_respon
 uo_ord uo_ord
+cb_cambiores cb_cambiores
 end type
 type tabp_3 from userobject within tab_1
 end type
@@ -1026,27 +1026,27 @@ long tabtextcolor = 33554432
 string picturename = "entrega_med.ico"
 long picturemaskcolor = 536870912
 st_1 st_1
-cb_cambiores cb_cambiores
 st_respon st_respon
 uo_ord uo_ord
+cb_cambiores cb_cambiores
 end type
 
 on tabp_new.create
 this.st_1=create st_1
-this.cb_cambiores=create cb_cambiores
 this.st_respon=create st_respon
 this.uo_ord=create uo_ord
+this.cb_cambiores=create cb_cambiores
 this.Control[]={this.st_1,&
-this.cb_cambiores,&
 this.st_respon,&
-this.uo_ord}
+this.uo_ord,&
+this.cb_cambiores}
 end on
 
 on tabp_new.destroy
 destroy(this.st_1)
-destroy(this.cb_cambiores)
 destroy(this.st_respon)
 destroy(this.uo_ord)
+destroy(this.cb_cambiores)
 end on
 
 type st_1 from statictext within tabp_new
@@ -1067,10 +1067,45 @@ alignment alignment = center!
 boolean focusrectangle = false
 end type
 
+type st_respon from statictext within tabp_new
+integer x = 2990
+integer y = 12
+integer width = 1111
+integer height = 72
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 8388736
+long backcolor = 15793151
+string text = "Ninguno"
+alignment alignment = center!
+boolean border = true
+borderstyle borderstyle = stylelowered!
+boolean focusrectangle = false
+end type
+
+type uo_ord from uo_hclin within tabp_new
+event destroy ( )
+integer y = 96
+integer height = 2136
+integer taborder = 40
+boolean bringtotop = true
+boolean enabled = true
+string i_message = "Ordenes"
+end type
+
+on uo_ord.destroy
+call uo_hclin::destroy
+end on
+
 type cb_cambiores from picturebutton within tabp_new
-integer x = 4201
-integer width = 128
-integer height = 100
+integer x = 4238
+integer y = 8
+integer width = 146
+integer height = 140
 integer taborder = 13
 integer textsize = -8
 integer weight = 400
@@ -1109,40 +1144,6 @@ else
 	open(w_cambio_respon)
 end if
 end event
-
-type st_respon from statictext within tabp_new
-integer x = 2990
-integer y = 12
-integer width = 1111
-integer height = 72
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-long textcolor = 8388736
-long backcolor = 15793151
-string text = "Ninguno"
-alignment alignment = center!
-boolean border = true
-borderstyle borderstyle = stylelowered!
-boolean focusrectangle = false
-end type
-
-type uo_ord from uo_hclin within tabp_new
-event destroy ( )
-integer y = 96
-integer height = 2136
-integer taborder = 40
-boolean bringtotop = true
-boolean enabled = true
-string i_message = "Ordenes"
-end type
-
-on uo_ord.destroy
-call uo_hclin::destroy
-end on
 
 type tabp_3 from userobject within tab_1
 integer x = 18

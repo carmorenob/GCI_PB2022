@@ -304,24 +304,23 @@ choose case i_tingre
 		long nserv,cuantos,l_nsol1,l_item1
 		str_proc str
 		
-		select oscabeza.nsolicitud, oscuerpo.item into :l_nsol1,:l_item1
-		FROM (oscabeza INNER JOIN oscuerpo ON (oscabeza.contador = oscuerpo.contador) AND (oscabeza.clugar = oscuerpo.clugar) AND (oscabeza.nsolicitud = oscuerpo.nsolicitud)) INNER JOIN proced ON oscuerpo.codproced = proced.codproced
-		where (((oscabeza.contador)=:i_contador) and ((oscabeza.clugar)=:i_clug_his) and ((oscuerpo.estado) in ('1','2')) and ((proced.urg)='1') AND ((proced.codproced)=:p_codigo) );
-		if l_nsol1>0 then
-			messagebox('Atención','Este es un procedimiento no lo puede cargar existe ya uno')
-			return -1
-		end if
-		
-		
 		if isnull(l_tpu) or l_tpu='' then
 			xl_profe=dw_oscab.getitemstring(dw_oscab.getrow(),'codprof')
 			
 			select profe.usuario,evoluciona,tipo,profe.enfermero into :l_usu,:l_evo,:l_tpu,:l_enfe FROM profe left join usuarios ON profe.usuario= usuarios.usuario where codprof=:xl_profe;
 		end if
-		//if l_enfe='1' then return -1
 		
 		str=f_busca_cups(p_codigo,w_principal.dw_1.getitemstring(1,'sexo'),w_principal.dw_1.getitemnumber(1,'dias'),'1')
 		if isnull(str.descripcion) then return -1
+		
+		select oscabeza.nsolicitud, oscuerpo.item into :l_nsol1,:l_item1
+		FROM (oscabeza INNER JOIN oscuerpo ON (oscabeza.contador = oscuerpo.contador) AND (oscabeza.clugar = oscuerpo.clugar) AND (oscabeza.nsolicitud = oscuerpo.nsolicitud)) INNER JOIN proced ON oscuerpo.codproced = proced.codproced
+		where (((oscabeza.contador)=:i_contador) and ((oscabeza.clugar)=:i_clug_his) and ((oscuerpo.estado) in ('1','2')) and ((proced.urg)='1') AND ((proced.codproced)=:str.cproc) );
+		if l_nsol1>0 then
+			messagebox('Atención','Este procedimiento ya fue cargado en la Orden '+string(l_nsol1)+' item '+string(l_item1))
+			return -1
+		end if
+		
 		if str.agrupser='04' and i_indapdx='Q' then
 			messagebox('Atención','Este es un procedimiento quirúrgico, no lo puede cargar por orden de servicio')
 			return -1
@@ -344,7 +343,7 @@ choose case i_tingre
 			banco=dw_oscab.getitemstring(dw_oscab.getrow(),'cod_banco')
 			SELECT Min(cod_empaque) into :revisa
 			FROM banco_producto
-			WHERE banco_producto.cod_banco=:banco AND banco_producto.codproced=:p_codigo;
+			WHERE banco_producto.cod_banco=:banco AND banco_producto.codproced=:str.cproc;
 			if sqlca.sqlcode=-1 then
 				err=sqlca.sqlerrtext
 				rollback;
@@ -359,7 +358,7 @@ choose case i_tingre
 		if isnull(str.rips) then str.rips="10"
 		setnull(nserv)
 		SELECT count(item) into :nserv FROM oscuerpo 
-		WHERE contador=:i_contador and clugar=:i_clug_his and nsolicitud=:i_norden and codproced=:p_codigo;
+		WHERE contador=:i_contador and clugar=:i_clug_his and nsolicitud=:i_norden and codproced=:str.cproc;
 		if nserv>0 then
 			rollback;
 			messagebox('Atención',' Ya cargo este producto en esta orden favor verifique')
