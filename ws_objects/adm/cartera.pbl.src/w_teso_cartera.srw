@@ -4307,10 +4307,11 @@ string dataobject = "asis_int_factura_ele_cap"
 end type
 
 type dw_gloa from datawindow within w_teso_cartera
-integer x = 2862
-integer y = 988
-integer width = 2409
-integer height = 444
+boolean visible = false
+integer x = 4338
+integer y = 720
+integer width = 165
+integer height = 124
 integer taborder = 130
 boolean bringtotop = true
 string title = "none"
