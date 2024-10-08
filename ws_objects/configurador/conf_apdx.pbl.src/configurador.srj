@@ -198,8 +198,8 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_quitafiltr
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_cups_especialidad,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_medtodos,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,w_convproced,w
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_cfgterceros_tipo,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,w_config_rias,w
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_cfgterceros_tipo,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_combo_pgrupo,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,uo_key,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,w_export,w
@@ -238,9 +238,9 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,conf_apdx,a
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,uo_transaction,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_subgro_ocupaciones,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_rte,s
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_rips,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_biometria_muestra_imagen,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_contrato_capitaufcc,d
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_rips,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_unifi_profe,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_combo_verdiag,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_encripta,f
