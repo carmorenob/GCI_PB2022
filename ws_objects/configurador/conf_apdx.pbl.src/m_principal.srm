@@ -1576,7 +1576,7 @@ end type
 
 on m_condiciónvictima.create
 call super::create
-this.tag = "Condición Victima"
+this.tag = "Condicion Victima"
 this.text = "Condición Victima"
 this.microhelp = "Condición Victima"
 this.toolbaritemtext = "Condición Victima"
@@ -5734,7 +5734,7 @@ end event
 
 on m_tipodonación.create
 call super::create
-this.tag = "Tipo Donación"
+this.tag = "Tipo Donacion"
 this.text = "Tipo Donación"
 this.microhelp = "Tipo Donación"
 this.toolbaritemtext = "Tipo Donación"
@@ -7419,7 +7419,7 @@ end type
 
 on m_4_1.create
 call super::create
-this.tag = "Tablas Básicas"
+this.tag = "Configuracion Citas"
 this.text = "Tablas Básicas"
 this.microhelp = "Tablas Básicas"
 this.toolbaritemtext = "Tablas Básicas"
