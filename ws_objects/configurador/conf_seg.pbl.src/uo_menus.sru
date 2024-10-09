@@ -190,7 +190,7 @@ dw_1.accepttext()
 for j=1 to dw_1.rowcount()
 	temp=trim(dw_1.getitemstring(j,'mostrar'))
 	//if not isnull(dw_1.getitemstring(j,'shortcut')) then temp+='	'+dw_1.getitemstring(j,'shortcut')
-	if not isnull(dw_1.getitemstring(j,'texto')) or dw_1.getitemstring(j,'texto')<>temp then dw_1.setitem(j,'texto',temp)
+	if isnull(dw_1.getitemstring(j,'texto')) or dw_1.getitemstring(j,'texto')<>temp then dw_1.setitem(j,'texto',temp)
 next
 return dw_1.update()
 
