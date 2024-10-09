@@ -1094,6 +1094,8 @@ on m_1.create
 call super::create
 this.tag = "Opciones"
 this.text = "Archivo"
+this.microhelp = "Archivo"
+this.toolbaritemtext = "Campos PEDT"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1232,8 +1234,9 @@ on m_cambiarlugar.create
 call super::create
 this.tag = "Cambio de Lugar"
 this.text = "Cambiar Lugar"
+this.microhelp = "Cambio de Lugar"
 this.toolbaritemname = "cambia_doc.ico"
-this.toolbaritemtext = "Cambiar Lugar"
+this.toolbaritemtext = "Cambio de Lugar"
 this.toolbaritemorder = 97
 this.menuimage = "cambia_doc.ico"
 this.menustyle = contemporarymenu!
@@ -1611,6 +1614,8 @@ on m_catastrofesnaturales.create
 call super::create
 this.tag = "Catastrofes Naturales"
 this.text = "Catastrofes Naturales"
+this.microhelp = "Catastrofes Naturales"
+this.toolbaritemtext = "Catastrofes Naturales"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1799,7 +1804,7 @@ call super::create
 this.tag = "Reportes"
 this.text = "Reportes"
 this.microhelp = "Configuración de Reportes"
-this.toolbaritemtext = "Reportes"
+this.toolbaritemtext = "Configuración de Reportes"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -2243,6 +2248,8 @@ call super::create
 this.tag = "Ciudades"
 this.text = "Ciudades~tAlt+C"
 this.shortcut = 579
+this.microhelp = "Ciudades"
+this.toolbaritemtext = "Ciudades"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -2280,6 +2287,8 @@ call super::create
 this.tag = "Barrio"
 this.text = "Barrios~tAlt+B"
 this.shortcut = 578
+this.microhelp = "Barrios"
+this.toolbaritemtext = "Barrios"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -2640,6 +2649,8 @@ on m_capitulosdiagnostico.create
 call super::create
 this.tag = "Diagnosticos Capitulos"
 this.text = "Capítulos Diagnóstico"
+this.microhelp = "Capítulos Diagnóstico"
+this.toolbaritemtext = "Capítulos Diagnóstico"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -2786,6 +2797,7 @@ call super::create
 this.tag = "Edad Finalidad"
 this.text = "Edades Finalidad"
 this.microhelp = "Edades Finalidad"
+this.toolbaritemtext = "Edades Finalidad"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3163,10 +3175,10 @@ end event
 
 on m_cod_heon.create
 call super::create
-this.tag = "Listado Producto"
+this.tag = "Códigos Heon"
 this.text = "Códigos"
 this.microhelp = "Códigos Heon"
-this.toolbaritemtext = "Codigo HEON"
+this.toolbaritemtext = "Códigos Heon"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3795,8 +3807,10 @@ end event
 
 on m_catastrofenatural.create
 call super::create
+this.tag = "Catástrofe Natural"
 this.text = "Catástrofe Natural"
 this.microhelp = "Catástrofe Natural"
+this.toolbaritemtext = "Catástrofe Natural"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3970,6 +3984,8 @@ on m_causaexterna.create
 call super::create
 this.tag = "Causa Externa"
 this.text = "Causa Externa"
+this.microhelp = "Causa Externa"
+this.toolbaritemtext = "Causa Externa"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -4374,7 +4390,9 @@ on m_antecedentes.create
 call super::create
 this.tag = "Antecedente Clinico"
 this.text = "Antecedentes Clínicos"
+this.microhelp = "Antecedentes Clínicos"
 this.toolbaritemname = "alergia.ico"
+this.toolbaritemtext = "Antecedentes Clínicos"
 this.menuimage = "alergiat.ico"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
@@ -4690,6 +4708,7 @@ on m_43.create
 call super::create
 this.tag = "Clase Procedimiento"
 this.text = "Clase Procedimiento"
+this.microhelp = "Clase Procedimiento"
 this.toolbaritemtext = "Clase Procedimiento"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
@@ -4855,7 +4874,10 @@ end type
 
 on m_2.create
 call super::create
+this.tag = "Administración"
 this.text = "Administración"
+this.microhelp = "Administración"
+this.toolbaritemtext = "Administración"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -4911,6 +4933,7 @@ on m_2_1.create
 call super::create
 this.tag = "Seguridad"
 this.text = "Seguridad"
+this.microhelp = "Perfiles de Seguridad"
 this.toolbaritemtext = "Perfiles de Seguridad"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
@@ -4958,8 +4981,9 @@ end type
 
 on m_2_1_1.create
 call super::create
-this.tag = "Seguridad Grupos "
+this.tag = "Seguridad Grupos"
 this.text = "Grupos de trabajo"
+this.microhelp = "Grupos de Trabajo y Permisos"
 this.toolbaritemname = "abono.ico"
 this.toolbaritemtext = "Grupos de Trabajo y Permisos"
 this.menuimage = "abono.ico"
@@ -5388,8 +5412,9 @@ end event
 on m_ajustacontrolred.create
 call super::create
 this.tag = "Control Red"
-this.text = "Ajusta Control_Red"
-this.toolbaritemtext = "Ajusta Control_Red"
+this.text = "Ajusta Control Red"
+this.microhelp = "Ajusta Control Red"
+this.toolbaritemtext = "Ajusta Control Red"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -5426,6 +5451,8 @@ on m_3.create
 call super::create
 this.tag = "Apoyo Dx"
 this.text = "Apoyo Dx"
+this.microhelp = "Apoyo Dx"
+this.toolbaritemtext = "Apoyo Dx"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -5679,6 +5706,8 @@ on m_bancosdefluidos.create
 call super::create
 this.tag = "Bancos Fluidos"
 this.text = "Bancos de Fluidos"
+this.microhelp = "Bancos de Fluidos"
+this.toolbaritemtext = "Bancos de Fluidos"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -5817,6 +5846,7 @@ on m_bancos.create
 call super::create
 this.tag = "Bancos"
 this.text = "Bancos"
+this.microhelp = "Bancos de Fluidos"
 this.toolbaritemname = "bancos.ico"
 this.toolbaritemtext = "Bancos de Fluidos"
 this.menuimage = "banco.ico"
@@ -7370,6 +7400,8 @@ on m_4.create
 call super::create
 this.tag = "Programacion Citas"
 this.text = "Citas/Turnos"
+this.microhelp = "Programacion Citas"
+this.toolbaritemtext = "Programacion Citas"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -7427,7 +7459,10 @@ end type
 
 on m_4_1.create
 call super::create
+this.tag = "Tablas Básicas"
 this.text = "Tablas Básicas"
+this.microhelp = "Tablas Básicas"
+this.toolbaritemtext = "Tablas Básicas"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -7606,9 +7641,9 @@ on m_4_1_1.create
 call super::create
 this.tag = "Citas Lugar"
 this.text = "Lugares"
-this.microhelp = "&Lugares"
+this.microhelp = "Citas Lugar"
 this.toolbaritemname = "caja_menor.ico"
-this.toolbaritemtext = "&Lugares"
+this.toolbaritemtext = "Citas Lugar"
 this.menuimage = "caja_menor.ico"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
@@ -7815,7 +7850,7 @@ this.tag = "Citas Especialidades"
 this.text = "Especialidades"
 this.microhelp = "Especialidades"
 this.toolbaritemname = "especia.ico"
-this.toolbaritemtext = "&Especialidades"
+this.toolbaritemtext = "Especialidades"
 this.menuimage = "especia.ico"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
@@ -7939,7 +7974,10 @@ end type
 
 on m_4_2.create
 call super::create
+this.tag = "Horario de Profesionales"
 this.text = "Horario de Profesionales"
+this.microhelp = "Horario de Profesionales"
+this.toolbaritemtext = "Horario de Profesionales"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -7977,6 +8015,8 @@ on m_4_2_1.create
 call super::create
 this.tag = "Citas Sugerido"
 this.text = "Sugerido"
+this.microhelp = "Citas Sugerido"
+this.toolbaritemtext = "Citas Sugerido"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -8092,6 +8132,8 @@ on m_areasturno.create
 call super::create
 this.tag = "Area Turnos"
 this.text = "Areas"
+this.microhelp = "Area Turnos"
+this.toolbaritemtext = "Area Turnos"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -8127,6 +8169,8 @@ on m_areasporgrupo.create
 call super::create
 this.tag = "Grupos Area"
 this.text = "Areas por Grupo"
+this.microhelp = "Areas por Grupo"
+this.toolbaritemtext = "Areas por Grupo"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -8199,7 +8243,10 @@ end type
 
 on m_5.create
 call super::create
+this.tag = "Facturación"
 this.text = "Facturación"
+this.microhelp = "Facturación"
+this.toolbaritemtext = "Facturación"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -8721,6 +8768,8 @@ on m_52.create
 call super::create
 this.tag = "EAPB"
 this.text = "Empresas"
+this.microhelp = "Empresas"
+this.toolbaritemtext = "Empresas"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -8885,7 +8934,10 @@ end event
 
 on m_actividadesfinales.create
 call super::create
+this.tag = "Actividades Finales"
 this.text = "Actividades Finales"
+this.microhelp = "Actividades Finales"
+this.toolbaritemtext = "Actividades Finales"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -8958,6 +9010,7 @@ on m_53.create
 call super::create
 this.tag = "Planes"
 this.text = "Planes"
+this.microhelp = "Planes"
 this.toolbaritemtext = "Planes"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
@@ -9120,6 +9173,8 @@ on m_54.create
 call super::create
 this.tag = "CostoS"
 this.text = "Costo"
+this.microhelp = "Costo"
+this.toolbaritemtext = "Costo"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -9202,6 +9257,7 @@ call super::create
 this.tag = "Centros Costo"
 this.text = "Centros de Costo"
 this.microhelp = "Centros de Costo"
+this.toolbaritemtext = "Centros de Costo"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -9421,6 +9477,8 @@ on m_capitulos.create
 call super::create
 this.tag = "Cups Capítulo"
 this.text = "Capítulos"
+this.microhelp = "Cups Capítulo"
+this.toolbaritemtext = "Cups Capítulo"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -9557,6 +9615,8 @@ on m_categoria.create
 call super::create
 this.tag = "Cups Categoría"
 this.text = "Categoria"
+this.microhelp = "Cups Categoría"
+this.toolbaritemtext = "Cups Categoría"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -10214,6 +10274,7 @@ on m_7.create
 call super::create
 this.tag = "Tipo Anestesia"
 this.text = "Tipo Anestesia"
+this.microhelp = "Tipo Anestesia"
 this.toolbaritemname = "nota_ane.ico"
 this.toolbaritemtext = "Tipo Anestesia"
 this.menuimage = "nota_ane.ico"
@@ -10449,7 +10510,10 @@ end type
 
 on m_6.create
 call super::create
+this.tag = "Farmacia"
 this.text = "Farmacia"
+this.microhelp = "Farmacia"
+this.toolbaritemtext = "Farmacia"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -10525,7 +10589,8 @@ end event
 on m_clase.create
 call super::create
 this.tag = "Medicamentos Clase"
-this.text = "Clase"
+this.text = "Clase de Medicamentos"
+this.microhelp = "Clase de Medicamentos"
 this.toolbaritemname = "entrega_med.ico"
 this.toolbaritemtext = "Clase de Medicamentos"
 this.menustyle = contemporarymenu!
@@ -10836,6 +10901,7 @@ on m_codigosatc.create
 call super::create
 this.tag = "Codigos ATC"
 this.text = "Codigos ATC"
+this.microhelp = "Codigos ATC"
 this.toolbaritemdownname = "ribon_atc.ico"
 this.toolbaritemtext = "Codigos ATC"
 this.menuimage = "ribon_atc.ico"
@@ -11092,9 +11158,9 @@ on m_condiciones.create
 call super::create
 this.tag = "PyP Condiciones"
 this.text = "Condiciones"
-this.microhelp = "Condiciones"
+this.microhelp = "PyP Condiciones"
 this.toolbaritemname = "hoja.ico"
-this.toolbaritemtext = "Condiciones"
+this.toolbaritemtext = "PyP Condiciones"
 this.menuimage = "hoja.ico"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
@@ -11342,7 +11408,10 @@ end type
 
 on m_8.create
 call super::create
+this.tag = "Quejas"
 this.text = "Quejas"
+this.microhelp = "Quejas"
+this.toolbaritemtext = "Quejas"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -11386,6 +11455,8 @@ on m_clasequeja.create
 call super::create
 this.tag = "Clase Queja"
 this.text = "Clase Queja"
+this.microhelp = "Clase Queja"
+this.toolbaritemtext = "Clase Queja"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -11454,6 +11525,8 @@ on m_9.create
 call super::create
 this.tag = "Tipo Queja"
 this.text = "Tipo Queja"
+this.microhelp = "Tipo Queja"
+this.toolbaritemtext = "Tipo Queja"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -11518,6 +11591,8 @@ on m_13.create
 call super::create
 this.tag = "Campos PEDT"
 this.text = "Campos PEDT"
+this.microhelp = "Campos PEDT"
+this.toolbaritemtext = "Campos PEDT"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -11831,7 +11906,10 @@ end type
 
 on m_ayuda.create
 call super::create
+this.tag = "Ayuda"
 this.text = "Ayuda"
+this.microhelp = "Ayuda"
+this.toolbaritemtext = "Ayuda"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -11871,6 +11949,8 @@ on m_acercade.create
 call super::create
 this.tag = "Acerca de"
 this.text = "Acerca de"
+this.microhelp = "Acerca de"
+this.toolbaritemtext = "Acerca de"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
