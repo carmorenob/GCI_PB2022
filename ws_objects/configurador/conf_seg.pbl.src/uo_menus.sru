@@ -186,13 +186,13 @@ end function
 
 public function integer guardar ();long j,ll_tvi
 string temp
-
-delete from segpermisos where codgrupo=:i_grupo and aplicacion=:i_aplic;
-commit;
-
 dw_1.accepttext()
 for j=1 to dw_1.rowcount()
 	temp=trim(dw_1.getitemstring(j,'mostrar'))
+	if pos(temp,'~t')<>0 then
+		temp=left(temp,pos(temp,'~t')-1)
+	end if
+		
 	//if not isnull(dw_1.getitemstring(j,'shortcut')) then temp+='	'+dw_1.getitemstring(j,'shortcut')
 	if isnull(dw_1.getitemstring(j,'texto')) or dw_1.getitemstring(j,'texto')<>temp then dw_1.setitem(j,'texto',temp)
 next

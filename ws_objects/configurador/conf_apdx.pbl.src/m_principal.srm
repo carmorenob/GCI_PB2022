@@ -1681,9 +1681,9 @@ on m_documentos.create
 call super::create
 this.tag = "Documentos"
 this.text = "Documentos"
-this.microhelp = "Docu&mentos"
+this.microhelp = "Documentos"
 this.toolbaritemname = "rep.ico"
-this.toolbaritemtext = "Docu&mentos"
+this.toolbaritemtext = "Documentos"
 this.menuimage = "rep.ico"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
