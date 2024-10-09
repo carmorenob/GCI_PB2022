@@ -1366,6 +1366,7 @@ call super::create
 this.tag = "Tablas Comunes"
 this.text = "Tablas Comunes"
 this.microhelp = "Tablas Comunes"
+this.toolbaritemtext = "Tablas Comunes"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1467,6 +1468,7 @@ call super::create
 this.tag = "Soat"
 this.text = "Accidente Tránsito"
 this.microhelp = "Accidente Tránsito"
+this.toolbaritemtext = "Accidente Tránsito"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1511,6 +1513,7 @@ call super::create
 this.tag = "Tipo Aseguramiento"
 this.text = "Tipo Aseguramiento"
 this.microhelp = "Tipo Aseguramiento"
+this.toolbaritemtext = "Tipo Aseguramiento"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -2490,6 +2493,8 @@ on m_abrevdireccion.create
 call super::create
 this.tag = "Abreviatura Direcciones"
 this.text = "Abreviatura Direcciones"
+this.microhelp = "Abreviatura Direcciones"
+this.toolbaritemtext = "Abreviatura Direcciones"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3594,6 +3599,7 @@ call super::create
 this.tag = "Tipo Correo"
 this.text = "Tipo Correo"
 this.microhelp = "Tipo Correo"
+this.toolbaritemtext = "Tipo Correo"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3629,6 +3635,7 @@ call super::create
 this.tag = "Tipo Dirección"
 this.text = "Tipo Dirección"
 this.microhelp = "Tipo Dirección"
+this.toolbaritemtext = "Tipo Dirección"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3881,6 +3888,7 @@ call super::create
 this.tag = "Finalidad"
 this.text = "Finalidad Consulta"
 this.microhelp = "Finalidad Consulta"
+this.toolbaritemtext = "Finalidad Consulta"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -5662,6 +5670,8 @@ on m_notasapdx.create
 call super::create
 this.tag = "Notas Procesamiento"
 this.text = "Notas Procesamiento"
+this.microhelp = "Notas Procesamiento"
+this.toolbaritemtext = "Notas Procesamiento"
 this.shifttoright = true
 this.menuimage = "ribon_notasp.ico"
 this.menustyle = contemporarymenu!
@@ -5779,6 +5789,7 @@ call super::create
 this.tag = "Tipo Donación"
 this.text = "Tipo Donación"
 this.microhelp = "Tipo Donación"
+this.toolbaritemtext = "Tipo Donación"
 this.menuimage = "banco_6.ico"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
@@ -6938,6 +6949,7 @@ call super::create
 this.tag = "Tipo Dispositivo"
 this.text = "Tipo Dispositivo"
 this.microhelp = "Tipo Dispositivo"
+this.toolbaritemtext = "Tipo Dispositivo"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -8097,6 +8109,8 @@ on m_grupos0.create
 call super::create
 this.tag = "Grupo Turnos"
 this.text = "Grupos"
+this.microhelp = "Grupo Turnos"
+this.toolbaritemtext = "Grupo Turnos"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -8584,6 +8598,8 @@ on m_conf_uvr.create
 call super::create
 this.tag = "Configuración Manual Uvr"
 this.text = "Configuración de liquidación por UVR"
+this.microhelp = "Configuración de liquidación por UVR"
+this.toolbaritemtext = "Configuración de liquidación por UVR"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -8617,6 +8633,7 @@ on m_tarifas.create
 call super::create
 this.tag = "Tarifa"
 this.text = "Tarifas"
+this.microhelp = "Tarifas"
 this.toolbaritemtext = "Tarifas"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
@@ -9581,6 +9598,8 @@ on m_subgrupos.create
 call super::create
 this.tag = "Cups Subgrupo"
 this.text = "Subgrupos"
+this.microhelp = "Cups Subgrupo"
+this.toolbaritemtext = "Cups Subgrupo"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -9807,6 +9826,7 @@ call super::create
 this.tag = "Tipo Identificación FeMS"
 this.text = "Tipo Identificación FeMS"
 this.microhelp = "Tipo Identificación FeMS"
+this.toolbaritemtext = "Tipo Identificación FeMS"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -10178,6 +10198,7 @@ on m_horasextra.create
 call super::create
 this.tag = "Horas Extra"
 this.text = "Horas Extra"
+this.microhelp = "Horas Extra"
 this.toolbaritemtext = "Horas Extra"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
@@ -11491,6 +11512,8 @@ on m_tiposervicio.create
 call super::create
 this.tag = "Tipo Servicio"
 this.text = "Tipo Servicio"
+this.microhelp = "Tipo Servicio"
+this.toolbaritemtext = "Tipo Servicio"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
