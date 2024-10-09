@@ -9,7 +9,7 @@ end type
 end forward
 
 global type uo_menus from userobject
-integer width = 1449
+integer width = 1641
 integer height = 1900
 long backcolor = 67108864
 string text = "none"
@@ -56,7 +56,11 @@ if donde=0 then
 	dw_1.setitem(donde,'microayuda',p_menu.microhelp)
 	dw_1.setitem(donde,'menuribon',p_menu.tag)
 	if p_menu.toolbaritemname<>'' then dw_1.setitem(donde,'toolbar','1')
-	ll.StatePictureIndex	=1
+//	if dw_1.getitemstring(donde,'permiso')='0' then
+//		ll.StatePictureIndex	=2
+//	else
+//		ll.StatePictureIndex	=1
+//	end if	
 else
 	if dw_1.getitemstring(donde,'permiso')='0' then
 		ll.StatePictureIndex	=2
@@ -211,7 +215,7 @@ end on
 type dw_1 from datawindow within uo_menus
 integer x = 9
 integer y = 1608
-integer width = 1362
+integer width = 1600
 integer height = 268
 integer taborder = 20
 string title = "none"
@@ -226,7 +230,7 @@ end event
 type tv_1 from treeview within uo_menus
 event p_revisa ( long p_handle,  integer p_estado )
 event pinta_menu ( menu p_menu,  long p_donde )
-integer width = 1371
+integer width = 1614
 integer height = 1584
 integer taborder = 10
 integer textsize = -8

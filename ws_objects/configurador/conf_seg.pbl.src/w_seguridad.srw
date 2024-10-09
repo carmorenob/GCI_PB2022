@@ -32,8 +32,6 @@ type dw_1 from datawindow within w_seguridad
 end type
 type gb_1 from groupbox within w_seguridad
 end type
-type uo_adm from uo_menus within w_seguridad
-end type
 type uo_asis from uo_menus within w_seguridad
 end type
 type uo_conf from uo_menus within w_seguridad
@@ -48,10 +46,12 @@ type gb_4 from groupbox within w_seguridad
 end type
 type gb_2 from groupbox within w_seguridad
 end type
+type uo_adm from uo_menus within w_seguridad
+end type
 end forward
 
 global type w_seguridad from window
-integer width = 4631
+integer width = 4859
 integer height = 2232
 boolean titlebar = true
 string title = "Perfiles de usuarios"
@@ -76,7 +76,6 @@ dw_no_estan dw_no_estan
 dw_estan dw_estan
 dw_1 dw_1
 gb_1 gb_1
-uo_adm uo_adm
 uo_asis uo_asis
 uo_conf uo_conf
 gb_3 gb_3
@@ -84,6 +83,7 @@ filtro filtro
 sle_1 sle_1
 gb_4 gb_4
 gb_2 gb_2
+uo_adm uo_adm
 end type
 global w_seguridad w_seguridad
 
@@ -107,7 +107,6 @@ this.dw_no_estan=create dw_no_estan
 this.dw_estan=create dw_estan
 this.dw_1=create dw_1
 this.gb_1=create gb_1
-this.uo_adm=create uo_adm
 this.uo_asis=create uo_asis
 this.uo_conf=create uo_conf
 this.gb_3=create gb_3
@@ -115,6 +114,7 @@ this.filtro=create filtro
 this.sle_1=create sle_1
 this.gb_4=create gb_4
 this.gb_2=create gb_2
+this.uo_adm=create uo_adm
 this.Control[]={this.pb_5,&
 this.pb_7,&
 this.pb_4,&
@@ -130,14 +130,14 @@ this.dw_no_estan,&
 this.dw_estan,&
 this.dw_1,&
 this.gb_1,&
-this.uo_adm,&
 this.uo_asis,&
 this.uo_conf,&
 this.gb_3,&
 this.filtro,&
 this.sle_1,&
 this.gb_4,&
-this.gb_2}
+this.gb_2,&
+this.uo_adm}
 end on
 
 on w_seguridad.destroy
@@ -156,7 +156,6 @@ destroy(this.dw_no_estan)
 destroy(this.dw_estan)
 destroy(this.dw_1)
 destroy(this.gb_1)
-destroy(this.uo_adm)
 destroy(this.uo_asis)
 destroy(this.uo_conf)
 destroy(this.gb_3)
@@ -164,6 +163,7 @@ destroy(this.filtro)
 destroy(this.sle_1)
 destroy(this.gb_4)
 destroy(this.gb_2)
+destroy(this.uo_adm)
 end on
 
 type pb_5 from picturebutton within w_seguridad
@@ -548,26 +548,12 @@ string text = "Grupos de usuarios"
 borderstyle borderstyle = styleraised!
 end type
 
-type uo_adm from uo_menus within w_seguridad
-event destroy ( )
-boolean visible = false
-integer x = 3118
-integer y = 72
-integer width = 1376
-integer height = 1996
-integer taborder = 30
-end type
-
-on uo_adm.destroy
-call uo_menus::destroy
-end on
-
 type uo_asis from uo_menus within w_seguridad
 event destroy ( )
-integer x = 3122
-integer y = 68
-integer width = 1376
-integer height = 1908
+integer x = 3118
+integer y = 72
+integer width = 1637
+integer height = 1936
 integer taborder = 50
 end type
 
@@ -577,9 +563,10 @@ end on
 
 type uo_conf from uo_menus within w_seguridad
 boolean visible = false
-integer x = 3113
-integer y = 80
-integer width = 1376
+integer x = 3118
+integer y = 72
+integer width = 1637
+integer height = 1936
 integer taborder = 20
 borderstyle borderstyle = stylelowered!
 end type
@@ -591,8 +578,8 @@ end on
 type gb_3 from groupbox within w_seguridad
 integer x = 3077
 integer y = 12
-integer width = 1435
-integer height = 2024
+integer width = 1742
+integer height = 2080
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -693,4 +680,18 @@ long backcolor = 67108864
 string text = "Detalle del Grupo"
 borderstyle borderstyle = styleraised!
 end type
+
+type uo_adm from uo_menus within w_seguridad
+event destroy ( )
+boolean visible = false
+integer x = 3118
+integer y = 72
+integer width = 1637
+integer height = 1936
+integer taborder = 30
+end type
+
+on uo_adm.destroy
+call uo_menus::destroy
+end on
 
