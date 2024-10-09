@@ -200,8 +200,6 @@ type m_afiliacionestado from menu within m_tablasbásicas
 end type
 type m_catastrofenatural from menu within m_tablasbásicas
 end type
-type m_condicióndelavictima from menu within m_tablasbásicas
-end type
 type m_finalidadconsulta from menu within m_tablasbásicas
 end type
 type m_modanula from menu within m_tablasbásicas
@@ -225,7 +223,6 @@ m_escolaridad m_escolaridad
 m_pertenenciaetnica m_pertenenciaetnica
 m_afiliacionestado m_afiliacionestado
 m_catastrofenatural m_catastrofenatural
-m_condicióndelavictima m_condicióndelavictima
 m_finalidadconsulta m_finalidadconsulta
 m_modanula m_modanula
 m_motivoanula m_motivoanula
@@ -1579,10 +1576,11 @@ end type
 
 on m_condiciónvictima.create
 call super::create
-this.tag = "Condicion Victima"
+this.tag = "Condición Victima"
 this.text = "Condición Victima"
 this.microhelp = "Condición Victima"
 this.toolbaritemtext = "Condición Victima"
+this.mergeoption = helpmenu!
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3037,7 +3035,6 @@ this.toolbarstyle = contemporarytoolbar!
 this.toolbartextcolor = 134217746
 this.toolbarbackcolor = 67108864
 this.toolbarhighlightcolor = 134217741
-this.toolbaranimation = true
 this.toolbargradient = true
 this.bitmapgradient = true
 this.m_entidad=create m_entidad
@@ -3080,7 +3077,6 @@ this.toolbarstyle = contemporarytoolbar!
 this.toolbartextcolor = 134217746
 this.toolbarbackcolor = 67108864
 this.toolbarhighlightcolor = 134217741
-this.toolbaranimation = true
 this.toolbargradient = true
 this.bitmapgradient = true
 end on
@@ -3117,7 +3113,6 @@ this.toolbarstyle = contemporarytoolbar!
 this.toolbartextcolor = 134217746
 this.toolbarbackcolor = 67108864
 this.toolbarhighlightcolor = 134217741
-this.toolbaranimation = true
 this.toolbargradient = true
 this.bitmapgradient = true
 end on
@@ -3154,7 +3149,6 @@ this.toolbarstyle = contemporarytoolbar!
 this.toolbartextcolor = 134217746
 this.toolbarbackcolor = 67108864
 this.toolbarhighlightcolor = 134217741
-this.toolbaranimation = true
 this.toolbargradient = true
 this.bitmapgradient = true
 this.m_cod_heon=create m_cod_heon
@@ -3200,7 +3194,6 @@ this.toolbarstyle = contemporarytoolbar!
 this.toolbartextcolor = 134217746
 this.toolbarbackcolor = 67108864
 this.toolbarhighlightcolor = 134217741
-this.toolbaranimation = true
 this.toolbargradient = true
 this.bitmapgradient = true
 end on
@@ -3234,7 +3227,6 @@ this.toolbarstyle = contemporarytoolbar!
 this.toolbartextcolor = 134217746
 this.toolbarbackcolor = 67108864
 this.toolbarhighlightcolor = 134217741
-this.toolbaranimation = true
 this.toolbargradient = true
 this.bitmapgradient = true
 end on
@@ -3275,7 +3267,6 @@ this.toolbarstyle = contemporarytoolbar!
 this.toolbartextcolor = 134217746
 this.toolbarbackcolor = 67108864
 this.toolbarhighlightcolor = 134217741
-this.toolbaranimation = true
 this.toolbargradient = true
 this.bitmapgradient = true
 end on
@@ -3291,7 +3282,6 @@ m_escolaridad m_escolaridad
 m_pertenenciaetnica m_pertenenciaetnica
 m_afiliacionestado m_afiliacionestado
 m_catastrofenatural m_catastrofenatural
-m_condicióndelavictima m_condicióndelavictima
 m_finalidadconsulta m_finalidadconsulta
 m_modanula m_modanula
 m_motivoanula m_motivoanula
@@ -3333,7 +3323,6 @@ this.m_escolaridad=create m_escolaridad
 this.m_pertenenciaetnica=create m_pertenenciaetnica
 this.m_afiliacionestado=create m_afiliacionestado
 this.m_catastrofenatural=create m_catastrofenatural
-this.m_condicióndelavictima=create m_condicióndelavictima
 this.m_finalidadconsulta=create m_finalidadconsulta
 this.m_modanula=create m_modanula
 this.m_motivoanula=create m_motivoanula
@@ -3348,7 +3337,6 @@ this.Item[UpperBound(this.Item)+1]=this.m_escolaridad
 this.Item[UpperBound(this.Item)+1]=this.m_pertenenciaetnica
 this.Item[UpperBound(this.Item)+1]=this.m_afiliacionestado
 this.Item[UpperBound(this.Item)+1]=this.m_catastrofenatural
-this.Item[UpperBound(this.Item)+1]=this.m_condicióndelavictima
 this.Item[UpperBound(this.Item)+1]=this.m_finalidadconsulta
 this.Item[UpperBound(this.Item)+1]=this.m_modanula
 this.Item[UpperBound(this.Item)+1]=this.m_motivoanula
@@ -3367,7 +3355,6 @@ destroy(this.m_escolaridad)
 destroy(this.m_pertenenciaetnica)
 destroy(this.m_afiliacionestado)
 destroy(this.m_catastrofenatural)
-destroy(this.m_condicióndelavictima)
 destroy(this.m_finalidadconsulta)
 destroy(this.m_modanula)
 destroy(this.m_motivoanula)
@@ -3465,7 +3452,6 @@ this.toolbarstyle = contemporarytoolbar!
 this.toolbartextcolor = 134217746
 this.toolbarbackcolor = 67108864
 this.toolbarhighlightcolor = 134217741
-this.toolbaranimation = true
 this.toolbargradient = true
 this.bitmapgradient = true
 end on
@@ -3502,7 +3488,6 @@ this.toolbarstyle = contemporarytoolbar!
 this.toolbartextcolor = 134217746
 this.toolbarbackcolor = 67108864
 this.toolbarhighlightcolor = 134217741
-this.toolbaranimation = true
 this.toolbargradient = true
 this.bitmapgradient = true
 end on
@@ -3540,7 +3525,6 @@ this.toolbarstyle = contemporarytoolbar!
 this.toolbartextcolor = 134217746
 this.toolbarbackcolor = 67108864
 this.toolbarhighlightcolor = 134217741
-this.toolbaranimation = true
 this.toolbargradient = true
 this.bitmapgradient = true
 end on
@@ -3839,41 +3823,6 @@ this.bitmapgradient = true
 end on
 
 on m_catastrofenatural.destroy
-call super::destroy
-end on
-
-type m_condicióndelavictima from menu within m_tablasbásicas
-end type
-
-event clicked;mf_abre_tablas("Condición de la Victima",'dw_condicion_victima',0)
-end event
-
-on m_condicióndelavictima.create
-call super::create
-this.tag = "Condicion Victima"
-this.text = "Condición de la Victima"
-this.microhelp = "Condición de la Victima"
-this.menustyle = contemporarymenu!
-this.menutextcolor = 134217735
-this.menubackcolor = 134217732
-this.menuhighlightcolor = 134217741
-this.textsize = 8
-this.weight = 400
-this.facename = "Tahoma"
-this.titlebackcolor = 134217730
-this.bitmapbackcolor = 12632256
-this.menutitles = true
-this.menubitmaps = true
-this.titlegradient = true
-this.toolbarstyle = contemporarytoolbar!
-this.toolbartextcolor = 134217746
-this.toolbarbackcolor = 67108864
-this.toolbarhighlightcolor = 134217741
-this.toolbargradient = true
-this.bitmapgradient = true
-end on
-
-on m_condicióndelavictima.destroy
 call super::destroy
 end on
 
@@ -4749,6 +4698,8 @@ on m_gruposervicio.create
 call super::create
 this.tag = "Grupo Servicio"
 this.text = "Grupo Servicio"
+this.microhelp = "Grupo Servicio"
+this.toolbaritemtext = "Grupo Servicio"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -4904,7 +4855,6 @@ this.toolbarstyle = contemporarytoolbar!
 this.toolbartextcolor = 134217746
 this.toolbarbackcolor = 67108864
 this.toolbarhighlightcolor = 134217741
-this.toolbaranimation = true
 this.toolbargradient = true
 this.bitmapgradient = true
 this.m_2_1=create m_2_1
@@ -4961,7 +4911,6 @@ this.toolbarstyle = contemporarytoolbar!
 this.toolbartextcolor = 134217746
 this.toolbarbackcolor = 67108864
 this.toolbarhighlightcolor = 134217741
-this.toolbaranimation = true
 this.toolbargradient = true
 this.bitmapgradient = true
 this.m_2_1_1=create m_2_1_1
@@ -5479,7 +5428,6 @@ this.toolbarstyle = contemporarytoolbar!
 this.toolbartextcolor = 134217746
 this.toolbarbackcolor = 67108864
 this.toolbarhighlightcolor = 134217741
-this.toolbaranimation = true
 this.toolbargradient = true
 this.bitmapgradient = true
 this.m_areas=create m_areas
