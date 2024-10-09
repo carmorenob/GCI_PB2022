@@ -4,8 +4,6 @@ global type w_maneja_glosas from window
 end type
 type em_anyo from editmask within w_maneja_glosas
 end type
-type st_12 from statictext within w_maneja_glosas
-end type
 type pb_res from picturebutton within w_maneja_glosas
 end type
 type pb_close from picturebutton within w_maneja_glosas
@@ -181,11 +179,13 @@ type dw_histo from datawindow within w_maneja_glosas
 end type
 type dw_deta from datawindow within w_maneja_glosas
 end type
+type st_12 from statictext within w_maneja_glosas
+end type
 end forward
 
 global type w_maneja_glosas from window
 integer width = 6144
-integer height = 2492
+integer height = 2560
 boolean titlebar = true
 string title = "Cartera - Manejo de Objecciones"
 boolean controlmenu = true
@@ -196,7 +196,6 @@ long backcolor = 67108864
 string icon = "ribon_objeccion.ico"
 event cargar ( )
 em_anyo em_anyo
-st_12 st_12
 pb_res pb_res
 pb_close pb_close
 pb_save pb_save
@@ -207,6 +206,7 @@ st_2 st_2
 st_1 st_1
 dw_histo dw_histo
 dw_deta dw_deta
+st_12 st_12
 end type
 global w_maneja_glosas w_maneja_glosas
 
@@ -975,7 +975,6 @@ end function
 
 on w_maneja_glosas.create
 this.em_anyo=create em_anyo
-this.st_12=create st_12
 this.pb_res=create pb_res
 this.pb_close=create pb_close
 this.pb_save=create pb_save
@@ -986,8 +985,8 @@ this.st_2=create st_2
 this.st_1=create st_1
 this.dw_histo=create dw_histo
 this.dw_deta=create dw_deta
+this.st_12=create st_12
 this.Control[]={this.em_anyo,&
-this.st_12,&
 this.pb_res,&
 this.pb_close,&
 this.pb_save,&
@@ -997,12 +996,12 @@ this.tab_1,&
 this.st_2,&
 this.st_1,&
 this.dw_histo,&
-this.dw_deta}
+this.dw_deta,&
+this.st_12}
 end on
 
 on w_maneja_glosas.destroy
 destroy(this.em_anyo)
-destroy(this.st_12)
 destroy(this.pb_res)
 destroy(this.pb_close)
 destroy(this.pb_save)
@@ -1013,6 +1012,7 @@ destroy(this.st_2)
 destroy(this.st_1)
 destroy(this.dw_histo)
 destroy(this.dw_deta)
+destroy(this.st_12)
 end on
 
 event closequery;choose case f_pregunta()
@@ -1032,28 +1032,54 @@ end event
 event open;this.postevent("cargar")
 end event
 
-event resize;tab_1.resize((newwidth - 50) , (newheight * 0.66))
-//tab_1.tp_1.dw_facts.resize((newwidth -150),(tab_1.height *0.45))
-tab_1.tp_1.dw_facts.resize((newwidth -150),(tab_1.height -450))
+event resize;tab_1.resize((newwidth - 50) , (newheight * 0.75))
+
+//Resize pestaña facturas
+tab_1.tp_1.dw_facts.resize((newwidth -150),(tab_1.height -350))
 tab_1.tp_1.dw_fac_glos.resize((newwidth *0.75),(tab_1.height *0.30))
 tab_1.tp_1.pb_of.x=tab_1.tp_1.dw_fac_glos.x+tab_1.tp_1.dw_fac_glos.width+30
 tab_1.tp_1.pb_7.x=tab_1.tp_1.dw_fac_glos.x+tab_1.tp_1.dw_fac_glos.width+30
 tab_1.tp_1.dw_obj_fact.x=tab_1.tp_1.pb_7.x+ tab_1.tp_1.pb_7.width+30
 tab_1.tp_1.dw_obj_fact.resize((newwidth -150),(tab_1.height *0.30))
 
+//Resize pestaña procedimientos
 tab_1.tp_2.dw_procs.resize((newwidth -150),(tab_1.height *0.45))
-tab_1.tp_2.dw_proc_glos.resize((newwidth *0.75),(tab_1.height *0.30))
-tab_1.tp_2.pb_op.x=tab_1.tp_2.dw_proc_glos.x+tab_1.tp_2.dw_proc_glos.width+30
-tab_1.tp_2.pb_9.x=tab_1.tp_2.dw_proc_glos.x+tab_1.tp_2.dw_proc_glos.width+30
-tab_1.tp_2.dw_obj_proc.x=tab_1.tp_2.pb_9.x+ tab_1.tp_2.pb_9.width+30
-tab_1.tp_2.dw_obj_proc.resize((newwidth -150),(tab_1.height *0.30))
+tab_1.tp_2.st_10.y=tab_1.tp_2.dw_procs.y + tab_1.tp_2.dw_procs.height + 10
+tab_1.tp_2.st_8.y=tab_1.tp_2.dw_procs.y + tab_1.tp_2.dw_procs.height +10
 
+tab_1.tp_2.dw_proc_glos.y=tab_1.tp_2.dw_procs.y + tab_1.tp_2.dw_procs.height + 100
+tab_1.tp_2.dw_proc_glos.x=tab_1.tp_2.dw_procs.x
+tab_1.tp_2.dw_proc_glos.height =tab_1.height *0.40
+
+tab_1.tp_2.pb_op.y=tab_1.tp_2.dw_procs.y + tab_1.tp_2.dw_procs.height + 100
+tab_1.tp_2.pb_9.y=tab_1.tp_2.pb_op.y + tab_1.tp_2.pb_op.height + 50
+
+tab_1.tp_2.pb_op.x=tab_1.tp_2.dw_proc_glos.x + tab_1.tp_2.dw_proc_glos.width + 50
+tab_1.tp_2.pb_9.x=tab_1.tp_2.dw_proc_glos.x + tab_1.tp_2.dw_proc_glos.width + 50
+
+tab_1.tp_2.dw_obj_proc.x=tab_1.tp_2.pb_op.x  + 150
+tab_1.tp_2.dw_obj_proc.y=tab_1.tp_2.dw_procs.y + tab_1.tp_2.dw_procs.height +100
+
+tab_1.tp_2.dw_obj_proc.height =tab_1.height *0.40
+tab_1.tp_2.dw_obj_proc.width =tab_1.width -150
+
+
+//Resize pestaña qx
 tab_1.tp_3.dw_sitem.resize((newwidth -150),(tab_1.height *0.45))
-tab_1.tp_3.dw_item_glos.resize((newwidth *0.75),(tab_1.height *0.30))
-tab_1.tp_3.pb_oi.x=tab_1.tp_3.dw_item_glos.x+tab_1.tp_3.dw_item_glos.width+30
-tab_1.tp_3.pb_11.x=tab_1.tp_3.dw_item_glos.x+tab_1.tp_3.dw_item_glos.width+30
-tab_1.tp_3.dw_obj_sitem.x=tab_1.tp_3.pb_11.x+ tab_1.tp_3.pb_11.width+30
-tab_1.tp_3.dw_obj_sitem.resize((newwidth -150),(tab_1.height *0.30))
+tab_1.tp_3.st_11.y=tab_1.tp_3.dw_sitem.y + tab_1.tp_3.dw_sitem.height+10
+
+tab_1.tp_3.dw_item_glos.y=tab_1.tp_3.dw_sitem.y + tab_1.tp_3.dw_sitem.height + 100
+tab_1.tp_3.dw_item_glos.x=tab_1.tp_3.dw_sitem.x
+tab_1.tp_3.dw_item_glos.height =tab_1.height *0.40
+
+tab_1.tp_3.pb_oi.y=tab_1.tp_3.dw_sitem.y + tab_1.tp_3.dw_sitem.height + 100
+tab_1.tp_3.pb_11.y=tab_1.tp_3.pb_oi.y + tab_1.tp_3.pb_oi.height + 50
+
+tab_1.tp_3.pb_oi.x=tab_1.tp_3.dw_sitem.x + tab_1.tp_3.dw_sitem.width + 50
+tab_1.tp_3.pb_11.x=tab_1.tp_3.dw_sitem.x + tab_1.tp_3.dw_sitem.width + 50
+
+tab_1.tp_3.dw_obj_sitem.height =tab_1.height *0.40
+tab_1.tp_3.dw_obj_sitem.width =tab_1.width -150
 
 end event
 
@@ -1123,23 +1149,6 @@ else
 	dw_histo.retrieve(clugar,l_anyo)	
 end if
 end event
-
-type st_12 from statictext within w_maneja_glosas
-integer x = 635
-integer y = 36
-integer width = 137
-integer height = 52
-integer textsize = -8
-integer weight = 700
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-long textcolor = 33554432
-long backcolor = 67108864
-string text = "Año"
-boolean focusrectangle = false
-end type
 
 type pb_res from picturebutton within w_maneja_glosas
 integer x = 4215
@@ -1370,9 +1379,9 @@ end event
 
 type tab_1 from tab within w_maneja_glosas
 integer x = 37
-integer y = 732
+integer y = 796
 integer width = 6080
-integer height = 1576
+integer height = 1656
 integer taborder = 30
 integer textsize = -8
 integer weight = 400
@@ -1412,7 +1421,7 @@ type tp_1 from userobject within tab_1
 integer x = 18
 integer y = 112
 integer width = 6043
-integer height = 1448
+integer height = 1528
 long backcolor = 67108864
 string text = "Facturas"
 long tabtextcolor = 33554432
@@ -1827,6 +1836,7 @@ choose case dwo.name
 		if idw_espe.retrieve(data)=1 then
 			setitem(row,'con_espe',idw_espe.getitemstring(idw_espe.getrow(),'con_espe') )
 		end if
+		
 	case 'con_espe'		
 		setitem(row,'cod_objecion',nulo)
 		if idw_obj.retrieve(getitemstring(row,'con_gral'),data)=1 then
@@ -1863,13 +1873,16 @@ choose case dwo.name
 				setitem(j,'usu_responde',idw_usuresp.getitemstring(idw_usuresp.getrow(),'responsable'))
 			next
 		end if
+		
 	case 'valor_objecion'
 		setitem(row,'porcen',round(dec(data)/dw_facts.getitemnumber(dw_facts.GetRow(),'vtemp')*100,i_dec_gral_car)) 
 		//post calcula_sub(dw_facts.GetRow(),0,0)
 		post event p_itemchanged(row)
+		
 	case 'porcen'
 		setitem(row,'valor_objecion',round(dw_facts.getitemnumber(dw_facts.GetRow(),'vtemp')*dec(data)/100,i_dec_gral_car))
 		post event itemchanged(row,object.valor_objecion,string(round(dw_facts.getitemnumber(dw_facts.GetRow(),'vtemp')*dec(data)/100,i_dec_gral_car)))
+		
 	case 'nro_empresa'
 		if cbx_r.Checked then
 			for j= row + 1 to rowcount()
@@ -2576,7 +2589,7 @@ type dw_facts from datawindow within tp_1
 event p_itemchanged ( )
 integer y = 152
 integer width = 5993
-integer height = 1292
+integer height = 1352
 integer taborder = 30
 string title = "none"
 string dataobject = "dw_glos_cpo"
@@ -2766,7 +2779,7 @@ type tp_2 from userobject within tab_1
 integer x = 18
 integer y = 112
 integer width = 6043
-integer height = 1448
+integer height = 1528
 long backcolor = 67108864
 string text = "Procedimientos"
 long tabtextcolor = 33554432
@@ -2923,6 +2936,7 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
+boolean originalsize = true
 string picturename = "borrar_fila.gif"
 string disabledname = "d_borrar_fila.gif"
 string powertiptext = "Borrar Objeción"
@@ -3123,10 +3137,10 @@ type dw_procs from datawindow within tp_2
 event type long borra_fila ( long row )
 event p_itemchanged ( )
 event setmodified ( integer fila )
-integer x = 18
-integer y = 136
+integer x = 23
+integer y = 124
 integer width = 5947
-integer height = 724
+integer height = 740
 integer taborder = 30
 boolean bringtotop = true
 string title = "none"
@@ -3316,9 +3330,9 @@ end event
 
 type dw_obj_proc from datawindow within tp_2
 integer x = 4878
-integer y = 912
+integer y = 884
 integer width = 1106
-integer height = 620
+integer height = 528
 integer taborder = 60
 string title = "none"
 string dataobject = "dw_glosa_subdeta"
@@ -3358,7 +3372,7 @@ event porcentajes ( )
 integer x = 14
 integer y = 952
 integer width = 4613
-integer height = 472
+integer height = 564
 integer taborder = 50
 string title = "none"
 string dataobject = "dw_glos_proc_det"
@@ -3439,7 +3453,6 @@ idw_espe2.retrieve('%')
 getchild('cod_objecion',idw_obj2)
 idw_obj2.settransobject(sqlca)
 idw_obj2.retrieve('%','%')
-//idw_obj2.InsertRow(1)
 getchild('nombre',idw_usuresp2)
 idw_usuresp2.settransobject(sqlca)
 end event
@@ -3453,11 +3466,13 @@ choose case dwo.name
 		if idw_espe2.retrieve(data)=1 then
 			setitem(row,'con_espe',idw_espe2.getitemstring(idw_espe2.getrow(),'con_espe') )
 		end if
+		
 	case 'con_espe'		
 		setitem(row,'cod_objecion',nulo)
 		if idw_obj2.retrieve(getitemstring(row,'con_gral'),data)=1 then
 			setitem(row,'cod_objecion',idw_obj2.getitemstring(idw_obj2.getrow(),1) )
-		end if			
+		end if		
+		
 	case 'cod_objecion'
 		setitem(row,'pertinente',idw_obj2.getitemstring(idw_obj2.getrow(),'pertinente'))
 		//setitem(row,'respuesta_hasta',datetime(relativedate(date(getitemdatetime(row,'fecha_tramite')),idw_obj.getitemnumber(idw_obj.getrow(),'tiempo_resp'))))
@@ -3467,6 +3482,7 @@ choose case dwo.name
 			setitem(row,'usu_responde',idw_usuresp2.getitemstring(1,'responsable'))
 			setitem(row,'nombre',idw_usuresp2.getitemstring(1,'nombre'))
 		end if
+		
 	case 'nombre'
 		setitem(row,'usu_responde',idw_usuresp2.getitemstring(idw_usuresp2.getrow(),'responsable'))
 		if cbx_p.Checked then
@@ -3477,10 +3493,12 @@ choose case dwo.name
 				setitem(j,'usu_responde',idw_usuresp2.getitemstring(idw_usuresp2.getrow(),'responsable'))
 			next
 		end if
+		
 	case 'valor_objecion'
 		setitem(row,'porcen',round(dec(data)/dw_procs.getitemnumber(dw_procs.GetRow(),'vemp')*100,i_dec_gral_car))
 		//post calcula_sub(row,1,GetItemNumber(GetRow(),'porcen')/100)
 		post event p_itemchanged(row)
+		
 	case 'porcen'
 		setitem(row,'valor_objecion',round(dw_procs.GetItemNumber(dw_procs.GetRow(),'vemp')*dec(data)/100,i_dec_gral_car))
 		post event itemchanged(row,object.valor_objecion,string(round(dw_procs.GetItemNumber(dw_procs.GetRow(),'vemp')*dec(data)/100,i_dec_gral_car)))
@@ -3563,8 +3581,7 @@ end type
 type tp_3 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 6043
-integer height = 1448
+integer height = 1528
 long backcolor = 67108864
 string text = "Items del Proc."
 long tabtextcolor = 33554432
@@ -3716,7 +3733,7 @@ Return fila
 end event
 
 type st_7 from statictext within tp_3
-integer x = 1938
+integer x = 1970
 integer y = 12
 integer width = 343
 integer height = 52
@@ -3750,9 +3767,9 @@ boolean focusrectangle = false
 end type
 
 type dw_dprocs from datawindow within tp_3
-integer x = 2290
+integer x = 2322
 integer y = 4
-integer width = 1257
+integer width = 1765
 integer height = 88
 integer taborder = 30
 string title = "none"
@@ -4247,7 +4264,7 @@ event p_borra_nuevo ( long p_estaba,  long p_va )
 integer x = 23
 integer y = 116
 integer width = 4165
-integer height = 592
+integer height = 660
 integer taborder = 10
 string title = "none"
 string dataobject = "dw_obje_cab"
@@ -4436,4 +4453,22 @@ if rowCount() <> 1 then Return
 Event set_diff()
 
 end event
+
+type st_12 from statictext within w_maneja_glosas
+integer x = 635
+integer y = 36
+integer width = 137
+integer height = 52
+boolean bringtotop = true
+integer textsize = -8
+integer weight = 700
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 67108864
+string text = "Año"
+boolean focusrectangle = false
+end type
 
