@@ -167,9 +167,9 @@ type pb_1 from picturebutton within w_ajustalote
 event mousemove pbm_mousemove
 string tag = "Grabar"
 integer x = 3479
-integer y = 1060
-integer width = 142
-integer height = 124
+integer y = 1084
+integer width = 146
+integer height = 128
 integer taborder = 40
 integer textsize = -8
 integer weight = 400
@@ -177,6 +177,7 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
+boolean originalsize = true
 string picturename = "import.gif"
 string disabledname = "d_import.gif"
 alignment htextalign = left!
@@ -190,8 +191,8 @@ end event
 
 type pb_nuevo from picturebutton within w_ajustalote
 event mousemove pbm_mousemove
-integer x = 1522
-integer y = 1076
+integer x = 2171
+integer y = 1080
 integer width = 146
 integer height = 128
 integer taborder = 40
@@ -221,8 +222,8 @@ end event
 
 type pb_2 from picturebutton within w_ajustalote
 event mousemove pbm_mousemove
-integer x = 1678
-integer y = 1076
+integer x = 2327
+integer y = 1080
 integer width = 146
 integer height = 128
 integer taborder = 40
@@ -248,8 +249,8 @@ end event
 type pb_cancelar from picturebutton within w_ajustalote
 event mousemove pbm_mousemove
 string tag = "Cancelar"
-integer x = 1989
-integer y = 1080
+integer x = 2638
+integer y = 1084
 integer width = 146
 integer height = 128
 integer taborder = 40
@@ -272,8 +273,8 @@ end event
 type pb_grabar from picturebutton within w_ajustalote
 event mousemove pbm_mousemove
 string tag = "Grabar"
-integer x = 1829
-integer y = 1076
+integer x = 2478
+integer y = 1080
 integer width = 146
 integer height = 128
 integer taborder = 30

@@ -184,7 +184,7 @@ boolean bringtotop = true
 string title = "none"
 string dataobject = "dw_ext_ufunc"
 boolean border = false
-borderstyle borderstyle = stylelowered!
+borderstyle borderstyle = StyleBox!
 end type
 
 event itemchanged;string vnul
