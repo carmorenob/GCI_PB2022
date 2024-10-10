@@ -617,8 +617,6 @@ end type
 type m_procesosgenerales_ctr from menu within m_contratación
 m_contratos m_contratos
 end type
-type m_reportes_ctr from menu within m_contratación
-end type
 type m_tablasbásicas_ctr from menu within m_contratación
 end type
 type m_requisitos from menu within m_tablasbásicas_ctr
@@ -646,7 +644,6 @@ m_43 m_43
 end type
 type m_contratación from menu within m_principal_adm
 m_procesosgenerales_ctr m_procesosgenerales_ctr
-m_reportes_ctr m_reportes_ctr
 m_tablasbásicas_ctr m_tablasbásicas_ctr
 end type
 type m_10 from menu within m_principal_adm
@@ -764,7 +761,10 @@ end type
 
 on m_archivo.create
 call super::create
+this.tag = "Archivo"
 this.text = "Archivo"
+this.microhelp = "Archivo"
+this.toolbaritemtext = "Archivo"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -840,7 +840,9 @@ end type
 
 on m_abrirgráficos.create
 call super::create
+this.tag = "Abrir Gráficos"
 this.text = "Abrir Gráficos"
+this.microhelp = "Abrir Gráficos"
 this.toolbaritemname = "graph9.ico"
 this.toolbaritemtext = "Abrir Gráficos"
 this.menutextcolor = 134217735
@@ -871,6 +873,8 @@ on m_cambiarlugar.create
 call super::create
 this.tag = "Cambiar Lugar"
 this.text = "Cambiar Lugar"
+this.microhelp = "Cambiar Lugar"
+this.toolbaritemtext = "Cambiar Lugar"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -901,6 +905,7 @@ on m_configurarimpresora.create
 call super::create
 this.tag = "Configurar Impresora"
 this.text = "Configurar Impresora"
+this.microhelp = "Configurar Impresora"
 this.toolbaritemname = "print7.ico"
 this.toolbaritemtext = "Configurar Impresora"
 this.menutextcolor = 134217735
@@ -957,10 +962,12 @@ end type
 
 on m_salir.create
 call super::create
-this.text = "Salir"
-this.microhelp = "Salir de la Aplicación [Alt+F4]"
+this.tag = "Salir de la Aplicación"
+this.text = "Salir~tAlt+F4"
+this.shortcut = 627
+this.microhelp = "Salir de la Aplicación"
 this.toolbaritemname = "oofl.ico"
-this.toolbaritemtext = "Salir de la Aplicación [Alt+F4]"
+this.toolbaritemtext = "Salir de la Aplicación"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -989,7 +996,10 @@ end type
 
 on m_edición.create
 call super::create
+this.tag = "Edición"
 this.text = "Edición"
+this.microhelp = "Edición"
+this.toolbaritemtext = "Edición"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -1025,9 +1035,9 @@ call super::create
 this.tag = "Creación Terceros"
 this.text = "Creación de Terceros~tCtrl+T"
 this.shortcut = 340
-this.microhelp = "Creación de Terceros [Ctrl+T]"
+this.microhelp = "Creación de Terceros"
 this.toolbaritemname = "paciente.ico"
-this.toolbaritemtext = "Creación de Terceros [Ctrl+T]"
+this.toolbaritemtext = "Creación de Terceros"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1058,9 +1068,9 @@ call super::create
 this.tag = "Unificar Terceros"
 this.text = "Unificación de Terceros~tCtrl+U"
 this.shortcut = 341
-this.microhelp = "Unificación de Terceros [Ctrl+U]"
+this.microhelp = "Unificación de Terceros"
 this.toolbaritemname = "cambio_resp.ico"
-this.toolbaritemtext = "Unificación de Terceros [Ctrl+U]"
+this.toolbaritemtext = "Unificación de Terceros"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -1089,7 +1099,10 @@ end type
 
 on m_contabilidad.create
 call super::create
+this.tag = "Contabilidad"
 this.text = "Contabilidad"
+this.microhelp = "Contabilidad"
+this.toolbaritemtext = "Contabilidad"
 this.toolbaritemspace = 1
 this.shifttoright = true
 this.menutextcolor = 134217735
@@ -1128,7 +1141,10 @@ end type
 
 on m_procesosgenerales_con.create
 call super::create
+this.tag = "PGeneralesC"
 this.text = "Procesos Generales"
+this.microhelp = "Procesos Generales Contabilidad"
+this.toolbaritemtext = "Procesos Generales Suministros"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1172,9 +1188,9 @@ call super::create
 this.tag = "Asiento Contable"
 this.text = "Asiento Contable~tCtrl+B"
 this.shortcut = 322
-this.microhelp = "Contabilidad - Asiento Contable [Ctrl+B]"
+this.microhelp = "Contabilidad - Asiento Contable"
 this.toolbaritemname = "asi_cont.ico"
-this.toolbaritemtext = "Contabilidad - Asiento Contable [Ctrl+B]"
+this.toolbaritemtext = "Contabilidad - Asiento Contable"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1204,7 +1220,8 @@ on m_pantillasdeasisentos.create
 call super::create
 this.tag = "Plantilla Contable"
 this.text = "Pantillas de Asisentos"
-this.microhelp = "Crear asientos predeterminados por Empresa"
+this.microhelp = "Pantillas de Asisentos"
+this.toolbaritemtext = "Pantillas de Asisentos"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1236,9 +1253,9 @@ call super::create
 this.tag = "Libros Contables"
 this.text = "Radicación de Libros~tCtrl+L"
 this.shortcut = 332
-this.microhelp = "Contabilidad - Radicación de Libros [Ctrl+L]"
+this.microhelp = "Contabilidad - Radicación de Libros"
 this.toolbaritemname = "libro.ico"
-this.toolbaritemtext = "Contabilidad - Radicación de Libros [Ctrl+L]"
+this.toolbaritemtext = "Contabilidad - Radicación de Libros"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -1267,7 +1284,10 @@ end type
 
 on m_cierres.create
 call super::create
+this.tag = "Cierres"
 this.text = "Cierres"
+this.microhelp = "Cierres"
+this.toolbaritemtext = "Cierres"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -1300,7 +1320,10 @@ end type
 
 on m_demes.create
 call super::create
+this.tag = "Cierre de Mes"
 this.text = "De Mes"
+this.microhelp = "Cierre de Mes"
+this.toolbaritemtext = "Cierre de Mes"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -1327,7 +1350,10 @@ end type
 
 on m_deimpuestos.create
 call super::create
+this.tag = "Cierre de Impuestos"
 this.text = "De Impuestos"
+this.microhelp = "Cierre de Impuestos"
+this.toolbaritemtext = "Cierre de Impuestos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -1375,6 +1401,8 @@ on m_tablasbasicas_con.create
 call super::create
 this.tag = "EstructuraC"
 this.text = "Tablas Básicas"
+this.microhelp = "Tablas Básicas Contabilidad"
+this.toolbaritemtext = "Tablas Básicas Contabilidad"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1461,7 +1489,8 @@ on m_tipostransac.create
 call super::create
 this.tag = "Transacciones Contables"
 this.text = "Tipos de Transacción"
-this.microhelp = "Tipos de Transacciones contables"
+this.microhelp = "Transacciones Contables"
+this.toolbaritemtext = "Transacciones Contables"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -1491,6 +1520,8 @@ on m_28.create
 call super::create
 this.tag = "Empresa Contable"
 this.text = "Empresas Contables"
+this.microhelp = "Empresas Contables"
+this.toolbaritemtext = "Empresas Contables"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1521,6 +1552,8 @@ on m_20.create
 call super::create
 this.tag = "Asientos Contables"
 this.text = "Asiento Contable"
+this.microhelp = "Asiento Contable"
+this.toolbaritemtext = "Asiento Contable"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1551,6 +1584,8 @@ on m_21.create
 call super::create
 this.tag = "Documento Externo"
 this.text = "Tipo Documento Externo"
+this.microhelp = "Tipo Documento Externo"
+this.toolbaritemtext = "Tipo Documento Externo"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1580,6 +1615,8 @@ on m_clasificacióndecuentas.create
 call super::create
 this.tag = "Clasificación de Cuentas"
 this.text = "Clasificación de Cuentas"
+this.microhelp = "Clasificación de Cuentas"
+this.toolbaritemtext = "Clasificación de Cuentas"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1609,6 +1646,8 @@ on m_estaddo_cont.create
 call super::create
 this.tag = "Estados Contables"
 this.text = "Estados Contables"
+this.microhelp = "Estados Contables"
+this.toolbaritemtext = "Estados Contables"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1638,6 +1677,8 @@ on m_ctasutilidadpérdida.create
 call super::create
 this.tag = "Utilidad/Perdida"
 this.text = "Ctas. Utilidad Pérdida"
+this.microhelp = "Ctas. Utilidad Pérdida"
+this.toolbaritemtext = "Ctas. Utilidad Pérdida"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1696,6 +1737,8 @@ on m_38.create
 call super::create
 this.tag = "Régimen Contable"
 this.text = "Tipo Régimen"
+this.microhelp = "Tipo Régimen"
+this.toolbaritemtext = "Tipo Régimen"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1726,6 +1769,8 @@ on m_39.create
 call super::create
 this.tag = "Tipos Impuestos"
 this.text = "Tipo Impuesto"
+this.microhelp = "Tipo Impuesto"
+this.toolbaritemtext = "Tipo Impuesto"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1756,6 +1801,8 @@ on m_36.create
 call super::create
 this.tag = "Impuestos"
 this.text = "Impuestos"
+this.microhelp = "Impuestos"
+this.toolbaritemtext = "Impuestos"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1785,6 +1832,8 @@ on mc_tablaretención.create
 call super::create
 this.tag = "Tabla Retenciones"
 this.text = "Tabla Retención"
+this.microhelp = "Tabla Retenciones"
+this.toolbaritemtext = "Tabla Retenciones"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1845,7 +1894,10 @@ end type
 
 on m_asimilaplandecuentas.create
 call super::create
+this.tag = "Asimila Plan Cuentas"
 this.text = "Asimila Plan Cuentas"
+this.microhelp = "Asimila Plan Cuentas"
+this.toolbaritemtext = "Asimila Plan Cuentas"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1875,6 +1927,8 @@ on m_18.create
 call super::create
 this.tag = "Versión UNSPSC"
 this.text = "Versión UNSPSC"
+this.microhelp = "Versión UNSPSC"
+this.toolbaritemtext = "Versión UNSPSC"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1904,6 +1958,8 @@ on m_cunspsc.create
 call super::create
 this.tag = "Códigos UNSPSC"
 this.text = "Códigos UNSPSC"
+this.microhelp = "Códigos UNSPSC"
+this.toolbaritemtext = "Códigos UNSPSC"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1933,6 +1989,8 @@ on m_actividadecómica.create
 call super::create
 this.tag = "Actividades Económicas"
 this.text = "Actividades Ecómicas"
+this.microhelp = "Actividades Económicas"
+this.toolbaritemtext = "Actividades Económicas"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1963,9 +2021,9 @@ call super::create
 this.tag = "Periodos Contables"
 this.text = "Periodos Contables~tCtrl+T"
 this.shortcut = 340
-this.microhelp = "Contabilidad - Abrir , Cerrar y Generar Saldos de Periodos Contables [Ctrl+T]"
+this.microhelp = "Periodos Contables"
 this.toolbaritemname = "cerrar.ico"
-this.toolbaritemtext = "Contabilidad - Periodos Contables [Ctrl+T]"
+this.toolbaritemtext = "Periodos Contables"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1995,6 +2053,8 @@ on m_tiporet.create
 call super::create
 this.tag = "Tipo Obligación"
 this.text = "Responsabilidad Fiscal"
+this.microhelp = "Responsabilidad Fiscal"
+this.toolbaritemtext = "Responsabilidad Fiscal"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -2024,7 +2084,10 @@ end type
 
 on m_tesorería.create
 call super::create
+this.tag = "Tesorería"
 this.text = "Tesorería"
+this.microhelp = "Tesorería"
+this.toolbaritemtext = "Tesorería"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -2068,7 +2131,10 @@ end type
 
 on m_procesosgenerales_tes.create
 call super::create
+this.tag = "PGeneralesT"
 this.text = "Procesos Generales"
+this.microhelp = "Procesos Generales Tesoreria"
+this.toolbaritemtext = "Procesos Generales Tesoreria"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -2224,8 +2290,9 @@ on m_rreponecajamenor.create
 call super::create
 this.tag = "Reposición Caja Menor"
 this.text = "Reposición Caja Menor"
+this.microhelp = "Reposición Caja Menor"
 this.toolbaritemname = "cambia_doc.ico"
-this.toolbaritemtext = "Reposición caja menor"
+this.toolbaritemtext = "Reposición Caja Menor"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2286,6 +2353,7 @@ on m_recepciondefacturas.create
 call super::create
 this.tag = "Recepción Factura"
 this.text = "Recepción de Facturas"
+this.microhelp = "Tesorerería - Recepción de Facturas"
 this.toolbaritemname = "rip_f.ico"
 this.toolbaritemtext = "Tesorerería - Recepción de Facturas"
 this.menutextcolor = 134217735
@@ -2316,7 +2384,9 @@ on m_44.create
 call super::create
 this.tag = "Planilla Pago"
 this.text = "Planilla de Pago"
+this.microhelp = "Planilla Pago"
 this.toolbaritemname = "pagos.ico"
+this.toolbaritemtext = "Planilla Pago"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2406,7 +2476,9 @@ end type
 on m_reasig_receps.create
 call super::create
 this.tag = "Reasignación Reserva"
-this.text = "Reasignación reservas a recepciones"
+this.text = "Reasignación reservas a RFC"
+this.microhelp = "Reasignación Reserva"
+this.toolbaritemtext = "Reasignación Reserva"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2446,7 +2518,9 @@ on m_tablasbasicas_tes.create
 call super::create
 this.tag = "EstructuraT"
 this.text = "Tablas Básicas"
+this.microhelp = "Tablas Básicas Tesoreria"
 this.toolbaritemvisible = false
+this.toolbaritemtext = "Tablas Básicas Tesoreria"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -2509,6 +2583,8 @@ on m_tipotransaccionescartera.create
 call super::create
 this.tag = "Transacciones Tesoreria"
 this.text = "Tipo Transacciones Cartera"
+this.microhelp = "Transacciones Tesoreria"
+this.toolbaritemtext = "Transacciones Tesoreria"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2537,6 +2613,8 @@ on m_conceptos_teso.create
 call super::create
 this.tag = "Operaciones Tesoreria"
 this.text = "Operaciones Cartera/Tesorería"
+this.microhelp = "Operaciones Tesoreria"
+this.toolbaritemtext = "Operaciones Tesoreria"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2566,6 +2644,7 @@ call super::create
 this.tag = "Conceptos de Pago"
 this.text = "Conceptos de Pagos"
 this.microhelp = "Conceptos de Tesorería"
+this.toolbaritemtext = "Conceptos de Tesorería"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2595,7 +2674,8 @@ on m_bancos.create
 call super::create
 this.tag = "Lista Bancos"
 this.text = "Bancos"
-this.microhelp = "Bancos"
+this.microhelp = "Lista Bancos"
+this.toolbaritemtext = "Lista Bancos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2623,7 +2703,10 @@ end type
 
 on m_cuentasbancarias.create
 call super::create
+this.tag = "Cuentas Bancarias"
 this.text = "Cuentas Bancarias"
+this.microhelp = "Cuentas Bancarias"
+this.toolbaritemtext = "Cuentas Bancarias"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2652,6 +2735,8 @@ on m_notasbancarias.create
 call super::create
 this.tag = "Cuentas Bancarias"
 this.text = "Notas Bancarias"
+this.microhelp = "Notas Bancarias"
+this.toolbaritemtext = "Notas Bancarias"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2742,7 +2827,10 @@ end type
 
 on m_plantillasdeimpuestos.create
 call super::create
+this.tag = "Plantillas de Impuestos"
 this.text = "Plantillas de Impuestos"
+this.microhelp = "Plantillas de Impuestos"
+this.toolbaritemtext = "Plantillas de Impuestos"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -2803,6 +2891,8 @@ on m_13.create
 call super::create
 this.tag = "Datos Cuenta"
 this.text = "Datos Cuentas"
+this.microhelp = "Datos Cuentas"
+this.toolbaritemtext = "Datos Cuentas"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -2832,7 +2922,10 @@ end type
 
 on m_suministros.create
 call super::create
+this.tag = "Suministros"
 this.text = "Suministros"
+this.microhelp = "Suministros"
+this.toolbaritemtext = "Suministros"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -2885,7 +2978,10 @@ end type
 
 on m_12.create
 call super::create
+this.tag = "PGeneralesS"
 this.text = "Procesos Generales"
+this.microhelp = "Procesos Generales Suministros"
+this.toolbaritemtext = "Procesos Generales Suministros"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3526,7 +3622,9 @@ on m_tablasbasicas_sum.create
 call super::create
 this.tag = "EstructuraS"
 this.text = "Tablas Básicas"
+this.microhelp = "Tablas Básicas Suministros"
 this.toolbaritemvisible = false
+this.toolbaritemtext = "Tablas Básicas Suministros"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3599,7 +3697,10 @@ end type
 
 on m_transacciones.create
 call super::create
+this.tag = "Transacciones"
 this.text = "Transacciones"
+this.microhelp = "Transacciones"
+this.toolbaritemtext = "Transacciones"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -3629,6 +3730,8 @@ on m_almacenes.create
 call super::create
 this.tag = "Almacenes"
 this.text = "Almacenes"
+this.microhelp = "Almacenes"
+this.toolbaritemtext = "Almacenes"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3658,6 +3761,8 @@ on m_gruposyclases.create
 call super::create
 this.tag = "Grupo-Clase"
 this.text = "Grupos y Clases"
+this.microhelp = "Grupos y Clases"
+this.toolbaritemtext = "Grupos y Clases"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3688,6 +3793,8 @@ on m_23.create
 call super::create
 this.tag = "Lista Artículos"
 this.text = "Artículos"
+this.microhelp = "Artículos"
+this.toolbaritemtext = "Artículos"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3718,6 +3825,8 @@ on m_24.create
 call super::create
 this.tag = "Lista Genéricos"
 this.text = "Genéricos"
+this.microhelp = "Genéricos"
+this.toolbaritemtext = "Genéricos"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3747,6 +3856,8 @@ on m_riesgos.create
 call super::create
 this.tag = "Suministros Riesgos"
 this.text = "Riesgos"
+this.microhelp = "Suministros Riesgos"
+this.toolbaritemtext = "Suministros Riesgos"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3776,6 +3887,8 @@ on m_convenios.create
 call super::create
 this.tag = "Suministros Convenios"
 this.text = "Convenios"
+this.microhelp = "Suministros Convenios"
+this.toolbaritemtext = "Suministros Convenios"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3804,8 +3917,10 @@ end type
 
 on m_25.create
 call super::create
+this.tag = "PAC"
 this.text = "PAC"
 this.microhelp = "PAC"
+this.toolbaritemtext = "PAC"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3836,6 +3951,8 @@ on m_35.create
 call super::create
 this.tag = "Interfaz Contable"
 this.text = "Interfaz Contabilidad"
+this.microhelp = "Interfaz Contabilidad Suministros"
+this.toolbaritemtext = "Interfaz Contabilidad Suministros"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3865,6 +3982,8 @@ on m_periodos.create
 call super::create
 this.tag = "Suministros Periodos"
 this.text = "Periodos"
+this.microhelp = "Suministros Periodos"
+this.toolbaritemtext = "Suministros Periodos"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3894,6 +4013,8 @@ on m_ajustelotes.create
 call super::create
 this.tag = "Ajuste Lotes"
 this.text = "Ajuste Lotes"
+this.microhelp = "Ajuste Lotes"
+this.toolbaritemtext = "Ajuste Lotes"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3925,6 +4046,8 @@ on m_unificarartículos.create
 call super::create
 this.tag = "Unificar Artículos"
 this.text = "Unificar Artículos"
+this.microhelp = "Unificar Artículos"
+this.toolbaritemtext = "Unificar Artículos"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3956,6 +4079,8 @@ on m_costopromedio.create
 call super::create
 this.tag = "Costo Promedio"
 this.text = "Costo Promedio"
+this.microhelp = "Costo Promedio"
+this.toolbaritemtext = "Costo Promedio"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3985,6 +4110,8 @@ on m_stipopago.create
 call super::create
 this.tag = "Tipo Pago"
 this.text = "Tipo Pago"
+this.microhelp = "Tipo Pago"
+this.toolbaritemtext = "Tipo Pago"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -4012,7 +4139,10 @@ end type
 
 on m_sum_consec.create
 call super::create
+this.tag = "Consecutivo Lote"
 this.text = "Consecutivo Lote"
+this.microhelp = "Consecutivo Lote"
+this.toolbaritemtext = "Consecutivo Lote"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -4042,8 +4172,11 @@ end type
 
 on m_cartera.create
 call super::create
+this.tag = "Cartera"
 this.text = "Cartera"
+this.microhelp = "Cartera"
 this.toolbaritemvisible = false
+this.toolbaritemtext = "Cartera"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -4083,8 +4216,11 @@ end type
 
 on m_procesosgenerales_car.create
 call super::create
+this.tag = "PGeneralescar"
 this.text = "Procesos Generales"
+this.microhelp = "Procesos Generales Cartera"
 this.toolbaritemvisible = false
+this.toolbaritemtext = "Procesos Generales Cartera"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -4135,8 +4271,9 @@ call super::create
 this.tag = "Movimientos Cartera"
 this.text = "Cartera~tCtrl+Shift+C"
 this.shortcut = 1347
+this.microhelp = "Movimientos Cartera"
 this.toolbaritemname = "compute!"
-this.toolbaritemtext = "Generar Cuentas de Cobro [Ctrl+Shift+C]"
+this.toolbaritemtext = "Movimientos Cartera"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -4258,6 +4395,8 @@ on m_16.create
 call super::create
 this.tag = "Reclasificación Cartera"
 this.text = "Reclasificación de Cartera"
+this.microhelp = "Reclasificación de Cartera"
+this.toolbaritemtext = "Reclasificación de Cartera"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -4284,7 +4423,10 @@ end type
 
 on m_15.create
 call super::create
+this.tag = "Tablero Cartera"
 this.text = "Tablero Cartera"
+this.microhelp = "Tablero Cartera"
+this.toolbaritemtext = "Tablero Cartera"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -4319,8 +4461,10 @@ end type
 
 on m_tablasbasicas_car.create
 call super::create
-this.tag = "Basicascar"
+this.tag = "Estructuracar"
 this.text = "Tablas Básicas"
+this.microhelp = "Tablas Básicas Cartera"
+this.toolbaritemtext = "Tablas Básicas Cartera"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -4374,7 +4518,9 @@ end type
 on m_tipotransaccionescartera0.create
 call super::create
 this.tag = "Transacciones Cartera"
-this.text = "Tipo Tran&sacciones Cartera"
+this.text = "Tipo Transacciones Cartera"
+this.microhelp = "Transacciones Cartera"
+this.toolbaritemtext = "Transacciones Cartera"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -4405,6 +4551,8 @@ on m_operacionescarteratesorería.create
 call super::create
 this.tag = "Operaciones Cartera"
 this.text = "Operaciones Cartera/Tesorería"
+this.microhelp = "Operaciones Cartera"
+this.toolbaritemtext = "Operaciones Cartera"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -4433,6 +4581,8 @@ on m_entidadesareportarcartera.create
 call super::create
 this.tag = "Entidades Cartera"
 this.text = "Entidades ha reportar cartera"
+this.microhelp = "Entidades Cartera"
+this.toolbaritemtext = "Entidades Cartera"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -4463,6 +4613,8 @@ on m_edadescartera.create
 call super::create
 this.tag = "Edades Cartera"
 this.text = "Edades Cartera"
+this.microhelp = "Edades Cartera"
+this.toolbaritemtext = "Edades Cartera"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -4491,6 +4643,7 @@ on m_tregim.create
 call super::create
 this.tag = "Regímenes Cartera"
 this.text = "Tipo Régimen"
+this.microhelp = "Tipo Régimen"
 this.toolbaritemtext = "Tipo Régimen"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -4522,6 +4675,8 @@ on m_objeciones.create
 call super::create
 this.tag = "ObjeccionesP"
 this.text = "Objeciones"
+this.microhelp = "Parametrizacion Objeciones"
+this.toolbaritemtext = "Parametrizacion Objeciones"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -4552,6 +4707,8 @@ on m_respuestas.create
 call super::create
 this.tag = "RespuestasP"
 this.text = "Respuestas"
+this.microhelp = "Respuesta Objecciones"
+this.toolbaritemtext = "Respuesta Objecciones"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -4580,6 +4737,8 @@ on m_cartera_cierre.create
 call super::create
 this.tag = "Periodos Cartera"
 this.text = "Periodos Cartera"
+this.microhelp = "Periodos Cartera"
+this.toolbaritemtext = "Periodos Cartera"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -4608,7 +4767,10 @@ end type
 
 on m_22.create
 call super::create
+this.tag = "Activos Fijos"
 this.text = "Activos F."
+this.microhelp = "Activos Fijos"
+this.toolbaritemtext = "Activos Fijos"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -4650,7 +4812,10 @@ end type
 
 on m_procesosgenerales_act.create
 call super::create
+this.tag = "PGeneralesAf"
 this.text = "Procesos Generales"
+this.microhelp = "Procesos Generales Activos Fijos"
+this.toolbaritemtext = "Procesos Generales Activos Fijos"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -4769,6 +4934,8 @@ on m_mantenimiento.create
 call super::create
 this.tag = "AF Mantenimiento"
 this.text = "Mantto / Valoriza.s"
+this.microhelp = "AF Mantenimiento"
+this.toolbaritemtext = "AF Mantenimiento"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -4797,6 +4964,8 @@ on m_depreciacion.create
 call super::create
 this.tag = "AF Depreciación"
 this.text = "Depreciación"
+this.microhelp = "AF Depreciación"
+this.toolbaritemtext = "AF Depreciación"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -4825,6 +4994,8 @@ on m_devoluciónaproveedor.create
 call super::create
 this.tag = "AF Devolución"
 this.text = "Devolución a Proveedor"
+this.microhelp = "AF Devolución"
+this.toolbaritemtext = "AF Devolución"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -4853,6 +5024,8 @@ on m_baja.create
 call super::create
 this.tag = "AF Baja"
 this.text = "Baja"
+this.microhelp = "AF Baja"
+this.toolbaritemtext = "AF Baja"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -4881,6 +5054,8 @@ on m_comodato.create
 call super::create
 this.tag = "AF Comodato"
 this.text = "Comodato"
+this.microhelp = "AF Comodato"
+this.toolbaritemtext = "AF Comodato"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -4909,6 +5084,8 @@ on m_cambioplaca.create
 call super::create
 this.tag = "Cambio Placa"
 this.text = "Cambio Placa"
+this.microhelp = "Cambio Placa"
+this.toolbaritemtext = "Cambio Placa"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -4936,8 +5113,10 @@ end type
 
 on m_tablasbasicas_act.create
 call super::create
-this.tag = "Basicasaf"
+this.tag = "EstructuraAf"
 this.text = "Tablas Básicas"
+this.microhelp = "Tablas Básicas Activos Fijos"
+this.toolbaritemtext = "Tablas Básicas Activos Fijos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -4969,6 +5148,8 @@ on m_secciones.create
 call super::create
 this.tag = "AF Secciones"
 this.text = "Secciones"
+this.microhelp = "AF Secciones"
+this.toolbaritemtext = "AF Secciones"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -4998,7 +5179,10 @@ end type
 
 on m_nómina.create
 call super::create
+this.tag = "Nómina"
 this.text = "Nómina"
+this.microhelp = "Nómina"
+this.toolbaritemtext = "Nómina"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -5046,7 +5230,10 @@ end type
 
 on m_procesosgenerales_nom.create
 call super::create
+this.tag = "PGeneralesRH"
 this.text = "Procesos Generales"
+this.microhelp = "Procesos Generales Nomina"
+this.toolbaritemtext = "Procesos Generales Nomina"
 this.toolbaritemspace = 1
 this.shifttoright = true
 this.menutextcolor = 134217735
@@ -5209,6 +5396,7 @@ end type
 
 on m_31.create
 call super::create
+this.tag = "Nómina - Obra"
 this.text = "Obra"
 this.microhelp = "Nómina - Obra"
 this.toolbaritemname = "obra.ico"
@@ -5274,6 +5462,7 @@ end type
 
 on m_33.create
 call super::create
+this.tag = "Nómina - Contratos"
 this.text = "Contratos"
 this.microhelp = "Nómina - Contratos"
 this.toolbaritemname = "contrato.ico"
@@ -5371,6 +5560,8 @@ on m_programacion.create
 call super::create
 this.tag = "Programación"
 this.text = "Programación"
+this.microhelp = "Programacion Empleados"
+this.toolbaritemtext = "Programacion Empleados"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -5400,6 +5591,8 @@ on m_trabajosuplementario.create
 call super::create
 this.tag = "Suplementario"
 this.text = "Trabajo Suplementario"
+this.microhelp = "Trabajo Suplementario"
+this.toolbaritemtext = "Trabajo Suplementario"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -5429,6 +5622,8 @@ on m_vacacionesausentismo.create
 call super::create
 this.tag = "Ausentismo"
 this.text = "Vacaciones / Ausentismo"
+this.microhelp = "Vacaciones / Ausentismo"
+this.toolbaritemtext = "Vacaciones / Ausentismo"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -5478,6 +5673,8 @@ on m_tablasbasicas_nom.create
 call super::create
 this.tag = "EstructuraRH"
 this.text = "Tablas Básicas"
+this.microhelp = "Tablas Básicas RH"
+this.toolbaritemtext = "Tablas Básicas RH"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -5567,6 +5764,8 @@ on m_cargos.create
 call super::create
 this.tag = "Cargos Parametro"
 this.text = "Cargos"
+this.microhelp = "Cargos RH"
+this.toolbaritemtext = "Cargos RH"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -5593,7 +5792,10 @@ end type
 
 on m_conceptos.create
 call super::create
+this.tag = "Conceptos Liquidación"
 this.text = "Conceptos"
+this.microhelp = "Conceptos Liquidación"
+this.toolbaritemtext = "Conceptos Liquidación"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -5621,7 +5823,9 @@ end type
 on m_conceptoscargo.create
 call super::create
 this.tag = "Conceptos-Cargo"
-this.text = "Concep&tos Cargo"
+this.text = "Conceptos Cargo"
+this.microhelp = "Conceptos Cargo"
+this.toolbaritemtext = "Conceptos Cargo"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -5650,6 +5854,8 @@ on m_conceptosporaporte.create
 call super::create
 this.tag = "Tipo Conceptos"
 this.text = "Tipo Conceptos"
+this.microhelp = "Tipo Conceptos"
+this.toolbaritemtext = "Tipo Conceptos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -5676,7 +5882,10 @@ end type
 
 on m_requistosportipoemp.create
 call super::create
-this.text = "Requisitos por Tipo Emp"
+this.tag = "Requisitos Empleado"
+this.text = "Requisitos por Tipo Empleado"
+this.microhelp = "Requisitos por Tipo Empleado"
+this.toolbaritemtext = "Requisitos por Tipo Empleado"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -5705,6 +5914,8 @@ on m_requistosporcargo.create
 call super::create
 this.tag = "Requisito Cargo"
 this.text = "Requisitos por Cargo"
+this.microhelp = "Requisitos por Cargo"
+this.toolbaritemtext = "Requisitos por Cargo"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -5733,6 +5944,8 @@ on m_funciones.create
 call super::create
 this.tag = "Funciones"
 this.text = "Funciones"
+this.microhelp = "FuncionesRH"
+this.toolbaritemtext = "FuncionesRH"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -5761,6 +5974,8 @@ on m_niveles.create
 call super::create
 this.tag = "Niveles"
 this.text = "Niveles"
+this.microhelp = "Niveles Recurso Humano"
+this.toolbaritemtext = "Niveles Recurso Humano"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -5789,6 +6004,8 @@ on m_definicióntrabajosuplementario.create
 call super::create
 this.tag = "Trabajo Suplementario"
 this.text = "Definición Trabajo Suplementario"
+this.microhelp = "Trabajo Suplementario"
+this.toolbaritemtext = "Trabajo Suplementario"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -5817,6 +6034,8 @@ on m_definicionturnos.create
 call super::create
 this.tag = "Definición Turnos"
 this.text = "Definición Turnos"
+this.microhelp = "Definición Turnos"
+this.toolbaritemtext = "Definición Turnos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -5845,6 +6064,8 @@ on m_definicióndeciclos.create
 call super::create
 this.tag = "Definición Ciclos"
 this.text = "Control de Ciclos"
+this.microhelp = "Definición Ciclos"
+this.toolbaritemtext = "Definición Ciclos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -5873,6 +6094,8 @@ on m_tablaretefuente.create
 call super::create
 this.tag = "Tabla Retefuente"
 this.text = "Tabla ReteFuente"
+this.microhelp = "Tabla ReteFuente"
+this.toolbaritemtext = "Tabla ReteFuente"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -5901,6 +6124,8 @@ on m_valoresreferencia.create
 call super::create
 this.tag = "Valores Referencia"
 this.text = "Valores Referencia"
+this.microhelp = "Valores Referencia"
+this.toolbaritemtext = "Valores Referencia"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -5929,6 +6154,8 @@ on m_tiposausentismo.create
 call super::create
 this.tag = "Tipo Ausentismo"
 this.text = "Tipos Ausentismo"
+this.microhelp = "Tipos Ausentismo"
+this.toolbaritemtext = "Tipos Ausentismo"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -5955,7 +6182,10 @@ end type
 
 on m_festivo.create
 call super::create
+this.tag = "Festivos"
 this.text = "Festivos"
+this.microhelp = "FestivosRH"
+this.toolbaritemtext = "FestivosRH"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -5984,6 +6214,8 @@ on m_interfazppto.create
 call super::create
 this.tag = "Interfaz  Presupuestal"
 this.text = "Interfaz Ppto"
+this.microhelp = "Interfaz  PresupuestalRH"
+this.toolbaritemtext = "Interfaz  PresupuestalRH"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -6012,6 +6244,8 @@ on m_interfazcontabilidad.create
 call super::create
 this.tag = "Interfaz Contable Nomina"
 this.text = "Interfaz Contabilidad"
+this.microhelp = "Interfaz ContableRH"
+this.toolbaritemtext = "Interfaz ContableRH"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -6040,6 +6274,8 @@ on m_bancosgiros.create
 call super::create
 this.tag = "Nomina Bancos"
 this.text = "Bancos Giros"
+this.microhelp = "Nomina Bancos"
+this.toolbaritemtext = "Nomina Bancos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -6068,6 +6304,8 @@ on m_oficinasbancos.create
 call super::create
 this.tag = "Nomina Oficina Bancos"
 this.text = "Oficinas Bancos"
+this.microhelp = "Nomina Oficina Bancos"
+this.toolbaritemtext = "Nomina Oficina Bancos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -6096,6 +6334,8 @@ on m_perfilocupacional.create
 call super::create
 this.tag = "Perfil Ocupacional"
 this.text = "Perfil Ocupacional"
+this.microhelp = "Perfil Ocupacional"
+this.toolbaritemtext = "Perfil Ocupacional"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -6124,7 +6364,10 @@ end type
 
 on m_evaluaciondesempeño.create
 call super::create
+this.tag = "Evaluación Desempeño"
 this.text = "Evaluación Desempeño"
+this.microhelp = "Evaluación Desempeño"
+this.toolbaritemtext = "Evaluación Desempeño"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -6160,6 +6403,8 @@ on m_plantillas.create
 call super::create
 this.tag = "Organización"
 this.text = "Plantillas"
+this.microhelp = "Pantillas Evaluacion Desempeño"
+this.toolbaritemtext = "Pantillas Evaluacion Desempeño"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -6188,6 +6433,8 @@ on m_evaluacion.create
 call super::create
 this.tag = "Evaluación"
 this.text = "Evaluación"
+this.microhelp = "EvaluaciónRH"
+this.toolbaritemtext = "EvaluaciónRH"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -6216,8 +6463,11 @@ end type
 
 on m_costos.create
 call super::create
+this.tag = "Costos"
 this.text = "Costos"
+this.microhelp = "Costos"
 this.toolbaritemvisible = false
+this.toolbaritemtext = "Costos"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -6251,8 +6501,11 @@ end type
 
 on m_procesosgenerales_cos.create
 call super::create
+this.tag = "PGeneralesCos"
 this.text = "Procesos Generales"
+this.microhelp = "Procesos Generales Costos"
 this.toolbaritemvisible = false
+this.toolbaritemtext = "Procesos Generales Costos"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -6280,7 +6533,10 @@ end type
 
 on m_tablasbasicas_cos.create
 call super::create
+this.tag = "EstructuraCos"
 this.text = "Tablas Básicas"
+this.microhelp = "Tablas Básicas Costos"
+this.toolbaritemtext = "Tablas Básicas Costos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -6309,7 +6565,10 @@ end type
 
 on m_presupuesto.create
 call super::create
+this.tag = "Presupuesto"
 this.text = "Presupuesto"
+this.microhelp = "Presupuesto"
+this.toolbaritemtext = "Presupuesto"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -6353,7 +6612,10 @@ end type
 
 on m_procesosgenerales_pre.create
 call super::create
+this.tag = "PGeneralesPto"
 this.text = "Procesos Generales"
+this.microhelp = "Procesos Generales Presupuesto"
+this.toolbaritemtext = "Procesos Generales Presupuesto"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -6413,7 +6675,7 @@ end type
 on m_34.create
 call super::create
 this.tag = "Plan Presupuestal"
-this.text = "&Plan Cuentas Presupuesto"
+this.text = "Plan Cuentas Presupuesto"
 this.microhelp = "Presupuesto - Plan de Cuentas"
 this.toolbaritemname = "plan.ico"
 this.toolbaritemtext = "Presupuesto - Plan Cuentas "
@@ -6445,7 +6707,7 @@ end type
 on m_traslados.create
 call super::create
 this.tag = "Traslado Pptal"
-this.text = "&Traslados"
+this.text = "Presupuesto - Traslados"
 this.microhelp = "Presupuesto - Traslados"
 this.toolbaritemname = "traslado.ico"
 this.toolbaritemtext = "Presupuesto - Traslados"
@@ -6476,7 +6738,7 @@ end type
 on m_adiciones.create
 call super::create
 this.tag = "Adición Pptal"
-this.text = "&Adiciones"
+this.text = "Adiciones"
 this.microhelp = "Presupuesto - Adiciones"
 this.toolbaritemname = "adicion.ico"
 this.toolbaritemtext = "Presupuesto - Adiciones"
@@ -6507,7 +6769,7 @@ end type
 on m_recortes.create
 call super::create
 this.tag = "Recorte Pptal"
-this.text = "Re&cortes"
+this.text = "Recortes"
 this.microhelp = "Presupuesto - Recortes"
 this.toolbaritemname = "material.ico"
 this.toolbaritemtext = "Presupuesto - Recortes"
@@ -6539,6 +6801,8 @@ on m_42.create
 call super::create
 this.tag = "SDisponibilidad Pptal"
 this.text = "Solicitud Disponibilidad"
+this.microhelp = "Solicitud Disponibilidad"
+this.toolbaritemtext = "Solicitud Disponibilidad"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -6567,7 +6831,7 @@ end type
 on m_40.create
 call super::create
 this.tag = "Disponibilidad Pptal"
-this.text = "&Disponibilidades"
+this.text = "Disponibilidades"
 this.microhelp = "Presupuesto - Disponibilidades"
 this.toolbaritemname = "disponible.ico"
 this.toolbaritemtext = "Presupuesto - Disponibilidades"
@@ -6599,7 +6863,7 @@ end type
 on m_reservas.create
 call super::create
 this.tag = "Registro Pptal"
-this.text = "Reser&vas"
+this.text = "Reservas"
 this.microhelp = "Presupuesto - Reservas"
 this.toolbaritemname = "reserva.ico"
 this.toolbaritemtext = "Presupuesto - Reservas"
@@ -6632,7 +6896,7 @@ end type
 on m_giros.create
 call super::create
 this.tag = "Giro Pptal"
-this.text = "&Giros"
+this.text = "Giros"
 this.microhelp = "Presupuesto - Giros"
 this.toolbaritemname = "giros.ico"
 this.toolbaritemtext = "Presupuesto - Giros"
@@ -6663,7 +6927,7 @@ end type
 on m_reconocimientos.create
 call super::create
 this.tag = "Recocimiento Pptal"
-this.text = "Reconoc&imientos"
+this.text = "Reconocimientos"
 this.microhelp = "Presupuesto - Reconocimientos"
 this.toolbaritemname = "audita.ico"
 this.toolbaritemtext = "Presupuesto - Reconocimientos"
@@ -6696,7 +6960,7 @@ end type
 on m_recaudos.create
 call super::create
 this.tag = "Recaudo Pptal"
-this.text = "&Recaudos"
+this.text = "Recaudos"
 this.microhelp = "Presupuesto - Recaudos"
 this.toolbaritemname = "factura.ico"
 this.toolbaritemtext = "Presupuesto - Recaudos"
@@ -6733,7 +6997,10 @@ end type
 
 on m_tablasbasicas_pre.create
 call super::create
+this.tag = "EstructuraPto"
 this.text = "Tablas Básicas"
+this.microhelp = "Tablas Básicas Presupuesto"
+this.toolbaritemtext = "Tablas Básicas Presupuesto"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -6783,6 +7050,8 @@ on m_vigenciasyperiodos.create
 call super::create
 this.tag = "Vigencias-Periodos"
 this.text = "Vigencias y Periodos"
+this.microhelp = "Vigencias y Periodos"
+this.toolbaritemtext = "Vigencias y Periodos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -6811,6 +7080,8 @@ on m_rubrosdeequilibrio.create
 call super::create
 this.tag = "Rubros de Equilibrio"
 this.text = "Rubros de Equilibrio"
+this.microhelp = "Rubros de Equilibrio"
+this.toolbaritemtext = "Rubros de Equilibrio"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -6839,6 +7110,8 @@ on m_consecutivos.create
 call super::create
 this.tag = "Consecutivos Presupuestales"
 this.text = "Consecutivos"
+this.microhelp = "Consecutivos Presupuestales"
+this.toolbaritemtext = "Consecutivos Presupuestales"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -6865,7 +7138,10 @@ end type
 
 on m_balancedeingresos.create
 call super::create
+this.tag = "Balance de Ingresos"
 this.text = "Balance de Ingresos"
+this.microhelp = "Balance de Ingresos"
+this.toolbaritemtext = "Balance de Ingresos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -6894,6 +7170,8 @@ on m_ctasrégimenccosto.create
 call super::create
 this.tag = "Régimen Costo"
 this.text = "Ctas Régimen Ccosto"
+this.microhelp = "Ctas Régimen Ccosto"
+this.toolbaritemtext = "Ctas Régimen Ccosto"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -6920,7 +7198,10 @@ end type
 
 on m_redistribuciónreconocimientos.create
 call super::create
+this.tag = "RReconocimientos"
 this.text = "Redistribución Reconocimientos"
+this.microhelp = "Redistribución Reconocimientos"
+this.toolbaritemtext = "Redistribución Reconocimientos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -6949,6 +7230,8 @@ on m_preconvenios.create
 call super::create
 this.tag = "Convenios"
 this.text = "Convenios"
+this.microhelp = "Convenios Ppto"
+this.toolbaritemtext = "Convenios Ppto"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -6972,13 +7255,15 @@ end on
 
 type m_contratación from menu within m_principal_adm
 m_procesosgenerales_ctr m_procesosgenerales_ctr
-m_reportes_ctr m_reportes_ctr
 m_tablasbásicas_ctr m_tablasbásicas_ctr
 end type
 
 on m_contratación.create
 call super::create
+this.tag = "Contratación"
 this.text = "Contratación"
+this.microhelp = "Contratación"
+this.toolbaritemtext = "Contratación"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -6996,17 +7281,14 @@ this.toolbarhighlightcolor = 134217741
 this.toolbargradient = true
 this.bitmapgradient = true
 this.m_procesosgenerales_ctr=create m_procesosgenerales_ctr
-this.m_reportes_ctr=create m_reportes_ctr
 this.m_tablasbásicas_ctr=create m_tablasbásicas_ctr
 this.Item[UpperBound(this.Item)+1]=this.m_procesosgenerales_ctr
-this.Item[UpperBound(this.Item)+1]=this.m_reportes_ctr
 this.Item[UpperBound(this.Item)+1]=this.m_tablasbásicas_ctr
 end on
 
 on m_contratación.destroy
 call super::destroy
 destroy(this.m_procesosgenerales_ctr)
-destroy(this.m_reportes_ctr)
 destroy(this.m_tablasbásicas_ctr)
 end on
 
@@ -7016,7 +7298,10 @@ end type
 
 on m_procesosgenerales_ctr.create
 call super::create
+this.tag = "PgeneralesCto"
 this.text = "Procesos Generales"
+this.microhelp = "Procesos Generales Contratacion"
+this.toolbaritemtext = "Procesos Generales Contratacion"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -7048,7 +7333,9 @@ on m_contratos.create
 call super::create
 this.tag = "Contratación"
 this.text = "Contratos"
+this.microhelp = "Contratos"
 this.toolbaritemname = "contrato.ico"
+this.toolbaritemtext = "Contratos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -7070,33 +7357,6 @@ on m_contratos.destroy
 call super::destroy
 end on
 
-type m_reportes_ctr from menu within m_contratación
-end type
-
-on m_reportes_ctr.create
-call super::create
-this.text = "Reportes"
-this.menutextcolor = 134217735
-this.menubackcolor = 134217732
-this.menuhighlightcolor = 134217741
-this.textsize = 8
-this.weight = 400
-this.facename = "Tahoma"
-this.titlebackcolor = 134217730
-this.bitmapbackcolor = 12632256
-this.menubitmaps = true
-this.titlegradient = true
-this.toolbartextcolor = 134217746
-this.toolbarbackcolor = 67108864
-this.toolbarhighlightcolor = 134217741
-this.toolbargradient = true
-this.bitmapgradient = true
-end on
-
-on m_reportes_ctr.destroy
-call super::destroy
-end on
-
 type m_tablasbásicas_ctr from menu within m_contratación
 m_requisitos m_requisitos
 m_tipospolizas m_tipospolizas
@@ -7109,7 +7369,10 @@ end type
 
 on m_tablasbásicas_ctr.create
 call super::create
+this.tag = "EstructuraCto"
 this.text = "Tablas Básicas"
+this.microhelp = "Tablas Básicas Contratacion"
+this.toolbaritemtext = "Tablas Básicas Contratacion"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -7159,6 +7422,8 @@ on m_requisitos.create
 call super::create
 this.tag = "Contratación Requisitos"
 this.text = "Requisitos"
+this.microhelp = "Contratación Requisitos"
+this.toolbaritemtext = "Contratación Requisitos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -7187,6 +7452,8 @@ on m_tipospolizas.create
 call super::create
 this.tag = "Contratación Pólizas"
 this.text = "Tipos de Pólizas"
+this.microhelp = "Tipos de Pólizas"
+this.toolbaritemtext = "Tipos de Pólizas"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -7215,6 +7482,8 @@ on m_clasedecontrato.create
 call super::create
 this.tag = "Contratación Clases"
 this.text = "Clases de Contrato"
+this.microhelp = "Clases de Contrato"
+this.toolbaritemtext = "Clases de Contrato"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -7243,6 +7512,8 @@ on m_tiposdecontrato.create
 call super::create
 this.tag = "Contratación Tipos"
 this.text = "Tipos de Contrato"
+this.microhelp = "Tipos de Contrato"
+this.toolbaritemtext = "Tipos de Contrato"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -7269,8 +7540,10 @@ end type
 
 on m_requisitosxtipocontrato.create
 call super::create
-this.tag = "Contratación Reqxtipo"
+this.tag = "ContrataciónReqxtipo"
 this.text = "Requisitos X Tipo Contrato"
+this.microhelp = "Requisitos X Tipo Contrato"
+this.toolbaritemtext = "Requisitos X Tipo Contrato"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -7299,6 +7572,8 @@ on m_tipopago.create
 call super::create
 this.tag = "Contratación Pagos"
 this.text = "Tipo Pagos"
+this.microhelp = "Contratación Pagos"
+this.toolbaritemtext = "Contratación Pagos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -7327,6 +7602,8 @@ on m_43.create
 call super::create
 this.tag = "Contratación Causación"
 this.text = "Causacion Contratos"
+this.microhelp = "Causacion Contratos"
+this.toolbaritemtext = "Causacion Contratos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -7354,7 +7631,10 @@ end type
 
 on m_10.create
 call super::create
+this.tag = "Herramientas"
 this.text = "Herramientas"
+this.microhelp = "Herramientas"
+this.toolbaritemtext = "Herramientas"
 this.shifttoright = true
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -7385,7 +7665,10 @@ end type
 
 on m_11.create
 call super::create
+this.tag = "Ejecutar"
 this.text = "Ejecutar"
+this.microhelp = "Ejecutar"
+this.toolbaritemtext = "Ejecutar"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
