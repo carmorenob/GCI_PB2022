@@ -6877,8 +6877,9 @@ end type
 
 on m_tgasto_costos.create
 call super::create
-this.tag = "Tipos de GastoTipos de Gasto"
+this.tag = "Tipos de Gasto"
 this.text = "Tipos de Gasto"
+this.microhelp = "Tipos de Gasto"
 this.toolbaritemtext = "Tipos de Gasto"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -6906,7 +6907,7 @@ end type
 
 on m_deprecia_costos.create
 call super::create
-this.tag = "Deprecia"
+this.tag = "Costo Deprecia"
 this.text = "Deprecia"
 this.microhelp = "Deprecia"
 this.toolbaritemtext = "Deprecia"
