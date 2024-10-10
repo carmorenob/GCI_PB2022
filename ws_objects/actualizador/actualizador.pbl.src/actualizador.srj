@@ -11,8 +11,8 @@ FVS:2,0,0,3
 FVN:2,0,0,3
 MAN:0,asInvoker,0
 PBD:actualizador.pbl,,1
-OBJ:D:\gci\fuentes\repo_git\actualizador\actualizador.pbl,n_osversion,u
-OBJ:D:\gci\fuentes\repo_git\actualizador\actualizador.pbl,actualizador,a
-OBJ:D:\gci\fuentes\repo_git\actualizador\actualizador.pbl,f_descripta,f
-OBJ:D:\gci\fuentes\repo_git\actualizador\actualizador.pbl,dw_files,d
-OBJ:D:\gci\fuentes\repo_git\actualizador\actualizador.pbl,w_actualiza,w
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\actualizador\actualizador.pbl,w_actualiza,w
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\actualizador\actualizador.pbl,dw_files,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\actualizador\actualizador.pbl,f_descripta,f
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\actualizador\actualizador.pbl,n_osversion,u
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\actualizador\actualizador.pbl,actualizador,a
