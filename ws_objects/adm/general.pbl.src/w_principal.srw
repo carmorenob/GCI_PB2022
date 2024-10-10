@@ -866,65 +866,68 @@ integer nivel
 //messagebox('',string(param))
 setnull(coddocumento)
 choose case param
-	case 46
+	case 45
 		coddocumento='SE'
 		nivel=1
-	case 47
+	case 46
 		coddocumento='SDN'
 		nivel=2
-	case 48
+	case 47
 		coddocumento='SEP'
 		 nivel=3
-	case 49
+	case 48
 		coddocumento='SF'
 		 nivel=4
-	case 50
+	case 49
 		coddocumento='SI'
 		 nivel=5
-	case 51
+	case 50
 		coddocumento='SN'
 		 nivel=6
-	case 52
+	case 51
 		coddocumento='SVR'
 		 nivel=7
 
 ////EGRESOS		 
-	case 54
+	case 53
 		coddocumento='SD'		
 		 nivel=8
-	case 55
+	case 54
 		coddocumento='SSD'		
 		 nivel=9
-	case 56
+	case 55
 		coddocumento='SB'
 		 nivel=10
-	case 57
+	case 56
 		coddocumento='SP'
 		 nivel=11
-	case 58
+	case 57
 		coddocumento='SFR'
 		 nivel=12
-	case 59
+	case 58
 		coddocumento='SC'
 		 nivel=13
-	case 60
+	case 59
 		coddocumento='ST'
 		nivel=14
-	case 61
+	case 60
 		coddocumento='SV'
 		nivel=15		
+		
+		
 ///SOLICITUDES		
-	case 63
+	case 62
 		coddocumento='OC'
 		nivel=16
-	case 64
+	case 63
 		coddocumento='SR'
 		nivel=17
-	case 65
+	case 64
 		coddocumento='TR'
 		nivel=18
+		
 //AJUSTES		
-	case 67
+	case 66
 		coddocumento='SAJ'
 		nivel=19
 END CHOOSE
