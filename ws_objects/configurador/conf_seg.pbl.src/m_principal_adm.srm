@@ -496,6 +496,8 @@ type m_oficinasbancos from menu within m_tablasbasicas_nom
 end type
 type m_perfilocupacional from menu within m_tablasbasicas_nom
 end type
+type m_actsalario from menu within m_tablasbasicas_nom
+end type
 type m_tablasbasicas_nom from menu within m_nómina
 m_cargos m_cargos
 m_conceptos m_conceptos
@@ -517,6 +519,7 @@ m_interfazcontabilidad m_interfazcontabilidad
 m_bancosgiros m_bancosgiros
 m_oficinasbancos m_oficinasbancos
 m_perfilocupacional m_perfilocupacional
+m_actsalario m_actsalario
 end type
 type m_evaluaciondesempeño from menu within m_nómina
 end type
@@ -537,7 +540,38 @@ type m_costos from menu within m_principal_adm
 end type
 type m_procesosgenerales_cos from menucascade within m_costos
 end type
+type m_costocal from menu within m_procesosgenerales_cos
+end type
+type m_deprecia from menu within m_procesosgenerales_cos
+end type
+type m_procesosgenerales_cos from menucascade within m_costos
+m_costocal m_costocal
+m_deprecia m_deprecia
+end type
 type m_tablasbasicas_cos from menu within m_costos
+end type
+type m_gi_costos from menu within m_tablasbasicas_cos
+end type
+type m_gc_cxc_costos from menu within m_tablasbasicas_cos
+end type
+type m_gi_mes_costo from menu within m_tablasbasicas_cos
+end type
+type m_insumo_costos from menu within m_tablasbasicas_cos
+end type
+type m_canastas_costo from menu within m_tablasbasicas_cos
+end type
+type m_tgasto_costos from menu within m_tablasbasicas_cos
+end type
+type m_deprecia_costos from menu within m_tablasbasicas_cos
+end type
+type m_tablasbasicas_cos from menu within m_costos
+m_gi_costos m_gi_costos
+m_gc_cxc_costos m_gc_cxc_costos
+m_gi_mes_costo m_gi_mes_costo
+m_insumo_costos m_insumo_costos
+m_canastas_costo m_canastas_costo
+m_tgasto_costos m_tgasto_costos
+m_deprecia_costos m_deprecia_costos
 end type
 type m_costos from menu within m_principal_adm
 m_procesosgenerales_cos m_procesosgenerales_cos
@@ -2733,7 +2767,7 @@ end type
 
 on m_notasbancarias.create
 call super::create
-this.tag = "Cuentas Bancarias"
+this.tag = "Notas Bancarias"
 this.text = "Notas Bancarias"
 this.microhelp = "Notas Bancarias"
 this.toolbaritemtext = "Notas Bancarias"
@@ -5462,7 +5496,7 @@ end type
 
 on m_33.create
 call super::create
-this.tag = "Nómina - Contratos"
+this.tag = "ContratosN"
 this.text = "Contratos"
 this.microhelp = "Nómina - Contratos"
 this.toolbaritemname = "contrato.ico"
@@ -5667,6 +5701,7 @@ m_interfazcontabilidad m_interfazcontabilidad
 m_bancosgiros m_bancosgiros
 m_oficinasbancos m_oficinasbancos
 m_perfilocupacional m_perfilocupacional
+m_actsalario m_actsalario
 end type
 
 on m_tablasbasicas_nom.create
@@ -5711,6 +5746,7 @@ this.m_interfazcontabilidad=create m_interfazcontabilidad
 this.m_bancosgiros=create m_bancosgiros
 this.m_oficinasbancos=create m_oficinasbancos
 this.m_perfilocupacional=create m_perfilocupacional
+this.m_actsalario=create m_actsalario
 this.Item[UpperBound(this.Item)+1]=this.m_cargos
 this.Item[UpperBound(this.Item)+1]=this.m_conceptos
 this.Item[UpperBound(this.Item)+1]=this.m_conceptoscargo
@@ -5731,6 +5767,7 @@ this.Item[UpperBound(this.Item)+1]=this.m_interfazcontabilidad
 this.Item[UpperBound(this.Item)+1]=this.m_bancosgiros
 this.Item[UpperBound(this.Item)+1]=this.m_oficinasbancos
 this.Item[UpperBound(this.Item)+1]=this.m_perfilocupacional
+this.Item[UpperBound(this.Item)+1]=this.m_actsalario
 end on
 
 on m_tablasbasicas_nom.destroy
@@ -5755,6 +5792,7 @@ destroy(this.m_interfazcontabilidad)
 destroy(this.m_bancosgiros)
 destroy(this.m_oficinasbancos)
 destroy(this.m_perfilocupacional)
+destroy(this.m_actsalario)
 end on
 
 type m_cargos from menu within m_tablasbasicas_nom
@@ -6357,6 +6395,36 @@ on m_perfilocupacional.destroy
 call super::destroy
 end on
 
+type m_actsalario from menu within m_tablasbasicas_nom
+end type
+
+on m_actsalario.create
+call super::create
+this.tag = "Actualiza Salarios"
+this.text = "Actualización Salarios"
+this.microhelp = "Actualización Salarios"
+this.toolbaritemtext = "Actualización Salarios"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_actsalario.destroy
+call super::destroy
+end on
+
 type m_evaluaciondesempeño from menu within m_nómina
 m_plantillas m_plantillas
 m_evaluacion m_evaluacion
@@ -6497,6 +6565,8 @@ destroy(this.m_tablasbasicas_cos)
 end on
 
 type m_procesosgenerales_cos from menucascade within m_costos
+m_costocal m_costocal
+m_deprecia m_deprecia
 end type
 
 on m_procesosgenerales_cos.create
@@ -6522,13 +6592,86 @@ this.toolbarbackcolor = 67108864
 this.toolbarhighlightcolor = 134217741
 this.toolbargradient = true
 this.bitmapgradient = true
+this.m_costocal=create m_costocal
+this.m_deprecia=create m_deprecia
+this.Item[UpperBound(this.Item)+1]=this.m_costocal
+this.Item[UpperBound(this.Item)+1]=this.m_deprecia
 end on
 
 on m_procesosgenerales_cos.destroy
 call super::destroy
+destroy(this.m_costocal)
+destroy(this.m_deprecia)
+end on
+
+type m_costocal from menu within m_procesosgenerales_cos
+end type
+
+on m_costocal.create
+call super::create
+this.tag = "Cálculo Costos"
+this.text = "Cálculo"
+this.microhelp = "Cálculo Costos"
+this.toolbaritemtext = "Cálculo Costos"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_costocal.destroy
+call super::destroy
+end on
+
+type m_deprecia from menu within m_procesosgenerales_cos
+end type
+
+on m_deprecia.create
+call super::create
+this.tag = "Depreciación Dependencia"
+this.text = "Depreciación"
+this.microhelp = "Depreciación Costos"
+this.toolbaritemtext = "Depreciación Costos"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_deprecia.destroy
+call super::destroy
 end on
 
 type m_tablasbasicas_cos from menu within m_costos
+m_gi_costos m_gi_costos
+m_gc_cxc_costos m_gc_cxc_costos
+m_gi_mes_costo m_gi_mes_costo
+m_insumo_costos m_insumo_costos
+m_canastas_costo m_canastas_costo
+m_tgasto_costos m_tgasto_costos
+m_deprecia_costos m_deprecia_costos
 end type
 
 on m_tablasbasicas_cos.create
@@ -6552,9 +6695,239 @@ this.toolbarbackcolor = 67108864
 this.toolbarhighlightcolor = 134217741
 this.toolbargradient = true
 this.bitmapgradient = true
+this.m_gi_costos=create m_gi_costos
+this.m_gc_cxc_costos=create m_gc_cxc_costos
+this.m_gi_mes_costo=create m_gi_mes_costo
+this.m_insumo_costos=create m_insumo_costos
+this.m_canastas_costo=create m_canastas_costo
+this.m_tgasto_costos=create m_tgasto_costos
+this.m_deprecia_costos=create m_deprecia_costos
+this.Item[UpperBound(this.Item)+1]=this.m_gi_costos
+this.Item[UpperBound(this.Item)+1]=this.m_gc_cxc_costos
+this.Item[UpperBound(this.Item)+1]=this.m_gi_mes_costo
+this.Item[UpperBound(this.Item)+1]=this.m_insumo_costos
+this.Item[UpperBound(this.Item)+1]=this.m_canastas_costo
+this.Item[UpperBound(this.Item)+1]=this.m_tgasto_costos
+this.Item[UpperBound(this.Item)+1]=this.m_deprecia_costos
 end on
 
 on m_tablasbasicas_cos.destroy
+call super::destroy
+destroy(this.m_gi_costos)
+destroy(this.m_gc_cxc_costos)
+destroy(this.m_gi_mes_costo)
+destroy(this.m_insumo_costos)
+destroy(this.m_canastas_costo)
+destroy(this.m_tgasto_costos)
+destroy(this.m_deprecia_costos)
+end on
+
+type m_gi_costos from menu within m_tablasbasicas_cos
+end type
+
+on m_gi_costos.create
+call super::create
+this.tag = "Gastos Indirectos"
+this.text = "Gastos Indirectos"
+this.microhelp = "Gastos Indirectos"
+this.toolbaritemtext = "Gastos Indirectos"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_gi_costos.destroy
+call super::destroy
+end on
+
+type m_gc_cxc_costos from menu within m_tablasbasicas_cos
+end type
+
+on m_gc_cxc_costos.create
+call super::create
+this.tag = "Gastos Indirecto x CC"
+this.text = "Gastos Indirecto x CC"
+this.microhelp = "Gastos Indirecto x CC"
+this.toolbaritemtext = "Gastos Indirecto x CC"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_gc_cxc_costos.destroy
+call super::destroy
+end on
+
+type m_gi_mes_costo from menu within m_tablasbasicas_cos
+end type
+
+on m_gi_mes_costo.create
+call super::create
+this.tag = "Gastos Indirecto x Mes"
+this.text = "Gastos Indirecto x Mes"
+this.microhelp = "Gastos Indirecto x Mes"
+this.toolbaritemtext = "Gastos Indirecto x Mes"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_gi_mes_costo.destroy
+call super::destroy
+end on
+
+type m_insumo_costos from menu within m_tablasbasicas_cos
+end type
+
+on m_insumo_costos.create
+call super::create
+this.tag = "Insumos"
+this.text = "Insumos"
+this.microhelp = "Insumos"
+this.toolbaritemtext = "Insumos"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_insumo_costos.destroy
+call super::destroy
+end on
+
+type m_canastas_costo from menu within m_tablasbasicas_cos
+end type
+
+on m_canastas_costo.create
+call super::create
+this.tag = "Canastas"
+this.text = "Canastas"
+this.microhelp = "Canastas"
+this.toolbaritemtext = "Canastas"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_canastas_costo.destroy
+call super::destroy
+end on
+
+type m_tgasto_costos from menu within m_tablasbasicas_cos
+end type
+
+on m_tgasto_costos.create
+call super::create
+this.tag = "Tipos de GastoTipos de Gasto"
+this.text = "Tipos de Gasto"
+this.toolbaritemtext = "Tipos de Gasto"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_tgasto_costos.destroy
+call super::destroy
+end on
+
+type m_deprecia_costos from menu within m_tablasbasicas_cos
+end type
+
+on m_deprecia_costos.create
+call super::create
+this.tag = "Deprecia"
+this.text = "Deprecia"
+this.microhelp = "Deprecia"
+this.toolbaritemtext = "Deprecia"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_deprecia_costos.destroy
 call super::destroy
 end on
 
