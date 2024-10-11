@@ -654,6 +654,7 @@ type dw_terce from w_docum_base1`dw_terce within tp_5
 end type
 
 type dw_ter from w_docum_base1`dw_ter within tp_5
+string title = ""
 end type
 
 type gb_2 from w_docum_base1`gb_2 within tp_5
@@ -974,6 +975,6 @@ elseif dw_cab.GetItemString(dw_cab.GetRow(),'cod_flujo') = 'PRSCTPT' or dw_cab.G
 	end if
 	
 end if
-
+tb_1.tp_5.dw_ter.deleterow(0)
 end event
 

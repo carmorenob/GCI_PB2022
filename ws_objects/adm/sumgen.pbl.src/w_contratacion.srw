@@ -855,8 +855,8 @@ end event
 
 type dw_cargo from datawindow within w_contratacion
 boolean visible = false
-integer x = 5627
-integer y = 1268
+integer x = 5472
+integer y = 1324
 integer width = 105
 integer height = 120
 integer taborder = 50

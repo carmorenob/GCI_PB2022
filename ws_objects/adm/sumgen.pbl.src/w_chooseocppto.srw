@@ -150,6 +150,7 @@ for i = 1 to dw_fr.RowCount()
 			st_p.dw_ter.SetItem(1,'consecutivo',dw_cb.GetItemNumber(1,'consecutivo'))
 			st_p.dw_ter.SetItem(1,'fecha',dw_cb.GetItemDateTime(1,'fecha'))
 			st_p.dw_ter.SetItem(1,'fecha_consecu',dw_cb.GetItemDateTime(1,'fecha_consecu'))
+			
 			// Adiciona los rubros
 			uo_datastore dw_discpo
 			dw_discpo = CREATE uo_datastore

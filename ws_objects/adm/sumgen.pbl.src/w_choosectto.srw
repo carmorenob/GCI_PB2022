@@ -189,6 +189,7 @@ if st_p.codmod = 'PDISCTPR' or st_p.codmod = 'PDINCPR' then
 		st_p.dw_obj.SetItem(1,'num_orig3',dw_1.GetItemNumber(dw_1.GetRow(),'otrosi'))
 		st_p.dw_obj.SetItem(1,'valor',dw_1.GetItemNumber(dw_1.GetRow(),'monto'))
 	end if
+	
 	fila = st_p.dw_ter.Find("tipodoc='" + td + "' and documento='" + doc+ "'",1,st_p.dw_ter.RowCount())
 	if fila = 0 then
 		st_p.dw_ter.InsertRow(1)
@@ -205,7 +206,7 @@ if st_p.codmod = 'PDISCTPR' or st_p.codmod = 'PDINCPR' then
 	end if
 
 elseif st_p.codmod = 'PRSCTPT' or st_p.codmod = 'PRSCTRFC' or st_p.codmod = 'PRNCPT' or st_p.codmod = 'PRNCRFC' then
-	decimal montos=0
+	decimal montos=0,montos_org=0
 
 	fila = st_p.dw_it.Find("num_orig1=" + string(an) + " and num_orig2=" + string(nc) + " and num_orig3=" + string(ot),1,st_p.dw_it.RowCount())
 	if fila = 0 then		
@@ -232,10 +233,8 @@ elseif st_p.codmod = 'PRSCTPT' or st_p.codmod = 'PRSCTRFC' or st_p.codmod = 'PRN
 				st_p.dw_obj.SetItem(fila,'estado','0')
 				st_p.dw_obj.SetItem(fila,'descrip',dw_cp.GetItemString(i,'descrip_dispo'))
 				
-//				montos += dw_cp.GetItemNumber(i,'monto') - dw_cp.GetItemNumber(i,'monto_utilizado_dispo')
-//				st_p.dw_obj.SetItem(fila,'monto', dw_cp.GetItemNumber(i,'monto') - dw_cp.GetItemNumber(i,'monto_utilizado_dispo'))					
-//				st_p.dw_obj.SetItem(fila,'monto_vigente',  dw_cp.GetItemNumber(i,'monto') - dw_cp.GetItemNumber(i,'monto_utilizado_dispo'))	
 				montos += dw_cp.GetItemNumber(i,'monto') - dw_cp.GetItemNumber(i,'monto_utilizado')
+				montos_org+=1
 				st_p.dw_obj.SetItem(fila,'monto', dw_cp.GetItemNumber(i,'monto') - dw_cp.GetItemNumber(i,'monto_utilizado'))					
 				st_p.dw_obj.SetItem(fila,'monto_vigente',  dw_cp.GetItemNumber(i,'monto') - dw_cp.GetItemNumber(i,'monto_utilizado'))	
 				st_p.dw_obj.SetItem(fila,'monto_vigente_orig',dw_cp.GetItemNumber(i,'monto_vigente_dispo'))
@@ -274,7 +273,8 @@ elseif st_p.codmod = 'PRSCTPT' or st_p.codmod = 'PRSCTRFC' or st_p.codmod = 'PRN
 		st_p.dw_ter.SetItem(1,'apellido2', dw_1.GetItemString(dw_1.GetRow(),'apellido2'))
 		st_p.dw_ter.SetItem(1,'razon_social', dw_1.GetItemString(dw_1.GetRow(),'razon_social'))
 		st_p.dw_ter.SetItem(1,'monto',montos)
-		st_p.dw_ter.SetItem(1,'monto_org',dw_1.GetItemNumber(dw_1.GetRow(),'monto'))		
+		//st_p.dw_ter.SetItem(1,'monto_org',dw_1.GetItemNumber(dw_1.GetRow(),'monto'))		
+		st_p.dw_ter.SetItem(1,'monto_org',montos)		
 	end if
 end if
 

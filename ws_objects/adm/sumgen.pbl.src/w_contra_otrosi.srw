@@ -402,8 +402,15 @@ if st_p.nuevo then
 	dw_cab.SetItem(fila,'cLugar',st_p.dw_cab.GetItemString(fa,'clugar'))
 	dw_cab.SetItem(fila,'ano',st_p.dw_cab.GetItemNumber(fa,'ano'))
 	dw_cab.SetItem(fila,'ncontrato',st_p.dw_cab.GetItemNumber(fa,'ncontrato'))
-	otro_si = st_p.dw_cab.GetItemNumber(fa,'otrosi') + long(st_p.dw_obj.Describe("evaluate('if(ncontrato="+string(contrato)+",max(otrosi),0)',0)") ) + 1
+	
+	if isnull(st_p.dw_obj.GetItemNumber(1,'max_otrosi')) then  
+		otro_si =0
+	else
+		otro_si=st_p.dw_obj.GetItemNumber(1,'max_otrosi')
+	end if
+	//otro_si = st_p.dw_cab.GetItemNumber(fa,'otrosi') + long(st_p.dw_obj.Describe("evaluate('if(ncontrato="+string(contrato)+",max(otrosi),0)',0)") ) + 1
 	//otro_si=long(st_p.dw_obj.Describe("evaluate('if(ncontrato="+string(contrato)+",max(otrosi),0)',0)") ) + 1
+	otro_si = st_p.dw_cab.GetItemNumber(fa,'otrosi') + otro_si +1
 	dw_cab.SetItem(fila,'otrosi',otro_si)
 	dw_cab.SetItem(fila,'estado','0')
 	dw_cab.SetItem(fila,'tipodoc',st_p.dw_cab.GetItemString(fa,'tipodoc'))
@@ -454,17 +461,7 @@ if st_p.nuevo then
 		t1.p2.dw_fpago_ori.SetItem(i,'otrosi',otro_si)
 		t1.p2.dw_fpago_ori.SetItemStatus(i,0,Primary!,NewModified!)
 	next
-//	st_p.dw_ppto.RowsCopy(1, st_p.dw_ppto.RowCount(), Primary!, t1.p3.dw_ppto, 1, Primary!)
-//	int l_i
-//	for l_i = 1 to t1.p3.dw_ppto.rowcount()
-//		t1.p3.dw_ppto.SetItem(l_i,'otrosi',otro_si)
-//	next
-//	if st_p.dw_ppto.GetItemnumber(st_p.dw_ppto.GetRow(),'total_utilizado')<>0 and st_p.dw_ppto.GetItemnumber(st_p.dw_ppto.GetRow(),'total_utilizado') <> monto_ant then
-//		t1.p1.dw_concab.SetItem(fila,'monto',st_p.dw_ppto.GetItemnumber(st_p.dw_ppto.GetRow(),'total_utilizado'))	
-//		t1.p1.dw_concab.Modify("monto.TabSequence = 0")
-//	else
-//		t1.p1.dw_concab.Modify("monto.TabSequence = 30")
-//	end if
+
 	t1.p3.dw_ppto.Retrieve(dw_cab.GetItemNumber(1,'ano'), dw_cab.GetItemNumber(1,'ncontrato'), st_p.dw_cab.GetItemNumber(fa,'otrosi'))
 	t1.p2.dw_fpago.Retrieve(dw_cab.GetItemNumber(1,'ano'), dw_cab.GetItemNumber(1,'ncontrato'), st_p.dw_cab.GetItemNumber(fa,'otrosi'))
 	t1.p4.dw_oc.Retrieve(dw_cab.GetItemNumber(1,'ano'), dw_cab.GetItemNumber(1,'ncontrato'), st_p.dw_cab.GetItemNumber(fa,'otrosi'))
@@ -843,8 +840,8 @@ end event
 
 type pb_2 from picturebutton within p2
 event mousemove pbm_mousemove
-integer x = 3598
-integer y = 108
+integer x = 5147
+integer y = 104
 integer width = 142
 integer height = 124
 integer taborder = 30
@@ -886,7 +883,7 @@ end event
 type dw_fpago from datawindow within p2
 integer x = 46
 integer y = 108
-integer width = 3488
+integer width = 5093
 integer height = 1116
 integer taborder = 20
 string title = "none"
@@ -959,8 +956,8 @@ end event
 type pb_3 from picturebutton within p2
 event mousemove pbm_mousemove
 string tag = "Borrar Registro"
-integer x = 3598
-integer y = 232
+integer x = 5147
+integer y = 228
 integer width = 142
 integer height = 124
 integer taborder = 40
@@ -1178,6 +1175,7 @@ end type
 event clicked;If dw_cab.RowCount() = 0 then Return
 string valor
 long fila,i,j,k,f
+
 if dw_cab.GetItemString(dw_cab.GetRow(),'Estado') <> '0' then
 	messageBox('Aviso','El documento ya ha sido cerrado. No puede modificarse')
 	Return
