@@ -52,7 +52,6 @@ table(column=(type=char(15) update=yes updatewhereclause=yes name=cproced dbname
  column=(type=char(15) updatewhereclause=yes name=cod_cups dbname="proced.cod_cups" )
  column=(type=char(4) updatewhereclause=yes name=cod_version dbname="proced.cod_version" )
  column=(type=char(4) update=yes updatewhereclause=yes name=cod_modrel dbname="serviciosingreso.cod_modrel" )
- column=(type=char(4) update=yes updatewhereclause=yes name=cod_grpserv dbname="serviciosingreso.cod_grpserv" )
  retrieve="SELECT
 	serviciosingreso.cproced,proced.descripcion,serviciosingreso.cantidad,serviciosingreso.rips,serviciosingreso.contador,
 	serviciosingreso.nservicio,serviciosingreso.estria,serviciosingreso.cprof,serviciosingreso.codespecialidad,
@@ -65,7 +64,7 @@ table(column=(type=char(15) update=yes updatewhereclause=yes name=cproced dbname
 	serviciosingreso.finalidadproced,serviciosingreso.cufuncional,serviciosingreso.cccosto,serviciosingreso.usuario,
 	serviciosingreso.fin_consulta,serviciosingreso.tipo_actoqx,serviciosingreso.tipo_orden,serviciosingreso.remite,
 	serviciosingreso.espe_remite,serviciosingreso.tipo_fac,proced.odonconsul,proced.cod_cups,proced.cod_version,
-	serviciosingreso.cod_modrel,serviciosingreso.cod_grpserv
+	serviciosingreso.cod_modrel
 FROM 
 	serviciosingreso inner join proced on (( serviciosingreso.cproced = proced.codproced ) )
 WHERE 
@@ -97,4 +96,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=0 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 

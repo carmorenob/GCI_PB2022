@@ -738,7 +738,6 @@ if dw_diags.getitemstring(1,'r_tipo_actoqx')<>'0' then dw_serv_ing.setitem(dw_se
 if dw_diags.getitemstring(1,'r_ambitoproced')<>'0' then dw_serv_ing.setitem(dw_serv_ing.getrow(),'ambitoproced',dw_diags.getitemstring(1,'ambitoproced'))
 if dw_diags.getitemstring(1,'r_finalidadproced')<>'0' then dw_serv_ing.setitem(dw_serv_ing.getrow(),'finalidadproced',dw_diags.getitemstring(1,'finalidadproced'))
 if dw_diags.getitemstring(1,'r_codmodrel')<>'0' then dw_serv_ing.setitem(dw_serv_ing.getrow(),'cod_modrel',dw_diags.getitemstring(1,'cod_modrel'))
-if dw_diags.getitemstring(1,'r_codgrpserv')<>'0' then dw_serv_ing.setitem(dw_serv_ing.getrow(),'cod_grpserv',dw_diags.getitemstring(1,'cod_grpserv'))
 if not isnull(dw_diags.getitemstring(1,'remite')) then dw_serv_ing.setitem(dw_serv_ing.getrow(),'remite',dw_diags.getitemstring(1,'remite'))
 if not isnull(dw_diags.getitemstring(1,'espe_remite')) then dw_serv_ing.setitem(dw_serv_ing.getrow(),'espe_remite',dw_diags.getitemstring(1,'espe_remite'))
 
