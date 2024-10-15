@@ -76,7 +76,7 @@ end forward
 
 global type w_af_deprecia from w_center
 string tag = "Ha realizado cambios. Desea guardarlos?"
-integer width = 4869
+integer width = 6030
 integer height = 2260
 string title = "Activos Fijos- Depreciación"
 boolean maxbox = false
@@ -353,7 +353,6 @@ elseif t1.p1.dw_respon.RowCount() > 0 then
 		Return 0
 	end if
 end if
-//f_servicio = datetime(date(dw_asig.GetItemDateTime(dw_asig.RowCount(),'fechaasignacion')))
 f_servicio = datetime(date(dw_asig.GetItemDateTime(dw_asig.RowCount(),'fecha_servicio')))
 if isNull(f_servicio) then 
 	MessageBox('Atención','El activo '+placa+' tiene fecha de asignación en NULO')
@@ -364,7 +363,6 @@ valor = dw_lp.GetItemNumber(dw_lp.GetRow(),'vrcompra')
 vida  = dw_lp.GetItemNumber(dw_lp.GetRow(),'vidautil')
 per.x = datetime(date(ano,mes,1))
 per.y = datetime(f_finmes(date(per.x)))
-//if date(year(date(f_servicio)),month(date(f_servicio)),1) > date(per.X) then
 if date(year(date(f_servicio)),month(date(f_servicio)),1) > date(per.y) then
 	//MessageBox('Atención','La fecha de servicio es superior al periodo a depreciar. ' + placa)
 	Return 1
@@ -413,16 +411,17 @@ if (not isNull(ret.x)) and (not isNull(ret.y)) then
 end if
 
 for i = 1 to dw_asig.RowCount()
-	man.x = dw_asig.GetItemDateTime(i,'fechaasignacion')
-	man.y = dw_asig.GetItemDateTime(i,'fechatraslado')
+	man.x = datetime(date(dw_asig.GetItemDateTime(i,'fechaasignacion')))
+	man.y = datetime(date(dw_asig.GetItemDateTime(i,'fechatraslado')))
+	if man.x=man.y then continue
 	ret = interseccion(per,man)
 	if (not isNull(ret.x)) and (not isNull(ret.y)) then
 		
 		for j = 1 to t1.p2.dw_mantto.RowCount()
 			tipo = t1.p2.dw_mantto.GetItemString(j,'tipo')
 			if tipo = '0' or tipo ='3' then
-				man.x = t1.p2.dw_mantto.GetItemDateTime(j,'fecha_inicia')
-				man.y = t1.p2.dw_mantto.GetItemDateTime(j,'fecha_termina')
+				man.x = datetime(date(t1.p2.dw_mantto.GetItemDateTime(j,'fecha_inicia')))
+				man.y = datetime(date(t1.p2.dw_mantto.GetItemDateTime(j,'fecha_termina')))
 				
 				per = interseccion(ret,man)
 				if (not isNull(per.x)) and (not isNull(per.y)) then
@@ -739,8 +738,8 @@ end event
 type pb_cerrar from picturebutton within w_af_deprecia
 event mousemove pbm_mousemove
 string tag = "Cerrar"
-integer x = 3721
-integer y = 408
+integer x = 4370
+integer y = 56
 integer width = 142
 integer height = 124
 integer taborder = 90
@@ -764,7 +763,7 @@ end event
 type gb_1 from groupbox within w_af_deprecia
 integer x = 14
 integer y = 196
-integer width = 3506
+integer width = 5970
 integer height = 616
 integer textsize = -8
 integer weight = 700
@@ -798,10 +797,10 @@ end type
 
 type st_2 from statictext within w_af_deprecia
 boolean visible = false
-integer x = 3561
-integer y = 548
-integer width = 1193
-integer height = 276
+integer x = 4594
+integer y = 12
+integer width = 1371
+integer height = 184
 boolean bringtotop = true
 integer textsize = -8
 integer weight = 400
@@ -916,7 +915,7 @@ event create ( )
 event destroy ( )
 integer x = 14
 integer y = 872
-integer width = 4805
+integer width = 5966
 integer height = 1236
 integer taborder = 30
 boolean bringtotop = true
@@ -956,7 +955,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 4768
+integer width = 5929
 integer height = 1108
 long backcolor = 67108864
 string text = "Depreciación"
@@ -986,8 +985,8 @@ end on
 type pb_3 from picturebutton within p1
 event mousemove pbm_mousemove
 boolean visible = false
-integer x = 4553
-integer y = 192
+integer x = 4562
+integer y = 196
 integer width = 142
 integer height = 124
 integer taborder = 60
@@ -1020,8 +1019,8 @@ end event
 type pb_4 from picturebutton within p1
 event mousemove pbm_mousemove
 string tag = "Cerrar"
-integer x = 4553
-integer y = 64
+integer x = 4562
+integer y = 68
 integer width = 142
 integer height = 124
 integer taborder = 120
@@ -1161,7 +1160,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 4768
+integer width = 5929
 integer height = 1108
 long backcolor = 67108864
 string text = "Manttto / Valoriz.s"
@@ -1208,7 +1207,7 @@ end event
 type p3 from userobject within t1
 integer x = 18
 integer y = 112
-integer width = 4768
+integer width = 5929
 integer height = 1108
 long backcolor = 67108864
 string text = "Comodatos"
@@ -1246,8 +1245,8 @@ event constructor;setTransObject(SQLCA)
 end event
 
 type em_1 from editmask within w_af_deprecia
-integer x = 3566
-integer y = 300
+integer x = 3305
+integer y = 104
 integer width = 343
 integer height = 88
 integer taborder = 70
@@ -1267,8 +1266,8 @@ string minmax = "2000~~2050"
 end type
 
 type ddlb_1 from dropdownlistbox within w_af_deprecia
-integer x = 3941
-integer y = 300
+integer x = 3680
+integer y = 104
 integer width = 434
 integer height = 352
 integer taborder = 70
@@ -1287,8 +1286,8 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type st_3 from statictext within w_af_deprecia
-integer x = 3566
-integer y = 236
+integer x = 3305
+integer y = 40
 integer width = 489
 integer height = 56
 boolean bringtotop = true
@@ -1307,7 +1306,7 @@ end type
 type dw_lp from datawindow within w_af_deprecia
 integer x = 59
 integer y = 272
-integer width = 3410
+integer width = 5879
 integer height = 500
 integer taborder = 130
 boolean bringtotop = true
@@ -1374,8 +1373,8 @@ end event
 type pb_2 from picturebutton within w_af_deprecia
 event mousemove pbm_mousemove
 string tag = "Cerrar"
-integer x = 3570
-integer y = 404
+integer x = 4183
+integer y = 52
 integer width = 142
 integer height = 124
 integer taborder = 130
@@ -1504,7 +1503,7 @@ end type
 type dw_alm from datawindow within w_af_deprecia
 integer x = 1413
 integer y = 92
-integer width = 1157
+integer width = 1161
 integer height = 72
 integer taborder = 90
 boolean bringtotop = true
@@ -1521,7 +1520,7 @@ InsertRow(0)
 end event
 
 event itemchanged;if AcceptText() = -1 then Return 0
-dw_lp.Retrieve(GetItemString(1,1))
+dw_lp.Retrieve(data)
 
 end event
 
