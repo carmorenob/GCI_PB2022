@@ -1225,7 +1225,6 @@ ldb_sitem=tab_1.tp_2.tab_cmod.modifi.dw_histo.getitemnumber(1,'msitem')
 if isnull(ldb_sitem) then ldb_sitem=0
 ldb_sitem++
 
-
 tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'codbanco',i_banco)
 tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'tipo_cuenta',i_tcuenta)
 tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'numcuenta',i_ncuenta)
@@ -1234,9 +1233,9 @@ tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'item',ldb_item)
 tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'sitem',ldb_sitem)
 tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'fecha',datetime(today(),now()))
 tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'usuario',usuario)
-tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'tipodoc',dw_nota.getitemstring(1,'tipodoc'))
-tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'documento',dw_nota.getitemstring(1,'documento'))
-tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'cod_nota',dw_nota.getitemstring(1,'cod_nota'))
+tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'tipodoc',dw_nota.getitemstring(dw_nota.getrow(),'tipodoc'))
+tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'documento',dw_nota.getitemstring(dw_nota.getrow(),'documento'))
+tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'cod_nota',dw_nota.getitemstring(dw_nota.getrow(),'cod_nota'))
 tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'contabil','P')
 dw_nota.modify ("tipodoc.Protect=0")
 dw_nota.modify ("documento.Protect=0")
