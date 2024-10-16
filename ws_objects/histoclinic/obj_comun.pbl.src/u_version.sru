@@ -24,7 +24,7 @@ end on
 
 event constructor;i_version_asis='6.0.0.118'
 i_version_adm='5.0.0.78'
-i_vers_conf='6.0.0.41'
+i_vers_conf='6.0.0.42'
 i_vers_grep='2.0.0.3'
 end event
 
