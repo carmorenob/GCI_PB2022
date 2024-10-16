@@ -5,25 +5,26 @@ header(height=60 color="536870912" transparency="0" gradient.color="8421504" gra
 summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 detail(height=64 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
-table(column=(type=char(3) update=yes updatewhereclause=yes key=yes name=codbanco dbname="tesocuentas_tnota.codbanco" )
- column=(type=char(1) update=yes updatewhereclause=yes key=yes name=tipo_cuenta dbname="tesocuentas_tnota.tipo_cuenta" )
- column=(type=char(150) update=yes updatewhereclause=yes key=yes name=numcuenta dbname="tesocuentas_tnota.numcuenta" )
- column=(type=char(2) update=yes updatewhereclause=yes key=yes name=clugar dbname="tesocuentas_tnota.clugar" )
- column=(type=number update=yes updatewhereclause=yes key=yes name=item dbname="tesocuentas_tnota.item" )
- column=(type=number update=yes updatewhereclause=yes key=yes name=sitem dbname="tesocuentas_tnota.sitem" )
- column=(type=datetime update=yes updatewhereclause=yes name=fecha dbname="tesocuentas_tnota.fecha" )
- column=(type=char(250) update=yes updatewhereclause=yes name=detalle dbname="tesocuentas_tnota.detalle" )
- column=(type=char(10) update=yes updatewhereclause=yes name=usuario dbname="tesocuentas_tnota.usuario" )
- column=(type=char(3) update=yes updatewhereclause=yes name=tipodoc dbname="tesocuentas_tnota.tipodoc" )
- column=(type=char(15) update=yes updatewhereclause=yes name=documento dbname="tesocuentas_tnota.documento" )
- column=(type=char(4) update=yes updatewhereclause=yes name=cod_nota dbname="tesocuentas_tnota.cod_nota" )
- column=(type=char(1) update=yes updatewhereclause=yes name=contabil dbname="tesocuentas_tnota.contabil" values="Pendiente	P/Contabilizado	C/" )
- column=(type=char(100) updatewhereclause=yes name=descripcion dbname="tesocuentas_tnota.descripcion" )
- column=(type=char(20) updatewhereclause=yes name=nombre1 dbname="tesocuentas_tnota.nombre1" )
- column=(type=char(20) updatewhereclause=yes name=nombre2 dbname="tesocuentas_tnota.nombre2" )
- column=(type=char(20) updatewhereclause=yes name=apellido1 dbname="tesocuentas_tnota.apellido1" )
- column=(type=char(20) updatewhereclause=yes name=apellido2 dbname="tesocuentas_tnota.apellido2" )
- column=(type=char(250) updatewhereclause=yes name=razon_social dbname="tesocuentas_tnota.razon_social" )
+table(column=(type=char(3) update=yes updatewhereclause=yes key=yes name=codbanco dbname="tesocuentas_tnota.codbanco" dbalias=".codbanco" )
+ column=(type=char(1) update=yes updatewhereclause=yes key=yes name=tipo_cuenta dbname="tesocuentas_tnota.tipo_cuenta" dbalias=".tipo_cuenta" )
+ column=(type=char(150) update=yes updatewhereclause=yes key=yes name=numcuenta dbname="tesocuentas_tnota.numcuenta" dbalias=".numcuenta" )
+ column=(type=char(2) update=yes updatewhereclause=yes key=yes name=clugar dbname="tesocuentas_tnota.clugar" dbalias=".clugar" )
+ column=(type=number update=yes updatewhereclause=yes key=yes name=item dbname="tesocuentas_tnota.item" dbalias=".item" )
+ column=(type=number update=yes updatewhereclause=yes key=yes name=sitem dbname="tesocuentas_tnota.sitem" dbalias=".sitem" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha dbname="tesocuentas_tnota.fecha" dbalias=".fecha" )
+ column=(type=char(250) update=yes updatewhereclause=yes name=detalle dbname="tesocuentas_tnota.detalle" dbalias=".detalle" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=usuario dbname="tesocuentas_tnota.usuario" dbalias=".usuario" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=tipodoc dbname="tesocuentas_tnota.tipodoc" dbalias=".tipodoc" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=documento dbname="tesocuentas_tnota.documento" dbalias=".documento" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=cod_nota dbname="tesocuentas_tnota.cod_nota" dbalias=".cod_nota" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=contabil dbname="tesocuentas_tnota.contabil" dbalias=".contabil" values="Pendiente	P/Contabilizado	C/" )
+ column=(type=char(100) updatewhereclause=yes name=descripcion dbname="tesocuentas_tnota.descripcion" dbalias=".descripcion" )
+ column=(type=char(20) updatewhereclause=yes name=nombre1 dbname="tesocuentas_tnota.nombre1" dbalias=".nombre1" )
+ column=(type=char(20) updatewhereclause=yes name=nombre2 dbname="tesocuentas_tnota.nombre2" dbalias=".nombre2" )
+ column=(type=char(20) updatewhereclause=yes name=apellido1 dbname="tesocuentas_tnota.apellido1" dbalias=".apellido1" )
+ column=(type=char(20) updatewhereclause=yes name=apellido2 dbname="tesocuentas_tnota.apellido2" dbalias=".apellido2" )
+ column=(type=char(250) updatewhereclause=yes name=razon_social dbname="tesocuentas_tnota.razon_social" dbalias=".razon_social" )
+ column=(type=long updatewhereclause=yes name=signo dbname="signo" )
  retrieve="SELECT
 	tesocuentasmovi_histo.codbanco,tesocuentasmovi_histo.tipo_cuenta,
 	tesocuentasmovi_histo.numcuenta,tesocuentasmovi_histo.clugar,
@@ -31,7 +32,8 @@ table(column=(type=char(3) update=yes updatewhereclause=yes key=yes name=codbanc
 	tesocuentasmovi_histo.fecha,tesocuentasmovi_histo.detalle,
 	tesocuentasmovi_histo.usuario,tesocuentasmovi_histo.tipodoc,tesocuentasmovi_histo.documento,
 	tesocuentasmovi_histo.cod_nota,tesocuentasmovi_histo.contabil,
-	tesocuentas_tnota.descripcion, terceros.nombre1, terceros.nombre2, terceros.apellido1, terceros.apellido2, terceros.razon_social
+	tesocuentas_tnota.descripcion, terceros.nombre1, terceros.nombre2, terceros.apellido1, terceros.apellido2, terceros.razon_social,
+	1 as signo
 FROM 
 	(tesocuentasmovi_histo 
 	LEFT JOIN terceros ON (tesocuentasmovi_histo.documento = terceros.documento) AND (tesocuentasmovi_histo.tipodoc = terceros.tipodoc)) 

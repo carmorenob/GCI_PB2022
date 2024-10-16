@@ -180,10 +180,12 @@ if tab_1.tp_2.dw_nota.getitemstring(1,'de_transferencia')='1' then
 		messagebox("Atención",'Debe elegir el banco ,la cuenta destino y el tipo de nota')
 		return -1
 	end if
+	
 	if ot_banco=i_banco and ot_cuenta=i_ncuenta and ot_tcuenta=i_tcuenta then 
 		messagebox("Atención",'La cuenta destino no puede ser la misma')
 		return -1
 	end if
+	
 	select max(item) into :nnota2 from tesocuentasmovi where codbanco=:ot_banco and tipo_cuenta=:ot_tcuenta and numcuenta=:ot_cuenta;
 	if sqlca.sqlcode=-1 then
 		err=sqlca.sqlerrtext
@@ -191,6 +193,7 @@ if tab_1.tp_2.dw_nota.getitemstring(1,'de_transferencia')='1' then
 		messagebox('Error leyendo tesocuentasmovi',err)
 		return -1
 	end if
+	
 	if isnull (nnota2) then nnota2=0
 	nnota2 ++
 	fecha=tab_1.tp_2.dw_nota.getitemdatetime(1,'fecha')
@@ -1147,6 +1150,11 @@ tab_1.tp_2.tab_cmod.modifi.dw_histo.accepttext()
 integer li_ctrl=2
 string ls_nulo
 
+if tab_1.tp_2.tab_cmod.modifi.dw_histo.getitemstring(1,'signo')<>dw_nota.getitemstring(1,'signo') then
+	messagebox('Atención','Nota de Naturaleza diferente a la inicial no se puede ejecutar este cambio')
+	return
+end if
+
 setnull(ls_nulo)
 if tab_1.tp_2.tab_cmod.modifi.dw_histo.getitemstring(1,'documento')=dw_nota.getitemstring(1,'documento') then
 	li_ctrl --
@@ -1237,6 +1245,7 @@ tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'usuario',usuario)
 tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'tipodoc',dw_nota.getitemstring(dw_nota.getrow(),'tipodoc'))
 tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'documento',dw_nota.getitemstring(dw_nota.getrow(),'documento'))
 tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'cod_nota',dw_nota.getitemstring(dw_nota.getrow(),'cod_nota'))
+tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'signo',dw_nota.getitemnumber(dw_nota.getrow(),'signo'))
 tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'contabil','P')
 dw_nota.modify ("tipodoc.Protect=0")
 dw_nota.modify ("documento.Protect=0")
@@ -1434,24 +1443,30 @@ choose case dwo.name
 		if not f_valida_fecha( datetime(data) , 'M' , 2 ,datetime(string(today())+' '+string(now())) ,'Y' ) then
 			return 2
 		end if
+		
 	case 'fecha2'
 		if not f_valida_fecha( datetime(data) , 'M' , 2 ,datetime(string(today())+' '+string(now())),'Y' ) then
 			return 2
 		end if
+		
 	case 'cod_nota'
 		setitem(row,'naturaleza',idw_nota1.getitemnumber(idw_nota1.getrow(),'naturaleza'))
 		setitem(row,'de_transferencia',idw_nota1.getitemstring(idw_nota1.getrow(),'de_transferencia'))
 		setitem(row,'tercero',idw_nota1.getitemstring(idw_nota1.getrow(),'tercero'))
 		setitem(row,'tipo',nulo)
+		
 	case 'codbanco_2'
 		setitem(row,'numcuenta_2',nulo)
 		setitem(row,'tipo_cuenta_2',nulo)
 		idw_cuenta2.retrieve(data)
+		
 	case 'numcuenta_2'
 		setitem(row,'tipo_cuenta_2',idw_cuenta2.getitemstring(idw_cuenta2.getrow(),'tipo_cuenta'))
+		
 	case "tipodoc"
 		setitem(getrow(),"documento",nulo)
 		accepttext()
+		
 	case "documento"
 		string tdoc,doc,dverif,persona,nom1,nom2,ape1,ape2,rsoc
 		tdoc=getitemstring(getrow(),"tipodoc")
