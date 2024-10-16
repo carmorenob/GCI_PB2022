@@ -44,12 +44,11 @@ string gs_inv='Jorca2021'
 // para el objeto de reporte los valores son : documento!,interno!,menu!,externo!
 boolean g_demo=false,g_formula=true
 string g_firma, g_logo_agua,tipo_pais,g_vencimiento //para lo de lotes
-string g_aplicacion='histo_clinic',g_version='6.0.0.116'
+string g_aplicacion='histo_clinic',g_version='6.0.0.117'
 string gs_oxigeno
 date usu_fecha_ini, usu_fecha_fin
 uo_transaction gt_sqlca
 end variables
-
 global type histo_clinic from application
 string appname = "histo_clinic"
 string toolbarframetitle = "Barra de Herramientas"
