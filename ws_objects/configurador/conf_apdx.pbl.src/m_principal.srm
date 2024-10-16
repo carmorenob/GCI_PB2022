@@ -1091,8 +1091,8 @@ on m_1.create
 call super::create
 this.tag = "Opciones"
 this.text = "Archivo"
-this.microhelp = "Archivo"
-this.toolbaritemtext = "Campos PEDT"
+this.microhelp = "Opciones"
+this.toolbaritemtext = "Opciones"
 this.menustyle = contemporarymenu!
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
