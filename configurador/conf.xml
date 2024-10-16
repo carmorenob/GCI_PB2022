@@ -13,7 +13,7 @@
               <Item Checked="false" Clicked="e_personaliza" Enabled="true" PictureName="ribon_personaliza.ico" Tag="Seguridad Personalización" Text="Personalización" Type="0" Visible="true" />
             </Menu>
           </LargeButton>
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_opcion.bmp" Text="Opciones" Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_opcion.bmp" Tag="Opciones" Text="Opciones" Visible="true">
             <Menu>
               <Item Checked="false" Clicked="e_cversion" Enabled="true" PictureName="ribon_version.ico" Tag="Control Versiones" Text="Control Versiones" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_parametros" Enabled="true" PictureName="ribon_param.ico" Tag="Parametros Generales" Text="Parametros Generales" Type="0" Visible="true" />
