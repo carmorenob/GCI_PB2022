@@ -69,7 +69,7 @@ table(column=(type=number update=yes updatewhereclause=yes key=yes name=contador
  column=(type=char(5) update=yes updatewhereclause=yes name=espe_remite dbname="diags.espe_remite" )
  column=(type=char(1) update=yes updatewhereclause=yes name=tipo_fac dbname="diags.tipo_fac" )
  column=(type=char(1) updatewhereclause=yes name=r_codmodrel dbname="rips.r_codmodrel" )
- column=(type=char(4) update=yes updatewhereclause=yes name=cod_modrel dbname="rips.cod_modrel" initial="'01'" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=cod_modrel dbname="rips.cod_modrel" initial="01" )
  retrieve="SELECT 
 	ServiciosIngreso.Contador, ServiciosIngreso.CLugar, ServiciosIngreso.Nservicio, 
 	ServiciosIngreso.diagprin, Diags.cod_rips AS codrip_prin, ServiciosIngreso.tipodiagprin,rips.tipodiagprin AS r_tipodiagprin, 

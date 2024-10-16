@@ -407,7 +407,7 @@ if isnull(cod_plant) then
 else
 
 	sqlca.autocommit=true
-	selectblob plantilla_new into :iblb_plantilla from hc_plantilla
+	selectblob plantilla into :iblb_plantilla from hc_plantilla
 	where codplantilla=:cod_plant and numcampo=:ncampo and item=:item;
 	sqlca.autocommit=false
 	
@@ -828,7 +828,7 @@ blob texto
 texto=blob(mle_2.text)
 if not isnull(texto) and texto<>blob('') then
 	sqlca.autocommit=true
-	updateblob hc_plantilla set plantilla_new=:texto 
+	updateblob hc_plantilla set plantilla=:texto 
 	where codplantilla =:i_st.codplantilla  and numcampo =:i_st.numcampo and item=:i_item;
 	if sqlca.sqlcode=-1 then
 		messagebox("Error actualizando campo plantilla",sqlca.sqlerrtext)
