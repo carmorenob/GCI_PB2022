@@ -1150,7 +1150,8 @@ string ls_nulo
 setnull(ls_nulo)
 if tab_1.tp_2.tab_cmod.modifi.dw_histo.getitemstring(1,'documento')=dw_nota.getitemstring(1,'documento') then
 	li_ctrl --
-	tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'documento',ls_nulo)
+	tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'tipodoc',ls_nulo)
+	tab_1.tp_2.tab_cmod.modifi.dw_histo.setitem(1,'documento',ls_nulo)	
 end if
 
 if tab_1.tp_2.tab_cmod.modifi.dw_histo.getitemstring(1,'cod_nota')=dw_nota.getitemstring(1,'cod_nota') then
