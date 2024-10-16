@@ -226,11 +226,8 @@ choose case row
 		scrolltorow(row)
 		setcolumn("campo")
 	case 5 //quitar filtros
-		string jaer
-		jaer=i_st.dw.describe('datawindow.table.filter')
 		//f_quitafiltro(i_st.dw,i_st.color_fondo)
 		f_quita_fil()
-		jaer=i_st.dw.describe('datawindow.table.filter')
 		i_st.dw.triggerevent(rowfocuschanged!)
 		//if isValid(i_st.dw_cab) then i_st.dw_cab.triggerEvent(rowfocuschanged!)
 		close(w_funcion_dw)

@@ -854,18 +854,50 @@ end if
 ante=getrow()
 setredraw(false)
 dw_cpo.setredraw(false)
-for j=1 to rowcount()
-	scrolltorow(j)
-	setitem(j,'esco',esc)
-next
-dw_cpo.setfilter('')
-dw_cpo.filter()
-for j=1 to dw_cpo.rowcount()
-	dw_cpo.setitem(j,'visible',esc)
-next
-dw_cpo.setfilter("visible='1'")
-dw_cpo.filter()
-DW_CPO.SORT()
+
+string ls_filt
+ls_filt=describe('datawindow.table.filter')
+
+if ls_filt='?' then
+	for j=1 to rowcount()
+		scrolltorow(j)
+		setitem(j,'esco',esc)
+	next
+	dw_cpo.setfilter('')
+	dw_cpo.filter()
+	
+	for j=1 to dw_cpo.rowcount()
+		dw_cpo.setitem(j,'visible',esc)
+	next
+	dw_cpo.setfilter("visible='1'")
+	dw_cpo.filter()
+else
+	ls_filt=''
+	dw_cpo.setfilter('')
+	dw_cpo.filter()
+	for j=1 to rowcount()
+		scrolltorow(j)
+		setitem(j,'esco',esc)
+		if ls_filt<>'' then ls_filt=ls_filt+' OR '
+		choose case i_campos
+			case 2,3
+				ls_filt=ls_filt+"(#2='"+getitemstring(j,2)+"' and #1="+string(getitemnumber(j,1))+")"
+			case 5
+				ls_filt=ls_filt+"(#1='"+getitemstring(getrow(),1)+"' and #2='"+getitemstring(j,2)+"' and #3="+string(getitemnumber(j,3))+" and #4='"+getitemstring(j,4)+"' and #5="+string(getitemnumber(j,5))+")"
+			case 6
+				ls_filt=ls_filt+"(#1='"+getitemstring(j,1)+"' and #2='"+getitemstring(j,2)+"' and #3="+string(getitemnumber(j,3))+" and #4='"+getitemstring(j,4)+"' and #5="+string(getitemnumber(getrow(),5))+" and #6="+string(getitemnumber(j,6))+")"
+		end choose
+	next
+	dw_cpo.setfilter(ls_filt)
+	dw_cpo.filter()
+	for j=1 to dw_cpo.rowcount()
+		dw_cpo.setitem(j,'visible',esc)
+	next
+	dw_cpo.setfilter("("+ls_filt+") and visible='1'")
+	dw_cpo.filter()
+end if
+
+dw_cpo.SORT()
 scrolltorow(ante)
 dw_cpo.setredraw(true)
 setredraw(true)
