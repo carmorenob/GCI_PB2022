@@ -5,10 +5,10 @@ COM:GCI Ltda.
 DES:Gestión Clínica Integrada
 CPY:2000-2025
 PRD:GCI Asistencial
-PVS:6,0,0,117
-PVN:6,0,0,117
-FVS:6,0,0,117
-FVN:6,0,0,117
+PVS:6,0,0,118
+PVN:6,0,0,118
+FVS:6,0,0,118
+FVN:6,0,0,118
 MAN:0,asInvoker,0
 PBD:histo_clinic.pbl,,1
 PBD:obj_comun.pbl,,1
