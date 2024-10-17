@@ -847,7 +847,12 @@ if pos('2347',i_tingre)>0 then
 end if
 dw_campo.setfilter('')
 dw_campo.filter()
-if dw_campo.find('tipo="M" and tipo_memo="D"',1,dw_campo.rowcount())>0 and uo_1.dw_diags.getitemstatus(1,0,primary!)=datamodified! then
+
+dwItemStatus ls_j
+
+ls_j=uo_1.dw_diags.getitemstatus(1,0,primary!)
+
+if dw_campo.find('tipo="M" and tipo_memo="D"',1,dw_campo.rowcount())>0 and (uo_1.dw_diags.getitemstatus(1,0,primary!)=datamodified! or uo_1.dw_diags.getitemstatus(1,0,primary!)=NewModified!) then
 	string snulo
 	setnull(snulo)
 	uo_datastore ds_diag
@@ -946,36 +951,43 @@ if dw_campo.find('tipo="M" and tipo_memo="D"',1,dw_campo.rowcount())>0 and uo_1.
 			ds_diag.setitem(1,'tipodiagprin',uo_1.dw_diags.getitemstring(1,'tipo_diag'))
 			ds_diag.setitem(1,'causaexterna',uo_1.dw_diags.getitemstring(1,'causaext'))
 			ds_diag.setitem(1,'fin_consulta',uo_1.dw_diags.getitemstring(1,'finalidad'))
-			if uo_1.dw_diags.getitemstring(1,'r_diagprin')='' then
+			
+			if isnull(uo_1.dw_diags.getitemstring(1,'r_diagprin'))  or uo_1.dw_diags.getitemstring(1,'r_diagprin')='' then
 				ds_diag.setitem(1,'diagprin',snulo)
 			else
 				ds_diag.setitem(1,'diagprin',uo_1.dw_diags.getitemstring(1,'r_diagprin'))
 			end if
+			
 			if uo_1.dw_diags.getitemstring(1,'r_diagrel1')='' then
 				ds_diag.setitem(1,'diagrel1',snulo)
 			else
 				ds_diag.setitem(1,'diagrel1',uo_1.dw_diags.getitemstring(1,'r_diagrel1'))
 			end if
+			
 			if uo_1.dw_diags.getitemstring(1,'r_diagrel2')='' then
 				ds_diag.setitem(1,'diagrel2',snulo)
 			else
 				ds_diag.setitem(1,'diagrel2',uo_1.dw_diags.getitemstring(1,'r_diagrel2'))
 			end if
+			
 			if uo_1.dw_diags.getitemstring(1,'r_diagrel3')='' then
 				ds_diag.setitem(1,'diagrel3',snulo)
 			else
 				ds_diag.setitem(1,'diagrel3',uo_1.dw_diags.getitemstring(1,'r_diagrel3'))
 			end if
+			
 			if uo_1.dw_diags.getitemstring(1,'r_diagrel4')='' then
 				ds_diag.setitem(1,'diagrel4',snulo)
 			else
 				ds_diag.setitem(1,'diagrel4',uo_1.dw_diags.getitemstring(1,'r_diagrel4'))
 			end if
+			
 			if uo_1.dw_diags.getitemstring(1,'r_diagrel5')='' then
 				ds_diag.setitem(1,'diagrel5',snulo)
 			else
 				ds_diag.setitem(1,'diagrel5',uo_1.dw_diags.getitemstring(1,'r_diagrel5'))
 			end if
+			
 			if uo_1.dw_diags.getitemstring(1,'r_diagcompli')='' then
 				ds_diag.setitem(1,'diagcompli',snulo)
 			else
@@ -2617,7 +2629,7 @@ event keypres pbm_keydown
 integer x = 1545
 integer y = 768
 integer width = 4402
-integer height = 170
+integer height = 172
 integer taborder = 30
 end type
 

@@ -257,18 +257,24 @@ else //de cons ext/odonto
 	ds.dataobject='dw_diags_cext'
 	ds.settransobject(sqlca)
 	if ds.retrieve(i_contador,i_clug)=0 then goto sale//los r_ son los reales de la BD
-	if isnull(ds.getitemstring(1,'diagprin')) then
-		string cods,desd
-		if not isnull(dw_diags.getitemstring(1,'dx')) then 
-			dw_diags.setitem(1,'r_diagprin',dw_diags.getitemstring(1,'dx'))
-			cods=dw_diags.getitemstring(1,'dx')
-			SELECT diags.desdiag into :desd
+	if isnull(ds.getitemstring(1,'diagprin')) or ds.getitemstring(1,'diagprin')='' then
+		string ls_cods,ls_desd
+		
+		if not isnull(dw_diags.getitemstring(1,'dx')) or dw_diags.getitemstring(1,'dx')='' then 
+			ls_cods=dw_diags.getitemstring(1,'dx')
+
+			SELECT diags.desdiag into :ls_desd
 			FROM diags INNER JOIN diags_version ON diags.c_version = diags_version.c_version
-			WHERE (((diags_version.val_hasta)>=getdate()) AND ((diags.codgeral)=:cods));
-			dw_diags.setitem(1,'d_diagprin',desd)
+			WHERE (((diags_version.val_hasta)>=getdate()) AND ((diags.codgeral)=:ls_cods));
+			
+			dw_diags.setitem(1,'r_diagprin',dw_diags.getitemstring(1,'dx'))
+			dw_diags.setitem(1,'d_diagprin',ls_desd)
 			dw_diags.Modify("r_diagprin.protect=1")
 		else
-			dw_diags.Modify("r_diagprin.protect=0")
+			setnull(ls_cods)
+			dw_diags.setitem(1,'r_diagprin',ls_cods)
+			dw_diags.setitem(1,'d_diagprin',ls_cods)
+			dw_diags.Modify("r_diagprin.protect=0")	
 		end if
 	else
 		dw_diags.setitem(1,'r_diagprin',ds.getitemstring(1,'diagprin'))
@@ -1471,6 +1477,7 @@ end event
 type dw_diags from datawindow within uo_barra_hc
 event mousemove pbm_dwnmousemove
 event key pbm_dwnkey
+event p_itemchanged ( )
 integer x = 457
 integer width = 3986
 integer height = 208
@@ -1482,6 +1489,9 @@ boolean border = false
 end type
 
 event key;if key=i_nextitem or key=i_previtem or key=i_nextchild then parent.event navegar(key)
+end event
+
+event p_itemchanged();this.accepttext()
 end event
 
 event retrieveend;if rowcount()=0 then return
@@ -1700,6 +1710,7 @@ choose case dwo.name
 			i_st.text=st.descrip_diag
 			i_uo_padre.i_cambia=true
 		end if
+		
 	case 'est_sale'
 		if data='1' then
 			if isnull(getitemstring(1,'profe')) or trim(getitemstring(1,'profe'))='' then 
@@ -1708,7 +1719,7 @@ choose case dwo.name
 			end if
 		end if
 end choose
-
+post event p_itemchanged()
 end event
 
 event itemfocuschanged;string cual
@@ -1728,6 +1739,7 @@ choose case cual
 	case else
 		i_st.text=''
 end choose
+post event p_itemchanged()
 end event
 
 event doubleclicked;choose case dwo.name
@@ -1748,6 +1760,10 @@ event doubleclicked;choose case dwo.name
 		i_st.text=st_diag.descripcion
 		i_uo_padre.i_cambia=true
 end choose
+end event
+
+event rowfocuschanged;post event p_itemchanged()
+
 end event
 
 type pb_lleva from picturebutton within uo_barra_hc
