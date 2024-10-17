@@ -848,11 +848,11 @@ end if
 dw_campo.setfilter('')
 dw_campo.filter()
 
-dwItemStatus ls_j
+dwItemStatus ls_stat
 
-ls_j=uo_1.dw_diags.getitemstatus(1,0,primary!)
+ls_stat=uo_1.dw_diags.getitemstatus(1,0,primary!)
 
-if dw_campo.find('tipo="M" and tipo_memo="D"',1,dw_campo.rowcount())>0 and (uo_1.dw_diags.getitemstatus(1,0,primary!)=datamodified! or uo_1.dw_diags.getitemstatus(1,0,primary!)=NewModified!) then
+if dw_campo.find('tipo="M" and tipo_memo="D"',1,dw_campo.rowcount())>0 and (ls_stat=datamodified! or ls_stat=NewModified!) then
 	string snulo
 	setnull(snulo)
 	uo_datastore ds_diag

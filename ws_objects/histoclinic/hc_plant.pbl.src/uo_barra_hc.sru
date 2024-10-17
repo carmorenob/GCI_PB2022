@@ -1648,8 +1648,9 @@ idw_fincon.filter()
 
 end event
 
-event itemchanged;string nulo
-setnull(nulo)
+event itemchanged;string ls_nulo
+setnull(ls_nulo)
+
 if pos('2347',i_uo_padre.i_tingre)>0 and i_uo_padre.i_estado_hadm<>'1' and i_uo_padre.i_puede_modif=false then
 	messagebox('Atención','La admisión ya se encuentra cerrada')
 	return 2
@@ -1661,13 +1662,13 @@ choose case dwo.name
 		if (data>='01' and data<= '08') then 
 			this.setitem(row,'causaext',"15")
 		else
-			this.setitem(row,'causaext',nulo)
+			this.setitem(row,'causaext',ls_nulo)
 		end if 
 		this.accepttext()
 		veri=f_valida_fin_con(this.getitemstring(row,'finalidad'),this.getitemstring(row,'causaext'),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),this.getitemstring(row,'r_diagprin'))
 		if veri=-1 then
-			this.setitem(row,'finalidad',nulo)
-			this.setitem(row,'causaext',nulo)
+			this.setitem(row,'finalidad',ls_nulo)
+			this.setitem(row,'causaext',ls_nulo)
 			this.accepttext()
 			return 2
 		end if
@@ -1676,7 +1677,7 @@ choose case dwo.name
 		this.accepttext()
 		veri=f_valida_fin_con(this.getitemstring(row,'finalidad'),this.getitemstring(row,'causaext'),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),this.getitemstring(row,'r_diagprin'))
 		if veri=-1 then
-			this.setitem(row,'causaext',nulo)
+			this.setitem(row,'causaext',ls_nulo)
 			this.accepttext()
 			return 2
 		end if
@@ -1685,16 +1686,16 @@ choose case dwo.name
 		st_return_diags st
 		long nnul
 		setnull(nnul)
-		setnull(nulo)
+		setnull(ls_nulo)
 		if trim(data)="" then 
-			setitem(1,dwo.name,nulo)
+			setitem(1,dwo.name,ls_nulo)
 			return
 		end if
 		sex_busca=w_principal.dw_1.getitemstring(1,"sexo_t")
 		edad_busca=w_principal.dw_1.getitemnumber(1,"dias")
 		st=f_check_diag2(data,sex_busca,edad_busca)
 		if st.descrip_diag="" then
-			setitem(1,dwo.name,nulo)
+			setitem(1,dwo.name,ls_nulo)
 			setitem(1,"r_"+mid(dwo.name,3),'')
 			setitem(1,"d_"+mid(dwo.name,3),'')
 			setitem(1,"vigila_"+mid(dwo.name,3),nnul)
@@ -1710,6 +1711,7 @@ choose case dwo.name
 			i_st.text=st.descrip_diag
 			i_uo_padre.i_cambia=true
 		end if
+		accepttext()
 		
 	case 'est_sale'
 		if data='1' then
@@ -1786,8 +1788,7 @@ alignment htextalign = left!
 string powertiptext = "Colocar plantilla y datos de Diags."
 end type
 
-event clicked;
-UpdateRTE()
+event clicked;UpdateRTE()
 
 idw_frm.setitem(idw_frm.getrow(),'memo_'+string(i_ncampo),i_mle.text)	
 
@@ -1856,6 +1857,9 @@ event clicked;if pos('2347T',i_uo_padre.i_tingre)>0 and i_uo_padre.i_estado_hadm
 	messagebox('Atención','La admisión ya se encuentra cerrada')
 	return
 end if
+
+dw_diags.SetItemStatus(1,0,primary!,datamodified!)
+
 if i_uo_padre.i_ptipo='H' and i_uo_padre.i_pingsal='I' then
 	int totales		
 	select count(hospprimerorden.tipo) into :totales
