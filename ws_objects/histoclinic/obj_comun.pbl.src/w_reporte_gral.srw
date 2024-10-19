@@ -701,7 +701,7 @@ case '2' , '3' //resumen , referencia
 		
 		choose case adw_registros.getitemstring(j,'cual')
 			case 'EPI'
-				lds_rep.dataobject='dr_historia_txt_resumen'
+				lds_rep.dataobject='dr_historia_txt'
 			case 'NQX'
 				//ya no existe esta opción de Notas en Salas Qx
 			case else
