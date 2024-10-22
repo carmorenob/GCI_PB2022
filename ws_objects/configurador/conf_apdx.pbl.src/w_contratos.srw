@@ -126,10 +126,6 @@ type st_8 from statictext within tp_4
 end type
 type gb_4 from groupbox within tp_4
 end type
-type cb_p4_get from picturebutton within tp_4
-end type
-type cb_p4_pri from picturebutton within tp_4
-end type
 type cb_p5_cam from picturebutton within tp_4
 end type
 type cb_p4_adi from picturebutton within tp_4
@@ -142,6 +138,10 @@ type cb_p4_gua from picturebutton within tp_4
 end type
 type gb_5 from groupbox within tp_4
 end type
+type cb_p4_get from picturebutton within tp_4
+end type
+type cb_p4_pri from picturebutton within tp_4
+end type
 type tp_4 from userobject within tab_1
 dw_p4_3 dw_p4_3
 st_10 st_10
@@ -151,14 +151,14 @@ st_9 st_9
 dw_p4_1 dw_p4_1
 st_8 st_8
 gb_4 gb_4
-cb_p4_get cb_p4_get
-cb_p4_pri cb_p4_pri
 cb_p5_cam cb_p5_cam
 cb_p4_adi cb_p4_adi
 cb_p4_bor cb_p4_bor
 cb_p4_ref cb_p4_ref
 cb_p4_gua cb_p4_gua
 gb_5 gb_5
+cb_p4_get cb_p4_get
+cb_p4_pri cb_p4_pri
 end type
 type tp_5 from userobject within tab_1
 end type
@@ -1635,14 +1635,14 @@ st_9 st_9
 dw_p4_1 dw_p4_1
 st_8 st_8
 gb_4 gb_4
-cb_p4_get cb_p4_get
-cb_p4_pri cb_p4_pri
 cb_p5_cam cb_p5_cam
 cb_p4_adi cb_p4_adi
 cb_p4_bor cb_p4_bor
 cb_p4_ref cb_p4_ref
 cb_p4_gua cb_p4_gua
 gb_5 gb_5
+cb_p4_get cb_p4_get
+cb_p4_pri cb_p4_pri
 end type
 
 on tp_4.create
@@ -1654,14 +1654,14 @@ this.st_9=create st_9
 this.dw_p4_1=create dw_p4_1
 this.st_8=create st_8
 this.gb_4=create gb_4
-this.cb_p4_get=create cb_p4_get
-this.cb_p4_pri=create cb_p4_pri
 this.cb_p5_cam=create cb_p5_cam
 this.cb_p4_adi=create cb_p4_adi
 this.cb_p4_bor=create cb_p4_bor
 this.cb_p4_ref=create cb_p4_ref
 this.cb_p4_gua=create cb_p4_gua
 this.gb_5=create gb_5
+this.cb_p4_get=create cb_p4_get
+this.cb_p4_pri=create cb_p4_pri
 this.Control[]={this.dw_p4_3,&
 this.st_10,&
 this.ddlb_1,&
@@ -1670,14 +1670,14 @@ this.st_9,&
 this.dw_p4_1,&
 this.st_8,&
 this.gb_4,&
-this.cb_p4_get,&
-this.cb_p4_pri,&
 this.cb_p5_cam,&
 this.cb_p4_adi,&
 this.cb_p4_bor,&
 this.cb_p4_ref,&
 this.cb_p4_gua,&
-this.gb_5}
+this.gb_5,&
+this.cb_p4_get,&
+this.cb_p4_pri}
 end on
 
 on tp_4.destroy
@@ -1689,14 +1689,14 @@ destroy(this.st_9)
 destroy(this.dw_p4_1)
 destroy(this.st_8)
 destroy(this.gb_4)
-destroy(this.cb_p4_get)
-destroy(this.cb_p4_pri)
 destroy(this.cb_p5_cam)
 destroy(this.cb_p4_adi)
 destroy(this.cb_p4_bor)
 destroy(this.cb_p4_ref)
 destroy(this.cb_p4_gua)
 destroy(this.gb_5)
+destroy(this.cb_p4_get)
+destroy(this.cb_p4_pri)
 end on
 
 type dw_p4_3 from datawindow within tp_4
@@ -1948,61 +1948,6 @@ long backcolor = 80269524
 string text = "Contratos"
 end type
 
-type cb_p4_get from picturebutton within tp_4
-string tag = "Grupos Etareos"
-integer x = 1051
-integer y = 1448
-integer width = 146
-integer height = 128
-integer taborder = 58
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-boolean originalsize = true
-string picturename = "getareo.gif"
-string disabledname = "d_getareo.gif"
-end type
-
-event clicked;if dw_p4_3.rowcount()=0 then return
-LONG fila
-fila=dw_p4_3.getrow()
-if dw_p4_3.update()=-1 then 
-	rollback;
-else 
-	dw_p4_3.scrolltorow(fila)
-	commit;
-	open(w_contr_getareo)
-end if
-end event
-
-type cb_p4_pri from picturebutton within tp_4
-string tag = "Prioridades"
-integer x = 1230
-integer y = 1448
-integer width = 146
-integer height = 128
-integer taborder = 68
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-boolean originalsize = true
-string picturename = "prioridades.gif"
-end type
-
-event clicked;dw_p4_3.setsort("tipo D")
-dw_p4_3.sort()
-long j
-for j=1 to dw_p4_3.rowcount()
-	dw_p4_3.setitem(j,"prioridad",j -1)
-next
-end event
-
 type cb_p5_cam from picturebutton within tp_4
 boolean visible = false
 integer x = 1408
@@ -2146,6 +2091,63 @@ string facename = "Arial"
 long backcolor = 80269524
 string text = "Planes de servicios"
 end type
+
+type cb_p4_get from picturebutton within tp_4
+string tag = "Grupos Etareos"
+integer x = 2222
+integer y = 1448
+integer width = 146
+integer height = 128
+integer taborder = 58
+boolean bringtotop = true
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+boolean originalsize = true
+string picturename = "getareo.gif"
+string disabledname = "d_getareo.gif"
+end type
+
+event clicked;if dw_p4_3.rowcount()=0 then return
+LONG fila
+fila=dw_p4_3.getrow()
+if dw_p4_3.update()=-1 then 
+	rollback;
+else 
+	dw_p4_3.scrolltorow(fila)
+	commit;
+	open(w_contr_getareo)
+end if
+end event
+
+type cb_p4_pri from picturebutton within tp_4
+string tag = "Prioridades"
+integer x = 2391
+integer y = 1448
+integer width = 146
+integer height = 128
+integer taborder = 68
+boolean bringtotop = true
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+boolean originalsize = true
+string picturename = "prioridades.gif"
+end type
+
+event clicked;dw_p4_3.setsort("tipo D")
+dw_p4_3.sort()
+long j
+for j=1 to dw_p4_3.rowcount()
+	dw_p4_3.setitem(j,"prioridad",j -1)
+next
+end event
 
 type tp_5 from userobject within tab_1
 integer x = 18
