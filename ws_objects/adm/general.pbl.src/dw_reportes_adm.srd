@@ -1,16 +1,16 @@
 ﻿$PBExportHeader$dw_reportes_adm.srd
-release 21;
+release 22;
 datawindow(units=0 timer_interval=0 color=1073741824 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=8 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=yes showbackcoloronxp=no picture.file="" )
 header(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 detail(height=64 color="553648127" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
-table(column=(type=char(50) updatewhereclause=yes name=descripcion dbname="modulos.descripcion" )
+table(column=(type=char(50) updatewhereclause=yes name=descripcion dbname="modulos.descripcion" dbalias=".descripcion" )
  column=(type=char(8190) updatewhereclause=no name=cod_rep dbname="cod_rep" )
  column=(type=char(8190) updatewhereclause=no name=modulo dbname="modulo" )
  column=(type=char(8190) updatewhereclause=no name=grupousuario dbname="grupousuario" )
- column=(type=char(100) updatewhereclause=yes name=descripcion_1 dbname="modulos.descripcion" )
- column=(type=char(255) updatewhereclause=yes name=comentario dbname="modulos.comentario" )
+ column=(type=char(100) updatewhereclause=yes name=descripcion_1 dbname="modulos.descripcion" dbalias=".descripcion" )
+ column=(type=char(255) updatewhereclause=yes name=comentario dbname="modulos.comentario" dbalias=".comentario" )
  retrieve="SELECT 
 	modulos.descripcion, Max(rep_adm.cod_rep) AS cod_rep, 
 	Max(rep_adm.modulo) AS modulo, Max(rep_adm.grupousuario) AS grupousuario, 
@@ -18,7 +18,7 @@ table(column=(type=char(50) updatewhereclause=yes name=descripcion dbname="modul
 FROM modulos INNER JOIN (rep_adm INNER JOIN usugrupo ON rep_adm.grupousuario = usugrupo.codgrupo) ON modulos.codmodulo = rep_adm.modulo
 WHERE (((rep_adm.modulo)<>'ASI') AND ((usugrupo.usuario)=:usuario) AND ((rep_adm.FECHA_CARGA)=(SELECT Max(FECHA_CARGA) 
     FROM REP_ADM AS REP_ADM_MAX INNER JOIN USUGRUPO ON REP_ADM_MAX.GRUPOUSUARIO = USUGRUPO.CODGRUPO
-	WHERE (((USUGRUPO.USUARIO)=:usuario) AND ((REP_ADM_MAX.DESCRIPCION)=rep_adm.descripcion) AND ((REP_ADM_MAX.MODULO)<>'ASIS'))
+	WHERE (((USUGRUPO.USUARIO)=:usuario) AND ((REP_ADM_MAX.DESCRIPCION)=rep_adm.descripcion) AND ((REP_ADM_MAX.MODULO)<>'ASI'))
 	)))
 GROUP BY modulos.descripcion, rep_adm.descripcion, rep_adm.comentario;
 " arguments=(("usuario", string))  sort="descripcion A descripcion_1 A " )
@@ -39,7 +39,7 @@ xsltgen()
 jsgen()
 export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
-export.pdf(method=2 distill.custompostscript="0" xslfop.print="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
+export.pdf(method=2 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
 tree(type=1 showconnectlines=yes showleafnodeconnectLines=yes  indent=128 showtreenodeicon=no defaultexpandtolevel=2 stateiconalignmode=0 selectnodebymouse=no rtollayout=no 
 ) 
