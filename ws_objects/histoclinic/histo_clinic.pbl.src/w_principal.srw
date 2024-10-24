@@ -4,6 +4,8 @@ global type w_principal from window
 end type
 type mdi_1 from mdiclient within w_principal
 end type
+type rbb_1 from ribbonbar within w_principal
+end type
 type dw_huella from uo_datawindow within w_principal
 end type
 type p_imagen from picture within w_principal
@@ -12,36 +14,37 @@ type huella_total from olecustomcontrol within w_principal
 end type
 type dw_1 from uo_datawindow within w_principal
 end type
-type gb_1 from groupbox within w_principal
-end type
 type dw_profe from uo_datawindow within w_principal
 end type
 type dw_odprofe from uo_datawindow within w_principal
 end type
+type gb_1 from groupbox within w_principal
+end type
 end forward
 
 global type w_principal from window
-integer width = 5659
+integer width = 5751
 integer height = 3252
 boolean titlebar = true
 string title = "GCI Ltda."
-string menuname = "m_principal"
+string menuname = "m_mdiasis"
 boolean controlmenu = true
 boolean minbox = true
 boolean maxbox = true
 boolean resizable = true
-windowtype windowtype = mdihelp!
+windowtype windowtype = mdi!
 windowstate windowstate = maximized!
 long backcolor = 67108864
 string pointer = "Arrow!"
 mdi_1 mdi_1
+rbb_1 rbb_1
 dw_huella dw_huella
 p_imagen p_imagen
 huella_total huella_total
 dw_1 dw_1
-gb_1 gb_1
 dw_profe dw_profe
 dw_odprofe dw_odprofe
+gb_1 gb_1
 end type
 global w_principal w_principal
 
@@ -59,6 +62,7 @@ forward prototypes
 public function integer busca_paciente ()
 public subroutine lf_titulo ()
 public function date wf_fecha_nace ()
+public subroutine f_init_ribbonbar (ribbonbar nom_rib, boolean rib_boo)
 end prototypes
 
 public function integer busca_paciente ();long j
@@ -202,42 +206,76 @@ end subroutine
 public function date wf_fecha_nace ();return date(dw_1.getitemdatetime(1,'fnacimiento'))
 end function
 
+public subroutine f_init_ribbonbar (ribbonbar nom_rib, boolean rib_boo);blob ls_ribon
+int li_ini=1
+string ls_rep, ls_cad='.\\img\\',ls_dinst
+
+if ls_pro=32 then
+	RegistryGet ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "DIRECTORIO", RegString!, ls_dinst)
+end If
+if ls_pro=64 then
+	RegistryGet ( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "DIRECTORIO", RegString!, ls_dinst)
+end If
+
+If	rib_boo Then
+	SELECTblob ribon into :ls_ribon from pm_aplicativos where cod_aplica='ASIS';
+	if isnull(ls_ribon) then 
+		//messagebox('Atención','No se puede cargar ribon')
+		nom_rib.ImportFromXMLFile ("asis.xml") 
+		return
+	else
+		ls_rep=string(ls_ribon)
+		li_ini= Pos(ls_dinst,':\')
+		ls_dinst=mid(ls_dinst,1,li_ini)+'\'+mid(ls_dinst,li_ini+1,len(ls_dinst))+'\img\\'
+	
+		DO WHILE Pos(ls_rep,ls_cad)<>0
+		  ls_rep=mid(ls_rep,1,POS(ls_rep,ls_cad)-1)+ ls_dinst+mid(ls_rep,POS(ls_rep,ls_cad)+len(ls_cad),len(ls_rep))
+		LOOP	
+		nom_rib.ImportJSON (ls_rep)
+	end if
+//	f_poblar_menus_ribon(rbb_1,'ASIS')
+	return
+End If
+end subroutine
+
 on w_principal.create
-if this.MenuName = "m_principal" then this.MenuID = create m_principal
+if this.MenuName = "m_mdiasis" then this.MenuID = create m_mdiasis
 this.mdi_1=create mdi_1
+this.rbb_1=create rbb_1
 this.dw_huella=create dw_huella
 this.p_imagen=create p_imagen
 this.huella_total=create huella_total
 this.dw_1=create dw_1
-this.gb_1=create gb_1
 this.dw_profe=create dw_profe
 this.dw_odprofe=create dw_odprofe
+this.gb_1=create gb_1
 this.Control[]={this.mdi_1,&
+this.rbb_1,&
 this.dw_huella,&
 this.p_imagen,&
 this.huella_total,&
 this.dw_1,&
-this.gb_1,&
 this.dw_profe,&
-this.dw_odprofe}
+this.dw_odprofe,&
+this.gb_1}
 end on
 
 on w_principal.destroy
 if IsValid(MenuID) then destroy(MenuID)
 destroy(this.mdi_1)
+destroy(this.rbb_1)
 destroy(this.dw_huella)
 destroy(this.p_imagen)
 destroy(this.huella_total)
 destroy(this.dw_1)
-destroy(this.gb_1)
 destroy(this.dw_profe)
 destroy(this.dw_odprofe)
+destroy(this.gb_1)
 end on
 
 event open;if isvalid(w_presenta) then w_presenta.setfocus()
 string tt
 int l_cita
-
 
 if nom_regis<>'GCI LTDA' then 
 	m_principal.m_ayuda.m_basura.visible=false
@@ -265,12 +303,12 @@ if sqlca.sqlnrows=0 then
 	messagebox('Atencíon','No hay parametro 36')
 end if
 
-if l_cita=0 then 
-	m_principal.m_3.m_3_2.m_recordatorio.visible=false
-	m_principal.m_3.m_3_2.m_recordatorio.enabled=false
-	m_principal.m_3.m_3_2.m_recordatorio.toolbaritemvisible=false
-end if
-
+//if l_cita=0 then 
+//	m_principal.m_3.m_3_2.m_recordatorio.visible=false
+//	m_principal.m_3.m_3_2.m_recordatorio.enabled=false
+//	m_principal.m_3.m_3_2.m_recordatorio.toolbaritemvisible=false
+//end if
+//
 
 SELECT Min(Profe.CodProf) into :tt
 FROM Profe
@@ -295,7 +333,9 @@ if g_profe<>'' then
 	end if
 end if
 dw_1.setfocus()
-f_poblar_menus()
+//f_poblar_menus()
+f_init_ribbonbar(rbb_1,True)
+
 timer(1)
 lf_titulo()
 If g_biometria='1' then
@@ -318,7 +358,19 @@ if sqlca.sqlnrows=0 then
 end if
 end event
 
-event resize;post event toolbarmoved()
+event resize;//post event toolbarmoved()
+if newwidth <= 0 then
+	newwidth = this.workspacewidth( )
+end if
+if newheight <=0 then
+	newheight = this.workspaceheight( )
+end if
+
+rbb_1.move(0,newheight - this.workspaceheight()  )
+rbb_1.width = newwidth -50
+gb_1.width = newwidth -50
+mdi_1.move(0,rbb_1.height +gb_1.height +newheight -  this.workspaceheight())
+mdi_1.resize(newwidth,newheight - rbb_1.height - gb_1.height  - ( newheight - this.workspaceheight()))
 end event
 
 event timer;if isvalid(w_presenta) then
@@ -482,7 +534,7 @@ else
 		end choose
 	end if
 end if
-//
+
 MDI_1.Move(newx, newy)
 mdi_1.Resize(this.width -resta_ancho,this.height - resta_alto	)
 gb_1.width=this.width
@@ -526,10 +578,326 @@ type mdi_1 from mdiclient within w_principal
 long BackColor=276856960
 end type
 
+type rbb_1 from ribbonbar within w_principal
+event e_buscapte ( )
+event e_reportes ( long param )
+event e_otrosrep ( long param )
+event e_impresora ( long param )
+event e_cambialug ( long param )
+event e_pac ( long param )
+event e_buscapac ( long param )
+event e_cpcte ( long param )
+event e_upcte ( long param )
+event e_treehc ( long param )
+event e_imprimem ( long param )
+event e_cierra ( long param )
+event e_citas ( long param )
+event e_recuerdac ( long param )
+event e_programac ( long param )
+event e_programat ( long param )
+event e_horariosug ( long param )
+event e_cext ( long param )
+event e_vacunas ( long param )
+event e_apoyodx ( long param )
+event e_apoyore ( long param )
+event e_odoncon ( long param )
+event e_odontto ( long param )
+event e_admision ( long param )
+event e_ordenes ( long param )
+event e_medent ( long param )
+event e_meddev ( long param )
+event e_cambior ( long param )
+event e_anulaing ( long param )
+event e_anulasal ( long param )
+event e_ingresores ( long param )
+event e_taburg ( long param )
+event e_salasqx ( long param )
+event e_salaspg ( long param )
+event e_autorizas ( long param )
+event e_autorizaa ( long param )
+integer width = 5641
+integer height = 444
+long backcolor = 15132390
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+end type
+
+event e_buscapte();if not enabled then return
+openwithparm(win_busqueda,w_principal.dw_1)
+end event
+
+event e_reportes(long param);opensheet(w_reportes_asis,w_principal,0,Original!)
+w_principal.arrangesheets(layer!)
+
+end event
+
+event e_otrosrep(long param);if not this.enabled then return
+f_abrerepor('',0,i_rep_asis[])
+end event
+
+event e_impresora(long param);printsetup()
+end event
+
+event e_cambialug(long param);open(w_cambia_lugar)
+end event
+
+event e_pac(long param);if not enabled then return
+opensheet (win_regis_pac,w_principal,7,original!)
+w_principal.arrangesheets(layer!)
+if docu<>"" and tipdoc<>"" then
+	win_regis_pac.sle_1.text=docu
+	win_regis_pac.sle_1.triggerevent(modified!)
+end if
+
+end event
+
+event e_buscapac(long param);if not enabled then return
+openwithparm(win_busqueda,w_principal.dw_1)
+end event
+
+event e_cpcte(long param);if not enabled then return
+open(w_cambio_docu)
+
+end event
+
+event e_upcte(long param);if not enabled then return
+opensheet (w_borra_repetid,w_principal,7,original!)
+w_principal.arrangesheets(layer!)
+
+end event
+
+event e_treehc(long param);if not enabled then return
+opensheet (w_imag_diag,w_principal,7,original!)
+w_principal.arrangesheets(layer!)
+end event
+
+event e_imprimem(long param);if not enabled then return
+opensheet (w_impresion_masiva,w_principal,7,original!)
+w_principal.arrangesheets(layer!)
+end event
+
+event e_cierra(long param);disconnect;
+if isvalid(w_presenta) then close(w_presenta)
+HALT
+close(parent)
+end event
+
+event e_citas(long param);if not enabled then return
+opensheet (w_asig_cita,w_principal,7,original!)
+w_principal.arrangesheets(layer!)
+end event
+
+event e_recuerdac(long param);if not enabled then return
+opensheet (w_recuerda_cita,w_principal,7,original!)
+w_principal.arrangesheets(layer!)
+end event
+
+event e_programac(long param);if not enabled then return
+opensheet (w_prog_hora,w_principal,7,original!)
+w_principal.arrangesheets(layer!)
+end event
+
+event e_programat(long param);if not enabled then return
+opensheet (w_programa_sala2,w_principal,7,original!)
+w_principal.arrangesheets(layer!)
+end event
+
+event e_horariosug(long param);if not enabled then return
+opensheet (w_hora_bas,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_cext(long param);if aplicativo="2" or aplicativo = '7' then 
+	this.enabled=false
+	return
+end if
+if not enabled then return
+opensheet (w_hist_gral,w_principal,7,original!)
+w_principal.arrangesheets(layer!)
+end event
+
+event e_vacunas(long param);if aplicativo="2" or aplicativo = '7' then 
+	return
+end if
+if not enabled then return
+opensheet (w_hist_gral,w_vacunas,7,original!)
+w_principal.arrangesheets(layer!)
+end event
+
+event e_apoyodx(long param);if aplicativo="1" or aplicativo = '7'  then 
+	this.enabled=false
+	return
+end if
+if not enabled then return
+opensheet (w_apoyo_diag2,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_apoyore(long param);if not enabled then return
+opensheet (w_envia_result_apdx,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_odoncon(long param);if not enabled then return
+opensheet(w_consulta,w_principal,7,Layered!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_odontto(long param);if not enabled then return
+opensheet(w_atiendetto,w_principal,7,Layered!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_admision(long param);if long(aplicativo)<5 or aplicativo = '7' then 
+	this.enabled=false
+	return
+end if
+if not enabled then return
+opensheet (w_admision,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_ordenes(long param);if long(aplicativo)<5 or aplicativo = '7'  then 
+	this.enabled=false
+	return
+end if
+if not enabled then return
+opensheet (w_new_at_os,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_medent(long param);if long(aplicativo)<5 or aplicativo = '7'  then 
+	this.enabled=false
+	return
+end if
+if not enabled then return
+opensheet (w_entrega_med,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_meddev(long param);if long(aplicativo)<5 or aplicativo = '7'  then 
+	enabled=false
+	return 
+end if
+if not enabled then return 
+opensheet (w_devuelve_med,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_cambior(long param);if long(aplicativo)<5 or aplicativo = '7' then 
+	this.enabled=false
+	return
+end if
+if not enabled then return
+if tipdoc="" or docu="" or isnull(docu) then return
+opensheet (w_cambio_emp,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_anulaing(long param);if not enabled or not isvalid(w_admision) then return
+w_admision.f_anula_ing()
+end event
+
+event e_anulasal(long param);if not enabled then return
+if not isvalid(w_admision) then return 
+if w_admision.tab_1.tabpage_1.dw_admi.rowcount()<1 then return
+string abrir
+long nh
+select abrir_facturado into :abrir from tipoingreso where codtingre=:w_admision.tipo_ingres;
+choose case w_admision.tab_1.tabpage_1.dw_admi.getitemstring(1,"estado")
+	case '1'
+		messagebox("Atención","Esta admisión está abierta, no es necesario abrirla")
+	case "2"
+		if messagebox("Atención","Está seguro que desea abrir esta admisión ?",question!,yesno!,2)=2 then return
+		nh=w_admision.tab_1.tabpage_1.dw_admi.getitemnumber(1,"nh")
+		update hospadmi set estado='1' where nh=:nh and codtingre=:w_admision.tipo_ingres;
+		if sqlca.sqlcode=-1 then 
+			messagebox("Error actualizando estado de Admisión",sqlca.sqlerrtext)
+			rollback;
+		else
+			commit;
+			w_admision.dw_tingres.triggerevent(itemchanged!)
+			if isvalid(w_new_at_os) then w_new_at_os.dw_tip_ingres.triggerevent(itemchanged!)
+			if isvalid(w_new_sala_qx) then w_new_sala_qx.triggerevent(open!)
+			if isvalid(w_entrega_med) then w_entrega_med.dw_tip_ingres.triggerevent(itemchanged!)
+		end if
+	case '3'
+		if abrir='1' then
+			if messagebox("Atención","Está seguro que desea abrir esta admisión ?",question!,yesno!,2)=2 then return
+			nh=w_admision.tab_1.tabpage_1.dw_admi.getitemnumber(1,"nh")
+			update hospadmi set estado='1' where nh=:nh and codtingre=:w_admision.tipo_ingres;
+			if sqlca.sqlcode=-1 then 
+				messagebox("Error actualizando estado de Admisión",sqlca.sqlerrtext)
+				rollback;
+			else
+				commit;
+				w_admision.dw_tingres.triggerevent(itemchanged!)
+				if isvalid(w_new_at_os) then w_new_at_os.dw_tip_ingres.triggerevent(itemchanged!)
+				if isvalid(w_new_sala_qx) then w_new_sala_qx.triggerevent(open!)
+				if isvalid(w_entrega_med) then w_entrega_med.dw_tip_ingres.triggerevent(itemchanged!)
+			end if
+		else
+			messagebox("Atención","Esta admisión ya se encuentra facturada, si desea abrirla debe anular primero la factura")
+		end if
+end choose
+end event
+
+event e_ingresores(long param);if not enabled then return
+if not isvalid(w_admision) then return
+w_admision.a_reserv()
+end event
+
+event e_taburg(long param);opensheet (w_tablero_urgencias,w_principal,7,original!)
+w_principal.arrangesheets(layer!)
+
+end event
+
+event e_salasqx(long param);if long(aplicativo)<6 or aplicativo = '7' then 
+	enabled=false
+	return
+end if
+if not enabled then return
+opensheet (w_new_sala_qx,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_salaspg(long param);if long(aplicativo)<6 or aplicativo = '7'  then 
+	this.enabled=false
+	return
+end if
+if not enabled then return
+opensheet (w_asig_cita_qx,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_autorizas(long param);if long(aplicativo)<6 or aplicativo = '7' then 
+	enabled=false
+	return
+end if
+if not enabled then return
+opensheet (w_solicita_aut,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+
+end event
+
+event e_autorizaa(long param);if long(aplicativo)<6 or aplicativo = '7' then 
+	enabled=false
+	return
+end if
+if not enabled then return
+opensheet (w_autoriza,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+
+end event
+
 type dw_huella from uo_datawindow within w_principal
 boolean visible = false
-integer x = 4101
-integer y = 12
+integer x = 5202
+integer y = 732
 integer width = 183
 integer height = 88
 integer taborder = 20
@@ -543,8 +911,8 @@ end event
 
 type p_imagen from picture within w_principal
 boolean visible = false
-integer x = 4581
-integer y = 4
+integer x = 4969
+integer y = 1048
 integer width = 146
 integer height = 96
 boolean originalsize = true
@@ -558,8 +926,8 @@ event fingerup ( string idsensor )
 event fingerdown ( string idsensor )
 event imageacquired ( string idsensor,  long ocx_width,  long ocx_height,  any rawimage,  long res )
 boolean visible = false
-integer x = 4425
-integer y = 32
+integer x = 4585
+integer y = 984
 integer width = 146
 integer height = 128
 integer taborder = 40
@@ -638,9 +1006,10 @@ End If
 end event
 
 type dw_1 from uo_datawindow within w_principal
-integer y = 108
-integer width = 2880
-integer height = 116
+integer x = 18
+integer y = 456
+integer width = 3008
+integer height = 152
 integer taborder = 10
 string dragicon = "none!"
 string dataobject = "dw_pac_gral"
@@ -794,26 +1163,11 @@ end event
 event dberror;return 1
 end event
 
-type gb_1 from groupbox within w_principal
-integer y = 104
-integer width = 5001
-integer height = 8
-integer taborder = 10
-integer textsize = -10
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-long textcolor = 33554432
-long backcolor = 67108864
-end type
-
 type dw_profe from uo_datawindow within w_principal
 boolean visible = false
-integer x = 2894
-integer y = 112
-integer width = 2679
+integer x = 3040
+integer y = 476
+integer width = 2661
 integer height = 112
 integer taborder = 20
 string dragicon = "none!"
@@ -872,8 +1226,8 @@ end event
 
 type dw_odprofe from uo_datawindow within w_principal
 boolean visible = false
-integer x = 2903
-integer y = 112
+integer x = 3040
+integer y = 476
 integer width = 2697
 integer height = 112
 integer taborder = 30
@@ -935,6 +1289,21 @@ getchild('cesp',odespe)
 odespe.settransobject(sqlca)
 insertrow(1)
 end event
+
+type gb_1 from groupbox within w_principal
+integer y = 428
+integer width = 5641
+integer height = 204
+integer taborder = 10
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 67108864
+end type
 
 
 Start of PowerBuilder Binary Data Section : Do NOT Edit
