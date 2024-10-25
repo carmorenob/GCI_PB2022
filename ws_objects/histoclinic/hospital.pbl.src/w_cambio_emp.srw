@@ -31,14 +31,14 @@ end type
 end forward
 
 global type w_cambio_emp from window
-integer width = 3913
+integer width = 3721
 integer height = 1536
 boolean titlebar = true
 string title = "Cambiar Empresa Responsable de Admisión Activa"
 boolean controlmenu = true
 windowtype windowtype = response!
 long backcolor = 67108864
-string icon = "cambia_doc.ico"
+string icon = "r_cambio_resp.ico"
 boolean clientedge = true
 boolean center = true
 dw_tingres dw_tingres

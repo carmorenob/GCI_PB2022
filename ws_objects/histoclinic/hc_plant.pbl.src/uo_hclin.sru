@@ -1441,7 +1441,10 @@ if i_fecha='1' then
 else 
 	em_1.enabled=false 
 end  if
+
 dw_histo.post event rowfocuschanged(dw_histo.getrow())
+
+
 int pendientedx 
 select
 	count(1) into :pendientedx 

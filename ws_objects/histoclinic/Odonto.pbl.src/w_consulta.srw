@@ -108,9 +108,11 @@ integer height = 2100
 boolean titlebar = true
 string title = "Odontología - Consulta"
 boolean controlmenu = true
-windowtype windowtype = response!
+windowtype windowtype = child!
 long backcolor = 67108864
+string icon = "r_odoncon.ico"
 boolean toolbarvisible = false
+toolbaralignment toolbaralignment = floating!
 pb_pyp pb_pyp
 pb_notas pb_notas
 pb_print pb_print
@@ -294,6 +296,20 @@ end event
 
 event resize;t1.resize(newwidth - 20 , newheight - t1.y)
 t1.p2.uo_1.tamanyo(newwidth - 70,newheight - t1.y - 140)
+
+////
+if newwidth <= 0 then
+	newwidth = this.workspacewidth( )
+end if
+if newheight <=0 then
+	newheight = this.workspaceheight( )
+end if
+
+w_principal.rbb_1.move(0,newheight - this.workspaceheight()  )
+w_principal.rbb_1.width = newwidth -50
+w_principal.gb_1.width = newwidth -50
+w_principal.mdi_1.move(0,w_principal.rbb_1.height +w_principal.gb_1.height +newheight -  this.workspaceheight())
+w_principal.mdi_1.resize(newwidth,newheight - w_principal.rbb_1.height - w_principal.gb_1.height  - ( newheight - this.workspaceheight()))
 end event
 
 type pb_pyp from picturebutton within w_consulta
@@ -586,8 +602,8 @@ else
 	t1.p2.dw_tmpcons.InsertRow(1)
 	if t1.SelectedTab = 3 then
 		w_consulta.ChangeMenu(m_proc)
-		w_consulta.SetToolbar(1, TRUE, floating!)
-		w_consulta.SetToolbarPos ( 1, 10, 350, 2000, 300 )
+		//w_consulta.SetToolbar(1, TRUE, floating!)
+		//w_consulta.SetToolbarPos ( 1, 10, 350, 2000, 300 )
 	end if
 	t1.p3.dw_cpo.retrieve(i_contador,clugar_ohis)
 
@@ -694,10 +710,9 @@ integer height = 1420
 integer taborder = 50
 integer textsize = -8
 integer weight = 400
-fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "Arial"
+string facename = "Tahoma"
 long backcolor = 67108864
 boolean raggedright = true
 boolean focusonbuttondown = true
@@ -728,19 +743,27 @@ end on
 
 event selectionchanged;if newindex = 3 and dw_historial.RowCount() > 0 then
 	if w_consulta.menuname<>'m_procedimientos' then 
+
 		w_consulta.ChangeMenu(m_proc)
+
 		w_consulta.SetToolbar(1, TRUE, floating!)
-		w_consulta.SetToolbarPos ( 1, 10, 350, 2000, 300 )
+		w_consulta.SetToolbarPos (1,3867, 40, 2000,350)
+		//w_consulta.SetToolbarPos (1, 1, 350, 5867, 300 )
+		w_principal.dw_1.x=18
+		w_principal.dw_1.y=456
+		w_principal.dw_odprofe.x=3003
+		w_principal.dw_odprofe.y=476		
 		f_poblar_odontologia()
+		m_proc.visible = FALSE		
 	elseif w_consulta.toolbarvisible=false then
-		w_consulta.toolbarvisible=true
-		w_consulta.ChangeMenu(m_principal)
-		f_poblar_menus()
+		//w_consulta.toolbarvisible=true
+		//w_consulta.ChangeMenu(m_principal)
+		//f_poblar_menus()
 	end if
 else
-	w_consulta.toolbarvisible=False
-	w_consulta.ChangeMenu(m_principal)
-	f_poblar_menus()
+	//w_consulta.toolbarvisible=False
+	//w_consulta.ChangeMenu(m_principal)
+	//f_poblar_menus()
 end if
 
 

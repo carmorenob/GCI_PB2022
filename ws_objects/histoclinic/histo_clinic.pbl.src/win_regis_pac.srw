@@ -315,18 +315,16 @@ end type
 end forward
 
 global type win_regis_pac from window
-integer width = 5111
-integer height = 2492
+integer width = 5083
+integer height = 2468
 boolean titlebar = true
 string title = "Datos generales paciente"
 boolean controlmenu = true
-boolean minbox = true
-boolean maxbox = true
 boolean hscrollbar = true
 boolean vscrollbar = true
-boolean resizable = true
+windowtype windowtype = child!
 long backcolor = 134217732
-string icon = "paciente.ico"
+string icon = "r_paciente.ico"
 string pointer = "Arrow!"
 integer unitsperline = 10
 integer linesperpage = 10

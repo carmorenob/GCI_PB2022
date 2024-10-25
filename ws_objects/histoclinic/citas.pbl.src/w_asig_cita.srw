@@ -137,12 +137,10 @@ integer height = 2536
 boolean titlebar = true
 string title = "Asignación de Citas"
 boolean controlmenu = true
-boolean minbox = true
-boolean maxbox = true
 windowtype windowtype = child!
 windowstate windowstate = maximized!
 long backcolor = 67108864
-string icon = "asig_cita.ico"
+string icon = "r_asig_cita.ico"
 string pointer = "Arrow!"
 dw_ver dw_ver
 st_cita st_cita
@@ -2648,9 +2646,9 @@ end event
 
 type mc_1 from monthcalendar within w_asig_cita
 integer x = 18
-integer y = 216
+integer y = 224
 integer width = 1125
-integer height = 564
+integer height = 600
 integer taborder = 50
 integer textsize = -10
 integer weight = 400

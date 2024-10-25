@@ -44,10 +44,9 @@ string title = "Vacunas de Paciente"
 boolean controlmenu = true
 windowtype windowtype = child!
 long backcolor = 67108864
-string icon = "vacunas.ico"
+string icon = "r_vacunas.ico"
 string pointer = "Arrow!"
 boolean clientedge = true
-boolean center = true
 pb_4 pb_4
 dw_serv_ing dw_serv_ing
 dw_historial dw_historial

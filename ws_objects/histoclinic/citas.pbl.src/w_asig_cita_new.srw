@@ -135,12 +135,10 @@ integer height = 2536
 boolean titlebar = true
 string title = "Asignación de Citas"
 boolean controlmenu = true
-boolean minbox = true
-boolean maxbox = true
 windowtype windowtype = child!
 windowstate windowstate = maximized!
 long backcolor = 67108864
-string icon = "asig_cita.ico"
+string icon = "r_asig_cita.ico"
 string pointer = "Arrow!"
 dw_ver dw_ver
 dw_3 dw_3

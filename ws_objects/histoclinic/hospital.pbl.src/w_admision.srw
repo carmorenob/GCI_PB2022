@@ -165,16 +165,14 @@ end forward
 
 global type w_admision from window
 boolean visible = false
-integer width = 5271
-integer height = 2340
+integer width = 5243
+integer height = 2316
 boolean titlebar = true
 string title = "Admisiones del Paciente (Hospitalización y/o Urgencias)"
 boolean controlmenu = true
-boolean minbox = true
-boolean maxbox = true
-boolean resizable = true
+windowtype windowtype = child!
 long backcolor = 67108864
-string icon = "hospital.ico"
+string icon = "r_hospital.ico"
 rte_1 rte_1
 pb_cierre pb_cierre
 dw_his_acu dw_his_acu
@@ -433,12 +431,12 @@ event closequery;if guardar()=1 then return 1
 
 end event
 
-event activate;m_principal.m_3.m_3_7.m_3_7_5.enabled=true//anular salida
-m_principal.m_3.m_3_7.m_3_7_6.enabled=true//anular ingreso
+event activate;//m_principal.m_3.m_3_7.m_3_7_5.enabled=true//anular salida
+//m_principal.m_3.m_3_7.m_3_7_6.enabled=true//anular ingreso
 end event
 
-event deactivate;if isvalid(m_principal.m_3.m_3_7.m_3_7_5) then m_principal.m_3.m_3_7.m_3_7_5.enabled=false
-if isvalid(m_principal.m_3.m_3_7.m_3_7_6) then m_principal.m_3.m_3_7.m_3_7_6.enabled=false
+event deactivate;//if isvalid(m_principal.m_3.m_3_7.m_3_7_5) then m_principal.m_3.m_3_7.m_3_7_5.enabled=false
+//if isvalid(m_principal.m_3.m_3_7.m_3_7_6) then m_principal.m_3.m_3_7.m_3_7_6.enabled=false
 end event
 
 type rte_1 from richtextedit within w_admision

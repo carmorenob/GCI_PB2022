@@ -48,11 +48,9 @@ integer height = 2136
 boolean titlebar = true
 string title = "Programación Semanal"
 boolean controlmenu = true
-boolean minbox = true
-boolean maxbox = true
 windowtype windowtype = child!
 long backcolor = 67108864
-string icon = "Form!"
+string icon = "r_citap.ico"
 string pointer = "Arrow!"
 dp_1 dp_1
 pb_2 pb_2
@@ -306,7 +304,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2022-02-11"), Time("16:56:07.000000"))
+datetime value = DateTime(Date("2024-10-24"), Time("17:43:50.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!

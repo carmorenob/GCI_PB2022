@@ -69,7 +69,7 @@ boolean minbox = true
 boolean maxbox = true
 windowtype windowtype = child!
 long backcolor = 67108864
-string icon = "graph9.ico"
+string icon = "r_arepo.ico"
 string pointer = "Arrow!"
 boolean center = true
 integer animationtime = 50
@@ -828,8 +828,7 @@ end if
 
 end event
 
-event open;
-if isnull(message.powerobjectparm) then return
+event open;if isnull(message.powerobjectparm) then return
 
 int j,k
 string new_syntax, error_create

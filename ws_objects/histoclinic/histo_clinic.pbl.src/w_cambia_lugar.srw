@@ -18,7 +18,7 @@ string title = "Cambiar Lugar de Atención"
 boolean controlmenu = true
 windowtype windowtype = response!
 long backcolor = 67108864
-string icon = "cambia_doc.ico"
+string icon = "r_camlug.ico"
 boolean center = true
 pb_2 pb_2
 pb_1 pb_1

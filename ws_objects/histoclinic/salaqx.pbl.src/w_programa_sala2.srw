@@ -144,7 +144,7 @@ boolean minbox = true
 boolean maxbox = true
 windowtype windowtype = child!
 long backcolor = 67108864
-string icon = "apptl.ico"
+string icon = "r_asig_cita.ico"
 boolean center = true
 dp_1 dp_1
 dw_agenda_prof dw_agenda_prof
@@ -674,7 +674,7 @@ integer height = 84
 integer taborder = 100
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2019-06-06"), Time("12:07:04.000000"))
+datetime value = DateTime(Date("2024-10-24"), Time("17:50:18.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!

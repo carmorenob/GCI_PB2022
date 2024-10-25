@@ -68,16 +68,14 @@ end type
 end forward
 
 global type w_devuelve_med from window
-integer width = 5303
-integer height = 2060
+integer width = 5824
+integer height = 2036
 boolean titlebar = true
 string title = "Devolución de Medicamentos"
 boolean controlmenu = true
-boolean minbox = true
-boolean maxbox = true
-boolean resizable = true
+windowtype windowtype = child!
 long backcolor = 67108864
-string icon = "dev_med.ico"
+string icon = "r_dev_med.ico"
 dw_dev_lote dw_dev_lote
 dw_mvto_lote dw_mvto_lote
 dw_kardexdeta dw_kardexdeta
@@ -323,8 +321,8 @@ end event
 
 type dw_dev_lote from datawindow within w_devuelve_med
 boolean visible = false
-integer x = 3497
-integer y = 744
+integer x = 3502
+integer y = 776
 integer width = 1056
 integer height = 72
 integer taborder = 100
@@ -355,8 +353,8 @@ end event
 
 type dw_kardexdeta from datawindow within w_devuelve_med
 boolean visible = false
-integer x = 2331
-integer y = 756
+integer x = 2336
+integer y = 788
 integer width = 750
 integer height = 68
 integer taborder = 70
@@ -589,9 +587,9 @@ dw_historial.retrieve(tipdoc,docu,tipo_ingres,clugar)
 end event
 
 type dw_inf from datawindow within w_devuelve_med
-integer x = 14
-integer y = 604
-integer width = 4457
+integer x = 18
+integer y = 636
+integer width = 5801
 integer height = 132
 string title = "none"
 string dataobject = "dw_inf_emp_cama"
@@ -603,9 +601,9 @@ event constructor;this.settransobject(sqlca)
 end event
 
 type tab_1 from tab within w_devuelve_med
-integer x = 32
-integer y = 724
-integer width = 5161
+integer x = 37
+integer y = 756
+integer width = 5746
 integer height = 1084
 integer taborder = 60
 integer textsize = -8
@@ -640,7 +638,7 @@ end on
 type tp_1 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 5125
+integer width = 5710
 integer height = 956
 long backcolor = 67108864
 string text = "Detalle de la Devolución"
@@ -665,7 +663,7 @@ destroy(this.dw_cpo)
 end on
 
 type pb_enf from picturebutton within tp_1
-integer x = 4960
+integer x = 5545
 integer y = 792
 integer width = 142
 integer height = 124
@@ -714,7 +712,7 @@ end event
 type dw_cpo from datawindow within tp_1
 integer x = 32
 integer y = 40
-integer width = 4910
+integer width = 5477
 integer height = 880
 integer taborder = 20
 string title = "none"
@@ -735,7 +733,7 @@ end event
 type tp_2 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 5125
+integer width = 5710
 integer height = 956
 long backcolor = 67108864
 string text = " Nueva Devolución"
@@ -772,7 +770,7 @@ destroy(this.dw_dev)
 end on
 
 type pb_1 from picturebutton within tp_2
-integer x = 4951
+integer x = 5545
 integer y = 76
 integer width = 146
 integer height = 128
@@ -793,7 +791,7 @@ dw_mvto_lote.reset()
 end event
 
 type pb_save from picturebutton within tp_2
-integer x = 4955
+integer x = 5550
 integer y = 204
 integer width = 146
 integer height = 128
@@ -962,7 +960,7 @@ type dw_dev from datawindow within tp_2
 event p_itemchanged ( long p_fila )
 integer x = 5
 integer y = 76
-integer width = 4933
+integer width = 5522
 integer height = 876
 integer taborder = 60
 string title = "none"
@@ -1003,9 +1001,9 @@ if dwo.text='Selec' then modify(string(dwo.name)+'.text="No Selec."') else 	modi
 end event
 
 type dw_devoluciones from datawindow within w_devuelve_med
-integer x = 3273
+integer x = 3799
 integer y = 72
-integer width = 1847
+integer width = 1929
 integer height = 528
 integer taborder = 40
 string title = "none"
@@ -1060,7 +1058,7 @@ end event
 type st_3 from statictext within w_devuelve_med
 integer x = 55
 integer y = 168
-integer width = 3035
+integer width = 3552
 integer height = 68
 integer textsize = -8
 integer weight = 400
@@ -1079,7 +1077,7 @@ end type
 type dw_historial from datawindow within w_devuelve_med
 integer x = 55
 integer y = 228
-integer width = 3040
+integer width = 3561
 integer height = 356
 integer taborder = 50
 string title = "none"
@@ -1136,11 +1134,11 @@ boolean focusrectangle = false
 end type
 
 type gb_1 from groupbox within w_devuelve_med
-integer x = 3237
+integer x = 3721
 integer y = 12
-integer width = 1934
+integer width = 2043
 integer height = 604
-integer textsize = -8
+integer textsize = -7
 integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -1153,7 +1151,7 @@ end type
 
 type gb_2 from groupbox within w_devuelve_med
 integer x = 27
-integer width = 3118
+integer width = 3621
 integer height = 608
 integer textsize = -8
 integer weight = 400

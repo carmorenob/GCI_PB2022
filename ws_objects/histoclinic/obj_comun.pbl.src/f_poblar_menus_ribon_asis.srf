@@ -1,0 +1,106 @@
+﻿$PBExportHeader$f_poblar_menus_ribon_asis.srf
+global type f_poblar_menus_ribon_asis from function_object
+end type
+
+forward prototypes
+global subroutine f_poblar_menus_ribon_asis (ribbonbar rb, string aplica)
+end prototypes
+
+global subroutine f_poblar_menus_ribon_asis (ribbonbar rb, string aplica);uo_datastore dw_oprsum
+dw_oprsum=create uo_datastore
+dw_oprsum.dataobject="dw_menus"
+dw_oprsum.SetTransObject(SQLCA)
+dw_oprsum.retrieve(usuario,aplica)
+//long i
+int li_Return	
+string temp, ls_opcion
+RibbonSmallButtonItem		sm_button
+RibbonLargeButtonItem		lb_button
+RibbonCategoryItem			rb_cat
+RibbonMenuItem 				rm_item
+RibbonCategoryItem 			lr_Category
+RibbonPanelItem 				lr_Panel
+RibbonLargeButtonItem		lr_LButton
+RibbonSmallButtonItem		lr_SButton
+RibbonMenu						lr_Menu
+RibbonMenuItem 				lr_Item,lr_lbitem 
+Boolean esSButton, esLButton
+Integer li_categoria = 1, li_panel = 1, li_button = 1, it, fila
+string ls_text
+
+If	Not IsValid(rb)	Then	Return
+
+
+do while rb.GetcategoryByIndex (li_categoria, lr_Category) = 1
+	li_panel = 1
+	do while rb.GetChildItemByIndex (lr_Category.itemhandle, li_panel, lr_panel) = 1
+		li_button = 1
+		do
+			// Revisa Large Button
+			if rb.GetChildItemByIndex (lr_panel.itemhandle, li_button, lr_LButton) = 1 then
+				esLButton = true
+				fila = dw_oprsum.find("menuribon='" + lr_LButton.Tag + "'", 1, dw_oprsum.RowCount())
+				if fila > 0 then
+					if  dw_oprsum.getitemstring(fila,'permiso') = '0' then
+						lr_LButton.Enabled = false
+						lr_LButton.visible = true
+						rb.setItem(lr_LButton)
+					end if
+				end if
+				
+				lr_LButton.getMenu(lr_Menu)
+				for it = 1 to lr_Menu.getItemCount()
+					lr_Menu.getItem(it, lr_Item)
+					fila = dw_oprsum.find("menuribon='" + lr_Item.Tag + "'", 1, dw_oprsum.RowCount())
+					if fila > 0 then
+						if  dw_oprsum.getitemstring(fila,'permiso') = '0' then
+							lr_Item.Enabled = false
+							lr_Item.visible = true
+							lr_Menu.setItem(it, lr_Item)
+							lr_LButton.setMenu(lr_Menu)
+							rb.setItem(lr_LButton)
+						end if
+					end if
+				next
+			else
+				esLButton = false
+			end if
+			
+			// Revisa SmallButton
+			if rb.GetChildItemByIndex (lr_panel.itemhandle, li_button, lr_SButton) = 1 then
+				fila = dw_oprsum.find("menuribon='" + lr_SButton.Tag + "'", 1, dw_oprsum.RowCount())
+				if fila > 0 then
+					if  dw_oprsum.getitemstring(fila,'permiso') = '0' then
+						lr_SButton.Enabled = false
+						lr_SButton.visible = false
+						rb.setItem(lr_SButton)
+					end if
+				end if
+				
+				lr_SButton.getMenu(lr_Menu)
+				for it = 1 to lr_Menu.getItemCount()
+					lr_Menu.getItem(it, lr_Item)		
+					fila = dw_oprsum.find("menuribon='" + lr_Item.Tag + "'", 1, dw_oprsum.RowCount())
+					if fila > 0 then
+						if  dw_oprsum.getitemstring(fila,'permiso') = '0' then
+							lr_Item.Enabled = false
+							lr_Item.visible = false
+							lr_Menu.setItem(it, lr_Item)
+							lr_LButton.setMenu(lr_Menu)
+							rb.setItem(lr_SButton)
+						end if
+					end if
+				next
+				esSButton = true
+			else
+				esSButton = false
+			end if
+			li_button++
+		loop while  (esLButton or esSButton)
+		li_panel++
+	loop
+	li_categoria++
+loop
+
+end subroutine
+

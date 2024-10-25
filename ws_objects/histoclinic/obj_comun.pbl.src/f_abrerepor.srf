@@ -19,7 +19,7 @@ if not isvalid(i_rep[nro]) then
 	i_rep[nro].cod_rep=cod_rep
 	i_rep[nro].v_preliminar=true
 	i_rep[nro].dialogo=false
-	if nro=16 and wsheet.classname()<>'w_reportes_adm'  then
+	if nro=16 /*and wsheet.classname()<>'w_reportes_adm' and wsheet.classname()<>'w_reportes_asis' */ then
 		i_rep[nro].tipo_rep='externo!'
 	else
 		i_rep[nro].tipo_rep='menu!'

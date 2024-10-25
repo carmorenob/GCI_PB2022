@@ -70,12 +70,10 @@ integer height = 2028
 boolean titlebar = true
 string title = "Pacientes con ingresos Activos"
 boolean controlmenu = true
-boolean minbox = true
-boolean maxbox = true
 boolean resizable = true
 windowtype windowtype = popup!
 long backcolor = 67108864
-string icon = "hospital.ico"
+string icon = "r_hospital.ico"
 boolean center = true
 rb_qx rb_qx
 f_sinfac f_sinfac

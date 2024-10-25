@@ -26,7 +26,7 @@ string title = "Cambio de Documento y/o Historia Clínica"
 boolean controlmenu = true
 windowtype windowtype = response!
 long backcolor = 67108864
-string icon = "cambio_resp.ico"
+string icon = "r_cambio_resp.ico"
 boolean clientedge = true
 boolean center = true
 cb_ok cb_ok

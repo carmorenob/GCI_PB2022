@@ -30,10 +30,9 @@ integer height = 1820
 boolean titlebar = true
 string title = "Eliminar Pacientes Repetidos"
 boolean controlmenu = true
-boolean minbox = true
 windowtype windowtype = child!
 long backcolor = 67108864
-string icon = "elimi_pac.ico"
+string icon = "r_elimi_pac.ico"
 boolean center = true
 pb_6 pb_6
 pb_5 pb_5

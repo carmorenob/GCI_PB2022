@@ -14,37 +14,37 @@ type huella_total from olecustomcontrol within w_principal
 end type
 type dw_1 from uo_datawindow within w_principal
 end type
-type dw_profe from uo_datawindow within w_principal
+type gb_1 from groupbox within w_principal
 end type
 type dw_odprofe from uo_datawindow within w_principal
 end type
-type gb_1 from groupbox within w_principal
+type dw_profe from uo_datawindow within w_principal
 end type
 end forward
 
 global type w_principal from window
-integer width = 5751
-integer height = 3252
+integer width = 5723
+integer height = 3228
 boolean titlebar = true
 string title = "GCI Ltda."
 string menuname = "m_mdiasis"
 boolean controlmenu = true
 boolean minbox = true
 boolean maxbox = true
-boolean resizable = true
-windowtype windowtype = mdi!
+windowtype windowtype = mdihelp!
 windowstate windowstate = maximized!
 long backcolor = 67108864
 string pointer = "Arrow!"
+boolean toolbarvisible = false
 mdi_1 mdi_1
 rbb_1 rbb_1
 dw_huella dw_huella
 p_imagen p_imagen
 huella_total huella_total
 dw_1 dw_1
-dw_profe dw_profe
-dw_odprofe dw_odprofe
 gb_1 gb_1
+dw_odprofe dw_odprofe
+dw_profe dw_profe
 end type
 global w_principal w_principal
 
@@ -56,6 +56,7 @@ Int intentos,ii_contexto
 Long il_resolucion, il_height, il_width,l_dias_update
 st_biometria pac_template
 Boolean l_huella=false
+
 end variables
 
 forward prototypes
@@ -233,7 +234,7 @@ If	rib_boo Then
 		LOOP	
 		nom_rib.ImportJSON (ls_rep)
 	end if
-//	f_poblar_menus_ribon(rbb_1,'ASIS')
+	f_poblar_menus_ribon_asis(rbb_1,'ASI')
 	return
 End If
 end subroutine
@@ -246,18 +247,18 @@ this.dw_huella=create dw_huella
 this.p_imagen=create p_imagen
 this.huella_total=create huella_total
 this.dw_1=create dw_1
-this.dw_profe=create dw_profe
-this.dw_odprofe=create dw_odprofe
 this.gb_1=create gb_1
+this.dw_odprofe=create dw_odprofe
+this.dw_profe=create dw_profe
 this.Control[]={this.mdi_1,&
 this.rbb_1,&
 this.dw_huella,&
 this.p_imagen,&
 this.huella_total,&
 this.dw_1,&
-this.dw_profe,&
+this.gb_1,&
 this.dw_odprofe,&
-this.gb_1}
+this.dw_profe}
 end on
 
 on w_principal.destroy
@@ -268,9 +269,9 @@ destroy(this.dw_huella)
 destroy(this.p_imagen)
 destroy(this.huella_total)
 destroy(this.dw_1)
-destroy(this.dw_profe)
-destroy(this.dw_odprofe)
 destroy(this.gb_1)
+destroy(this.dw_odprofe)
+destroy(this.dw_profe)
 end on
 
 event open;if isvalid(w_presenta) then w_presenta.setfocus()
@@ -303,12 +304,12 @@ if sqlca.sqlnrows=0 then
 	messagebox('Atencíon','No hay parametro 36')
 end if
 
-//if l_cita=0 then 
-//	m_principal.m_3.m_3_2.m_recordatorio.visible=false
-//	m_principal.m_3.m_3_2.m_recordatorio.enabled=false
-//	m_principal.m_3.m_3_2.m_recordatorio.toolbaritemvisible=false
-//end if
-//
+if l_cita=0 then 
+	//	im_menu.m_3.m_3_2.m_recordatorio.visible=false
+	//	m_principal.m_3.m_3_2.m_recordatorio.enabled=false
+	//	m_principal.m_3.m_3_2.m_recordatorio.toolbaritemvisible=false	
+end if
+
 
 SELECT Min(Profe.CodProf) into :tt
 FROM Profe
@@ -575,7 +576,7 @@ HALT
 end event
 
 type mdi_1 from mdiclient within w_principal
-long BackColor=276856960
+long BackColor=33554431
 end type
 
 type rbb_1 from ribbonbar within w_principal
@@ -615,6 +616,8 @@ event e_salasqx ( long param )
 event e_salaspg ( long param )
 event e_autorizas ( long param )
 event e_autorizaa ( long param )
+event e_ripsge ( long param )
+event e_ripsmd ( long param )
 integer width = 5641
 integer height = 444
 long backcolor = 15132390
@@ -631,7 +634,7 @@ openwithparm(win_busqueda,w_principal.dw_1)
 end event
 
 event e_reportes(long param);opensheet(w_reportes_asis,w_principal,0,Original!)
-w_principal.arrangesheets(layer!)
+
 
 end event
 
@@ -794,7 +797,7 @@ event e_cambior(long param);if long(aplicativo)<5 or aplicativo = '7' then
 end if
 if not enabled then return
 if tipdoc="" or docu="" or isnull(docu) then return
-opensheet (w_cambio_emp,w_principal,7,original!)
+opensheet (w_cambio_emp,w_admision,7,original!)
 w_principal.ArrangeSheets ( layer!)
 end event
 
@@ -892,6 +895,16 @@ if not enabled then return
 opensheet (w_autoriza,w_principal,7,original!)
 w_principal.ArrangeSheets ( layer!)
 
+end event
+
+event e_ripsge(long param);if not enabled then return
+opensheet (w_rias,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_ripsmd(long param);if not enabled then return
+opensheet (w_hist_restas,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
 end event
 
 type dw_huella from uo_datawindow within w_principal
@@ -1163,70 +1176,24 @@ end event
 event dberror;return 1
 end event
 
-type dw_profe from uo_datawindow within w_principal
-boolean visible = false
-integer x = 3040
-integer y = 476
-integer width = 2661
-integer height = 112
-integer taborder = 20
-string dragicon = "none!"
-string dataobject = "dw_escogeprof"
-boolean border = false
+type gb_1 from groupbox within w_principal
+integer y = 428
+integer width = 5673
+integer height = 204
+integer taborder = 10
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 67108864
 end type
-
-event itemchanged;string profesi
-choose case getcolumn()
-	case 1
-		profesi=gettext()
-		string usu,evolu
-		select usuario,evoluciona into :usu,:evolu from profe where codprof=:profesi;
-		if isnull(usu) or evolu='0' then
-			settext(getitemstring(1,1))
-			return 1
-		end if
-		openwithparm(w_conecta_evol,profesi)
-		st_ordenes st_llega
-		st_llega= Message.PowerObjectParm
-		if st_llega.clugar='!' then 
-			settext(getitemstring(1,1))
-			if isvalid(w_hist_gral) then w_hist_gral.triggerevent(deactivate!)
-			return 2
-		end if
-		setitem(1,2,"")
-		accepttext()
-		espe.retrieve(profesi)
-		if espe.rowcount() < 1 then 
-			messagebox("Atención","Profesional no tiene asignada Especialidad")
-			settext(getitemstring(1,1))
-			return 1
-		else
-			setitem(1,2,espe.getitemstring(1,2))
-		end if
-		if isvalid(w_hist_gral) then w_hist_gral.triggerevent(open!)
-		setfocus()
-	case 2
-		if isvalid(w_hist_gral) then 
-			if w_hist_gral.cambia_prof_espe(getitemstring(1,1),gettext())=-1 then
-				settext(getitemstring(1,2))
-				return 2
-			end if
-		end if
-end choose
-
-end event
-
-event constructor;settransobject(sqlca)
-getchild('cesp',espe)
-espe.settransobject(sqlca)
-insertrow(1)
-
-
-end event
 
 type dw_odprofe from uo_datawindow within w_principal
 boolean visible = false
-integer x = 3040
+integer x = 3003
 integer y = 476
 integer width = 2697
 integer height = 112
@@ -1290,20 +1257,67 @@ odespe.settransobject(sqlca)
 insertrow(1)
 end event
 
-type gb_1 from groupbox within w_principal
-integer y = 428
-integer width = 5641
-integer height = 204
-integer taborder = 10
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-long textcolor = 33554432
-long backcolor = 67108864
+type dw_profe from uo_datawindow within w_principal
+boolean visible = false
+integer x = 3003
+integer y = 476
+integer width = 2661
+integer height = 112
+integer taborder = 20
+string dragicon = "none!"
+boolean bringtotop = true
+string dataobject = "dw_escogeprof"
+boolean border = false
 end type
+
+event itemchanged;string profesi
+choose case getcolumn()
+	case 1
+		profesi=gettext()
+		string usu,evolu
+		select usuario,evoluciona into :usu,:evolu from profe where codprof=:profesi;
+		if isnull(usu) or evolu='0' then
+			settext(getitemstring(1,1))
+			return 1
+		end if
+		openwithparm(w_conecta_evol,profesi)
+		st_ordenes st_llega
+		st_llega= Message.PowerObjectParm
+		if st_llega.clugar='!' then 
+			settext(getitemstring(1,1))
+			if isvalid(w_hist_gral) then w_hist_gral.triggerevent(deactivate!)
+			return 2
+		end if
+		setitem(1,2,"")
+		accepttext()
+		espe.retrieve(profesi)
+		if espe.rowcount() < 1 then 
+			messagebox("Atención","Profesional no tiene asignada Especialidad")
+			settext(getitemstring(1,1))
+			return 1
+		else
+			setitem(1,2,espe.getitemstring(1,2))
+		end if
+		if isvalid(w_hist_gral) then w_hist_gral.triggerevent(open!)
+		setfocus()
+	case 2
+		if isvalid(w_hist_gral) then 
+			if w_hist_gral.cambia_prof_espe(getitemstring(1,1),gettext())=-1 then
+				settext(getitemstring(1,2))
+				return 2
+			end if
+		end if
+end choose
+
+end event
+
+event constructor;settransobject(sqlca)
+getchild('cesp',espe)
+espe.settransobject(sqlca)
+insertrow(1)
+
+
+end event
 
 
 Start of PowerBuilder Binary Data Section : Do NOT Edit

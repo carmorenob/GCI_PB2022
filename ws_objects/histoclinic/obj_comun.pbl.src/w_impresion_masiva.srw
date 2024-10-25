@@ -51,13 +51,14 @@ end type
 end forward
 
 global type w_impresion_masiva from window
-integer width = 3209
-integer height = 1728
+integer width = 3182
+integer height = 1704
 boolean titlebar = true
 string title = "Impresion Masiva HC"
-boolean resizable = true
+boolean controlmenu = true
+windowtype windowtype = child!
 long backcolor = 67108864
-string icon = "AppIcon!"
+string icon = "r_imprimem.ico"
 boolean center = true
 dw_rte dw_rte
 sle_1 sle_1

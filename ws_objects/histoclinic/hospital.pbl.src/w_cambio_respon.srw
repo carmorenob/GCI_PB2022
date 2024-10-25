@@ -24,7 +24,7 @@ string title = "Cambio de Responsable"
 boolean controlmenu = true
 windowtype windowtype = response!
 long backcolor = 67108864
-string icon = "cambia_doc.ico"
+string icon = "r_cambio_resp.ico"
 boolean clientedge = true
 boolean center = true
 st_2 st_2

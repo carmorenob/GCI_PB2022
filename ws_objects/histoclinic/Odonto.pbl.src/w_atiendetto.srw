@@ -98,16 +98,14 @@ end type
 end forward
 
 global type w_atiendetto from window
-integer width = 5760
-integer height = 1960
+integer width = 5733
+integer height = 1936
 boolean titlebar = true
 string title = "Odontología - Tratamiento"
 boolean controlmenu = true
-boolean minbox = true
-boolean maxbox = true
-boolean resizable = true
+windowtype windowtype = child!
 long backcolor = 67108864
-string icon = "molar3cor.ico"
+string icon = "r_odontto.ico"
 boolean toolbarvisible = false
 dw_1 dw_1
 dw_empac dw_empac
@@ -353,7 +351,11 @@ end if
 
 end event
 
-event activate;w_principal.dw_odprofe.visible=TRUE
+event activate;w_principal.dw_1.x=18
+w_principal.dw_1.y=456
+w_principal.dw_odprofe.x=3003
+w_principal.dw_odprofe.y=476	
+w_principal.dw_odprofe.visible=TRUE
 cb_1.enabled=true
 cb_2.enabled=true
 pb_notas.enabled=true

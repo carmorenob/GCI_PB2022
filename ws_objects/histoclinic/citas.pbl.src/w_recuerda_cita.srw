@@ -30,8 +30,9 @@ integer height = 1612
 boolean titlebar = true
 string title = "Recordatorio Citas"
 boolean controlmenu = true
+windowtype windowtype = child!
 long backcolor = 67108864
-string icon = "recorda.ico"
+string icon = "r_recorda.ico"
 boolean center = true
 rte_1 rte_1
 pb_3 pb_3

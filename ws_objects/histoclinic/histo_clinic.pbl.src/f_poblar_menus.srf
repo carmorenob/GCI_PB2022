@@ -11,6 +11,8 @@ uo_datastore dw_oprsum
 dw_oprsum=create uo_datastore
 dw_oprsum.dataobject="dw_reportes"
 dw_oprsum.SetTransObject(SQLCA)
+
+
 if dw_oprsum.retrieve(usuario)=-1 then return
 long i,k
 i=dw_oprsum.rowcount()
@@ -43,6 +45,7 @@ for i=k+1 to 15
 	m_principal.m_reportes.Item[i].visible=false
 	m_principal.m_reportes.Item[i].enabled=false
 next
+
 menu tt
 string temp
 dw_oprsum.dataobject="dw_menus"

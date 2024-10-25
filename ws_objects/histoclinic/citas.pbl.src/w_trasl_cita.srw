@@ -18,7 +18,7 @@ string title = "Trasladar Cita a otra Fecha"
 boolean controlmenu = true
 windowtype windowtype = popup!
 long backcolor = 67108864
-string icon = "traslado.ico"
+string icon = "r_asig_cita.ico"
 boolean center = true
 pb_2 pb_2
 pb_1 pb_1

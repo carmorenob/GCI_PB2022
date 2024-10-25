@@ -69,16 +69,14 @@ end type
 end forward
 
 global type w_entrega_med from window
-integer width = 4791
-integer height = 1976
+integer width = 5847
+integer height = 2108
 boolean titlebar = true
 string title = "Entrega de Medicamentos"
 boolean controlmenu = true
-boolean minbox = true
-boolean maxbox = true
-boolean resizable = true
+windowtype windowtype = child!
 long backcolor = 67108864
-string icon = "entrega_med.ico"
+string icon = "r_entrega_med.ico"
 st_2 st_2
 sle_1 sle_1
 dw_lote_mov dw_lote_mov
@@ -355,7 +353,7 @@ end event
 type dw_inf from datawindow within w_entrega_med
 integer x = 32
 integer y = 600
-integer width = 4475
+integer width = 5792
 integer height = 132
 string title = "none"
 string dataobject = "dw_inf_emp_cama"
@@ -369,7 +367,7 @@ end event
 type tab_1 from tab within w_entrega_med
 integer x = 32
 integer y = 736
-integer width = 4690
+integer width = 5746
 integer height = 1084
 integer taborder = 60
 integer textsize = -8
@@ -406,7 +404,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 4654
+integer width = 5710
 integer height = 956
 long backcolor = 67108864
 string text = "Pendientes de Entregar"
@@ -547,8 +545,8 @@ end type
 
 type pb_new from picturebutton within tabpage_1
 event mousemove pbm_mousemove
-integer x = 4480
-integer y = 84
+integer x = 5531
+integer y = 80
 integer width = 142
 integer height = 124
 integer taborder = 30
@@ -763,7 +761,7 @@ end event
 type dw_medica from datawindow within tabpage_1
 integer x = 55
 integer y = 84
-integer width = 4407
+integer width = 5445
 integer height = 848
 integer taborder = 30
 boolean bringtotop = true
@@ -912,7 +910,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 4654
+integer width = 5710
 integer height = 956
 long backcolor = 67108864
 string text = "Detalle de Entregas Anteriores"
@@ -941,8 +939,8 @@ destroy(this.dw_ent_det)
 end on
 
 type pb_print from pb_report within tabpage_2
-integer x = 4480
-integer y = 52
+integer x = 5541
+integer y = 24
 integer taborder = 50
 string text = "       &r"
 boolean originalsize = false
@@ -964,8 +962,8 @@ end event
 
 type pb_anular from picturebutton within tabpage_2
 event mousemove pbm_mousemove
-integer x = 4480
-integer y = 240
+integer x = 5541
+integer y = 212
 integer width = 142
 integer height = 124
 integer taborder = 60
@@ -1056,7 +1054,7 @@ end event
 type dw_ent_det from datawindow within tabpage_2
 integer x = 87
 integer y = 32
-integer width = 4329
+integer width = 5440
 integer height = 912
 integer taborder = 30
 string title = "none"
@@ -1075,9 +1073,9 @@ return 0
 end event
 
 type dw_entregas from datawindow within w_entrega_med
-integer x = 2313
+integer x = 3301
 integer y = 56
-integer width = 2350
+integer width = 2469
 integer height = 528
 integer taborder = 40
 string title = "none"
@@ -1128,7 +1126,7 @@ end event
 type st_3 from statictext within w_entrega_med
 integer x = 55
 integer y = 168
-integer width = 2130
+integer width = 3086
 integer height = 68
 integer textsize = -8
 integer weight = 400
@@ -1147,7 +1145,7 @@ end type
 type dw_historial from datawindow within w_entrega_med
 integer x = 55
 integer y = 228
-integer width = 2144
+integer width = 3090
 integer height = 356
 integer taborder = 50
 string title = "none"
@@ -1207,10 +1205,10 @@ boolean focusrectangle = false
 end type
 
 type gb_1 from groupbox within w_entrega_med
-integer x = 2290
-integer width = 2409
+integer x = 3250
+integer width = 2542
 integer height = 604
-integer textsize = -8
+integer textsize = -7
 integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -1223,7 +1221,7 @@ end type
 
 type gb_2 from groupbox within w_entrega_med
 integer x = 27
-integer width = 2199
+integer width = 3159
 integer height = 604
 integer textsize = -8
 integer weight = 400

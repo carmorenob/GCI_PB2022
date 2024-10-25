@@ -32,7 +32,7 @@ string title = "Busqueda Rápida de Pacientes"
 boolean controlmenu = true
 windowtype windowtype = response!
 long backcolor = 67108864
-string icon = "buscar.ico"
+string icon = "r_buscar.ico"
 string pointer = "Arrow!"
 boolean center = true
 st_2 st_2

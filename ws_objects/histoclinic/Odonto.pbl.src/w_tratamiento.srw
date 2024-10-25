@@ -65,16 +65,13 @@ end type
 end forward
 
 global type w_tratamiento from window
-integer width = 5175
-integer height = 1912
+integer width = 5147
+integer height = 1888
 boolean titlebar = true
 string title = "Odontología - Definición Tratamiento"
 boolean controlmenu = true
-boolean minbox = true
-boolean maxbox = true
-boolean resizable = true
 long backcolor = 67108864
-string icon = "coronaDes16.ico"
+string icon = "r_odontto.ico"
 pb_res pb_res
 t1 t1
 st_1 st_1
@@ -268,7 +265,11 @@ procedimientos.Filter()
 
 end event
 
-event activate;w_principal.dw_odprofe.visible=TRUE
+event activate;w_principal.dw_1.x=18
+w_principal.dw_1.y=456
+w_principal.dw_odprofe.x=3003
+w_principal.dw_odprofe.y=476	
+w_principal.dw_odprofe.visible=TRUE
 end event
 
 event deactivate;w_principal.dw_odprofe.visible=FALSE

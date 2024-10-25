@@ -45,17 +45,15 @@ end type
 end forward
 
 global type w_imag_diag from window
-integer width = 4750
-integer height = 2708
+integer width = 4722
+integer height = 2684
 boolean titlebar = true
 string title = "Explorador de Historial Médico del Paciente"
 boolean controlmenu = true
-boolean minbox = true
-boolean maxbox = true
-boolean resizable = true
+windowtype windowtype = child!
 windowstate windowstate = maximized!
 long backcolor = 67108864
-string icon = "AppIcon!"
+string icon = "r_treehc.ico"
 boolean center = true
 event vscroll pbm_vscroll
 event post_open ( )

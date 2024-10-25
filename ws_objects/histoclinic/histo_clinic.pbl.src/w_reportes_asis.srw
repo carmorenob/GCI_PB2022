@@ -10,12 +10,11 @@ global type w_reportes_asis from window
 integer width = 3351
 integer height = 2280
 boolean titlebar = true
-string title = "Reportes disponibles"
+string title = "Reportes Asistenciales Disponibles"
 boolean controlmenu = true
-boolean minbox = true
-windowtype windowtype = popup!
+windowtype windowtype = child!
 long backcolor = 67108864
-string icon = "AppIcon!"
+string icon = "r_rasis.ico"
 boolean center = true
 dw_1 dw_1
 end type
@@ -37,7 +36,7 @@ type dw_1 from datawindow within w_reportes_asis
 integer x = 32
 integer y = 44
 integer width = 3278
-integer height = 2060
+integer height = 2104
 integer taborder = 10
 string title = "none"
 string dataobject = "dw_reportes_asis"

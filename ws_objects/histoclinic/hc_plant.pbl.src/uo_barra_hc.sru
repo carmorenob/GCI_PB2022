@@ -397,9 +397,11 @@ if i_antecedente='1' then
 	else
 		pb_antecedente.PictureName='antecedente.gif'	
 	end if
+	pb_lleva.visible=false
 	pb_antecedente.visible=true
 else
 	pb_antecedente.visible=false
+	pb_lleva.visible=true
 end if
 //pb_antecedente.originalsize=true
 

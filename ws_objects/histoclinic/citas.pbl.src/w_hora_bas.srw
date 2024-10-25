@@ -43,7 +43,7 @@ boolean controlmenu = true
 boolean minbox = true
 windowtype windowtype = child!
 long backcolor = 67108864
-string icon = "Form!"
+string icon = "r_citahs.ico"
 string pointer = "Arrow!"
 mle_1 mle_1
 dw_txa_suge dw_txa_suge

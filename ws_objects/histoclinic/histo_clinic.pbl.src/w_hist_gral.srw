@@ -58,18 +58,14 @@ end type
 end forward
 
 global type w_hist_gral from window
-integer width = 7008
-integer height = 2668
+integer width = 6981
+integer height = 2644
 boolean titlebar = true
 string title = "Consultorio"
 boolean controlmenu = true
-boolean minbox = true
-boolean maxbox = true
 boolean hscrollbar = true
 boolean vscrollbar = true
-boolean resizable = true
 windowtype windowtype = child!
-windowstate windowstate = maximized!
 long backcolor = 67108864
 string icon = "medico.ico"
 string pointer = "Arrow!"
@@ -230,10 +226,10 @@ end event
 event deactivate;//m_principal.m_3.m_3_3.dropdown=false
 //m_principal.m_3.m_3_3.m_3_3_2.enabled=false
 //m_principal.m_3.m_3_3.m_3_3_2.toolbaritemvisible=false
-m_principal.m_3.m_3_3.m_3_3_3.enabled=false
-m_principal.m_3.m_3_3.m_3_3_3.toolbaritemvisible=false
-m_principal.m_3.m_3_3.m_3_3_4.enabled=false
-m_principal.m_3.m_3_3.m_3_3_4.toolbaritemvisible=false
+//m_principal.m_3.m_3_3.m_3_3_3.enabled=false
+//m_principal.m_3.m_3_3.m_3_3_3.toolbaritemvisible=false
+//m_principal.m_3.m_3_3.m_3_3_4.enabled=false
+//m_principal.m_3.m_3_3.m_3_3_4.toolbaritemvisible=false
 w_principal.dw_profe.visible=false
 cb_1.enabled=false
 cb_2.enabled=false
@@ -242,13 +238,15 @@ tab_s.tps_1.uo_serv.enabled=false
 tab_s.tps_3.uo_os_fo.enabled=false
 end event
 
-event activate;m_principal.m_3.m_3_3.dropdown=true
-m_principal.m_3.m_3_3.m_3_3_2.enabled=true
-m_principal.m_3.m_3_3.m_3_3_2.toolbaritemvisible=true
-m_principal.m_3.m_3_3.m_3_3_3.enabled=true
-m_principal.m_3.m_3_3.m_3_3_3.toolbaritemvisible=true
-m_principal.m_3.m_3_3.m_3_3_4.enabled=true
-m_principal.m_3.m_3_3.m_3_3_4.toolbaritemvisible=true
+event activate;//m_principal.m_3.m_3_3.dropdown=true
+//m_principal.m_3.m_3_3.m_3_3_2.enabled=true
+//m_principal.m_3.m_3_3.m_3_3_2.toolbaritemvisible=true
+//m_principal.m_3.m_3_3.m_3_3_3.enabled=true
+//m_principal.m_3.m_3_3.m_3_3_3.toolbaritemvisible=true
+//m_principal.m_3.m_3_3.m_3_3_4.enabled=true
+//m_principal.m_3.m_3_3.m_3_3_4.toolbaritemvisible=true
+//im_menu.m_3.m_3_3.m_3_3_4.toolbaritemvisible=true
+
 w_principal.dw_profe.visible=true
 cb_1.enabled=true
 cb_2.enabled=true
