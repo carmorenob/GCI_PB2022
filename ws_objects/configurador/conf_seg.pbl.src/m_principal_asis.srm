@@ -12,7 +12,7 @@ type m_1_3 from menu within m_1
 end type
 type m_cambiarlugar from menu within m_1
 end type
-type m_- from menu within m_1
+type m_6 from menu within m_1
 end type
 type m_1_4 from menu within m_1
 end type
@@ -21,7 +21,7 @@ m_1_1 m_1_1
 m_1_2 m_1_2
 m_1_3 m_1_3
 m_cambiarlugar m_cambiarlugar
-m_- m_-
+m_6 m_6
 m_1_4 m_1_4
 end type
 type m_2 from menu within m_principal_asis
@@ -41,7 +41,7 @@ type m_3 from menu within m_principal_asis
 end type
 type m_resumenhc from menu within m_3
 end type
-type m_3_1 from menu within m_3
+type m_fichadeidentificación from menu within m_3
 end type
 type m_3_2 from menu within m_3
 end type
@@ -89,26 +89,15 @@ type m_3_3 from menucascade within m_3
 end type
 type m_3_3_1 from menu within m_3_3
 end type
-type m_raycons1 from menu within m_3_3
-end type
-type m_3_3_2 from menu within m_3_3
-end type
 type m_3_3_3 from menu within m_3_3
-end type
-type m_3_3_4 from menu within m_3_3
 end type
 type m_3_3 from menucascade within m_3
 m_3_3_1 m_3_3_1
-m_raycons1 m_raycons1
-m_3_3_2 m_3_3_2
 m_3_3_3 m_3_3_3
-m_3_3_4 m_3_3_4
 end type
 type m_3_4 from menu within m_3
 end type
 type m_3_4_1 from menu within m_3_4
-end type
-type m_3_4_2 from menu within m_3_4
 end type
 type m_3_4_3 from menu within m_3_4
 end type
@@ -116,12 +105,22 @@ type m_cohortespaciente from menu within m_3_4
 end type
 type m_202 from menu within m_3_4
 end type
+type m_5 from menu within m_3_4
+end type
+type m_gestante from menu within m_5
+end type
+type m_erc from menu within m_5
+end type
+type m_5 from menu within m_3_4
+m_gestante m_gestante
+m_erc m_erc
+end type
 type m_3_4 from menu within m_3
 m_3_4_1 m_3_4_1
-m_3_4_2 m_3_4_2
 m_3_4_3 m_3_4_3
 m_cohortespaciente m_cohortespaciente
 m_202 m_202
+m_5 m_5
 end type
 type m_3_5 from menucascade within m_3
 end type
@@ -157,8 +156,6 @@ type m_bancosdefluidos from menu within m_3
 m_recolección m_recolección
 m_reservas m_reservas
 end type
-type m_3_6 from menu within m_3
-end type
 type m_3_7 from menu within m_3
 end type
 type m_3_7_1 from menu within m_3_7
@@ -170,8 +167,6 @@ end type
 type m_devoluciónmedicamentos from menu within m_3_7
 end type
 type m_3_7_4 from menu within m_3_7
-end type
-type m_raya_hosp from menu within m_3_7
 end type
 type m_3_7_5 from menu within m_3_7
 end type
@@ -187,7 +182,6 @@ m_3_7_2 m_3_7_2
 m_3_7_3 m_3_7_3
 m_devoluciónmedicamentos m_devoluciónmedicamentos
 m_3_7_4 m_3_7_4
-m_raya_hosp m_raya_hosp
 m_3_7_5 m_3_7_5
 m_3_7_6 m_3_7_6
 m_reserv m_reserv
@@ -207,8 +201,6 @@ type m_3_8 from menu within m_3
 end type
 type m_3_8_1 from menu within m_3_8
 end type
-type m_ray_quir from menu within m_3_8
-end type
 type m_3_8_2 from menu within m_3_8
 end type
 type m_3_8_3 from menu within m_3_8
@@ -223,7 +215,6 @@ m_3_8_3_2 m_3_8_3_2
 end type
 type m_3_8 from menu within m_3
 m_3_8_1 m_3_8_1
-m_ray_quir m_ray_quir
 m_3_8_2 m_3_8_2
 m_3_8_3 m_3_8_3
 end type
@@ -233,15 +224,9 @@ type m_3_9_1 from menu within m_3_9
 end type
 type m_3_9_2 from menu within m_3_9
 end type
-type m_-1 from menu within m_3_9
-end type
-type m_3_9_3 from menu within m_3_9
-end type
 type m_3_9 from menu within m_3
 m_3_9_1 m_3_9_1
 m_3_9_2 m_3_9_2
-m_-1 m_-1
-m_3_9_3 m_3_9_3
 end type
 type m_3_10 from menu within m_3
 end type
@@ -250,8 +235,6 @@ end type
 type m_3_10_2 from menu within m_3_10
 end type
 type m_3_10_3 from menu within m_3_10
-end type
-type m_ray1_fact from menu within m_3_10
 end type
 type m_3_10_4 from menu within m_3_10
 end type
@@ -277,7 +260,6 @@ type m_3_10 from menu within m_3
 m_3_10_1 m_3_10_1
 m_3_10_2 m_3_10_2
 m_3_10_3 m_3_10_3
-m_ray1_fact m_ray1_fact
 m_3_10_4 m_3_10_4
 m_3_10_5 m_3_10_5
 end type
@@ -287,11 +269,7 @@ type m_3_11_1 from menu within m_3_11
 end type
 type m_3_11_2 from menu within m_3_11
 end type
-type m_raya2_rips from menu within m_3_11
-end type
 type m_3_11_3 from menu within m_3_11
-end type
-type m_raya1_rips from menu within m_3_11
 end type
 type m_3_11_4 from menu within m_3_11
 end type
@@ -300,9 +278,7 @@ end type
 type m_3_11 from menucascade within m_3
 m_3_11_1 m_3_11_1
 m_3_11_2 m_3_11_2
-m_raya2_rips m_raya2_rips
 m_3_11_3 m_3_11_3
-m_raya1_rips m_raya1_rips
 m_3_11_4 m_3_11_4
 m_modif_rad m_modif_rad
 end type
@@ -341,27 +317,27 @@ type m_generaciónestadísticas from menu within m_encuestas
 end type
 type m_listadodeencuestas from menu within m_encuestas
 end type
+type m_aplicación from menu within m_encuestas
+end type
 type m_encuestas from menu within m_at_cliente
 m_elaboración m_elaboración
 m_tabulación m_tabulación
 m_generaciónestadísticas m_generaciónestadísticas
 m_listadodeencuestas m_listadodeencuestas
+m_aplicación m_aplicación
 end type
 type m_at_cliente from menu within m_3
 m_quejas0 m_quejas0
 m_encuestas m_encuestas
 end type
-type m_mpres from menu within m_3
-end type
 type m_3 from menu within m_principal_asis
 m_resumenhc m_resumenhc
-m_3_1 m_3_1
+m_fichadeidentificación m_fichadeidentificación
 m_3_2 m_3_2
 m_3_3 m_3_3
 m_3_4 m_3_4
 m_3_5 m_3_5
 m_bancosdefluidos m_bancosdefluidos
-m_3_6 m_3_6
 m_3_7 m_3_7
 m_autorizaciones m_autorizaciones
 m_3_8 m_3_8
@@ -370,28 +346,11 @@ m_3_10 m_3_10
 m_3_11 m_3_11
 m_semaf m_semaf
 m_at_cliente m_at_cliente
-m_mpres m_mpres
-end type
-type m_herramientas from menu within m_principal_asis
-end type
-type m_ejecutar from menu within m_herramientas
-end type
-type m_herramientas from menu within m_principal_asis
-m_ejecutar m_ejecutar
-end type
-type m_5 from menu within m_principal_asis
-end type
-type m_5_1 from menu within m_5
-end type
-type m_5 from menu within m_principal_asis
-m_5_1 m_5_1
 end type
 global type m_principal_asis from menu
 m_1 m_1
 m_2 m_2
 m_3 m_3
-m_herramientas m_herramientas
-m_5 m_5
 end type
 end forward
 
@@ -399,8 +358,6 @@ global type m_principal_asis from menu
 m_1 m_1
 m_2 m_2
 m_3 m_3
-m_herramientas m_herramientas
-m_5 m_5
 end type
 global m_principal_asis m_principal_asis
 
@@ -430,13 +387,9 @@ this.bitmapgradient = true
 this.m_1=create m_1
 this.m_2=create m_2
 this.m_3=create m_3
-this.m_herramientas=create m_herramientas
-this.m_5=create m_5
 this.Item[UpperBound(this.Item)+1]=this.m_1
 this.Item[UpperBound(this.Item)+1]=this.m_2
 this.Item[UpperBound(this.Item)+1]=this.m_3
-this.Item[UpperBound(this.Item)+1]=this.m_herramientas
-this.Item[UpperBound(this.Item)+1]=this.m_5
 end on
 
 on m_principal_asis.destroy
@@ -444,8 +397,6 @@ call super::destroy
 destroy(this.m_1)
 destroy(this.m_2)
 destroy(this.m_3)
-destroy(this.m_herramientas)
-destroy(this.m_5)
 end on
 
 type m_1 from menucascade within m_principal_asis
@@ -453,13 +404,16 @@ m_1_1 m_1_1
 m_1_2 m_1_2
 m_1_3 m_1_3
 m_cambiarlugar m_cambiarlugar
-m_- m_-
+m_6 m_6
 m_1_4 m_1_4
 end type
 
 on m_1.create
 call super::create
-this.text = "&Archivo"
+this.tag = "Archivo"
+this.text = "Archivo"
+this.microhelp = "Archivo"
+this.toolbaritemtext = "Archivo"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -479,13 +433,13 @@ this.m_1_1=create m_1_1
 this.m_1_2=create m_1_2
 this.m_1_3=create m_1_3
 this.m_cambiarlugar=create m_cambiarlugar
-this.m_-=create m_-
+this.m_6=create m_6
 this.m_1_4=create m_1_4
 this.Item[UpperBound(this.Item)+1]=this.m_1_1
 this.Item[UpperBound(this.Item)+1]=this.m_1_2
 this.Item[UpperBound(this.Item)+1]=this.m_1_3
 this.Item[UpperBound(this.Item)+1]=this.m_cambiarlugar
-this.Item[UpperBound(this.Item)+1]=this.m_-
+this.Item[UpperBound(this.Item)+1]=this.m_6
 this.Item[UpperBound(this.Item)+1]=this.m_1_4
 end on
 
@@ -495,7 +449,7 @@ destroy(this.m_1_1)
 destroy(this.m_1_2)
 destroy(this.m_1_3)
 destroy(this.m_cambiarlugar)
-destroy(this.m_-)
+destroy(this.m_6)
 destroy(this.m_1_4)
 end on
 
@@ -504,9 +458,9 @@ end type
 
 on m_1_1.create
 call super::create
-this.text = "&Abrir Reporte~tCtrl+A"
-this.shortcut = 321
-this.toolbaritemname = "rep.ico"
+this.tag = "Abrir Reportes"
+this.text = "Abrir Reporte"
+this.microhelp = "Abrir Reporte"
 this.toolbaritemtext = "Abrir Reporte"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -536,9 +490,8 @@ on m_1_2.create
 call super::create
 this.text = "Abrir Gráfico~tCtrl+Shift+R"
 this.shortcut = 1362
-this.microhelp = "Ver reporte gráfico [Ctrl+Shift+R]"
-this.toolbaritemname = "grafico.ico"
-this.toolbaritemtext = "Ver reporte Gráfico [Ctrl+Shift+R]"
+this.microhelp = "Ver reporte gráfico"
+this.toolbaritemtext = "Ver reporte gráfico"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -565,8 +518,9 @@ end type
 
 on m_1_3.create
 call super::create
+this.tag = "Configurar Impresora"
 this.text = "Configurar Impresora"
-this.toolbaritemname = "conf_imp.ico"
+this.microhelp = "Configurar Impresora"
 this.toolbaritemtext = "Configurar Impresora"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -594,10 +548,9 @@ end type
 
 on m_cambiarlugar.create
 call super::create
-this.text = "Cambiar Lugar~tCtrl+Shift+L"
-this.shortcut = 1356
-this.microhelp = "Cambia el Lugar por defecto del Equipo"
-this.toolbaritemname = "cambia_doc.ico"
+this.tag = "Cambiar Lugar"
+this.text = "Cambiar Lugar"
+this.microhelp = "Cambiar Lugar"
 this.toolbaritemtext = "Cambiar Lugar"
 this.menuimage = "cambia_doc.ico"
 this.menutextcolor = 134217735
@@ -621,12 +574,15 @@ on m_cambiarlugar.destroy
 call super::destroy
 end on
 
-type m_- from menu within m_1
+type m_6 from menu within m_1
 end type
 
-on m_-.create
+on m_6.create
 call super::create
-this.text = "-"
+this.tag = "ImprimeM"
+this.text = "Impresion Masiva"
+this.microhelp = "Impresion Masiva"
+this.toolbaritemtext = "Impresion Masiva"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -644,7 +600,7 @@ this.toolbargradient = true
 this.bitmapgradient = true
 end on
 
-on m_-.destroy
+on m_6.destroy
 call super::destroy
 end on
 
@@ -653,11 +609,11 @@ end type
 
 on m_1_4.create
 call super::create
-this.text = "Sa&lir~tAlt+F4"
+this.tag = "Salir"
+this.text = "Salir~tAlt+F4"
 this.shortcut = 627
 this.microhelp = "Salir de la Aplicación"
-this.toolbaritemname = "OOFL.ICO"
-this.toolbaritemtext = "Salir del programa"
+this.toolbaritemtext = "Salir de la Aplicación"
 this.toolbaritemspace = 1
 this.menuitemtype = menuitemtypeexit!
 this.menutextcolor = 134217735
@@ -689,7 +645,10 @@ end type
 
 on m_2.create
 call super::create
-this.text = "&Edición"
+this.tag = "Edición"
+this.text = "Edición"
+this.microhelp = "Edición"
+this.toolbaritemtext = "Edición"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -726,11 +685,11 @@ end type
 
 on m_2_1.create
 call super::create
+this.tag = "BuscarP"
 this.text = "Buscar Paciente~tCtrl+B"
 this.shortcut = 322
-this.microhelp = "Buscar Paciente [Ctrl+B]"
-this.toolbaritemname = "buscar.ico"
-this.toolbaritemtext = "Buscar Paciente [Ctrl+B]"
+this.microhelp = "Buscar Paciente"
+this.toolbaritemtext = "Buscar Paciente"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -758,11 +717,11 @@ end type
 
 on m_2_2.create
 call super::create
+this.tag = "Cambio Paciente"
 this.text = "Cambio Documento/Historia~tCtrl+K"
 this.shortcut = 331
-this.microhelp = "Cambiar Documento o Historia existente [Ctrl+K]"
-this.toolbaritemname = "cambio_resp.ico"
-this.toolbaritemtext = "Cambio Documento/Historia [Ctrl+K]"
+this.microhelp = "Cambio Documento/Historia"
+this.toolbaritemtext = "Cambio Documento/Historia"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -789,11 +748,11 @@ end type
 
 on m_2_3.create
 call super::create
+this.tag = "Unificar Paciente"
 this.text = "Eliminar Pacientes Repetidos~tCtrl+W"
 this.shortcut = 343
-this.microhelp = "Unifica Historias, Facturas, etc de Pacientes que son el mismo pero tienen distintos Documentos"
-this.toolbaritemname = "elimi_pac.ico"
-this.toolbaritemtext = "Eliminar Pacientes Repetidos [Alt+W]"
+this.microhelp = "Eliminar Pacientes Repetidos"
+this.toolbaritemtext = "Eliminar Pacientes Repetidos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -817,13 +776,12 @@ end on
 
 type m_3 from menu within m_principal_asis
 m_resumenhc m_resumenhc
-m_3_1 m_3_1
+m_fichadeidentificación m_fichadeidentificación
 m_3_2 m_3_2
 m_3_3 m_3_3
 m_3_4 m_3_4
 m_3_5 m_3_5
 m_bancosdefluidos m_bancosdefluidos
-m_3_6 m_3_6
 m_3_7 m_3_7
 m_autorizaciones m_autorizaciones
 m_3_8 m_3_8
@@ -832,12 +790,11 @@ m_3_10 m_3_10
 m_3_11 m_3_11
 m_semaf m_semaf
 m_at_cliente m_at_cliente
-m_mpres m_mpres
 end type
 
 on m_3.create
 call super::create
-this.text = "&Módulos"
+this.text = "Módulos"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -855,13 +812,12 @@ this.toolbarhighlightcolor = 134217741
 this.toolbargradient = true
 this.bitmapgradient = true
 this.m_resumenhc=create m_resumenhc
-this.m_3_1=create m_3_1
+this.m_fichadeidentificación=create m_fichadeidentificación
 this.m_3_2=create m_3_2
 this.m_3_3=create m_3_3
 this.m_3_4=create m_3_4
 this.m_3_5=create m_3_5
 this.m_bancosdefluidos=create m_bancosdefluidos
-this.m_3_6=create m_3_6
 this.m_3_7=create m_3_7
 this.m_autorizaciones=create m_autorizaciones
 this.m_3_8=create m_3_8
@@ -870,15 +826,13 @@ this.m_3_10=create m_3_10
 this.m_3_11=create m_3_11
 this.m_semaf=create m_semaf
 this.m_at_cliente=create m_at_cliente
-this.m_mpres=create m_mpres
 this.Item[UpperBound(this.Item)+1]=this.m_resumenhc
-this.Item[UpperBound(this.Item)+1]=this.m_3_1
+this.Item[UpperBound(this.Item)+1]=this.m_fichadeidentificación
 this.Item[UpperBound(this.Item)+1]=this.m_3_2
 this.Item[UpperBound(this.Item)+1]=this.m_3_3
 this.Item[UpperBound(this.Item)+1]=this.m_3_4
 this.Item[UpperBound(this.Item)+1]=this.m_3_5
 this.Item[UpperBound(this.Item)+1]=this.m_bancosdefluidos
-this.Item[UpperBound(this.Item)+1]=this.m_3_6
 this.Item[UpperBound(this.Item)+1]=this.m_3_7
 this.Item[UpperBound(this.Item)+1]=this.m_autorizaciones
 this.Item[UpperBound(this.Item)+1]=this.m_3_8
@@ -887,19 +841,17 @@ this.Item[UpperBound(this.Item)+1]=this.m_3_10
 this.Item[UpperBound(this.Item)+1]=this.m_3_11
 this.Item[UpperBound(this.Item)+1]=this.m_semaf
 this.Item[UpperBound(this.Item)+1]=this.m_at_cliente
-this.Item[UpperBound(this.Item)+1]=this.m_mpres
 end on
 
 on m_3.destroy
 call super::destroy
 destroy(this.m_resumenhc)
-destroy(this.m_3_1)
+destroy(this.m_fichadeidentificación)
 destroy(this.m_3_2)
 destroy(this.m_3_3)
 destroy(this.m_3_4)
 destroy(this.m_3_5)
 destroy(this.m_bancosdefluidos)
-destroy(this.m_3_6)
 destroy(this.m_3_7)
 destroy(this.m_autorizaciones)
 destroy(this.m_3_8)
@@ -908,7 +860,6 @@ destroy(this.m_3_10)
 destroy(this.m_3_11)
 destroy(this.m_semaf)
 destroy(this.m_at_cliente)
-destroy(this.m_mpres)
 end on
 
 type m_resumenhc from menu within m_3
@@ -916,11 +867,11 @@ end type
 
 on m_resumenhc.create
 call super::create
+this.tag = "TreeHC"
 this.text = "Resumen de Historia Clínica~tCtrl+Shift+V"
 this.shortcut = 1366
-this.microhelp = "Muestra en forma de árbol la Historia Clínica Completa del Paciente [Ctrl+Shift+V]"
-this.toolbaritemname = "treeview1!"
-this.toolbaritemtext = "Muestra en forma de árbol la Historia Clínica Completa del Paciente [Ctrl+Shift+V]"
+this.microhelp = "Resumen de Historia Clínica"
+this.toolbaritemtext = "Resumen de Historia Clínica"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -942,16 +893,16 @@ on m_resumenhc.destroy
 call super::destroy
 end on
 
-type m_3_1 from menu within m_3
+type m_fichadeidentificación from menu within m_3
 end type
 
-on m_3_1.create
+on m_fichadeidentificación.create
 call super::create
-this.text = "&Ficha de identificación~tCtrl+P"
+this.tag = "Paciente"
+this.text = "Ficha de identificación~tCtrl+P"
 this.shortcut = 336
-this.microhelp = "Datos Generales Paciente"
-this.toolbaritemname = "paciente.ICO"
-this.toolbaritemtext = "Datos Generales Paciente [Ctrl+P]"
+this.microhelp = "Ficha de identificación"
+this.toolbaritemtext = "Ficha de identificación"
 this.toolbaritemspace = 2
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -970,7 +921,7 @@ this.toolbargradient = true
 this.bitmapgradient = true
 end on
 
-on m_3_1.destroy
+on m_fichadeidentificación.destroy
 call super::destroy
 end on
 
@@ -987,7 +938,10 @@ end type
 
 on m_3_2.create
 call super::create
-this.text = "&Citas / Turnos"
+this.tag = "Citas"
+this.text = "Citas / Turnos"
+this.microhelp = "Citas / Turnos"
+this.toolbaritemtext = "Citas / Turnos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -1038,7 +992,10 @@ end type
 
 on m_3_2_1.create
 call super::create
+this.tag = "Sugerido"
 this.text = "Horario sugerido de Profesional"
+this.microhelp = "Horario sugerido de Profesional"
+this.toolbaritemtext = "Horario sugerido de Profesional"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -1092,11 +1049,11 @@ end type
 
 on m_3_2_2.create
 call super::create
-this.text = "Programación Cons. E&xterna~tCtrl+Shift+X"
+this.tag = "CitasPG"
+this.text = "Programación Cons. Externa~tCtrl+Shift+X"
 this.shortcut = 1368
-this.microhelp = "Programación Cons. E&xterna [Ctrl+Shift+X]"
-this.toolbaritemname = "form!"
-this.toolbaritemtext = "Programación Cons. E&xterna [Ctrl+Shift+X]"
+this.microhelp = "Programación Cons. Externa"
+this.toolbaritemtext = "Programación Cons. Externa"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1124,11 +1081,11 @@ end type
 
 on m_3_2_3.create
 call super::create
+this.tag = "TurnosPG"
 this.text = "Programación de Turnos~tCtrl+Alt+T"
 this.shortcut = 852
-this.microhelp = "Programación de Turnos [Ctrl+Alt+T]"
-this.toolbaritemname = "apptl.ico"
-this.toolbaritemtext = "Programación de Turnos [Ctrl+Alt+T]"
+this.microhelp = "Programación de Turnos"
+this.toolbaritemtext = "Programación de Turnos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -1182,11 +1139,11 @@ end type
 
 on m_3_2_4.create
 call super::create
-this.text = "A&signación de citas~tCtrl+T"
+this.tag = "CitasAS"
+this.text = "Asignación de citas~tCtrl+T"
 this.shortcut = 340
 this.microhelp = "Asignación de citas"
-this.toolbaritemname = "asig_cita.ico"
-this.toolbaritemtext = "Asignación de citas [Ctrl+T]"
+this.toolbaritemtext = "Asignación de citas"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -1367,7 +1324,7 @@ end type
 
 on m_recordatorio.create
 call super::create
-this.tag = "Recordatorio de Citas"
+this.tag = "CitasRC"
 this.text = "Recordatorio de Citas"
 this.microhelp = "Recordatorio de Citas"
 this.toolbaritemdownname = "recorda.ico"
@@ -1395,10 +1352,7 @@ end on
 
 type m_3_3 from menucascade within m_3
 m_3_3_1 m_3_3_1
-m_raycons1 m_raycons1
-m_3_3_2 m_3_3_2
 m_3_3_3 m_3_3_3
-m_3_3_4 m_3_3_4
 end type
 
 on m_3_3.create
@@ -1422,24 +1376,15 @@ this.toolbargradient = true
 this.bitmapgradient = true
 this.dropdown = false
 this.m_3_3_1=create m_3_3_1
-this.m_raycons1=create m_raycons1
-this.m_3_3_2=create m_3_3_2
 this.m_3_3_3=create m_3_3_3
-this.m_3_3_4=create m_3_3_4
 this.Item[UpperBound(this.Item)+1]=this.m_3_3_1
-this.Item[UpperBound(this.Item)+1]=this.m_raycons1
-this.Item[UpperBound(this.Item)+1]=this.m_3_3_2
 this.Item[UpperBound(this.Item)+1]=this.m_3_3_3
-this.Item[UpperBound(this.Item)+1]=this.m_3_3_4
 end on
 
 on m_3_3.destroy
 call super::destroy
 destroy(this.m_3_3_1)
-destroy(this.m_raycons1)
-destroy(this.m_3_3_2)
 destroy(this.m_3_3_3)
-destroy(this.m_3_3_4)
 end on
 
 type m_3_3_1 from menu within m_3_3
@@ -1447,11 +1392,11 @@ end type
 
 on m_3_3_1.create
 call super::create
-this.text = "&Consultorio~tCtrl+H"
+this.tag = "Consultorio"
+this.text = "Consultorio~tCtrl+H"
 this.shortcut = 328
-this.microhelp = "Historial de Consulta Externa del Paciente"
-this.toolbaritemname = "medico.ico"
-this.toolbaritemtext = "Trabajo en consultorio [Ctrl+H]"
+this.microhelp = "Trabajo en consultorio"
+this.toolbaritemtext = "Trabajo en consultorio"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1474,73 +1419,16 @@ on m_3_3_1.destroy
 call super::destroy
 end on
 
-type m_raycons1 from menu within m_3_3
-end type
-
-on m_raycons1.create
-call super::create
-this.text = "-"
-this.menutextcolor = 134217735
-this.menubackcolor = 134217732
-this.menuhighlightcolor = 134217741
-this.textsize = 8
-this.weight = 400
-this.facename = "Tahoma"
-this.titlebackcolor = 134217730
-this.bitmapbackcolor = 12632256
-this.menubitmaps = true
-this.titlegradient = true
-this.toolbartextcolor = 134217746
-this.toolbarbackcolor = 67108864
-this.toolbarhighlightcolor = 134217741
-this.toolbargradient = true
-this.bitmapgradient = true
-end on
-
-on m_raycons1.destroy
-call super::destroy
-end on
-
-type m_3_3_2 from menu within m_3_3
-end type
-
-on m_3_3_2.create
-call super::create
-this.text = "&Embarazo"
-this.enabled = false
-this.toolbaritemvisible = false
-this.toolbaritemname = "emb.ico"
-this.toolbaritemtext = "Control de Embarazos"
-this.menutextcolor = 134217735
-this.menubackcolor = 134217732
-this.menuhighlightcolor = 134217741
-this.textsize = 8
-this.weight = 400
-this.facename = "Tahoma"
-this.titlebackcolor = 134217730
-this.bitmapbackcolor = 12632256
-this.menubitmaps = true
-this.titlegradient = true
-this.toolbartextcolor = 134217746
-this.toolbarbackcolor = 67108864
-this.toolbarhighlightcolor = 134217741
-this.toolbargradient = true
-this.bitmapgradient = true
-end on
-
-on m_3_3_2.destroy
-call super::destroy
-end on
-
 type m_3_3_3 from menu within m_3_3
 end type
 
 on m_3_3_3.create
 call super::create
-this.text = "&Vacunas"
+this.tag = "Vacunacion"
+this.text = "Vacunas"
 this.enabled = false
+this.microhelp = "Vacunas"
 this.toolbaritemvisible = false
-this.toolbaritemname = "ap_dx.ico"
 this.toolbaritemtext = "Vacunas"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1563,50 +1451,17 @@ on m_3_3_3.destroy
 call super::destroy
 end on
 
-type m_3_3_4 from menu within m_3_3
-end type
-
-on m_3_3_4.create
-call super::create
-this.text = "Ordenes Quirúrgicas~tCtrl+Shift+Q"
-this.enabled = false
-this.shortcut = 1361
-this.microhelp = "Ordenes Quirúrgicas"
-this.toolbaritemvisible = false
-this.toolbaritemname = "bisturi.ico"
-this.toolbaritemtext = "Ordenes Quirúrgicas"
-this.menutextcolor = 134217735
-this.menubackcolor = 134217732
-this.menuhighlightcolor = 134217741
-this.textsize = 8
-this.weight = 400
-this.facename = "Tahoma"
-this.titlebackcolor = 134217730
-this.bitmapbackcolor = 12632256
-this.menubitmaps = true
-this.titlegradient = true
-this.toolbartextcolor = 134217746
-this.toolbarbackcolor = 67108864
-this.toolbarhighlightcolor = 134217741
-this.toolbargradient = true
-this.bitmapgradient = true
-end on
-
-on m_3_3_4.destroy
-call super::destroy
-end on
-
 type m_3_4 from menu within m_3
 m_3_4_1 m_3_4_1
-m_3_4_2 m_3_4_2
 m_3_4_3 m_3_4_3
 m_cohortespaciente m_cohortespaciente
 m_202 m_202
+m_5 m_5
 end type
 
 on m_3_4.create
 call super::create
-this.text = "Promoción y Prevención"
+this.text = "Promoción / Mantenimiento"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -1623,24 +1478,24 @@ this.toolbarhighlightcolor = 134217741
 this.toolbargradient = true
 this.bitmapgradient = true
 this.m_3_4_1=create m_3_4_1
-this.m_3_4_2=create m_3_4_2
 this.m_3_4_3=create m_3_4_3
 this.m_cohortespaciente=create m_cohortespaciente
 this.m_202=create m_202
+this.m_5=create m_5
 this.Item[UpperBound(this.Item)+1]=this.m_3_4_1
-this.Item[UpperBound(this.Item)+1]=this.m_3_4_2
 this.Item[UpperBound(this.Item)+1]=this.m_3_4_3
 this.Item[UpperBound(this.Item)+1]=this.m_cohortespaciente
 this.Item[UpperBound(this.Item)+1]=this.m_202
+this.Item[UpperBound(this.Item)+1]=this.m_5
 end on
 
 on m_3_4.destroy
 call super::destroy
 destroy(this.m_3_4_1)
-destroy(this.m_3_4_2)
 destroy(this.m_3_4_3)
 destroy(this.m_cohortespaciente)
 destroy(this.m_202)
+destroy(this.m_5)
 end on
 
 type m_3_4_1 from menu within m_3_4
@@ -1648,11 +1503,11 @@ end type
 
 on m_3_4_1.create
 call super::create
+this.tag = "GestionLL"
 this.text = "Gestión de Llamadas~tCtrl+L"
 this.shortcut = 332
-this.microhelp = "Gestión de Llamadas [Ctrl+L]"
-this.toolbaritemname = "Asterisk!"
-this.toolbaritemtext = "Gestión de LLamadas [Ctrl+L]"
+this.microhelp = "Gestión de Llamadas"
+this.toolbaritemtext = "Gestión de Llamadas"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1675,39 +1530,15 @@ on m_3_4_1.destroy
 call super::destroy
 end on
 
-type m_3_4_2 from menu within m_3_4
-end type
-
-on m_3_4_2.create
-call super::create
-this.text = "Atender Procedimiento"
-this.menutextcolor = 134217735
-this.menubackcolor = 134217732
-this.menuhighlightcolor = 134217741
-this.textsize = 8
-this.weight = 400
-this.facename = "Tahoma"
-this.titlebackcolor = 134217730
-this.bitmapbackcolor = 12632256
-this.menubitmaps = true
-this.titlegradient = true
-this.toolbartextcolor = 134217746
-this.toolbarbackcolor = 67108864
-this.toolbarhighlightcolor = 134217741
-this.toolbargradient = true
-this.bitmapgradient = true
-end on
-
-on m_3_4_2.destroy
-call super::destroy
-end on
-
 type m_3_4_3 from menu within m_3_4
 end type
 
 on m_3_4_3.create
 call super::create
+this.tag = "Mercadeo"
 this.text = "Mercadeo"
+this.microhelp = "Mercadeo"
+this.toolbaritemtext = "Mercadeo"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -1734,7 +1565,10 @@ end type
 
 on m_cohortespaciente.create
 call super::create
+this.tag = "Cohortes"
 this.text = "Cohortes Paciente"
+this.microhelp = "Cohortes Paciente"
+this.toolbaritemtext = "Cohortes Paciente"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -1761,7 +1595,10 @@ end type
 
 on m_202.create
 call super::create
+this.tag = "202"
 this.text = "Cargue 202"
+this.microhelp = "Cargue 202"
+this.toolbaritemtext = "Cargue 202"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -1783,6 +1620,82 @@ on m_202.destroy
 call super::destroy
 end on
 
+type m_5 from menu within m_3_4
+m_gestante m_gestante
+m_erc m_erc
+end type
+
+on m_5.create
+call super::create
+this.text = "Tableros"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_gestante=create m_gestante
+this.m_erc=create m_erc
+this.Item[UpperBound(this.Item)+1]=this.m_gestante
+this.Item[UpperBound(this.Item)+1]=this.m_erc
+end on
+
+on m_5.destroy
+call super::destroy
+destroy(this.m_gestante)
+destroy(this.m_erc)
+end on
+
+type m_gestante from menu within m_5
+end type
+
+on m_gestante.create
+call super::create
+this.tag = "Gestantes"
+this.text = "Gestante"
+this.microhelp = "Tablero Gestantes"
+this.toolbaritemtext = "Tablero Gestantes"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_gestante.destroy
+call super::destroy
+end on
+
+type m_erc from menu within m_5
+end type
+
+on m_erc.create
+call super::create
+end on
+
+on m_erc.destroy
+call super::destroy
+end on
+
 type m_3_5 from menucascade within m_3
 m_3_5_1 m_3_5_1
 m_ray1_apdx m_ray1_apdx
@@ -1792,7 +1705,7 @@ end type
 
 on m_3_5.create
 call super::create
-this.text = "&Apoyo Diagnóstico"
+this.text = "Apoyo Diagnóstico"
 this.microhelp = "Apoyo Diagnóstico"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -1833,11 +1746,11 @@ end type
 
 on m_3_5_1.create
 call super::create
-this.text = "&Apoyo Diagnóstico~tCtrl+D"
+this.tag = "Apoyo Dx"
+this.text = "Apoyo Diagnóstico~tCtrl+D"
 this.shortcut = 324
-this.microhelp = "Apoyo Diagnóstico [Ctrl+D]"
-this.toolbaritemname = "ap_dx.ico"
-this.toolbaritemtext = "Apoyo Diagnóstico [Ctrl+D]"
+this.microhelp = "Apoyo Diagnóstico"
+this.toolbaritemtext = "Apoyo Diagnóstico"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -1983,7 +1896,10 @@ end type
 
 on m_4.create
 call super::create
+this.tag = "Envio Resultado"
 this.text = "Envio Resultados"
+this.microhelp = "Envio Resultados"
+this.toolbaritemtext = "Envio Resultados"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2012,7 +1928,7 @@ end type
 
 on m_bancosdefluidos.create
 call super::create
-this.text = "Ba&ncos de Fluidos"
+this.text = "Bancos de Fluidos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2045,11 +1961,11 @@ end type
 
 on m_recolección.create
 call super::create
-this.text = "&Recolección~tCtrl+G"
+this.tag = "BancoD"
+this.text = "Recolección~tCtrl+G"
 this.shortcut = 327
-this.microhelp = "Recolección en bancos de fluidos [Ctrl+G]"
-this.toolbaritemname = "gota.ico"
-this.toolbaritemtext = "Recolección en bancos de fluidos [Ctrl+G]"
+this.microhelp = "Recolección en bancos de fluidos"
+this.toolbaritemtext = "Recolección en bancos de fluidos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2076,10 +1992,11 @@ end type
 
 on m_reservas.create
 call super::create
-this.text = "Reser&vas~tCtrl+Shift+S"
+this.tag = "BancoR"
+this.text = "Reservas~tCtrl+Shift+S"
 this.shortcut = 1363
-this.microhelp = "Reservas Bancos de Fluidos [Shift+Ctrl+S]"
-this.toolbaritemtext = "Reservas Bancos de Fluidos [Shift+Ctrl+S]"
+this.microhelp = "Reservas Bancos de Fluidos"
+this.toolbaritemtext = "Reservas Bancos de Fluidos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2101,44 +2018,12 @@ on m_reservas.destroy
 call super::destroy
 end on
 
-type m_3_6 from menu within m_3
-end type
-
-on m_3_6.create
-call super::create
-this.text = "Cus&todia de HC~tCtrl+S"
-this.shortcut = 339
-this.microhelp = "Custodia de Historia Clínica [Ctrl+S]"
-this.toolbaritemname = "hc.ico"
-this.toolbaritemtext = "Custodia de Historia Clínica [Ctrl+S]"
-this.menutextcolor = 134217735
-this.menubackcolor = 134217732
-this.menuhighlightcolor = 134217741
-this.textsize = 8
-this.weight = 400
-this.facename = "Tahoma"
-this.titlebackcolor = 134217730
-this.bitmapbackcolor = 12632256
-this.menubitmaps = true
-this.titlegradient = true
-this.toolbartextcolor = 134217746
-this.toolbarbackcolor = 67108864
-this.toolbarhighlightcolor = 134217741
-this.toolbargradient = true
-this.bitmapgradient = true
-end on
-
-on m_3_6.destroy
-call super::destroy
-end on
-
 type m_3_7 from menu within m_3
 m_3_7_1 m_3_7_1
 m_3_7_2 m_3_7_2
 m_3_7_3 m_3_7_3
 m_devoluciónmedicamentos m_devoluciónmedicamentos
 m_3_7_4 m_3_7_4
-m_raya_hosp m_raya_hosp
 m_3_7_5 m_3_7_5
 m_3_7_6 m_3_7_6
 m_reserv m_reserv
@@ -2147,7 +2032,7 @@ end type
 
 on m_3_7.create
 call super::create
-this.text = "&Hospitalización / Urgencias"
+this.text = "Hospitalización / Urgencias"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2168,7 +2053,6 @@ this.m_3_7_2=create m_3_7_2
 this.m_3_7_3=create m_3_7_3
 this.m_devoluciónmedicamentos=create m_devoluciónmedicamentos
 this.m_3_7_4=create m_3_7_4
-this.m_raya_hosp=create m_raya_hosp
 this.m_3_7_5=create m_3_7_5
 this.m_3_7_6=create m_3_7_6
 this.m_reserv=create m_reserv
@@ -2178,7 +2062,6 @@ this.Item[UpperBound(this.Item)+1]=this.m_3_7_2
 this.Item[UpperBound(this.Item)+1]=this.m_3_7_3
 this.Item[UpperBound(this.Item)+1]=this.m_devoluciónmedicamentos
 this.Item[UpperBound(this.Item)+1]=this.m_3_7_4
-this.Item[UpperBound(this.Item)+1]=this.m_raya_hosp
 this.Item[UpperBound(this.Item)+1]=this.m_3_7_5
 this.Item[UpperBound(this.Item)+1]=this.m_3_7_6
 this.Item[UpperBound(this.Item)+1]=this.m_reserv
@@ -2192,7 +2075,6 @@ destroy(this.m_3_7_2)
 destroy(this.m_3_7_3)
 destroy(this.m_devoluciónmedicamentos)
 destroy(this.m_3_7_4)
-destroy(this.m_raya_hosp)
 destroy(this.m_3_7_5)
 destroy(this.m_3_7_6)
 destroy(this.m_reserv)
@@ -2204,11 +2086,11 @@ end type
 
 on m_3_7_1.create
 call super::create
+this.tag = "Admisión Egreso"
 this.text = "Admisión / Egreso~tCtrl+I"
 this.shortcut = 329
-this.microhelp = "Realizar Admisiones / Egresos Hospitalario [Ctrl+I]"
-this.toolbaritemname = "hospital.ico"
-this.toolbaritemtext = "Admisión / Egreso [Ctrl+I]"
+this.microhelp = "Admisión / Egreso"
+this.toolbaritemtext = "Admisión / Egreso"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -2236,11 +2118,11 @@ end type
 
 on m_3_7_2.create
 call super::create
+this.tag = "OS"
 this.text = "Atender Orden Servicio~tCtrl+O"
 this.shortcut = 335
-this.microhelp = "Atender Ordenes de Servico de pacientes Admitidos [Ctrl+O]"
-this.toolbaritemname = "os.ico"
-this.toolbaritemtext = "Atender ordenes de Servicio [Ctrl+O]"
+this.microhelp = "Atender Orden Servicio"
+this.toolbaritemtext = "Atender Orden Servicio"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2267,11 +2149,11 @@ end type
 
 on m_3_7_3.create
 call super::create
+this.tag = "EntregaM"
 this.text = "Entregar medicamentos~tCtrl+E"
 this.shortcut = 325
-this.microhelp = "Entrega Interna de Medicamentos [Ctrl+E]"
-this.toolbaritemname = "entrega_med.ico"
-this.toolbaritemtext = "Entrega Interna de Medicamentos [Ctrl+E]"
+this.microhelp = "Entregar medicamentos"
+this.toolbaritemtext = "Entregar medicamentos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2298,11 +2180,11 @@ end type
 
 on m_devoluciónmedicamentos.create
 call super::create
+this.tag = "DevoluciónM"
 this.text = "Devolución Medicamentos~tCtrl+Shift+V"
 this.shortcut = 1366
-this.microhelp = "Devolver medicamentos de Pacientes por Ingreso"
-this.toolbaritemname = "det_med.ico"
-this.toolbaritemtext = "Devolución Medicamentos [Ctrl+Shift+V]"
+this.microhelp = "Devolución Medicamentos"
+this.toolbaritemtext = "Devolución Medicamentos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2329,11 +2211,11 @@ end type
 
 on m_3_7_4.create
 call super::create
+this.tag = "CambioEAPB"
 this.text = "Cambio responsable~tCtrl+M"
 this.shortcut = 333
-this.microhelp = "Cambiar empresa reponsable de Admisiones de Urg/Hosp"
-this.toolbaritemname = "cambia_doc.ico"
-this.toolbaritemtext = "Cambiar Empresa de Ingreso [Ctrl+M]"
+this.microhelp = "Cambio responsable"
+this.toolbaritemtext = "Cambio responsable"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2355,40 +2237,16 @@ on m_3_7_4.destroy
 call super::destroy
 end on
 
-type m_raya_hosp from menu within m_3_7
-end type
-
-on m_raya_hosp.create
-call super::create
-this.text = "-"
-this.menutextcolor = 134217735
-this.menubackcolor = 134217732
-this.menuhighlightcolor = 134217741
-this.textsize = 8
-this.weight = 400
-this.facename = "Tahoma"
-this.titlebackcolor = 134217730
-this.bitmapbackcolor = 12632256
-this.menubitmaps = true
-this.titlegradient = true
-this.toolbartextcolor = 134217746
-this.toolbarbackcolor = 67108864
-this.toolbarhighlightcolor = 134217741
-this.toolbargradient = true
-this.bitmapgradient = true
-end on
-
-on m_raya_hosp.destroy
-call super::destroy
-end on
-
 type m_3_7_5 from menu within m_3_7
 end type
 
 on m_3_7_5.create
 call super::create
-this.text = "Anular &Ingreso"
+this.tag = "AnulaIng"
+this.text = "Anular Ingreso"
 this.enabled = false
+this.microhelp = "Anular Ingreso"
+this.toolbaritemtext = "Anular Ingreso"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2415,8 +2273,11 @@ end type
 
 on m_3_7_6.create
 call super::create
+this.tag = "AnulaSal"
 this.text = "Anular Salida Hosp/Urg"
 this.enabled = false
+this.microhelp = "Anular Salida Hosp/Urg"
+this.toolbaritemtext = "Anular Salida Hosp/Urg"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2443,8 +2304,10 @@ end type
 
 on m_reserv.create
 call super::create
+this.tag = "IngresoRS"
 this.text = "Cambiar Ingreso a Reservado"
-this.microhelp = "Cambiar una Admisión Ambulatoria a Reservada"
+this.microhelp = "Cambiar Ingreso a Reservado"
+this.toolbaritemtext = "Cambiar Ingreso a Reservado"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2471,7 +2334,10 @@ end type
 
 on mtab_urg.create
 call super::create
+this.tag = "TabURG"
 this.text = "Tablero Urgencias"
+this.microhelp = "Tablero Urgencias"
+this.toolbaritemtext = "Tablero Urgencias"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2533,8 +2399,10 @@ end type
 
 on m_solicitud.create
 call super::create
+this.tag = "AutorizaS"
 this.text = "Solicitud"
 this.microhelp = "Genera Solicitud de Autorizacion"
+this.toolbaritemtext = "Genera Solicitud de Autorizacion"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2561,8 +2429,10 @@ end type
 
 on m_autorización.create
 call super::create
+this.tag = "AutorizaA"
 this.text = "Autorización"
 this.microhelp = "Captura  Autorizacion"
+this.toolbaritemtext = "Captura  Autorizacion"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2586,14 +2456,13 @@ end on
 
 type m_3_8 from menu within m_3
 m_3_8_1 m_3_8_1
-m_ray_quir m_ray_quir
 m_3_8_2 m_3_8_2
 m_3_8_3 m_3_8_3
 end type
 
 on m_3_8.create
 call super::create
-this.text = "Salas &Quirúrgicas"
+this.text = "Salas Quirúrgicas"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -2611,11 +2480,9 @@ this.toolbarhighlightcolor = 134217741
 this.toolbargradient = true
 this.bitmapgradient = true
 this.m_3_8_1=create m_3_8_1
-this.m_ray_quir=create m_ray_quir
 this.m_3_8_2=create m_3_8_2
 this.m_3_8_3=create m_3_8_3
 this.Item[UpperBound(this.Item)+1]=this.m_3_8_1
-this.Item[UpperBound(this.Item)+1]=this.m_ray_quir
 this.Item[UpperBound(this.Item)+1]=this.m_3_8_2
 this.Item[UpperBound(this.Item)+1]=this.m_3_8_3
 end on
@@ -2623,7 +2490,6 @@ end on
 on m_3_8.destroy
 call super::destroy
 destroy(this.m_3_8_1)
-destroy(this.m_ray_quir)
 destroy(this.m_3_8_2)
 destroy(this.m_3_8_3)
 end on
@@ -2633,11 +2499,11 @@ end type
 
 on m_3_8_1.create
 call super::create
-this.text = "Salas &Quirúrgicas~tCtrl+Q"
+this.tag = "SalasQx"
+this.text = "Salas Quirúrgicas~tCtrl+Q"
 this.shortcut = 337
-this.microhelp = "Salas &Quirúrgicas [Ctrl+Q]"
-this.toolbaritemname = "bisturi.ico"
-this.toolbaritemtext = "Salas &Quirúrgicas [Ctrl+Q]"
+this.microhelp = "Salas Quirúrgicas"
+this.toolbaritemtext = "Salas Quirúrgicas"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -2660,43 +2526,16 @@ on m_3_8_1.destroy
 call super::destroy
 end on
 
-type m_ray_quir from menu within m_3_8
-end type
-
-on m_ray_quir.create
-call super::create
-this.text = "-"
-this.menutextcolor = 134217735
-this.menubackcolor = 134217732
-this.menuhighlightcolor = 134217741
-this.textsize = 8
-this.weight = 400
-this.facename = "Tahoma"
-this.titlebackcolor = 134217730
-this.bitmapbackcolor = 12632256
-this.menubitmaps = true
-this.titlegradient = true
-this.toolbartextcolor = 134217746
-this.toolbarbackcolor = 67108864
-this.toolbarhighlightcolor = 134217741
-this.toolbargradient = true
-this.bitmapgradient = true
-end on
-
-on m_ray_quir.destroy
-call super::destroy
-end on
-
 type m_3_8_2 from menu within m_3_8
 end type
 
 on m_3_8_2.create
 call super::create
+this.tag = "SalasP"
 this.text = "Programación de Cirugías~tCtrl+Alt+Shift+Q"
 this.shortcut = 1873
-this.microhelp = "Programación de Cirugías [Ctrl+Shift+Q]"
-this.toolbaritemname = "bisturi_re.ico"
-this.toolbaritemtext = "Programación de Cirugías [Ctrl+Shift+Q]"
+this.microhelp = "Programación de Cirugías"
+this.toolbaritemtext = "Programación de Cirugías"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2810,8 +2649,6 @@ end on
 type m_3_9 from menu within m_3
 m_3_9_1 m_3_9_1
 m_3_9_2 m_3_9_2
-m_-1 m_-1
-m_3_9_3 m_3_9_3
 end type
 
 on m_3_9.create
@@ -2834,20 +2671,14 @@ this.toolbargradient = true
 this.bitmapgradient = true
 this.m_3_9_1=create m_3_9_1
 this.m_3_9_2=create m_3_9_2
-this.m_-1=create m_-1
-this.m_3_9_3=create m_3_9_3
 this.Item[UpperBound(this.Item)+1]=this.m_3_9_1
 this.Item[UpperBound(this.Item)+1]=this.m_3_9_2
-this.Item[UpperBound(this.Item)+1]=this.m_-1
-this.Item[UpperBound(this.Item)+1]=this.m_3_9_3
 end on
 
 on m_3_9.destroy
 call super::destroy
 destroy(this.m_3_9_1)
 destroy(this.m_3_9_2)
-destroy(this.m_-1)
-destroy(this.m_3_9_3)
 end on
 
 type m_3_9_1 from menu within m_3_9
@@ -2855,11 +2686,11 @@ end type
 
 on m_3_9_1.create
 call super::create
-this.text = "Datos de Co&nsulta~tCtrl+N"
+this.tag = "Odontocon"
+this.text = "Datos de Consulta~tCtrl+N"
 this.shortcut = 334
-this.microhelp = "Odontología - Datos de consulta  [Ctrl+N]"
-this.toolbaritemname = "molar3c16.ico"
-this.toolbaritemtext = "Odontología - Datos de consulta  [Ctrl+N]"
+this.microhelp = "Odontología - Datos de consulta"
+this.toolbaritemtext = "Odontología - Datos de consulta"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -2887,11 +2718,11 @@ end type
 
 on m_3_9_2.create
 call super::create
+this.tag = "Odontotto"
 this.text = "Tratamiento~tCtrl+Shift+T"
 this.shortcut = 1364
-this.microhelp = "Odontología - Realizar Tratamiento del Paciente [Ctrl+Shift+T]"
-this.toolbaritemname = "caries.ico"
-this.toolbaritemtext = "Odontología - Realizar Tratamiento del Paciente [Ctrl+Shift+T]"
+this.microhelp = "Odontología - Realizar Tratamiento del Paciente"
+this.toolbaritemtext = "Odontología - Realizar Tratamiento del Paciente"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2913,72 +2744,17 @@ on m_3_9_2.destroy
 call super::destroy
 end on
 
-type m_-1 from menu within m_3_9
-end type
-
-on m_-1.create
-call super::create
-this.text = "-"
-this.menutextcolor = 134217735
-this.menubackcolor = 134217732
-this.menuhighlightcolor = 134217741
-this.textsize = 8
-this.weight = 400
-this.facename = "Tahoma"
-this.titlebackcolor = 134217730
-this.bitmapbackcolor = 12632256
-this.menubitmaps = true
-this.titlegradient = true
-this.toolbartextcolor = 134217746
-this.toolbarbackcolor = 67108864
-this.toolbarhighlightcolor = 134217741
-this.toolbargradient = true
-this.bitmapgradient = true
-end on
-
-on m_-1.destroy
-call super::destroy
-end on
-
-type m_3_9_3 from menu within m_3_9
-end type
-
-on m_3_9_3.create
-call super::create
-this.text = "Configuración"
-this.menutextcolor = 134217735
-this.menubackcolor = 134217732
-this.menuhighlightcolor = 134217741
-this.textsize = 8
-this.weight = 400
-this.facename = "Tahoma"
-this.titlebackcolor = 134217730
-this.bitmapbackcolor = 12632256
-this.menubitmaps = true
-this.titlegradient = true
-this.toolbartextcolor = 134217746
-this.toolbarbackcolor = 67108864
-this.toolbarhighlightcolor = 134217741
-this.toolbargradient = true
-this.bitmapgradient = true
-end on
-
-on m_3_9_3.destroy
-call super::destroy
-end on
-
 type m_3_10 from menu within m_3
 m_3_10_1 m_3_10_1
 m_3_10_2 m_3_10_2
 m_3_10_3 m_3_10_3
-m_ray1_fact m_ray1_fact
 m_3_10_4 m_3_10_4
 m_3_10_5 m_3_10_5
 end type
 
 on m_3_10.create
 call super::create
-this.text = "&Facturación"
+this.text = "Facturación"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -2997,13 +2773,11 @@ this.bitmapgradient = true
 this.m_3_10_1=create m_3_10_1
 this.m_3_10_2=create m_3_10_2
 this.m_3_10_3=create m_3_10_3
-this.m_ray1_fact=create m_ray1_fact
 this.m_3_10_4=create m_3_10_4
 this.m_3_10_5=create m_3_10_5
 this.Item[UpperBound(this.Item)+1]=this.m_3_10_1
 this.Item[UpperBound(this.Item)+1]=this.m_3_10_2
 this.Item[UpperBound(this.Item)+1]=this.m_3_10_3
-this.Item[UpperBound(this.Item)+1]=this.m_ray1_fact
 this.Item[UpperBound(this.Item)+1]=this.m_3_10_4
 this.Item[UpperBound(this.Item)+1]=this.m_3_10_5
 end on
@@ -3013,7 +2787,6 @@ call super::destroy
 destroy(this.m_3_10_1)
 destroy(this.m_3_10_2)
 destroy(this.m_3_10_3)
-destroy(this.m_ray1_fact)
 destroy(this.m_3_10_4)
 destroy(this.m_3_10_5)
 end on
@@ -3023,11 +2796,11 @@ end type
 
 on m_3_10_1.create
 call super::create
+this.tag = "Factura"
 this.text = "Facturación~tCtrl+F"
 this.shortcut = 326
-this.microhelp = "facturación [Ctrl+F]"
-this.toolbaritemname = "factura.ico"
-this.toolbaritemtext = "facturación [Ctrl+F]"
+this.microhelp = "Facturación"
+this.toolbaritemtext = "Facturación"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3055,11 +2828,11 @@ end type
 
 on m_3_10_2.create
 call super::create
+this.tag = "Recibos"
 this.text = "Recibos de Caja ~tCtrl+J"
 this.shortcut = 330
-this.microhelp = "Recibos de Caja [Ctrl+J]"
-this.toolbaritemname = "rec_caja.ico"
-this.toolbaritemtext = "Recibos de Caja [Ctrl+J]"
+this.microhelp = "Recibos de Caja "
+this.toolbaritemtext = "Recibos de Caja "
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -3086,11 +2859,11 @@ end type
 
 on m_3_10_3.create
 call super::create
+this.tag = "Anticipo"
 this.text = "Anticipos~tCtrl+Y"
 this.shortcut = 345
-this.microhelp = "Anticipos hechos por el paciente [Ctrl+Y]"
-this.toolbaritemname = "abono.ico"
-this.toolbaritemtext = "Anticipos [Ctrl+Y]"
+this.microhelp = "Anticipos"
+this.toolbaritemtext = "Anticipos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -3109,33 +2882,6 @@ this.bitmapgradient = true
 end on
 
 on m_3_10_3.destroy
-call super::destroy
-end on
-
-type m_ray1_fact from menu within m_3_10
-end type
-
-on m_ray1_fact.create
-call super::create
-this.text = "-"
-this.menutextcolor = 134217735
-this.menubackcolor = 134217732
-this.menuhighlightcolor = 134217741
-this.textsize = 8
-this.weight = 400
-this.facename = "Tahoma"
-this.titlebackcolor = 134217730
-this.bitmapbackcolor = 12632256
-this.menubitmaps = true
-this.titlegradient = true
-this.toolbartextcolor = 134217746
-this.toolbarbackcolor = 67108864
-this.toolbarhighlightcolor = 134217741
-this.toolbargradient = true
-this.bitmapgradient = true
-end on
-
-on m_ray1_fact.destroy
 call super::destroy
 end on
 
@@ -3179,8 +2925,11 @@ end type
 
 on m_3_10_4_1.create
 call super::create
+this.tag = "Anula Factura"
 this.text = "Anular Factura"
 this.enabled = false
+this.microhelp = "Anula Factura"
+this.toolbaritemtext = "Anula Factura"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -3207,8 +2956,11 @@ end type
 
 on m_3_10_4_2.create
 call super::create
+this.tag = "Anula Recibo"
 this.text = "Anular Recibo de caja"
 this.enabled = false
+this.microhelp = "Anula Recibo"
+this.toolbaritemtext = "Anula Recibo"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -3237,7 +2989,7 @@ end type
 
 on m_3_10_5.create
 call super::create
-this.text = "&Cambiar Facturación"
+this.text = "Cambiar Facturación"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -3270,7 +3022,10 @@ end type
 
 on m_3_10_5_1.create
 call super::create
-this.text = "&Cambio de Responsable"
+this.tag = "CambioR"
+this.text = "Cambio de Responsable"
+this.microhelp = "Cambio de Responsable"
+this.toolbaritemtext = "Cambio de Responsable"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -3297,7 +3052,10 @@ end type
 
 on m_3_10_5_2.create
 call super::create
-this.text = "&No cobrar Procedimiento"
+this.tag = "No cobrar"
+this.text = "No cobrar Procedimiento"
+this.microhelp = "No cobrar Procedimiento"
+this.toolbaritemtext = "No cobrar Procedimiento"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -3322,9 +3080,7 @@ end on
 type m_3_11 from menucascade within m_3
 m_3_11_1 m_3_11_1
 m_3_11_2 m_3_11_2
-m_raya2_rips m_raya2_rips
 m_3_11_3 m_3_11_3
-m_raya1_rips m_raya1_rips
 m_3_11_4 m_3_11_4
 m_modif_rad m_modif_rad
 end type
@@ -3349,16 +3105,12 @@ this.toolbargradient = true
 this.bitmapgradient = true
 this.m_3_11_1=create m_3_11_1
 this.m_3_11_2=create m_3_11_2
-this.m_raya2_rips=create m_raya2_rips
 this.m_3_11_3=create m_3_11_3
-this.m_raya1_rips=create m_raya1_rips
 this.m_3_11_4=create m_3_11_4
 this.m_modif_rad=create m_modif_rad
 this.Item[UpperBound(this.Item)+1]=this.m_3_11_1
 this.Item[UpperBound(this.Item)+1]=this.m_3_11_2
-this.Item[UpperBound(this.Item)+1]=this.m_raya2_rips
 this.Item[UpperBound(this.Item)+1]=this.m_3_11_3
-this.Item[UpperBound(this.Item)+1]=this.m_raya1_rips
 this.Item[UpperBound(this.Item)+1]=this.m_3_11_4
 this.Item[UpperBound(this.Item)+1]=this.m_modif_rad
 end on
@@ -3367,9 +3119,7 @@ on m_3_11.destroy
 call super::destroy
 destroy(this.m_3_11_1)
 destroy(this.m_3_11_2)
-destroy(this.m_raya2_rips)
 destroy(this.m_3_11_3)
-destroy(this.m_raya1_rips)
 destroy(this.m_3_11_4)
 destroy(this.m_modif_rad)
 end on
@@ -3381,11 +3131,11 @@ end type
 
 on m_3_11_1.create
 call super::create
-this.text = "Capt&urar RIPS de Facturas~tCtrl+U"
+this.tag = "RFacturas"
+this.text = "Capturar RIPS de Facturas~tCtrl+U"
 this.shortcut = 341
 this.microhelp = "Capturar RIPS de facturas no atendidas"
-this.toolbaritemname = "rip_f.ico"
-this.toolbaritemtext = "Capturar RIPS de facturas no atendidas [Ctrl+U]"
+this.toolbaritemtext = "Capturar RIPS de Facturas"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3413,11 +3163,11 @@ end type
 
 on m_3_11_2.create
 call super::create
+this.tag = "RRecibos"
 this.text = "Capturar RIPS de Recibos~tCtrl+W"
 this.shortcut = 343
-this.microhelp = "Capturar RIPS de Recibos [Ctrl+W]"
-this.toolbaritemname = "rip_r.ico"
-this.toolbaritemtext = "Capturar RIPS de Recibos [Ctrl+W]"
+this.microhelp = "Capturar RIPS de Recibos  No atendidos"
+this.toolbaritemtext = "Capturar RIPS de Recibos"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -3439,43 +3189,16 @@ on m_3_11_2.destroy
 call super::destroy
 end on
 
-type m_raya2_rips from menu within m_3_11
-end type
-
-on m_raya2_rips.create
-call super::create
-this.text = "-"
-this.menutextcolor = 134217735
-this.menubackcolor = 134217732
-this.menuhighlightcolor = 134217741
-this.textsize = 8
-this.weight = 400
-this.facename = "Tahoma"
-this.titlebackcolor = 134217730
-this.bitmapbackcolor = 12632256
-this.menubitmaps = true
-this.titlegradient = true
-this.toolbartextcolor = 134217746
-this.toolbarbackcolor = 67108864
-this.toolbarhighlightcolor = 134217741
-this.toolbargradient = true
-this.bitmapgradient = true
-end on
-
-on m_raya2_rips.destroy
-call super::destroy
-end on
-
 type m_3_11_3 from menu within m_3_11
 end type
 
 on m_3_11_3.create
 call super::create
+this.tag = "AuditoriaRIPS"
 this.text = "Auditoría de RIPS~tCtrl+Z"
 this.shortcut = 346
 this.microhelp = "Auditar RIPS y Revisar Acumulados"
-this.toolbaritemname = "audita.ico"
-this.toolbaritemtext = "Audita RIPS [Ctrl+Z]"
+this.toolbaritemtext = "Auditoría de RIPS"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -3497,43 +3220,16 @@ on m_3_11_3.destroy
 call super::destroy
 end on
 
-type m_raya1_rips from menu within m_3_11
-end type
-
-on m_raya1_rips.create
-call super::create
-this.text = "-"
-this.menutextcolor = 134217735
-this.menubackcolor = 134217732
-this.menuhighlightcolor = 134217741
-this.textsize = 8
-this.weight = 400
-this.facename = "Tahoma"
-this.titlebackcolor = 134217730
-this.bitmapbackcolor = 12632256
-this.menubitmaps = true
-this.titlegradient = true
-this.toolbartextcolor = 134217746
-this.toolbarbackcolor = 67108864
-this.toolbarhighlightcolor = 134217741
-this.toolbargradient = true
-this.bitmapgradient = true
-end on
-
-on m_raya1_rips.destroy
-call super::destroy
-end on
-
 type m_3_11_4 from menu within m_3_11
 end type
 
 on m_3_11_4.create
 call super::create
-this.text = "Generación de &RIPS~tCtrl+R"
+this.tag = "GeneraRIPS"
+this.text = "Generación de RIPS~tCtrl+R"
 this.shortcut = 338
 this.microhelp = "Generación de RIPS"
-this.toolbaritemname = "rips.ico"
-this.toolbaritemtext = "Generación de RIPS [Ctrl+R]"
+this.toolbaritemtext = "Generación de RIPS"
 this.toolbaritemspace = 1
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3561,12 +3257,12 @@ end type
 
 on m_modif_rad.create
 call super::create
+this.tag = "ModificaRIPS"
 this.text = "Modificación de Radicaciones~tCtrl+M"
 this.enabled = false
 this.shortcut = 333
 this.microhelp = "Modificar radicaciones en cartera"
-this.toolbaritemname = "pesos_deta.ico"
-this.toolbaritemtext = "Modificar radicaciones"
+this.toolbaritemtext = "Modificación de Radicaciones"
 this.menuimage = "pesos_deta.ico"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3635,8 +3331,9 @@ end type
 
 on m_semáforos.create
 call super::create
+this.tag = "Semaforo"
 this.text = "Semáforos"
-this.toolbaritemname = "start!"
+this.microhelp = "Semáforos Epidemiológicos"
 this.toolbaritemtext = "Semáforos Epidemiológicos"
 this.menuimage = "Start!"
 this.menutextcolor = 134217735
@@ -3665,9 +3362,10 @@ end type
 
 on m_config_mapa.create
 call super::create
+this.tag = "Mapa"
 this.text = "Configuración Mapas"
-this.toolbaritemname = "browse!"
-this.toolbaritemtext = "Configuración Mapas Epidemiológicos"
+this.microhelp = "Configuración Mapas"
+this.toolbaritemtext = "Configuración Mapas"
 this.menuimage = "Browse!"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
@@ -3695,8 +3393,9 @@ end type
 
 on m_indicadores.create
 call super::create
+this.tag = "IndicadorEPD"
 this.text = "Indicadores"
-this.toolbaritemname = "userobject!"
+this.microhelp = "Indicadores Epidemiológicos"
 this.toolbaritemtext = "Indicadores Epidemiológicos"
 this.menuimage = "UserObject!"
 this.menutextcolor = 134217735
@@ -3795,7 +3494,10 @@ end type
 
 on m_0.create
 call super::create
+this.tag = "RadicaQUE"
 this.text = "Radicación"
+this.microhelp = "Radicación Quejas"
+this.toolbaritemtext = "Radicación Quejas"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -3822,7 +3524,10 @@ end type
 
 on m_respuestas.create
 call super::create
+this.tag = "RespuestaQUE"
 this.text = "Respuestas"
+this.microhelp = "Respuesta Quejas"
+this.toolbaritemtext = "Respuesta Quejas"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -3849,6 +3554,7 @@ m_elaboración m_elaboración
 m_tabulación m_tabulación
 m_generaciónestadísticas m_generaciónestadísticas
 m_listadodeencuestas m_listadodeencuestas
+m_aplicación m_aplicación
 end type
 
 on m_encuestas.create
@@ -3873,10 +3579,12 @@ this.m_elaboración=create m_elaboración
 this.m_tabulación=create m_tabulación
 this.m_generaciónestadísticas=create m_generaciónestadísticas
 this.m_listadodeencuestas=create m_listadodeencuestas
+this.m_aplicación=create m_aplicación
 this.Item[UpperBound(this.Item)+1]=this.m_elaboración
 this.Item[UpperBound(this.Item)+1]=this.m_tabulación
 this.Item[UpperBound(this.Item)+1]=this.m_generaciónestadísticas
 this.Item[UpperBound(this.Item)+1]=this.m_listadodeencuestas
+this.Item[UpperBound(this.Item)+1]=this.m_aplicación
 end on
 
 on m_encuestas.destroy
@@ -3885,6 +3593,7 @@ destroy(this.m_elaboración)
 destroy(this.m_tabulación)
 destroy(this.m_generaciónestadísticas)
 destroy(this.m_listadodeencuestas)
+destroy(this.m_aplicación)
 end on
 
 type m_elaboración from menu within m_encuestas
@@ -3892,7 +3601,10 @@ end type
 
 on m_elaboración.create
 call super::create
+this.tag = "ElaboraENC"
 this.text = "Elaboración"
+this.microhelp = "Elaboración Encuestas"
+this.toolbaritemtext = "Elaboración Encuestas"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -3919,7 +3631,10 @@ end type
 
 on m_tabulación.create
 call super::create
+this.tag = "TabulaENC"
 this.text = "Tabulación"
+this.microhelp = "Tabulación de Encuestas"
+this.toolbaritemtext = "Tabulación de Encuestas"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -3946,7 +3661,10 @@ end type
 
 on m_generaciónestadísticas.create
 call super::create
+this.tag = "EstadENC"
 this.text = "Generación Estadísticas"
+this.microhelp = "Generación Estadísticas"
+this.toolbaritemtext = "Generación Estadísticas"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -3973,7 +3691,10 @@ end type
 
 on m_listadodeencuestas.create
 call super::create
+this.tag = "ListaENC"
 this.text = "Listado de Encuestas"
+this.microhelp = "Listado de Encuestas"
+this.toolbaritemtext = "Listado de Encuestas"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -3995,12 +3716,15 @@ on m_listadodeencuestas.destroy
 call super::destroy
 end on
 
-type m_mpres from menu within m_3
+type m_aplicación from menu within m_encuestas
 end type
 
-on m_mpres.create
+on m_aplicación.create
 call super::create
-this.text = "Mipres"
+this.tag = "AplicaENC"
+this.text = "Aplicación"
+this.microhelp = "Encuestas de satisfacción al cliente"
+this.toolbaritemtext = "Encuestas de satisfacción al cliente"
 this.menutextcolor = 134217735
 this.menubackcolor = 134217732
 this.menuhighlightcolor = 134217741
@@ -4018,123 +3742,7 @@ this.toolbargradient = true
 this.bitmapgradient = true
 end on
 
-on m_mpres.destroy
-call super::destroy
-end on
-
-type m_herramientas from menu within m_principal_asis
-m_ejecutar m_ejecutar
-end type
-
-on m_herramientas.create
-call super::create
-this.text = "&Herramientas"
-this.menutextcolor = 134217735
-this.menubackcolor = 134217732
-this.menuhighlightcolor = 134217741
-this.textsize = 8
-this.weight = 400
-this.facename = "Tahoma"
-this.titlebackcolor = 134217730
-this.bitmapbackcolor = 12632256
-this.menubitmaps = true
-this.titlegradient = true
-this.toolbartextcolor = 134217746
-this.toolbarbackcolor = 67108864
-this.toolbarhighlightcolor = 134217741
-this.toolbargradient = true
-this.bitmapgradient = true
-this.m_ejecutar=create m_ejecutar
-this.Item[UpperBound(this.Item)+1]=this.m_ejecutar
-end on
-
-on m_herramientas.destroy
-call super::destroy
-destroy(this.m_ejecutar)
-end on
-
-type m_ejecutar from menu within m_herramientas
-end type
-
-on m_ejecutar.create
-call super::create
-this.text = "Ejecutar"
-this.menutextcolor = 134217735
-this.menubackcolor = 134217732
-this.menuhighlightcolor = 134217741
-this.textsize = 8
-this.weight = 400
-this.facename = "Tahoma"
-this.titlebackcolor = 134217730
-this.bitmapbackcolor = 12632256
-this.menubitmaps = true
-this.titlegradient = true
-this.toolbartextcolor = 134217746
-this.toolbarbackcolor = 67108864
-this.toolbarhighlightcolor = 134217741
-this.toolbargradient = true
-this.bitmapgradient = true
-end on
-
-on m_ejecutar.destroy
-call super::destroy
-end on
-
-type m_5 from menu within m_principal_asis
-m_5_1 m_5_1
-end type
-
-on m_5.create
-call super::create
-this.text = "&Ver"
-this.menutextcolor = 134217735
-this.menubackcolor = 134217732
-this.menuhighlightcolor = 134217741
-this.textsize = 8
-this.weight = 400
-this.facename = "Tahoma"
-this.titlebackcolor = 134217730
-this.bitmapbackcolor = 12632256
-this.menubitmaps = true
-this.titlegradient = true
-this.toolbartextcolor = 134217746
-this.toolbarbackcolor = 67108864
-this.toolbarhighlightcolor = 134217741
-this.toolbargradient = true
-this.bitmapgradient = true
-this.m_5_1=create m_5_1
-this.Item[UpperBound(this.Item)+1]=this.m_5_1
-end on
-
-on m_5.destroy
-call super::destroy
-destroy(this.m_5_1)
-end on
-
-type m_5_1 from menu within m_5
-end type
-
-on m_5_1.create
-call super::create
-this.text = "&Mostrar barra"
-this.menutextcolor = 134217735
-this.menubackcolor = 134217732
-this.menuhighlightcolor = 134217741
-this.textsize = 8
-this.weight = 400
-this.facename = "Tahoma"
-this.titlebackcolor = 134217730
-this.bitmapbackcolor = 12632256
-this.menubitmaps = true
-this.titlegradient = true
-this.toolbartextcolor = 134217746
-this.toolbarbackcolor = 67108864
-this.toolbarhighlightcolor = 134217741
-this.toolbargradient = true
-this.bitmapgradient = true
-end on
-
-on m_5_1.destroy
+on m_aplicación.destroy
 call super::destroy
 end on
 
