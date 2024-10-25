@@ -703,7 +703,6 @@ if li_statusCode<0 then
 	return lst_ret
 end if
 
-
 li_arch=fileopen(as_filename,textmode!,Write!,Shared!,replace!,EncodingUTF8!)
 fileWriteEx(li_arch,ls_data)
 fileclose(li_arch)
@@ -885,7 +884,7 @@ public function st_ret_dian sign_chilkat (ref uo_datawindow adw_factura, decimal
 int 		li_rc,						li_ret,						li_res,						li_donde,						li_file
 string 	ls_data_qr,				is_ruta_qr='c:\windows\temp\'  
 string 	ls_sufijo_campo='',	ls_ojo,					ls_name,					ls_small_cufe,				ls_small_cufex,				ls_sfc,			ls_sfc_384,				ls_testp
-string 	ls_coddoc,				ls_retc,					ls_retdes,				ls_xml_ret,					ls_null,							ls_tipo,			ls_tipo_ambiente
+string 	ls_coddoc,				ls_retc,					ls_retdes,				ls_xml_ret,					ls_null,						ls_tipo,			ls_tipo_ambiente
 string 	ls_prefac,				ls_numfact,				ls_t
 
 
@@ -996,7 +995,8 @@ end if
 ls_sfc=f_encripta_sha(ls_small_cufe,'SHA384')
 adw_factura.setitem(1,'cufe',ls_sfc)
 
-lst_ret_dian.as_cufe=ls_sfc
+//lst_ret_dian.as_cufe=ls_sfc
+
 
 lblb_sha384=Blob(f_encripta_sha(ls_small_cufe,'SHA384'), EncodingANSI!)
 lblb_md5 = lnv_CrypterObject.MD5(lblb_sha384)
@@ -1107,14 +1107,14 @@ if lbn_actu_consec_zip then
 end if
 
 if lbn_actu_consec_fact or lbn_actu_consec_zip then
-	//if of_actu_estado_factura(al_nro_fact,as_clug_factura,as_tipofac,ls_null,lst_ret_dian.as_filename,lst_ret_dian.as_zipname,lst_ret_dian.as_track_id,as_tipo_docu,ls_coddoc,lst_ret_dian.as_cufe)=-1 then 
+	//if of_actu_estado_factura(al_nro_fact,as_clug_factura,as_tipofac,ls_null,lst_ret_dian.as_filename,lst_ret_dian.as_zipname,lst_ret_dian.as_track_id,as_tipo_docu,ls_coddoc,ls_sfc)=-1 then 
 	if as_coddoc='FV' or as_coddoc='RV' then
-		if of_actu_estado_factura(al_nro_fact,as_clug_factura,as_tipofac,as_nnota,ls_null,lst_ret_dian.as_filename,lst_ret_dian.as_zipname,lst_ret_dian.as_track_id,as_tipo_docu,as_coddoc,lst_ret_dian.as_cufe)=-1 then 
+		if of_actu_estado_factura(al_nro_fact,as_clug_factura,as_tipofac,as_nnota,ls_null,lst_ret_dian.as_filename,lst_ret_dian.as_zipname,lst_ret_dian.as_track_id,as_tipo_docu,as_coddoc,ls_sfc)=-1 then 
 			lst_ret_dian.as_estado="-2"
 			return lst_ret_dian
 		end if
 	else
-		if of_actu_estado_factura(double(ls_numfact),as_clug_factura,'',0,ls_null,lst_ret_dian.as_filename,lst_ret_dian.as_zipname,lst_ret_dian.as_track_id,as_tipo_docu,as_coddoc,lst_ret_dian.as_cufe)=-1 then 
+		if of_actu_estado_factura(double(ls_numfact),as_clug_factura,'',0,ls_null,lst_ret_dian.as_filename,lst_ret_dian.as_zipname,lst_ret_dian.as_track_id,as_tipo_docu,as_coddoc,ls_sfc)=-1 then 
 			lst_ret_dian.as_estado="-2"
 			return lst_ret_dian
 		end if
@@ -1177,8 +1177,8 @@ if isnull(adw_factura.getitemstring(1,'estado_dian'+ls_sufijo_campo)) or adw_fac
 		
 		lst_ret_dian.as_track_id=lds_result.getitemstring(lds_result.rowcount(),'zipkey')
 		
-		//if of_actu_estado_factura(al_nro_fact,as_clug_factura,as_tipofac,'0',lst_ret_dian.as_filename,lst_ret_dian.as_zipname,lst_ret_dian.as_track_id,as_tipo_docu,ls_coddoc,lst_ret_dian.as_cufe)=-1 then 
-		if of_actu_estado_factura(al_nro_fact,as_clug_factura,as_tipofac,as_nnota,ls_null,lst_ret_dian.as_filename,lst_ret_dian.as_zipname,lst_ret_dian.as_track_id,as_tipo_docu,as_coddoc,lst_ret_dian.as_cufe)=-1 then 
+		//if of_actu_estado_factura(al_nro_fact,as_clug_factura,as_tipofac,'0',lst_ret_dian.as_filename,lst_ret_dian.as_zipname,lst_ret_dian.as_track_id,as_tipo_docu,ls_coddoc,ls_sfc)=-1 then 
+		if of_actu_estado_factura(al_nro_fact,as_clug_factura,as_tipofac,as_nnota,ls_null,lst_ret_dian.as_filename,lst_ret_dian.as_zipname,lst_ret_dian.as_track_id,as_tipo_docu,as_coddoc,ls_sfc)=-1 then 
 			lst_ret_dian.as_estado="-2"
 		 	return lst_ret_dian
 		end if
