@@ -184,7 +184,7 @@ end type
 end forward
 
 global type w_maneja_glosas from window
-integer width = 6144
+integer width = 6258
 integer height = 2560
 boolean titlebar = true
 string title = "Cartera - Manejo de Objecciones"
@@ -3332,7 +3332,7 @@ type dw_obj_proc from datawindow within tp_2
 integer x = 4878
 integer y = 884
 integer width = 1106
-integer height = 528
+integer height = 632
 integer taborder = 60
 string title = "none"
 string dataobject = "dw_glosa_subdeta"
@@ -3463,6 +3463,9 @@ setNull(nulo)
 choose case dwo.name
 	case 'con_gral'
 		setitem(row,'con_espe',nulo)
+		setitem(row,'cod_objecion',nulo)
+		setitem(row,'usu_responde',nulo)
+		setitem(row,'nombre',nulo)
 		if idw_espe2.retrieve(data)=1 then
 			setitem(row,'con_espe',idw_espe2.getitemstring(idw_espe2.getrow(),'con_espe') )
 		end if
@@ -3471,11 +3474,15 @@ choose case dwo.name
 		setitem(row,'cod_objecion',nulo)
 		if idw_obj2.retrieve(getitemstring(row,'con_gral'),data)=1 then
 			setitem(row,'cod_objecion',idw_obj2.getitemstring(idw_obj2.getrow(),1) )
+
+			if idw_usuresp2.retrieve(idw_obj2.getitemstring(idw_obj2.getrow(),1))=1 then
+				setitem(row,'usu_responde',idw_usuresp2.getitemstring(1,'responsable'))
+				setitem(row,'nombre',idw_usuresp2.getitemstring(1,'nombre'))
+			end if			
 		end if		
 		
 	case 'cod_objecion'
 		setitem(row,'pertinente',idw_obj2.getitemstring(idw_obj2.getrow(),'pertinente'))
-		//setitem(row,'respuesta_hasta',datetime(relativedate(date(getitemdatetime(row,'fecha_tramite')),idw_obj.getitemnumber(idw_obj.getrow(),'tiempo_resp'))))
 		setitem(row,'usu_responde',nulo)
 		setitem(row,'nombre',nulo)
 		if idw_usuresp2.retrieve(data)=1 then
@@ -3581,6 +3588,7 @@ end type
 type tp_3 from userobject within tab_1
 integer x = 18
 integer y = 112
+integer width = 6043
 integer height = 1528
 long backcolor = 67108864
 string text = "Items del Proc."
