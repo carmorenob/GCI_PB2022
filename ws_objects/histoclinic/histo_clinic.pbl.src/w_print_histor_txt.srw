@@ -3,6 +3,10 @@ $PBExportComments$Ventana xa impesión de Historia Clinica con el formato ahora 
 forward
 global type w_print_histor_txt from window
 end type
+type pb_2 from picturebutton within w_print_histor_txt
+end type
+type pb_1 from picturebutton within w_print_histor_txt
+end type
 type rb_3 from radiobutton within w_print_histor_txt
 end type
 type cbx_1 from checkbox within w_print_histor_txt
@@ -19,13 +23,9 @@ type ddl_tipo from dropdownlistbox within w_print_histor_txt
 end type
 type gb_1 from groupbox within w_print_histor_txt
 end type
-type pb_1 from picturebutton within w_print_histor_txt
-end type
-type pb_2 from picturebutton within w_print_histor_txt
+type dw_2 from datawindow within w_print_histor_txt
 end type
 type dw_1 from datawindow within w_print_histor_txt
-end type
-type dw_2 from datawindow within w_print_histor_txt
 end type
 end forward
 
@@ -40,6 +40,8 @@ long backcolor = 67108864
 string icon = "conf_imp.ico"
 boolean clientedge = true
 boolean center = true
+pb_2 pb_2
+pb_1 pb_1
 rb_3 rb_3
 cbx_1 cbx_1
 dw_3 dw_3
@@ -48,10 +50,8 @@ rb_2 rb_2
 rb_comp rb_comp
 ddl_tipo ddl_tipo
 gb_1 gb_1
-pb_1 pb_1
-pb_2 pb_2
-dw_1 dw_1
 dw_2 dw_2
+dw_1 dw_1
 end type
 global w_print_histor_txt w_print_histor_txt
 
@@ -60,17 +60,19 @@ trae 		ist_historial
 
 string 	is_sql1
 string 	is_f_imprime
+string 	is_sql_paci , is_sql_actual_ing
 
-constant string is_sql_res1="SELECT DISTINCT 	historial.contador, historial.clugar, historial.indapdx, historial.fecha, '1' AS sel_ing, '1' AS sel_plant, hclin_registro.tipo AS cual, 	hclin_registro.nregistro, 					hclin_registro.desplantilla, 	hclin_registro.codplantilla, 	hclin_registro.ingreso, hclin_registro.tipo 	FROM historial INNER JOIN hclin_registro ON (historial.clugar = hclin_registro.clugar) AND (historial.Contador = hclin_registro.contador) WHERE (hclin_registro.tipo not in ('E','R','F') ) AND (historial.indapdx in ('2','3','4','7') ) "
-constant string is_sql_res2="UNION ALL SELECT 	historial.contador, historial.clugar, historial.indapdx, historial.fecha, '1' AS sel_ing, '1' AS sel_plant, 'EPI' AS cual, 					0 AS nregistro, 								'Resumen de Evolución' , 		'EPI' , 								'K',							'P' 						FROM historial INNER JOIN evolucionhc ON (historial.contador = evolucionhc.contador) AND (historial.clugar = evolucionhc.clugar) 			WHERE (historial.indapdx in ('2','3','4','7') )"
+constant string is_sql_res1="SELECT DISTINCT historial.contador, historial.clugar, historial.indapdx, historial.fecha, '1' AS sel_ing, '1' AS sel_plant, hclin_registro.tipo AS cual, hclin_registro.nregistro,historial.clugar as clug,hclin_registro.desplantilla,hclin_registro.codplantilla,hclin_registro.ingreso, hclin_registro.tipo 	FROM historial INNER JOIN hclin_registro ON (historial.clugar = hclin_registro.clugar) AND (historial.Contador = hclin_registro.contador) WHERE (hclin_registro.tipo not in ('E','R','F') ) AND (historial.indapdx in ('2','3','4','7') ) "
+constant string is_sql_res2="UNION ALL SELECT historial.contador, historial.clugar, historial.indapdx, historial.fecha, '1' AS sel_ing, '1' AS sel_plant, 'EPI' AS cual,  0 AS nregistro,historial.clugar as clug, 'RESUMEN DE EVOLUCIÓN' ,'EPI' , 'K', 'P' FROM historial INNER JOIN evolucionhc ON (historial.contador = evolucionhc.contador) AND (historial.clugar = evolucionhc.clugar) 	WHERE (historial.indapdx in ('2','3','4','7') )"
 //constant string is_sql_res3="UNION ALL SELECT 	Historial.contador, Historial.clugar, Historial.IndApDx, Historial.Fecha, '1' AS sel_ing, '1' AS sel_plant, 'NQX' AS cual, 					QxCabActo.Numero_ingre as nregistro, 	'Notas quirúrgicas' , 			'NOQX' , 							'Q' , 						'Q' 						FROM Historial INNER JOIN QxCabActo ON (Historial.clugar = QxCabActo.clugar_his) AND (Historial.Contador = QxCabActo.contador)"
 
-string 	is_sql_paci , is_sql_actual_ing
+
 
 uo_datastore ids_rep
 end variables
-
 on w_print_histor_txt.create
+this.pb_2=create pb_2
+this.pb_1=create pb_1
 this.rb_3=create rb_3
 this.cbx_1=create cbx_1
 this.dw_3=create dw_3
@@ -79,11 +81,11 @@ this.rb_2=create rb_2
 this.rb_comp=create rb_comp
 this.ddl_tipo=create ddl_tipo
 this.gb_1=create gb_1
-this.pb_1=create pb_1
-this.pb_2=create pb_2
-this.dw_1=create dw_1
 this.dw_2=create dw_2
-this.Control[]={this.rb_3,&
+this.dw_1=create dw_1
+this.Control[]={this.pb_2,&
+this.pb_1,&
+this.rb_3,&
 this.cbx_1,&
 this.dw_3,&
 this.pb_3,&
@@ -91,13 +93,13 @@ this.rb_2,&
 this.rb_comp,&
 this.ddl_tipo,&
 this.gb_1,&
-this.pb_1,&
-this.pb_2,&
-this.dw_1,&
-this.dw_2}
+this.dw_2,&
+this.dw_1}
 end on
 
 on w_print_histor_txt.destroy
+destroy(this.pb_2)
+destroy(this.pb_1)
 destroy(this.rb_3)
 destroy(this.cbx_1)
 destroy(this.dw_3)
@@ -106,10 +108,8 @@ destroy(this.rb_2)
 destroy(this.rb_comp)
 destroy(this.ddl_tipo)
 destroy(this.gb_1)
-destroy(this.pb_1)
-destroy(this.pb_2)
-destroy(this.dw_1)
 destroy(this.dw_2)
+destroy(this.dw_1)
 end on
 
 event open;ist_historial=message.powerobjectparm
@@ -149,6 +149,77 @@ else
 end if
 
 ddl_tipo.event selectionchanged(1)
+end event
+
+type pb_2 from picturebutton within w_print_histor_txt
+integer x = 2089
+integer y = 1500
+integer width = 146
+integer height = 128
+integer taborder = 100
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+boolean originalsize = true
+string picturename = "cancelar.GIF"
+string disabledname = "d_cancelar.GIF"
+alignment htextalign = left!
+string powertiptext = "Cancelar"
+end type
+
+event clicked;close(parent)
+end event
+
+type pb_1 from picturebutton within w_print_histor_txt
+integer x = 1902
+integer y = 1500
+integer width = 146
+integer height = 128
+integer taborder = 90
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+boolean originalsize = true
+string picturename = "aceptar.gif"
+string disabledname = "d_aceptar.gif"
+alignment htextalign = left!
+string powertiptext = "Aceptar"
+end type
+
+event clicked;string l_temporal
+datawindow ldw_regs
+
+l_temporal="C:\windows\temp\"+tipdoc+docu+".jpg"
+f_foto_paciente(tipdoc,docu,l_temporal)
+
+ldw_regs=dw_1
+if rb_2.checked OR rb_3.checked then ldw_regs=dw_2
+
+if ldw_regs.getitemnumber(1,'sum_plant')=0 then
+	Messagebox("Atención","Debe elegir algún registro para imprimir")
+	return
+end if
+
+if isvalid(w_reporte_gral) then close(w_reporte_gral)
+setnull(message.powerobjectparm)
+opensheetwithparm(w_reporte_gral,message.powerobjectparm,w_principal,7,original!)
+
+string ls_tipo_impr='1'
+
+if rb_2.checked then ls_tipo_impr='2'
+if rb_3.checked then ls_tipo_impr='3'
+
+w_reporte_gral.wf_imprime_historia(ldw_regs,ls_tipo_impr)
+
+
+FileDelete(l_temporal)
+close(parent)
 end event
 
 type rb_3 from radiobutton within w_print_histor_txt
@@ -350,79 +421,123 @@ long backcolor = 67108864
 string text = "Imprimir"
 end type
 
-type pb_1 from picturebutton within w_print_histor_txt
-integer x = 1957
-integer y = 1492
-integer width = 146
-integer height = 128
-integer taborder = 80
-boolean bringtotop = true
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-boolean default = true
-boolean originalsize = true
-string picturename = "aceptar.gif"
-string disabledname = "d_aceptar.gif"
-alignment htextalign = left!
-string powertiptext = "Aceptar"
+type dw_2 from datawindow within w_print_histor_txt
+event cambia_estado ( string dato,  long fila_ante,  string filtro_ante )
+event pe_cambio_plant ( long fila_ant,  string filtro_ante )
+boolean visible = false
+integer x = 32
+integer y = 184
+integer width = 4178
+integer height = 1280
+integer taborder = 50
+string title = "Pa imprimir lo de evolucion"
+string dataobject = "dw_histo_resumen"
+boolean vscrollbar = true
+boolean border = false
+boolean livescroll = true
 end type
 
-event clicked;string l_temporal
-datawindow ldw_regs
-
-l_temporal="C:\windows\temp\"+tipdoc+docu+".jpg"
-f_foto_paciente(tipdoc,docu,l_temporal)
-
-ldw_regs=dw_1
-if rb_2.checked OR rb_3.checked then ldw_regs=dw_2
-
-if ldw_regs.getitemnumber(1,'sum_plant')=0 then
-	Messagebox("Atención","Debe elegir algún registro para imprimir")
-	return
-end if
-
-if isvalid(w_reporte_gral) then close(w_reporte_gral)
-setnull(message.powerobjectparm)
-opensheetwithparm(w_reporte_gral,message.powerobjectparm,w_principal,7,original!)
-
-string ls_tipo_impr='1'
-
-if rb_2.checked then ls_tipo_impr='2'
-if rb_3.checked then ls_tipo_impr='3'
-
-w_reporte_gral.wf_imprime_historia(ldw_regs,ls_tipo_impr)
-
-
-FileDelete(l_temporal)
-close(parent)
+event cambia_estado(string dato, long fila_ante, string filtro_ante);long j
+accepttext()
+for j=1 to rowcount()
+	setitem(j,'sel_ing',dato)	
+next
+setfilter(filtro_ante)
+filter()
+sort()
+groupcalc()
+scrolltorow(fila_ante)
+setredraw(true)
 end event
 
-type pb_2 from picturebutton within w_print_histor_txt
-integer x = 2121
-integer y = 1492
-integer width = 146
-integer height = 128
-integer taborder = 90
-boolean bringtotop = true
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-boolean cancel = true
-boolean originalsize = true
-string picturename = "cancelar.GIF"
-string disabledname = "d_cancelar.GIF"
-alignment htextalign = left!
-string powertiptext = "Cancelar"
-end type
+event pe_cambio_plant(long fila_ant, string filtro_ante);long j
+string dato
+accepttext()
+if filtro_ante='' then
+	setfilter('contador='+string(getitemnumber(fila_ant,'contador')))
+else
+	setfilter(filtro_ante+' and contador='+string(getitemnumber(fila_ant,'contador')))
+end if
+filter()
+groupcalc()
+if getitemnumber(1,'sum_plant')=0 then
+	dato='0'
+elseif getitemnumber(1,'sum_plant')<rowcount() then
+	dato='2'
+else
+	dato='1'
+end if
+for j=1 to rowcount()
+	setitem(j,'sel_ing',dato)
+next
+setfilter(filtro_ante)
+filter()
+sort()
+groupcalc()
+setcolumn('sel_plant')
+scrolltorow(fila_ant)
+setredraw(true)
+end event
 
-event clicked;close(parent)
+event clicked;if row<1 then return
+scrolltorow(row)
+end event
+
+event buttonclicked;setredraw(false)
+string dato
+long j
+if dwo.tag='d' then
+	dato='0'
+	modify('b_1.tag="s"')
+else
+	modify('b_1.tag="d"')
+	dato='1'
+end if
+for j=1 to rowcount()
+	setitem(j,'sel_ing',dato)
+	setitem(j,'sel_plant',dato)
+next
+setredraw(true)
+end event
+
+event constructor;settransobject(sqlca)
+end event
+
+event rbuttondown;st_dw_xa_funciones st_dw
+st_dw.dw=this
+st_dw.dwo=dwo
+st_dw.row=row
+st_dw.color_fondo=describe('b_1.background.color')
+openwithparm(w_funcion_dw,st_dw)
+end event
+
+event itemchanged;long j,fila_actual
+string dato,filtro_actu
+fila_actual=getrow()
+filtro_actu=describe("datawindow.table.filter")
+if filtro_actu='?' then filtro_actu=''
+setredraw(false)
+choose case dwo.name
+	case 'sel_ing'
+		if getitemstring(fila_actual,'sel_ing')='1' or getitemstring(fila_actual,'sel_ing')='2' then
+			dato='0'
+		else
+			dato='1'
+		end if
+		if filtro_actu='' then
+			setfilter('contador='+string(getitemnumber(fila_actual,'contador')))
+		else
+			setfilter(filtro_actu+' and contador='+string(getitemnumber(fila_actual,'contador')))
+		end if
+		filter()
+		for j=1 to rowcount()
+			setitem(j,'sel_plant',dato)
+		next
+		post event cambia_estado(dato,fila_actual,filtro_actu)
+	case 'sel_plant'
+		accepttext()
+		post event pe_cambio_plant(fila_actual,filtro_actu)
+end choose
 end event
 
 type dw_1 from datawindow within w_print_histor_txt
@@ -551,124 +666,5 @@ st_dw.row=row
 st_dw.color_fondo=describe('b_1.background.color')
 openwithparm(w_funcion_dw,st_dw)
 
-end event
-
-type dw_2 from datawindow within w_print_histor_txt
-event cambia_estado ( string dato,  long fila_ante,  string filtro_ante )
-event pe_cambio_plant ( long fila_ant,  string filtro_ante )
-boolean visible = false
-integer x = 32
-integer y = 184
-integer width = 4178
-integer height = 1280
-integer taborder = 50
-string title = "Pa imprimir lo de evolucion"
-string dataobject = "dw_histo_resumen"
-boolean vscrollbar = true
-boolean border = false
-boolean livescroll = true
-end type
-
-event cambia_estado(string dato, long fila_ante, string filtro_ante);long j
-accepttext()
-for j=1 to rowcount()
-	setitem(j,'sel_ing',dato)	
-next
-setfilter(filtro_ante)
-filter()
-sort()
-groupcalc()
-scrolltorow(fila_ante)
-setredraw(true)
-end event
-
-event pe_cambio_plant(long fila_ant, string filtro_ante);long j
-string dato
-accepttext()
-if filtro_ante='' then
-	setfilter('contador='+string(getitemnumber(fila_ant,'contador')))
-else
-	setfilter(filtro_ante+' and contador='+string(getitemnumber(fila_ant,'contador')))
-end if
-filter()
-groupcalc()
-if getitemnumber(1,'sum_plant')=0 then
-	dato='0'
-elseif getitemnumber(1,'sum_plant')<rowcount() then
-	dato='2'
-else
-	dato='1'
-end if
-for j=1 to rowcount()
-	setitem(j,'sel_ing',dato)
-next
-setfilter(filtro_ante)
-filter()
-sort()
-groupcalc()
-setcolumn('sel_plant')
-scrolltorow(fila_ant)
-setredraw(true)
-end event
-
-event clicked;if row<1 then return
-scrolltorow(row)
-end event
-
-event buttonclicked;setredraw(false)
-string dato
-long j
-if dwo.tag='d' then
-	dato='0'
-	modify('b_1.tag="s"')
-else
-	modify('b_1.tag="d"')
-	dato='1'
-end if
-for j=1 to rowcount()
-	setitem(j,'sel_ing',dato)
-	setitem(j,'sel_plant',dato)
-next
-setredraw(true)
-end event
-
-event constructor;settransobject(sqlca)
-end event
-
-event rbuttondown;st_dw_xa_funciones st_dw
-st_dw.dw=this
-st_dw.dwo=dwo
-st_dw.row=row
-st_dw.color_fondo=describe('b_1.background.color')
-openwithparm(w_funcion_dw,st_dw)
-end event
-
-event itemchanged;long j,fila_actual
-string dato,filtro_actu
-fila_actual=getrow()
-filtro_actu=describe("datawindow.table.filter")
-if filtro_actu='?' then filtro_actu=''
-setredraw(false)
-choose case dwo.name
-	case 'sel_ing'
-		if getitemstring(fila_actual,'sel_ing')='1' or getitemstring(fila_actual,'sel_ing')='2' then
-			dato='0'
-		else
-			dato='1'
-		end if
-		if filtro_actu='' then
-			setfilter('contador='+string(getitemnumber(fila_actual,'contador')))
-		else
-			setfilter(filtro_actu+' and contador='+string(getitemnumber(fila_actual,'contador')))
-		end if
-		filter()
-		for j=1 to rowcount()
-			setitem(j,'sel_plant',dato)
-		next
-		post event cambia_estado(dato,fila_actual,filtro_actu)
-	case 'sel_plant'
-		accepttext()
-		post event pe_cambio_plant(fila_actual,filtro_actu)
-end choose
 end event
 

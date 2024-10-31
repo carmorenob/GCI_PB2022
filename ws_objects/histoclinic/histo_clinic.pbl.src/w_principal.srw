@@ -56,7 +56,7 @@ Int intentos,ii_contexto
 Long il_resolucion, il_height, il_width,l_dias_update
 st_biometria pac_template
 Boolean l_huella=false
-
+m_ppal m_principal
 end variables
 
 forward prototypes
@@ -278,6 +278,8 @@ event open;if isvalid(w_presenta) then w_presenta.setfocus()
 string tt
 int l_cita
 
+m_principal = create m_ppal
+
 if nom_regis<>'GCI LTDA' then 
 	m_principal.m_ayuda.m_basura.visible=false
 end if
@@ -305,9 +307,9 @@ if sqlca.sqlnrows=0 then
 end if
 
 if l_cita=0 then 
-	//	im_menu.m_3.m_3_2.m_recordatorio.visible=false
-	//	m_principal.m_3.m_3_2.m_recordatorio.enabled=false
-	//	m_principal.m_3.m_3_2.m_recordatorio.toolbaritemvisible=false	
+	m_principal.m_3.m_3_2.m_recordatorio.visible=false
+	m_principal.m_3.m_3_2.m_recordatorio.enabled=false
+	m_principal.m_3.m_3_2.m_recordatorio.toolbaritemvisible=false	
 end if
 
 
@@ -334,7 +336,7 @@ if g_profe<>'' then
 	end if
 end if
 dw_1.setfocus()
-//f_poblar_menus()
+f_poblar_menus()
 f_init_ribbonbar(rbb_1,True)
 
 timer(1)
@@ -618,6 +620,8 @@ event e_autorizas ( long param )
 event e_autorizaa ( long param )
 event e_ripsge ( long param )
 event e_ripsmd ( long param )
+event e_gestante ( long param )
+event e_erc ( long param )
 integer width = 5641
 integer height = 444
 long backcolor = 15132390
@@ -691,7 +695,7 @@ end event
 
 event e_citas(long param);if not enabled then return
 opensheet (w_asig_cita,w_principal,7,original!)
-w_principal.arrangesheets(layer!)
+w_principal.ArrangeSheets ( layer!)
 end event
 
 event e_recuerdac(long param);if not enabled then return
@@ -904,6 +908,14 @@ end event
 
 event e_ripsmd(long param);if not enabled then return
 opensheet (w_hist_restas,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_gestante(long param);opensheet (w_tablero_gestantes,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_erc(long param);opensheet (w_tablero_erc,w_principal,7,original!)
 w_principal.ArrangeSheets ( layer!)
 end event
 

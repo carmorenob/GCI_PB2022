@@ -49,6 +49,7 @@ string gs_oxigeno
 date usu_fecha_ini, usu_fecha_fin
 uo_report i_rep_asis[8,15]
 uo_transaction gt_sqlca
+
 end variables
 global type histo_clinic from application
 string appname = "histo_clinic"

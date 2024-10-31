@@ -132,8 +132,8 @@ end type
 end forward
 
 global type w_asig_cita from window
-integer width = 5687
-integer height = 2536
+integer width = 6021
+integer height = 2516
 boolean titlebar = true
 string title = "Asignación de Citas"
 boolean controlmenu = true
@@ -183,10 +183,10 @@ datawindowchild i_dw_grupc,i_dw_proc_gcita,idw_lugar,idw_fincon
 datetime i_desde,i_hasta
 string i_profes,i_esp,i_consul,i_clug,ls_tipo,is_pdf
 boolean i_guardo,lb_espera=false,lb_fina=false,lb_tipoc=false
-m_principal im_main 
+//m_principal im_main 
+m_ppal im_main 
 
 end variables
-
 forward prototypes
 public subroutine trae_agenda ()
 public subroutine pinta ()
@@ -314,7 +314,7 @@ tab_1.tp_2.dw_serv_turno.resetupdate()
 end subroutine
 
 public function integer lleva_afactu ();long col
-if not m_principal.m_3.m_3_10.m_3_10_1.visible then 
+if not w_principal.m_principal.m_3.m_3_10.m_3_10_1.visible then 
 	messagebox("Atención","No tiene permiso de facturar")
 	return -1
 end if
@@ -576,7 +576,7 @@ return 1
 end function
 
 public function integer lleva_a_recibos ();long col
-if not m_principal.m_3.m_3_10.m_3_10_2.visible then
+if not w_principal.m_principal.m_3.m_3_10.m_3_10_2.visible then
 	messagebox("Atención","No tiene permiso de Hacer Recibos de Caja")
 	return -1
 end if
@@ -936,9 +936,15 @@ dw_agenda.retrieve(i_consul,i_desde,i_hasta,i_profes,tab_2.tp2_1.dw_consultxgcit
 w_principal.setmicrohelp('Gestión Clínica Integrada')
 end event
 
+event resize;tab_2.resize(3237,newheight  - 1100)
+tab_2.tp2_1.dw_consultxgcita.height= tab_2.height -250
+tab_2.tp2_2.dw_citas_ante.height= tab_2.height - 250
+tab_2.tp2_3.dw_citas_no_asig.height= tab_2.height - 250
+end event
+
 type dw_ver from datawindow within w_asig_cita
 boolean visible = false
-integer x = 2967
+integer x = 3287
 integer y = 2084
 integer width = 2651
 integer height = 256
@@ -1437,7 +1443,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 1044
-integer width = 2921
+integer width = 3237
 integer height = 1376
 integer taborder = 210
 integer textsize = -8
@@ -1480,7 +1486,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 2885
+integer width = 3200
 integer height = 1248
 long backcolor = 67108864
 string text = "Disponibilidad"
@@ -1507,7 +1513,7 @@ end on
 type st_2 from statictext within tp2_1
 integer x = 14
 integer y = 4
-integer width = 2843
+integer width = 3136
 integer height = 72
 integer textsize = -8
 integer weight = 400
@@ -1526,7 +1532,7 @@ end type
 type dw_consultxgcita from datawindow within tp2_1
 integer x = 14
 integer y = 72
-integer width = 2848
+integer width = 3145
 integer height = 1120
 integer taborder = 40
 string dataobject = "dw_consullibrexgcita"
@@ -1549,7 +1555,6 @@ dw_1.reset()
 end event
 
 event constructor;settransobject(sqlca)
-
 end event
 
 type tp2_2 from userobject within tab_2
@@ -1557,7 +1562,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 2885
+integer width = 3200
 integer height = 1248
 long backcolor = 67108864
 string text = "Citas Anteriores"
@@ -1584,7 +1589,7 @@ end on
 type st_3 from statictext within tp2_2
 integer x = 9
 integer y = 12
-integer width = 2834
+integer width = 3141
 integer height = 72
 integer textsize = -8
 integer weight = 400
@@ -1603,7 +1608,7 @@ end type
 type dw_citas_ante from datawindow within tp2_2
 integer x = 5
 integer y = 72
-integer width = 2839
+integer width = 3150
 integer height = 1160
 integer taborder = 120
 string title = "none"
@@ -1669,26 +1674,26 @@ dw_1.setcolumn('dia'+string(daynumber(date(getitemdatetime(row,'fecha')))))
 ojo=dw_1.find('hora=time("'+string(time(getitemdatetime(row,'hora')))+'")',1,dw_1.rowcount())
 dw_1.setrow(ojo)
 if pasox=false then
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1.enabled=false
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=true
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=true
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_4.enabled=false
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true	
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1.enabled=false
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=true
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=true
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_4.enabled=false
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true	
 else
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1.enabled=false
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=false
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_4.enabled=false	
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true	
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1.enabled=false
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=false
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_4.enabled=false	
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true	
 end if
-m_principal.m_3.m_3_2.m_3_2_5.PopMenu (w_principal.PointerX(), w_principal.PointerY())
+w_principal.m_principal.m_3.m_3_2.m_3_2_5.PopMenu (w_principal.PointerX(), w_principal.PointerY())
 tab_2.tp2_2.dw_citas_ante.retrieve(tipdoc,docu)
 end event
 
 type tp2_3 from userobject within tab_2
 integer x = 18
 integer y = 112
-integer width = 2885
+integer width = 3200
 integer height = 1248
 long backcolor = 67108864
 string text = "Citas No Asignada"
@@ -1714,7 +1719,7 @@ end on
 type dw_citas_no_asig from datawindow within tp2_3
 integer x = 14
 integer y = 68
-integer width = 2834
+integer width = 3150
 integer height = 1160
 integer taborder = 60
 string dataobject = "dw_citas_no_asig"
@@ -1730,7 +1735,7 @@ end event
 type st_5 from statictext within tp2_3
 integer x = 14
 integer y = 4
-integer width = 2834
+integer width = 3141
 integer height = 72
 integer textsize = -8
 integer weight = 400
@@ -1749,7 +1754,7 @@ end type
 type tab_1 from tab within w_asig_cita
 integer x = 1175
 integer y = 120
-integer width = 4393
+integer width = 4763
 integer height = 572
 integer taborder = 40
 integer textsize = -8
@@ -1787,7 +1792,7 @@ event create ( )
 event destroy ( )
 integer x = 128
 integer y = 16
-integer width = 4247
+integer width = 4617
 integer height = 540
 long backcolor = 67108864
 string text = "Asignar"
@@ -1824,7 +1829,7 @@ destroy(this.dw_serv_cita)
 end on
 
 type pb_vacia from picturebutton within tp_1
-integer x = 3995
+integer x = 4434
 integer y = 180
 integer width = 146
 integer height = 128
@@ -1865,7 +1870,7 @@ end if
 end event
 
 type pb_4 from picturebutton within tp_1
-integer x = 3995
+integer x = 4434
 integer y = 44
 integer width = 146
 integer height = 128
@@ -1901,7 +1906,7 @@ end event
 
 type pb_3 from picturebutton within tp_1
 string tag = "Imprime Preparación"
-integer x = 3995
+integer x = 4434
 integer y = 316
 integer width = 146
 integer height = 128
@@ -1936,7 +1941,7 @@ end event
 
 type st_1 from statictext within tp_1
 integer x = 27
-integer width = 3918
+integer width = 4338
 integer height = 68
 integer textsize = -8
 integer weight = 400
@@ -1954,7 +1959,7 @@ type dw_serv_cita from datawindow within tp_1
 event type long sec_cant ( )
 integer x = 23
 integer y = 64
-integer width = 3931
+integer width = 4357
 integer height = 456
 integer taborder = 40
 string title = "none"
@@ -2029,7 +2034,7 @@ end event
 type tp_2 from userobject within tab_1
 integer x = 128
 integer y = 16
-integer width = 4247
+integer width = 4617
 integer height = 540
 long backcolor = 67108864
 string text = "Fechas"
@@ -2051,7 +2056,7 @@ end on
 
 type dw_serv_turno from datawindow within tp_2
 integer x = 5
-integer width = 4224
+integer width = 4567
 integer height = 532
 integer taborder = 70
 boolean bringtotop = true
@@ -2070,7 +2075,7 @@ event dberror;return f_dw_error(sqldbcode,sqlsyntax,sqlerrtext,classname())
 end event
 
 type st_consul from statictext within w_asig_cita
-integer x = 2967
+integer x = 3287
 integer y = 708
 integer width = 2569
 integer height = 80
@@ -2141,7 +2146,7 @@ event mousemove pbm_dwnmousemove
 event keypres pbm_dwnkey
 event llena_asig ( long p_fila,  integer p_columna )
 event borra_asig ( boolean p_todos )
-integer x = 2976
+integer x = 3296
 integer y = 784
 integer width = 2633
 integer height = 1292
@@ -2253,11 +2258,11 @@ t=getcolumnname()
 
 if left(t,3)<>'dia' then return
 if getitemstring(fila,t)="" or isnull(getitemstring(fila,t)) or getitemstring(fila,t)="Libre" or isnull(getitemnumber(fila,"ncita"+Right ( t, 1 ))) then 
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=false
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=false
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
 else
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=true
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=true
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=true
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=true
 end if
 //////
 if tab_1.tp_1.dw_serv_cita.rowcount()<1 and not isvalid(w_trasl_cita) then return
@@ -2456,53 +2461,53 @@ cual = right(t,1)
 columna=long(cual)
 if this.getitemstring(fila,t)="" or isnull(this.getitemstring(fila,t)) or this.getitemstring(fila,t)="Libre" or isnull(this.getitemnumber(fila,"ncita"+Right ( t, 1 ))) then return
 if datetime(relativedate(fec,columna - daynumber(fec)),relativetime(this.getitemtime(fila,"hora"),300)) < datetime(today(),now()) then 
-	m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=false
-	m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
+	w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=false
+	w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
 	if getitemstring(fila,'conf'+cual)<>'5' then
-		m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true
+		w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true
 	else
-		m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=false
+		w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=false
 	end if
 	pasox=true
 //	return
 end if
-If m_principal <> im_main then
+If w_principal.m_principal <> im_main then
 	if pasox=false then
-		m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1.enabled=false
-		m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=true
+		w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1.enabled=false
+		w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=true
 	
 		if getitemstring(fila,t)=docu and getitemstring(fila,'tdoc'+cual)=tipdoc then
-			m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=true
+			w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=true
 			if getitemstring(fila,'conf'+cual)<>'5' then
-				m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true
+				w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true
 			else
-				m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=false
+				w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=false
 			end if	
 		else
-			m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
-			m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=false			
+			w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
+			w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=false			
 		end if
 	else
-		m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1.enabled=false
-		m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=false
-		m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_4.enabled=false
+		w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1.enabled=false
+		w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=false
+		w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_4.enabled=false
 		if getitemstring(fila,t)=docu and getitemstring(fila,'tdoc'+cual)=tipdoc then
-			m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
+			w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
 			if getitemstring(fila,'conf'+cual)<>'5' then
-				m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true	
+				w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true	
 			else
-				m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=false
+				w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=false
 			end if
 		else
-			m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
+			w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
 				if getitemstring(fila,'conf'+cual)<>'5' then
-					m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true
+					w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true
 				else
-					m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=false
+					w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=false
 				end if
 		end if		
 	end if
-	m_principal.m_3.m_3_2.m_3_2_5.PopMenu (w_principal.PointerX(), w_principal.PointerY())
+	w_principal.m_principal.m_3.m_3_2.m_3_2_5.PopMenu (w_principal.PointerX(), w_principal.PointerY())
 	tab_2.tp2_2.dw_citas_ante.retrieve(tipdoc,docu)
 End If
 end event
