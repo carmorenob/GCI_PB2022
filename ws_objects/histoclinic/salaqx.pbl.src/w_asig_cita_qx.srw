@@ -126,7 +126,7 @@ datawindowchild idw_grupo,idw_sala,idw_anesl,idw_anestesiologos
 datetime i_desde,i_hasta
 string i_profes,i_esp,i_consul,i_clug,ls_tipo,is_pdf
 boolean i_guardo,l_espera=false
-m_principal im_main 
+m_ppal im_main 
 
 
 end variables
@@ -1295,8 +1295,8 @@ if date(getitemdatetime(row,'fecha_asigna'))<>fecha then mc_1.setselecteddate(da
 long ojo
 ojo=dw_1.find('hora=time("'+string(time(getitemdatetime(row,'tiniciaqx')))+'")',1,dw_1.rowcount())
 dw_1.setrow(ojo)
-m_principal.m_3.m_3_8.m_3_8_3.m_3_8_3_1.enabled=true
-m_principal.m_3.m_3_8.m_3_8_3.PopMenu (w_asig_cita_qx.PointerX()+200, w_asig_cita_qx.PointerY()+200)
+w_principal.m_principal.m_3.m_3_8.m_3_8_3.m_3_8_3_1.enabled=true
+w_principal.m_principal.m_3.m_3_8.m_3_8_3.PopMenu (w_asig_cita_qx.PointerX()+200, w_asig_cita_qx.PointerY()+200)
 
 end event
 
@@ -1758,19 +1758,19 @@ cual = right(t,1)
 columna=long(cual)
 if this.getitemstring(fila,t)="" or isnull(this.getitemstring(fila,t)) or this.getitemstring(fila,t)="Libre" or isnull(this.getitemnumber(fila,"ncita"+Right ( t, 1 ))) then return
 if datetime(relativedate(fec,columna - daynumber(fec)),this.getitemtime(fila,"hora")) < datetime(today(),now()) then 
-	m_principal.m_3.m_3_8.m_3_8_3.m_3_8_3_1.enabled=false
-	m_principal.m_3.m_3_8.m_3_8_3.m_3_8_3_2.enabled=false
+	w_principal.m_principal.m_3.m_3_8.m_3_8_3.m_3_8_3_1.enabled=false
+	w_principal.m_principal.m_3.m_3_8.m_3_8_3.m_3_8_3_2.enabled=false
 	return
 end if
-If m_principal <> im_main then
-	m_principal.m_3.m_3_8.m_3_8_3.m_3_8_3_1.enabled=true
-	m_principal.m_3.m_3_8.m_3_8_3.m_3_8_3_2.enabled=true
+If w_principal.m_principal <> im_main then
+	w_principal.m_principal.m_3.m_3_8.m_3_8_3.m_3_8_3_1.enabled=true
+	w_principal.m_principal.m_3.m_3_8.m_3_8_3.m_3_8_3_2.enabled=true
 	if getitemstring(fila,t)=docu and getitemstring(fila,'tdoc'+cual)=tipdoc then
-		m_principal.m_3.m_3_8.m_3_8_3.m_3_8_3_1.enabled=true
+		w_principal.m_principal.m_3.m_3_8.m_3_8_3.m_3_8_3_1.enabled=true
 	else
-		m_principal.m_3.m_3_8.m_3_8_3.m_3_8_3_2.enabled=false
+		w_principal.m_principal.m_3.m_3_8.m_3_8_3.m_3_8_3_2.enabled=false
 	end if
-	m_principal.m_3.m_3_8.m_3_8_3.PopMenu (w_principal.PointerX(), w_principal.PointerY())
+	w_principal.m_principal.m_3.m_3_8.m_3_8_3.PopMenu (w_principal.PointerX(), w_principal.PointerY())
 End If
 end event
 

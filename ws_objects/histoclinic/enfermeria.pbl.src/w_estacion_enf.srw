@@ -338,7 +338,7 @@ alignment htextalign = left!
 string powertiptext = "Ir a Devolución"
 end type
 
-event clicked;m_principal.m_3.m_3_7.m_devoluciónmedicamentos.event clicked()
+event clicked;w_principal.m_principal.m_3.m_3_7.m_devoluciónmedicamentos.event clicked()
 if message.stringparm<>'ok' then return
 close(parent)
 

@@ -1021,14 +1021,14 @@ if row<>getrow() then scrolltorow(row)
 string estado
 estado=dw_citas.describe("evaluate ( 'trim(esta)' ,"+string(dw_citas.getrow())+")")
 if estado="No Asistió" or estado="Cumplida" or estado="Anulada" then return
-m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1.enabled=true
-m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=false
+w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1.enabled=true
+w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=false
 if dw_sercios.rowcount()=0 then
-	m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_4.enabled=true
+	w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_4.enabled=true
 else
-	m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_4.enabled=false
+	w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_4.enabled=false
 end if
-m_principal.m_3.m_3_2.m_3_2_5.PopMenu (parent.PointerX(), parent.PointerY())
+w_principal.m_principal.m_3.m_3_2.m_3_2_5.PopMenu (parent.PointerX(), parent.PointerY())
 
 end event
 

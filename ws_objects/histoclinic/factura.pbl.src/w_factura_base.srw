@@ -225,6 +225,7 @@ transaction sqlba
 string i_mueve_kardex,i_alm_cext,i_alm_hosp,i_alm_urg,i_alm_amb //todas son para mover kardex
 string i_anterior,i_pideprof,i_tipo_prof ,i_profe,i_profe_ord ,i_orden
 end variables
+
 forward prototypes
 public subroutine totales ()
 public function real f_topes (string campo, string empre, string cont, string est)
@@ -4193,7 +4194,7 @@ end event
 event rbuttondown;if row<1 then return
 scrolltorow(row)
 if getitemstring(row,'cproc')='ABONOS' then return
-m_principal.m_3.m_3_10.m_3_10_5.PopMenu (w_principal.PointerX(), w_principal.PointerY())
+w_principal.m_principal.m_3.m_3_10.m_3_10_5.PopMenu (w_principal.PointerX(), w_principal.PointerY())
 long cons_soat,donde,j
 string clug_soat
 dec valor

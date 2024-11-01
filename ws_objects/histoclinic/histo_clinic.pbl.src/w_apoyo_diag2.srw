@@ -3059,7 +3059,7 @@ end event
 event rbuttondown;if row<1 then return
 scrolltorow(row)
 if getitemstring(getrow(),"estado")="2" or getitemstring(getrow(),"estado")="5" then 
-	m_principal.m_3.m_3_5.m_3_5_2.PopMenu (w_principal.PointerX(), w_principal.PointerY())
+	w_principal.m_principal.m_3.m_3_5.m_3_5_2.PopMenu (w_principal.PointerX(), w_principal.PointerY())
 end if
 end event
 
@@ -3122,11 +3122,11 @@ else
 	mle_1.visible=false
 end if
 if getitemstring(getrow(),"estado")="2" or getitemstring(getrow(),"estado")="5" then 
-	m_principal.m_3.m_3_5.m_3_5_2.m_3_5_2_1.enabled=true
-	m_principal.m_3.m_3_5.m_3_5_2.m_3_5_2_2.enabled=true
+	w_principal.m_principal.m_3.m_3_5.m_3_5_2.m_3_5_2_1.enabled=true
+	w_principal.m_principal.m_3.m_3_5.m_3_5_2.m_3_5_2_2.enabled=true
 else
-	m_principal.m_3.m_3_5.m_3_5_2.m_3_5_2_1.enabled=false
-	m_principal.m_3.m_3_5.m_3_5_2.m_3_5_2_2.enabled=false
+	w_principal.m_principal.m_3.m_3_5.m_3_5_2.m_3_5_2_1.enabled=false
+	w_principal.m_principal.m_3.m_3_5.m_3_5_2.m_3_5_2_2.enabled=false
 end if
 tab_1.tp_3.dw_imagenes.retrieve(getitemstring(getrow(),'coddoc'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'nrepor'),getitemnumber(getrow(),'item'))
 end event

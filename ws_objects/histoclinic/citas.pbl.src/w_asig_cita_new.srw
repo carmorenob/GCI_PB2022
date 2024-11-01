@@ -180,7 +180,7 @@ datawindowchild i_dw_grupc,i_dw_proc_gcita,idw_lugar,idw_fincon
 datetime i_desde,i_hasta
 string i_profes,i_esp,i_consul,i_clug,ls_tipo,is_pdf
 boolean i_guardo,lb_espera=false,lb_fina=false,lb_tipoc=false
-m_principal im_main 
+m_ppal im_main 
 
 end variables
 
@@ -311,7 +311,7 @@ tab_1.tp_2.dw_serv_turno.resetupdate()
 end subroutine
 
 public function integer lleva_afactu ();long col
-if not m_principal.m_3.m_3_10.m_3_10_1.visible then 
+if not w_principal.m_principal.m_3.m_3_10.m_3_10_1.visible then 
 	messagebox("Atención","No tiene permiso de facturar")
 	return -1
 end if
@@ -565,7 +565,7 @@ return 1
 end function
 
 public function integer lleva_a_recibos ();long col
-if not m_principal.m_3.m_3_10.m_3_10_2.visible then
+if not w_principal.m_principal.m_3.m_3_10.m_3_10_2.visible then
 	messagebox("Atención","No tiene permiso de Hacer Recibos de Caja")
 	return -1
 end if
@@ -916,7 +916,7 @@ destroy(this.dw_cita_asig)
 end on
 
 event timer;if tab_2.tp2_1.dw_consultxgcita.rowcount()<1 then return
-w_principal.setmicrohelp('Leyendo ....')
+w_principal.setmicrohelp('Leyendo ..')
 i_fila_prof=tab_2.tp2_1.dw_consultxgcita.getrow()
 dw_agenda.retrieve(i_consul,i_desde,i_hasta,i_profes,tab_2.tp2_1.dw_consultxgcita.getitemstring(i_fila_prof,"cesp"),dw_escog_profe.getitemstring(1,1))
 w_principal.setmicrohelp('Gestión Clínica Integrada')
@@ -1610,19 +1610,19 @@ dw_1.setcolumn('dia'+string(daynumber(date(getitemdatetime(row,'fecha')))))
 ojo=dw_1.find('hora=time("'+string(time(getitemdatetime(row,'hora')))+'")',1,dw_1.rowcount())
 dw_1.setrow(ojo)
 if pasox=false then
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1.enabled=false
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=true
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=true
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_4.enabled=false
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true	
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1.enabled=false
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=true
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=true
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_4.enabled=false
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true	
 else
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1.enabled=false
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=false
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_4.enabled=false	
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true	
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1.enabled=false
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=false
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_4.enabled=false	
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true	
 end if
-m_principal.m_3.m_3_2.m_3_2_5.PopMenu (w_principal.PointerX(), w_principal.PointerY())
+w_principal.m_principal.m_3.m_3_2.m_3_2_5.PopMenu (w_principal.PointerX(), w_principal.PointerY())
 tab_2.tp2_2.dw_citas_ante.retrieve(tipdoc,docu)
 end event
 
@@ -2194,11 +2194,11 @@ t=getcolumnname()
 
 if left(t,3)<>'dia' then return
 if getitemstring(fila,t)="" or isnull(getitemstring(fila,t)) or getitemstring(fila,t)="Libre" or isnull(getitemnumber(fila,"ncita"+Right ( t, 1 ))) then 
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=false
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=false
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
 else
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=true
-	if isvalid(m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3) then m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=true
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=true
+	if isvalid(w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3) then w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=true
 end if
 //////
 if tab_1.tp_1.dw_serv_cita.rowcount()<1 and not isvalid(w_trasl_cita) then return
@@ -2394,53 +2394,53 @@ cual = right(t,1)
 columna=long(cual)
 if this.getitemstring(fila,t)="" or isnull(this.getitemstring(fila,t)) or this.getitemstring(fila,t)="Libre" or isnull(this.getitemnumber(fila,"ncita"+Right ( t, 1 ))) then return
 if datetime(relativedate(fec,columna - daynumber(fec)),relativetime(this.getitemtime(fila,"hora"),300)) < datetime(today(),now()) then 
-	m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=false
-	m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
+	w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=false
+	w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
 	if getitemstring(fila,'conf'+cual)<>'5' then
-		m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true
+		w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true
 	else
-		m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=false
+		w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=false
 	end if
 	pasox=true
 //	return
 end if
-If m_principal <> im_main then
+If w_principal.m_principal<> im_main then
 	if pasox=false then
-		m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1.enabled=false
-		m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=true
+		w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1.enabled=false
+		w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=true
 	
 		if getitemstring(fila,t)=docu and getitemstring(fila,'tdoc'+cual)=tipdoc then
-			m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=true
+			w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=true
 			if getitemstring(fila,'conf'+cual)<>'5' then
-				m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true
+				w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true
 			else
-				m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=false
+				w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=false
 			end if	
 		else
-			m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
-			m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=false			
+			w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
+			w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=false			
 		end if
 	else
-		m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1.enabled=false
-		m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=false
-		m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_4.enabled=false
+		w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_1.enabled=false
+		w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_2.enabled=false
+		w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_4.enabled=false
 		if getitemstring(fila,t)=docu and getitemstring(fila,'tdoc'+cual)=tipdoc then
-			m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
+			w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
 			if getitemstring(fila,'conf'+cual)<>'5' then
-				m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true	
+				w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true	
 			else
-				m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=false
+				w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=false
 			end if
 		else
-			m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
+			w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_3.enabled=false
 				if getitemstring(fila,'conf'+cual)<>'5' then
-					m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true
+					w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=true
 				else
-					m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=false
+					w_principal.m_principal.m_3.m_3_2.m_3_2_5.m_3_2_5_5.enabled=false
 				end if
 		end if		
 	end if
-	m_principal.m_3.m_3_2.m_3_2_5.PopMenu (w_principal.PointerX(), w_principal.PointerY())
+	w_principal.m_principal.m_3.m_3_2.m_3_2_5.PopMenu (w_principal.PointerX(), w_principal.PointerY())
 	tab_2.tp2_2.dw_citas_ante.retrieve(tipdoc,docu)
 End If
 end event

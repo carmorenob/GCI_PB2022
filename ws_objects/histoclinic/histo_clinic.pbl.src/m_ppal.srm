@@ -5233,7 +5233,7 @@ type m_semáforos from menu within m_semaf
 end type
 
 event clicked;if not enabled then return
-opensheet(w_map,w_principal,f_pos_ventana(m_principal),original!)
+opensheet(w_map,w_principal,f_pos_ventana(w_principal.m_principal),original!)
 w_principal.arrangesheets(layer!)
 
 end event
@@ -5272,7 +5272,7 @@ type m_config_mapa from menu within m_semaf
 end type
 
 event clicked;if not enabled then return
-opensheet(w_map_config,w_principal,f_pos_ventana(m_principal),original!)
+opensheet(w_map_config,w_principal,f_pos_ventana(w_principal.m_principal),original!)
 w_principal.arrangesheets(layer!)
 
 end event
@@ -5311,7 +5311,7 @@ type m_indicadores from menu within m_semaf
 end type
 
 event clicked;if not enabled then return
-opensheet(w_cfg_indicadores,w_principal,f_pos_ventana(m_principal),original!)
+opensheet(w_cfg_indicadores,w_principal,f_pos_ventana(w_principal.m_principal),original!)
 
 end event
 
@@ -5425,7 +5425,7 @@ type m_0 from menu within m_quejas0
 end type
 
 event clicked;if not enabled then return
-opensheet(w_quejaspac,w_principal,f_pos_ventana(m_principal),original!)
+opensheet(w_quejaspac,w_principal,f_pos_ventana(w_principal.m_principal),original!)
 w_principal.arrangesheets(layer!)
 
 end event
@@ -5463,7 +5463,7 @@ type m_respuestas from menu within m_quejas0
 end type
 
 event clicked;if not enabled then return
-opensheet(w_quejas_resp,w_principal,f_pos_ventana(m_principal),original!)
+opensheet(w_quejas_resp,w_principal,f_pos_ventana(w_principal.m_principal),original!)
 w_principal.arrangesheets(layer!)
 
 end event

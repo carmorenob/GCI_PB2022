@@ -66,7 +66,7 @@ global w_busca_fact w_busca_fact
 
 type variables
 string orden,anterior,i_decual
-m_principal im_main 
+m_ppal im_main 
 uo_report i_rep
 end variables
 
@@ -132,8 +132,8 @@ end choose
 
 end event
 
-event close;m_principal.m_3.m_3_10.m_3_10_4.m_3_10_4_1.enabled=false
-m_principal.m_3.m_3_10.m_3_10_4.m_3_10_4_2.enabled=false
+event close;w_principal.m_principal.m_3.m_3_10.m_3_10_4.m_3_10_4_1.enabled=false
+w_principal.m_principal.m_3.m_3_10.m_3_10_4.m_3_10_4_2.enabled=false
 end event
 
 event resize;//st_1.x=(newwidth - st_1.width)/2
@@ -573,13 +573,13 @@ this.scrolltorow(this.getrow())
 this.triggerevent(rowfocuschanged!)
 if not isnull(this.getitemstring(this.getrow(),"estado")) then return
 if dw_busca.dataobject="dw_xa_buscar_fact" then
-	m_principal.m_3.m_3_10.m_3_10_4.m_3_10_4_1.enabled=true
-	m_principal.m_3.m_3_10.m_3_10_4.m_3_10_4_2.enabled=false
-	If m_principal <> im_main then m_principal.m_3.m_3_10.m_3_10_4.PopMenu (parent.PointerX(), parent.PointerY())
+	w_principal.m_principal.m_3.m_3_10.m_3_10_4.m_3_10_4_1.enabled=true
+	w_principal.m_principal.m_3.m_3_10.m_3_10_4.m_3_10_4_2.enabled=false
+	If w_principal.m_principal <> im_main then w_principal.m_principal.m_3.m_3_10.m_3_10_4.PopMenu (parent.PointerX(), parent.PointerY())
 else
-	m_principal.m_3.m_3_10.m_3_10_4.m_3_10_4_1.enabled=false
-	m_principal.m_3.m_3_10.m_3_10_4.m_3_10_4_2.enabled=true
-	If m_principal <> im_main then m_principal.m_3.m_3_10.m_3_10_4.PopMenu (parent.PointerX(), parent.PointerY())
+	w_principal.m_principal.m_3.m_3_10.m_3_10_4.m_3_10_4_1.enabled=false
+	w_principal.m_principal.m_3.m_3_10.m_3_10_4.m_3_10_4_2.enabled=true
+	If w_principal.m_principal <> im_main then w_principal.m_principal.m_3.m_3_10.m_3_10_4.PopMenu (parent.PointerX(), parent.PointerY())
 end if
 end event
 
