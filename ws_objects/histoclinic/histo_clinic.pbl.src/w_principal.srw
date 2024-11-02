@@ -361,19 +361,17 @@ if sqlca.sqlnrows=0 then
 end if
 end event
 
-event resize;//post event toolbarmoved()
+event resize;il_width=newwidth
+il_height=newheight
 if newwidth <= 0 then
-	newwidth = this.workspacewidth( )
+	il_width= this.workspacewidth( )
 end if
 if newheight <=0 then
-	newheight = this.workspaceheight( )
+	il_height= this.workspaceheight( )
 end if
 
-rbb_1.move(0,newheight - this.workspaceheight()  )
-rbb_1.width = newwidth -50
-gb_1.width = newwidth -50
-mdi_1.move(0,rbb_1.height +gb_1.height +newheight -  this.workspaceheight())
-mdi_1.resize(newwidth,newheight - rbb_1.height - gb_1.height  - ( newheight - this.workspaceheight()))
+post event toolbarmoved()
+
 end event
 
 event timer;if isvalid(w_presenta) then
@@ -389,6 +387,8 @@ event toolbarmoved;boolean visib,visib2
 string titulo
 int fila , offset, newx,newy , resta_alto,resta_ancho
 window activesheet
+
+
 
 toolbaralignment  alinea , alinea2
 if this.GetToolbar ( 1, visib , alinea)=-1 then
@@ -538,13 +538,13 @@ else
 	end if
 end if
 
-MDI_1.Move(newx, newy)
-mdi_1.Resize(this.width -resta_ancho,this.height - resta_alto	)
-gb_1.width=this.width
-gb_1.move(newx,newy -120 )
-dw_1.move(newx +30,newy -120 +8 )
-dw_profe.move(2920  +newx,newy -120  +8)
-dw_odprofe.move(2920+newx,newy -120  +8)
+
+rbb_1.move(0,il_height - this.workspaceheight()  )
+rbb_1.width = il_width -50
+gb_1.width = il_width -50
+
+mdi_1.move(0,rbb_1.height +gb_1.height +il_height -  this.workspaceheight())
+mdi_1.resize(il_width,il_height  - rbb_1.height - gb_1.height  - ( il_height  - this.workspaceheight()))
 end event
 
 event close;if isvalid(w_presenta) then close(w_presenta)
@@ -600,7 +600,7 @@ event e_programac ( long param )
 event e_programat ( long param )
 event e_horariosug ( long param )
 event e_cext ( long param )
-event e_vacunas ( long param )
+event e_vacuna ( long param )
 event e_apoyodx ( long param )
 event e_apoyore ( long param )
 event e_odoncon ( long param )
@@ -727,12 +727,13 @@ opensheet (w_hist_gral,w_principal,7,original!)
 w_principal.arrangesheets(layer!)
 end event
 
-event e_vacunas(long param);if aplicativo="2" or aplicativo = '7' then 
+event e_vacuna(long param);if aplicativo="2" or aplicativo = '7' then 
 	return
 end if
 if not enabled then return
-opensheet (w_hist_gral,w_vacunas,7,original!)
+opensheet (w_vacunas,w_principal,7,original!)
 w_principal.arrangesheets(layer!)
+
 end event
 
 event e_apoyodx(long param);if aplicativo="1" or aplicativo = '7'  then 

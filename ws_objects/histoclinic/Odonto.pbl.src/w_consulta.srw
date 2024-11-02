@@ -104,7 +104,7 @@ end forward
 
 global type w_consulta from window
 integer width = 6194
-integer height = 2100
+integer height = 2288
 boolean titlebar = true
 string title = "Odontología - Consulta"
 boolean controlmenu = true
@@ -296,20 +296,6 @@ end event
 
 event resize;t1.resize(newwidth - 20 , newheight - t1.y)
 t1.p2.uo_1.tamanyo(newwidth - 70,newheight - t1.y - 140)
-
-////
-if newwidth <= 0 then
-	newwidth = this.workspacewidth( )
-end if
-if newheight <=0 then
-	newheight = this.workspaceheight( )
-end if
-
-w_principal.rbb_1.move(0,newheight - this.workspaceheight()  )
-w_principal.rbb_1.width = newwidth -50
-w_principal.gb_1.width = newwidth -50
-w_principal.mdi_1.move(0,w_principal.rbb_1.height +w_principal.gb_1.height +newheight -  this.workspaceheight())
-w_principal.mdi_1.resize(newwidth,newheight - w_principal.rbb_1.height - w_principal.gb_1.height  - ( newheight - this.workspaceheight()))
 end event
 
 type pb_pyp from picturebutton within w_consulta
@@ -706,7 +692,7 @@ type t1 from tab within w_consulta
 integer x = 23
 integer y = 500
 integer width = 5806
-integer height = 1420
+integer height = 1664
 integer taborder = 50
 integer textsize = -8
 integer weight = 400
@@ -753,7 +739,7 @@ event selectionchanged;if newindex = 3 and dw_historial.RowCount() > 0 then
 		w_principal.dw_1.y=456
 		w_principal.dw_odprofe.x=3003
 		w_principal.dw_odprofe.y=476		
-		f_poblar_odontologia()
+		//f_poblar_odontologia()
 		m_proc.visible = FALSE		
 	elseif w_consulta.toolbarvisible=false then
 		//w_consulta.toolbarvisible=true
@@ -773,7 +759,7 @@ type ps from userobject within t1
 integer x = 18
 integer y = 112
 integer width = 5769
-integer height = 1292
+integer height = 1536
 long backcolor = 67108864
 string text = "Servicios"
 long tabtextcolor = 33554432
@@ -829,7 +815,7 @@ event destroy ( )
 integer x = 18
 integer y = 112
 integer width = 5769
-integer height = 1292
+integer height = 1536
 long backcolor = 67108864
 string text = "Registro Odontológico"
 long tabtextcolor = 33554432
@@ -865,7 +851,7 @@ end on
 
 type uo_1 from uo_hclin within p2
 integer width = 5737
-integer height = 1232
+integer height = 1504
 integer taborder = 90
 boolean enabled = true
 end type
@@ -1141,7 +1127,7 @@ event destroy ( )
 integer x = 18
 integer y = 112
 integer width = 5769
-integer height = 1292
+integer height = 1536
 long backcolor = 67108864
 string text = "Odontograma"
 long tabtextcolor = 33554432
@@ -1766,7 +1752,7 @@ type psf from userobject within t1
 integer x = 18
 integer y = 112
 integer width = 5769
-integer height = 1292
+integer height = 1536
 long backcolor = 67108864
 string text = "Ordenes/Medicamentos"
 long tabtextcolor = 33554432
