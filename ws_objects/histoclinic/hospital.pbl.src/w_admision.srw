@@ -431,12 +431,40 @@ event closequery;if guardar()=1 then return 1
 
 end event
 
-event activate;//m_principal.m_3.m_3_7.m_3_7_5.enabled=true//anular salida
-//m_principal.m_3.m_3_7.m_3_7_6.enabled=true//anular ingreso
+event activate;//anular ingreso
+if w_principal.m_principal.m_3.m_3_7.m_3_7_4.enabled=true then
+	f_ribon_activa_menu(w_principal.rbb_1,3,3,1,true)
+end if
+
+//anular ingreso
+if w_principal.m_principal.m_3.m_3_7.m_3_7_6.enabled=true then
+	f_ribon_activa_menu(w_principal.rbb_1,3,3,2,true)
+end if
+
+//anular salida
+if w_principal.m_principal.m_3.m_3_7.m_3_7_5.enabled=true then
+	f_ribon_activa_menu(w_principal.rbb_1,3,3,3,true)
+end if
+
+
 end event
 
-event deactivate;//if isvalid(m_principal.m_3.m_3_7.m_3_7_5) then m_principal.m_3.m_3_7.m_3_7_5.enabled=false
-//if isvalid(m_principal.m_3.m_3_7.m_3_7_6) then m_principal.m_3.m_3_7.m_3_7_6.enabled=false
+event deactivate;//anular ingreso
+if w_principal.m_principal.m_3.m_3_7.m_3_7_4.enabled=true then
+	f_ribon_activa_menu(w_principal.rbb_1,3,3,1,false)
+end if
+
+//anular ingreso
+if w_principal.m_principal.m_3.m_3_7.m_3_7_6.enabled=true then
+	f_ribon_activa_menu(w_principal.rbb_1,3,3,2,false)
+end if
+
+//anular salida
+if w_principal.m_principal.m_3.m_3_7.m_3_7_5.enabled=true then
+	f_ribon_activa_menu(w_principal.rbb_1,3,3,3,false)
+end if
+
+
 end event
 
 type rte_1 from richtextedit within w_admision

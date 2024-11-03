@@ -307,9 +307,9 @@ if sqlca.sqlnrows=0 then
 end if
 
 if l_cita=0 then 
-	m_principal.m_3.m_3_2.m_recordatorio.visible=false
-	m_principal.m_3.m_3_2.m_recordatorio.enabled=false
-	m_principal.m_3.m_3_2.m_recordatorio.toolbaritemvisible=false	
+//	m_principal.m_3.m_3_2.m_recordatorio.visible=false
+//	m_principal.m_3.m_3_2.m_recordatorio.enabled=false
+//	m_principal.m_3.m_3_2.m_recordatorio.toolbaritemvisible=false	
 end if
 
 
