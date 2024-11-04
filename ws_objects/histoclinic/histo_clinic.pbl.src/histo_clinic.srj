@@ -576,6 +576,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,f_valida_
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_conecta_capi,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\salaqx.pbl,dw_nuevo_acto_qx,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hospital.pbl,w_hospitaliz,w
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_ribon_activa_menu,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\citas.pbl,w_citas_os,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\citas.pbl,dw_horario_citas2,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_cont_emb,d

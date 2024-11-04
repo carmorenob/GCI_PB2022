@@ -839,12 +839,13 @@ boolean focusrectangle = false
 end type
 
 type p_1 from picture within w_conecta
-integer x = 78
-integer y = 100
-integer width = 434
-integer height = 404
+integer x = 69
+integer y = 76
+integer width = 443
+integer height = 412
+boolean originalsize = true
 string picturename = "gci.jpg"
-borderstyle borderstyle = styleraised!
+borderstyle borderstyle = StyleRaised!
 boolean focusrectangle = false
 end type
 

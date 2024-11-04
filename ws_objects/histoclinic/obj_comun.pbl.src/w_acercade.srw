@@ -2,29 +2,23 @@
 forward
 global type w_acercade from window
 end type
-type p_1 from picture within w_acercade
+type dw_1 from datawindow within w_acercade
 end type
 type p_2 from picture within w_acercade
 end type
 type sle_1 from singlelineedit within w_acercade
 end type
-type dw_1 from datawindow within w_acercade
-end type
-type pb_1 from picturebutton within w_acercade
-end type
 end forward
 
 global type w_acercade from window
-integer width = 2062
-integer height = 1348
+integer width = 2871
+integer height = 1448
 windowtype windowtype = response!
 long backcolor = 12632256
 boolean center = true
-p_1 p_1
+dw_1 dw_1
 p_2 p_2
 sle_1 sle_1
-dw_1 dw_1
-pb_1 pb_1
 end type
 global w_acercade w_acercade
 
@@ -54,24 +48,18 @@ return escalon
 end function
 
 on w_acercade.create
-this.p_1=create p_1
+this.dw_1=create dw_1
 this.p_2=create p_2
 this.sle_1=create sle_1
-this.dw_1=create dw_1
-this.pb_1=create pb_1
-this.Control[]={this.p_1,&
+this.Control[]={this.dw_1,&
 this.p_2,&
-this.sle_1,&
-this.dw_1,&
-this.pb_1}
+this.sle_1}
 end on
 
 on w_acercade.destroy
-destroy(this.p_1)
+destroy(this.dw_1)
 destroy(this.p_2)
 destroy(this.sle_1)
-destroy(this.dw_1)
-destroy(this.pb_1)
 end on
 
 event timer;int e
@@ -134,45 +122,10 @@ randomize(0)
 
 end event
 
-type p_1 from picture within w_acercade
-integer y = 1196
-integer width = 2057
-integer height = 140
-string picturename = "derechos.jpg"
-boolean focusrectangle = false
-end type
-
-type p_2 from picture within w_acercade
-integer width = 2057
-integer height = 1200
-boolean bringtotop = true
-string picturename = "pre_clinico.jpg"
-borderstyle borderstyle = styleraised!
-boolean focusrectangle = false
-end type
-
-type sle_1 from singlelineedit within w_acercade
-integer y = 916
-integer width = 704
-integer height = 116
-integer taborder = 20
-boolean bringtotop = true
-integer textsize = -16
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "@Arial Unicode MS"
-long textcolor = 16777215
-long backcolor = 0
-string text = "  Build "
-boolean border = false
-boolean displayonly = true
-end type
-
 type dw_1 from datawindow within w_acercade
 boolean visible = false
-integer x = 1417
+integer x = 2514
+integer y = 12
 integer width = 558
 integer height = 440
 integer taborder = 10
@@ -189,25 +142,36 @@ end type
 event constructor;this.dataobject="dw_rep_prueb"
 end event
 
-type pb_1 from picturebutton within w_acercade
-integer x = 1769
-integer y = 936
-integer width = 256
-integer height = 100
-integer taborder = 10
+type p_2 from picture within w_acercade
+integer width = 2866
+integer height = 1432
 boolean bringtotop = true
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-string text = "&Cerrar"
-boolean cancel = true
-boolean default = true
 boolean originalsize = true
+string picturename = "pre_clinico.jpg"
+borderstyle borderstyle = styleraised!
+boolean focusrectangle = false
 end type
 
 event clicked;Close(parent)
 end event
+
+type sle_1 from singlelineedit within w_acercade
+integer x = 2213
+integer y = 1336
+integer width = 649
+integer height = 100
+integer taborder = 20
+boolean bringtotop = true
+integer textsize = -12
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "@Arial Unicode MS"
+long textcolor = 16777215
+long backcolor = 0
+string text = "  Build "
+boolean border = false
+boolean displayonly = true
+end type
 

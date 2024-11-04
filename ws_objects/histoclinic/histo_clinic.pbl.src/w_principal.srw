@@ -622,6 +622,7 @@ event e_ripsge ( long param )
 event e_ripsmd ( long param )
 event e_gestante ( long param )
 event e_erc ( long param )
+event e_acerca ( long param )
 integer width = 5641
 integer height = 444
 long backcolor = 15132390
@@ -917,6 +918,10 @@ w_principal.ArrangeSheets ( layer!)
 end event
 
 event e_erc(long param);opensheet (w_tablero_erc,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_acerca(long param);openwithparm(w_acercade,'asis')
 w_principal.ArrangeSheets ( layer!)
 end event
 

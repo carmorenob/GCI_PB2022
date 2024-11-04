@@ -9,8 +9,8 @@ end forward
 global type w_presenta from window
 integer x = 302
 integer y = 300
-integer width = 2062
-integer height = 1200
+integer width = 2866
+integer height = 1432
 boolean border = false
 windowtype windowtype = popup!
 long backcolor = 67108864
@@ -41,8 +41,8 @@ end choose
 end event
 
 type p_1 from picture within w_presenta
-integer width = 2057
-integer height = 1200
+integer width = 2866
+integer height = 1432
 string dragicon = "none!"
 string pointer = "Arrow!"
 string picturename = "pre_clinico.jpg"
