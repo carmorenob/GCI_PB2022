@@ -643,11 +643,6 @@ event e_ripsmd ( long param )
 event e_gestante ( long param )
 event e_erc ( long param )
 event e_acerca ( long param )
-event e_bancorec ( )
-event e_bancores ( )
-event e_factura ( )
-event e_recibo ( )
-event e_anticipo ( )
 event e_ripsaudi ( long param )
 event e_ripsfact ( long param )
 event e_ripsreci ( long param )
@@ -662,6 +657,11 @@ event e_contoll ( long param )
 event e_mercadeo ( long param )
 event e_cohortes ( long param )
 event e_202 ( long param )
+event e_factura ( long param )
+event e_anticipo ( long param )
+event e_recibo ( long param )
+event e_bancorec ( long param )
+event e_bancores ( long param )
 integer width = 5641
 integer height = 444
 long backcolor = 15132390
@@ -964,33 +964,6 @@ event e_acerca(long param);openwithparm(w_acercade,'asis')
 w_principal.ArrangeSheets ( layer!)
 end event
 
-event e_bancorec();if not enabled then return
-opensheet (w_banco_fluid,w_principal,7,original!)
-w_principal.ArrangeSheets ( layer!)
-end event
-
-event e_bancores();if not enabled then return
-opensheet (w_banco_reserva,w_principal,7,original!)
-w_principal.ArrangeSheets ( layer!)
-
-end event
-
-event e_factura();if not enabled then return
-opensheet (w_factura,w_principal,7,original!)
-w_principal.ArrangeSheets ( layer!)
-if isvalid(w_factura) then w_factura.f_abrir_pendientes()
-end event
-
-event e_recibo();if not enabled then return
-opensheet (w_rec_caja,w_principal,7,original!)
-w_principal.ArrangeSheets ( layer!)
-end event
-
-event e_anticipo();if not enabled then return
-opensheet (w_abonos,w_principal,7,original!)
-w_principal.ArrangeSheets ( layer!)
-end event
-
 event e_ripsaudi(long param);if not enabled then return
 opensheet (w_audita_rips,w_principal,7,original!)
 w_principal.ArrangeSheets ( layer!)
@@ -1002,10 +975,9 @@ w_principal.ArrangeSheets ( layer!)
 
 end event
 
-event e_ripsreci(long param);if not enabled then return
-opensheet (w_captur_rip,w_principal,7,original!)
+event e_ripsreci(long param);if not enabled  then return
+opensheet (w_captur_rip_rec,w_principal,7,original!)
 w_principal.ArrangeSheets ( layer!)
-
 end event
 
 event e_atusrad(long param);if not enabled then return
@@ -1045,7 +1017,7 @@ w_principal.arrangesheets(layer!)
 end event
 
 event e_encsat(long param);if not f_num_compu('c','c') then return
-//mf_abre_tablas2("Encuestas - "+this.text,'dw_combo_lugar','dw_plant_tingre_conf')
+mf_abre_tablas2("Encuestas - ",'dw_combo_lugar','dw_plant_tingre_conf')
 
 end event
 
@@ -1067,6 +1039,33 @@ end event
 event e_202(long param);if not enabled then return
 opensheet (w_genera_202,w_principal,7,original!)
 w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_factura(long param);if not enabled then return
+opensheet (w_factura,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+if isvalid(w_factura) then w_factura.f_abrir_pendientes()
+end event
+
+event e_anticipo(long param);if not enabled then return
+opensheet (w_abonos,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_recibo(long param);if not enabled then return
+opensheet (w_rec_caja,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_bancorec(long param);if not enabled then return
+opensheet (w_banco_fluid,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_bancores(long param);if not enabled then return
+opensheet (w_banco_reserva,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+
 end event
 
 type dw_huella from uo_datawindow within w_principal
