@@ -64,6 +64,7 @@ public function integer busca_paciente ()
 public subroutine lf_titulo ()
 public function date wf_fecha_nace ()
 public subroutine f_init_ribbonbar (ribbonbar nom_rib, boolean rib_boo)
+public subroutine mf_abre_tablas2 (string titulo, string dw_dataobject1, string dw_dataobject2)
 end prototypes
 
 public function integer busca_paciente ();long j
@@ -237,6 +238,25 @@ If	rib_boo Then
 	f_poblar_menus_ribon_asis(rbb_1,'ASI')
 	return
 End If
+end subroutine
+
+public subroutine mf_abre_tablas2 (string titulo, string dw_dataobject1, string dw_dataobject2);boolean bValid
+window wSheet,child
+bvalid= IsValid (wSheet)
+DO while bvalid
+	if wsheet.title=titulo then
+		wsheet.setfocus()
+		return 
+	end if
+	bValid = IsValid (wSheet)
+LOOP
+OpenSheet(child, 'w_tablas2', w_principal, 1,original!)
+w_tablas2=child
+w_tablas2.title=titulo
+w_tablas2.dw_1.dataobject=dw_dataobject1
+w_tablas2.dw_2.dataobject=dw_dataobject2
+w_tablas2.inicializa()
+w_principal.arrangesheets(layer!)
 end subroutine
 
 on w_principal.create
@@ -623,6 +643,25 @@ event e_ripsmd ( long param )
 event e_gestante ( long param )
 event e_erc ( long param )
 event e_acerca ( long param )
+event e_bancorec ( )
+event e_bancores ( )
+event e_factura ( )
+event e_recibo ( )
+event e_anticipo ( )
+event e_ripsaudi ( long param )
+event e_ripsfact ( long param )
+event e_ripsreci ( long param )
+event e_atusrad ( long param )
+event e_aturesp ( long param )
+event e_encelab ( long param )
+event e_enctab ( long param )
+event e_encest ( long param )
+event e_enclist ( long param )
+event e_encsat ( long param )
+event e_contoll ( long param )
+event e_mercadeo ( long param )
+event e_cohortes ( long param )
+event e_202 ( long param )
 integer width = 5641
 integer height = 444
 long backcolor = 15132390
@@ -922,6 +961,111 @@ w_principal.ArrangeSheets ( layer!)
 end event
 
 event e_acerca(long param);openwithparm(w_acercade,'asis')
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_bancorec();if not enabled then return
+opensheet (w_banco_fluid,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_bancores();if not enabled then return
+opensheet (w_banco_reserva,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+
+end event
+
+event e_factura();if not enabled then return
+opensheet (w_factura,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+if isvalid(w_factura) then w_factura.f_abrir_pendientes()
+end event
+
+event e_recibo();if not enabled then return
+opensheet (w_rec_caja,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_anticipo();if not enabled then return
+opensheet (w_abonos,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_ripsaudi(long param);if not enabled then return
+opensheet (w_audita_rips,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_ripsfact(long param);if not enabled then return
+opensheet (w_captur_rip,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+
+end event
+
+event e_ripsreci(long param);if not enabled then return
+opensheet (w_captur_rip,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+
+end event
+
+event e_atusrad(long param);if not enabled then return
+opensheet(w_quejaspac,w_principal,f_pos_ventana(w_principal.m_principal),original!)
+w_principal.arrangesheets(layer!)
+
+end event
+
+event e_aturesp(long param);if not enabled then return
+opensheet(w_quejas_resp,w_principal,f_pos_ventana(w_principal.m_principal),original!)
+w_principal.arrangesheets(layer!)
+
+end event
+
+event e_encelab(long param);if not enabled then return
+opensheet (w_plant_hcs,w_principal,7,original!)
+w_principal.arrangesheets(layer!)
+
+end event
+
+event e_enctab(long param);if not enabled then return
+opensheet (w_tabulacion_encuentas,w_principal,7,original!)
+w_principal.arrangesheets(layer!)
+
+end event
+
+event e_encest(long param);if not enabled then return
+opensheet (w_generar_estadist,w_principal,7,original!)
+w_principal.arrangesheets(layer!)
+
+end event
+
+event e_enclist(long param);if not enabled then return
+OpenSheet( w_grid_encuestas,w_principal,7,original!)
+w_principal.arrangesheets(layer!)
+
+end event
+
+event e_encsat(long param);if not f_num_compu('c','c') then return
+//mf_abre_tablas2("Encuestas - "+this.text,'dw_combo_lugar','dw_plant_tingre_conf')
+
+end event
+
+event e_contoll(long param);if not enabled then return
+opensheet (w_llamadas,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_mercadeo(long param);if not enabled then return
+opensheet (w_pyp_prog,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_cohortes(long param);if not enabled then return
+opensheet (w_genera_202,w_principal,7,original!)
+w_principal.ArrangeSheets ( layer!)
+end event
+
+event e_202(long param);if not enabled then return
+opensheet (w_genera_202,w_principal,7,original!)
 w_principal.ArrangeSheets ( layer!)
 end event
 
