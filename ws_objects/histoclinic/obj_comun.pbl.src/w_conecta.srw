@@ -2,8 +2,6 @@
 forward
 global type w_conecta from window
 end type
-type st_1 from statictext within w_conecta
-end type
 type huella_ingreso from olecustomcontrol within w_conecta
 end type
 type pb_cancel from picturebutton within w_conecta
@@ -18,9 +16,9 @@ type st_3 from statictext within w_conecta
 end type
 type p_1 from picture within w_conecta
 end type
-type sle_passwd from singlelineedit within w_conecta
-end type
 type sle_usuario from singlelineedit within w_conecta
+end type
+type sle_passwd from singlelineedit within w_conecta
 end type
 type gb_1 from groupbox within w_conecta
 end type
@@ -29,15 +27,14 @@ end forward
 global type w_conecta from window
 integer x = 302
 integer y = 300
-integer width = 1504
-integer height = 692
+integer width = 978
+integer height = 868
 windowtype windowtype = response!
 long backcolor = 67108864
 string pointer = "Arrow!"
 boolean toolbarvisible = false
 boolean clientedge = true
 boolean center = true
-st_1 st_1
 huella_ingreso huella_ingreso
 pb_cancel pb_cancel
 pb_aceptar pb_aceptar
@@ -45,8 +42,8 @@ dw_hingreso dw_hingreso
 c_imagen c_imagen
 st_3 st_3
 p_1 p_1
-sle_passwd sle_passwd
 sle_usuario sle_usuario
+sle_passwd sle_passwd
 gb_1 gb_1
 end type
 global w_conecta w_conecta
@@ -58,7 +55,6 @@ st_biometria c_template
 end variables
 
 on w_conecta.create
-this.st_1=create st_1
 this.huella_ingreso=create huella_ingreso
 this.pb_cancel=create pb_cancel
 this.pb_aceptar=create pb_aceptar
@@ -66,24 +62,22 @@ this.dw_hingreso=create dw_hingreso
 this.c_imagen=create c_imagen
 this.st_3=create st_3
 this.p_1=create p_1
-this.sle_passwd=create sle_passwd
 this.sle_usuario=create sle_usuario
+this.sle_passwd=create sle_passwd
 this.gb_1=create gb_1
-this.Control[]={this.st_1,&
-this.huella_ingreso,&
+this.Control[]={this.huella_ingreso,&
 this.pb_cancel,&
 this.pb_aceptar,&
 this.dw_hingreso,&
 this.c_imagen,&
 this.st_3,&
 this.p_1,&
-this.sle_passwd,&
 this.sle_usuario,&
+this.sle_passwd,&
 this.gb_1}
 end on
 
 on w_conecta.destroy
-destroy(this.st_1)
 destroy(this.huella_ingreso)
 destroy(this.pb_cancel)
 destroy(this.pb_aceptar)
@@ -91,8 +85,8 @@ destroy(this.dw_hingreso)
 destroy(this.c_imagen)
 destroy(this.st_3)
 destroy(this.p_1)
-destroy(this.sle_passwd)
 destroy(this.sle_usuario)
+destroy(this.sle_passwd)
 destroy(this.gb_1)
 end on
 
@@ -137,23 +131,6 @@ event close;If g_biometria='1' then
 End If
 FileDelete(gbiometria_filePathName)
 end event
-
-type st_1 from statictext within w_conecta
-integer x = 549
-integer y = 56
-integer width = 727
-integer height = 64
-integer textsize = -10
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-long textcolor = 33554432
-long backcolor = 67108864
-string text = "Inicio Sesión"
-boolean focusrectangle = false
-end type
 
 type huella_ingreso from olecustomcontrol within w_conecta
 event sensorplug ( string idsensor )
@@ -223,8 +200,8 @@ pb_aceptar.postevent(clicked!)
 end event
 
 type pb_cancel from picturebutton within w_conecta
-integer x = 951
-integer y = 412
+integer x = 480
+integer y = 672
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -235,7 +212,6 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 boolean cancel = true
-boolean originalsize = true
 string picturename = "cancelar.gif"
 string powertiptext = "Cancelar"
 end type
@@ -251,8 +227,8 @@ halt
 end event
 
 type pb_aceptar from picturebutton within w_conecta
-integer x = 727
-integer y = 408
+integer x = 297
+integer y = 672
 integer width = 146
 integer height = 128
 integer taborder = 40
@@ -821,8 +797,8 @@ end type
 
 type st_3 from statictext within w_conecta
 boolean visible = false
-integer x = 69
-integer y = 556
+integer x = 64
+integer y = 828
 integer width = 471
 integer height = 40
 integer textsize = -6
@@ -840,11 +816,11 @@ end type
 
 type p_1 from picture within w_conecta
 integer x = 69
-integer y = 76
-integer width = 443
-integer height = 412
+integer y = 80
+integer width = 805
+integer height = 328
 boolean originalsize = true
-string picturename = "gci.jpg"
+string picturename = "gci_new.jpg"
 borderstyle borderstyle = StyleRaised!
 boolean focusrectangle = false
 end type
@@ -855,41 +831,11 @@ if right(trim(dir_insta),1)<>"\" then dir_insta=trim(dir_insta)+"\"
 
 end event
 
-type sle_passwd from singlelineedit within w_conecta
-event kepres pbm_keydown
-integer x = 567
-integer y = 272
-integer width = 800
-integer height = 92
-integer taborder = 20
-string dragicon = "none!"
-integer textsize = -10
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-string pointer = "ibeam!"
-long textcolor = 33554432
-long backcolor = 16777215
-boolean password = true
-integer limit = 10
-borderstyle borderstyle = stylelowered!
-boolean hideselection = false
-string placeholder = "Contraseña"
-end type
-
-event kepres;if key=keyenter! then
-	pb_aceptar.setfocus()
-	pb_aceptar.triggerevent(clicked!)
-end if
-end event
-
 type sle_usuario from singlelineedit within w_conecta
 event kepres pbm_keydown
-integer x = 562
-integer y = 140
-integer width = 800
+integer x = 69
+integer y = 440
+integer width = 805
 integer height = 92
 integer taborder = 10
 string dragicon = "none!"
@@ -901,10 +847,10 @@ fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 string pointer = "ibeam!"
 long textcolor = 33554432
-long backcolor = 16777215
+long backcolor = 553648127
 textcase textcase = upper!
 integer limit = 15
-borderstyle borderstyle = stylelowered!
+borderstyle borderstyle = StyleRaised!
 string placeholder = "Usuario"
 end type
 
@@ -916,20 +862,51 @@ end event
 event help;ShowPopupHelp ( dir_insta+"gciltda.hlp", this, 1)
 end event
 
-type gb_1 from groupbox within w_conecta
-integer x = 32
-integer y = 8
-integer width = 1394
-integer height = 608
-integer taborder = 30
-integer textsize = -12
+type sle_passwd from singlelineedit within w_conecta
+event kepres pbm_keydown
+integer x = 69
+integer y = 552
+integer width = 805
+integer height = 92
+integer taborder = 20
+string dragicon = "none!"
+integer textsize = -10
 integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
+string pointer = "ibeam!"
+long textcolor = 33554432
+long backcolor = 553648127
+boolean password = true
+integer limit = 10
+borderstyle borderstyle = StyleRaised!
+boolean hideselection = false
+string placeholder = "Contraseña"
+end type
+
+event kepres;if key=keyenter! then
+	pb_aceptar.setfocus()
+	pb_aceptar.triggerevent(clicked!)
+end if
+end event
+
+type gb_1 from groupbox within w_conecta
+integer x = 18
+integer y = 16
+integer width = 905
+integer height = 796
+integer taborder = 30
+integer textsize = -7
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Small Fonts"
 long textcolor = 33554432
 long backcolor = 67108864
+string text = "Inicio Sesión"
 end type
 
 

@@ -943,6 +943,7 @@ fontfamily fontfamily = swiss!
 string facename = "Arial"
 boolean originalsize = true
 string picturename = "foto.jpg"
+string disabledname = "d_foto.jpg"
 string powertiptext = "Traer Foto desde archivo"
 end type
 
@@ -4011,6 +4012,8 @@ type pb_4 from pb_report within cambios
 integer x = 4741
 integer y = 352
 integer taborder = 90
+string picturename = "print2.gif"
+string disabledname = "d_print2.gif"
 string powertiptext = "INCOSNISTENCIA BASE DE DATOS"
 string cod_rep = "INBD"
 string nombre_rep = "INCOSNISTENCIA BASE DE DATOS"

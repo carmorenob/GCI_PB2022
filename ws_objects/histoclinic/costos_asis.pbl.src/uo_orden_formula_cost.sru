@@ -2057,8 +2057,8 @@ end event
 
 type cb_borrorden from picturebutton within uo_orden_formula_cost
 event mousemove pbm_mousemove
-integer x = 5422
-integer y = 48
+integer x = 5413
+integer y = 44
 integer width = 146
 integer height = 128
 integer taborder = 60
@@ -2071,7 +2071,7 @@ fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 string text = "        &e"
 boolean originalsize = true
-string picturename = "borrar_fila.GIF"
+string picturename = "borrar_fila.gif"
 string disabledname = "d_borrar_fila.GIF"
 alignment htextalign = left!
 string powertiptext = "Eliminar Orden [Alt+E]"
@@ -2100,8 +2100,8 @@ end event
 
 type pb_abre from picturebutton within uo_orden_formula_cost
 event mousemove pbm_mousemove
-integer x = 5573
-integer y = 48
+integer x = 5568
+integer y = 44
 integer width = 146
 integer height = 128
 integer taborder = 80
@@ -2156,7 +2156,7 @@ end event
 type pb_ordenes from picturebutton within uo_orden_formula_cost
 event mousemove pbm_mousemove
 integer x = 5719
-integer y = 48
+integer y = 44
 integer width = 146
 integer height = 128
 integer taborder = 100
@@ -3185,8 +3185,8 @@ type cb_delserv from picturebutton within tp_1
 event mousemove pbm_mousemove
 integer x = 736
 integer y = 4
-integer width = 146
-integer height = 128
+integer width = 142
+integer height = 124
 integer taborder = 30
 integer textsize = -8
 integer weight = 400
@@ -3479,6 +3479,8 @@ integer x = 6683
 integer y = 20
 integer taborder = 40
 string text = "      &F"
+string picturename = "print2.gif"
+string disabledname = "d_print2.gif"
 string powertiptext = "Imprimir Fórmula Médica [Alt+F]"
 string nombre_rep = "Fórmula Médica"
 string tipo_rep = "interno!"
@@ -3946,8 +3948,8 @@ end event
 type cb_nvorden from picturebutton within uo_orden_formula_cost
 event mousemove pbm_mousemove
 string tag = "c"
-integer x = 5275
-integer y = 48
+integer x = 5257
+integer y = 44
 integer width = 146
 integer height = 128
 integer taborder = 40
@@ -3960,8 +3962,8 @@ fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 string text = "        &n"
 boolean originalsize = true
-string picturename = "insertar.GIF"
-string disabledname = "d_insertar.GIF"
+string picturename = "insertar.gif"
+string disabledname = "d_insertar.gif"
 alignment htextalign = left!
 string powertiptext = "Nueva Orden [Alt+N]"
 end type
