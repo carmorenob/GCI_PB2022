@@ -713,8 +713,10 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
+boolean enabled = false
 boolean originalsize = true
 string picturename = "guardar.gif"
+string disabledname = "d_guardar.gif"
 alignment htextalign = left!
 string powertiptext = "Guardar cambios en Diagnósticos"
 end type

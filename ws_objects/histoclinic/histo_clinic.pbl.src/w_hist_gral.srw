@@ -307,6 +307,7 @@ string facename = "Arial"
 string text = "        &p"
 boolean originalsize = true
 string picturename = "pyp.gif"
+string disabledname = "d_pyp.gif"
 alignment htextalign = left!
 string powertiptext = "Promoción y Prevención [Alt+P]"
 end type
@@ -379,8 +380,8 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 boolean originalsize = true
-string picturename = "print.GIF"
-string disabledname = "d_print.GIF"
+string picturename = "print2.GIF"
+string disabledname = "d_print2.GIF"
 alignment htextalign = left!
 string powertiptext = "Imprimir Historia Clínica"
 end type

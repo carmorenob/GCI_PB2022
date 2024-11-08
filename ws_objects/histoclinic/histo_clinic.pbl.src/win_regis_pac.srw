@@ -3997,7 +3997,7 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 boolean originalsize = true
-string picturename = "guardar.gif"
+string picturename = "guardar2.gif"
 end type
 
 event clicked;if dw_cambio.update()=-1 then

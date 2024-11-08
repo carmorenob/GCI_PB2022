@@ -240,8 +240,8 @@ string facename = "Tahoma"
 string text = "            &b"
 boolean default = true
 boolean originalsize = true
-string picturename = "buscar.GIF"
-string disabledname = "d_buscar.GIF"
+string picturename = "buscar2.GIF"
+string disabledname = "d_buscar2.GIF"
 alignment htextalign = left!
 string powertiptext = "Buscar [Alt+B]"
 end type
