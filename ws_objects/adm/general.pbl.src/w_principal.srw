@@ -446,6 +446,8 @@ event e_cambialug(long param);open(w_cambia_lugar)
 end event
 
 event e_acerca(long param, long param2, long param3);openwithparm(w_acercade,'adm')
+w_principal.arrangesheets(layer!)
+
 end event
 
 event e_asientoc(long param);if l_con then
