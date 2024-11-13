@@ -4,7 +4,7 @@
     <Categories>
       <Category Enabled="true" Text="Aplicación" Visible="true">
         <Panel Enabled="true" Text="Básicas" Visible="true">
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_seg.ico" Tag="Seguridad" Text="Seguridad" Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_seg.ico" Tag="Seguridad" Text="Seguridad" Visible="true" PowerTipDescription="Ajustes Seguridad Aplicativos" >
             <Menu>
               <Item Checked="false" Clicked="e_gusuuario" Enabled="true" PictureName="ribon_gusuario.ico" Tag="Seguridad Grupos" Text="Grupos" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_usuario" Enabled="true" PictureName="ribon_usuario.ico" Tag="Seguridad Usuarios" Text="Usuarios" Type="0" Visible="true" />
@@ -13,7 +13,7 @@
               <Item Checked="false" Clicked="e_personaliza" Enabled="true" PictureName="ribon_personaliza.ico" Tag="Seguridad Personalización" Text="Personalización" Type="0" Visible="true" />
             </Menu>
           </LargeButton>
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_opcion.ico" Tag="Opciones" Text="Opciones" Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_opcion.ico" Tag="Opciones" Text="Opciones" Visible="true" PowerTipDescription="Personalización Aplicativos">
             <Menu>
               <Item Checked="false" Clicked="e_cversion" Enabled="true" PictureName="ribon_version.ico" Tag="Control Versiones" Text="Control Versiones" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_parametros" Enabled="true" PictureName="ribon_param.ico" Tag="Parametros Generales" Text="Parametros Generales" Type="0" Visible="true" />
@@ -21,7 +21,7 @@
               <Item Checked="false" Clicked="e_menu" Enabled="true" PictureName="ribon_menu.ico" Tag="Menú Aplicativo" Text="Menú Aplicativo" Type="0" Visible="true" />
             </Menu>
           </LargeButton>
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_soat.ico" Tag="Soat" Text="Soat" Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_soat.ico" Tag="Soat" Text="Soat" Visible="true" PowerTipDescription="Tablas Básicas Soat">
             <Menu>
               <Item Checked="false" Clicked="e_tipoveh" Enabled="true" PictureName="ribon_tvehi.ico" Tag="Tipo Vehiculo" Text="Tipo Vehiculo" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_tasegura" Enabled="true" PictureName="ribon_tasegura.ico" Tag="Tipo Aseguramiento" Text="Tipo Aseguramiento" Type="0" Visible="true" />
@@ -29,9 +29,9 @@
               <Item Checked="false" Clicked="e_catastrofe" Enabled="true" PictureName="ribon_catas.ico" Tag="Catastrofes Naturales" Text="Catastrofes Naturales" Type="0" Visible="true" />
             </Menu>
           </LargeButton>
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_rip.ico" Tag="Rips" Text="Rips" Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_rip.ico" Tag="Rips" Text="Rips" Visible="true" PowerTipDescription="Tablas Básicas Rips">
             <Menu>
-              <Item Checked="false" Clicked="e_arips" Enabled="true" PictureName="ribon_agrupa.ico" Tag="Agrupación  Rips" Text="Agrupación" Type="0" Visible="true" />
+              <Item Checked="false" Clicked="e_arips" Enabled="true" PictureName="ribon_agrupa.ico" Tag="Agrupación  Rips" Text="Agrupación" Type="0" Visible="true"  />
               <Item Checked="false" Clicked="e_trips" Enabled="true" PictureName="ribon_trip.ico" Tag="Tipo Rips" Text="Tipo" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_finalidadc" Enabled="true" PictureName="ribon_finalidad.ico" Tag="Finalidad" Text="Finalidad" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_edadfin" Enabled="true" PictureName="ribon_edad.ico" Tag="Edad Finalidad" Text="Edad Finalidad" Type="0" Visible="true" />
@@ -45,7 +45,7 @@
             </Menu>
           </LargeButton>
           
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_reps.ico" Text="Reps" Visible="true" Tag="Reps">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_reps.ico" Text="Reps" Visible="true" Tag="Reps" PowerTipDescription="Tablas Básicas Reps">
             <Menu>
               <Item Checked="false" Clicked="e_gserv" Enabled="true" PictureName="ribon_gserv.ico" Tag="Reps Grupo Servicio" Text="Grupo" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_grepserv" Enabled="true" PictureName="ribon_habitacion.ico" Tag="Reps Servicios" Text="Servicios" Type="0" Visible="true" />
@@ -54,7 +54,7 @@
              </Menu>
           </LargeButton>
           
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_ubicacion.ico" Text="Ubicacion" Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_ubicacion.ico" Text="Ubicacion" Visible="true" PowerTipDescription="Tablas Básicas Ubicación">
             <Menu>
               <Item Checked="false" Clicked="e_pais" Enabled="true" PictureName="ribon_pais.ico" Tag="Paises" Text="Paises" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_dpto" Enabled="true" PictureName="ribon_param.ico" Tag="Departamentos" Text="Departamentos" Type="0" Visible="true" />
@@ -68,7 +68,7 @@
               <Item Checked="false" Clicked="e_adire" Enabled="true" PictureName="ribon_adirec.ico" Tag="Abreviatura Direcciones" Text="Abreviatura Direcciones" Type="0" Visible="true" />              
             </Menu>
           </LargeButton>
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_tipo.ico" Text="Tipos" Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_tipo.ico" Text="Tipos" Visible="true" PowerTipDescription="Tablas Básicas">
             <Menu>
               <Item Checked="false" Clicked="e_tcorreo" Enabled="true" PictureName="ribon_postal.ico" Tag="Tipo Correo" Text="Correo" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_tdocu" Enabled="true" PictureName="ribon_tdocu.ico" Tag="Tipo Documento" Text="Documento" Type="0" Visible="true" />
@@ -94,34 +94,31 @@
           <SmallButton Checked="false" Clicked="e_estcivil" DefaultCommand="true" Enabled="true" PictureName="ribon_estcivil.ico" Tag="Estado Civil" Text="Estado Civil" Visible="true" />
         </Panel>
         <Panel Enabled="true" Text="Herramientas" Visible="true">
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_help.ico" Text="Ayuda" Visible="true">
-            <Menu>
-              <Item Checked="false" Enabled="true" PictureName="ribon_help.ico" Text="Contenido" Type="0" Visible="true" />
-              <Item Checked="false" Clicked="e_acerca" Enabled="true" PictureName="ribon_about.ico" Tag="Acerca de" Text="Acerca de" Type="0" Visible="true" />
-            </Menu>
-          </LargeButton>
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_sinc.ico" Tag="Sincronización" Text="Sincronización" Visible="true">
+          <LargeButton Checked="false" Clicked="e_acerca" DefaultCommand="true" Enabled="true" PictureName="ribon_acerca.ico" PowerTipDescription="Acerda de..." Tag="acerca" Text="Acerca" Visible="true" />
+
+
+<LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_sinc.ico" Tag="Sincronización" Text="Sincronización" Visible="true">
             <Menu>
               <Item Checked="false" Clicked="e_sincexp" Enabled="true" PictureName="ribon_export.ico" Tag="Exportar datos" Text="Exportar datos" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_sincpre" Enabled="true" PictureName="ribon_import.ico" Tag="Importar - Preparar" Text="Importar - Preparar" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_sincsub" Enabled="true" PictureName="ribon_import.ico" Tag="Importar - Subir" Text="Importar - Subir" Type="0" Visible="true" />
             </Menu>
           </LargeButton>
-          <LargeButton Checked="false" Clicked="e_cierra" DefaultCommand="true" Enabled="true" PictureName="ribon_salir.ico" Tag="Salir" Text="Salir" Visible="true" />
+           <LargeButton Checked="false" Clicked="e_cierra" DefaultCommand="true" Enabled="true" PictureName="ribon_salir.ico" Shortcut="Alt+F4" PowerTipDescription="Salir [Alt+F4]" Tag="Salir" Text="Salir" Visible="true" />
         </Panel>
       </Category>
       <Category Enabled="true" Text="Operacion" Visible="true">
         <Panel Enabled="true" Text="Unidades de Negocio" Visible="true">
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_apdx.ico" Text="Apoyo Dx" Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_apdx.ico" Text="Apoyo Dx" Visible="true" PowerTipDescription="Configuración Apoyo Dx">
             <Menu>
-              <Item Checked="false" Clicked="e_apdxarea" Enabled="true" PictureName="ribon_area.ico" Tag="Apoyo Dx Areas" Text="Areas" Type="0" Visible="true" />
+              <Item Checked="false" Clicked="e_apdxarea" Enabled="true" PictureName="ribon_area.ico" Tag="Apoyo Dx Areas" Text="Areas" Type="0" Visible="true"  />
               <Item Checked="false" Clicked="e_apdxper" Enabled="true" PictureName="ribon_area_pe.ico" Tag="Apoyo Dx Configuración" Text="Configuración" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_apdxtubo" Enabled="true" PictureName="ribon_tubo_lab.ico" Tag="Tubos Muestra" Text="Tubos Muestra" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_apdxtmu" Enabled="true" PictureName="ribon_barras.ico" Tag="Tipo Muestra" Text="Tipo Muestra" Type="0" Visible="true" />
                <Item Checked="false" Clicked="e_apdxnotap" Enabled="true" PictureName="ribon_notasp.ico" Tag="Notas Procesamiento" Text="Notas Procesamiento" Type="0" Visible="true" />
             </Menu>
           </LargeButton>
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_cbanco.ico" Text="Bancos Fluidos" Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_cbanco.ico" Text="Bancos Fluidos" Visible="true" PowerTipDescription="Configuración Banco de Fluidos">
             <Menu>
               <Item Checked="false" Clicked="e_btipodon" Enabled="true" PictureName="ribon_tdonante.ico" Tag="Tipo Donacion" Text="Tipo Donacion" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_banco" Enabled="true" PictureName="ribon_banco.ico" Tag="Bancos" Text="Bancos" Type="0" Visible="true" />
@@ -132,7 +129,7 @@
               <Item Checked="false" Clicked="e_bconfigura" Enabled="true" PictureName="ribon_configura.ico" Tag="Configuración Bancos" Text="Configuración" Type="0" Visible="true" />
             </Menu>
           </LargeButton>
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_programa.ico" Text="Programación Citas" Tag="Programación Citas" Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_programa.ico" Text="Programación Citas" Tag="Programación Citas" Visible="true" PowerTipDescription="Configuración Programación de Citas">
             <Menu>
               <Item Checked="false" Enabled="true" PictureName="ribon_configura.ico" Text="Configuración" Tag="Configuracion Citas"  Type="0" Visible="true">
                 <Item Checked="false" Clicked="e_cita_lugar" Enabled="true" PictureName="ribon_postal.ico" Tag="Citas Lugar" Text="Lugar" Type="0" Visible="true" />
@@ -156,7 +153,7 @@
               </Item>
             </Menu>
           </LargeButton>
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_admi.ico"  Text="Hospitalización" Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_admi.ico"  Text="Hospitalización" Visible="true" PowerTipDescription="Configuración Hospitalización/Urgencias">
             <Menu>
               <Item Checked="false" Enabled="true" PictureName="ribon_ips.ico" Text="Estancia" Tag="Estancia" Type="0" Visible="true">
                 <Item Checked="false" Clicked="e_pabellon" Enabled="true" PictureName="ribon_pabellon.ico" Tag="Pabellon" Text="Pabellon" Type="0" Visible="true" />
@@ -170,7 +167,7 @@
               <Item Checked="false" Clicked="e_ipsr" Enabled="true" PictureName="ribon_refe.ico" Tag="Ips Remitir" Text="Ips Remitir" Type="0" Visible="true" />
             </Menu>
           </LargeButton>
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_odontoc.ico"  Text="Odontología" Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_odontoc.ico"  Text="Odontología" Visible="true" PowerTipDescription="Configuración Odontología">
             <Menu>
               <Item Checked="false" Clicked="e_odontosp" Enabled="true" PictureName="ribon_osupe.ico" Tag="Odontologia Superficie" Text="Superficie" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_odontocu" Enabled="true" PictureName="ribon_cuadrante.ico" Tag="Odontologia Cuadrante" Text="Cuadrante" Type="0" Visible="true" />
@@ -179,7 +176,7 @@
               <Item Checked="false" Clicked="e_odontocfg" Enabled="true" PictureName="ribon_cfgodon.ico" Tag="Odontologia Configura" Text="Configura" Type="0" Visible="true" />
             </Menu>
           </LargeButton>
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_salaqx.ico" Text="Salas Qx" Visible="true" Tag="Qx">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_salaqx.ico" Text="Salas Qx" Visible="true" Tag="Qx" PowerTipDescription="Configuración Salas Qx">
             <Menu>
               <Item Checked="false" Clicked="e_qxanes" Enabled="true" PictureName="ribon_anest.ico" Tag="Tipo Anestesia" Text="Tipo Anestesia" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_qxsalas" Enabled="true" PictureName="ribon_sqx.ico" Tag="Salas Qx" Text="Salas" Type="0" Visible="true" />
@@ -188,7 +185,7 @@
               <Item Checked="false" Clicked="e_qxlateralidad" Enabled="true" PictureName="ribon_lateralidad.ico" Tag="Salas Lateralidad" Text="Lateralidad" Type="0" Visible="true" />
             </Menu>
           </LargeButton>
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_pyp.ico"  Text="Promoción y Mantenimiento"  Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_pyp.ico"  Text="Promoción y Mantenimiento"  Visible="true" PowerTipDescription="Configuración Promoción/Mantenimiento">
             <Menu>
               <Item Checked="false" Enabled="true" PictureName="ribon_pp.ico" Text="PyP" Type="0" Tag="Promocion y Mantenimiento"  Visible="true">
                 <Item Checked="false" Clicked="e_pypact" Enabled="true" PictureName="ribon_activi.ico" Tag="PyP Actividades" Text="Actividades" Type="0" Visible="true" />
@@ -207,7 +204,7 @@
             </Menu>
           </LargeButton>
         </Panel>
-        <Panel Enabled="true" Text="Medicamentos" Visible="true">
+        <Panel Enabled="true" Text="Medicamentos" Visible="true" >
           <SmallButton Checked="false" Clicked="e_medcls" DefaultCommand="true" Enabled="true" PictureName="ribon_clase.ico" Tag="Medicamentos Clase" Text="Clase" Visible="true" />
           <SmallButton Checked="false" Clicked="e_medpact" DefaultCommand="true" Enabled="true" PictureName="ribon_activo.ico" Tag="Principio Activo" Text="Principio Activo" Visible="true" />
           <SmallButton Checked="false" Clicked="e_medff" DefaultCommand="true" Enabled="true" PictureName="ribon_formaf.ico" Tag="Forma Farmaceutica" Text="Forma Farmaceutica" Visible="true" />
@@ -220,7 +217,7 @@
           <SmallButton Checked="false" Clicked="e_medicamnto" DefaultCommand="true" Enabled="true" PictureName="ribon_producto.ico" Tag="Medicamentos Listado" Text="Listado" Visible="true" />
         </Panel>
         <Panel Enabled="true" Text="Historia Clínica" Visible="true">
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_dx.ico" Text="Diagnosticos" Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_dx.ico" Text="Diagnosticos" Visible="true" PowerTipDescription="Configuración Diagnósticos">
             <Menu>
               <Item Checked="false" Clicked="e_hcvdx" Enabled="true" PictureName="ribon_version.ico" Tag="Diagnosticos Versiones" Text="Versiones" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_hcapcdx" Enabled="true" PictureName="ribon_param.ico" Tag="Diagnosticos Capitulos" Text="Capitulos" Type="0" Visible="true" />
@@ -229,13 +226,13 @@
               <Item Checked="false" Clicked="e_hcdxfina" Enabled="true" PictureName="ribon_finalidad.ico" Tag="Diagnosticos Finalidad" Text="Finalidad Dx" Type="0" Visible="true" />
             </Menu>
           </LargeButton>
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_ocup.ico" Text="Ocupaciones" Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_ocup.ico" Text="Ocupaciones" Visible="true" PowerTipDescription="Configuración Ocupaciones">
             <Menu>
               <Item Checked="false" Clicked="e_ocupv" Enabled="true" PictureName="ribon_version.ico" Tag="Ocupaciones Versiones" Text="Versiones" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_ocupacion" Enabled="true" PictureName="ribon_lista.ico" Tag="Ocupaciones Listado" Text="Listado" Type="0" Visible="true" />
             </Menu>
           </LargeButton>
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_hc.ico" Text="Estructura" Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_hc.ico" Text="Estructura" Visible="true" PowerTipDescription="Configuración Estructura Historia Clínica">
             <Menu>
               <Item Checked="false" Clicked="e_hcplan" Enabled="true" PictureName="ribon_arbol.ico" Tag="Plantilla HC" Text="Plantilla" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_hccurva" Enabled="true" PictureName="ribon_imc.ico" Tag="Curvas Gráficas" Text="Curvas Gráficas" Type="0" Visible="true" />
@@ -244,7 +241,7 @@
               <Item Checked="false" Clicked="e_hcins" Enabled="true" PictureName="ribon_ihc.ico" Tag="Instrumentos Hc" Text="Instrumentos Hc" Type="0" Visible="true" />
             </Menu>
           </LargeButton>
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_esta.ico" Text="Estadisticas" Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_esta.ico" Text="Estadisticas" Visible="true" PowerTipDescription="Configuración Estadísticas">
             <Menu>
               <Item Checked="false" Clicked="e_esten" Enabled="true" PictureName="ribon_version.ico" Tag="Estadisticas Entidad" Text="Entidad" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_estedad" Enabled="true" PictureName="ribon_edad.ico" Tag="Grupo Aplicación" Text="Grupo Aplicación" Type="0" Visible="true" />
@@ -253,13 +250,13 @@
         </Panel>
       </Category>
       <Category Enabled="true" Text="Facturacion" Visible="true">
-        <Panel Enabled="true" Text="Prestador" Visible="true">
-          <LargeButton Checked="false" Clicked="e_ips" DefaultCommand="true" Enabled="true" PictureName="ribon_habilita.ico" Tag="Habilitación" Text="Habilitación" Visible="true" />
-          <LargeButton Checked="false" Clicked="e_flujo" DefaultCommand="true" Enabled="true" PictureName="ribon_flujo.ico" Tag="Flujos Documentos" Text="Flujo" Visible="true" />
-          <LargeButton Checked="false" Clicked="e_docus" DefaultCommand="true" Enabled="true" PictureName="ribon_reportes.ico" Tag="Documentos" Text="Documentos" Visible="true" />
+        <Panel Enabled="true" Text="Prestador" Visible="true" >
+          <LargeButton Checked="false" Clicked="e_ips" DefaultCommand="true" Enabled="true" PictureName="ribon_habilita.ico" Tag="Habilitación" Text="Habilitación" Visible="true" PowerTipDescription="Datos de Habilitación" />
+          <LargeButton Checked="false" Clicked="e_flujo" DefaultCommand="true" Enabled="true" PictureName="ribon_flujo.ico" Tag="Flujos Documentos" Text="Flujo" Visible="true" PowerTipDescription="Flujos de Datos/interfases"/>
+          <LargeButton Checked="false" Clicked="e_docus" DefaultCommand="true" Enabled="true" PictureName="ribon_reportes.ico" Tag="Documentos" Text="Documentos" Visible="true" PowerTipDescription="Configuración Documentos Internos" />
         </Panel>
         <Panel Enabled="true" Text="Asegurador" Visible="true">
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_eapb.ico" Tag="EAPB" Text="Eapb" Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_eapb.ico" Tag="EAPB" Text="Eapb" Visible="true" PowerTipDescription="Configuración Empresas Administradoras de Planes de Beneficios">
             <Menu>
               <Item Checked="false" Clicked="e_epab" Enabled="true" PictureName="ribon_lista.ico" Tag="Catalogo Eapb" Text="Catalogo" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_contrato" Enabled="true" PictureName="ribon_contrato.ico" Tag="Contratos" Text="Contratos" Type="0" Visible="true" />
@@ -270,7 +267,7 @@
               </Item>
             </Menu>
           </LargeButton>
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_manual.ico" Tag="Manual Tarifas" Text="Manual" Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_manual.ico" Tag="Manual Tarifas" Text="Manual" Visible="true" PowerTipDescription="Configuración Manuales Tarifarios">
             <Menu>
               <Item Checked="false" Clicked="e_fmanual" Enabled="true" PictureName="ribon_lista.ico" Tag="Manuales Listado" Text="Listado" Type="0" Visible="true" />
               <Item Checked="false" Enabled="true" PictureName="ribon_param.ico" Text="Grupo" Type="0" Visible="true">
@@ -288,7 +285,7 @@
             </Menu>
           </LargeButton>
         </Panel>
-        <Panel Enabled="true" Text="Cups" Visible="true">
+        <Panel Enabled="true" Text="Cups" Visible="true" >
           <SmallButton Checked="false" Clicked="e_cupsv" DefaultCommand="true" Enabled="true" PictureName="ribon_versiones.ico" Tag="Cups Versión" Text="Versión" Visible="true" />
           <SmallButton Checked="false" Clicked="e_cupssec" DefaultCommand="true" Enabled="true" PictureName="ribon_seccion.ico" Tag="Cups Sección" Text="Sección" Visible="true" />
           <SmallButton Checked="false" Clicked="e_cupscap" DefaultCommand="true" Enabled="true" PictureName="ribon_capitulo.ico" Tag="Cups Capítulo" Text="Capítulo" Visible="true" />
@@ -299,14 +296,14 @@
           <SmallButton Checked="false" Clicked="e_cupsespe" DefaultCommand="true" Enabled="true" PictureName="ribon_espec.ico" Tag="Cups Especialidad" Text="Especialidad" Visible="true" />
         </Panel>
         <Panel Enabled="true" Text="Integrar" Visible="true">
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_planes.ico" Text="Planes" Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_planes.ico" Text="Planes" Visible="true" PowerTipDescription="Configuración Planes de Servicio">
             <Menu>
               <Item Checked="false" Clicked="e_planes" Enabled="true" PictureName="ribon_lista.ico" Tag="Planes" Text="Listado" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_planmed" Enabled="true" PictureName="ribon_tarmed.ico" Tag="Plan Medicamento" Text="Medicamentos" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_planproc" Enabled="true" PictureName="ribon_tarpro.ico" Tag="Plan Servicio" Text="Servicios" Type="0" Visible="true" />
             </Menu>
           </LargeButton>
-          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_ccosto.ico" Text="Costo" Visible="true">
+          <LargeButton Checked="false" DefaultCommand="true" Enabled="true" PictureName="ribon_ccosto.ico" Text="Costo" Visible="true" PowerTipDescription="Configuración Contable">
             <Menu>
               <Item Checked="false" Clicked="e_uf" Enabled="true" PictureName="ribon_uf.ico" Tag="Unidad Funcional" Text="Unidad Funcional" Type="0" Visible="true" />
               <Item Checked="false" Clicked="e_cc" Enabled="true" PictureName="ribon_costo.ico" Tag="Centros Costo" Text="Centros Costo" Type="0" Visible="true" />
