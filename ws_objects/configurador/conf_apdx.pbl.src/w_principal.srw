@@ -416,6 +416,7 @@ close(parent)
 end event
 
 event e_acerca(long param1, long param2, long param3);openwithparm(w_acercade,'conf')
+w_principal.ArrangeSheets ( layer!)
 end event
 
 event e_ips(long param);opensheet(w_ips,w_principal,1,original!)

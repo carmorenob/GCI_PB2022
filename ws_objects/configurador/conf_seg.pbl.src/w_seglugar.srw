@@ -148,8 +148,8 @@ end if
 end event
 
 type pb_guardar from picturebutton within w_seglugar
-integer x = 1330
-integer y = 1520
+integer x = 1467
+integer y = 1516
 integer width = 151
 integer height = 132
 integer taborder = 170
@@ -173,8 +173,8 @@ Return 0
 end event
 
 type pb_salir from picturebutton within w_seglugar
-integer x = 1134
-integer y = 1520
+integer x = 1271
+integer y = 1516
 integer width = 146
 integer height = 128
 integer taborder = 170
