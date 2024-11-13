@@ -18,8 +18,6 @@ type c_imagen from picture within w_conecta_evol
 end type
 type p_1 from picture within w_conecta_evol
 end type
-type st_1 from statictext within w_conecta_evol
-end type
 type pb_cancel from picturebutton within w_conecta_evol
 end type
 type pb_aceptar from picturebutton within w_conecta_evol
@@ -35,8 +33,8 @@ end forward
 global type w_conecta_evol from window
 integer x = 302
 integer y = 300
-integer width = 1568
-integer height = 1148
+integer width = 1573
+integer height = 1364
 windowtype windowtype = response!
 long backcolor = 67108864
 string pointer = "Arrow!"
@@ -50,7 +48,6 @@ dw_hingreso dw_hingreso
 huella_ingreso huella_ingreso
 c_imagen c_imagen
 p_1 p_1
-st_1 st_1
 pb_cancel pb_cancel
 pb_aceptar pb_aceptar
 sle_passwd sle_passwd
@@ -78,7 +75,6 @@ this.dw_hingreso=create dw_hingreso
 this.huella_ingreso=create huella_ingreso
 this.c_imagen=create c_imagen
 this.p_1=create p_1
-this.st_1=create st_1
 this.pb_cancel=create pb_cancel
 this.pb_aceptar=create pb_aceptar
 this.sle_passwd=create sle_passwd
@@ -92,7 +88,6 @@ this.dw_hingreso,&
 this.huella_ingreso,&
 this.c_imagen,&
 this.p_1,&
-this.st_1,&
 this.pb_cancel,&
 this.pb_aceptar,&
 this.sle_passwd,&
@@ -109,7 +104,6 @@ destroy(this.dw_hingreso)
 destroy(this.huella_ingreso)
 destroy(this.c_imagen)
 destroy(this.p_1)
-destroy(this.st_1)
 destroy(this.pb_cancel)
 destroy(this.pb_aceptar)
 destroy(this.sle_passwd)
@@ -193,8 +187,8 @@ closewithreturn(this,st_p)
 end event
 
 type dw_usuario from datawindow within w_conecta_evol
-integer x = 571
-integer y = 164
+integer x = 370
+integer y = 468
 integer width = 809
 integer height = 76
 integer taborder = 10
@@ -235,8 +229,8 @@ end if
 end event
 
 type dw_1 from datawindow within w_conecta_evol
-integer x = 41
-integer y = 600
+integer x = 55
+integer y = 804
 integer width = 1426
 integer height = 352
 integer taborder = 50
@@ -261,7 +255,7 @@ end event
 
 type st_2 from statictext within w_conecta_evol
 integer x = 59
-integer y = 540
+integer y = 736
 integer width = 347
 integer height = 56
 integer textsize = -8
@@ -278,8 +272,8 @@ end type
 
 type st_3 from statictext within w_conecta_evol
 boolean visible = false
-integer x = 64
-integer y = 480
+integer x = 197
+integer y = 416
 integer width = 471
 integer height = 40
 integer textsize = -6
@@ -385,37 +379,17 @@ boolean focusrectangle = false
 end type
 
 type p_1 from picture within w_conecta_evol
-integer x = 91
-integer y = 56
-integer width = 443
-integer height = 412
-boolean originalsize = true
-string picturename = "gci.jpg"
-boolean focusrectangle = false
-end type
-
-type st_1 from statictext within w_conecta_evol
-integer x = 567
-integer y = 60
-integer width = 343
-integer height = 48
-string dragicon = "none!"
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-string pointer = "Arrow!"
-long textcolor = 33554432
-long backcolor = 67108864
-string text = "Inicio Evolución"
+integer x = 370
+integer y = 84
+integer width = 805
+integer height = 328
+string picturename = "gci_new.jpg"
 boolean focusrectangle = false
 end type
 
 type pb_cancel from picturebutton within w_conecta_evol
-integer x = 795
-integer y = 964
+integer x = 809
+integer y = 1184
 integer width = 146
 integer height = 128
 integer taborder = 40
@@ -443,8 +417,8 @@ closewithreturn(parent,i_cancel)
 end event
 
 type pb_aceptar from picturebutton within w_conecta_evol
-integer x = 585
-integer y = 964
+integer x = 599
+integer y = 1184
 integer width = 146
 integer height = 128
 integer taborder = 30
@@ -511,10 +485,10 @@ close(parent)
 end event
 
 type sle_passwd from singlelineedit within w_conecta_evol
-integer x = 571
-integer y = 308
+integer x = 375
+integer y = 556
 integer width = 800
-integer height = 92
+integer height = 96
 integer taborder = 20
 string dragicon = "none!"
 integer textsize = -8
@@ -534,20 +508,21 @@ string placeholder = "Contraseña"
 end type
 
 type gb_1 from groupbox within w_conecta_evol
-integer x = 50
-integer y = 4
-integer width = 1413
-integer height = 556
+integer x = 59
+integer y = 20
+integer width = 1426
+integer height = 696
 string dragicon = "none!"
-integer textsize = -8
+integer textsize = -7
 integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "Tahoma"
+string facename = "Small Fonts"
 string pointer = "Arrow!"
 long textcolor = 33554432
 long backcolor = 67108864
+string text = "Inicio Evolución"
 borderstyle borderstyle = styleraised!
 end type
 

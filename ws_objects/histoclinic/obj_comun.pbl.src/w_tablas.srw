@@ -265,6 +265,7 @@ fontfamily fontfamily = swiss!
 string facename = "Arial"
 boolean originalsize = true
 string picturename = "elimi_pac.gif"
+string disabledname = "d_elimi_pac.gif"
 alignment htextalign = left!
 string powertiptext = "Unifica Profesionales"
 end type

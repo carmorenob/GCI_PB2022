@@ -140,7 +140,7 @@ end event
 
 type pb_2 from picturebutton within w_busca_activos
 event mousemove pbm_mousemove
-integer x = 2277
+integer x = 2341
 integer y = 236
 integer width = 146
 integer height = 128
@@ -221,7 +221,7 @@ end event
 
 type pb_busca from picturebutton within w_busca_activos
 event mousemove pbm_mousemove
-integer x = 2277
+integer x = 2341
 integer y = 104
 integer width = 146
 integer height = 128

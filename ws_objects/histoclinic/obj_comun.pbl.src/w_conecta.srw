@@ -797,9 +797,9 @@ end type
 
 type st_3 from statictext within w_conecta
 boolean visible = false
-integer x = 64
-integer y = 828
-integer width = 471
+integer x = 59
+integer y = 408
+integer width = 512
 integer height = 40
 integer textsize = -6
 integer weight = 400
@@ -821,7 +821,7 @@ integer width = 805
 integer height = 328
 boolean originalsize = true
 string picturename = "gci_new.jpg"
-borderstyle borderstyle = StyleRaised!
+borderstyle borderstyle = styleraised!
 boolean focusrectangle = false
 end type
 
@@ -850,7 +850,7 @@ long textcolor = 33554432
 long backcolor = 553648127
 textcase textcase = upper!
 integer limit = 15
-borderstyle borderstyle = StyleRaised!
+borderstyle borderstyle = styleraised!
 string placeholder = "Usuario"
 end type
 
@@ -881,7 +881,7 @@ long textcolor = 33554432
 long backcolor = 553648127
 boolean password = true
 integer limit = 10
-borderstyle borderstyle = StyleRaised!
+borderstyle borderstyle = styleraised!
 boolean hideselection = false
 string placeholder = "Contraseña"
 end type
