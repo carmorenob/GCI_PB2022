@@ -2352,7 +2352,7 @@ integer height = 1024
 long backcolor = 67108864
 string text = "Rubro Destino"
 long tabtextcolor = 33554432
-string picturename = "oofl.ico"
+string picturename = "OOFL.ICO"
 long picturemaskcolor = 536870912
 dw_dest dw_dest
 end type
@@ -2745,6 +2745,7 @@ integer x = 2770
 integer y = 12
 integer taborder = 60
 string text = "          &i"
+string picturename = "print2.gif"
 string powertiptext = "Reimprimir Documento"
 string tipo_rep = "documento!"
 end type

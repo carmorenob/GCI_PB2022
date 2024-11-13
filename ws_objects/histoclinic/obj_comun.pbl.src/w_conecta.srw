@@ -850,7 +850,7 @@ long textcolor = 33554432
 long backcolor = 553648127
 textcase textcase = upper!
 integer limit = 15
-borderstyle borderstyle = styleraised!
+borderstyle borderstyle = StyleBox!
 string placeholder = "Usuario"
 end type
 
@@ -881,7 +881,7 @@ long textcolor = 33554432
 long backcolor = 553648127
 boolean password = true
 integer limit = 10
-borderstyle borderstyle = styleraised!
+borderstyle borderstyle = StyleBox!
 boolean hideselection = false
 string placeholder = "Contraseña"
 end type

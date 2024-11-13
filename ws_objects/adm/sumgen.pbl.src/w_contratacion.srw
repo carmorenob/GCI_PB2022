@@ -817,8 +817,8 @@ type pb_14 from picturebutton within w_contratacion
 event mousemove pbm_mousemove
 integer x = 5422
 integer y = 476
-integer width = 151
-integer height = 132
+integer width = 146
+integer height = 128
 integer taborder = 100
 boolean bringtotop = true
 integer textsize = -8

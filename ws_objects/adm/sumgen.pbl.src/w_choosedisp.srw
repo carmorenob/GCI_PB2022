@@ -427,7 +427,7 @@ dw_rubro.Retrieve(GetItemString(GetRow(),'coddoc'),GetItemString(GetRow(),'cluga
 end event
 
 event itemchanged;if dwo.name = 'selec' and row > 0 then
-	long f,ld_monto,ld_falta=0
+	decimal f,ld_monto,ld_falta=0
 	f = find("selec=1",1,RowCount())
 	if f > 0 and row = f then
 		SetItem(f,'selec',0)
@@ -436,6 +436,7 @@ event itemchanged;if dwo.name = 'selec' and row > 0 then
 		SetItem(f,'selec',0)
 	end if
 	if dw_rubro.rowcount()>0 then
+
 		ld_monto=st_parm.dw_cab.getitemnumber(st_parm.ld_row,'monto') / dw_rubro.rowcount()
 		
 		ld_monto=round(dec(ld_monto),i_dec_gral)

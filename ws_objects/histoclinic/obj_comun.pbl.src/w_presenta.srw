@@ -34,9 +34,9 @@ event open;choose case g_aplicacion
 	case 'histo_clinic'
 		p_1.picturename='pre_clinico.jpg'
 	case 'gci_adm'
-		p_1.picturename='pre_cliente.jpg'
+		p_1.picturename='pre_clinico.jpg'
 	case 'conf_apdx'
-		p_1.picturename='pre_configura.jpg'
+		p_1.picturename='pre_clinico.jpg'
 end choose
 end event
 
