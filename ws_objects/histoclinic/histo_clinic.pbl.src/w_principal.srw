@@ -843,7 +843,7 @@ end if
 if not enabled then return
 if tipdoc="" or docu="" or isnull(docu) then return
 opensheet (w_cambio_emp,w_admision,7,original!)
-w_principal.ArrangeSheets ( layer!)
+//w_principal.ArrangeSheets ( layer!)
 end event
 
 event e_anulaing(long param);if not enabled or not isvalid(w_admision) then return
