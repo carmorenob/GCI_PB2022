@@ -187,6 +187,7 @@ boolean i_guardo,lb_espera=false,lb_fina=false,lb_tipoc=false
 m_ppal im_main 
 
 end variables
+
 forward prototypes
 public subroutine trae_agenda ()
 public subroutine pinta ()
@@ -1698,7 +1699,7 @@ integer height = 1248
 long backcolor = 67108864
 string text = "Citas No Asignada"
 long tabtextcolor = 33554432
-string picturename = "nocita.gif"
+string picturename = "nocita.ico"
 long picturemaskcolor = 536870912
 dw_citas_no_asig dw_citas_no_asig
 st_5 st_5
