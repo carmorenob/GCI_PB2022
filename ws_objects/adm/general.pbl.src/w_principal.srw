@@ -1831,7 +1831,7 @@ mf_abre_tablas("Tipos Pagos",'dw_contra_tipo_pago',0)
 end event
 
 event e_reportes(long param);opensheet(w_reportes_adm,w_principal,0,Original!)
-w_principal.arrangesheets(layer!)
+//w_principal.arrangesheets(layer!)
 
 end event
 
