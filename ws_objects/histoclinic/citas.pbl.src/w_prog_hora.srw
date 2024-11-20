@@ -304,7 +304,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-10-24"), Time("17:43:50.000000"))
+datetime value = DateTime(Date("2024-11-20"), Time("15:44:40.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -369,8 +369,8 @@ end event
 
 type dw_new from datawindow within w_prog_hora
 boolean visible = false
-integer x = 50
-integer y = 1836
+integer x = 919
+integer y = 1728
 integer width = 270
 integer height = 104
 boolean enabled = false
@@ -470,7 +470,7 @@ type pb_4 from picturebutton within w_prog_hora
 integer x = 14
 integer y = 1808
 integer width = 146
-integer height = 132
+integer height = 128
 integer taborder = 110
 integer textsize = -8
 integer weight = 400
