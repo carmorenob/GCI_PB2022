@@ -500,6 +500,9 @@ event resize;t1.resize((newwidth - 50) , (newheight * 0.80))
 
 st_1.y=t1.y+t1.height+30
 dw_ter.y=st_1.y+68
+
+st_4.y=t1.y+t1.height+30
+em_1.y=t1.y+t1.height+98
 end event
 
 type dw_1 from datawindow within w_af_responsable
