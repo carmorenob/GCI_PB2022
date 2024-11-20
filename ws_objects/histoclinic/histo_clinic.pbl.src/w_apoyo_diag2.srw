@@ -1173,7 +1173,7 @@ tab_1.tp_1.dp_2.y=tab_1.height -220
 tab_1.tp_2.tab_2.width=tab_1.width - 50
 tab_1.tp_2.tab_2.height=tab_1.height - 280
 
-tab_1.tp_2.tab_2.resul.dw_res.height=tab_1.tp_2.tab_2.height - 220
+tab_1.tp_2.tab_2.resul.dw_res.height=tab_1.tp_2.tab_2.height - 250
 
 tab_1.tp_2.tab_2.procesa.dw_notas.width=tab_1.tp_2.tab_2.width - 450
 tab_1.tp_2.tab_2.procesa.dw_notas.height=tab_1.tp_2.tab_2.height - 100
@@ -2276,7 +2276,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-10-03"), Time("07:31:14.000000"))
+datetime value = DateTime(Date("2024-11-20"), Time("12:58:37.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2298,7 +2298,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-10-03"), Time("07:31:14.000000"))
+datetime value = DateTime(Date("2024-11-20"), Time("12:58:37.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -4221,6 +4221,8 @@ integer height = 892
 integer taborder = 90
 string title = "none"
 string dataobject = "dw_xa_resul"
+boolean hscrollbar = true
+boolean vscrollbar = true
 boolean border = false
 boolean livescroll = true
 end type
