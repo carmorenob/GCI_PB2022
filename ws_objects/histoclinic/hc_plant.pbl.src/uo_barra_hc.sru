@@ -180,10 +180,11 @@ end function
 
 public function integer refresh_diags ();dw_diags.reset()
 long f_ubica
-dw_diags.retrieve(i_cplant,i_tingres)
-
+boolean lb_paso
 uo_datastore ds
 ds=create uo_datastore
+
+dw_diags.retrieve(i_cplant,i_tingres)
 if pos('2347',i_tingres)>0 then
 	if i_ing='I' then
 		dw_tri.retrieve(i_contador,i_clug)
@@ -252,16 +253,19 @@ if pos('2347',i_tingres)>0 then
 		dw_diags.setitem(1,'vigila_causamuerte',ds.getitemnumber(1,'vigila_muerte'))
 		dw_diags.setitem(1,'guia',ds.getitemstring(1,'guia'))
 		dw_diags.accepttext()
+		lb_paso=true
 	end if
 else //de cons ext/odonto
 	ds.dataobject='dw_diags_cext'
 	ds.settransobject(sqlca)
+	lb_paso=false
 	if ds.retrieve(i_contador,i_clug)=0 then goto sale//los r_ son los reales de la BD
 	if isnull(ds.getitemstring(1,'diagprin')) or ds.getitemstring(1,'diagprin')='' then
 		string ls_cods,ls_desd
 		
 		if not isnull(dw_diags.getitemstring(1,'dx')) or dw_diags.getitemstring(1,'dx')='' then 
 			ls_cods=dw_diags.getitemstring(1,'dx')
+			lb_paso=true
 
 			SELECT diags.desdiag into :ls_desd
 			FROM diags INNER JOIN diags_version ON diags.c_version = diags_version.c_version
@@ -349,9 +353,12 @@ end if
 
 sale:
 destroy(ds)
-dw_diags.Modify("r_diagprin.protect=0")
-dw_diags.Modify("finalidad.protect=0")
-dw_diags.Modify("causaext.protect=0")	
+if lb_paso=false then
+	dw_diags.Modify("c_diagprin.protect=0")
+	dw_diags.Modify("r_diagprin.protect=0")
+	dw_diags.Modify("finalidad.protect=0")
+	dw_diags.Modify("causaext.protect=0")	
+end if
 dw_diags.triggerevent (itemfocuschanged!)
 dw_diags.resetupdate()
 
