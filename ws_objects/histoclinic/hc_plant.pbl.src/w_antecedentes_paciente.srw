@@ -287,6 +287,11 @@ ldb_item=dw_1.getitemnumber(dw_1.getrow(),'item')
 select sitem into :ldb_sitem
 from pacientes_antecedente_elimina
 where tipodoc=:tipdoc and documento=:docu and cod_tipoa=:i_st.c_otro and cod_tipoa=:cod_ant and item=:ldb_item;
+if sqlca.sqlcode=-1 then
+	messagebox("Error Eliminando Antecenedete Paciente",sqlca.sqlerrtext)
+	rollback;
+	return
+end if
 if isnull(ldb_sitem) then
 	ldb_sitem=0
 end if
