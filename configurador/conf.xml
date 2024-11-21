@@ -201,6 +201,7 @@
                 <Item Checked="false" Clicked="e_tqueja" Enabled="true" PictureName="ribon_tqueja.ico" Tag="Tipo Queja" Text="Tipo Queja" Type="0" Visible="true" />
               </Item>
               <Item Checked="false" Clicked="e_campopedt" Enabled="true" PictureName="ribon_lista.ico" Tag="Campos PEDT" Text="Campos PEDT" Type="0" Visible="true" />
+              <Item Checked="false" Clicked="e_campo202" Enabled="true" PictureName="ribon_lista.ico" Tag="Campos 202" Text="Campos 202" Type="0" Visible="true" />              
             </Menu>
           </LargeButton>
         </Panel>

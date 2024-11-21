@@ -10,5 +10,5 @@ Save Format v3.0(19990112)
  4 "clientes\\clientes.pbt";
  5 "mipres\\mipres.pbt";
 @end;
-DefaultTarget "configurador\\conf_apdx.pbt";
-DefaultRemoteTarget "configurador\\conf_apdx.pbt";
+DefaultTarget "histoclinic\\histo_clinic.pbt";
+DefaultRemoteTarget "histoclinic\\histo_clinic.pbt";
