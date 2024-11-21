@@ -93,11 +93,11 @@ type cb_inser from picturebutton within tab_afilia
 end type
 type dw_esco from datawindow within tab_afilia
 end type
-type dw_serv from datawindow within tab_afilia
-end type
 type dw_empac from datawindow within tab_afilia
 end type
 type gb_1 from groupbox within tab_afilia
+end type
+type dw_serv from datawindow within tab_afilia
 end type
 type tab_afilia from userobject within tab_1
 dw_req dw_req
@@ -105,9 +105,9 @@ tab_3 tab_3
 cbx_act cbx_act
 cb_inser cb_inser
 dw_esco dw_esco
-dw_serv dw_serv
 dw_empac dw_empac
 gb_1 gb_1
+dw_serv dw_serv
 end type
 type tabpage_2 from userobject within tab_1
 end type
@@ -1496,9 +1496,9 @@ tab_3 tab_3
 cbx_act cbx_act
 cb_inser cb_inser
 dw_esco dw_esco
-dw_serv dw_serv
 dw_empac dw_empac
 gb_1 gb_1
+dw_serv dw_serv
 end type
 
 on tab_afilia.create
@@ -1507,17 +1507,17 @@ this.tab_3=create tab_3
 this.cbx_act=create cbx_act
 this.cb_inser=create cb_inser
 this.dw_esco=create dw_esco
-this.dw_serv=create dw_serv
 this.dw_empac=create dw_empac
 this.gb_1=create gb_1
+this.dw_serv=create dw_serv
 this.Control[]={this.dw_req,&
 this.tab_3,&
 this.cbx_act,&
 this.cb_inser,&
 this.dw_esco,&
-this.dw_serv,&
 this.dw_empac,&
-this.gb_1}
+this.gb_1,&
+this.dw_serv}
 end on
 
 on tab_afilia.destroy
@@ -1526,9 +1526,9 @@ destroy(this.tab_3)
 destroy(this.cbx_act)
 destroy(this.cb_inser)
 destroy(this.dw_esco)
-destroy(this.dw_serv)
 destroy(this.dw_empac)
 destroy(this.gb_1)
+destroy(this.dw_serv)
 end on
 
 type dw_req from datawindow within tab_afilia
@@ -2045,28 +2045,11 @@ end type
 event constructor;settransobject(sqlca)
 end event
 
-type dw_serv from datawindow within tab_afilia
-boolean visible = false
-integer x = 4448
-integer y = 84
-integer width = 110
-integer height = 108
-integer taborder = 40
-boolean enabled = false
-string title = "none"
-string dataobject = "dw_cambia_emp_serv_nofactu"
-boolean border = false
-boolean livescroll = true
-end type
-
-event constructor;settransobject(sqlca)
-end event
-
 type dw_empac from datawindow within tab_afilia
 event mousemove pbm_mousemove
 integer x = 96
 integer y = 92
-integer width = 4229
+integer width = 4585
 integer height = 144
 integer taborder = 50
 string dragicon = "none!"
@@ -2135,6 +2118,23 @@ string facename = "Tahoma"
 long backcolor = 80269524
 string text = "Escoja Empresa y Contrato a Agregar:"
 end type
+
+type dw_serv from datawindow within tab_afilia
+boolean visible = false
+integer x = 4453
+integer y = 84
+integer width = 105
+integer height = 108
+integer taborder = 40
+boolean enabled = false
+string title = "none"
+string dataobject = "dw_cambia_emp_serv_nofactu"
+boolean border = false
+boolean livescroll = true
+end type
+
+event constructor;settransobject(sqlca)
+end event
 
 type tabpage_2 from userobject within tab_1
 event mousemove pbm_mousemove
