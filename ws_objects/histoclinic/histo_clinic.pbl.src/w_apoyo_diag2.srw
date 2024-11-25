@@ -512,6 +512,7 @@ if hay<filas then
 			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'eco',tab_1.tp_2.dw_campos.getitemstring(i,'eco'))
 			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'edi',tab_1.tp_2.dw_campos.getitemstring(i,'edi'))
 			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'consecampo_cop',tab_1.tp_2.dw_campos.getitemnumber(i,'consecampo_cop'))
+			
 			if tab_1.tp_2.dw_campos.getitemstring(i,'eco')='1' then
 				if date(fechas)<>date('01/01/1900') then 
 					tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'fecha',fechas)
@@ -2276,7 +2277,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-11-20"), Time("12:58:37.000000"))
+datetime value = DateTime(Date("2024-11-25"), Time("18:17:15.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2298,7 +2299,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-11-20"), Time("12:58:37.000000"))
+datetime value = DateTime(Date("2024-11-25"), Time("18:17:15.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -4058,7 +4059,8 @@ if tab_1.tp_1.dw_procs.update(true,false)=-1 then //el rollback está en dberror
 end if
 commit;
 
-string ls_proced
+string ls_proced, ls_clugarrec,ls_coddoc
+double ldb_nrepor
 for l_i= 1 to tab_1.tp_1.dw_procs.rowcount() 
 
 	if tab_1.tp_1.dw_procs.getitemstring(l_i,'estado')='7' then
@@ -4067,8 +4069,20 @@ for l_i= 1 to tab_1.tp_1.dw_procs.rowcount()
 		gf_validar_proc_diag_cohorte(&
 			tipdoc,docu,w_principal.dw_1.getitemstring(1,'sexo'),&
 			w_principal.dw_1.getitemnumber(1,'dias'),ls_proced,'',i_contador,i_clughis,'1')
+
 	end if
-	
+
+	if not isnull(tab_1.tp_1.dw_procs.getitemstring(l_i,'ririas')) and tab_1.tp_1.dw_procs.getitemstring(l_i,'estado')='7' then
+		ldb_nrepor=tab_1.tp_1.dw_procs.getitemnumber(l_i,'nrepor') 
+		ls_clugarrec=tab_1.tp_1.dw_procs.getitemstring(l_i,'clugar_res')
+		ls_coddoc=tab_1.tp_1.dw_procs.getitemstring(l_i,'coddoc')
+
+		gf_validar_202(&
+			tipdoc,docu,w_principal.dw_1.getitemstring(1,'sexo'),&
+			w_principal.dw_1.getitemnumber(1,'dias'),ls_proced,&
+			tab_1.tp_1.dw_procs.getitemstring(l_i,'ririas'),&
+			ls_coddoc,ldb_nrepor,ls_clugarrec,'1')			
+	end if
 next
 
 tab_1.tp_1.dw_procs.resetupdate()

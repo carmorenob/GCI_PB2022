@@ -1,0 +1,328 @@
+﻿$PBExportHeader$gf_validar_202.srf
+$PBExportComments$Revisa si un procedimiento o diagnóstico cumple con las condiciones para incluir un paciente en los registros de Cohortes
+global type gf_validar_202 from function_object
+end type
+
+forward prototypes
+global function integer gf_validar_202 (string as_tdoc, string as_docu, string as_sexo, long ai_edad_dias, string as_cproced, string as_variable, string as_coddoc, double adb_nroresu, string as_clugarres, string as_result)
+end prototypes
+
+global function integer gf_validar_202 (string as_tdoc, string as_docu, string as_sexo, long ai_edad_dias, string as_cproced, string as_variable, string as_coddoc, double adb_nroresu, string as_clugarres, string as_result);/*
+retorno:
+0 : cuando el procedimiento o el diagnóstico no cumple con algún regitro de pm_cohortes_trigger 
+1: cuando cumple con las condiciones y se inserta adecuadamente en las tablas
+-1: cuando cumple las condiciones pero hay algún error al insertar
+*/
+uo_datastore lds_202,lds_202_result
+
+lds_202= create uo_datastore
+lds_202_result= create uo_datastore
+
+
+string ls_sexo,ls_estado,ls_id_grupo , ls_error
+integer li_cuantos
+long j, ll_id_cohorte , ll_consec ,ll_id_trigger
+
+
+if as_sexo='M' or as_sexo='1' then
+	ls_sexo='1'
+else
+	ls_sexo='2'
+end if
+
+if as_result='1' then
+	lds_202.dataobject='dw_busca_pacientes_ririas'
+	lds_202.settransobject(sqlca)
+	lds_202.retrieve(as_tdoc,as_docu)
+	lds_202_result.dataobject='dw_busca_202_result'
+	lds_202_result.settransobject(sqlca)
+	lds_202_result.retrieve(as_tdoc,as_docu,as_cproced,as_variable,as_coddoc,as_clugarres,adb_nroresu)
+end if
+
+
+if lds_202.rowcount()=0 then
+	
+	INSERT INTO pacientes_ririas (tipodoc, documento,fecha_audita)
+	VALUES (:as_tdoc, :as_docu, current_timestamp);
+			
+	if sqlca.sqlcode<0 then
+		ls_error=sqlca.sqlerrtext
+		rollback;
+		messagebox("gf_validar_202 - Error de SQL línea 87", "Error insertando en paciente_ririas: "+ls_error)
+		return -1
+	end if		
+	
+	commit;
+end if
+
+string ls_resul,  ls_fresul
+
+//SANGRE OCULTA
+if as_variable='24' then
+	if lds_202_result.rowcount()=1 then
+		ls_resul=lds_202_result.getitemstring(1,'resul')
+		ls_fresul=string(lds_202_result.getitemdatetime(1,'fecharesul'),'yyyy-mm-dd')
+		
+		update  pacientes_ririas set fecha_sanocul=:ls_fresul, resul_sanocul=:ls_resul, fecha_audita=current_timestamp
+		where tipodoc=:as_tdoc and documento=:as_docu;
+		if sqlca.sqlcode<0 then
+			ls_error=sqlca.sqlerrtext
+			rollback;
+			messagebox("gf_validar_202 - Error de SQL línea 56", "Error update en paciente_ririas: "+ls_error)
+			return -1
+		end if		
+		commit;
+		return 1
+	end if
+end if
+
+//GLICEMIA
+if as_variable='57' then
+	if lds_202_result.rowcount()=1 then
+		ls_resul=lds_202_result.getitemstring(1,'resul')
+		ls_fresul=string(lds_202_result.getitemdatetime(1,'fecharesul'),'yyyy-mm-dd')
+		
+		update  pacientes_ririas set fecha_glice=:ls_fresul, resul_glice=:ls_resul, fecha_audita=current_timestamp
+		where tipodoc=:as_tdoc and documento=:as_docu;
+		if sqlca.sqlcode<0 then
+			ls_error=sqlca.sqlerrtext
+			rollback;
+			messagebox("gf_validar_202 - Error de SQL línea 56", "Error update en paciente_ririas: "+ls_error)
+			return -1
+		end if		
+		commit;
+		return 1
+	end if
+end if
+
+//HEPATITIS C
+if as_variable='42' then
+	if lds_202_result.rowcount()=1 then
+		ls_resul=lds_202_result.getitemstring(1,'resul')
+		ls_fresul=string(lds_202_result.getitemdatetime(1,'fecharesul'),'yyyy-mm-dd')
+		
+		update  pacientes_ririas set fecha_hpc=:ls_fresul, resul_hpc=:ls_resul, fecha_audita=current_timestamp
+		where tipodoc=:as_tdoc and documento=:as_docu;
+		if sqlca.sqlcode<0 then
+			ls_error=sqlca.sqlerrtext
+			rollback;
+			messagebox("gf_validar_202 - Error de SQL línea 56", "Error update en paciente_ririas: "+ls_error)
+			return -1
+		end if		
+		commit;
+		return 1
+	end if
+end if
+
+//HEPATITIS B
+if as_variable='79' then
+	if lds_202_result.rowcount()=1 then
+		ls_resul=lds_202_result.getitemstring(1,'resul')
+		ls_fresul=string(lds_202_result.getitemdatetime(1,'fecharesul'),'yyyy-mm-dd')
+		
+		update  pacientes_ririas set fecha_hb=:ls_fresul, resul_hb=:ls_resul, fecha_audita=current_timestamp
+		where tipodoc=:as_tdoc and documento=:as_docu;
+		if sqlca.sqlcode<0 then
+			ls_error=sqlca.sqlerrtext
+			rollback;
+			messagebox("gf_validar_202 - Error de SQL línea 56", "Error update en paciente_ririas: "+ls_error)
+			return -1
+		end if		
+		commit;
+		return 1
+	end if
+end if
+
+//SIFILIS
+if as_variable='79' then
+	if lds_202_result.rowcount()=1 then
+		ls_resul=lds_202_result.getitemstring(1,'resul')
+		ls_fresul=string(lds_202_result.getitemdatetime(1,'fecharesul'),'yyyy-mm-dd')
+		
+		update  pacientes_ririas set fecha_sifil=:ls_fresul, resul_sifil=:ls_resul, fecha_audita=current_timestamp
+		where tipodoc=:as_tdoc and documento=:as_docu;
+		if sqlca.sqlcode<0 then
+			ls_error=sqlca.sqlerrtext
+			rollback;
+			messagebox("gf_validar_202 - Error de SQL línea 56", "Error update en paciente_ririas: "+ls_error)
+			return -1
+		end if		
+		commit;
+		return 1
+	end if
+end if
+
+//VIH
+if as_variable='83' then
+	if lds_202_result.rowcount()=1 then
+		ls_resul=lds_202_result.getitemstring(1,'resul')
+		ls_fresul=string(lds_202_result.getitemdatetime(1,'fecharesul'),'yyyy-mm-dd')
+		
+		update  pacientes_ririas set fecha_vih=:ls_fresul, resul_vih=:ls_resul, fecha_audita=current_timestamp
+		where tipodoc=:as_tdoc and documento=:as_docu;
+		if sqlca.sqlcode<0 then
+			ls_error=sqlca.sqlerrtext
+			rollback;
+			messagebox("gf_validar_202 - Error de SQL línea 56", "Error update en paciente_ririas: "+ls_error)
+			return -1
+		end if		
+		commit;
+		return 1
+	end if
+end if
+
+//TSH
+if as_variable='85' then
+	if lds_202_result.rowcount()=1 then
+		ls_resul=lds_202_result.getitemstring(1,'resul')
+		ls_fresul=string(lds_202_result.getitemdatetime(1,'fecharesul'),'yyyy-mm-dd')
+		
+		update  pacientes_ririas set fecha_tsh=:ls_fresul, resul_tsh=:ls_resul, fecha_audita=current_timestamp
+		where tipodoc=:as_tdoc and documento=:as_docu;
+		if sqlca.sqlcode<0 then
+			ls_error=sqlca.sqlerrtext
+			rollback;
+			messagebox("gf_validar_202 - Error de SQL línea 56", "Error update en paciente_ririas: "+ls_error)
+			return -1
+		end if		
+		commit;
+		return 1
+	end if
+end if
+
+///LDL
+if as_variable='92' then
+	if lds_202_result.rowcount()=1 then
+		ls_resul=lds_202_result.getitemstring(1,'resul')
+		ls_fresul=string(lds_202_result.getitemdatetime(1,'fecharesul'),'yyyy-mm-dd')
+		
+		update  pacientes_ririas set fecha_ldl=:ls_fresul, resul_ldl=:ls_resul, fecha_audita=current_timestamp
+		where tipodoc=:as_tdoc and documento=:as_docu;
+		if sqlca.sqlcode<0 then
+			ls_error=sqlca.sqlerrtext
+			rollback;
+			messagebox("gf_validar_202 - Error de SQL línea 56", "Error update en paciente_ririas: "+ls_error)
+			return -1
+		end if		
+		commit;
+		return 1
+	end if
+end if
+
+//HDL
+if as_variable='95' then
+	if lds_202_result.rowcount()=1 then
+		ls_resul=lds_202_result.getitemstring(1,'resul')
+		ls_fresul=string(lds_202_result.getitemdatetime(1,'fecharesul'),'yyyy-mm-dd')
+		
+		update  pacientes_ririas set fecha_hdl=:ls_fresul, resul_hdl=:ls_resul, fecha_audita=current_timestamp
+		where tipodoc=:as_tdoc and documento=:as_docu;
+		if sqlca.sqlcode<0 then
+			ls_error=sqlca.sqlerrtext
+			rollback;
+			messagebox("gf_validar_202 - Error de SQL línea 56", "Error update en paciente_ririas: "+ls_error)
+			return -1
+		end if		
+		commit;
+		return 1
+	end if
+end if
+
+//TRIGLICERIDOS
+if as_variable='98' then
+	if lds_202_result.rowcount()=1 then
+		ls_resul=lds_202_result.getitemstring(1,'resul')
+		ls_fresul=string(lds_202_result.getitemdatetime(1,'fecharesul'),'yyyy-mm-dd')
+		
+		update  pacientes_ririas set fecha_trig=:ls_fresul, resul_trig=:ls_resul, fecha_audita=current_timestamp
+		where tipodoc=:as_tdoc and documento=:as_docu;
+		if sqlca.sqlcode<0 then
+			ls_error=sqlca.sqlerrtext
+			rollback;
+			messagebox("gf_validar_202 - Error de SQL línea 93", "Error update en paciente_ririas: "+ls_error)
+			return -1
+		end if		
+		commit;
+		return 1
+	end if
+end if
+
+//HEMOGLOBINA
+if as_variable='104' then
+	if lds_202_result.rowcount()=1 then
+		ls_resul=lds_202_result.getitemstring(1,'resul')
+		ls_fresul=string(lds_202_result.getitemdatetime(1,'fecharesul'),'yyyy-mm-dd')
+		
+		update  pacientes_ririas set fecha_hemo=:ls_fresul, resul_hemo=:ls_resul, fecha_audita=current_timestamp
+		where tipodoc=:as_tdoc and documento=:as_docu;
+		if sqlca.sqlcode<0 then
+			ls_error=sqlca.sqlerrtext
+			rollback;
+			messagebox("gf_validar_202 - Error de SQL línea 56", "Error update en paciente_ririas: "+ls_error)
+			return -1
+		end if		
+		commit;
+		return 1
+	end if
+end if
+
+///GLICEMIA
+if as_variable='105' then
+	if lds_202_result.rowcount()=1 then
+		ls_resul=lds_202_result.getitemstring(1,'resul')
+		ls_fresul=string(lds_202_result.getitemdatetime(1,'fecharesul'),'yyyy-mm-dd')
+		
+		update  pacientes_ririas set fecha_glice=:ls_fresul, resul_glice=:ls_resul, fecha_audita=current_timestamp
+		where tipodoc=:as_tdoc and documento=:as_docu;
+		if sqlca.sqlcode<0 then
+			ls_error=sqlca.sqlerrtext
+			rollback;
+			messagebox("gf_validar_202 - Error de SQL línea 56", "Error update en paciente_ririas: "+ls_error)
+			return -1
+		end if		
+		commit;
+		return 1
+	end if
+end if
+
+//CREATININA
+if as_variable='107' then
+	if lds_202_result.rowcount()=1 then
+		ls_resul=lds_202_result.getitemstring(1,'resul')
+		ls_fresul=string(lds_202_result.getitemdatetime(1,'fecharesul'),'yyyy-mm-dd')
+		
+		update  pacientes_ririas set fecha_creat=:ls_fresul, resul_creat=:ls_resul, fecha_audita=current_timestamp
+		where tipodoc=:as_tdoc and documento=:as_docu;
+		if sqlca.sqlcode<0 then
+			ls_error=sqlca.sqlerrtext
+			rollback;
+			messagebox("gf_validar_202 - Error de SQL línea 56", "Error update en paciente_ririas: "+ls_error)
+			return -1
+		end if		
+		commit;
+		return 1
+	end if
+end if
+
+//PSA
+if as_variable='109' then
+	if lds_202_result.rowcount()=1 then
+		ls_resul=lds_202_result.getitemstring(1,'resul')
+		ls_fresul=string(lds_202_result.getitemdatetime(1,'fecharesul'),'yyyy-mm-dd')
+		
+		update  pacientes_ririas set fecha_psa=:ls_fresul, resul_psa=:ls_resul, fecha_audita=current_timestamp
+		where tipodoc=:as_tdoc and documento=:as_docu;
+		if sqlca.sqlcode<0 then
+			ls_error=sqlca.sqlerrtext
+			rollback;
+			messagebox("gf_validar_202 - Error de SQL línea 74", "Error update en paciente_ririas: "+ls_error)
+			return -1
+		end if		
+		commit;
+		return 1
+	end if
+end if
+
+
+end function
+

@@ -962,6 +962,8 @@ end event
 
 event e_acerca(long param);openwithparm(w_acercade,'asis')
 w_principal.ArrangeSheets ( layer!)
+//gf_validar_202('CC','45495765','F',1205,'903841_05','57','1',9302,'18','1')			
+
 end event
 
 event e_ripsaudi(long param);if not enabled then return
