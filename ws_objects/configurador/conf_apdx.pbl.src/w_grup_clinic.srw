@@ -50,9 +50,9 @@ type dw_4 from datawindow within p2
 end type
 type sle_1 from singlelineedit within p2
 end type
-type dw_5 from datawindow within p2
-end type
 type dw_l from datawindow within p2
+end type
+type dw_5 from datawindow within p2
 end type
 type p2 from userobject within t1
 pb_arbol pb_arbol
@@ -67,8 +67,8 @@ rb_l rb_l
 rb_v rb_v
 dw_4 dw_4
 sle_1 sle_1
-dw_5 dw_5
 dw_l dw_l
+dw_5 dw_5
 end type
 type t1 from tab within w_grup_clinic
 p1 p1
@@ -692,8 +692,8 @@ rb_l rb_l
 rb_v rb_v
 dw_4 dw_4
 sle_1 sle_1
-dw_5 dw_5
 dw_l dw_l
+dw_5 dw_5
 end type
 
 on p2.create
@@ -709,8 +709,8 @@ this.rb_l=create rb_l
 this.rb_v=create rb_v
 this.dw_4=create dw_4
 this.sle_1=create sle_1
-this.dw_5=create dw_5
 this.dw_l=create dw_l
+this.dw_5=create dw_5
 this.Control[]={this.pb_arbol,&
 this.tv_1,&
 this.st_3,&
@@ -723,8 +723,8 @@ this.rb_l,&
 this.rb_v,&
 this.dw_4,&
 this.sle_1,&
-this.dw_5,&
-this.dw_l}
+this.dw_l,&
+this.dw_5}
 end on
 
 on p2.destroy
@@ -740,8 +740,8 @@ destroy(this.rb_l)
 destroy(this.rb_v)
 destroy(this.dw_4)
 destroy(this.sle_1)
-destroy(this.dw_5)
 destroy(this.dw_l)
+destroy(this.dw_5)
 end on
 
 type pb_arbol from picturebutton within p2
@@ -924,7 +924,7 @@ end type
 
 type cb_11 from picturebutton within p2
 event mousemove pbm_mousemove
-integer x = 5902
+integer x = 5925
 integer y = 256
 integer width = 142
 integer height = 124
@@ -956,7 +956,7 @@ end event
 type cb_7 from picturebutton within p2
 event mousemove pbm_mousemove
 string tag = "              &F"
-integer x = 5902
+integer x = 5925
 integer y = 116
 integer width = 142
 integer height = 124
@@ -1412,15 +1412,15 @@ string text = "none"
 borderstyle borderstyle = stylelowered!
 end type
 
-type dw_5 from datawindow within p2
+type dw_l from datawindow within p2
+boolean visible = false
 integer x = 3566
 integer y = 120
-integer width = 2309
-integer height = 752
-integer taborder = 160
-string title = "Valores Normales"
-string dataobject = "dw_val_norm"
-boolean hscrollbar = true
+integer width = 2336
+integer height = 740
+integer taborder = 30
+string title = "none"
+string dataobject = "dw_campopgclista"
 boolean vscrollbar = true
 boolean livescroll = true
 borderstyle borderstyle = stylelowered!
@@ -1429,15 +1429,15 @@ end type
 event constructor;setTransObject(SQLCA)
 end event
 
-type dw_l from datawindow within p2
-boolean visible = false
+type dw_5 from datawindow within p2
 integer x = 3566
 integer y = 120
-integer width = 2304
-integer height = 740
-integer taborder = 30
-string title = "none"
-string dataobject = "dw_campopgclista"
+integer width = 2336
+integer height = 752
+integer taborder = 160
+string title = "Valores Normales"
+string dataobject = "dw_val_norm"
+boolean hscrollbar = true
 boolean vscrollbar = true
 boolean livescroll = true
 borderstyle borderstyle = stylelowered!
