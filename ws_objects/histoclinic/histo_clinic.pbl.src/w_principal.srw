@@ -962,7 +962,7 @@ end event
 
 event e_acerca(long param);openwithparm(w_acercade,'asis')
 w_principal.ArrangeSheets ( layer!)
-//gf_validar_202('CC','45495765','F',1205,'903841_05','57','1',9302,'18','1')			
+//gf_validar_202('CC','45456791','F',23725,'906263_05','42','1',10378,'45','1')			
 
 end event
 

@@ -473,8 +473,10 @@ end subroutine
 
 public function integer f_faltan ();//revisa todos los campos de resultados por si faclta alguno
 long filas,hay,i,cual,fila,semanas,dias
-double cohortes
+double cohortes,ldb_nulo
 datetime fechas,fp_part
+string ls_nulo
+
 fila=tab_1.tp_1.dw_procs.getrow()
 hay=tab_1.tp_2.tab_2.resul.dw_res.rowcount()
 filas=tab_1.tp_2.dw_campos.rowcount()
@@ -498,12 +500,44 @@ if hay<filas then
 			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'nrepor',i_nrepor)
 			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'item',i_itemcpo)
 			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'tipocampo',tab_1.tp_2.dw_campos.getitemstring(i,'tipocampo'))
-			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado1',tab_1.tp_2.dw_campos.getitemstring(i,'moda1'))
-			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado2',tab_1.tp_2.dw_campos.getitemnumber(i,'moda2'))
-			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado3',tab_1.tp_2.dw_campos.getitemString(i,'moda3'))
-			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado4',tab_1.tp_2.dw_campos.getitemString(i,'moda4'))
-			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado5',tab_1.tp_2.dw_campos.getitemString(i,'moda5'))
-			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado6',tab_1.tp_2.dw_campos.getitemString(i,'moda6'))
+			setnull(ls_nulo)
+			setnull(ldb_nulo)
+			
+			if isnull(tab_1.tp_2.dw_campos.getitemstring(i,'moda1')) or tab_1.tp_2.dw_campos.getitemstring(i,'moda1')='' then
+				tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado1',ls_nulo)
+			else
+				tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado1',tab_1.tp_2.dw_campos.getitemstring(i,'moda1'))
+			end if
+			
+			if isnull(tab_1.tp_2.dw_campos.getitemstring(i,'moda2')) then
+				tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado2',ldb_nulo)
+			else
+				tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado2',tab_1.tp_2.dw_campos.getitemnumber(i,'moda2'))
+			end if
+			
+			if isnull(tab_1.tp_2.dw_campos.getitemString(i,'moda3')) or tab_1.tp_2.dw_campos.getitemString(i,'moda3')='' then
+				tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado3',ls_nulo)
+			else
+				tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado3',tab_1.tp_2.dw_campos.getitemString(i,'moda3'))
+			end if
+			if isnull(tab_1.tp_2.dw_campos.getitemString(i,'moda4')) or tab_1.tp_2.dw_campos.getitemString(i,'moda4')='' then
+				tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado4',ls_nulo)
+			else
+				tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado4',tab_1.tp_2.dw_campos.getitemString(i,'moda4'))
+			end if
+				
+			if isnull(tab_1.tp_2.dw_campos.getitemString(i,'moda5')) or tab_1.tp_2.dw_campos.getitemString(i,'moda5')='' then
+				tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado5',ls_nulo)
+			else
+				tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado5',tab_1.tp_2.dw_campos.getitemString(i,'moda5'))
+			end if
+			
+			if isnull(tab_1.tp_2.dw_campos.getitemString(i,'moda6')) or tab_1.tp_2.dw_campos.getitemString(i,'moda6')='' then
+				tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado6',ls_nulo)
+			else
+				tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado6',tab_1.tp_2.dw_campos.getitemString(i,'moda6'))
+			end if
+			
 			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'orden',tab_1.tp_2.dw_campos.getitemNumber(i,'orden'))
 			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'umedida',tab_1.tp_2.dw_campos.getitemstring(i,'umedida'))
 			tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'indvalor',tab_1.tp_2.dw_campos.getitemstring(i,'indvalor'))
@@ -2277,7 +2311,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-11-25"), Time("18:17:15.000000"))
+datetime value = DateTime(Date("2024-11-26"), Time("15:36:14.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2299,7 +2333,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-11-25"), Time("18:17:15.000000"))
+datetime value = DateTime(Date("2024-11-26"), Time("15:36:14.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -5233,8 +5267,8 @@ end if
 end event
 
 type pb_3 from picturebutton within tp_3
-integer width = 105
-integer height = 92
+integer width = 146
+integer height = 128
 integer taborder = 10
 boolean bringtotop = true
 integer textsize = -8
@@ -5243,6 +5277,7 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
+boolean originalsize = true
 string picturename = "atras.gif"
 alignment htextalign = left!
 string powertiptext = "Anterior Procedimiento"
@@ -5273,8 +5308,8 @@ end event
 
 type pb_4 from picturebutton within tp_3
 integer x = 2377
-integer width = 105
-integer height = 92
+integer width = 146
+integer height = 128
 integer taborder = 30
 boolean bringtotop = true
 integer textsize = -8
@@ -5283,6 +5318,7 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
+boolean originalsize = true
 string picturename = "adelante_1.gif"
 alignment htextalign = left!
 string powertiptext = "Siguiente Procedimiento"
