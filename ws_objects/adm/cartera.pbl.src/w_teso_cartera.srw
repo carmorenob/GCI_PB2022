@@ -2357,18 +2357,24 @@ cambio=true
 if dwo.name='valor' or dwo.name='cartipo' then 
 	
 	if tab_1.tp_det.dw_det.dataobject='dw_car_cpo_radica'	 then 
-		if dwo.name='cartipo' and  tab_1.tp_det.dw_det.getItemString(tab_1.tp_det.dw_det.getrow(),'tipo_rad')='F' then
-			string ls_crt
-			int li_fila
-
-			ls_crt=getitemstring(getrow(),'cartipo')
-			li_fila=idw_des.find("cartipo='"+ls_crt+"'",1,idw_des.rowcount())
-			if li_fila>0 then 
-				setitem(getrow(),'operacion',idw_des.getitemnumber(li_fila,'operacion'))
-				if idw_des.getitemstring(li_fila,'dian')='1' then
-					setitem(getrow(),'dian','1')
+		if dwo.name='cartipo' then 
+				string ls_crt
+				int li_fila
+				ls_crt=getitemstring(getrow(),'cartipo')
+				li_fila=idw_des.find("cartipo='"+ls_crt+"'",1,idw_des.rowcount())
+				if li_fila>0 then 
+					setitem(getrow(),'operacion',idw_des.getitemnumber(li_fila,'operacion'))
+					if idw_des.getitemstring(li_fila,'dian')='1' then
+						if  tab_1.tp_det.dw_det.getItemString(tab_1.tp_det.dw_det.getrow(),'tipo_rad')='F' then
+							setitem(getrow(),'dian','1')
+						else
+							setnull(ls_crt)
+							setitem(getrow(),'cartipo',ls_crt)
+							messagebox('Atención','No se puede aplicar a este tipo de documento')
+							return 1
+						end if
+					end if
 				end if
-			end if
 		end if
 	end if
 	
