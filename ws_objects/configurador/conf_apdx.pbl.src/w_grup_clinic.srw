@@ -1177,9 +1177,6 @@ tv_1.GetItem(this.GetItemNumber(this.GetRow(),'handle'),ltvi)
 tv_1.SelectItem(this.GetItemNumber(this.GetRow(),'handle'))
 rb_l.Visible = FALSE
 rb_v.Visible = FALSE
-if this.GetColumnName() = 'tipocampo' then
-end if
-
 
 if this.GetColumnName() = 'tipocampo' then
 	tipoAnt = this.GetItemString(this.GetRow(),'tipocampo')
