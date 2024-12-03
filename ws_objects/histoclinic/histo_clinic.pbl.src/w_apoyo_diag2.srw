@@ -527,13 +527,21 @@ if hay<filas then
 			end if
 				
 			if isnull(tab_1.tp_2.dw_campos.getitemString(i,'moda5')) or tab_1.tp_2.dw_campos.getitemString(i,'moda5')='' then
-				tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado5',ls_nulo)
+				if tab_1.tp_2.dw_campos.getitemstring(i,'tipocampo')='5' then
+					tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado5','0')
+				else
+					tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado5',ls_nulo)
+				end if
 			else
 				tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado5',tab_1.tp_2.dw_campos.getitemString(i,'moda5'))
 			end if
 			
 			if isnull(tab_1.tp_2.dw_campos.getitemString(i,'moda6')) or tab_1.tp_2.dw_campos.getitemString(i,'moda6')='' then
-				tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado6',ls_nulo)
+				if tab_1.tp_2.dw_campos.getitemstring(i,'tipocampo')='6' then
+					tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado6','0')
+				else
+					tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado6',ls_nulo)
+				end if
 			else
 				tab_1.tp_2.tab_2.resul.dw_res.setitem(cual,'resultado6',tab_1.tp_2.dw_campos.getitemString(i,'moda6'))
 			end if
@@ -1206,12 +1214,17 @@ tab_1.tp_1.st_7.y=tab_1.height -220
 tab_1.tp_1.dp_2.y=tab_1.height -220
 
 tab_1.tp_2.tab_2.width=tab_1.width - 50
-tab_1.tp_2.tab_2.height=tab_1.height - 280
+tab_1.tp_2.tab_2.height=tab_1.height - 270
 
-tab_1.tp_2.tab_2.resul.dw_res.height=tab_1.tp_2.tab_2.height - 250
+tab_1.tp_2.tab_2.resul.dw_res.height=tab_1.tp_2.tab_2.height - 450
 
 tab_1.tp_2.tab_2.procesa.dw_notas.width=tab_1.tp_2.tab_2.width - 450
 tab_1.tp_2.tab_2.procesa.dw_notas.height=tab_1.tp_2.tab_2.height - 100
+
+tab_1.tp_3.width=tab_1.width - 50
+tab_1.tp_3.height=tab_1.height - 170
+
+tab_1.tp_3.dw_imagenes.height=tab_1.tp_3.height - 170
 
 tab_1.tp_2.tab_2.procesa.pb_insn.x=tab_1.tp_2.tab_2.procesa.dw_notas.width + 100
 tab_1.tp_2.tab_2.procesa.pb_deln.x=tab_1.tp_2.tab_2.procesa.dw_notas.width + 100
@@ -2311,7 +2324,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-11-26"), Time("15:36:14.000000"))
+datetime value = DateTime(Date("2024-11-28"), Time("15:25:11.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2333,7 +2346,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-11-26"), Time("15:36:14.000000"))
+datetime value = DateTime(Date("2024-11-28"), Time("15:25:11.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -4111,8 +4124,7 @@ for l_i= 1 to tab_1.tp_1.dw_procs.rowcount()
 		ls_clugarrec=tab_1.tp_1.dw_procs.getitemstring(l_i,'clugar_res')
 		ls_coddoc=tab_1.tp_1.dw_procs.getitemstring(l_i,'coddoc')
 
-		gf_validar_202(&
-			tipdoc,docu,w_principal.dw_1.getitemstring(1,'sexo'),&
+		gf_validar_202_apdx(	tipdoc,docu,w_principal.dw_1.getitemstring(1,'sexo'),&
 			w_principal.dw_1.getitemnumber(1,'dias'),ls_proced,&
 			tab_1.tp_1.dw_procs.getitemstring(l_i,'ririas'),&
 			ls_coddoc,ldb_nrepor,ls_clugarrec,'1')			
@@ -5031,7 +5043,7 @@ type dw_imagenes from datawindow within tp_3
 integer x = 9
 integer y = 128
 integer width = 4942
-integer height = 1300
+integer height = 1364
 integer taborder = 19
 string title = "none"
 string dataobject = "dw_resultados_imagen"
