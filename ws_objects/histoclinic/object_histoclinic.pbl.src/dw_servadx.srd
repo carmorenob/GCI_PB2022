@@ -57,6 +57,7 @@ table(column=(type=char(2) update=yes updatewhereclause=yes key=yes name=clugar 
  column=(type=char(15) updatewhereclause=yes name=cod_cups dbname="PROCGCLINICO.cod_cups" )
  column=(type=char(1) updatewhereclause=yes name=estado_int dbname="PROCGCLINICO.estado_int" )
  column=(type=char(4) updatewhereclause=yes name=ririas dbname="resultadoscpo.ririas" )
+ column=(type=char(1) updatewhereclause=yes name=veri dbname="veri" ) 
  retrieve="SELECT 
 	serviciosadx.clugar,serviciosadx.CodAADX, serviciosadx.NIngreso, serviciosadx.NProced,
 	serviciosadx.CodProced, proced.Descripcion, serviciosadx.Cantidad, serviciosadx.Estado, 
@@ -71,7 +72,7 @@ table(column=(type=char(2) update=yes updatewhereclause=yes key=yes name=clugar 
 	serviciosadx.CCcosto, resultadoscpo.NServicio AS nserving, resultadoscpo.IndResul, 
 	serviciosadx.contador_os, serviciosadx.clugar_os, serviciosadx.Nsolicitud_os, serviciosadx.item_os, 
 	OSCuerpo.observaciones,serviciosadx.fecha_cierre, proced.TipoProc,serviciosadx.tipo_fac,procgclinico.nro_tomas,
-	proced.cod_version,proced.cod_cups,serviciosadx.estado_int, proced.ririas
+	proced.cod_version,proced.cod_cups,serviciosadx.estado_int, proced.ririas, '0' as veri
 FROM 
 	(((serviciosadx 
 	INNER JOIN proced ON serviciosadx.codproced = proced.codproced) 
@@ -193,4 +194,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=2 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 

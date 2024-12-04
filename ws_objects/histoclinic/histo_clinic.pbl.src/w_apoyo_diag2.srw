@@ -2324,7 +2324,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-11-28"), Time("15:25:11.000000"))
+datetime value = DateTime(Date("2024-12-04"), Time("15:02:22.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2346,7 +2346,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-11-28"), Time("15:25:11.000000"))
+datetime value = DateTime(Date("2024-12-04"), Time("15:02:22.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -4098,6 +4098,7 @@ end if
 i_print=false
 
 tab_1.tp_1.dw_procs.setitem(tab_1.tp_1.dw_procs.getrow(),'estado','7')
+tab_1.tp_1.dw_procs.setitem(tab_1.tp_1.dw_procs.getrow(),'veri','1')
 tab_1.tp_1.dw_procs.setitem(tab_1.tp_1.dw_procs.getrow(),'fecha_cierre',datetime(today(),now()))
 if tab_1.tp_1.dw_procs.update(true,false)=-1 then //el rollback está en dberror
 	tab_1.tp_1.dw_procs.setitem(tab_1.tp_1.dw_procs.getrow(),'estado','2')
@@ -4119,7 +4120,7 @@ for l_i= 1 to tab_1.tp_1.dw_procs.rowcount()
 
 	end if
 
-	if not isnull(tab_1.tp_1.dw_procs.getitemstring(l_i,'ririas')) and tab_1.tp_1.dw_procs.getitemstring(l_i,'estado')='7' then
+	if not isnull(tab_1.tp_1.dw_procs.getitemstring(l_i,'ririas')) and tab_1.tp_1.dw_procs.getitemstring(l_i,'estado')='7'  and tab_1.tp_1.dw_procs.getitemstring(l_i,'veri')='1' then
 		ldb_nrepor=tab_1.tp_1.dw_procs.getitemnumber(l_i,'nrepor') 
 		ls_clugarrec=tab_1.tp_1.dw_procs.getitemstring(l_i,'clugar_res')
 		ls_coddoc=tab_1.tp_1.dw_procs.getitemstring(l_i,'coddoc')
