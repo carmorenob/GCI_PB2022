@@ -50,9 +50,9 @@ end if
 
 if lds_202.rowcount()=0 then
 	
-	INSERT INTO pacientes_ririas (tipodoc, documento,fecha_sanocul, resul_sanocul,fecha_hpc, resul_hpc,fecha_glice, resul_glice, fecha_hb, resul_hb,fecha_sifil, resul_sifil, fecha_vih, resul_vih, fecha_tsh, resul_tsh,
+	INSERT INTO pacientes_ririas (tipodoc, documento,lepra,obesidad,fecha_sanocul, resul_sanocul,fecha_hpc, resul_hpc,fecha_glice, resul_glice, fecha_hb, resul_hb,fecha_sifil, resul_sifil, fecha_vih, resul_vih, fecha_tsh, resul_tsh,
 	fecha_ldl, resul_ldl,fecha_hdl, resul_hdl,fecha_trig,resul_trig,fecha_hemo, resul_hemo,fecha_creat, resul_creat,fecha_psa, resul_psa, tami_cut, fecha_tcut, resul_tcut,calm_cit, cips_cit,fecha_baci, resul_baci,fecha_audita)
-	VALUES (:as_tdoc, :as_docu,'1845-01-01','0','1845-01-01','0','1845-01-01','0','1845-01-01','0','1845-01-01','0','1845-01-01','0','1845-01-01','21','1845-01-01','0','1845-01-01','0','1845-01-01','0','1845-01-01','0',
+	VALUES (:as_tdoc, :as_docu,'21','21','1845-01-01','0','1845-01-01','0','1845-01-01','0','1845-01-01','0','1845-01-01','0','1845-01-01','0','1845-01-01','21','1845-01-01','0','1845-01-01','0','1845-01-01','0','1845-01-01','0',
 	'1845-01-01','0','1845-01-01','0','0','1845-01-01','0','0','0','1845-01-01','21',current_timestamp);
 			
 	if sqlca.sqlcode<0 then

@@ -59,6 +59,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hospital.pbl,dw_xa_cambiar
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\pyp_asis.pbl,dw_pyp_pacxprog,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,dw_new_facts,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_reportes_asis,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,gf_validar_202_cons,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hospital.pbl,w_epicris,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_graph_atu,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_combo_anula,d
@@ -533,8 +534,8 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\rips.pbl,dw_radica_rips,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,dw_xa_anularfac,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\rips.pbl,dw_audita_rn_solo,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,f_microhelp,f
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,w_instrumento_hc_vale,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_hclin_graficas_interpretacion,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,w_instrumento_hc_vale,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,dw_datos_diag_sal,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,dw_plan_lista,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_apdx_hechos_suma,d
@@ -741,8 +742,8 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hospital.pbl,w_atiende_qx,
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hospital.pbl,dw_triage,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\autoriza.pbl,dw_os_cpo_no_auto,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_busca_atc,w
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,w_instrumento_finnishr,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,w_res_selec,w
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,w_instrumento_finnishr,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\Odonto.pbl,dw_odongrama,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_envia_mail,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_gclinicpeq,d
@@ -778,9 +779,9 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\abonos.pbl,dw_abonos_odo_d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\rips.pbl,st_nradica,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,w_busca_en_capit,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,w_copiar_urg,w
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,dw_graficas_campo,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,dw_instrum_finnish,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,w_instrumento_hc_minimental,w
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,dw_graficas_campo,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_error_ds,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_result_poly,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,uo_param,u
@@ -1027,9 +1028,9 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\pyp_asis.pbl,dw_pyp_pendxp
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,u_ddcal,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\autoriza.pbl,dw_solicitud,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hospital.pbl,w_escog_espe,w
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,dw_graficas_hc,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,dw_edad_instrumento_ckd,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,dw_instrum_eclampsia,d
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,dw_graficas_hc,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_dwr_line,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,m_conf_pag,m
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\costos_asis.pbl,w_elige_alma,w
@@ -1083,8 +1084,8 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\Odonto.pbl,w_cotizar,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\rips.pbl,dw_radica_rips_reemitir,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\fac_electronica.pbl,dw_factura_electronica_postgres19,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,dw_copy_hc_registro,d
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,dw_semaforo_ead,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,dw_datos_plani_pac_graf,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,dw_semaforo_ead,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_graph_type,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,dw_ocupaciones,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hospital.pbl,w_paci_sinapdx2,w

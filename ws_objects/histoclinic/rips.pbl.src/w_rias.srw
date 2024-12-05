@@ -6444,11 +6444,11 @@ end type
 event rowfocuschanged;if getitemstring(currentrow,'estado_dian_nota')='1' then
 	pb_brr.enabled=false
 	pb_diann.enabled=false
-	pb_connota.enabled=false
+	pb_connota.enabled=true
 else
 	pb_brr.enabled=false
 	pb_diann.enabled=true
-	pb_connota.enabled=true
+	pb_connota.enabled=false
 end if
 end event
 

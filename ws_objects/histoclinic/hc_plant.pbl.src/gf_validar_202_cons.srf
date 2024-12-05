@@ -1,0 +1,223 @@
+﻿$PBExportHeader$gf_validar_202_cons.srf
+$PBExportComments$Revisa si un procedimiento o diagnóstico cumple con las condiciones para incluir un paciente en los registros de Cohortes
+global type gf_validar_202_cons from function_object
+end type
+
+forward prototypes
+global function integer gf_validar_202_cons (string as_tdoc, string as_docu, string as_sexo, long ai_edad_dias, string as_plant, integer as_campo, string as_variable, string as_result)
+end prototypes
+
+global function integer gf_validar_202_cons (string as_tdoc, string as_docu, string as_sexo, long ai_edad_dias, string as_plant, integer as_campo, string as_variable, string as_result);/*
+retorno:
+0 : cuando el procedimiento o el diagnóstico no cumple con algún regitro 
+1: cuando cumple con las condiciones y se inserta adecuadamente en las tablas
+-1: cuando cumple las condiciones pero hay algún error al insertar
+*/
+uo_datastore lds_202
+string ls_sexo,ls_error, ls_resul,ls_fresul, ls_sexoval,ls_trec
+long ldb_ini, ldb_fin
+int li_gestante,li_pos
+
+lds_202= create uo_datastore
+
+if as_sexo='M' or as_sexo='1' then
+	ls_sexo='1'
+	li_gestante=0
+	ls_trec='21'
+else
+	ls_sexo='2'
+	ls_trec='0'
+	if ai_edad_dias<3650 and ai_edad_dias>21535 then
+		li_gestante=0
+	else
+		select f_trae_cohorte(:as_tdoc,:as_docu,'4') into :li_gestante from ips;
+		if li_gestante=0 then
+			li_gestante=2
+		end if
+	end if
+end if
+
+lds_202.dataobject='dw_busca_pacientes_ririas'
+lds_202.settransobject(sqlca)
+lds_202.retrieve(as_tdoc,as_docu)
+
+
+if lds_202.rowcount()=0 then
+	
+	INSERT INTO pacientes_ririas (tipodoc, documento,lepra,obesidad,tacto_rect,fecha_sanocul, resul_sanocul,fecha_hpc, resul_hpc,fecha_glice, resul_glice, fecha_hb, resul_hb,fecha_sifil, resul_sifil, fecha_vih, resul_vih, fecha_tsh, resul_tsh,
+	fecha_ldl, resul_ldl,fecha_hdl, resul_hdl,fecha_trig,resul_trig,fecha_hemo, resul_hemo,fecha_creat, resul_creat,fecha_psa, resul_psa, tami_cut, fecha_tcut, resul_tcut,calm_cit, cips_cit,fecha_baci, resul_baci,fecha_audita)
+	VALUES (:as_tdoc, :as_docu,'21','21',:ls_trec,'1845-01-01','0','1845-01-01','0','1845-01-01','0','1845-01-01','0','1845-01-01','0','1845-01-01','0','1845-01-01','21','1845-01-01','0','1845-01-01','0','1845-01-01','0','1845-01-01','0',
+	'1845-01-01','0','1845-01-01','0','0','1845-01-01','0','0','0','1845-01-01','21',current_timestamp);
+			
+	if sqlca.sqlcode<0 then
+		ls_error=sqlca.sqlerrtext
+		rollback;
+		messagebox("gf_validar_202_cons - Error de SQL línea 44", "Error insertando en paciente_ririas: "+ls_error)
+		return -1
+	end if		
+	
+	commit;
+end if
+
+update  pacientes_ririas set gestante=cast(:li_gestante as varchar), fecha_audita=current_timestamp
+where tipodoc=:as_tdoc and documento=:as_docu;
+if sqlca.sqlcode<0 then
+	ls_error=sqlca.sqlerrtext
+	rollback;
+	messagebox("gf_validar_202_cons - Error de SQL línea 57", "Error update en paciente_ririas: "+ls_error)
+	return -1
+end if		
+commit;
+
+////MIMIMENTAL
+if as_variable='16' then
+	if as_result='SOSPECHA DE DETERIORO COGNOSCITIVO' then
+		ls_resul='4'
+	else
+		ls_resul='21'
+  	end if
+	
+	update  pacientes_ririas set mintiment=:ls_resul, fecha_audita=current_timestamp
+	where tipodoc=:as_tdoc and documento=:as_docu;
+	if sqlca.sqlcode<0 then
+		ls_error=sqlca.sqlerrtext
+		rollback;
+		messagebox("gf_validar_202_cons - Error de SQL línea 72", "Error update en paciente_ririas: "+ls_error)
+		return -1
+	end if		
+	commit;
+	return 1
+end if
+
+//SINT RESPI
+if as_variable='18' then
+	if as_result='1' then
+		ls_resul='1'
+	else
+		if 	as_result='0' then
+			ls_resul='2'
+		else
+			ls_resul='21'
+		end if
+  	end if
+	
+	update  pacientes_ririas set sinto_resp=:ls_resul, fecha_audita=current_timestamp
+	where tipodoc=:as_tdoc and documento=:as_docu;
+	if sqlca.sqlcode<0 then
+		ls_error=sqlca.sqlerrtext
+		rollback;
+		messagebox("gf_validar_202_cons - Error de SQL línea 95", "Error update en paciente_ririas: "+ls_error)
+		return -1
+	end if		
+	commit;
+	return 1	
+end if
+
+//TABACO
+if as_variable='19' then
+	if ai_edad_dias<4380 then 
+		ls_resul='98'
+	else
+		if (as_result='1') and &
+			((as_plant='C10' and as_campo=363) or &
+			(as_plant='C13' and as_campo=368) or &
+			(as_plant='C17' and as_campo=312) or &
+			(as_plant='C18' and as_campo=311) or &
+			(as_plant='C21' and as_campo=267) or &
+			(as_plant='C3' and as_campo=315) or &
+			(as_plant='C30' and as_campo=407) or &
+			(as_plant='C31' and as_campo=410) or &
+			(as_plant='C36' and as_campo=403) or &
+			(as_plant='C37' and as_campo=587) or &
+			(as_plant='C39' and as_campo=392) or &
+			(as_plant='C4' and as_campo=292) or &
+			(as_plant='C41' and as_campo=372) or &
+			(as_plant='C42' and as_campo=402) or &
+			(as_plant='C9' and as_campo=304)) &
+		then
+			ls_resul='97'
+		else
+	
+			if as_result>='96' 	and  &
+				((as_plant='C10' and as_campo=188) or &
+				(as_plant='C13' and as_campo=249) or &
+				(as_plant='C14' and as_campo=249) or &
+				(as_plant='C17' and as_campo=249) or &
+				(as_plant='C18' and as_campo=248) or &
+				(as_plant='C21' and as_campo=243) or &
+				(as_plant='C3' and as_campo=265) or &
+				(as_plant='C30' and as_campo=249) or &
+				(as_plant='C31' and as_campo=249) or &
+				(as_plant='C35' and as_campo=249) or &
+				(as_plant='C36' and as_campo=249) or &
+				(as_plant='C37' and as_campo=249) or &
+				(as_plant='C39' and as_campo=249) or &
+				(as_plant='C4' and as_campo=243) or &
+				(as_plant='C41' and as_campo=249) or &
+				(as_plant='C42' and as_campo=249) or &
+				(as_plant='C9' and as_campo=195)) &
+			then
+				ls_resul='96'
+			else
+				if as_result<'96' and  &
+					((as_plant='C10' and as_campo=188) or &
+					(as_plant='C13' and as_campo=249) or &
+					(as_plant='C14' and as_campo=249) or &
+					(as_plant='C17' and as_campo=249) or &
+					(as_plant='C18' and as_campo=248) or &
+					(as_plant='C21' and as_campo=243) or &
+					(as_plant='C3' and as_campo=265) or &
+					(as_plant='C30' and as_campo=249) or &
+					(as_plant='C31' and as_campo=249) or &
+					(as_plant='C35' and as_campo=249) or &
+					(as_plant='C36' and as_campo=249) or &
+					(as_plant='C37' and as_campo=249) or &
+					(as_plant='C39' and as_campo=249) or &
+					(as_plant='C4' and as_campo=243) or &
+					(as_plant='C41' and as_campo=249) or &
+					(as_plant='C42' and as_campo=249) or &
+					(as_plant='C9'and as_campo=195)) &
+				then
+					ls_resul=as_result
+				else
+					if ai_edad_dias>4380 then 
+						ls_resul='99'
+					end if
+				end if
+			end if
+		end if
+	end if
+
+	update  pacientes_ririas set consu_taba=:ls_resul, fecha_audita=current_timestamp
+	where tipodoc=:as_tdoc and documento=:as_docu;
+	if sqlca.sqlcode<0 then
+		ls_error=sqlca.sqlerrtext
+		rollback;
+		messagebox("gf_validar_202_cons - Error de SQL línea 181", "Error update en paciente_ririas: "+ls_error)
+		return -1
+	end if		
+	commit;
+	return 1	
+end if
+
+//TACTO RCTA
+if as_variable='22' and ls_sexo='1' then
+	if isnull(as_result) then
+		ls_resul='21'
+	else
+		ls_resul=as_result
+  	end if
+	
+	update  pacientes_ririas set tacto_rect=:ls_resul, fecha_audita=current_timestamp
+	where tipodoc=:as_tdoc and documento=:as_docu;
+	if sqlca.sqlcode<0 then
+		ls_error=sqlca.sqlerrtext
+		rollback;
+		messagebox("gf_validar_202_cons - Error de SQL línea 202", "Error update en paciente_ririas: "+ls_error)
+		return -1
+	end if		
+	commit;
+	return 1	
+end if
+end function
+

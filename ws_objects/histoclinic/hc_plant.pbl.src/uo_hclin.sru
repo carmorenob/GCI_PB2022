@@ -118,8 +118,6 @@ t_imagen t_imagen
 end type
 type dw_new from datawindow within uo_hclin
 end type
-type dw_new_det from datawindow within uo_hclin
-end type
 type dw_1 from datawindow within uo_hclin
 end type
 type dw_deta from datawindow within uo_hclin
@@ -133,6 +131,8 @@ end type
 type mle_3 from multilineedit within uo_hclin
 end type
 type mle_1 from uo_multilineedit within uo_hclin
+end type
+type dw_new_det from datawindow within uo_hclin
 end type
 end forward
 
@@ -175,7 +175,6 @@ t_result_old t_result_old
 t_procs_old t_procs_old
 t_result t_result
 dw_new dw_new
-dw_new_det dw_new_det
 dw_1 dw_1
 dw_deta dw_deta
 dw_plants dw_plants
@@ -183,6 +182,7 @@ dw_res_new dw_res_new
 mle_2 mle_2
 mle_3 mle_3
 mle_1 mle_1
+dw_new_det dw_new_det
 end type
 global uo_hclin uo_hclin
 
@@ -485,7 +485,6 @@ for j=1 to dw_new_det.rowcount()
 				dw_deta.setitem(donde,'fecha',dw_new_det.getitemdatetime(j,'tiempo'))
 				inserto=true
 			end if
-			
 	end choose
 	if inserto then
 		dw_deta.setitem(donde,'item',dw_new_det.getitemnumber(j,'numcampo'))
@@ -500,6 +499,7 @@ for j=1 to dw_new_det.rowcount()
 		dw_deta.event rec_revisa_padre(dw_new_det.getitemnumber(j,'padre'))
 	end if
 next
+
 dw_res_new.setfilter('')
 dw_res_new.filter()
 dw_procs_new.setfilter('')
@@ -600,6 +600,45 @@ if lbn_si_datos then
 		dw_deta.reset()
 		return -1
 	end if
+
+	//// Validacion de 202
+	dw_new_det.setfilter("not isnull( varia_salud )")
+	dw_new_det.filter()
+	string ls_result,ls_codpl
+	for j=1 to dw_new_det.rowcount()	
+		
+		choose case dw_new_det.getitemstring(j,'tipo')
+			case 'S', 'L' , 'T', 'Y','A' //:seleccion  //:lista  //:texto //:INSTRUMENTO
+				if isnull(dw_new_det.getitemstring(j,'equiv_202')) then
+					ls_result=dw_new_det.getitemstring(j,'texto')
+				else
+					ls_result=dw_new_det.getitemstring(j,'equiv_202')
+				end if
+
+			case 'N'//:si/no  
+				ls_result=dw_new_det.getitemstring(j,'sino')
+	
+			case 'R','C' //:Numerico , computado
+					ls_result=string(dw_new_det.getitemnumber(j,'numero'))
+	
+			case 'F' ,'X'//:fecha
+				ls_result=string(dw_new_det.getitemdatetime(j,'fecha_cap'))
+	
+			case 'H' //:tiempo
+					ls_result=string(dw_new_det.getitemdatetime(j,'tiempo'))
+		end choose
+			
+		gf_validar_202_cons(	tipdoc,docu,&
+			w_principal.dw_1.getitemstring(1,'sexo'),&
+			w_principal.dw_1.getitemnumber(1,'dias'),&
+			dw_new_det.getitemstring(j,'codplantilla'),&
+			dw_new_det.getitemnumber(j,'numcampo'),&
+			dw_new_det.getitemstring(j,'varia_salud'),&
+			ls_result)		
+	next
+	/// Fin 202
+	
+	
 	dw_res_new.resetupdate()
 	dw_img_new.resetupdate()
 	for j=1 to dw_res_new.rowcount()
@@ -1525,7 +1564,6 @@ this.t_result_old=create t_result_old
 this.t_procs_old=create t_procs_old
 this.t_result=create t_result
 this.dw_new=create dw_new
-this.dw_new_det=create dw_new_det
 this.dw_1=create dw_1
 this.dw_deta=create dw_deta
 this.dw_plants=create dw_plants
@@ -1533,6 +1571,7 @@ this.dw_res_new=create dw_res_new
 this.mle_2=create mle_2
 this.mle_3=create mle_3
 this.mle_1=create mle_1
+this.dw_new_det=create dw_new_det
 this.Control[]={this.cb_modo,&
 this.dw_img_new,&
 this.pb_4,&
@@ -1562,14 +1601,14 @@ this.t_result_old,&
 this.t_procs_old,&
 this.t_result,&
 this.dw_new,&
-this.dw_new_det,&
 this.dw_1,&
 this.dw_deta,&
 this.dw_plants,&
 this.dw_res_new,&
 this.mle_2,&
 this.mle_3,&
-this.mle_1}
+this.mle_1,&
+this.dw_new_det}
 end on
 
 on uo_hclin.destroy
@@ -1602,7 +1641,6 @@ destroy(this.t_result_old)
 destroy(this.t_procs_old)
 destroy(this.t_result)
 destroy(this.dw_new)
-destroy(this.dw_new_det)
 destroy(this.dw_1)
 destroy(this.dw_deta)
 destroy(this.dw_plants)
@@ -1610,6 +1648,7 @@ destroy(this.dw_res_new)
 destroy(this.mle_2)
 destroy(this.mle_3)
 destroy(this.mle_1)
+destroy(this.dw_new_det)
 end on
 
 event constructor;ids_hijos_histo=create uo_datastore
@@ -3514,6 +3553,354 @@ if getitemstring(currentrow,'tipo')='M' then
 end if
 end event
 
+type dw_1 from datawindow within uo_hclin
+event keypress pbm_dwnkey
+boolean visible = false
+integer x = 5
+integer y = 984
+integer width = 4800
+integer height = 1200
+integer taborder = 50
+string title = "none"
+boolean hscrollbar = true
+boolean vscrollbar = true
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event keypress;string ls_columnname
+ls_columnname =this.getcolumnname() 
+if left(ls_columnname,5)='memo_' then
+	if g_ctrlv<>'1' then 
+		If keyflags = 2 or keydown(KeyControl!) then
+			if key=keyv! then return 1	
+			IF keydown(KeyAlt!) THEN 
+				if key=keyv! then return 1
+			end if
+		else
+			IF keyflags = 1 THEN
+				if key=keyinsert! then return 1
+			end if
+		end if
+	end if
+end if
+end event
+
+event buttonclicked;if dw_res_new.RowCount() = 0 then 
+	MessageBox('Atención','No tiene resultados relacionados')
+	Return 0
+end if
+opensheetwithparm(w_res_selec,dw_res_new,w_principal,0,original!)
+
+end event
+
+event dberror;return f_dw_error(sqldbcode,sqlsyntax,sqlerrtext,classname())
+
+end event
+
+event itemchanged;i_cambia = TRUE
+
+end event
+
+event itemfocuschanged;long fila
+string ayuda
+st_muestra.text = ''
+fila = dw_campo.Find("numcampo="+Describe(string(dwo.name)+".Tag"),1,dw_campo.RowCount())
+if fila = 0 then Return -1
+ayuda = dw_campo.getItemString(fila,'ayuda')
+if not isNull(ayuda) and trim(ayuda) <> '' then
+	st_muestra.text = ayuda
+end if
+if dw_campo.getItemString(fila,'tipo') = 'M' then
+	uo_1.retrieve(dw_campo.getItemNumber(fila,'numcampo'), dw_campo.GetItemString(fila,'tipo_memo'), dw_campo.GetItemString(fila,'ant'), dw_campo.GetItemString(fila,'cod_ant'), dw_campo.GetItemString(fila,'alergia'),i_cpo)
+end if
+
+end event
+
+event losefocus;if AcceptText() = -1 then Return -1
+
+end event
+
+type dw_deta from datawindow within uo_hclin
+event rec_revisa_padre ( long padre )
+event keypres pbm_dwnkey
+integer x = 2098
+integer y = 88
+integer width = 3849
+integer height = 600
+integer taborder = 20
+boolean bringtotop = true
+string title = "none"
+string dataobject = "dw_hclin_valores"
+boolean hscrollbar = true
+boolean vscrollbar = true
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event rec_revisa_padre(long padre);if padre=0 then return
+if find('item='+string(padre),1,rowcount())=0 then
+	long donde,donde2
+	donde=dw_new.find('numcampo='+string(padre),1,dw_new.rowcount())
+	donde2=insertrow(getrow())
+	setitem(donde2,'item',dw_new.getitemnumber(donde,'numcampo'))
+	setitem(donde2,'padre',dw_new.getitemnumber(donde,'padre'))
+	setitem(donde2,'orden',dw_new.getitemnumber(donde,'orden'))
+	setitem(donde2,'descampo',dw_new.getitemstring(donde,'label'))
+	setitem(donde2,'tipo',dw_new.getitemstring(donde,'tipo'))
+	event rec_revisa_padre(dw_new.getitemnumber(donde,'padre'))
+end if
+end event
+
+event keypres;if key=i_nextitem or key=i_previtem or key=i_nextchild then navegar(key)
+end event
+
+event constructor;settransobject(sqlca)
+end event
+
+event dberror;return f_dw_error(sqldbcode,sqlsyntax,sqlerrtext,classname())
+end event
+
+event buttonclicked;if dwo.name='b_gra' then
+	st_xa_graficas l_st
+	if isnull(getitemnumber(row ,'numero')) then 
+		MessageBox("Atención", "No hay campo en la casilla de captura para evaluar")
+		return
+	end if
+	l_st.codplantilla=this.getitemstring(row,'codplantilla')
+	l_st.numcampo=this.getitemnumber(row,'item')
+	l_st.edad=w_principal.dw_1.getitemnumber(1,'dias')
+	l_st.sexo=w_principal.dw_1.getitemstring(1,'sexo')
+	l_st.origen=2
+	l_st.dw_captura=dw_deta
+	l_st.fecha=this.getitemdatetime(row,'freg')
+	openwithparm(w_grafica_hc,l_st)
+end if
+end event
+
+type dw_plants from datawindow within uo_hclin
+event pinta ( )
+event keypres pbm_dwnkey
+integer y = 764
+integer width = 1321
+integer height = 124
+integer taborder = 20
+string dataobject = "dw_combo_plants"
+boolean border = false
+boolean livescroll = true
+end type
+
+event pinta();accepttext()
+if is_cplant=getitemstring(1,1) then return
+dw_new_det.accepttext()
+
+if i_cambia then
+	choose case messagebox('Atención','Realizó cambios en la plantilla de '+i_message+', desea guardarlos?',question!,yesnocancel!,1)
+		case 1
+			if grabar()=-1 then
+				rollback;
+			else	
+				commit;
+			end if
+		case 2
+			i_cambia=false
+		case 3
+			setitem(1,1,is_cplant)
+			return
+	end choose
+end if
+is_cplant = getitemstring(1,1)
+
+select vista,fecha,corp into :i_modo,:i_fecha,:i_cpo from hclin_plant where codplantilla=:is_cplant;
+if isnull(i_cpo) or i_cpo='' then i_cpo='0'
+
+parent.setredraw(false)
+setpointer(hourglass!)
+
+i_nv_orden=false
+i_pudo_orden=true
+dw_new.reset()
+dw_res_new.reset()
+dw_new_det.reset()
+
+string sintaxis, buffer, err
+i_campos = ''
+i_columnas = ''
+i_textos = ''
+consec = 0
+PosX = 10
+PosY = 10
+altura=0
+colum = 0
+dw_1.Reset()
+mle_2.visible=false
+dw_campo.Retrieve(is_cplant,sex_busca)
+if dw_campo.event revisar()=-1 THEN 
+
+	parent.setredraw(true)
+	setpointer(arrow!)
+	return
+end if
+uo_1.inicia(i_contador,i_clug,0,is_cplant,i_ing_sal,i_tipo,i_tingre,st_muestra,mle_2,i_cemp,i_ccont,i_cprof,dw_res_new,dw_new_det,dw_campo,dw_1,i_cespe)
+//dw_memos.retrieve(is_cplant,sex_busca)
+dw_new_det.setfilter('')
+dw_new_det.retrieve(is_cplant,sex_busca)
+dw_captur_histo.retrieve(is_cplant,sex_busca)
+dw_captur_histo.setfilter("tipo='R' OR tipo='C' ")
+dw_captur_histo.filter()
+
+dw_new.retrieve(is_cplant,0,sex_busca)
+
+sintaxis = 'release 22;~r~n' + &
+' datawindow(units=0 timer_interval=0 color=67108864 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no )~r~n' +&
+' header(height=0 color="536870912" )~r~n' +&
+' summary(height=0 color="536870912" )~r~n' + &
+' footer(height=0 color="536870912" )~r~n' +&
+' detail(height=1096 color="536870912" ) ~r~n' +&
+'table('
+
+sintaxis = sintaxis + i_campos + ') ~r~n'
+sintaxis = sintaxis + i_columnas
+sintaxis = sintaxis + i_textos
+dw_1.Create(sintaxis,err)
+if err <> '' then
+	messageBox('Error',err)
+end if
+err = dw_1.Modify('Datawindow.Detail.height="'+string(PosY+altura)+'"')
+if err <> '' then
+	messageBox('Error',err)
+end if
+long f
+f = dw_1.Insertrow(0)
+//cb_modo.visible = true
+if i_modo = 'F' then
+	cb_modo.picturename = 'arbol.gif'
+	dw_new.Visible = FALSE
+	st_vert2.Visible = FALSE
+	dw_res_new.Visible = FALSE
+	dw_new_det.Visible = FALSE
+	mle_2.Visible = FALSE
+	t_result.Visible = FALSE
+	dw_1.Visible = TRUE
+else
+	cb_modo.picturename = 'Formulario.gif'
+	dw_new.Visible = TRUE
+	st_vert2.Visible = TRUE
+	dw_res_new.Visible = TRUE
+	dw_new_det.Visible = TRUE
+	mle_2.Visible = TRUE
+	t_result.Visible = TRUE
+	dw_1.Visible = FALSE
+end if
+cb_modo.BringtoTop = true
+dw_new.Post event rowfocuschanged(dw_new.getrow())
+
+parent.post setredraw(true)
+post setpointer(arrow!)
+
+end event
+
+event keypres;if key=i_nextitem or key=i_previtem or key=i_nextchild then navegar(key)
+end event
+
+event constructor;if i_displayonly = TRUE then Visible = FALSE
+getchild('codplantilla',idw_plants)
+idw_plants.settransobject(sqlca)
+insertrow(1)
+
+end event
+
+event itemchanged;event pinta()
+if i_fecha='1' then 
+	em_1.enabled=true
+else 
+	em_1.enabled=false 
+end  if
+
+end event
+
+type dw_res_new from datawindow within uo_hclin
+event keypres pbm_dwnkey
+boolean visible = false
+integer x = 1573
+integer y = 1028
+integer width = 4402
+integer height = 1152
+integer taborder = 40
+string title = "none"
+string dataobject = "dw_trae_resultados2"
+boolean hscrollbar = true
+boolean vscrollbar = true
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event keypres;if key=i_nextitem or key=i_previtem or key=i_nextchild then navegar(key)
+end event
+
+event constructor;settransobject(sqlca)
+modify('esco.visible=0')
+end event
+
+event dberror;return f_dw_error(sqldbcode,sqlsyntax,sqlerrtext,classname())
+end event
+
+event buttonclicked;if not isvalid(w_deta_kit) then
+	if dwo.name='b_1' then
+		open(w_val_norm)
+		w_val_norm.dw_1.retrieve(getitemstring(row,'codproced'),getitemnumber(row,'consecampo'))
+		w_val_norm.setfocus()
+	else
+		open(w_graf_apoyodx)
+		w_graf_apoyodx.dw_1.retrieve(tipdoc,docu,getitemstring(row,'codproced'))
+		w_graf_apoyodx.setfocus()
+	end if
+end if
+end event
+
+event clicked;if row>0 and row<>getrow() then setrow(row)
+end event
+
+type mle_2 from uo_multilineedit within uo_hclin
+boolean visible = false
+integer x = 1545
+integer y = 984
+integer width = 4402
+integer height = 1200
+integer taborder = 40
+boolean bringtotop = true
+end type
+
+event modified;i_cambia=true
+end event
+
+type mle_3 from multilineedit within uo_hclin
+boolean visible = false
+integer x = 969
+integer y = 2176
+integer width = 411
+integer height = 324
+integer taborder = 80
+boolean bringtotop = true
+integer textsize = -8
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+string text = "none"
+borderstyle borderstyle = stylelowered!
+end type
+
+type mle_1 from uo_multilineedit within uo_hclin
+integer x = 2098
+integer y = 88
+integer width = 3849
+integer height = 628
+integer taborder = 50
+boolean bringtotop = true
+end type
+
 type dw_new_det from datawindow within uo_hclin
 event keypres pbm_dwnkey
 event clean_fields ( )
@@ -3596,8 +3983,10 @@ choose case getitemstring(row,'tipo')
 			dw_new.setitem(dw_new.getrow(),'captura',0) 
 		end if 
 		if getitemstring(row,'tipo')='Y' then
-				dw_new_det.setitem(row,'nitem',idw_listan.getitemnumber(idw_listan.getrow(),'nitem'))
+			dw_new_det.setitem(row,'nitem',idw_listan.getitemnumber(idw_listan.getrow(),'nitem'))
+			dw_new_det.setitem(row,'equiv_202',idw_listan.getitemstring(idw_listan.getrow(),'equiv_202'))
 		end if
+		
 	case 'R','C' 
 		if (Not IsNull(getitemnumber(row,'numero'))) and  getitemstring(row,'obligatorio') ='1'   then 
 			dw_new.setitem(dw_new.getrow(),'captura',1) 
@@ -4174,352 +4563,4 @@ end event
 
 event losefocus;if AcceptText() = -1 then Return -1
 end event
-
-type dw_1 from datawindow within uo_hclin
-event keypress pbm_dwnkey
-boolean visible = false
-integer x = 5
-integer y = 984
-integer width = 4800
-integer height = 1200
-integer taborder = 50
-string title = "none"
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event keypress;string ls_columnname
-ls_columnname =this.getcolumnname() 
-if left(ls_columnname,5)='memo_' then
-	if g_ctrlv<>'1' then 
-		If keyflags = 2 or keydown(KeyControl!) then
-			if key=keyv! then return 1	
-			IF keydown(KeyAlt!) THEN 
-				if key=keyv! then return 1
-			end if
-		else
-			IF keyflags = 1 THEN
-				if key=keyinsert! then return 1
-			end if
-		end if
-	end if
-end if
-end event
-
-event buttonclicked;if dw_res_new.RowCount() = 0 then 
-	MessageBox('Atención','No tiene resultados relacionados')
-	Return 0
-end if
-opensheetwithparm(w_res_selec,dw_res_new,w_principal,0,original!)
-
-end event
-
-event dberror;return f_dw_error(sqldbcode,sqlsyntax,sqlerrtext,classname())
-
-end event
-
-event itemchanged;i_cambia = TRUE
-
-end event
-
-event itemfocuschanged;long fila
-string ayuda
-st_muestra.text = ''
-fila = dw_campo.Find("numcampo="+Describe(string(dwo.name)+".Tag"),1,dw_campo.RowCount())
-if fila = 0 then Return -1
-ayuda = dw_campo.getItemString(fila,'ayuda')
-if not isNull(ayuda) and trim(ayuda) <> '' then
-	st_muestra.text = ayuda
-end if
-if dw_campo.getItemString(fila,'tipo') = 'M' then
-	uo_1.retrieve(dw_campo.getItemNumber(fila,'numcampo'), dw_campo.GetItemString(fila,'tipo_memo'), dw_campo.GetItemString(fila,'ant'), dw_campo.GetItemString(fila,'cod_ant'), dw_campo.GetItemString(fila,'alergia'),i_cpo)
-end if
-
-end event
-
-event losefocus;if AcceptText() = -1 then Return -1
-
-end event
-
-type dw_deta from datawindow within uo_hclin
-event rec_revisa_padre ( long padre )
-event keypres pbm_dwnkey
-integer x = 2098
-integer y = 88
-integer width = 3849
-integer height = 600
-integer taborder = 20
-boolean bringtotop = true
-string title = "none"
-string dataobject = "dw_hclin_valores"
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event rec_revisa_padre(long padre);if padre=0 then return
-if find('item='+string(padre),1,rowcount())=0 then
-	long donde,donde2
-	donde=dw_new.find('numcampo='+string(padre),1,dw_new.rowcount())
-	donde2=insertrow(getrow())
-	setitem(donde2,'item',dw_new.getitemnumber(donde,'numcampo'))
-	setitem(donde2,'padre',dw_new.getitemnumber(donde,'padre'))
-	setitem(donde2,'orden',dw_new.getitemnumber(donde,'orden'))
-	setitem(donde2,'descampo',dw_new.getitemstring(donde,'label'))
-	setitem(donde2,'tipo',dw_new.getitemstring(donde,'tipo'))
-	event rec_revisa_padre(dw_new.getitemnumber(donde,'padre'))
-end if
-end event
-
-event keypres;if key=i_nextitem or key=i_previtem or key=i_nextchild then navegar(key)
-end event
-
-event constructor;settransobject(sqlca)
-end event
-
-event dberror;return f_dw_error(sqldbcode,sqlsyntax,sqlerrtext,classname())
-end event
-
-event buttonclicked;if dwo.name='b_gra' then
-	st_xa_graficas l_st
-	if isnull(getitemnumber(row ,'numero')) then 
-		MessageBox("Atención", "No hay campo en la casilla de captura para evaluar")
-		return
-	end if
-	l_st.codplantilla=this.getitemstring(row,'codplantilla')
-	l_st.numcampo=this.getitemnumber(row,'item')
-	l_st.edad=w_principal.dw_1.getitemnumber(1,'dias')
-	l_st.sexo=w_principal.dw_1.getitemstring(1,'sexo')
-	l_st.origen=2
-	l_st.dw_captura=dw_deta
-	l_st.fecha=this.getitemdatetime(row,'freg')
-	openwithparm(w_grafica_hc,l_st)
-end if
-end event
-
-type dw_plants from datawindow within uo_hclin
-event pinta ( )
-event keypres pbm_dwnkey
-integer y = 764
-integer width = 1321
-integer height = 124
-integer taborder = 20
-string dataobject = "dw_combo_plants"
-boolean border = false
-boolean livescroll = true
-end type
-
-event pinta();accepttext()
-if is_cplant=getitemstring(1,1) then return
-dw_new_det.accepttext()
-
-if i_cambia then
-	choose case messagebox('Atención','Realizó cambios en la plantilla de '+i_message+', desea guardarlos?',question!,yesnocancel!,1)
-		case 1
-			if grabar()=-1 then
-				rollback;
-			else	
-				commit;
-			end if
-		case 2
-			i_cambia=false
-		case 3
-			setitem(1,1,is_cplant)
-			return
-	end choose
-end if
-is_cplant = getitemstring(1,1)
-
-select vista,fecha,corp into :i_modo,:i_fecha,:i_cpo from hclin_plant where codplantilla=:is_cplant;
-if isnull(i_cpo) or i_cpo='' then i_cpo='0'
-
-parent.setredraw(false)
-setpointer(hourglass!)
-
-i_nv_orden=false
-i_pudo_orden=true
-dw_new.reset()
-dw_res_new.reset()
-dw_new_det.reset()
-
-string sintaxis, buffer, err
-i_campos = ''
-i_columnas = ''
-i_textos = ''
-consec = 0
-PosX = 10
-PosY = 10
-altura=0
-colum = 0
-dw_1.Reset()
-mle_2.visible=false
-dw_campo.Retrieve(is_cplant,sex_busca)
-if dw_campo.event revisar()=-1 THEN 
-
-	parent.setredraw(true)
-	setpointer(arrow!)
-	return
-end if
-uo_1.inicia(i_contador,i_clug,0,is_cplant,i_ing_sal,i_tipo,i_tingre,st_muestra,mle_2,i_cemp,i_ccont,i_cprof,dw_res_new,dw_new_det,dw_campo,dw_1,i_cespe)
-//dw_memos.retrieve(is_cplant,sex_busca)
-dw_new_det.setfilter('')
-dw_new_det.retrieve(is_cplant,sex_busca)
-dw_captur_histo.retrieve(is_cplant,sex_busca)
-dw_captur_histo.setfilter("tipo='R' OR tipo='C' ")
-dw_captur_histo.filter()
-
-dw_new.retrieve(is_cplant,0,sex_busca)
-
-sintaxis = 'release 22;~r~n' + &
-' datawindow(units=0 timer_interval=0 color=67108864 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no )~r~n' +&
-' header(height=0 color="536870912" )~r~n' +&
-' summary(height=0 color="536870912" )~r~n' + &
-' footer(height=0 color="536870912" )~r~n' +&
-' detail(height=1096 color="536870912" ) ~r~n' +&
-'table('
-
-sintaxis = sintaxis + i_campos + ') ~r~n'
-sintaxis = sintaxis + i_columnas
-sintaxis = sintaxis + i_textos
-dw_1.Create(sintaxis,err)
-if err <> '' then
-	messageBox('Error',err)
-end if
-err = dw_1.Modify('Datawindow.Detail.height="'+string(PosY+altura)+'"')
-if err <> '' then
-	messageBox('Error',err)
-end if
-long f
-f = dw_1.Insertrow(0)
-//cb_modo.visible = true
-if i_modo = 'F' then
-	cb_modo.picturename = 'arbol.gif'
-	dw_new.Visible = FALSE
-	st_vert2.Visible = FALSE
-	dw_res_new.Visible = FALSE
-	dw_new_det.Visible = FALSE
-	mle_2.Visible = FALSE
-	t_result.Visible = FALSE
-	dw_1.Visible = TRUE
-else
-	cb_modo.picturename = 'Formulario.gif'
-	dw_new.Visible = TRUE
-	st_vert2.Visible = TRUE
-	dw_res_new.Visible = TRUE
-	dw_new_det.Visible = TRUE
-	mle_2.Visible = TRUE
-	t_result.Visible = TRUE
-	dw_1.Visible = FALSE
-end if
-cb_modo.BringtoTop = true
-dw_new.Post event rowfocuschanged(dw_new.getrow())
-
-parent.post setredraw(true)
-post setpointer(arrow!)
-
-end event
-
-event keypres;if key=i_nextitem or key=i_previtem or key=i_nextchild then navegar(key)
-end event
-
-event constructor;if i_displayonly = TRUE then Visible = FALSE
-getchild('codplantilla',idw_plants)
-idw_plants.settransobject(sqlca)
-insertrow(1)
-
-end event
-
-event itemchanged;event pinta()
-if i_fecha='1' then 
-	em_1.enabled=true
-else 
-	em_1.enabled=false 
-end  if
-
-end event
-
-type dw_res_new from datawindow within uo_hclin
-event keypres pbm_dwnkey
-boolean visible = false
-integer x = 1573
-integer y = 1028
-integer width = 4402
-integer height = 1152
-integer taborder = 40
-string title = "none"
-string dataobject = "dw_trae_resultados2"
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event keypres;if key=i_nextitem or key=i_previtem or key=i_nextchild then navegar(key)
-end event
-
-event constructor;settransobject(sqlca)
-modify('esco.visible=0')
-end event
-
-event dberror;return f_dw_error(sqldbcode,sqlsyntax,sqlerrtext,classname())
-end event
-
-event buttonclicked;if not isvalid(w_deta_kit) then
-	if dwo.name='b_1' then
-		open(w_val_norm)
-		w_val_norm.dw_1.retrieve(getitemstring(row,'codproced'),getitemnumber(row,'consecampo'))
-		w_val_norm.setfocus()
-	else
-		open(w_graf_apoyodx)
-		w_graf_apoyodx.dw_1.retrieve(tipdoc,docu,getitemstring(row,'codproced'))
-		w_graf_apoyodx.setfocus()
-	end if
-end if
-end event
-
-event clicked;if row>0 and row<>getrow() then setrow(row)
-end event
-
-type mle_2 from uo_multilineedit within uo_hclin
-boolean visible = false
-integer x = 1545
-integer y = 984
-integer width = 4402
-integer height = 1200
-integer taborder = 40
-boolean bringtotop = true
-end type
-
-event modified;i_cambia=true
-end event
-
-type mle_3 from multilineedit within uo_hclin
-boolean visible = false
-integer x = 969
-integer y = 2176
-integer width = 411
-integer height = 324
-integer taborder = 80
-boolean bringtotop = true
-integer textsize = -8
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-long textcolor = 33554432
-string text = "none"
-borderstyle borderstyle = stylelowered!
-end type
-
-type mle_1 from uo_multilineedit within uo_hclin
-integer x = 2098
-integer y = 88
-integer width = 3849
-integer height = 628
-integer taborder = 50
-boolean bringtotop = true
-end type
 
