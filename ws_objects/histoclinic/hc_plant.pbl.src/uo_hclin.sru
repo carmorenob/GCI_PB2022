@@ -604,28 +604,28 @@ if lbn_si_datos then
 	//// Validacion de 202
 	dw_new_det.setfilter("not isnull( varia_salud )")
 	dw_new_det.filter()
-	string ls_result,ls_codpl
+	string ls_resul,ls_codpl
 	for j=1 to dw_new_det.rowcount()	
 		
 		choose case dw_new_det.getitemstring(j,'tipo')
 			case 'S', 'L' , 'T', 'Y','A' //:seleccion  //:lista  //:texto //:INSTRUMENTO
 				if isnull(dw_new_det.getitemstring(j,'equiv_202')) then
-					ls_result=dw_new_det.getitemstring(j,'texto')
+					ls_resul=dw_new_det.getitemstring(j,'texto')
 				else
-					ls_result=dw_new_det.getitemstring(j,'equiv_202')
+					ls_resul=dw_new_det.getitemstring(j,'equiv_202')
 				end if
 
 			case 'N'//:si/no  
-				ls_result=dw_new_det.getitemstring(j,'sino')
+				ls_resul=dw_new_det.getitemstring(j,'sino')
 	
 			case 'R','C' //:Numerico , computado
-					ls_result=string(dw_new_det.getitemnumber(j,'numero'))
+					ls_resul=string(dw_new_det.getitemnumber(j,'numero'))
 	
 			case 'F' ,'X'//:fecha
-				ls_result=string(dw_new_det.getitemdatetime(j,'fecha_cap'))
+				ls_resul=string(dw_new_det.getitemdatetime(j,'fecha_cap'))
 	
 			case 'H' //:tiempo
-					ls_result=string(dw_new_det.getitemdatetime(j,'tiempo'))
+					ls_resul=string(dw_new_det.getitemdatetime(j,'tiempo'))
 		end choose
 			
 		gf_validar_202_cons(	tipdoc,docu,&
@@ -634,7 +634,7 @@ if lbn_si_datos then
 			dw_new_det.getitemstring(j,'codplantilla'),&
 			dw_new_det.getitemnumber(j,'numcampo'),&
 			dw_new_det.getitemstring(j,'varia_salud'),&
-			ls_result)		
+			ls_resul,string(em_1.text,'yyyy-mm-dd'))		
 	next
 	/// Fin 202
 	

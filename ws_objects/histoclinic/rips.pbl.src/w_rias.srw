@@ -6441,7 +6441,8 @@ boolean livescroll = true
 borderstyle borderstyle = stylelowered!
 end type
 
-event rowfocuschanged;if getitemstring(currentrow,'estado_dian_nota')='1' then
+event rowfocuschanged;if getrow()<1 then return
+if getitemstring(currentrow,'estado_dian_nota')='1' then
 	pb_brr.enabled=false
 	pb_diann.enabled=false
 	pb_connota.enabled=true
