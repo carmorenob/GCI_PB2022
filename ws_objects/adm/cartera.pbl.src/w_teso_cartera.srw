@@ -2585,7 +2585,7 @@ end if
 
 string ls_range ,ls_path, ls_file,ls_ban,ls_cta
 string ls_lfac,ls_tfac,ls_td,ls_doc,ls_return
-string log_txt
+string log_txt,ls_error
 datetime ld_fecp
 integer ll_rc,li_item,l_cols,ll_rows,i_numar=-1
 double ld_nfac
@@ -2640,6 +2640,13 @@ for  ll_rc=1 to dw_pag.rowcount()
 	ls_doc=dw_pag.getitemstring(ll_rc,'docu')	
 	if g_motor='postgres' then 
 		SELECT * into :ls_return from sp_pagos_cartera_aplica(:ls_ban,:ls_cta,:li_item,:ld_nfac,:ls_lfac,:ls_tfac,:ld_fecp,:ld_valor,:ls_td,:ls_doc,:usuario);
+		if sqlca.sqlcode<0 then
+			ls_error=sqlca.sqlerrtext
+			rollback;
+			messagebox("pb_5 Pagos Aplica - Error de SQL línea 62", "Error en envio al sp: "+ls_error)
+			return -1
+		end if		
+		commit;	
 	end if
 	ls_return='Fila '+string(ll_rc)+' ----> '+ls_return
 	filewrite(i_numar,ls_return)
