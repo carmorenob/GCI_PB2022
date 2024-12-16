@@ -14,9 +14,10 @@ retorno:
 -1: cuando cumple las condiciones pero hay algún error al insertar
 */
 uo_datastore lds_202
-string ls_sexo,ls_error, ls_resul,ls_fresul, ls_sexoval,ls_trec,ls_avojos,ls_fppart
+string ls_sexo,ls_error, ls_resul,ls_fresul, ls_sexoval,ls_trec,ls_avojos,ls_fppart,ls_fresul1
+string ls_fpart,ls_sfpart
 long ldb_ini, ldb_fin
-int li_gestante,li_pos
+int li_gestante,li_pos,li_prosta
 
 lds_202= create uo_datastore
 
@@ -31,7 +32,13 @@ else
 	if ai_edad_dias<3650 and ai_edad_dias>21535 then
 		li_gestante=0
 	else
-		select f_trae_cohorte(:as_tdoc,:as_docu,'4') into :li_gestante from ips;
+		select 
+			f_trae_cohorte(:as_tdoc,:as_docu,'4'), 
+			to_char(f_trae_cohorte_fecha_salida(:as_tdoc,:as_docu,'4','129'),'yyyy-mm-dd'),
+			to_char(f_trae_cohorte_fecha_salida(:as_tdoc,:as_docu,'4','130'),'yyyy-mm-dd')
+		into 
+			:li_gestante,:ls_fpart,:ls_sfpart 
+		from ips;
 		if li_gestante=0 then
 			li_gestante=2
 			ls_fppart='1845-01-01'
@@ -82,15 +89,35 @@ if lds_202.rowcount()=0 then
 	commit;
 end if
 
-update  pacientes_ririas set gestante=cast(:li_gestante as varchar), fecha_audita=current_timestamp
+
+///GESTANTES
+if ls_sexo='1' then 
+	ls_sfpart='1845-01-01'
+	ls_sfpart='1845-01-01'
+else
+	if ai_edad_dias<3650 and ai_edad_dias>21535 then
+		ls_sfpart='1845-01-01'
+		ls_sfpart='1845-01-01'
+	else
+		if li_gestante=0 then
+			ls_sfpart='1845-01-01'
+			ls_sfpart='1845-01-01'
+		else
+			if isnull(ls_fpart) then  ls_fpart='1800-01-01'
+			if isnull(ls_sfpart) then ls_sfpart='1800-01-01'
+		end if
+	end if
+end if
+update  pacientes_ririas set  gestante=cast(:li_gestante as varchar),fecha_parto=:ls_fpart,fecha_sparto=:ls_sfpart,fecha_audita=current_timestamp
 where tipodoc=:as_tdoc and documento=:as_docu;
 if sqlca.sqlcode<0 then
 	ls_error=sqlca.sqlerrtext
 	rollback;
-	messagebox("gf_validar_202_cons - Error de SQL línea 57", "Error update en paciente_ririas: "+ls_error)
+	messagebox("gf_validar_202_cons - Error de SQL línea 102", "Error update en paciente_ririas: "+ls_error)
 	return -1
 end if		
 commit;
+
 
 ////MIMIMENTAL
 if as_variable='16' then
@@ -105,7 +132,7 @@ if as_variable='16' then
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_cons - Error de SQL línea 84", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_cons - Error de SQL línea 94", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -129,7 +156,7 @@ if as_variable='18' then
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_cons - Error de SQL línea 103", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_cons - Error de SQL línea 118", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -216,7 +243,7 @@ if as_variable='19' then
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_cons - Error de SQL línea 190", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_cons - Error de SQL línea 205", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -236,7 +263,7 @@ if as_variable='22' and ls_sexo='1' then
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_cons - Error de SQL línea 210", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_cons - Error de SQL línea 225", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -256,7 +283,7 @@ if as_variable='27'  then
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_cons - Error de SQL línea 230", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_cons - Error de SQL línea 245", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -276,7 +303,7 @@ if as_variable='28'  then
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_cons - Error de SQL línea 250", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_cons - Error de SQL línea 265", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -298,7 +325,7 @@ if as_variable='30'  then
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_cons - Error de SQL línea 272", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_cons - Error de SQL línea 287", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -320,7 +347,7 @@ if as_variable='32'  then
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_cons - Error de SQL línea 294", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_cons - Error de SQL línea 309", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -340,7 +367,7 @@ if as_variable='33'  then
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_cons - Error de SQL línea 319", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_cons - Error de SQL línea 324", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -363,7 +390,7 @@ if as_variable='35'  then
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_cons - Error de SQL línea 346", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_cons - Error de SQL línea 352", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -383,7 +410,7 @@ if as_variable='36'  then
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_cons - Error de SQL línea 366", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_cons - Error de SQL línea 372", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -391,19 +418,21 @@ if as_variable='36'  then
 end if
 
 //TAMIZAJE AUDITIVO /VISUAL
-if as_variable='37' or   as_variable='38' or   as_variable='48' then
+if as_variable='37' or   as_variable='38' or as_variable='48' then
 	if ai_edad_dias<=30 then
 		ls_resul='21'
+		ls_fresul='1800-01-01'
 	else
 		ls_resul='0'
+		ls_fresul='1845-01-01'
   	end if
 	
-	update  pacientes_ririas set rtami_audneo=:ls_resul,rtami_visneo=:ls_resul,tami_oxipe=:ls_resul,fecha_audita=current_timestamp
+	update  pacientes_ririas set rtami_audneo=:ls_resul,rtami_visneo=:ls_resul,tami_oxipe=:ls_resul,fecha_toxi=:ls_fresul,fecha_tauid=:ls_fresul,fecha_audita=current_timestamp
 	where tipodoc=:as_tdoc and documento=:as_docu;
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_cons - Error de SQL línea 386", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_cons - Error de SQL línea 392", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -428,13 +457,12 @@ if as_variable='40'  then
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_cons - Error de SQL línea 346", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_cons - Error de SQL línea 417", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
 	return 1	
 end if
-
 
 ///ESCALA ABREVIADA
 if as_variable='43' or as_variable='44' or as_variable='45' or as_variable='46' then
@@ -446,7 +474,9 @@ if as_variable='43' or as_variable='44' or as_variable='45' or as_variable='46' 
 		else
 			if pos('FALLA',as_resul)>1 then ls_resul='21'
 			
-			if pos('PASA',as_resul)>1 then ls_resul='5'
+			if pos('VERDE',as_resul)>1 then ls_resul='5'
+			if pos('AMARILLO',as_resul)>1 then ls_resul='4'			
+			if pos('ROJO',as_resul)>1 then ls_resul='3'			
 		end if
 	end if
 	
@@ -455,11 +485,389 @@ if as_variable='43' or as_variable='44' or as_variable='45' or as_variable='46' 
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_cons - Error de SQL línea 346", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_cons - Error de SQL línea 445", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
 	return 1	
+end if
+
+///51
+if as_plant='C20' then
+	if  ai_edad_dias<2190 or li_gestante=1 then
+		as_fresul=as_fresul
+	else
+		as_fresul='1800-01-01' 
+	end if
+	update  pacientes_ririas set fecha_lacta=:as_fresul,fecha_audita=current_timestamp
+	where tipodoc=:as_tdoc and documento=:as_docu;
+	if sqlca.sqlcode<0 then
+		ls_error=sqlca.sqlerrtext
+		rollback;
+		messagebox("gf_validar_202_cons - Error de SQL línea 492", "Error update en paciente_ririas: "+ls_error)
+		return -1
+	end if		
+	commit;
+	return 1	
+end if
+
+///52
+if (as_plant='C10' or as_plant='C14' or as_plant='C18' or as_plant='C2' or as_plant='C3' or as_plant='C30' or as_plant='C31' or&
+ as_plant='C32' or as_plant='C4' or as_plant='C42' or as_plant='C43' or as_plant='C9') then
+	update  pacientes_ririas set fecha_valoin=:as_fresul,fecha_audita=current_timestamp
+	where tipodoc=:as_tdoc and documento=:as_docu;
+	if sqlca.sqlcode<0 then
+		ls_error=sqlca.sqlerrtext
+		rollback;
+		messagebox("gf_validar_202_cons - Error de SQL línea 505", "Error update en paciente_ririas: "+ls_error)
+		return -1
+	end if		
+	commit;
+	return 1	
+end if
+
+///53 54  55
+if ai_edad_dias>=3650 and ai_edad_dias<=21535 then
+	int li_vac,li_pom,li_his,li_hisv,li_hisr,li_ofe
+	string ls_ant
+	select 
+		f_trae_paciente_antecedente_cups(:as_tdoc,:as_docu,'AN4','637300%'), 
+		f_trae_paciente_antecedente_cups(:as_tdoc,:as_docu,'AN4','6622%'),
+		f_trae_paciente_alergia_planifica(:as_tdoc,:as_docu,'AN20','M1'),
+		f_trae_paciente_antecedente_cups(:as_tdoc,:as_docu,'AN4','684%'),
+		f_trae_paciente_antecedente_cups(:as_tdoc,:as_docu,'AN4','685%'),
+		f_trae_paciente_antecedente_cups(:as_tdoc,:as_docu,'AN4','686%'),
+		f_trae_paciente_antecedente_cups(:as_tdoc,:as_docu,'AN4','655%')
+	into 
+		:li_vac,:li_pom,:ls_ant,:li_his,:li_hisv,:li_hisr,:li_ofe
+	from ips;
+	
+	if as_plant<>'C42' then 
+		if li_vac>0 or li_pom>0 then
+			ls_fresul='1800-01-01'
+		else
+			ls_fresul='1800-01-01'
+		end if
+		if isnull(ls_ant) then 
+			if li_vac>0 or li_pom>0 then
+				ls_resul='13'
+			else
+				if li_his>0 or li_hisv>0 or li_hisr>0 or li_ofe>0 then
+					ls_resul='13'
+				else
+					ls_resul='21'
+				end if
+			end if
+		else
+			ls_resul=ls_ant
+		end if
+		
+	else
+		ls_fresul=as_fresul
+	end if
+else
+	ls_fresul='1845-01-01'
+	ls_resul='0'
+	ls_fresul1='1845-01-01'
+end if	
+	
+update  pacientes_ririas set fecha_asantico=:as_fresul,sumin_antico=:ls_resul,fecha_santico=:ls_fresul1,fecha_audita=current_timestamp
+where tipodoc=:as_tdoc and documento=:as_docu;
+if sqlca.sqlcode<0 then
+	ls_error=sqlca.sqlerrtext
+	rollback;
+	messagebox("gf_validar_202_cons - Error de SQL línea 537", "Error update en paciente_ririas: "+ls_error)
+	return -1
+end if		
+commit;
+
+//56 y 58
+if ai_edad_dias<3650 or ai_edad_dias>21535 then
+	ls_fresul='1845-01-01'
+else
+	if as_plant='AN20' then 
+		ls_fresul=as_fresul
+	end if
+end if
+
+update  pacientes_ririas set fecha_prenatal=:as_fresul,fecha_cprenatal=:as_fresul,fecha_audita=current_timestamp
+where tipodoc=:as_tdoc and documento=:as_docu;
+if sqlca.sqlcode<0 then
+	ls_error=sqlca.sqlerrtext
+	rollback;
+	messagebox("gf_validar_202_cons - Error de SQL línea 581", "Error update en paciente_ririas: "+ls_error)
+	return -1
+end if		
+commit;
+
+//56 - 58
+if as_variable='56' or as_variable='58' then
+	if ls_sexo='1' then 
+		ls_fresul='1845-01-01'
+	else
+		if ai_edad_dias<3650 or ai_edad_dias>21535 then
+			ls_fresul='1845-01-01'
+		else
+			if as_plant='C9' then 
+				ls_fresul=as_fresul
+				update  pacientes_ririas set fecha_prenatal=:as_fresul,fecha_audita=current_timestamp
+				where tipodoc=:as_tdoc and documento=:as_docu;
+			end if
+			if as_plant='C10' then 
+				ls_fresul1=as_fresul
+				update  pacientes_ririas set fecha_cprenatal=:as_fresul,fecha_audita=current_timestamp
+				where tipodoc=:as_tdoc and documento=:as_docu;
+			end if
+		end if
+	end if
+	if sqlca.sqlcode<0 then
+		ls_error=sqlca.sqlerrtext
+		rollback;
+		messagebox("gf_validar_202_cons - Error de SQL línea 601/606", "Error update en paciente_ririas: "+ls_error)
+		return -1
+	end if		
+	commit;
+end if
+
+//FECHA AGUDEZA VISUAL
+if as_variable='62' then
+	if ai_edad_dias<1095 then 
+		ls_fresul='1845-01-01'
+	else
+		if	((as_plant='C10' and as_campo=347) or &
+			(as_plant='C12' and as_campo=271) or &
+			(as_plant='C13' and as_campo=106) or &
+			(as_plant='C14' and as_campo=106) or &
+			(as_plant='C18' and as_campo=307) or &
+			(as_plant='C2' and as_campo=106) or &
+			(as_plant='C20' and as_campo=278) or &
+			(as_plant='C3' and as_campo=106) or &
+			(as_plant='C30' and as_campo=106) or &
+			(as_plant='C31' and as_campo=106) or &
+			(as_plant='C32' and as_campo=106) or &
+			(as_plant='C35' and as_campo=106) or &
+			(as_plant='C36' and as_campo=106) or &			
+			(as_plant='C37' and as_campo=106) or &
+			(as_plant='C39' and as_campo=106) or &			
+			(as_plant='C4' and as_campo=106) or &
+			(as_plant='C42' and as_campo=106) or &
+			(as_plant='C43' and as_campo=106) or &			
+			(as_plant='C9' and as_campo=286)) &
+		then
+			if isnull(as_resul) then
+				ls_fresul='1800-01-01'
+			else
+				ls_fresul=as_fresul
+			end if
+		else
+			ls_fresul='1845-01-01'
+		end if
+	end if
+
+	update  pacientes_ririas set fecha_aguvi=:ls_fresul, fecha_audita=current_timestamp
+	where tipodoc=:as_tdoc and documento=:as_docu;
+	if sqlca.sqlcode<0 then
+		ls_error=sqlca.sqlerrtext
+		rollback;
+		messagebox("gf_validar_202_cons - Error de SQL línea 656", "Error update en paciente_ririas: "+ls_error)
+		return -1
+	end if		
+	commit;
+	return 1	
+end if
+
+
+//FECHA VALE
+if as_variable='63' then
+	if ai_edad_dias>4380 then 
+		ls_fresul='1845-01-01'
+	else
+		if	((as_plant='C2' and as_campo=122) or &
+			(as_plant='C3' and as_campo=117) or &
+			(as_plant='C32' and as_campo=117) or &
+			(as_plant='C43' and as_campo=307))  &
+		then
+			if isnull(as_resul) then
+				ls_fresul='1800-01-01'
+			else
+				ls_fresul=as_fresul
+			end if
+		else
+			ls_fresul='1845-01-01'
+		end if
+	end if
+
+	update  pacientes_ririas set fecha_vale=:ls_fresul, fecha_audita=current_timestamp
+	where tipodoc=:as_tdoc and documento=:as_docu;
+	if sqlca.sqlcode<0 then
+		ls_error=sqlca.sqlerrtext
+		rollback;
+		messagebox("gf_validar_202_cons - Error de SQL línea 689", "Error update en paciente_ririas: "+ls_error)
+		return -1
+	end if		
+	commit;
+	return 1	
+end if
+
+//TACTO RECTAL
+if as_variable='64' then
+	if ls_sexo='2' then 
+		ls_fresul='1845-01-01'
+	else
+		if ai_edad_dias<14600 then
+			ls_fresul='1845-01-01'
+		else
+			select 
+				f_trae_paciente_antecedente_cups(:as_tdoc,:as_docu,'AN4','6051%')
+			into
+				:li_prosta
+			from ips;
+			
+			if	((as_plant='C14' and as_campo=220) or &
+				(as_plant='C30' and as_campo=220) or &
+				(as_plant='C31' and as_campo=220) or &
+				(as_plant='C35' and as_campo=220)) &
+			then
+				if isnull(as_resul) or li_prosta=0 then
+					ls_fresul='1800-01-01'
+				else
+					ls_fresul=as_fresul
+				end if
+			else
+				ls_fresul='1845-01-01'
+			end if
+		end if
+	end if
+	update  pacientes_ririas set fecha_trectal=:ls_fresul, fecha_audita=current_timestamp
+	where tipodoc=:as_tdoc and documento=:as_docu;
+	if sqlca.sqlcode<0 then
+		ls_error=sqlca.sqlerrtext
+		rollback;
+		messagebox("gf_validar_202_cons - Error de SQL línea 730", "Error update en paciente_ririas: "+ls_error)
+		return -1
+	end if		
+	commit;
+end if
+
+//COLONOSCOPIA 36 66
+if ai_edad_dias<18250 or ai_edad_dias>27375 then
+	ls_fresul='1845-01-01'
+	ls_resul='0'
+else
+	ls_fresul='1800-01-01'
+	ls_resul='21'	
+
+end if
+update  pacientes_ririas set resul_coloc=:ls_resul,fecha_colo=:ls_fresul, fecha_audita=current_timestamp
+where tipodoc=:as_tdoc and documento=:as_docu;
+if sqlca.sqlcode<0 then
+	ls_error=sqlca.sqlerrtext
+	rollback;
+	messagebox("gf_validar_202_cons - Error de SQL línea 752", "Error update en paciente_ririas: "+ls_error)
+	return -1
+end if		
+commit;
+
+// FECHA ODONTOLOGIA
+if ai_edad_dias<2190 then
+	ls_fresul='1845-01-01'
+else
+	if as_plant='O1' or as_plant='O3' then
+		datetime ldt_fcopi,ldt_fcopf
+		
+		ls_fresul=as_fresul
+		ldt_fcopi=datetime(date(as_fresul),time(0,0,0))
+		ldt_fcopf=datetime(date(ldt_fcopi),time(23,59,29))
+		
+		select 
+			f_trae_cop(:as_tdoc,:as_docu,:ldt_fcopi,:ldt_fcopf)
+		into 
+			:ls_resul
+		from 
+			ips;
+			
+		if isnull(ls_resul) then
+			ls_resul='21'
+		else
+			ls_resul=ls_resul
+		end if
+	else				
+		ls_fresul='1845-01-01'
+	end if
+end if
+update  pacientes_ririas set cop=:ls_resul,fecha_salbucal=:ls_fresul, fecha_audita=current_timestamp
+where tipodoc=:as_tdoc and documento=:as_docu;
+if sqlca.sqlcode<0 then
+	ls_error=sqlca.sqlerrtext
+	rollback;
+	messagebox("gf_validar_202_cons - Error de SQL línea 789", "Error update en paciente_ririas: "+ls_error)
+	return -1
+end if		
+commit;
+
+//RIESGO CARDIOVASCULAR
+if as_variable='114' then
+	if ai_edad_dias<=10585 then
+		ls_resul='0'
+	else
+		if	((as_plant='C14' and as_campo=228) or &
+			(as_plant='C30' and as_campo=228) or &
+			(as_plant='C31' and as_campo=228) or &
+			(as_plant='C35' and as_campo=228) or &
+			(as_plant='C42' and as_campo=228)) &			
+		then
+			if isnull(as_resul) then
+				ls_resul='21'
+			else
+				if pos('VERDE',as_resul)>1 then ls_resul='5'
+				if pos('AMARILLO',as_resul)>1 then ls_resul='6'
+				if pos('ROJO',as_resul)>1 then ls_resul='4'
+			end if
+		else
+			ls_resul='21'
+		end if
+	end if
+	update  pacientes_ririas set resul_riescar=:ls_resul, fecha_audita=current_timestamp
+	where tipodoc=:as_tdoc and documento=:as_docu;
+	if sqlca.sqlcode<0 then
+		ls_error=sqlca.sqlerrtext
+		rollback;
+		messagebox("gf_validar_202_cons - Error de SQL línea 821", "Error update en paciente_ririas: "+ls_error)
+		return -1
+	end if		
+	commit;
+end if
+
+//RIESGO METABOLICO
+if as_variable='117' then
+	if ai_edad_dias<=10585 then
+		ls_resul='0'
+	else
+		if	((as_plant='C14' and as_campo=122) or &
+			(as_plant='C30' and as_campo=122) or &
+			(as_plant='C31' and as_campo=122) or &
+			(as_plant='C35' and as_campo=122)) &			
+		then
+			if isnull(as_resul) then
+				ls_resul='21'
+			else
+				if pos('VERDE',as_resul)>1 then ls_resul='5'
+				if pos('AMARILLO',as_resul)>1 then ls_resul='6'
+				if pos('ROJO',as_resul)>1 then ls_resul='4'
+			end if
+		else
+			ls_resul='21'
+		end if
+	end if
+	update  pacientes_ririas set resul_metb=:ls_resul, fecha_audita=current_timestamp
+	where tipodoc=:as_tdoc and documento=:as_docu;
+	if sqlca.sqlcode<0 then
+		ls_error=sqlca.sqlerrtext
+		rollback;
+		messagebox("gf_validar_202_cons - Error de SQL línea 853", "Error update en paciente_ririas: "+ls_error)
+		return -1
+	end if		
+	commit;
 end if
 end function
 
