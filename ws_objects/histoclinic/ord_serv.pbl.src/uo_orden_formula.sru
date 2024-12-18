@@ -1883,8 +1883,8 @@ type cb_delserv from picturebutton within tp_1
 event mousemove pbm_mousemove
 integer x = 736
 integer y = 8
-integer width = 146
-integer height = 128
+integer width = 142
+integer height = 124
 integer taborder = 30
 integer textsize = -8
 integer weight = 400
@@ -2459,8 +2459,23 @@ end type
 
 event clicked;call super::clicked;if f_permiso_boton(this,'ATOS')=0 then return -1
 any par[3]
-int index,ls_impreso
-string ls_tiporep
+int index,ls_impreso, l_i
+string ls_tiporep,ls_resul
+
+///PARA 202
+for l_i= 1 to tab_1.tp_2.dw_formula.rowcount()
+	if not isnull(tab_1.tp_2.dw_formula.getitemstring(l_i,'ririas')) and dw_oscab.getitemstring(dw_oscab.getrow(),'estado')='1' then
+		gf_validar_202_medi(	tipdoc,docu,&
+			w_principal.dw_1.getitemstring(1,'sexo'),&
+			w_principal.dw_1.getitemnumber(1,'dias'),&
+			tab_1.tp_2.dw_formula.getitemnumber(l_i,'contador'),&
+			tab_1.tp_2.dw_formula.getitemstring(l_i,'clugar'),&
+			tab_1.tp_2.dw_formula.getitemstring(l_i,'varia_salud'),&
+			tab_1.tp_2.dw_formula.getitemstring(l_i,'codplantilla'),&
+			tab_1.tp_2.dw_formula.getitemstring(l_i,'c_medica'),&
+			string(dw_oscab.getitemdatetime(dw_oscab.getrow(),'fecha'),'yyyy-mm-dd'))			
+	end if
+next
 
 par[1]=i_contador
 par[2]=i_norden
@@ -2470,7 +2485,10 @@ if imprimir(par,dw_oscab.getitemstring(dw_oscab.getrow(),'codprof'),'0')=1 then
 		ls_tiporep=dw_oscab.getitemstring(dw_oscab.getrow(),'cont_imp')
 		if isnull(ls_tiporep) then ls_tiporep='N'
 		
-		select count(tipo)as ctos,max(impreso) as impreso into :index,:ls_impreso
+		select 
+			count(tipo)as ctos,max(impreso) as impreso 
+		into 
+			:index,:ls_impreso
 		from
 		(
 			select distinct oscabeza.impreso,oscuerpo.tipo
@@ -2486,14 +2504,7 @@ if imprimir(par,dw_oscab.getitemstring(dw_oscab.getrow(),'codprof'),'0')=1 then
 			end if
 			dw_oscab.setitem(dw_oscab.getrow(),'cont_imp','M')			
 		else
-//			if index >1 and ls_tiporep='N'  then
-//				ls_impreso=2
-//				dw_oscab.setitem(dw_oscab.getrow(),'cont_imp','1')
-//			else
-//				if ls_tiporep='M' then 
-					ls_impreso++		
-			//	end if
-			//end if
+			ls_impreso++		
 		end if
 		dw_oscab.setitem(dw_oscab.getrow(),'impreso',ls_impreso)
 		dw_oscab.setitem(dw_oscab.getrow(),'estado','2')
@@ -2515,7 +2526,6 @@ if imprimir(par,dw_oscab.getitemstring(dw_oscab.getrow(),'codprof'),'0')=1 then
 		end if
 	end if
 end if
-
 
 end event
 

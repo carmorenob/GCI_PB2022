@@ -23,7 +23,7 @@ end type
 end forward
 
 global type w_busca_atc from window
-integer width = 3813
+integer width = 4329
 integer height = 1688
 boolean titlebar = true
 string title = "Buscar ATC"
@@ -144,7 +144,7 @@ end event
 type dw_2 from datawindow within w_busca_atc
 integer x = 64
 integer y = 252
-integer width = 3648
+integer width = 4137
 integer height = 1040
 integer taborder = 60
 string dragicon = "none!"
@@ -229,7 +229,7 @@ end type
 type st_3 from statictext within w_busca_atc
 integer x = 2080
 integer y = 92
-integer width = 1591
+integer width = 2107
 integer height = 132
 integer textsize = -8
 integer weight = 400
@@ -297,7 +297,7 @@ end event
 type gb_2 from groupbox within w_busca_atc
 integer x = 41
 integer y = 20
-integer width = 3703
+integer width = 4206
 integer height = 1352
 integer taborder = 40
 integer textsize = -8
