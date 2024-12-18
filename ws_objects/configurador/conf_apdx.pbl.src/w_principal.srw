@@ -21,7 +21,7 @@ boolean resizable = true
 windowtype windowtype = mdi!
 windowstate windowstate = maximized!
 long backcolor = 134217732
-string icon = "configura.ico"
+string icon = "gci_cfg.ico"
 string pointer = "Arrow!"
 integer toolbarheight = 100
 event f_init_ribon ( ribbonbar nom_rib,  boolean rib_boo )
