@@ -5,10 +5,10 @@ COM:GCI Ltda.
 DES:GCI Ltda Configurador
 CPY:2000-2025
 PRD:GCI Configurador
-PVS:6,0,0,43
-PVN:6,0,0,43
-FVS:6,0,0,43
-FVN:6,0,0,43
+PVS:6,0,0,44
+PVN:6,0,0,44
+FVS:6,0,0,44
+FVN:6,0,0,44
 MAN:0,asInvoker,0
 PBD:conf_apdx.pbl,,1
 PBD:pyp.pbl,,1
