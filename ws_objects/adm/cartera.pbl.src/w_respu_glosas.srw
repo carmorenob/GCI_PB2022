@@ -2,6 +2,8 @@
 forward
 global type w_respu_glosas from window
 end type
+type pb_imp from pb_report within w_respu_glosas
+end type
 type pb_borra_rta from picturebutton within w_respu_glosas
 end type
 type pb_rabrir from picturebutton within w_respu_glosas
@@ -52,6 +54,12 @@ type rte_1 from richtextedit within w_respu_glosas
 end type
 type mle_resp from multilineedit within w_respu_glosas
 end type
+type mle_nots from multilineedit within w_respu_glosas
+end type
+type dw_objs from datawindow within w_respu_glosas
+end type
+type dw_res from datawindow within w_respu_glosas
+end type
 type tab_1 from tab within w_respu_glosas
 end type
 type tp_1 from userobject within tab_1
@@ -62,16 +70,16 @@ type pb_7 from picturebutton within tp_1
 end type
 type pb_cerrar from picturebutton within tp_1
 end type
-type dw_fac_glos from datawindow within tp_1
-end type
 type dw_facts from datawindow within tp_1
+end type
+type dw_fac_glos from datawindow within tp_1
 end type
 type tp_1 from userobject within tab_1
 st_3 st_3
 pb_7 pb_7
 pb_cerrar pb_cerrar
-dw_fac_glos dw_fac_glos
 dw_facts dw_facts
+dw_fac_glos dw_fac_glos
 end type
 type tp_2 from userobject within tab_1
 end type
@@ -110,12 +118,6 @@ tp_1 tp_1
 tp_2 tp_2
 tp_3 tp_3
 end type
-type mle_nots from multilineedit within w_respu_glosas
-end type
-type dw_objs from datawindow within w_respu_glosas
-end type
-type dw_res from datawindow within w_respu_glosas
-end type
 end forward
 
 global type w_respu_glosas from window
@@ -128,6 +130,7 @@ boolean minbox = true
 windowtype windowtype = popup!
 long backcolor = 67108864
 string icon = "ribon_rta.ico"
+pb_imp pb_imp
 pb_borra_rta pb_borra_rta
 pb_rabrir pb_rabrir
 pb_2 pb_2
@@ -147,10 +150,10 @@ gb_1 gb_1
 cb_2 cb_2
 rte_1 rte_1
 mle_resp mle_resp
-tab_1 tab_1
 mle_nots mle_nots
 dw_objs dw_objs
 dw_res dw_res
+tab_1 tab_1
 end type
 global w_respu_glosas w_respu_glosas
 
@@ -489,6 +492,7 @@ Return round(total,i_dec_gral_car)
 end function
 
 on w_respu_glosas.create
+this.pb_imp=create pb_imp
 this.pb_borra_rta=create pb_borra_rta
 this.pb_rabrir=create pb_rabrir
 this.pb_2=create pb_2
@@ -508,11 +512,12 @@ this.gb_1=create gb_1
 this.cb_2=create cb_2
 this.rte_1=create rte_1
 this.mle_resp=create mle_resp
-this.tab_1=create tab_1
 this.mle_nots=create mle_nots
 this.dw_objs=create dw_objs
 this.dw_res=create dw_res
-this.Control[]={this.pb_borra_rta,&
+this.tab_1=create tab_1
+this.Control[]={this.pb_imp,&
+this.pb_borra_rta,&
 this.pb_rabrir,&
 this.pb_2,&
 this.st_1,&
@@ -531,13 +536,14 @@ this.gb_1,&
 this.cb_2,&
 this.rte_1,&
 this.mle_resp,&
-this.tab_1,&
 this.mle_nots,&
 this.dw_objs,&
-this.dw_res}
+this.dw_res,&
+this.tab_1}
 end on
 
 on w_respu_glosas.destroy
+destroy(this.pb_imp)
 destroy(this.pb_borra_rta)
 destroy(this.pb_rabrir)
 destroy(this.pb_2)
@@ -557,10 +563,10 @@ destroy(this.gb_1)
 destroy(this.cb_2)
 destroy(this.rte_1)
 destroy(this.mle_resp)
-destroy(this.tab_1)
 destroy(this.mle_nots)
 destroy(this.dw_objs)
 destroy(this.dw_res)
+destroy(this.tab_1)
 end on
 
 event open;tab_1.tp_1.dw_facts.SetRedraw(FALSE)
@@ -611,6 +617,28 @@ mle_resp.x=dw_res.x+dw_res.width +230
 mle_resp.resize((newwidth * 0.45) , (newheight * 0.18))
 mle_nots.x=dw_res.x+dw_res.width +230
 mle_nots.resize((newwidth * 0.45) , (newheight * 0.18))
+end event
+
+type pb_imp from pb_report within w_respu_glosas
+integer x = 3986
+integer y = 192
+integer taborder = 100
+boolean bringtotop = true
+boolean originalsize = false
+string powertiptext = "Imprime Respuesta"
+string cod_rep = "ROBJ"
+string nombre_rep = "Respuesta a Objección"
+string tipo_rep = "interno!"
+boolean v_preliminar = true
+end type
+
+event clicked;call super::clicked;if dw_histo.rowcount()=0 then return
+if dw_histo.getitemstring(dw_histo.getrow(),'estado')<>'2' then return
+any par[3]
+par[1]='%'
+par[2]=dw_histo.getitemstring(dw_histo.getrow(),'num_glosa')
+par[2]=dw_histo.getitemstring(dw_histo.getrow(),'num_glosa')
+imprimir(par,'','0')
 end event
 
 type pb_borra_rta from picturebutton within w_respu_glosas
@@ -823,7 +851,7 @@ end event
 
 type st_1 from statictext within w_respu_glosas
 integer x = 4014
-integer y = 276
+integer y = 480
 integer width = 343
 integer height = 64
 integer textsize = -8
@@ -1452,10 +1480,10 @@ end event
 
 type rte_1 from richtextedit within w_respu_glosas
 boolean visible = false
-integer x = 4023
-integer y = 264
+integer x = 4005
+integer y = 380
 integer width = 370
-integer height = 352
+integer height = 148
 integer taborder = 50
 boolean bringtotop = true
 boolean init_hscrollbar = true
@@ -1493,806 +1521,6 @@ if (isnull(dw_res.getitemstring(dw_res.getrow(),'respuesta')) and text<>'' ) or 
 	dw_res.setitem(dw_res.getrow(),'respuesta',text)
 	i_cambio=true
 end if
-
-end event
-
-type tab_1 from tab within w_respu_glosas
-boolean visible = false
-integer x = 37
-integer y = 648
-integer width = 4398
-integer height = 976
-integer taborder = 40
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-long backcolor = 67108864
-boolean fixedwidth = true
-boolean raggedright = true
-boolean focusonbuttondown = true
-boolean powertips = true
-alignment alignment = center!
-integer selectedtab = 1
-tp_1 tp_1
-tp_2 tp_2
-tp_3 tp_3
-end type
-
-on tab_1.create
-this.tp_1=create tp_1
-this.tp_2=create tp_2
-this.tp_3=create tp_3
-this.Control[]={this.tp_1,&
-this.tp_2,&
-this.tp_3}
-end on
-
-on tab_1.destroy
-destroy(this.tp_1)
-destroy(this.tp_2)
-destroy(this.tp_3)
-end on
-
-type tp_1 from userobject within tab_1
-integer x = 18
-integer y = 112
-integer width = 4361
-integer height = 848
-long backcolor = 67108864
-string text = "Facturas"
-long tabtextcolor = 33554432
-string picturename = "factura.ico"
-long picturemaskcolor = 536870912
-string powertiptext = "Facuras de la Objeción por usuario"
-st_3 st_3
-pb_7 pb_7
-pb_cerrar pb_cerrar
-dw_fac_glos dw_fac_glos
-dw_facts dw_facts
-end type
-
-on tp_1.create
-this.st_3=create st_3
-this.pb_7=create pb_7
-this.pb_cerrar=create pb_cerrar
-this.dw_fac_glos=create dw_fac_glos
-this.dw_facts=create dw_facts
-this.Control[]={this.st_3,&
-this.pb_7,&
-this.pb_cerrar,&
-this.dw_fac_glos,&
-this.dw_facts}
-end on
-
-on tp_1.destroy
-destroy(this.st_3)
-destroy(this.pb_7)
-destroy(this.pb_cerrar)
-destroy(this.dw_fac_glos)
-destroy(this.dw_facts)
-end on
-
-type st_3 from statictext within tp_1
-integer x = 2075
-integer width = 343
-integer height = 56
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-long textcolor = 33554432
-long backcolor = 67108864
-string text = "Objeciones"
-boolean focusrectangle = false
-end type
-
-type pb_7 from picturebutton within tp_1
-integer x = 2085
-integer y = 620
-integer width = 146
-integer height = 128
-integer taborder = 40
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-boolean originalsize = true
-string picturename = "editar.gif"
-alignment htextalign = left!
-string powertiptext = "Taer Plantillas"
-end type
-
-event clicked;st_rte st_r
-long cars
-
-rte_1.SelectTextAll()
-rte_1.ReplaceText('')
-st_r.ventana = 'RGL'
-st_r.rte = rte_1
-openwithparm(w_plant_rtf,st_r)
-rte_1.SelectTextAll()
-cars = rte_1.Copy()
-if cars > 0 then
-	mle_resp.Paste()
-end if
-
-end event
-
-type pb_cerrar from picturebutton within tp_1
-integer x = 1970
-integer y = 824
-integer width = 146
-integer height = 128
-integer taborder = 30
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-boolean originalsize = true
-string picturename = "cerrar.gif"
-alignment htextalign = left!
-string powertiptext = "Cerrar Respuestas"
-end type
-
-event clicked;//if dw_facts.rowcount()=0 then return
-//if dw_facts.find('esco=1',1,dw_facts.rowcount())=0 then return
-//if grabar()=-1 then return
-//long j,k,l,m,n
-//boolean sub
-//string clug,err
-//for j=1 to dw_facts.rowcount()
-//	if dw_facts.getitemnumber(j,'esco')=0 then continue
-//	dw_facts.setitem(j,'esco',0)
-//	sub=false
-//	if dw_facts.getitemstring(j,'forma_respu')='F' then//total a nivel de factura
-//		dw_resp.setfilter('item_glosa_gral='+string(dw_facts.getitemnumber(j,'item')))
-//		dw_resp.filter()
-//		if dw_resp.rowcount()=0 then continue
-//		for k=1 to dw_resp.rowcount()
-//			if isnull(dw_resp.getitemstring(k,'cod_respuesta')) or isnull(dw_resp.getitemstring(k,'usu_causante')) then 
-//				sub=true
-//				exit
-//			end if
-//		next
-//	else//parcial
-//		dw_facts.scrolltorow(j)
-//		for k=1 to tab_1.tp_2.dw_procs.rowcount()
-//			if tab_1.tp_2.dw_procs.getitemstring(k,'tipo')='1' then//total
-//				tab_1.tp_2.dw_resp_proc.setfilter('item_glosa_det='+string(tab_1.tp_2.dw_procs.getitemnumber(k,'item'))+' and subitem_glosa_det='+string(tab_1.tp_2.dw_procs.getitemnumber(k,'subitem')))
-//				tab_1.tp_2.dw_resp_proc.filter()
-//				if tab_1.tp_2.dw_resp_proc.rowcount()=0 then 
-//					sub=true
-//					exit
-//				end if
-//				for n=1 to tab_1.tp_2.dw_resp_proc.rowcount()
-//					if isnull(tab_1.tp_2.dw_resp_proc.getitemstring(n,'cod_respuesta')) or isnull(tab_1.tp_2.dw_resp_proc.getitemstring(n,'usu_causante')) then 
-//						sub=true
-//						exit
-//					end if
-//				next
-//				if sub then exit
-//			else
-//				tab_1.tp_2.dw_procs.scrolltorow(k)
-//				for l=1 to tab_1.tp_3.dw_sitem.rowcount()
-//					tab_1.tp_3.dw_resp_sitem.setfilter('item_glosa_sub='+string(tab_1.tp_3.dw_sitem.getitemnumber(l,'item'))+' and subitem_glosa_sub='+string(tab_1.tp_3.dw_sitem.getitemnumber(l,'subitem'))+' and ndeta_glosa_sub='+string(tab_1.tp_3.dw_sitem.getitemnumber(l,'ndeta')))
-//					tab_1.tp_3.dw_resp_sitem.filter()
-//					if tab_1.tp_3.dw_resp_sitem.rowcount()=0 then 
-//						sub=true
-//						exit
-//					end if
-//					for m=1 to tab_1.tp_3.dw_resp_sitem.rowcount()
-//						if isnull(tab_1.tp_3.dw_resp_sitem.getitemstring(m,'cod_respuesta')) or isnull(tab_1.tp_3.dw_resp_sitem.getitemstring(m,'usu_causante')) then 
-//							sub=true
-//							exit
-//						end if
-//					next
-//					if sub then exit
-//				next
-//			end if
-//			if sub then exit
-//		next
-//	end if
-//	if sub then continue
-//	dw_facts.setitem(j,'estado','P')
-//next
-//if dw_facts.update(true,false)=-1 then goto error
-//m=dw_histo.getitemnumber(dw_histo.getrow(),'num_glosa')
-//clug=dw_histo.getitemstring(dw_histo.getrow(),'clugar')
-//select count(*) into :j from car_glosa_cpo where 
-//coddoc ='GL' and clugar =:clug and num_glosa =:m and estado not in ('P','E');
-//if sqlca.sqlcode=-1 then
-//	err=sqlca.sqlerrtext
-//	rollback;
-//	messagebox('Error leyendo car_glosa_cpo',err)
-//	goto error
-//end if
-//if j=0 then
-//	dw_histo.setitem(dw_histo.getrow(),'estado','2')
-//	if dw_histo.update()=-1 then return
-//end if
-//commit;
-//dw_facts.resetupdate()
-//return
-//error:
-//dw_histo.event rowfocuschanged(dw_histo.getrow())
-end event
-
-type dw_fac_glos from datawindow within tp_1
-event porcentajes ( )
-integer x = 2071
-integer y = 48
-integer width = 2231
-integer height = 772
-integer taborder = 30
-string title = "none"
-string dataobject = "dw_glos_cpo_det"
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event constructor;setTransObject(SQLCA)
-getchild('cod_objecion',idw_obj)
-idw_obj.settransobject(sqlca)
-idw_obj.retrieve('%','%')
-Modify("cod_objecion.TabOrder=0 valor_objecion.Edit.DisplayOnly=yes nombre.TabOrder=0 valor_objecion.edit.displayonly=yes")
-
-end event
-
-event rowfocuschanged;//dw_resp.setfilter('isnull(item_glosa_gral)')
-//if getrow()>0 then
-//	dw_resp.setfilter('item_glosa_gral='+string(getitemnumber(getRow(),'item'))+' and nglosa_gral='+string(getitemnumber(getrow(),'nobjecion')))
-//	idw_resp1.retrieve(getitemstring(getrow(),'cod_objecion'))
-//end if
-//dw_resp.filter()
-//dw_resp.event rowfocuschanged(dw_resp.getrow())
-//
-end event
-
-event dragwithin;if row > 0 then ScrolltoRow(row)
-
-end event
-
-event dragdrop;//long f
-//if dw_fac_glos.RowCount() = 0 then Return
-//if (dw_fac_glos.getitemstring(row,'estado') <>'C' and dw_fac_glos.getitemstring(row,'estado') <>'R') then 
-//	Messagebox('Atención','Esta objeción ya fue contestada y cerrada')
-//	return
-//end if
-//
-//f = pb_add.Event clicked()
-//if f > 0 then
-//	dw_resp.SetItem(f,'cod_respuesta',i_cod_resp)
-//	dw_resp.SetItem(f,'usu_causante',i_usu)
-//	dw_resp.SetItem(f,'respuesta',i_resp)
-//	dw_resp.SetItem(f,'notas',i_notas)
-//end if
-//
-end event
-
-event retrieveend;long i
-for i = 1 to RowCount()
-	if GetItemNumber(i,'valor_objecion') = 0 then
-		SetItem(i,'porcen',0)
-	else
-		SetItem(i,'porcen',round(GetItemNumber(i,'valor_aceptado')/GetItemNumber(i,'valor_objecion')*100,i_dec_gral_car))
-	end if
-next
-
-end event
-
-type dw_facts from datawindow within tp_1
-event ue_mousemove pbm_mousemove
-event ue_buttondown pbm_lbuttondown
-event ue_buttonup pbm_lbuttonup
-integer y = 48
-integer width = 2043
-integer height = 772
-integer taborder = 30
-string dragicon = "Asterisk!"
-string title = "none"
-string dataobject = "dw_obje_a_respu_cpo"
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean hsplitscroll = true
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event dberror;rollback;
-st_error i_st
-i_st.ds_nombre=classname()
-i_st.msgerror='SqlDbCode: '+string(sqldbcode)+'~r~n~r~nSINTAXIS:~r~n'+sqlsyntax+'~r~n~r~nERROR:~r~n'+sqlerrtext
-openwithparm(w_error_ds,i_st)
-return 1
-end event
-
-event constructor;settransobject(sqlca)
-end event
-
-event clicked;if row>0 and row<>getrow() then scrolltorow(row)
-end event
-
-event rowfocuschanged;tab_1.tp_2.dw_procs.setfilter('isnull(item)')
-dw_fac_glos.setfilter('isnull(item)')
-if getrow()>0 then
-	tab_1.tp_2.dw_procs.setfilter('item='+string(getitemnumber(getrow(),'item')))
-	dw_fac_glos.setfilter('item='+string(getitemnumber(getrow(),'item')))
-	long donde
-end if
-dw_fac_glos.filter()
-dw_fac_glos.event rowfocuschanged(dw_fac_glos.getrow())
-tab_1.tp_2.dw_procs.filter()
-tab_1.tp_2.dw_procs.event rowfocuschanged(tab_1.tp_2.dw_procs.getrow())
-
-end event
-
-event buttonclicked;if rowcount()=0 then return
-long j
-if dwo.text='Selec.' then
-	dwo.text='Desel.'
-	for j=1 to rowcount()
-		if getitemstring(j,'estado')='R' then
-			setitem(j,'esco',1)
-		end if
-	next
-else
-	dwo.text='Selec.'
-	for j=1 to rowcount()
-		setitem(j,'esco',0)
-	next
-end if
-
-
-end event
-
-event rbuttondown;st_dw_xa_funciones st_dw
-st_dw.dw=this
-st_dw.dwo=dwo
-st_dw.row=row
-st_dw.solobuscar = TRUE
-st_dw.color_fondo=string(rgb(255,255,255))
-openwithparm(w_funcion_dw,st_dw)
-end event
-
-event itemchanged;i_cambio=true
-end event
-
-type tp_2 from userobject within tab_1
-integer x = 18
-integer y = 112
-integer width = 4361
-integer height = 848
-long backcolor = 67108864
-string text = "Procedimientos"
-long tabtextcolor = 33554432
-string picturename = "bisturi.ico"
-long picturemaskcolor = 536870912
-string powertiptext = "Procedimientos a responder de la factura"
-pb_8 pb_8
-st_4 st_4
-dw_procs dw_procs
-dw_proc_glos dw_proc_glos
-end type
-
-on tp_2.create
-this.pb_8=create pb_8
-this.st_4=create st_4
-this.dw_procs=create dw_procs
-this.dw_proc_glos=create dw_proc_glos
-this.Control[]={this.pb_8,&
-this.st_4,&
-this.dw_procs,&
-this.dw_proc_glos}
-end on
-
-on tp_2.destroy
-destroy(this.pb_8)
-destroy(this.st_4)
-destroy(this.dw_procs)
-destroy(this.dw_proc_glos)
-end on
-
-type pb_8 from picturebutton within tp_2
-integer x = 1906
-integer y = 720
-integer width = 146
-integer height = 128
-integer taborder = 50
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-boolean originalsize = true
-string picturename = "editar.gif"
-alignment htextalign = left!
-string powertiptext = "Taer Plantillas"
-end type
-
-event clicked;st_rte st_r
-long cars
-
-rte_1.SelectTextAll()
-rte_1.ReplaceText('')
-st_r.ventana = 'RGL'
-st_r.rte = rte_1
-openwithparm(w_plant_rtf,st_r)
-rte_1.SelectTextAll()
-cars = rte_1.Copy()
-if cars > 0 then
-	mle_resp.Paste()
-end if
-
-end event
-
-type st_4 from statictext within tp_2
-integer x = 5
-integer y = 4
-integer width = 969
-integer height = 56
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-long textcolor = 33554432
-long backcolor = 67108864
-string text = "Objeciones de Procedimientos a responder:"
-boolean focusrectangle = false
-end type
-
-type dw_procs from datawindow within tp_2
-event p_itemchanged ( )
-integer y = 64
-integer width = 1915
-integer height = 760
-integer taborder = 40
-boolean bringtotop = true
-string title = "none"
-string dataobject = "dw_gloscpo_a_respu"
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean hsplitscroll = true
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event p_itemchanged();if rowcount()>0 then
-	if find('estado_respu="R" or estado_respu="P"',1,rowcount())=0 then
-		tab_1.tp_1.dw_facts.setitem(tab_1.tp_1.dw_facts.getrow(),'estado','C')
-	end if
-	tab_1.tp_1.dw_facts.setitem(tab_1.tp_1.dw_facts.getrow(),'valor_aceptado',getitemnumber(1,'t_aceptado'))
-end if
-end event
-
-event dberror;rollback;
-st_error i_st
-i_st.ds_nombre=classname()
-i_st.msgerror='SqlDbCode: '+string(sqldbcode)+'~r~n~r~nSINTAXIS:~r~n'+sqlsyntax+'~r~n~r~nERROR:~r~n'+sqlerrtext
-openwithparm(w_error_ds,i_st)
-return 1
-end event
-
-event constructor;settransobject(sqlca)
-end event
-
-event rowfocuschanged;dw_proc_glos.setfilter('isnull(subitem)')
-tab_1.tp_3.dw_sitem.setfilter('isnull(subitem)')
-if getrow()>0 then
-	dw_proc_glos.setfilter('item='+string(getitemnumber(getrow(),'item'))+' and subitem='+string(getitemnumber(getrow(),'subitem')))
-	tab_1.tp_3.dw_sitem.setfilter('item='+string(getitemnumber(getrow(),'item'))+' and subitem='+string(getitemnumber(getrow(),'subitem')))
-	long donde
-end if
-dw_proc_glos.filter()
-dw_proc_glos.event rowfocuschanged(dw_proc_glos.getrow())
-tab_1.tp_3.dw_sitem.filter()
-tab_1.tp_3.dw_sitem.event rowfocuschanged(tab_1.tp_3.dw_sitem.getrow())
-
-end event
-
-event clicked;if row>0 and row<>getrow() then scrolltorow(row)
-end event
-
-event rbuttondown;st_dw_xa_funciones st_dw
-st_dw.dw=this
-st_dw.dwo=dwo
-st_dw.row=row
-st_dw.solobuscar = TRUE
-st_dw.color_fondo=string(rgb(255,255,255))
-openwithparm(w_funcion_dw,st_dw)
-end event
-
-event itemchanged;i_cambio=true
-end event
-
-type dw_proc_glos from datawindow within tp_2
-event porcentajes ( )
-integer x = 1938
-integer y = 64
-integer width = 2473
-integer height = 752
-integer taborder = 10
-boolean bringtotop = true
-string title = "none"
-string dataobject = "dw_glos_proc_det"
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event constructor;setTransObject(SQLCA)
-getchild('cod_objecion',idw_obj2)
-idw_obj2.settransobject(sqlca)
-idw_obj2.retrieve('%','%')
-Modify("cod_objecion.TabOrder=0 valor_objecion.Edit.DisplayOnly=yes nombre.TabOrder=0 valor_objecion.edit.displayonly=yes")
-
-end event
-
-event rowfocuschanged;//dw_resp_proc.setfilter('isnull(nglosa_det)')
-//if getrow()>0 then
-//	idw_resp2.retrieve(getitemstring(getrow(),'cod_objecion'))
-//	dw_resp_proc.setfilter('item_glosa_det='+string(getitemnumber(getrow(),'item'))+' and subitem_glosa_det='+string(getitemnumber(getrow(),'subitem'))+' and nglosa_det='+string(getitemnumber(getrow(),'nobjecion')))
-//end if
-//dw_resp_proc.filter()
-//dw_resp_proc.event rowfocuschanged(dw_resp_proc.getrow())
-//
-end event
-
-event dragwithin;//if row > 0 then ScrolltoRow(row)
-end event
-
-event dragdrop;//long f
-//if dw_proc_glos.rowcount()=0 then return
-//if (dw_proc_glos.getitemstring(dw_proc_glos.getrow(),'estado_respu') <>'C' and dw_proc_glos.getitemstring(dw_proc_glos.getrow(),'estado_respu') <>'R') then 
-//	Messagebox('Atención','Esta objeción ya fue contestada y cerrada')
-//	return
-//end if
-//f = pb_2.Event clicked()
-//if f > 0 then
-//	dw_resp_proc.SetItem(f,'cod_respuesta',i_cod_resp)
-//	dw_resp_proc.SetItem(f,'usu_causante',i_usu)
-//	dw_resp_proc.SetItem(f,'respuesta',i_resp)
-//	dw_resp_proc.SetItem(f,'notas',i_notas)
-//end if
-//
-end event
-
-event retrieveend;long i
-for i = 1 to RowCount()
-	if GetItemNumber(i,'valor_objecion') = 0 then
-		SetItem(i,'porcen',0)
-	else
-		SetItem(i,'porcen',round(GetItemNumber(i,'valor_aceptado')/GetItemNumber(i,'valor_objecion')*100,i_dec_gral_car))
-	end if
-next
-
-end event
-
-type tp_3 from userobject within tab_1
-integer x = 18
-integer y = 112
-integer width = 4361
-integer height = 848
-long backcolor = 67108864
-string text = "Items. del proc."
-long tabtextcolor = 33554432
-string picturename = "buscar.ico"
-long picturemaskcolor = 536870912
-string powertiptext = "Subdetalle del Procedimiento"
-pb_9 pb_9
-st_7 st_7
-dw_sitem dw_sitem
-dw_item_glos dw_item_glos
-end type
-
-on tp_3.create
-this.pb_9=create pb_9
-this.st_7=create st_7
-this.dw_sitem=create dw_sitem
-this.dw_item_glos=create dw_item_glos
-this.Control[]={this.pb_9,&
-this.st_7,&
-this.dw_sitem,&
-this.dw_item_glos}
-end on
-
-on tp_3.destroy
-destroy(this.pb_9)
-destroy(this.st_7)
-destroy(this.dw_sitem)
-destroy(this.dw_item_glos)
-end on
-
-type pb_9 from picturebutton within tp_3
-integer x = 1998
-integer y = 712
-integer width = 146
-integer height = 128
-integer taborder = 60
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-boolean originalsize = true
-string picturename = "editar.gif"
-alignment htextalign = left!
-string powertiptext = "Taer Plantillas"
-end type
-
-event clicked;st_rte st_r
-long cars
-
-rte_1.SelectTextAll()
-rte_1.ReplaceText('')
-st_r.ventana = 'RGL'
-st_r.rte = rte_1
-openwithparm(w_plant_rtf,st_r)
-rte_1.SelectTextAll()
-cars = rte_1.Copy()
-if cars > 0 then
-	mle_resp.Paste()
-end if
-
-end event
-
-type st_7 from statictext within tp_3
-integer x = 9
-integer y = 12
-integer width = 1179
-integer height = 56
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-long textcolor = 33554432
-long backcolor = 67108864
-string text = "Objeciones de items de Procedimientos  a responder:"
-boolean focusrectangle = false
-end type
-
-type dw_sitem from datawindow within tp_3
-event p_itemchanged ( )
-integer x = 5
-integer y = 72
-integer width = 2016
-integer height = 724
-integer taborder = 40
-boolean bringtotop = true
-string title = "none"
-string dataobject = "dw_glos_sitem"
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean hsplitscroll = true
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event p_itemchanged();if rowcount()=0 then
-	
-else
-	if find('estado_respu="R" or estado_respu="P"',1,rowcount())=0 then
-		tab_1.tp_2.dw_procs.setitem(tab_1.tp_2.dw_procs.getrow(),'estado_respu','C')
-	end if
-	tab_1.tp_2.dw_procs.setitem(tab_1.tp_2.dw_procs.getrow(),'valor_aceptado',getitemnumber(1,'t_aceptado'))
-	tab_1.tp_2.dw_procs.event p_itemchanged()
-end if
-end event
-
-event dberror;rollback;
-st_error i_st
-i_st.ds_nombre=classname()
-i_st.msgerror='SqlDbCode: '+string(sqldbcode)+'~r~n~r~nSINTAXIS:~r~n'+sqlsyntax+'~r~n~r~nERROR:~r~n'+sqlerrtext
-openwithparm(w_error_ds,i_st)
-return 1
-end event
-
-event rowfocuschanged;dw_item_glos.setfilter('isnull(nitem_fact)')
-if getrow()>0 then
-	dw_item_glos.setfilter('nitem_fact='+string(getitemnumber(getrow(),'nitem_fact'))+' and ndeta_fact='+string(getitemnumber(getrow(),'ndeta_fact')))
-end if
-dw_item_glos.filter()
-dw_item_glos.event RowFocuschanged(dw_item_glos.GetRow())
-
-
-end event
-
-event constructor;settransobject(sqlca)
-end event
-
-event clicked;if row>0 and row<>getrow() then scrolltorow(row)
-end event
-
-event itemchanged;i_cambio=true
-end event
-
-event dragdrop;//long f
-//
-//f = pb_4.Event clicked()
-//if f > 0 then
-//	dw_resp_sitem.SetItem(f,'cod_respuesta',i_cod_resp)
-//	dw_resp_sitem.SetItem(f,'usu_causante',i_usu)
-//	dw_resp_sitem.SetItem(f,'respuesta',i_resp)
-//	dw_resp_sitem.SetItem(f,'notas',i_notas)
-//end if
-//
-end event
-
-type dw_item_glos from datawindow within tp_3
-event porcentajes ( )
-integer x = 2048
-integer y = 72
-integer width = 1641
-integer height = 724
-integer taborder = 40
-boolean bringtotop = true
-string title = "none"
-string dataobject = "dw_glos_item_det"
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event constructor;setTransObject(SQLCA)
-getchild('cod_objecion',idw_obj3)
-idw_obj3.settransobject(sqlca)
-idw_obj3.retrieve('%','%')
-Modify("cod_objecion.TabOrder=0 valor_objecion.Edit.DisplayOnly=yes nombre.TabOrder=0 valor_objecion.edit.displayonly=yes")
-
-end event
-
-event rowfocuschanged;//dw_resp_sitem.setfilter('isnull(subitem_glosa_sub)')
-//if getrow()>0 then
-//	idw_resp3.retrieve(getitemstring(getrow(),'cod_objecion'))
-//	dw_resp_sitem.setfilter('item_glosa_sub='+string(getitemnumber(getrow(),'item'))+' and subitem_glosa_sub='+string(getitemnumber(getrow(),'subitem'))+' and ndeta_glosa_sub='+string(getitemnumber(getrow(),'ndeta'))+' and nglosa_sub='+string(getitemnumber(getrow(),'nobjecion')))
-//end if
-//dw_resp_sitem.filter()
-//dw_resp_sitem.event rowfocuschanged(dw_resp_sitem.getrow())
-//
-end event
-
-event dragwithin;if row > 0 then ScrolltoRow(row)
-
-end event
-
-event dragdrop;//long f
-//
-//f = pb_4.Event clicked()
-//if f > 0 then
-//	dw_resp_sitem.SetItem(f,'cod_respuesta',i_cod_resp)
-//	dw_resp_sitem.SetItem(f,'usu_causante',i_usu)
-//	dw_resp_sitem.SetItem(f,'respuesta',i_resp)
-//	dw_resp_sitem.SetItem(f,'notas',i_notas)
-//end if
-//
-end event
-
-event retrieveend;long i
-for i = 1 to RowCount()
-	if GetItemNumber(i,'valor_objecion') = 0 then
-		SetItem(i,'porcen',0)
-	else
-		SetItem(i,'porcen',round(GetItemNumber(i,'valor_aceptado')/GetItemNumber(i,'valor_objecion')*100,i_dec_gral_car))
-	end if
-next
 
 end event
 
@@ -2829,5 +2057,805 @@ event p_itemchanged(Getrow())
 end event
 
 event getfocus;//i_dw_has_focus = true
+end event
+
+type tab_1 from tab within w_respu_glosas
+boolean visible = false
+integer x = 37
+integer y = 648
+integer width = 4398
+integer height = 976
+integer taborder = 40
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+long backcolor = 67108864
+boolean fixedwidth = true
+boolean raggedright = true
+boolean focusonbuttondown = true
+boolean powertips = true
+alignment alignment = center!
+integer selectedtab = 1
+tp_1 tp_1
+tp_2 tp_2
+tp_3 tp_3
+end type
+
+on tab_1.create
+this.tp_1=create tp_1
+this.tp_2=create tp_2
+this.tp_3=create tp_3
+this.Control[]={this.tp_1,&
+this.tp_2,&
+this.tp_3}
+end on
+
+on tab_1.destroy
+destroy(this.tp_1)
+destroy(this.tp_2)
+destroy(this.tp_3)
+end on
+
+type tp_1 from userobject within tab_1
+integer x = 18
+integer y = 112
+integer width = 4361
+integer height = 848
+long backcolor = 67108864
+string text = "Facturas"
+long tabtextcolor = 33554432
+string picturename = "factura.ico"
+long picturemaskcolor = 536870912
+string powertiptext = "Facuras de la Objeción por usuario"
+st_3 st_3
+pb_7 pb_7
+pb_cerrar pb_cerrar
+dw_facts dw_facts
+dw_fac_glos dw_fac_glos
+end type
+
+on tp_1.create
+this.st_3=create st_3
+this.pb_7=create pb_7
+this.pb_cerrar=create pb_cerrar
+this.dw_facts=create dw_facts
+this.dw_fac_glos=create dw_fac_glos
+this.Control[]={this.st_3,&
+this.pb_7,&
+this.pb_cerrar,&
+this.dw_facts,&
+this.dw_fac_glos}
+end on
+
+on tp_1.destroy
+destroy(this.st_3)
+destroy(this.pb_7)
+destroy(this.pb_cerrar)
+destroy(this.dw_facts)
+destroy(this.dw_fac_glos)
+end on
+
+type st_3 from statictext within tp_1
+integer x = 2075
+integer width = 343
+integer height = 56
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+long textcolor = 33554432
+long backcolor = 67108864
+string text = "Objeciones"
+boolean focusrectangle = false
+end type
+
+type pb_7 from picturebutton within tp_1
+integer x = 2085
+integer y = 620
+integer width = 146
+integer height = 128
+integer taborder = 40
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+boolean originalsize = true
+string picturename = "editar.gif"
+alignment htextalign = left!
+string powertiptext = "Taer Plantillas"
+end type
+
+event clicked;st_rte st_r
+long cars
+
+rte_1.SelectTextAll()
+rte_1.ReplaceText('')
+st_r.ventana = 'RGL'
+st_r.rte = rte_1
+openwithparm(w_plant_rtf,st_r)
+rte_1.SelectTextAll()
+cars = rte_1.Copy()
+if cars > 0 then
+	mle_resp.Paste()
+end if
+
+end event
+
+type pb_cerrar from picturebutton within tp_1
+integer x = 1970
+integer y = 824
+integer width = 146
+integer height = 128
+integer taborder = 30
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+boolean originalsize = true
+string picturename = "cerrar.gif"
+alignment htextalign = left!
+string powertiptext = "Cerrar Respuestas"
+end type
+
+event clicked;//if dw_facts.rowcount()=0 then return
+//if dw_facts.find('esco=1',1,dw_facts.rowcount())=0 then return
+//if grabar()=-1 then return
+//long j,k,l,m,n
+//boolean sub
+//string clug,err
+//for j=1 to dw_facts.rowcount()
+//	if dw_facts.getitemnumber(j,'esco')=0 then continue
+//	dw_facts.setitem(j,'esco',0)
+//	sub=false
+//	if dw_facts.getitemstring(j,'forma_respu')='F' then//total a nivel de factura
+//		dw_resp.setfilter('item_glosa_gral='+string(dw_facts.getitemnumber(j,'item')))
+//		dw_resp.filter()
+//		if dw_resp.rowcount()=0 then continue
+//		for k=1 to dw_resp.rowcount()
+//			if isnull(dw_resp.getitemstring(k,'cod_respuesta')) or isnull(dw_resp.getitemstring(k,'usu_causante')) then 
+//				sub=true
+//				exit
+//			end if
+//		next
+//	else//parcial
+//		dw_facts.scrolltorow(j)
+//		for k=1 to tab_1.tp_2.dw_procs.rowcount()
+//			if tab_1.tp_2.dw_procs.getitemstring(k,'tipo')='1' then//total
+//				tab_1.tp_2.dw_resp_proc.setfilter('item_glosa_det='+string(tab_1.tp_2.dw_procs.getitemnumber(k,'item'))+' and subitem_glosa_det='+string(tab_1.tp_2.dw_procs.getitemnumber(k,'subitem')))
+//				tab_1.tp_2.dw_resp_proc.filter()
+//				if tab_1.tp_2.dw_resp_proc.rowcount()=0 then 
+//					sub=true
+//					exit
+//				end if
+//				for n=1 to tab_1.tp_2.dw_resp_proc.rowcount()
+//					if isnull(tab_1.tp_2.dw_resp_proc.getitemstring(n,'cod_respuesta')) or isnull(tab_1.tp_2.dw_resp_proc.getitemstring(n,'usu_causante')) then 
+//						sub=true
+//						exit
+//					end if
+//				next
+//				if sub then exit
+//			else
+//				tab_1.tp_2.dw_procs.scrolltorow(k)
+//				for l=1 to tab_1.tp_3.dw_sitem.rowcount()
+//					tab_1.tp_3.dw_resp_sitem.setfilter('item_glosa_sub='+string(tab_1.tp_3.dw_sitem.getitemnumber(l,'item'))+' and subitem_glosa_sub='+string(tab_1.tp_3.dw_sitem.getitemnumber(l,'subitem'))+' and ndeta_glosa_sub='+string(tab_1.tp_3.dw_sitem.getitemnumber(l,'ndeta')))
+//					tab_1.tp_3.dw_resp_sitem.filter()
+//					if tab_1.tp_3.dw_resp_sitem.rowcount()=0 then 
+//						sub=true
+//						exit
+//					end if
+//					for m=1 to tab_1.tp_3.dw_resp_sitem.rowcount()
+//						if isnull(tab_1.tp_3.dw_resp_sitem.getitemstring(m,'cod_respuesta')) or isnull(tab_1.tp_3.dw_resp_sitem.getitemstring(m,'usu_causante')) then 
+//							sub=true
+//							exit
+//						end if
+//					next
+//					if sub then exit
+//				next
+//			end if
+//			if sub then exit
+//		next
+//	end if
+//	if sub then continue
+//	dw_facts.setitem(j,'estado','P')
+//next
+//if dw_facts.update(true,false)=-1 then goto error
+//m=dw_histo.getitemnumber(dw_histo.getrow(),'num_glosa')
+//clug=dw_histo.getitemstring(dw_histo.getrow(),'clugar')
+//select count(*) into :j from car_glosa_cpo where 
+//coddoc ='GL' and clugar =:clug and num_glosa =:m and estado not in ('P','E');
+//if sqlca.sqlcode=-1 then
+//	err=sqlca.sqlerrtext
+//	rollback;
+//	messagebox('Error leyendo car_glosa_cpo',err)
+//	goto error
+//end if
+//if j=0 then
+//	dw_histo.setitem(dw_histo.getrow(),'estado','2')
+//	if dw_histo.update()=-1 then return
+//end if
+//commit;
+//dw_facts.resetupdate()
+//return
+//error:
+//dw_histo.event rowfocuschanged(dw_histo.getrow())
+end event
+
+type dw_facts from datawindow within tp_1
+event ue_mousemove pbm_mousemove
+event ue_buttondown pbm_lbuttondown
+event ue_buttonup pbm_lbuttonup
+integer y = 48
+integer width = 2043
+integer height = 772
+integer taborder = 30
+string dragicon = "Asterisk!"
+string title = "none"
+string dataobject = "dw_obje_a_respu_cpo"
+boolean hscrollbar = true
+boolean vscrollbar = true
+boolean hsplitscroll = true
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event dberror;rollback;
+st_error i_st
+i_st.ds_nombre=classname()
+i_st.msgerror='SqlDbCode: '+string(sqldbcode)+'~r~n~r~nSINTAXIS:~r~n'+sqlsyntax+'~r~n~r~nERROR:~r~n'+sqlerrtext
+openwithparm(w_error_ds,i_st)
+return 1
+end event
+
+event constructor;settransobject(sqlca)
+end event
+
+event clicked;if row>0 and row<>getrow() then scrolltorow(row)
+end event
+
+event rowfocuschanged;tab_1.tp_2.dw_procs.setfilter('isnull(item)')
+dw_fac_glos.setfilter('isnull(item)')
+if getrow()>0 then
+	tab_1.tp_2.dw_procs.setfilter('item='+string(getitemnumber(getrow(),'item')))
+	dw_fac_glos.setfilter('item='+string(getitemnumber(getrow(),'item')))
+	long donde
+end if
+dw_fac_glos.filter()
+dw_fac_glos.event rowfocuschanged(dw_fac_glos.getrow())
+tab_1.tp_2.dw_procs.filter()
+tab_1.tp_2.dw_procs.event rowfocuschanged(tab_1.tp_2.dw_procs.getrow())
+
+end event
+
+event buttonclicked;if rowcount()=0 then return
+long j
+if dwo.text='Selec.' then
+	dwo.text='Desel.'
+	for j=1 to rowcount()
+		if getitemstring(j,'estado')='R' then
+			setitem(j,'esco',1)
+		end if
+	next
+else
+	dwo.text='Selec.'
+	for j=1 to rowcount()
+		setitem(j,'esco',0)
+	next
+end if
+
+
+end event
+
+event rbuttondown;st_dw_xa_funciones st_dw
+st_dw.dw=this
+st_dw.dwo=dwo
+st_dw.row=row
+st_dw.solobuscar = TRUE
+st_dw.color_fondo=string(rgb(255,255,255))
+openwithparm(w_funcion_dw,st_dw)
+end event
+
+event itemchanged;i_cambio=true
+end event
+
+type dw_fac_glos from datawindow within tp_1
+event porcentajes ( )
+integer x = 2071
+integer y = 48
+integer width = 2231
+integer height = 772
+integer taborder = 30
+string title = "none"
+string dataobject = "dw_glos_cpo_det"
+boolean hscrollbar = true
+boolean vscrollbar = true
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event constructor;setTransObject(SQLCA)
+getchild('cod_objecion',idw_obj)
+idw_obj.settransobject(sqlca)
+idw_obj.retrieve('%','%')
+Modify("cod_objecion.TabOrder=0 valor_objecion.Edit.DisplayOnly=yes nombre.TabOrder=0 valor_objecion.edit.displayonly=yes")
+
+end event
+
+event rowfocuschanged;//dw_resp.setfilter('isnull(item_glosa_gral)')
+//if getrow()>0 then
+//	dw_resp.setfilter('item_glosa_gral='+string(getitemnumber(getRow(),'item'))+' and nglosa_gral='+string(getitemnumber(getrow(),'nobjecion')))
+//	idw_resp1.retrieve(getitemstring(getrow(),'cod_objecion'))
+//end if
+//dw_resp.filter()
+//dw_resp.event rowfocuschanged(dw_resp.getrow())
+//
+end event
+
+event dragwithin;if row > 0 then ScrolltoRow(row)
+
+end event
+
+event dragdrop;//long f
+//if dw_fac_glos.RowCount() = 0 then Return
+//if (dw_fac_glos.getitemstring(row,'estado') <>'C' and dw_fac_glos.getitemstring(row,'estado') <>'R') then 
+//	Messagebox('Atención','Esta objeción ya fue contestada y cerrada')
+//	return
+//end if
+//
+//f = pb_add.Event clicked()
+//if f > 0 then
+//	dw_resp.SetItem(f,'cod_respuesta',i_cod_resp)
+//	dw_resp.SetItem(f,'usu_causante',i_usu)
+//	dw_resp.SetItem(f,'respuesta',i_resp)
+//	dw_resp.SetItem(f,'notas',i_notas)
+//end if
+//
+end event
+
+event retrieveend;long i
+for i = 1 to RowCount()
+	if GetItemNumber(i,'valor_objecion') = 0 then
+		SetItem(i,'porcen',0)
+	else
+		SetItem(i,'porcen',round(GetItemNumber(i,'valor_aceptado')/GetItemNumber(i,'valor_objecion')*100,i_dec_gral_car))
+	end if
+next
+
+end event
+
+type tp_2 from userobject within tab_1
+integer x = 18
+integer y = 112
+integer width = 4361
+integer height = 848
+long backcolor = 67108864
+string text = "Procedimientos"
+long tabtextcolor = 33554432
+string picturename = "bisturi.ico"
+long picturemaskcolor = 536870912
+string powertiptext = "Procedimientos a responder de la factura"
+pb_8 pb_8
+st_4 st_4
+dw_procs dw_procs
+dw_proc_glos dw_proc_glos
+end type
+
+on tp_2.create
+this.pb_8=create pb_8
+this.st_4=create st_4
+this.dw_procs=create dw_procs
+this.dw_proc_glos=create dw_proc_glos
+this.Control[]={this.pb_8,&
+this.st_4,&
+this.dw_procs,&
+this.dw_proc_glos}
+end on
+
+on tp_2.destroy
+destroy(this.pb_8)
+destroy(this.st_4)
+destroy(this.dw_procs)
+destroy(this.dw_proc_glos)
+end on
+
+type pb_8 from picturebutton within tp_2
+integer x = 1906
+integer y = 720
+integer width = 146
+integer height = 128
+integer taborder = 50
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+boolean originalsize = true
+string picturename = "editar.gif"
+alignment htextalign = left!
+string powertiptext = "Taer Plantillas"
+end type
+
+event clicked;st_rte st_r
+long cars
+
+rte_1.SelectTextAll()
+rte_1.ReplaceText('')
+st_r.ventana = 'RGL'
+st_r.rte = rte_1
+openwithparm(w_plant_rtf,st_r)
+rte_1.SelectTextAll()
+cars = rte_1.Copy()
+if cars > 0 then
+	mle_resp.Paste()
+end if
+
+end event
+
+type st_4 from statictext within tp_2
+integer x = 5
+integer y = 4
+integer width = 969
+integer height = 56
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+long textcolor = 33554432
+long backcolor = 67108864
+string text = "Objeciones de Procedimientos a responder:"
+boolean focusrectangle = false
+end type
+
+type dw_procs from datawindow within tp_2
+event p_itemchanged ( )
+integer y = 64
+integer width = 1915
+integer height = 760
+integer taborder = 40
+boolean bringtotop = true
+string title = "none"
+string dataobject = "dw_gloscpo_a_respu"
+boolean hscrollbar = true
+boolean vscrollbar = true
+boolean hsplitscroll = true
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event p_itemchanged();if rowcount()>0 then
+	if find('estado_respu="R" or estado_respu="P"',1,rowcount())=0 then
+		tab_1.tp_1.dw_facts.setitem(tab_1.tp_1.dw_facts.getrow(),'estado','C')
+	end if
+	tab_1.tp_1.dw_facts.setitem(tab_1.tp_1.dw_facts.getrow(),'valor_aceptado',getitemnumber(1,'t_aceptado'))
+end if
+end event
+
+event dberror;rollback;
+st_error i_st
+i_st.ds_nombre=classname()
+i_st.msgerror='SqlDbCode: '+string(sqldbcode)+'~r~n~r~nSINTAXIS:~r~n'+sqlsyntax+'~r~n~r~nERROR:~r~n'+sqlerrtext
+openwithparm(w_error_ds,i_st)
+return 1
+end event
+
+event constructor;settransobject(sqlca)
+end event
+
+event rowfocuschanged;dw_proc_glos.setfilter('isnull(subitem)')
+tab_1.tp_3.dw_sitem.setfilter('isnull(subitem)')
+if getrow()>0 then
+	dw_proc_glos.setfilter('item='+string(getitemnumber(getrow(),'item'))+' and subitem='+string(getitemnumber(getrow(),'subitem')))
+	tab_1.tp_3.dw_sitem.setfilter('item='+string(getitemnumber(getrow(),'item'))+' and subitem='+string(getitemnumber(getrow(),'subitem')))
+	long donde
+end if
+dw_proc_glos.filter()
+dw_proc_glos.event rowfocuschanged(dw_proc_glos.getrow())
+tab_1.tp_3.dw_sitem.filter()
+tab_1.tp_3.dw_sitem.event rowfocuschanged(tab_1.tp_3.dw_sitem.getrow())
+
+end event
+
+event clicked;if row>0 and row<>getrow() then scrolltorow(row)
+end event
+
+event rbuttondown;st_dw_xa_funciones st_dw
+st_dw.dw=this
+st_dw.dwo=dwo
+st_dw.row=row
+st_dw.solobuscar = TRUE
+st_dw.color_fondo=string(rgb(255,255,255))
+openwithparm(w_funcion_dw,st_dw)
+end event
+
+event itemchanged;i_cambio=true
+end event
+
+type dw_proc_glos from datawindow within tp_2
+event porcentajes ( )
+integer x = 1938
+integer y = 64
+integer width = 2473
+integer height = 752
+integer taborder = 10
+boolean bringtotop = true
+string title = "none"
+string dataobject = "dw_glos_proc_det"
+boolean hscrollbar = true
+boolean vscrollbar = true
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event constructor;setTransObject(SQLCA)
+getchild('cod_objecion',idw_obj2)
+idw_obj2.settransobject(sqlca)
+idw_obj2.retrieve('%','%')
+Modify("cod_objecion.TabOrder=0 valor_objecion.Edit.DisplayOnly=yes nombre.TabOrder=0 valor_objecion.edit.displayonly=yes")
+
+end event
+
+event rowfocuschanged;//dw_resp_proc.setfilter('isnull(nglosa_det)')
+//if getrow()>0 then
+//	idw_resp2.retrieve(getitemstring(getrow(),'cod_objecion'))
+//	dw_resp_proc.setfilter('item_glosa_det='+string(getitemnumber(getrow(),'item'))+' and subitem_glosa_det='+string(getitemnumber(getrow(),'subitem'))+' and nglosa_det='+string(getitemnumber(getrow(),'nobjecion')))
+//end if
+//dw_resp_proc.filter()
+//dw_resp_proc.event rowfocuschanged(dw_resp_proc.getrow())
+//
+end event
+
+event dragwithin;//if row > 0 then ScrolltoRow(row)
+end event
+
+event dragdrop;//long f
+//if dw_proc_glos.rowcount()=0 then return
+//if (dw_proc_glos.getitemstring(dw_proc_glos.getrow(),'estado_respu') <>'C' and dw_proc_glos.getitemstring(dw_proc_glos.getrow(),'estado_respu') <>'R') then 
+//	Messagebox('Atención','Esta objeción ya fue contestada y cerrada')
+//	return
+//end if
+//f = pb_2.Event clicked()
+//if f > 0 then
+//	dw_resp_proc.SetItem(f,'cod_respuesta',i_cod_resp)
+//	dw_resp_proc.SetItem(f,'usu_causante',i_usu)
+//	dw_resp_proc.SetItem(f,'respuesta',i_resp)
+//	dw_resp_proc.SetItem(f,'notas',i_notas)
+//end if
+//
+end event
+
+event retrieveend;long i
+for i = 1 to RowCount()
+	if GetItemNumber(i,'valor_objecion') = 0 then
+		SetItem(i,'porcen',0)
+	else
+		SetItem(i,'porcen',round(GetItemNumber(i,'valor_aceptado')/GetItemNumber(i,'valor_objecion')*100,i_dec_gral_car))
+	end if
+next
+
+end event
+
+type tp_3 from userobject within tab_1
+integer x = 18
+integer y = 112
+integer width = 4361
+integer height = 848
+long backcolor = 67108864
+string text = "Items. del proc."
+long tabtextcolor = 33554432
+string picturename = "buscar.ico"
+long picturemaskcolor = 536870912
+string powertiptext = "Subdetalle del Procedimiento"
+pb_9 pb_9
+st_7 st_7
+dw_sitem dw_sitem
+dw_item_glos dw_item_glos
+end type
+
+on tp_3.create
+this.pb_9=create pb_9
+this.st_7=create st_7
+this.dw_sitem=create dw_sitem
+this.dw_item_glos=create dw_item_glos
+this.Control[]={this.pb_9,&
+this.st_7,&
+this.dw_sitem,&
+this.dw_item_glos}
+end on
+
+on tp_3.destroy
+destroy(this.pb_9)
+destroy(this.st_7)
+destroy(this.dw_sitem)
+destroy(this.dw_item_glos)
+end on
+
+type pb_9 from picturebutton within tp_3
+integer x = 1998
+integer y = 712
+integer width = 146
+integer height = 128
+integer taborder = 60
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+boolean originalsize = true
+string picturename = "editar.gif"
+alignment htextalign = left!
+string powertiptext = "Taer Plantillas"
+end type
+
+event clicked;st_rte st_r
+long cars
+
+rte_1.SelectTextAll()
+rte_1.ReplaceText('')
+st_r.ventana = 'RGL'
+st_r.rte = rte_1
+openwithparm(w_plant_rtf,st_r)
+rte_1.SelectTextAll()
+cars = rte_1.Copy()
+if cars > 0 then
+	mle_resp.Paste()
+end if
+
+end event
+
+type st_7 from statictext within tp_3
+integer x = 9
+integer y = 12
+integer width = 1179
+integer height = 56
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+long textcolor = 33554432
+long backcolor = 67108864
+string text = "Objeciones de items de Procedimientos  a responder:"
+boolean focusrectangle = false
+end type
+
+type dw_sitem from datawindow within tp_3
+event p_itemchanged ( )
+integer x = 5
+integer y = 72
+integer width = 2016
+integer height = 724
+integer taborder = 40
+boolean bringtotop = true
+string title = "none"
+string dataobject = "dw_glos_sitem"
+boolean hscrollbar = true
+boolean vscrollbar = true
+boolean hsplitscroll = true
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event p_itemchanged();if rowcount()=0 then
+	
+else
+	if find('estado_respu="R" or estado_respu="P"',1,rowcount())=0 then
+		tab_1.tp_2.dw_procs.setitem(tab_1.tp_2.dw_procs.getrow(),'estado_respu','C')
+	end if
+	tab_1.tp_2.dw_procs.setitem(tab_1.tp_2.dw_procs.getrow(),'valor_aceptado',getitemnumber(1,'t_aceptado'))
+	tab_1.tp_2.dw_procs.event p_itemchanged()
+end if
+end event
+
+event dberror;rollback;
+st_error i_st
+i_st.ds_nombre=classname()
+i_st.msgerror='SqlDbCode: '+string(sqldbcode)+'~r~n~r~nSINTAXIS:~r~n'+sqlsyntax+'~r~n~r~nERROR:~r~n'+sqlerrtext
+openwithparm(w_error_ds,i_st)
+return 1
+end event
+
+event rowfocuschanged;dw_item_glos.setfilter('isnull(nitem_fact)')
+if getrow()>0 then
+	dw_item_glos.setfilter('nitem_fact='+string(getitemnumber(getrow(),'nitem_fact'))+' and ndeta_fact='+string(getitemnumber(getrow(),'ndeta_fact')))
+end if
+dw_item_glos.filter()
+dw_item_glos.event RowFocuschanged(dw_item_glos.GetRow())
+
+
+end event
+
+event constructor;settransobject(sqlca)
+end event
+
+event clicked;if row>0 and row<>getrow() then scrolltorow(row)
+end event
+
+event itemchanged;i_cambio=true
+end event
+
+event dragdrop;//long f
+//
+//f = pb_4.Event clicked()
+//if f > 0 then
+//	dw_resp_sitem.SetItem(f,'cod_respuesta',i_cod_resp)
+//	dw_resp_sitem.SetItem(f,'usu_causante',i_usu)
+//	dw_resp_sitem.SetItem(f,'respuesta',i_resp)
+//	dw_resp_sitem.SetItem(f,'notas',i_notas)
+//end if
+//
+end event
+
+type dw_item_glos from datawindow within tp_3
+event porcentajes ( )
+integer x = 2048
+integer y = 72
+integer width = 1641
+integer height = 724
+integer taborder = 40
+boolean bringtotop = true
+string title = "none"
+string dataobject = "dw_glos_item_det"
+boolean hscrollbar = true
+boolean vscrollbar = true
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event constructor;setTransObject(SQLCA)
+getchild('cod_objecion',idw_obj3)
+idw_obj3.settransobject(sqlca)
+idw_obj3.retrieve('%','%')
+Modify("cod_objecion.TabOrder=0 valor_objecion.Edit.DisplayOnly=yes nombre.TabOrder=0 valor_objecion.edit.displayonly=yes")
+
+end event
+
+event rowfocuschanged;//dw_resp_sitem.setfilter('isnull(subitem_glosa_sub)')
+//if getrow()>0 then
+//	idw_resp3.retrieve(getitemstring(getrow(),'cod_objecion'))
+//	dw_resp_sitem.setfilter('item_glosa_sub='+string(getitemnumber(getrow(),'item'))+' and subitem_glosa_sub='+string(getitemnumber(getrow(),'subitem'))+' and ndeta_glosa_sub='+string(getitemnumber(getrow(),'ndeta'))+' and nglosa_sub='+string(getitemnumber(getrow(),'nobjecion')))
+//end if
+//dw_resp_sitem.filter()
+//dw_resp_sitem.event rowfocuschanged(dw_resp_sitem.getrow())
+//
+end event
+
+event dragwithin;if row > 0 then ScrolltoRow(row)
+
+end event
+
+event dragdrop;//long f
+//
+//f = pb_4.Event clicked()
+//if f > 0 then
+//	dw_resp_sitem.SetItem(f,'cod_respuesta',i_cod_resp)
+//	dw_resp_sitem.SetItem(f,'usu_causante',i_usu)
+//	dw_resp_sitem.SetItem(f,'respuesta',i_resp)
+//	dw_resp_sitem.SetItem(f,'notas',i_notas)
+//end if
+//
+end event
+
+event retrieveend;long i
+for i = 1 to RowCount()
+	if GetItemNumber(i,'valor_objecion') = 0 then
+		SetItem(i,'porcen',0)
+	else
+		SetItem(i,'porcen',round(GetItemNumber(i,'valor_aceptado')/GetItemNumber(i,'valor_objecion')*100,i_dec_gral_car))
+	end if
+next
+
 end event
 
