@@ -178,7 +178,7 @@ if i_cambio then
 end if
 accepttext()
 i_empresa = GetItemString(1,1)
-dw_c.retrieve(dw_g.GetItemString(dw_g.GetRow(),'codgrupo'),i_empresa)
+dw_c.retrieve(dw_g.GetItemString(dw_g.GetRow(),'codgrupo'),i_empresa,dw_g.GetItemString(dw_g.GetRow(),'act_fijo'))
 
 end event
 
@@ -539,7 +539,7 @@ end event
 
 event rowfocuschanged;dw_c.Reset()
 if not isNull(GetItemString(GetRow(),'codgrupo')) then
-	dw_c.Retrieve(GetItemString(GetRow(),'codgrupo'),dw_emp.GetItemString(1,1))
+	dw_c.Retrieve(GetItemString(GetRow(),'codgrupo'),dw_emp.GetItemString(1,1),GetItemString(GetRow(),'act_fijo'))
 end if
 
 end event
