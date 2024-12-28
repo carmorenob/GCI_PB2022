@@ -2,6 +2,8 @@
 forward
 global type w_reenvia_glosas from window
 end type
+type pb_imp from pb_report within w_reenvia_glosas
+end type
 type pb_anul from picturebutton within w_reenvia_glosas
 end type
 type dw_electronica from uo_datawindow within w_reenvia_glosas
@@ -147,6 +149,7 @@ boolean minbox = true
 windowtype windowtype = popup!
 long backcolor = 67108864
 string icon = "ribon_renvio.ico"
+pb_imp pb_imp
 pb_anul pb_anul
 dw_electronica dw_electronica
 pb_impnota pb_impnota
@@ -234,6 +237,7 @@ return 1
 end function
 
 on w_reenvia_glosas.create
+this.pb_imp=create pb_imp
 this.pb_anul=create pb_anul
 this.dw_electronica=create dw_electronica
 this.pb_impnota=create pb_impnota
@@ -247,7 +251,8 @@ this.dw_histo=create dw_histo
 this.gb_1=create gb_1
 this.gb_2=create gb_2
 this.tab_1=create tab_1
-this.Control[]={this.pb_anul,&
+this.Control[]={this.pb_imp,&
+this.pb_anul,&
 this.dw_electronica,&
 this.pb_impnota,&
 this.pb_connota,&
@@ -263,6 +268,7 @@ this.tab_1}
 end on
 
 on w_reenvia_glosas.destroy
+destroy(this.pb_imp)
 destroy(this.pb_anul)
 destroy(this.dw_electronica)
 destroy(this.pb_impnota)
@@ -334,6 +340,27 @@ tab_1.tp_3.st_9.x=tab_1.tp_3.dw_resp_sitem.x+tab_1.tp_3.dw_resp_sitem.width + 80
 tab_1.tp_3.mle_resp3.y=tab_1.tp_3.dw_sitem.y+tab_1.tp_3.dw_sitem.height + 80
 tab_1.tp_3.mle_resp3.x=tab_1.tp_3.dw_resp_sitem.x+tab_1.tp_3.dw_resp_sitem.width + 80
 tab_1.tp_3.mle_resp3.resize((newwidth * 0.45) , (newheight * 0.22))
+end event
+
+type pb_imp from pb_report within w_reenvia_glosas
+integer x = 5390
+integer y = 508
+integer taborder = 70
+boolean bringtotop = true
+string powertiptext = "Imprime Respuesta"
+string cod_rep = "ROBJ"
+string nombre_rep = "Respuesta a Objección"
+string tipo_rep = "interno!"
+boolean v_preliminar = true
+end type
+
+event clicked;call super::clicked;if dw_histo.rowcount()=0 then return
+if dw_histo.getitemstring(dw_histo.getrow(),'estado')<>'2' then return
+any par[3]
+par[1]='%'
+par[2]=dw_histo.getitemstring(dw_histo.getrow(),'num_glosa')
+par[2]=dw_histo.getitemstring(dw_histo.getrow(),'num_glosa')
+imprimir(par,'','0')
 end event
 
 type pb_anul from picturebutton within w_reenvia_glosas
@@ -496,6 +523,7 @@ boolean originalsize = true
 string picturename = "print2.gif"
 string disabledname = "d_print2.gif"
 alignment htextalign = left!
+string powertiptext = "Imprime Nota "
 end type
 
 type pb_connota from picturebutton within w_reenvia_glosas
