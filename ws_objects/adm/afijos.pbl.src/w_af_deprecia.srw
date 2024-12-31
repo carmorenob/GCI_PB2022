@@ -383,12 +383,14 @@ end if
 fila = t1.p1.dw_respon.Find("anyo="+string(ano_ant)+" and mes="+string(mes_ant),1,t1.p1.dw_respon.RowCount())
 if fila = 0 then
 	if t1.p1.dw_respon.RowCount() > 0 then
-		vr_x_depreciar = t1.p1.dw_respon.GetItemNumber(t1.p1.dw_respon.RowCount(),'valor_x_depreciar')
+		//vr_x_depreciar = t1.p1.dw_respon.GetItemNumber(t1.p1.dw_respon.RowCount(),'valor_x_depreciar')
+		vr_x_depreciar = t1.p1.dw_respon.GetItemNumber(t1.p1.dw_respon.RowCount(),'xdepreciar_mes')
 	else
 		vr_x_depreciar = valor
 	end if
 else
-	vr_x_depreciar = t1.p1.dw_respon.GetItemNumber(fila,'valor_x_depreciar')
+	//vr_x_depreciar = t1.p1.dw_respon.GetItemNumber(fila,'valor_x_depreciar')
+	vr_x_depreciar = t1.p1.dw_respon.GetItemNumber(fila,'xdepreciar_mes')
 end if
 
 if vr_x_depreciar <= 0 and t1.p2.dw_mantto.Find("llevado='0'",1,t1.p2.dw_mantto.RowCount()) = 0 then Return 0
@@ -465,6 +467,7 @@ for i = 1 to dw_asig.RowCount()
 			t1.p1.dw_respon.SetItem(fila,'dias_depreciados',dias)
 			t1.p1.dw_respon.SetItem(fila,'valor_depreciado',deprecia)
 			t1.p1.dw_respon.SetItem(fila,'valor_x_depreciar',vr_x_depreciar - deprecia + vrmantto + vrvaloriza - vrdesvalor)
+			vr_x_depreciar = (vr_x_depreciar - deprecia + vrmantto + vrvaloriza - vrdesvalor)
 			t1.p1.dw_respon.SetItem(fila,'valor_x_mantto',vrmantto)
 			t1.p1.dw_respon.SetItem(fila,'valor_x_valoriza',vrvaloriza)
 			t1.p1.dw_respon.SetItem(fila,'valor_x_desvalor',vrdesvalor)
