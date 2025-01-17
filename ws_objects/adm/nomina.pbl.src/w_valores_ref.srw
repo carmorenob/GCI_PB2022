@@ -662,14 +662,15 @@ event clicked;long fila
 string valor
 if tab_1.selectedtab=1 then
 	valor = tab_1.t_rf.dw_1.Describe("Evaluate('max(item)',0)")
-	if isnull(valor) then valor='0'
+	if isnull(valor) or valor='' then valor='0'
 	fila = tab_1.t_rf.dw_1.InsertRow(0)
 	tab_1.t_rf.dw_1.SetItem(fila,'item',long(valor) + 1)
 	tab_1.t_rf.dw_1.ScrolltoRow(fila)
 else
 	valor = tab_1.t_fs.dw_2.Describe("Evaluate('max(item)',0)")
-	if isnull(valor) then valor='0'
+	if isnull(valor) or valor='' then valor='0'
 	fila = tab_1.t_fs.dw_2.InsertRow(0)
+	tab_1.t_fs.dw_2.SetItem(fila,'ano',tab_1.t_fs.dw_3.getitemnumber(1,'ano'))
 	tab_1.t_fs.dw_2.SetItem(fila,'item',long(valor) + 1)
 	tab_1.t_fs.dw_2.ScrolltoRow(fila)
 end if
