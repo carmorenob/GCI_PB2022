@@ -32,8 +32,8 @@ table(column=(type=char(3) updatewhereclause=yes name=tipodoc dbname="nom_valore
  column=(type=char(1) updatewhereclause=yes name=cargo_estado dbname="nom_valores_ref.estado" dbalias=".estado" )
  column=(type=char(1) updatewhereclause=yes name=salario_estado dbname="nom_valores_ref.estado" dbalias=".estado" )
  column=(type=datetime updatewhereclause=yes name=salario_fecha_term dbname="nom_valores_ref.salario_fecha_term" dbalias=".salario_fecha_term" )
- column=(type=datetime updatewhereclause=yes name=fecini_nom dbname="nom_valores_ref.fecini_nom" dbalias=".fecini_nom" )
- column=(type=datetime updatewhereclause=yes name=fecfin_nom dbname="nom_valores_ref.fecfin_nom" dbalias=".fecfin_nom" )
+ column=(type=datetime updatewhereclause=yes name=fecini_nom dbname="fecini_nom" )
+ column=(type=datetime updatewhereclause=yes name=fecfin_nom dbname="fecfin_nom" )
  column=(type=datetime updatewhereclause=yes name=interv_ini dbname="nom_valores_ref.interv_ini" dbalias=".interv_ini" )
  column=(type=datetime updatewhereclause=yes name=interv_fin dbname="nom_valores_ref.interv_fin" dbalias=".interv_fin" )
  column=(type=long updatewhereclause=yes name=diasvinculado dbname="diasvinculado" )
@@ -319,7 +319,8 @@ table(column=(type=char(3) updatewhereclause=yes name=tipodoc dbname="nom_valore
 	terceros.nombre1,terceros.nombre2,terceros.apellido1, terceros.apellido2,  
 	0 As BASE,0 as Tarifa,0 as DIAS,0 as HORAS,   
 	emplecargo.estado,emplesalario.estado,emplesalario.fecha_inicio as SALARIO_FECHA_TERM,   
-	emplesalario.fecha_inicio as FECINI_NOM,emplesalario.fecha_inicio as FECFIN_NOM,   
+	cast(:fecha_ini  as timestamp without time zone) as FECINI_NOM,
+	cast(:fecha_fin as timestamp without time zone) as FECFIN_NOM,   
 	emplesalario.fecha_inicio as INTERV_INI,emplesalario.fecha_inicio as INTERV_FIN,   
 	0 as diasvinculado,0 as parm_1,0 as parm_2,0 as parm_3,0 as parm_4,0 as parm_5,   
 	0 as parm_6,0 as parm_7,0 as parm_8,0 as parm_9,0 as parm_10, 0 as NPARM,   
