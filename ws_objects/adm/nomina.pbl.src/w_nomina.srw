@@ -6506,12 +6506,11 @@ If ls_tipon='C' then
 			tab_1.p_2.dw_novedad.AcceptText ( )				
 			tab_1.p_2.dw_novedad.event itemchanged(ldb_filanew1, tab_1.p_2.dw_novedad.object.cantidad_ac, tab_1.p_2.dw_novedad.getitemstring(ldb_filanew1,'sigla'))			
 		end if
-		// if l_c=1 then exit
 		garbagecollect()
 		hpb_1.Position = l_c
 	next
-		hpb_1.Visible = false
-	//pb_calcula.TriggerEvent(clicked!)
+	hpb_1.Visible = false
+
 	tab_n.tpn_2.dw_empnom.SetRedraw(true)
 	tab_1.p_1.dw_devenga.SetRedraw(true)
 	tab_1.p_1.dw_deduce.SetRedraw(true)
@@ -7215,18 +7214,18 @@ redraw(false)
 for j = 1 to tab_n.tpn_2.dw_empnom.RowCount()
 	if tab_n.tpn_2.dw_empnom.GetItemNumber(j,'sel') = 1 then
 		//tab_n.tpn_2.dw_empnom.ScrolltoRow(j)
-		ls_tdc = tab_n.tpn_2.dw_empnom.GetItemString(j, 'tipols_docc')
-		ls_docc = tab_n.tpn_2.dw_empnom.GetItemString(j, 'ls_doccumento')
+		ls_tdc = tab_n.tpn_2.dw_empnom.GetItemString(j, 'tipodoc')
+		ls_docc = tab_n.tpn_2.dw_empnom.GetItemString(j, 'documento')
 		log.info("Inicia empleado "+ ls_tdc+ls_docc)
 		filtrar(ls_tdc, ls_docc)
 		if tab_1.p_2.dw_novedad.RowCount() > 0 then
-			tab_1.p_2.dw_novedad.SetFilter("tipols_docc='"+ls_tdc+"' and ls_doccumento='"+ls_docc+"' and (cod_tipo_concep='7' or cod_tipo_concep='8')")
+			tab_1.p_2.dw_novedad.SetFilter("tipodoc='"+ls_tdc+"' and documento='"+ls_docc+"' and (cod_tipo_concep='7' or cod_tipo_concep='8')")
 			tab_1.p_2.dw_novedad.Filter()
 			do while tab_1.p_2.dw_novedad.RowCount() > 0
 				li_fila=tab_1.p_2.dw_novedad.GetRow()
 				ls_filtro="num_nomina="+string(tab_1.p_2.dw_novedad.getitemnumber(li_fila,'num_nomina'))+' and '
-				ls_filtro=ls_filtro+"tipols_docc_n='"+tab_1.p_2.dw_novedad.getitemstring(li_fila,'tipols_docc')+"' and "
-				ls_filtro=ls_filtro+"ls_doccumento_n='"+tab_1.p_2.dw_novedad.getitemstring(li_fila,'ls_doccumento')+"' and "
+				ls_filtro=ls_filtro+"tipodoc_n='"+tab_1.p_2.dw_novedad.getitemstring(li_fila,'tipodoc')+"' and "
+				ls_filtro=ls_filtro+"documento_n='"+tab_1.p_2.dw_novedad.getitemstring(li_fila,'documento')+"' and "
 				ls_filtro=ls_filtro+"cod_concep='"+tab_1.p_2.dw_novedad.getitemstring(li_fila,'cod_concep')+"' and "
 				ls_filtro=ls_filtro+"item_n="+string(tab_1.p_2.dw_novedad.getitemnumber(li_fila,'item'))
 				dw_ausend.setfilter(ls_filtro)
@@ -7238,7 +7237,7 @@ for j = 1 to tab_n.tpn_2.dw_empnom.RowCount()
 			loop
 			dw_ausend.setfilter('')
 			dw_ausend.filter()
-			tab_1.p_2.dw_novedad.SetFilter("tipols_docc='"+ls_tdc+"' and ls_doccumento='"+ls_docc+"'")
+			tab_1.p_2.dw_novedad.SetFilter("tipodoc='"+ls_tdc+"' and documento='"+ls_docc+"'")
 			tab_1.p_2.dw_novedad.Filter()			
 		end if
 		if nomcalc(ls_tdc, ls_docc, tab_n.tpn_1.dw_nomcab.GetItemstring(tab_n.tpn_1.dw_nomcab.Getrow(),'esp'),tab_n.tpn_1.dw_nomcab.GetItemstring(tab_n.tpn_1.dw_nomcab.Getrow(),'tipo')) < 0 then
