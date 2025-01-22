@@ -3117,7 +3117,7 @@ for i = 1 to tab_1.p_2.dw_novedad.RowCount()
 		cantidad = tab_1.p_2.dw_novedad.GetItemNumber(i,'cantidad_ac')
 		dw_historia.SetItem(filahist,get_parm_nov(tab_1.p_2.dw_novedad.GetItemString(i,'sigla')),cantidad)
 		if dw_historia.Describe(tab_1.p_2.dw_novedad.GetItemString(i,'sigla') + ".coltype") <> '!' then
-			cantidad = round(dw_historia.GetItemNumber(filahist,tab_1.p_2.dw_novedad.GetItemString(i,'sigla')),0)
+			cantidad = round(dw_historia.GetItemNumber(filahist,tab_1.p_2.dw_novedad.GetItemString(i,'sigla')), 0)
 			if tab_1.p_2.dw_novedad.GetItemNumber(i,'pagado') > 0 and  trim(tab_1.p_2.dw_novedad.GetItemString(i,'form_calculo')) = "0" then
 				cantidad = tab_1.p_2.dw_novedad.GetItemNumber(i,'pagado')
 				dw_historia.Modify(tab_1.p_2.dw_novedad.GetItemString(i,'sigla') + '.expression="'+string(cantidad)+' * if(salario_estado=~~"1~~",1,0) * ctr_'+tab_1.p_2.dw_novedad.GetItemString(i,'sigla')+'"') 
