@@ -334,6 +334,7 @@ int ntomas
 transaction sqllab
 
 end variables
+
 forward prototypes
 public function string f_revisa_planes ()
 public function string f_valida_usuarios (string p_usu, string p_area)
@@ -796,13 +797,13 @@ if isnull(numgc) then
 	return -1
 end if
 
-string cod,descr,per_atiende, ria2 ,tipo_proc,cod_doc,cod_cups,cod_ver
+string cod,descr,per_atiende, ria2 ,tipo_proc,cod_doc,cod_cups,cod_ver,ls_ririas
 setnull(cod)
 setnull(ntomas)
 setnull(cod_cups)
 setnull(cod_ver)
-SELECT ProcGClinico.CodProced, Proced.Descripcion, Proced.Rips ,Proced.tipoproc ,coddoc ,ProcGClinico.nro_tomas,proced.cod_cups,proced.cod_version
-into :cod,:descr,:ria2,:tipo_proc , :cod_doc,:nro_tomas,:cod_cups,:cod_ver
+SELECT ProcGClinico.CodProced, Proced.Descripcion, Proced.Rips ,Proced.tipoproc ,coddoc ,ProcGClinico.nro_tomas,proced.cod_cups,proced.cod_version,proced.ririas
+into :cod,:descr,:ria2,:tipo_proc , :cod_doc,:nro_tomas,:cod_cups,:cod_ver,:ls_ririas
 FROM (ProcGClinico INNER JOIN Proced ON ProcGClinico.CODPROCED = Proced.CODPROCED) INNER JOIN PM_CUPS_VERSION ON Proced.COD_VERSION = PM_CUPS_VERSION.COD_VERSION
 WHERE (((ProcGClinico.CodProced)=:p_cod) AND ((ProcGClinico.CodGC)=:numgc) AND ((getdate()) Between PM_CUPS_VERSION.VALIDO_INICIO And PM_CUPS_VERSION.VALIDO_HASTA));
 if isnull(cod) or cod="" then
@@ -857,6 +858,7 @@ else
 	tab_1.tp_1.dw_procs.setitem(fila,"facturar",p_facturar)
 	tab_1.tp_1.dw_procs.setitem(fila,"observaciones",p_obser)
 	tab_1.tp_1.dw_procs.setitem(fila,"nro_tomas",nro_tomas)
+	tab_1.tp_1.dw_procs.setitem(fila,"ririas",ls_ririas)	
 
 	if nro_tomas>1 then 
 		for l_i = 1 to nro_tomas
@@ -2336,7 +2338,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-01-21"), Time("16:45:37.000000"))
+datetime value = DateTime(Date("2025-01-22"), Time("14:23:59.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2358,7 +2360,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-01-21"), Time("16:45:37.000000"))
+datetime value = DateTime(Date("2025-01-22"), Time("14:23:59.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -4131,6 +4133,11 @@ for l_i= 1 to tab_1.tp_1.dw_procs.rowcount()
 			w_principal.dw_1.getitemnumber(1,'dias'),ls_proced,'',i_contador,i_clughis,'1')
 
 	end if
+	
+	string jaer
+	jaer=tab_1.tp_1.dw_procs.getitemstring(l_i,'ririas')
+	jaer=tab_1.tp_1.dw_procs.getitemstring(l_i,'estado')
+	jaer=tab_1.tp_1.dw_procs.getitemstring(l_i,'veri')	
 
 	if not isnull(tab_1.tp_1.dw_procs.getitemstring(l_i,'ririas')) and tab_1.tp_1.dw_procs.getitemstring(l_i,'estado')='7'  and tab_1.tp_1.dw_procs.getitemstring(l_i,'veri')='1' then
 		if is_202='1' then
