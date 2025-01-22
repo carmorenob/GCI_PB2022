@@ -2338,7 +2338,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-01-22"), Time("14:23:59.000000"))
+datetime value = DateTime(Date("2025-01-22"), Time("15:03:26.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2360,7 +2360,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-01-22"), Time("14:23:59.000000"))
+datetime value = DateTime(Date("2025-01-22"), Time("15:03:26.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -4133,11 +4133,6 @@ for l_i= 1 to tab_1.tp_1.dw_procs.rowcount()
 			w_principal.dw_1.getitemnumber(1,'dias'),ls_proced,'',i_contador,i_clughis,'1')
 
 	end if
-	
-	string jaer
-	jaer=tab_1.tp_1.dw_procs.getitemstring(l_i,'ririas')
-	jaer=tab_1.tp_1.dw_procs.getitemstring(l_i,'estado')
-	jaer=tab_1.tp_1.dw_procs.getitemstring(l_i,'veri')	
 
 	if not isnull(tab_1.tp_1.dw_procs.getitemstring(l_i,'ririas')) and tab_1.tp_1.dw_procs.getitemstring(l_i,'estado')='7'  and tab_1.tp_1.dw_procs.getitemstring(l_i,'veri')='1' then
 		if is_202='1' then
