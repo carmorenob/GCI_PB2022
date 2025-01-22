@@ -37,7 +37,7 @@ table(column=(type=long updatewhereclause=yes name=v1 dbname="v1" values="	1/	0"
  retrieve="SELECT
 	1 AS V1,
 	to_char(hospadmi.fechaingreso ,'yyyymmdd')||hospadmi.nh||hospadmi.clugar as V2,
-	to_char(ahora(),'yyyyy-mm-dd')||to_char(ahora(),' hh:mm') as V3, 
+	to_char(ahora(),'yyyy-mm-dd')||to_char(ahora(),' hh:mm') as V3, 
 	lugar.documento as V6,
 	lugar.c_supersalud as V7,
 	empresa_rips.codsuper as V8,
@@ -182,4 +182,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=2 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 

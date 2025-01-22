@@ -327,13 +327,13 @@ string i_tipoing,i_codarea,i_clughis,i_cluging,i_nautoriza,i_cod_doc
 string l_repositorios,i_alm,i_cdoc_cons='SC',i_emp,i_cont,int_cliente
 boolean i_pideconf,i_print,i_cambio_insumo
 long i_fila,i_contador,i_ningreso,i_nserving,i_nservadx,i_muestra,i_itemcpo,i_nrepor
+string is_202
 datawindowchild idw_area,idw_lista1,idw_profe,idw_lista2,idw_lista3
 datetime i_fecha
 int ntomas
 transaction sqllab
 
 end variables
-
 forward prototypes
 public function string f_revisa_planes ()
 public function string f_valida_usuarios (string p_usu, string p_area)
@@ -1177,6 +1177,18 @@ string ls_int
 SELECT cadena into :ls_int
 FROM parametros_gen
 WHERE (((codigo_para)=65));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 65')
+	return
+end if
+
+SELECT cadena into :is_202
+FROM parametros_gen
+WHERE (((codigo_para)=81));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 81')
+	return
+end if
 
 if ls_int='1' or idw_area.getitemstring(idw_area.getrow(),'interfaz')='0' then
 	tab_1.tp_1.pb_8.visible=false
@@ -2324,7 +2336,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-12-04"), Time("15:02:22.000000"))
+datetime value = DateTime(Date("2025-01-21"), Time("16:45:37.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2346,7 +2358,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-12-04"), Time("15:02:22.000000"))
+datetime value = DateTime(Date("2025-01-21"), Time("16:45:37.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -4121,14 +4133,16 @@ for l_i= 1 to tab_1.tp_1.dw_procs.rowcount()
 	end if
 
 	if not isnull(tab_1.tp_1.dw_procs.getitemstring(l_i,'ririas')) and tab_1.tp_1.dw_procs.getitemstring(l_i,'estado')='7'  and tab_1.tp_1.dw_procs.getitemstring(l_i,'veri')='1' then
-		ldb_nrepor=tab_1.tp_1.dw_procs.getitemnumber(l_i,'nrepor') 
-		ls_clugarrec=tab_1.tp_1.dw_procs.getitemstring(l_i,'clugar_res')
-		ls_coddoc=tab_1.tp_1.dw_procs.getitemstring(l_i,'coddoc')
-
-		gf_validar_202_apdx(	tipdoc,docu,w_principal.dw_1.getitemstring(1,'sexo'),&
-			w_principal.dw_1.getitemnumber(1,'dias'),ls_proced,&
-			tab_1.tp_1.dw_procs.getitemstring(l_i,'ririas'),&
-			ls_coddoc,ldb_nrepor,ls_clugarrec,'1')			
+		if is_202='1' then
+			ldb_nrepor=tab_1.tp_1.dw_procs.getitemnumber(l_i,'nrepor') 
+			ls_clugarrec=tab_1.tp_1.dw_procs.getitemstring(l_i,'clugar_res')
+			ls_coddoc=tab_1.tp_1.dw_procs.getitemstring(l_i,'coddoc')
+	
+			gf_validar_202_apdx(	tipdoc,docu,w_principal.dw_1.getitemstring(1,'sexo'),&
+				w_principal.dw_1.getitemnumber(1,'dias'),ls_proced,&
+				tab_1.tp_1.dw_procs.getitemstring(l_i,'ririas'),&
+				ls_coddoc,ldb_nrepor,ls_clugarrec,'1')			
+		end if
 	end if
 next
 

@@ -160,7 +160,7 @@ end type
 global uo_orden_formula uo_orden_formula
 
 type variables
-string i_codrep_formula,i_codrep_orden,i_coddiag,i_desdiag,i_codrips
+string i_codrep_formula,i_codrep_orden,i_coddiag,i_desdiag,i_codrips,is_202
 boolean repord_dialogo,repfor_dialogo,repord_vprelim,repfor_vprelim
 private long i_contador=-1,i_norden,i_nh,i_nqx,i_consec_qx,l_nsalida
 private string i_clug_his,i_profe,i_indapdx,i_clug_hadm,i_est_hadm,i_cemp,i_ccont,i_tingre,i_clug_qx,l_rips,l_temp_ord,i_esp
@@ -172,7 +172,6 @@ datawindowchild i_dw_tmp,i_dw_frec
 
 
 end variables
-
 forward prototypes
 public function integer reset ()
 public function long insert_proc (string p_codigo, integer p_cant)
@@ -909,7 +908,16 @@ else
 	WHERE (((codigo_para)=12));
 	if sqlca.sqlnrows=0 then
 		messagebox('Atencíon','No hay parametro 12')
+		return -1
 	end if
+end if
+
+SELECT cadena into :is_202
+FROM parametros_gen
+WHERE (((codigo_para)=81));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 81')
+	return -1
 end if
 return 1
 end function
@@ -2463,19 +2471,21 @@ int index,ls_impreso, l_i
 string ls_tiporep,ls_resul
 
 ///PARA 202
-for l_i= 1 to tab_1.tp_2.dw_formula.rowcount()
-	if not isnull(tab_1.tp_2.dw_formula.getitemstring(l_i,'ririas')) and dw_oscab.getitemstring(dw_oscab.getrow(),'estado')='1' then
-		gf_validar_202_medi(	tipdoc,docu,&
-			w_principal.dw_1.getitemstring(1,'sexo'),&
-			w_principal.dw_1.getitemnumber(1,'dias'),&
-			tab_1.tp_2.dw_formula.getitemnumber(l_i,'contador'),&
-			tab_1.tp_2.dw_formula.getitemstring(l_i,'clugar'),&
-			tab_1.tp_2.dw_formula.getitemstring(l_i,'varia_salud'),&
-			tab_1.tp_2.dw_formula.getitemstring(l_i,'codplantilla'),&
-			tab_1.tp_2.dw_formula.getitemstring(l_i,'c_medica'),&
-			string(dw_oscab.getitemdatetime(dw_oscab.getrow(),'fecha'),'yyyy-mm-dd'))			
-	end if
-next
+if is_202='1' then
+	for l_i= 1 to tab_1.tp_2.dw_formula.rowcount()
+		if not isnull(tab_1.tp_2.dw_formula.getitemstring(l_i,'ririas')) and dw_oscab.getitemstring(dw_oscab.getrow(),'estado')='1' then
+			gf_validar_202_medi(	tipdoc,docu,&
+				w_principal.dw_1.getitemstring(1,'sexo'),&
+				w_principal.dw_1.getitemnumber(1,'dias'),&
+				tab_1.tp_2.dw_formula.getitemnumber(l_i,'contador'),&
+				tab_1.tp_2.dw_formula.getitemstring(l_i,'clugar'),&
+				tab_1.tp_2.dw_formula.getitemstring(l_i,'varia_salud'),&
+				tab_1.tp_2.dw_formula.getitemstring(l_i,'codplantilla'),&
+				tab_1.tp_2.dw_formula.getitemstring(l_i,'c_medica'),&
+				string(dw_oscab.getitemdatetime(dw_oscab.getrow(),'fecha'),'yyyy-mm-dd'))			
+		end if
+	next
+end if
 
 par[1]=i_contador
 par[2]=i_norden

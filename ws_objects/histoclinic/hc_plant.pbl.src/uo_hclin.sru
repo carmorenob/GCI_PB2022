@@ -194,6 +194,7 @@ private datawindowchild idw_plants,idw_lista,idw_listan
 //private uo_timer timer
 boolean i_cambia,i_nv_orden//para saber si se ha modificado algo//para saber si ya se insertó una orden de serv
 string i_message,i_clug_nh,i_estado_hadm,i_tingre,i_clug_qx,i_modo,i_fecha,i_interfaz_ord,i_cespe,i_cpo,i_ptipo,i_pingsal,ls_modrel
+string is_202
 singlelineedit isle_proc,isle_med,sle_otros,isle_tiporep,isle_kits ,sle_plant//para crear loas ordenes de serv cunado el objeto se abre en Evolución
 picturebutton ipb_new_orden
 boolean i_displayonly, i_pudo_orden,i_puede_modif//para que si no pudo crear una orden no siga enviando eso//para determinar si el usuario puede modificar la historia despues de cerrada la admision
@@ -205,7 +206,6 @@ int i_nro_imags,i_actual_image,i_nobjs[],i_control
 //i_ing_sal:(I:ingreso , S:salida)
 uo_datastore  ids_hijos_histo
 end variables
-
 forward prototypes
 public subroutine mover (long xpos)
 public subroutine mover2 (long xpos)
@@ -605,37 +605,40 @@ if lbn_si_datos then
 	dw_new_det.setfilter("not isnull( varia_salud )")
 	dw_new_det.filter()
 	string ls_resul,ls_codpl
-	for j=1 to dw_new_det.rowcount()	
-		
-		choose case dw_new_det.getitemstring(j,'tipo')
-			case 'S', 'L' , 'T', 'Y','A' //:seleccion  //:lista  //:texto //:INSTRUMENTO
-				if isnull(dw_new_det.getitemstring(j,'equiv_202')) then
-					ls_resul=dw_new_det.getitemstring(j,'texto')
-				else
-					ls_resul=dw_new_det.getitemstring(j,'equiv_202')
-				end if
-
-			case 'N'//:si/no  
-				ls_resul=dw_new_det.getitemstring(j,'sino')
 	
-			case 'R','C' //:Numerico , computado
-					ls_resul=string(dw_new_det.getitemnumber(j,'numero'))
-	
-			case 'F' ,'X'//:fecha
-				ls_resul=string(dw_new_det.getitemdatetime(j,'fecha_cap'))
-	
-			case 'H' //:tiempo
-					ls_resul=string(dw_new_det.getitemdatetime(j,'tiempo'))
-		end choose
+	if is_202='1' then
+		for j=1 to dw_new_det.rowcount()	
 			
-		gf_validar_202_cons(	tipdoc,docu,&
-			w_principal.dw_1.getitemstring(1,'sexo'),&
-			w_principal.dw_1.getitemnumber(1,'dias'),&
-			dw_new_det.getitemstring(j,'codplantilla'),&
-			dw_new_det.getitemnumber(j,'numcampo'),&
-			dw_new_det.getitemstring(j,'varia_salud'),&
-			ls_resul,string(em_1.text,'yyyy-mm-dd'))		
-	next
+			choose case dw_new_det.getitemstring(j,'tipo')
+				case 'S', 'L' , 'T', 'Y','A' //:seleccion  //:lista  //:texto //:INSTRUMENTO
+					if isnull(dw_new_det.getitemstring(j,'equiv_202')) then
+						ls_resul=dw_new_det.getitemstring(j,'texto')
+					else
+						ls_resul=dw_new_det.getitemstring(j,'equiv_202')
+					end if
+	
+				case 'N'//:si/no  
+					ls_resul=dw_new_det.getitemstring(j,'sino')
+		
+				case 'R','C' //:Numerico , computado
+						ls_resul=string(dw_new_det.getitemnumber(j,'numero'))
+		
+				case 'F' ,'X'//:fecha
+					ls_resul=string(dw_new_det.getitemdatetime(j,'fecha_cap'))
+		
+				case 'H' //:tiempo
+						ls_resul=string(dw_new_det.getitemdatetime(j,'tiempo'))
+			end choose
+				
+			gf_validar_202_cons(	tipdoc,docu,&
+				w_principal.dw_1.getitemstring(1,'sexo'),&
+				w_principal.dw_1.getitemnumber(1,'dias'),&
+				dw_new_det.getitemstring(j,'codplantilla'),&
+				dw_new_det.getitemnumber(j,'numcampo'),&
+				dw_new_det.getitemstring(j,'varia_salud'),&
+				ls_resul,string(em_1.text,'yyyy-mm-dd'))		
+		next
+	end if
 	/// Fin 202
 	
 	
@@ -1529,6 +1532,15 @@ if sqlca.sqlnrows=0 then
 	setpointer(arrow!)
 	return -1
 end if
+
+SELECT cadena into :is_202
+FROM parametros_gen
+WHERE (((codigo_para)=81));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 81')
+	return -1
+end if
+
 setpointer(arrow!)
 
 return 1

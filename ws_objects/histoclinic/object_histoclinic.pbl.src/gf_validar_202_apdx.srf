@@ -223,7 +223,7 @@ if as_variable='79' then
 end if
 
 //SIFILIS  PAREJA(81/80)
-if as_variable='80' then
+if as_variable='81' then
 	if (ai_edad_dias <ldb_ini or  ai_edad_dias>ldb_fin) and (ls_sexo='0' or ls_sexo=ls_sexoval) then
 		ls_resul='0'
 		ls_fresul='1845-01-01'
