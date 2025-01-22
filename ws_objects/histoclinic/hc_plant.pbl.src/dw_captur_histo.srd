@@ -14,7 +14,7 @@ table(column=(type=char(6) update=yes updatewhereclause=yes key=yes name=codplan
  column=(type=char(15) update=yes updatewhereclause=yes name=medida dbname="medida" )
  column=(type=char(255) update=yes updatewhereclause=yes name=ayuda dbname="ayuda" )
  column=(type=datetime updatewhereclause=yes name=fecha_cap dbname="fecha_cap" validationmsg="'El valor supera la fecha permitida'" )
- column=(type=char(8190) updatewhereclause=yes name=numero dbname="numero" validationmsg="'El valor no se encuentra dentro del Rango configurado debe estar entre '+string(num_min)+' y '+string(num_max)+ '  ' + medida " )
+ column=(type=decimal(6) updatewhereclause=yes name=numero dbname="numero" validationmsg="'El valor no se encuentra dentro del Rango configurado debe estar entre '+string(num_min)+' y '+string(num_max)+ '  ' + medida " )
  column=(type=char(8190) updatewhereclause=yes name=texto dbname="texto" values="	1/	0" )
  column=(type=char(8190) updatewhereclause=yes name=sino dbname="sino" values="SI	1/NO	0/" )
  column=(type=char(1) updatewhereclause=yes name=obligatorio dbname="obligatorio" values="*	1/	0/" )
@@ -42,6 +42,7 @@ table(column=(type=char(6) update=yes updatewhereclause=yes key=yes name=codplan
  column=(type=char(8190) updatewhereclause=no name=ins4 dbname="ins4" )
  column=(type=char(1) updatewhereclause=yes name=futura dbname="futura" )
  column=(type=long updatewhereclause=yes name=ndias dbname="ndias" )
+ column=(type=datetime updatewhereclause=yes name=tiempo dbname="tiempo" )
  column=(type=char(8190) updatewhereclause=no name=equiv_202 dbname="equiv_202" )
  retrieve="SELECT 
  		hclin_plantcampo.codplantilla,   
