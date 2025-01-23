@@ -37,6 +37,37 @@ table(column=(type=char(12) updatewhereclause=yes name=c_supersalud dbname="c_su
  column=(type=char(15) updatewhereclause=yes name=docpac dbname="docpac" )
  column=(type=char(15) updatewhereclause=yes name=c_medica dbname="c_medica" )
  retrieve="SELECT 
+	uniones.c_supersalud, 
+	uniones.autorizacion,
+	uniones.idmipres, 
+	uniones.fechat,
+	uniones.codigo_uni, 
+	uniones.Medicamento , 
+	uniones.Cantidad, 
+	uniones.vuni, 
+	uniones.VProced, 
+	uniones.NItem, 
+	uniones.Fecha,
+	uniones.clugar_fac, 
+	uniones.csuper_ips, 
+	uniones.cum, 
+	uniones.tipo_fac, 
+	uniones.PREFIJO, 
+	uniones.cum_espe, 
+	uniones.NFact,
+	uniones.tdoc,
+	uniones.documento, 
+	uniones.VTMD,
+	uniones.vpm,
+ 	ROW_NUMBER () OVER (ORDER BY uniones.nfact) AS orde,
+	uniones.ium,
+	uniones.tipoos,
+	uniones.nrcaj, 
+	uniones.pref_rc,
+	uniones.c_medica
+FROM
+(
+ SELECT 
 	Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
 	serviciosingreso.fecha,
 	Medicamentos.codigo_unif AS codigo_uni, 
@@ -148,7 +179,7 @@ WHERE
 	AND ((DOCUMENTOS_AUTFACT.clugar)='01') 
 	AND ((factcpo.RIA)='7') AND ((factcab.nradica)=:nfact) 
 	AND ((factcab.clugar_rad)=:clug) AND ((factcab.tipo_rad)=:tipo) 
-	AND ((contratos.ctcontra)='2') )" arguments=(("nfact", number),("clug", string),("tipo", string)) )
+	AND ((contratos.ctcontra)='2') )) as Uniones" arguments=(("nfact", number),("clug", string),("tipo", string)) )
 text(band=header alignment="2" text="Vuni" border="0" color="33554432" x="379" y="8" height="64" width="690" html.valueishtml="0"  name=vuni_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="0" text="Idmipres" border="0" color="0" x="9" y="4" height="64" width="361" html.valueishtml="0"  name=idmipres_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="0" text="Vtmd" border="0" color="0" x="1079" y="4" height="64" width="247" html.valueishtml="0"  name=vtmd_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
@@ -221,4 +252,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=2 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 
