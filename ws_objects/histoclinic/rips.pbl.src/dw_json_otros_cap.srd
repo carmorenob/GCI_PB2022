@@ -35,6 +35,7 @@ table(column=(type=char(12) updatewhereclause=yes name=c_supersalud dbname="c_su
  column=(type=char(1) updatewhereclause=yes name=tipo_rad dbname="tipo_rad" )
  column=(type=char(3) updatewhereclause=yes name=tdpac dbname="tdpac" )
  column=(type=char(15) updatewhereclause=yes name=docpac dbname="docpac" )
+ column=(type=char(15) updatewhereclause=yes name=c_medica dbname="c_medica" )
  retrieve="SELECT 
 	Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
 	serviciosingreso.fecha,
@@ -68,7 +69,8 @@ table(column=(type=char(12) updatewhereclause=yes name=c_supersalud dbname="c_su
 	factcpo.vcopago+factcpo.vcm+factcpo.vpart+factcpo.vcr as vpm,
 	documentos_autfact.prefijo, 
 	sumarticulo.ium,  agrupservicios.tipo_serv as tipoos, factcab.nradica, factcab.clugar_rad, factcab.tipo_rad,
-	factcpo.tipodoc as tdpac, factcpo.documento as docpac
+	factcpo.tipodoc as tdpac, factcpo.documento as docpac,
+	factcpo.c_medica
 FROM 
 	(((((((((((factcab INNER JOIN factcpo ON (factcab.TIPO = factcpo.TIPO) AND (factcab.NFact = factcpo.NFact) 
 	AND (factcab.clugar = factcpo.clugar)) INNER JOIN Lugar ON factcab.clugar = Lugar.codlugar) 
@@ -126,7 +128,8 @@ SELECT
 	factcpo.vcopago+factcpo.vcm+factcpo.vpart+factcpo.vcr as vpm,
 	documentos_autfact.prefijo, 
 	'' as ium,  agrupservicios.tipo_serv as tipoos, factcab.nradica, factcab.clugar_rad, factcab.tipo_rad,
-	factcpo.tipodoc as tdpac, factcpo.documento as docpac
+	factcpo.tipodoc as tdpac, factcpo.documento as docpac,
+	factcpo.c_medica
 FROM 
 	((((((((((factcab INNER JOIN factcpo ON (factcab.clugar = factcpo.clugar) AND (factcab.NFact = factcpo.NFact) AND (factcab.TIPO = factcpo.TIPO)) 
 	INNER JOIN Lugar ON factcab.clugar = Lugar.codlugar) 
@@ -206,6 +209,8 @@ column(band=detail id=27 alignment="0" tabsequence=32766 border="0" color="33554
 column(band=detail id=28 alignment="0" tabsequence=32766 border="0" color="33554432" x="25769" y="0" height="64" width="18" format="[general]" html.valueishtml="0"  name=tipo_rad visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 column(band=detail id=29 alignment="0" tabsequence=32766 border="0" color="33554432" x="25801" y="0" height="64" width="73" format="[general]" html.valueishtml="0"  name=tdpac visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 column(band=detail id=30 alignment="0" tabsequence=32766 border="0" color="33554432" x="25888" y="0" height="64" width="398" format="[general]" html.valueishtml="0"  name=docpac visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=31 alignment="0" tabsequence=0 border="0" color="33554432" x="26299" y="0" height="64" width="398" html.valueishtml="0"  name=c_medica visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="0" text="C Medica" border="0" color="33554432" x="26295" y="4" height="64" width="402" html.valueishtml="0"  name=c_medica_t visible="1"  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
 htmltable(border="1" )
 htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
 xhtmlgen() cssgen(sessionspecific="0" )

@@ -38,7 +38,7 @@ table(column=(type=char(12) updatewhereclause=yes name=c_supersalud dbname="docu
 	proced.cod_cups, serviciosingreso.cod_modrel, pm_servicios.cod_grpserv, 
 	pm_servicios_proced.cod_serv, serviciosingreso.fin_consulta, serviciosingreso.causaexterna,
 	diags.cod_rips, diags_1.cod_rips, diags_2.cod_rips, diags_3.cod_rips, 
-	serviciosingreso.tipodiagprin, profe.tdoc, profe.documento, 
+	tipodiagnostico.tdv2 as tipodiagprin, profe.tdoc, profe.documento, 
 	factcpo.vproced, 
 	case when 
 		factcpo.vcopago<>0
@@ -65,7 +65,7 @@ table(column=(type=char(12) updatewhereclause=yes name=c_supersalud dbname="docu
  	factcab.nradica, factcab.clugar_rad, factcab.tipo_rad,
  	factcab.nfact, factcab.clugar, factcab.tipo, factcpo.tipodoc as tdpac, factcpo.documento as docpac
 FROM 
-	((((((((((((((factcab 
+	(((((((((((((((factcab 
 	INNER JOIN factcpo ON (factcab.tipo = factcpo.tipo) AND (factcab.clugar = factcpo.clugar) AND (factcab.nfact = factcpo.nfact)) 
 	INNER JOIN proced ON factcpo.proccups = proced.codproced) 
 	INNER JOIN serviciosingreso ON (factcpo.nitem = serviciosingreso.nitem_fac) AND (factcpo.tipo = serviciosingreso.tipo_fac) 
@@ -81,7 +81,8 @@ FROM
 	INNER JOIN CONTRATOS ON (factcab.CEMP = CONTRATOS.CODEMP) AND (factcab.CCONTRATO = CONTRATOS.CODCONTRATO)) 
 	INNER JOIN lugar ON factcab.CLUGAR = lugar.CODLUGAR) 
 	INNER JOIN ripsradica ON (factcab.tipo_rad = ripsradica.tipo) AND (factcab.clugar_rad = ripsradica.clugar) 
-	AND (factcab.nradica = ripsradica.num_radicacion)) INNER JOIN documentos_autfact ON ripsradica.c_aut = documentos_autfact.c_aut
+	AND (factcab.nradica = ripsradica.num_radicacion)) INNER JOIN documentos_autfact ON ripsradica.c_aut = documentos_autfact.c_aut) 
+	INNER JOIN tipodiagnostico ON serviciosingreso.tipodiagprin = tipodiagnostico.codtipdiag
 WHERE 
 	(((factcab.nradica)=:nf) AND ((factcab.clugar_rad)=:lug) AND ((factcab.tipo_rad)=:tipo )
 	AND ((CONTRATOS.CTCONTRA)='2') AND ((serviciosingreso.estria)='1') 
@@ -152,4 +153,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=2 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 
