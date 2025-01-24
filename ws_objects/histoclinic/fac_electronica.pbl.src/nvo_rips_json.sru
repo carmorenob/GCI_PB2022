@@ -420,9 +420,9 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 				end if
 				ripse_json.AddItemString(li_fcon,"fechaSuministroTecnologia",string(lds_rips.getitemdatetime(li_ci,'fecha'),'yyyy-mm-dd HH:mm'))
 				ripse_json.AddItemString(li_fcon,"tipoOS",lds_rips.getitemstring(li_ci,'tipoos'))
-				
-				if isnull(lds_rips.getitemstring(li_ci,'ium')) or lds_rips.getitemstring(li_ci,'ium')=''  or isnull(lds_rips.getitemstring(li_ci,'ium')) or lds_rips.getitemstring(li_ci,'ium')='' then
-					ripse_json.AddItemNull(li_fcon,"codTecnologiaSalud")
+				if (isnull(lds_rips.getitemstring(li_ci,'ium')) or lds_rips.getitemstring(li_ci,'ium')='') and (isnull(lds_rips.getitemstring(li_ci,'cum')) or lds_rips.getitemstring(li_ci,'cum')='') then
+					ripse_json.AddItemString(li_fcon,"codTecnologiaSalud",lds_rips.getitemstring(li_ci,'c_medica'))
+//					ripse_json.AddItemNull(li_fcon,"codTecnologiaSalud")
 				else
 					if isnull(lds_rips.getitemstring(li_ci,'ium')) or lds_rips.getitemstring(li_ci,'ium')=''  then
 						ripse_json.AddItemString(li_fcon,"codTecnologiaSalud",lds_rips.getitemstring(li_ci,'cum'))
@@ -868,8 +868,9 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 					ripse_json.AddItemString(ldb_fcon,"fechaSuministroTecnologia",string(lds_ripsot.getitemdatetime(ldb_ci,'fecha'),'yyyy-mm-dd HH:mm'))
 					ripse_json.AddItemString(ldb_fcon,"tipoOS",lds_ripsot.getitemstring(ldb_ci,'tipoos'))
 					
-					if isnull(lds_ripsot.getitemstring(ldb_ci,'ium')) or lds_ripsot.getitemstring(ldb_ci,'ium')=''  or isnull(lds_ripsot.getitemstring(ldb_ci,'ium')) or lds_ripsot.getitemstring(ldb_ci,'ium')='' then
-						ripse_json.AddItemNull(ldb_fcon,"codTecnologiaSalud")
+					if (isnull(lds_ripsot.getitemstring(ldb_ci,'ium')) or lds_ripsot.getitemstring(ldb_ci,'ium')='') and ( isnull(lds_ripsot.getitemstring(ldb_ci,'cum')) or lds_ripsot.getitemstring(ldb_ci,'cum')='') then
+//						ripse_json.AddItemNull(ldb_fcon,"codTecnologiaSalud")
+						ripse_json.AddItemString(ldb_fcon,"codTecnologiaSalud",lds_ripsot.getitemstring(ldb_ci,'c_medica'))
 					else
 						if isnull(lds_ripsot.getitemstring(ldb_ci,'ium')) or lds_ripsot.getitemstring(ldb_ci,'ium')=''  then
 							ripse_json.AddItemString(ldb_fcon,"codTecnologiaSalud",lds_ripsot.getitemstring(ldb_ci,'cum'))
@@ -877,8 +878,7 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 							ripse_json.AddItemString(ldb_fcon,"codTecnologiaSalud",lds_ripsot.getitemstring(ldb_ci,'ium'))			
 						end if
 					end if	
-					
-					
+									
 					if lds_ripsot.getitemstring(ldb_ci,'tipoos')='01' then
 						ripse_json.AddItemString(ldb_fcon,"nomTecnologiaSalud",lds_ripsot.getitemstring(ldb_ci,'medicamento'))
 					else

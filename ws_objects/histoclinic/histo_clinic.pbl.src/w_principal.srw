@@ -662,6 +662,7 @@ event e_anticipo ( long param )
 event e_recibo ( long param )
 event e_bancorec ( long param )
 event e_bancores ( long param )
+event e_pruebas ( long param )
 integer width = 5641
 integer height = 444
 long backcolor = 15132390
@@ -962,7 +963,7 @@ end event
 
 event e_acerca(long param);openwithparm(w_acercade,'asis')
 w_principal.ArrangeSheets ( layer!)
-//gf_validar_202('CC','45456791','F',23725,'906263_05','42','1',10378,'45','1')			
+	
 
 end event
 
@@ -1067,6 +1068,10 @@ end event
 event e_bancores(long param);if not enabled then return
 opensheet (w_banco_reserva,w_principal,7,original!)
 w_principal.ArrangeSheets ( layer!)
+
+end event
+
+event e_pruebas(long param);open(q_i)
 
 end event
 

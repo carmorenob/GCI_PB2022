@@ -36,10 +36,10 @@ table(column=(type=char(6) update=yes updatewhereclause=yes key=yes name=codplan
  column=(type=char(4) updatewhereclause=yes name=cod_inst dbname="cod_inst" )
  column=(type=char(8190) updatewhereclause=yes name=json dbname="json" )
  column=(type=char(1) updatewhereclause=yes name=eco dbname="eco" )
- column=(type=char(8190) updatewhereclause=no name=ins1 dbname="ins1" )
- column=(type=char(8190) updatewhereclause=no name=ins2 dbname="ins2" )
- column=(type=char(8190) updatewhereclause=no name=ins3 dbname="ins3" )
- column=(type=char(8190) updatewhereclause=no name=ins4 dbname="ins4" )
+ column=(type=char(8190) updatewhereclause=no name=inst1 dbname="inst1" )
+ column=(type=char(8190) updatewhereclause=no name=inst2 dbname="inst2" )
+ column=(type=char(8190) updatewhereclause=no name=inst3 dbname="inst3" )
+ column=(type=char(8190) updatewhereclause=no name=ins4 dbname="inst4" )
  column=(type=char(1) updatewhereclause=yes name=futura dbname="futura" )
  column=(type=long updatewhereclause=yes name=ndias dbname="ndias" )
  column=(type=datetime updatewhereclause=yes name=tiempo dbname="tiempo" )
@@ -75,10 +75,10 @@ table(column=(type=char(6) update=yes updatewhereclause=yes key=yes name=codplan
 		hclin_plantcampo.cod_inst,
          '' as json,
 		hclin_plantcampo.eco,
-		null as ins1,
-		null as ins2,
-		null as ins3,		
-		null as ins4	,
+		null as inst1,
+		null as inst2,
+		null as inst3,		
+		null as inst4	,
 		hclin_plantcampo.futura,
 		hclin_plantcampo.ndias,
 		'' as equiv_202
@@ -133,4 +133,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=0 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 

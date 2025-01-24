@@ -284,7 +284,7 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 long textcolor = 33554432
-string text = "01"
+string text = "72"
 borderstyle borderstyle = stylelowered!
 end type
 
@@ -301,7 +301,7 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 long textcolor = 33554432
-string text = "588"
+string text = "76613"
 borderstyle borderstyle = stylelowered!
 end type
 
