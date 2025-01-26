@@ -39,7 +39,7 @@ table(column=(type=char(6) update=yes updatewhereclause=yes key=yes name=codplan
  column=(type=char(8190) updatewhereclause=no name=inst1 dbname="inst1" )
  column=(type=char(8190) updatewhereclause=no name=inst2 dbname="inst2" )
  column=(type=char(8190) updatewhereclause=no name=inst3 dbname="inst3" )
- column=(type=char(8190) updatewhereclause=no name=ins4 dbname="inst4" )
+ column=(type=char(8190) updatewhereclause=no name=inst4 dbname="inst4" )
  column=(type=char(1) updatewhereclause=yes name=futura dbname="futura" )
  column=(type=long updatewhereclause=yes name=ndias dbname="ndias" )
  column=(type=datetime updatewhereclause=yes name=tiempo dbname="tiempo" )
