@@ -18,7 +18,6 @@ uo_datastore lds_202,lds_202_result
 lds_202= create uo_datastore
 lds_202_result= create uo_datastore
 
-
 string ls_sexo,ls_error, ls_resul,ls_fresul, ls_sexoval, ls_tcut,ls_calmues,ls_ipsc,ls_trec
 string ls_fppart,ls_avojos
 long ldb_ini, ldb_fin
