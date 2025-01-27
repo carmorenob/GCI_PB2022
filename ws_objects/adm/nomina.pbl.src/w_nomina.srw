@@ -557,15 +557,12 @@ st_interfec iper, iret
 datawindow dw_obj
 
 l_nesp=tab_n.tpn_1.dw_nomcab.GetItemstring(tab_n.tpn_1.dw_nomcab.GetRow(),'esp')
-//dw_apemp.retrieve(tipodoc,documento)
-
-//log.info("Despues de retrieve get_values "+tipodoc+documento)
-
 fcontra = dw_contra.Find("tipodoc='"+tipodoc+"' and documento='"+documento+"'",1,dw_contra.RowCount()) 
+int jaer
+jaer=dw_historia.RowCount()
 for k = 1 to dw_historia.RowCount()
 	iper.x = dw_historia.GetItemDateTime(k,'interv_ini')
 	iper.y = dw_historia.GetItemDateTime(k,'interv_fin')
-	//dw_concep_cargo.Retrieve(dw_historia.GetItemString(k,'codrela'),dw_historia.GetItemString(k,'tipoemple'),dw_historia.GetItemString(k,'cargo'))
 	datos_concep_cargo(dw_historia.GetItemString(k,'codrela'),dw_historia.GetItemString(k,'tipoemple'),dw_historia.GetItemString(k,'cargo'))
 	
 	for i =  1 to dw_concep_cargo.RowCount()	
@@ -575,7 +572,6 @@ for k = 1 to dw_historia.RowCount()
 		if	is_tnom='V' and dw_concep_cargo.GetItemString(i,'tipo')='P' then continue
 		if	is_tnom='V' and dw_concep_cargo.GetItemString(i,'tipo')='1' then continue
 		if dw_historia.Describe(sigla + '.Coltype') = "?" then
-			//dwSyntax = dw_historia.Describe("datawindow.syntax");	
 			messageBox('Error Get values','El concepto ' + sigla + ' necesita otro concepto que no esta relacionado con el cargo del empleado')
 			Return -1
 		end if
@@ -626,13 +622,8 @@ for k = 1 to dw_historia.RowCount()
 		end if
 		
 		if dw_concep_cargo.GetItemString(i,'tercero') = '2' then
-			//if dias_vinc = 0 then Continue
 			afiliado = FALSE
-			
-//			dw_apemp.SetFilter("cod_clase='"+dw_concep_cargo.GetItemString(i,'cod_tipo_concep')+"'")
-//			dw_apemp.Filter()
 			datos_apemp(tipodoc, documento, dw_concep_cargo.GetItemString(i,'cod_tipo_concep'))
-			
 			for p = 1 to dw_apemp.RowCount()
 				iret.x = dw_apemp.GetItemDateTime(p,'inicio')
 				iret.y = dw_apemp.GetItemDateTime(p,'retiro')
@@ -669,7 +660,6 @@ for k = 1 to dw_historia.RowCount()
 						dw_obj.SetItem(fila, 'cantidad_ac', dw_historia.GetItemNumber(k,'dias'))
 					else
 						if dw_concep_cargo.GetItemnumber(i,'para')=1 then
-							//if dw_concep_cargo.GetItemString(i,'tipo')='S' or dw_concep_cargo.GetItemString(i,'tipo')='X' then
 							if l_sus>0 then
 								dw_obj.SetItem(fila, 'cantidad_ac', l_sus)
 								dias=l_sus
@@ -4392,32 +4382,6 @@ end type
 
 event clicked;long ldb_filanov
 
-//if tab_n.tpn_1.dw_nomcab.GetItemString(tab_n.tpn_1.dw_nomcab.GetRow(),'Estado') <> '0' then
-//	messageBox('Aviso','El documento ya ha sido cerrado. No puede modificarse')
-//	Return
-//end if
-//, ldb_filahistnov
-//string ls_tdnov, ls_docnov
-//ls_tdnov=tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc')
-//ls_docnov=tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento')
-//datos_empleado(ls_tdnov, ls_docnov)
-//
-//ldb_filanov = dw_novedad.InsertRow(0)
-//dw_novedad.SetItem(ldb_filanov,'num_nomina',tab_n.tpn_1.dw_nomcab.GetItemNumber(tab_n.tpn_1.dw_nomcab.GetRow(),'num_nomina'))
-//dw_novedad.SetItem(ldb_filanov,'tipodoc',ls_tdnov)
-//dw_novedad.SetItem(ldb_filanov,'documento',ls_docnov)
-//dw_novedad.SetItem(ldb_filanov,'item',1)
-//ldb_filahistnov = dw_historia.Find("diasvinculado > 0",1,dw_historia.RowCount())
-//if ldb_filahistnov =0 and dw_historia.RowCount()>0 then ldb_filahistnov =1
-//if ldb_filahistnov > 0 then
-//	dw_novedad.SetItem(ldb_filanov,'ncargo',dw_historia.GetItemNumber(ldb_filahistnov,'ncargo'))
-//	dw_novedad.SetItem(ldb_filanov,'nsalario',dw_historia.GetItemNumber(ldb_filahistnov,'nsalario'))
-//	dw_novedad.SetItem(ldb_filanov,'ntraslado',dw_historia.GetItemNumber(ldb_filahistnov,'ntraslado'))
-//end if
-//cambio = TRUE
-//dw_novedad.ScrolltoRow(ldb_filanov)
-//messagebox('retorno',ldb_filanov)
-//Return ldb_filanov
  ldb_filanov=f_addnovedad()
  if ldb_filanov=-1 then return -1
  return  ldb_filanov
@@ -7165,7 +7129,7 @@ if not tab_1.p_2.rb_amb.checked then
 	for j = 1 to tab_n.tpn_2.dw_empnom.RowCount()
 		if tab_n.tpn_2.dw_empnom.GetItemNumber(j,'sel') = 1 then
 			ls_tdc = tab_n.tpn_2.dw_empnom.GetItemString(j, 'tipodoc')
-			ls_docc = tab_n.tpn_2.dw_empnom.GetItemString(j, 'documento')
+			ls_docc = tab_n.tpn_2.dw_empnom.GetItemString(j, 'documento')		
 			filtrar(ls_tdc, ls_docc)
 
 			if datos_empleado(ls_tdc, ls_docc) = 0 then return 0
@@ -7214,11 +7178,14 @@ redraw(false)
 
 for j = 1 to tab_n.tpn_2.dw_empnom.RowCount()
 	if tab_n.tpn_2.dw_empnom.GetItemNumber(j,'sel') = 1 then
-		//tab_n.tpn_2.dw_empnom.ScrolltoRow(j)
+		tab_n.tpn_2.dw_empnom.ScrolltoRow(j)
 		ls_tdc = tab_n.tpn_2.dw_empnom.GetItemString(j, 'tipodoc')
 		ls_docc = tab_n.tpn_2.dw_empnom.GetItemString(j, 'documento')
 		log.info("Inicia empleado "+ ls_tdc+ls_docc)
 		filtrar(ls_tdc, ls_docc)
+		if ls_docc='23175533' then
+			ls_docc=ls_docc
+		end if
 		if tab_1.p_2.dw_novedad.RowCount() > 0 then
 			tab_1.p_2.dw_novedad.SetFilter("tipodoc='"+ls_tdc+"' and documento='"+ls_docc+"' and (cod_tipo_concep='7' or cod_tipo_concep='8')")
 			tab_1.p_2.dw_novedad.Filter()
