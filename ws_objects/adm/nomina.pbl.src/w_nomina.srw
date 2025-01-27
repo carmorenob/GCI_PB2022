@@ -4419,7 +4419,8 @@ event clicked;long ldb_filanov
 //messagebox('retorno',ldb_filanov)
 //Return ldb_filanov
  ldb_filanov=f_addnovedad()
- if ldb_filanov=-1 then return
+ if ldb_filanov=-1 then return -1
+ return  ldb_filanov
 
 
 end event

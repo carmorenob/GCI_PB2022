@@ -29,17 +29,24 @@ table(column=(type=long updatewhereclause=yes name=ano dbname="contra_presu.ano"
 	pre_docu_cp_1.monto_vigente-pre_docu_cp_1.monto_vigente AS a_usar, pre_plan.descrip,pre_plan.codtotal,
 	pre_docu_cb.consecutivo, pre_docu_cb.fecha_consecu, pre_docu_cb.cod_vigencia
 FROM 
-	(contra_presu INNER JOIN pre_docu_cp ON (contra_presu.item_dispo = pre_docu_cp.item) 
-	AND (contra_presu.numdoc_dispo = pre_docu_cp.numdoc) AND (contra_presu.clugar_dispo = pre_docu_cp.clugar) 
-	AND (contra_presu.coddocu_dispo = pre_docu_cp.coddoc)) 
-	INNER JOIN ((pre_docu_cp AS pre_docu_cp_1 
-	INNER JOIN pre_plan ON (pre_docu_cp_1.codtotal = pre_plan.codtotal) AND (pre_docu_cp_1.cod_vigencia = pre_plan.cod_vigencia)) 
-	INNER  JOIN pre_docu_cb ON (pre_docu_cp_1.numdoc = pre_docu_cb.numdoc) AND (pre_docu_cp_1.clugar = pre_docu_cb.clugar) 
-	AND (pre_docu_cp_1.coddoc = pre_docu_cb.coddoc)) ON (pre_docu_cp.item = pre_docu_cp_1.item_orig) 
-	AND (pre_docu_cp.numdoc = pre_docu_cp_1.numdoc_orig) AND (pre_docu_cp.clugar = pre_docu_cp_1.clugar_orig) 
-	AND (pre_docu_cp.coddoc = pre_docu_cp_1.coddoc_orig)
+	(((contra_presu INNER JOIN pre_docu_cp ON (contra_presu.coddocu_dispo = pre_docu_cp.coddoc) 
+	AND (contra_presu.clugar_dispo = pre_docu_cp.clugar) AND (contra_presu.numdoc_dispo = pre_docu_cp.numdoc) 
+	AND (contra_presu.item_dispo = pre_docu_cp.item)) INNER JOIN (pre_docu_cp AS pre_docu_cp_1 
+	INNER JOIN pre_plan ON (pre_docu_cp_1.cod_vigencia = pre_plan.cod_vigencia) 
+	AND (pre_docu_cp_1.codtotal = pre_plan.codtotal)) ON (pre_docu_cp.coddoc = pre_docu_cp_1.coddoc_orig) 
+	AND (pre_docu_cp.clugar = pre_docu_cp_1.clugar_orig) AND (pre_docu_cp.numdoc = pre_docu_cp_1.numdoc_orig) 
+	AND (pre_docu_cp.item = pre_docu_cp_1.item_orig)) INNER JOIN pre_docu_cb ON (pre_docu_cp.numdoc = pre_docu_cb.numdoc) 
+	AND (pre_docu_cp.clugar = pre_docu_cb.clugar) AND (pre_docu_cp.coddoc = pre_docu_cb.coddoc)) 
+	INNER JOIN pre_docu_cb AS pre_docu_cb_1 ON (pre_docu_cp_1.numdoc = pre_docu_cb_1.numdoc) 
+	AND (pre_docu_cp_1.clugar = pre_docu_cb_1.clugar) AND (pre_docu_cp_1.coddoc = pre_docu_cb_1.coddoc)
 WHERE 
-	contra_presu.ano=:ano AND contra_presu.ncontrato=:ncontrato AND contra_presu.otrosi=:otrosi and pre_docu_cp_1.coddoc = 'PR'" arguments=(("ano", number),("ncontrato", number),("otrosi", number))  sort="coddoc A clugar A numdoc A item A " )
+	(((contra_presu.ano)=:ano) 
+	AND ((contra_presu.ncontrato)=:ncontrato) 
+	AND ((contra_presu.otrosi)=:otrosi) 
+	AND ((pre_docu_cp_1.coddoc)='PR') 
+	AND ((pre_docu_cb.estado)<>'3') 
+	AND ((pre_docu_cb_1.estado)<>'3'));'
+	" arguments=(("ano", number),("ncontrato", number),("otrosi", number))  sort="coddoc A clugar A numdoc A item A " )
 text(band=header alignment="2" text="Coddoc" border="0" color="33554432" x="9" y="4" height="56" width="242" html.valueishtml="0"  name=coddoc_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="2" text="Monto Vigente" border="0" color="33554432" x="1943" y="4" height="56" width="471" html.valueishtml="0"  name=monto_vigente_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="2" text="Monto Utilizado" border="0" color="33554432" x="2423" y="4" height="56" width="521" html.valueishtml="0"  name=monto_utilizado_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
@@ -74,4 +81,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=2 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 
