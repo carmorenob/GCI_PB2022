@@ -83,14 +83,13 @@ global w_modifica w_modifica
 type variables
 st_ppto st_p
 date ld_termina
-long nuevo
+ long nuevo
 string equ
 boolean borra=FALSE
 DataWindowChild dwc_per
 int i_dec_pre,i_aprox_gral
 
 end variables
-
 on w_modifica.create
 this.dw_movi=create dw_movi
 this.st_2=create st_2
@@ -775,6 +774,28 @@ destroy(this.p2)
 destroy(this.p3)
 end on
 
+event selectionchanged;dec ln_monto_res, ln_monto_org,ln_ajustes
+
+int li_i
+
+if st_p.coddoc = 'RM' then
+	ln_monto_res = 0
+	ln_monto_org=0
+	ln_ajustes=0
+	for li_i = 1 to st_p.dw_obj.RowCount()
+		ln_monto_res = round(ln_monto_res + st_p.dw_obj.GetItemNumber(li_i,'monto_vigente'),i_dec_pre)
+		ln_monto_org = round(ln_monto_org + st_p.dw_obj.GetItemNumber(li_i,'monto'),i_dec_pre)
+	next
+
+	ln_ajustes= round(t1.p1.dw_mcpo.GetItemNumber(t1.p1.dw_mcpo.GetRow(),'total'),i_dec_pre)
+	ln_monto_res = ln_monto_res  + ln_ajustes
+
+	t1.p3.dw_ter.setitem(1,'monto',ln_monto_res)
+	t1.p3.dw_ter.setitem(1,'monto_org',ln_monto_org)
+end if
+
+end event
+
 type p1 from userobject within t1
 event create ( )
 event destroy ( )
@@ -1221,9 +1242,8 @@ event constructor;setTransObject(SQLCA)
 
 end event
 
-event itemchanged;dec valor
+event itemchanged;dec valor,ln_vig_org
 
-setitem(row,'Monto_org',getitemnumber(row,'monto'))
 valor=round(dec(data),i_dec_pre)
 if i_dec_pre=0 then
 	valor=long(valor/i_aprox_gral)*i_aprox_gral +i_aprox_gral*round((valor -long(valor/i_aprox_gral)*i_aprox_gral)/i_aprox_gral,0)
