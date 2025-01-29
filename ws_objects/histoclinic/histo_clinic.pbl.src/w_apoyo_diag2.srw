@@ -2338,7 +2338,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-01-22"), Time("15:03:26.000000"))
+datetime value = DateTime(Date("2025-01-29"), Time("15:04:54.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2360,7 +2360,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-01-22"), Time("15:03:26.000000"))
+datetime value = DateTime(Date("2025-01-29"), Time("15:04:54.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -4143,7 +4143,9 @@ for l_i= 1 to tab_1.tp_1.dw_procs.rowcount()
 			gf_validar_202_apdx(	tipdoc,docu,w_principal.dw_1.getitemstring(1,'sexo'),&
 				w_principal.dw_1.getitemnumber(1,'dias'),ls_proced,&
 				tab_1.tp_1.dw_procs.getitemstring(l_i,'ririas'),&
-				ls_coddoc,ldb_nrepor,ls_clugarrec,'1')			
+				ls_coddoc,ldb_nrepor,ls_clugarrec,'1')	
+				
+			tab_1.tp_1.dw_procs.setitem(l_i,'veri','0')
 		end if
 	end if
 next

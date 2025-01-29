@@ -428,8 +428,8 @@ end event
 
 type dw_2 from datawindow within q_i
 boolean visible = false
-integer x = 73
-integer y = 792
+integer x = 485
+integer y = 660
 integer width = 421
 integer height = 228
 integer taborder = 120
@@ -518,11 +518,10 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type cb_1 from commandbutton within q_i
-boolean visible = false
 integer x = 59
 integer y = 812
 integer width = 402
-integer height = 112
+integer height = 92
 integer taborder = 30
 integer textsize = -10
 integer weight = 400
@@ -530,13 +529,18 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
-string text = "none"
+string text = "loginsispro"
 end type
 
 event clicked;	nvo_fevrips u_rips
+	string ls_token
 	
 	u_rips=create nvo_fevrips
-	u_rips.LoginSispro('2','CC','9298274','Giselle08+','806010305')
+	ls_token=u_rips.sispro_login('2','CC','9298274','/*Ese/*123..','806010305')
+	if ls_token<>'-1' then 
+		u_rips.sispro_cargarfevrips(ls_token,'2','','')
+	end if
+	
 	destroy 	u_rips
 end event
 
