@@ -217,7 +217,6 @@ destroy(this.dw_it)
 end on
 
 event open;st = Message.PowerObjectParm
-dw_it.retrieve()
 dw_n.Retrieve()
 
 end event
@@ -375,7 +374,8 @@ event constructor;setTransObject(SQLCA)
 
 end event
 
-event rowfocuschanged;if rowcount()=0 then 
+event rowfocuschanged;dw_it.retrieve(GetItemNumber(getRow(),'ano'))
+if rowcount()=0 then 
 	dw_it.setfilter('isnull(nomina)')
 else
 	dw_it.setfilter('num_nomina='+string(GetItemNumber(getRow(),'num_nomina')))

@@ -28,20 +28,18 @@ table(column=(type=long updatewhereclause=yes name=esco dbname="esco" values="	1
 	v_nom_base.TipoDoc_TER, v_nom_base.documento_TER, TERCEROS.razon_social,
 	v_nom_base.permanente
 FROM 
-	pre_plan AS pre_plan_1 INNER JOIN (((
-     v_nom_base INNER JOIN NOM_CONCEP_PPTO ON 
-	(v_nom_base.pub = NOM_CONCEP_PPTO.publico) AND 
-    (v_nom_base.CCosto = NOM_CONCEP_PPTO.CodCC) AND 
-    (v_nom_base.ufuncional = NOM_CONCEP_PPTO.CodUF) AND 
-    (v_nom_base.COD_CONCEP = NOM_CONCEP_PPTO.cod_concep) AND 
-    (v_nom_base.tipo_cargo = NOM_CONCEP_PPTO.tipo_cargo) AND 
-	(v_nom_base.permanente = NOM_CONCEP_PPTO.permanente)) 
-	LEFT JOIN TERCEROS ON (v_nom_base.TipoDoc_TER = TERCEROS.TipoDoc) AND (v_nom_base.documento_TER = TERCEROS.documento)) 
-	INNER JOIN pre_plan ON (NOM_CONCEP_PPTO.cod_vigencia_gasto = pre_plan.cod_vigencia) AND 
-	(NOM_CONCEP_PPTO.CodTotal_gasto = pre_plan.CodTotal)) ON (pre_plan_1.CodTotal = NOM_CONCEP_PPTO.CodTotal_ingre) AND 
-	(pre_plan_1.cod_vigencia = NOM_CONCEP_PPTO.cod_vigencia_ingre)
-WHERE
-	v_nom_base.pagado<>0 " filter=" num_nomina =69" sort="cod_concep A razon_social A " )
+	(((((v_nom_base 
+	LEFT JOIN TERCEROS ON (v_nom_base.documento_ter = TERCEROS.documento) AND (v_nom_base.tipodoc_ter = TERCEROS.tipodoc)) 
+	INNER JOIN NOM_CONCEP_PPTO ON (v_nom_base.pub = NOM_CONCEP_PPTO.publico) AND (v_nom_base.ccosto = NOM_CONCEP_PPTO.codcc) 
+	AND (v_nom_base.ufuncional = NOM_CONCEP_PPTO.coduf) AND (v_nom_base.cod_concep = NOM_CONCEP_PPTO.cod_concep) 
+	AND (v_nom_base.permanente = NOM_CONCEP_PPTO.permanente) AND (v_nom_base.tipo_cargo = NOM_CONCEP_PPTO.tipo_cargo)) 
+	INNER JOIN pre_plan ON (NOM_CONCEP_PPTO.codtotal_gasto = pre_plan.codtotal) AND (NOM_CONCEP_PPTO.cod_vigencia_gasto = pre_plan.cod_vigencia)) 
+	INNER JOIN pre_vigencia ON pre_plan.cod_vigencia = pre_vigencia.cod_vigencia) 
+	INNER JOIN pre_plan AS pre_plan_1 ON (NOM_CONCEP_PPTO.codtotal_ingre = pre_plan_1.codtotal) 
+	AND (NOM_CONCEP_PPTO.cod_vigencia_ingre = pre_plan_1.cod_vigencia)) 
+	INNER JOIN pre_vigencia AS pre_vigencia_1 ON pre_plan_1.cod_vigencia = pre_vigencia_1.cod_vigencia
+WHERE 
+	(((v_nom_base.pagado)<>0) AND ((pre_vigencia.ano)=:anyo) AND ((pre_vigencia_1.ano)=:anyo)); " arguments=(("anyo", number))  sort="cod_concep A razon_social A " )
 text(band=header alignment="2" text="Pagar" border="0" color="33554432" x="9" y="0" height="56" width="151" html.valueishtml="0"  name=esco_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="2" text="Nombramiento" border="0" color="0" x="704" y="0" height="56" width="366" html.valueishtml="0"  name=permanente_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="2" text="Concepto" border="0" color="0" x="1079" y="0" height="56" width="654" html.valueishtml="0"  name=cod_concep_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
