@@ -206,6 +206,7 @@ int i_nro_imags,i_actual_image,i_nobjs[],i_control
 //i_ing_sal:(I:ingreso , S:salida)
 uo_datastore  ids_hijos_histo
 end variables
+
 forward prototypes
 public subroutine mover (long xpos)
 public subroutine mover2 (long xpos)
@@ -624,10 +625,10 @@ if lbn_si_datos then
 						ls_resul=string(dw_new_det.getitemnumber(j,'numero'))
 		
 				case 'F' ,'X'//:fecha
-					ls_resul=string(dw_new_det.getitemdatetime(j,'fecha_cap'))
+					ls_resul=string(dw_new_det.getitemdatetime(j,'fecha_cap'),'yyy-mm-dd')
 		
 				case 'H' //:tiempo
-						ls_resul=string(dw_new_det.getitemdatetime(j,'tiempo'))
+						ls_resul=string(dw_new_det.getitemdatetime(j,'tiempo'),'hh:mm:ss')
 			end choose
 				
 			gf_validar_202_cons(	tipdoc,docu,&
@@ -636,7 +637,7 @@ if lbn_si_datos then
 				dw_new_det.getitemstring(j,'codplantilla'),&
 				dw_new_det.getitemnumber(j,'numcampo'),&
 				dw_new_det.getitemstring(j,'varia_salud'),&
-				ls_resul,string(em_1.text,'yyyy-mm-dd'))		
+				ls_resul,string(date(em_1.text),'yyyy-mm-dd'))		
 		next
 	end if
 	/// Fin 202
