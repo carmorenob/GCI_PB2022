@@ -172,6 +172,7 @@ datawindowchild i_dw_tmp,i_dw_frec
 
 
 end variables
+
 forward prototypes
 public function integer reset ()
 public function long insert_proc (string p_codigo, integer p_cant)
@@ -1575,7 +1576,7 @@ end event
 type tab_1 from tab within uo_orden_formula
 event create ( )
 event destroy ( )
-integer y = 500
+integer y = 504
 integer width = 6021
 integer height = 1092
 integer taborder = 30
@@ -1729,7 +1730,14 @@ boolean livescroll = true
 borderstyle borderstyle = stylelowered!
 end type
 
-event p_itemchanged();accepttext()
+event p_itemchanged();string ls_estado
+ls_estado=dw_oscab.getitemstring(dw_oscab.getrow(),"estado")
+
+if i_tingre='1' and (ls_estado="2" or ls_estado="3"  or ls_estado='4' ) then
+	return
+end if
+
+accepttext()
 update()
 commit;
 end event
@@ -2556,7 +2564,12 @@ boolean livescroll = true
 borderstyle borderstyle = stylelowered!
 end type
 
-event p_itemchanged();accepttext()
+event p_itemchanged();string ls_estado
+ls_estado=dw_oscab.getitemstring(dw_oscab.getrow(),"estado")
+
+if i_tingre='1' and (ls_estado="2" or ls_estado="3"  or ls_estado='4' ) then
+	return
+end if
 accepttext()
 update()
 commit;
