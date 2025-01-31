@@ -2493,7 +2493,6 @@ elseif dw_historia.RowCount() = 0 then
 end if
 
 ls_tnom=tab_n.tpn_1.dw_nomcab.GetItemString(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo')
-//if ls_tnom<>'R' and ls_tnom<>'V' and ls_tnom='C' and ls_tnom='P' then
 if ls_tnom<>'C' and ls_tnom<>'P' then
 	log.info("Inicia prestamos "+ tipodoc+documento)
 	if calc_prestamos(tipodoc, documento, filahist) = -1 then return -1
@@ -7100,10 +7099,11 @@ string disabledname = "d_liquida.gif"
 string powertiptext = "&Calcular Nómina"
 end type
 
-event clicked;long j,i,filahist,li_fila,l_i
+event clicked;long li_j,i,filahist,li_fila,l_i
 Integer ret
 string tipo,ls_filtro, ls_tdc, ls_docc
 decimal cantidad
+datetime ldt_fecha_c
 
 cbx_1.checked=true
 if tab_n.tpn_1.dw_nomcab.RowCount() = 0 then Return 0
@@ -7111,7 +7111,26 @@ if tab_n.tpn_1.dw_nomcab.GetItemString(tab_n.tpn_1.dw_nomcab.GetRow(),'estado') 
 if tab_n.tpn_1.dw_nomcab.GetItemString(tab_n.tpn_1.dw_nomcab.GetRow(),'estado') = '2' then Return 0
 if tab_n.tpn_1.dw_nomcab.GetItemString(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo') = 'R' then Return 0
 
-tab_n.tpn_1.dw_nomcab.setitem(tab_n.tpn_1.dw_nomcab.GetRow(),'fecha_calculo',datetime(date(today()),now()))
+li_j=tab_n.tpn_1.dw_nomcab.getitemnumber(tab_n.tpn_1.dw_nomcab.GetRow(),'num_nomina')
+
+select recal into :ls_filtro 
+from nom_cab
+where num_nomina=:li_j;
+
+if ls_filtro ='1' then 
+	messagebox("Atención",'Proceso de Recalculo en otra Estación no se puede iniciar este proceso')
+	Return 0
+end if
+
+ldt_fecha_c=datetime(today(),now())
+update nom_cab set recal='1',fecha_calcul=:ldt_fecha_c
+where num_nomina=:li_j;
+if sqlca.sqlcode=-1 then
+	messagebox("Error Actualizando cabeza linea 16",sqlca.sqlerrtext)
+	rollback;
+	return 0
+end if
+commit;
 
 l_nesp = tab_n.tpn_1.dw_nomcab.GetItemstring(tab_n.tpn_1.dw_nomcab.GetRow(),'esp')
 
@@ -7126,10 +7145,10 @@ if ibn_actualizado then
 end if
 
 if not tab_1.p_2.rb_amb.checked then
-	for j = 1 to tab_n.tpn_2.dw_empnom.RowCount()
-		if tab_n.tpn_2.dw_empnom.GetItemNumber(j,'sel') = 1 then
-			ls_tdc = tab_n.tpn_2.dw_empnom.GetItemString(j, 'tipodoc')
-			ls_docc = tab_n.tpn_2.dw_empnom.GetItemString(j, 'documento')		
+	for li_j = 1 to tab_n.tpn_2.dw_empnom.RowCount()
+		if tab_n.tpn_2.dw_empnom.GetItemNumber(li_j,'sel') = 1 then
+			ls_tdc = tab_n.tpn_2.dw_empnom.GetItemString(li_j, 'tipodoc')
+			ls_docc = tab_n.tpn_2.dw_empnom.GetItemString(li_j, 'documento')		
 			filtrar(ls_tdc, ls_docc)
 
 			if datos_empleado(ls_tdc, ls_docc) = 0 then return 0
@@ -7176,11 +7195,11 @@ hpb_1.SetRange ( 0, long(tab_n.tpn_2.dw_empnom.Describe("Evaluate('sum(if(sel=1,
 hpb_1.Visible = TRUE
 redraw(false)
 
-for j = 1 to tab_n.tpn_2.dw_empnom.RowCount()
-	if tab_n.tpn_2.dw_empnom.GetItemNumber(j,'sel') = 1 then
-		tab_n.tpn_2.dw_empnom.ScrolltoRow(j)
-		ls_tdc = tab_n.tpn_2.dw_empnom.GetItemString(j, 'tipodoc')
-		ls_docc = tab_n.tpn_2.dw_empnom.GetItemString(j, 'documento')
+for li_j = 1 to tab_n.tpn_2.dw_empnom.RowCount()
+	if tab_n.tpn_2.dw_empnom.GetItemNumber(li_j,'sel') = 1 then
+		tab_n.tpn_2.dw_empnom.ScrolltoRow(li_j)
+		ls_tdc = tab_n.tpn_2.dw_empnom.GetItemString(li_j, 'tipodoc')
+		ls_docc = tab_n.tpn_2.dw_empnom.GetItemString(li_j, 'documento')
 		log.info("Inicia empleado "+ ls_tdc+ls_docc)
 		filtrar(ls_tdc, ls_docc)
 		if tab_1.p_2.dw_novedad.RowCount() > 0 then
@@ -7214,9 +7233,9 @@ for j = 1 to tab_n.tpn_2.dw_empnom.RowCount()
 		end if
 		log.info("GRABAR empleado "+ ls_tdc+ls_docc)
 		grabar('temporal')
-		hpb_1.Position = j
+		hpb_1.Position = li_j
 	end if
-	if mod(j,5) = 0 then Garbagecollect()
+	if mod(li_j,5) = 0 then Garbagecollect()
 	Yield()
 	if ibn_cancelar then
 		ibn_cancelar = FALSE
@@ -7236,6 +7255,17 @@ hpb_1.Position = 0
 ibn_calculando = FALSE
 cambio = TRUE
 tab_n.tpn_2.dw_empnom.ScrolltoRow(1)
+
+li_j=tab_n.tpn_1.dw_nomcab.getitemnumber(tab_n.tpn_1.dw_nomcab.GetRow(),'num_nomina')
+update nom_cab set recal='0',fecha_calcul=:ldt_fecha_c
+where num_nomina=:li_j;
+if sqlca.sqlcode=-1 then
+	messagebox("Error Actualizando cabeza linea 197",sqlca.sqlerrtext)
+	rollback;
+	return 0
+end if
+commit;
+
 Return 0
 
 end event
@@ -7615,21 +7645,41 @@ string disabledname = "d_liquida.gif"
 string powertiptext = "&Calcular Nómina"
 end type
 
-event clicked;long j,i,filahist,li_fila,l_i
+event clicked;long li_j,i,filahist,li_fila,l_i
 string tipo,ls_filtro
 decimal cantidad
+datetime ldt_fecha_c
 
 if tab_n.tpn_1.dw_nomcab.RowCount() = 0 then Return 0
 if tab_n.tpn_1.dw_nomcab.GetItemString(tab_n.tpn_1.dw_nomcab.GetRow(),'estado') = '1' then Return 0
 if tab_n.tpn_1.dw_nomcab.GetItemString(tab_n.tpn_1.dw_nomcab.GetRow(),'estado') = '2' then Return 0
 if tab_n.tpn_1.dw_nomcab.GetItemString(tab_n.tpn_1.dw_nomcab.GetRow(),'tipo') = 'R' then Return 0
 
-tab_n.tpn_1.dw_nomcab.setitem(tab_n.tpn_1.dw_nomcab.GetRow(),'fecha_calculo',datetime(date(today()),now()))
+li_j=tab_n.tpn_1.dw_nomcab.getitemnumber(tab_n.tpn_1.dw_nomcab.GetRow(),'num_nomina')
+
+select recal into :ls_filtro 
+from nom_cab
+where num_nomina=:li_j;
+
+if ls_filtro ='1' then 
+	messagebox("Atención",'Proceso de Recalculo en otra Estación no se puede iniciar este proceso')
+	Return 0
+end if
+
+ldt_fecha_c=datetime(today(),now())
+update nom_cab set recal='1',fecha_calcul=:ldt_fecha_c
+where num_nomina=:li_j;
+if sqlca.sqlcode=-1 then
+	messagebox("Error Actualizando cabeza linea 16",sqlca.sqlerrtext)
+	rollback;
+	return 0
+end if
+commit;
 
 if not tab_1.p_2.rb_amb.checked then
-	for j = 1 to tab_n.tpn_2.dw_empnom.RowCount()
-		if tab_n.tpn_2.dw_empnom.GetItemNumber(j,'sel') = 1 then
-			tab_n.tpn_2.dw_empnom.ScrolltoRow(j)
+	for li_j = 1 to tab_n.tpn_2.dw_empnom.RowCount()
+		if tab_n.tpn_2.dw_empnom.GetItemNumber(li_j,'sel') = 1 then
+			tab_n.tpn_2.dw_empnom.ScrolltoRow(li_j)
 			tab_n.tpn_2.dw_empnom.TriggerEvent(rowfocuschanged!)
 			filahist = dw_historia.Find("diasvinculado > 0",1,dw_historia.RowCount())
 			if filahist = 0 and tab_1.p_2.dw_novedad.GetItemString(tab_1.p_2.dw_novedad.GetRow(),'tipo') ='L' and dw_historia.RowCount() > 0 then filahist = 1
@@ -7674,9 +7724,9 @@ tab_1.p_1.dw_devenga.SetRedraw(FALSE)
 tab_1.p_1.dw_deduce.SetRedraw(FALSE)
 tab_1.p_2.dw_novedad.SetRedraw(FALSE)
 tab_1.p_5.dw_ap.SetRedraw(FALSE)
-for j = 1 to tab_n.tpn_2.dw_empnom.RowCount()
-	if tab_n.tpn_2.dw_empnom.GetItemNumber(j,'sel') = 1 then
-		tab_n.tpn_2.dw_empnom.ScrolltoRow(j)
+for li_j = 1 to tab_n.tpn_2.dw_empnom.RowCount()
+	if tab_n.tpn_2.dw_empnom.GetItemNumber(li_j,'sel') = 1 then
+		tab_n.tpn_2.dw_empnom.ScrolltoRow(li_j)
 		tab_n.tpn_2.dw_empnom.TriggerEvent(rowfocuschanged!)
 		if tab_1.p_2.dw_novedad.RowCount() > 0 then
 			tab_1.p_2.dw_novedad.SetFilter("tipodoc='"+tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc')+"' and documento='"+tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento')+"' and (cod_tipo_concep='7' or cod_tipo_concep='8')")
@@ -7701,7 +7751,7 @@ for j = 1 to tab_n.tpn_2.dw_empnom.RowCount()
 			tab_1.p_2.dw_novedad.Filter()			
 		end if
 		
-		if nomcalc(tab_n.tpn_2.dw_empnom.GetItemString(j,'tipodoc'), tab_n.tpn_2.dw_empnom.GetItemString(j,'documento'),tab_n.tpn_1.dw_nomcab.GetItemstring(tab_n.tpn_1.dw_nomcab.Getrow(),'esp'),tab_n.tpn_1.dw_nomcab.GetItemstring(tab_n.tpn_1.dw_nomcab.Getrow(),'tipo')) < 0 then
+		if nomcalc(tab_n.tpn_2.dw_empnom.GetItemString(li_j,'tipodoc'), tab_n.tpn_2.dw_empnom.GetItemString(li_j,'documento'),tab_n.tpn_1.dw_nomcab.GetItemstring(tab_n.tpn_1.dw_nomcab.Getrow(),'esp'),tab_n.tpn_1.dw_nomcab.GetItemstring(tab_n.tpn_1.dw_nomcab.Getrow(),'tipo')) < 0 then
 			tab_n.tpn_2.dw_empnom.SetRedraw(TRUE)
 			tab_1.p_1.dw_devenga.SetRedraw(TRUE)
 			tab_1.p_1.dw_deduce.SetRedraw(TRUE)
@@ -7712,9 +7762,9 @@ for j = 1 to tab_n.tpn_2.dw_empnom.RowCount()
 			st_15.visible = FALSE
 			Return -1
 		end if
-		hpb_1.Position = j
+		hpb_1.Position = li_j
 	end if
-	if mod(j,5) = 0 then Garbagecollect()
+	if mod(li_j,5) = 0 then Garbagecollect()
 	Yield()
 	if ibn_cancelar then
 		ibn_cancelar= FALSE
@@ -7731,6 +7781,15 @@ tab_1.p_5.dw_ap.SetRedraw(TRUE)
 calctotal()
 tab_1.p_3.dw_plan.TriggerEvent(rowfocuschanged!)
 tab_1.p_4.dw_acab.TriggerEvent(rowfocuschanged!)
+update nom_cab set recal='0',fecha_calcul=:ldt_fecha_c
+where num_nomina=:li_j;
+if sqlca.sqlcode=-1 then
+	messagebox("Error Actualizando cabeza linea 130",sqlca.sqlerrtext)
+	rollback;
+	return 0
+end if
+commit;
+
 st_15.Visible = FALSE
 hpb_1.Visible = FALSE
 hpb_1.Position = 0
