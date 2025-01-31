@@ -5,10 +5,10 @@ COM:GCI Ltda.
 DES:GCI Administrativo
 CPY:2000-2025
 PRD:GCI Administrativo
-PVS:5,0,0,80
-PVN:5,0,0,80
-FVS:5,0,0,80
-FVN:5,0,0,80
+PVS:5,0,0,82
+PVN:5,0,0,82
+FVS:5,0,0,82
+FVN:5,0,0,82
 MAN:0,asInvoker,0
 PBD:afijos.pbl,,1
 PBD:cartera.pbl,,1
