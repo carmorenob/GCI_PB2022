@@ -41,6 +41,8 @@ table(column=(type=char(6) update=yes updatewhereclause=yes key=yes name=cod_con
  column=(type=char(6) update=yes updatewhereclause=yes name=equ_retro dbname="nom_concep.equ_retro" )
  column=(type=char(4) update=yes updatewhereclause=yes name=ord_dian dbname="nom_concep.ord_dian" )
  column=(type=char(1) update=yes updatewhereclause=yes name=prima dbname="nom_concep.prima" values="	1/	0" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=usu_modif dbname="nom_concep.usu_modif" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha_modif dbname="nom_concep.fecha_modif" )
  retrieve="SELECT 
 	nom_concep.cod_concep,nom_concep.des_concep,nom_concep.cod_tipo_concep,   
 	nom_concep.tipo,nom_concep.sigla,nom_concep.novedad,nom_concep.form_calculo,   
@@ -52,13 +54,13 @@ table(column=(type=char(6) update=yes updatewhereclause=yes key=yes name=cod_con
 	terceros.apellido1,terceros.apellido2,terceros.razon_social,   
 	nom_concep.concep_pago,nom_concep.estado,nom_concep.tarifa,   
 	nom_concep.cert,nom_concep.umed,nom_concep.tarifa_esp,
-	nom_concep.equ_retro,nom_concep.ord_dian,nom_concep.prima
+	nom_concep.equ_retro,nom_concep.ord_dian,nom_concep.prima,
+	nom_concep.usu_modif,nom_concep.fecha_modif
 FROM 
 	nom_concep LEFT OUTER JOIN terceros ON nom_concep.tipodoc = terceros.tipodoc AND nom_concep.documento = terceros.documento
 WHERE 
 	( nom_concep.cod_empresa = :cemp ) OR  
-	( nom_concep.cod_empresa is null )    
-" update="nom_concep" updatewhere=0 updatekeyinplace=no arguments=(("cemp", string))  sort="sigla A tipo A " )
+	( nom_concep.cod_empresa is null )    " update="nom_concep" updatewhere=0 updatekeyinplace=no arguments=(("cemp", string))  sort="sigla A tipo A " )
 text(band=header alignment="2" text="Activo" border="0" color="0" x="9" y="4" height="56" width="155" html.valueishtml="0"  name=nom_concep_estado_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="2" text="Código" border="0" color="33554432" x="480" y="4" height="56" width="274" html.valueishtml="0"  name=cod_concep_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="2" text="Sigla" border="0" color="33554432" x="1179" y="4" height="56" width="430" html.valueishtml="0"  name=sigla_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )

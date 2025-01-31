@@ -7183,9 +7183,6 @@ for j = 1 to tab_n.tpn_2.dw_empnom.RowCount()
 		ls_docc = tab_n.tpn_2.dw_empnom.GetItemString(j, 'documento')
 		log.info("Inicia empleado "+ ls_tdc+ls_docc)
 		filtrar(ls_tdc, ls_docc)
-		if ls_docc='23175533' then
-			ls_docc=ls_docc
-		end if
 		if tab_1.p_2.dw_novedad.RowCount() > 0 then
 			tab_1.p_2.dw_novedad.SetFilter("tipodoc='"+ls_tdc+"' and documento='"+ls_docc+"' and (cod_tipo_concep='7' or cod_tipo_concep='8')")
 			tab_1.p_2.dw_novedad.Filter()

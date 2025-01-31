@@ -51,12 +51,21 @@ forward prototypes
 public function integer grabar ()
 end prototypes
 
-public function integer grabar ();if dw_concep.AcceptText()=-1 then return -1
-//if dw_concep.find('(tipo="1" or tipo="P") and isnull(cod_impu)',1,dw_concep.rowcount())>0 then
-//	messagebox('Atención','Debe escoger la equivalencia de impuesto para pago de los conceptos que son Deducidos o Patronales')
-//	return -1
-//end if
+public function integer grabar ();int li_i
+if dw_concep.AcceptText()=-1 then return -1
+for li_i = 1 to dw_concep.RowCount()
+	if 	dw_concep.getitemstatus(li_i,0,primary!)=DataModified! or &
+		dw_concep.getitemstatus(li_i,0,primary!)=New! or &
+		dw_concep.getitemstatus(li_i,0,primary!)=NewModified! &
+	then 
+		dw_concep.setitem(li_i,'usu_modif',usuario)
+		dw_concep.setitem(li_i,'fecha_modif',datetime(today(),now()))
+	else
+		continue
+	end if
+next
 
+if dw_concep.AcceptText()=-1 then return -1
 if dw_concep.update(true,false) = -1 then
 	rollback;
 	Return -1
@@ -154,8 +163,7 @@ end event
 event doubleclicked;this.TriggerEvent(itemfocuschanged!)
 end event
 
-event clicked;
-if dwo.type="text" then
+event clicked;if dwo.type="text" then
 choose case dwo.name
 	case "cod_concep_t"
 		if ordenar[1]="#1 A" then

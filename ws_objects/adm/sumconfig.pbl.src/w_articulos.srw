@@ -206,9 +206,6 @@ end if
 st_lote st_lotes
 long i,cant
 for i = 1 to dw_articulos.RowCount()
-	dwItemStatus jaer
-	jaer=dw_articulos.getitemstatus(i,0,primary!)
-
 	if dw_articulos.getitemstatus(i,'vence',primary!)=notModified! then continue
 	if dw_articulos.getitemstatus(i,0,primary!)=newModified! then continue
 	if dw_articulos.GetItemString(i,'vence')='1' then
