@@ -550,57 +550,121 @@ if dw_rep.rowcount()>0 then
 			destroy lqr_code
 		end if
 		
-		If titulo='Reporte Orden de Servicio' then
-			ls_dqr+='USUARIO:'+dw_rep.getitemstring(1,'tipodoc')
-			ls_dqr+=dw_rep.getitemstring(1,'documento')
-			ls_dqr+='INCAPACIDAD No.'+dw_rep.getitemstring(1,'clugar')+'_'
-			ls_dqr+=string(dw_rep.getitemnumber(1,'contador'))+'_'
-			ls_dqr+=string(dw_rep.getitemnumber(1,'nsolicitud'))
-			ls_dqr+='PROFESIONAL:'+dw_rep.getitemstring(1,'desprof')
+		If upper(titulo)=upper('Reporte Orden de Servicio') then
+			if dw_rep.getitemstring(1,'tipo_orden')='I' then
+			
+				ls_dqr+='IDENTIFICACION:'+dw_rep.getitemstring(1,'tipodoc')+dw_rep.getitemstring(1,'documento')+'~r~n'
+				ls_dqr+='NOMBRES:'+dw_rep.getitemstring(1,'nombres')+'~r~n'
+				ls_dqr+='INCAPACIDAD No:'+dw_rep.getitemstring(1,'clugar')+'_'+string(dw_rep.getitemnumber(1,'contador'))+'_'+string(dw_rep.getitemnumber(1,'nsolicitud'))+'~r~n'
+				ls_dqr+='FECHA GENERACION:'+string(dw_rep.getitemdatetime(1,'fecha'),'dd/mm/yyyy hh:mm')+'~r~n'
+				ls_dqr+='PROFESIONAL:'+dw_rep.getitemstring(1,'desprof')+'~r~n'
+				if isnull(dw_rep.getitemstring(1,'registro')) then
+					messagebox("Atención",'Hace falta registro del profesional')
+					return -1
+				end if
+				ls_dqr+='REGISTRO:'+dw_rep.getitemstring(1,'registro')+'~r~n'
+				if isnull(dw_rep.getitemstring(1,'cod_rips')) then
+					messagebox("Atención",'Hace falta Dx para incapacidad')
+					return -1
+				end if	
+				ls_dqr+='DX:'+dw_rep.getitemstring(1,'cod_rips')+'~r~n'
+				ls_dqr+='INICIA:'+string(dw_rep.getitemdatetime(1,'ifecha_ini'),'dd/mm/yyyy')+'~r~n'
+				ls_dqr+='FINALIZA:'+string(dw_rep.getitemdatetime(1,'ifecha_fin'),'dd/mm/yyyy')+'~r~n'
+				ls_dqr+='DIAS:'+string(dw_rep.getitemnumber(1,'solicitada'))+'~r~n'
+				ls_dqr+='ORIGEN:'
+				if dw_rep.getitemstring(1,'rta')='1' then 
+					ls_dqr+= 'COMUN' 
+				end if
+				if dw_rep.getitemstring(1,'rta')='2' then
+					ls_dqr+= 'LABORAL' 
+				end if
+				if dw_rep.getitemstring(1,'rta')='3' then
+					ls_dqr+= 'PROFESIONAL' 
+				end if
+				
+				ls_dqr+='~r~n'+'FECHA EMISION:'+string(datetime(today(),now()),'dd/mm/yyyy hh:mm')+'~r~n'
+				ls_dqr+='INSTITUCION QUE EMITE:'+dw_rep.getitemstring(1,'ips_nombre')+'~r~n'
+				if isnull('('+dw_rep.getitemstring(1,'ipsind')+')'+dw_rep.getitemstring(1,'ipst')) then
+					messagebox("Atención",'Hace falta datos de telefono IPS')
+					return -1
+				end if	
+				ls_dqr+='LUGAR ATENCION:'+dw_rep.getitemstring(1,'ld')+'~r~n'
+				ls_dqr+='HABILITACION:'+dw_rep.getitemstring(1,'l_c_supersalud')+'~r~n'
+				ls_dqr+='TELEFONO:('+dw_rep.getitemstring(1,'ipsind')+')'+dw_rep.getitemstring(1,'ipst')+'~r~n'
+				if isnull(dw_rep.getitemstring(1,'ips_dir')	) then
+					messagebox("Atención",'Hace falta datos de Dirección IPS')
+					return -1
+				end if	
+				ls_dqr+='DIRECCION:'+dw_rep.getitemstring(1,'ips_dir')	
+			else
+				ls_dqr+='IDENTIFICACION:'+dw_rep.getitemstring(1,'tipodoc')+ ' '+dw_rep.getitemstring(1,'documento')+'~r~n'
+				ls_dqr+='NOMBRES:'+dw_rep.getitemstring(1,'nombres')+'~r~n'
+				ls_dqr+='ORDEN No:'+dw_rep.getitemstring(1,'clugar')+'_'+string(dw_rep.getitemnumber(1,'contador'))+'_'+string(dw_rep.getitemnumber(1,'nsolicitud'))+'~r~n'
+				ls_dqr+='FECHA ORDEN:'+string(dw_rep.getitemdatetime(1,'fecha'),'dd/mm/yyyy hh:mm')+'~r~n'
+				ls_dqr+='PROFESIONAL:'+dw_rep.getitemstring(1,'desprof')+'~r~n'
+				if isnull(dw_rep.getitemstring(1,'registro')) then
+					messagebox("Atención",'Hace falta registro del profesional')
+					return -1
+				end if
+				ls_dqr+='REGISTRO:'+dw_rep.getitemstring(1,'registro')+'~r~n'
+				ls_dqr+='DX:'+dw_rep.getitemstring(1,'cod_rips')+'~r~n'
+				if isnull(dw_rep.getitemstring(1,'cod_rips')) then
+					messagebox("Atención",'Hace falta Dx para incapacidad')
+					return -1
+				end if	
+	
+				ls_dqr+='INSTITUCION QUE EMITE:'+dw_rep.getitemstring(1,'ips_nombre')+'~r~n'
+				ls_dqr+='LUGAR ATENCION:'+dw_rep.getitemstring(1,'ld')+'~r~n'
+				ls_dqr+='HABILITACION:'+dw_rep.getitemstring(1,'l_c_supersalud')+'~r~n'
+				ls_dqr+='FECHA EMISION:'+string(datetime(today(),now()),'dd/mm/yyyy hh:mm')+'~r~n'
+				ls_dqr+='TOTAL ITEMS ORDEN:'+string(dw_rep.rowcount())	
+			end if
+			
+			if not isnull(ls_dqr) then
+				lqr_code=create draw_qr_code
+				if dw_rep.getitemstring(1,'tipo_orden')='I' then
+					ls_nom='in'+dw_rep.getitemstring(1,'tipodoc')+dw_rep.getitemstring(1,'documento')
+				else
+					ls_nom='os'+dw_rep.getitemstring(1,'tipodoc')+dw_rep.getitemstring(1,'documento')
+				end if
+				lqr_code.draw_msg(ls_dqr,"",is_ruta_qr+ls_nom+'.bmp')
+				ls_ojo=dw_rep.modify('qr_picture.filename="'+is_ruta_qr+ls_nom+'.bmp"')	
+			end if
+			destroy lqr_code
+		end if
+		
+		If upper(titulo)=upper('Reporte Fórmula Médica') then
+			ls_dqr+='IDENTIFICACION:'+dw_rep.getitemstring(1,'tipodoc')+ ' '+dw_rep.getitemstring(1,'documento')+'~r~n'
+			ls_dqr+='NOMBRES:'+dw_rep.getitemstring(1,'nombres')+'~r~n'
+			ls_dqr+='FORMULA No.'+dw_rep.getitemstring(1,'clugar')+'_'+string(dw_rep.getitemnumber(1,'contador'))+'_'+string(dw_rep.getitemnumber(1,'nsolicitud'))+'~r~n'
+			ls_dqr+='FECHA PRESCRIPCION:'+string(dw_rep.getitemdatetime(1,'fecha'),'dd/mm/yyyy hh:mm')+'~r~n'
+			ls_dqr+='PROFESIONAL:'+dw_rep.getitemstring(1,'desprof')+'~r~n'
 			if isnull(dw_rep.getitemstring(1,'registro')) then
 				messagebox("Atención",'Hace falta registro del profesional')
 				return -1
 			end if
-			ls_dqr+='REGISTRO:'+dw_rep.getitemstring(1,'registro')
-			ls_dqr+='DX:'+dw_rep.getitemstring(1,'cod_rips')
+			ls_dqr+='REGISTRO:'+dw_rep.getitemstring(1,'registro')+'~r~n'
+			ls_dqr+='DX:'+dw_rep.getitemstring(1,'cod_rips')+'~r~n'
 			if isnull(dw_rep.getitemstring(1,'cod_rips')) then
 				messagebox("Atención",'Hace falta Dx para incapacidad')
 				return -1
 			end if	
-			ls_dqr+='INICIA:'+string(dw_rep.getitemdatetime(1,'ifecha_ini'),'dd/mm/yyyy')
-			ls_dqr+='FINALIZA:'+string(dw_rep.getitemdatetime(1,'ifecha_fin'),'dd/mm/yyyy')
-			ls_dqr+='DIAS:'+string(dw_rep.getitemnumber(1,'solicitada'))
-			ls_dqr+='ORIGEN:'
-			if dw_rep.getitemstring(1,'rta')='1' then 
-				ls_dqr+= 'COMUN' 
-			end if
-			if dw_rep.getitemstring(1,'rta')='2' then
-				ls_dqr+= 'LABORAL' 
-			end if
-			if dw_rep.getitemstring(1,'rta')='3' then
-				ls_dqr+= 'PROFESIONAL' 
-			end if
-			
-			ls_dqr+='EMISION:'+string(dw_rep.getitemdatetime(1,'fecha'),'dd/mm/yyyy')
-			ls_dqr+='INSTITUCION QUE EMITE:'+dw_rep.getitemstring(1,'ips_nombre')
-			if isnull('('+dw_rep.getitemstring(1,'ipsind')+')'+dw_rep.getitemstring(1,'ipst')) then
-				messagebox("Atención",'Hace falta datos de telefono IPS')
-				return -1
-			end if	
-			ls_dqr+='TELEFONO:('+dw_rep.getitemstring(1,'ipsind')+')'+dw_rep.getitemstring(1,'ipst')
-			if isnull(dw_rep.getitemstring(1,'ips_dir')	) then
-				messagebox("Atención",'Hace falta datos de Dirección IPS')
-				return -1
-			end if	
-			ls_dqr+='DIRECCION:'+dw_rep.getitemstring(1,'ips_dir')		
-			if isnull(ls_dqr) then
-				messagebox("Atención",'Hace falta datos en Cadena')
-				return -1
-			end if						
 
-			ls_nom="c:\windows\temp\I_"+dw_rep.getitemstring(1,'tipodoc')+dw_rep.getitemstring(1,'documento')+'.bmp'
-			lqr_code.draw_msg(ls_dqr,"L",ls_nom)
-		end if
+			ls_dqr+='INSTITUCION QUE EMITE:'+dw_rep.getitemstring(1,'ips_nombre')+'~r~n'
+			ls_dqr+='LUGAR ATENCION:'+dw_rep.getitemstring(1,'ld')+'~r~n'
+			ls_dqr+='HABILITACION:'+dw_rep.getitemstring(1,'l_c_supersalud')+'~r~n'
+			ls_dqr+='FECHA EMISION:'+string(datetime(today(),now()),'dd/mm/yyyy hh:mm')+'~r~n'
+			ls_dqr+='TOTAL ITEMS FORMULA:'+string(dw_rep.rowcount())
+
+			if not isnull(ls_dqr) then
+				lqr_code=create draw_qr_code
+				ls_nom='fr'+dw_rep.getitemstring(1,'tipodoc')+dw_rep.getitemstring(1,'documento')
+				lqr_code.draw_msg(ls_dqr,"",is_ruta_qr+ls_nom+'.bmp')
+				ls_ojo=dw_rep.modify('qr_picture.filename="'+is_ruta_qr+ls_nom+'.bmp"')	
+			end if
+			destroy lqr_code
+		end if		
+		
 	end if
 	///////
 	if dialogo then
@@ -630,7 +694,7 @@ else
 	messagebox("Atención",'No se encontraron registros para imprimir')
 	return -1
 end if
-//FileDelete(tmp_file)
+//FileDelete(is_ruta_qr+ls_nom+'.bmp')
 return 1
 end function
 

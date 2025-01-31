@@ -53,9 +53,9 @@ type sle_1 from singlelineedit within tp_1
 end type
 type st_18 from statictext within tp_1
 end type
-type pb_remi from picturebutton within tp_1
-end type
 type pb_ord from pb_report within tp_1
+end type
+type pb_remi from picturebutton within tp_1
 end type
 type tp_1 from userobject within tab_1
 pb_ci pb_ci
@@ -65,8 +65,8 @@ cb_delserv cb_delserv
 cb_nvserv cb_nvserv
 sle_1 sle_1
 st_18 st_18
-pb_remi pb_remi
 pb_ord pb_ord
+pb_remi pb_remi
 end type
 type tp_2 from userobject within tab_1
 end type
@@ -1634,8 +1634,8 @@ cb_delserv cb_delserv
 cb_nvserv cb_nvserv
 sle_1 sle_1
 st_18 st_18
-pb_remi pb_remi
 pb_ord pb_ord
+pb_remi pb_remi
 end type
 
 on tp_1.create
@@ -1646,8 +1646,8 @@ this.cb_delserv=create cb_delserv
 this.cb_nvserv=create cb_nvserv
 this.sle_1=create sle_1
 this.st_18=create st_18
-this.pb_remi=create pb_remi
 this.pb_ord=create pb_ord
+this.pb_remi=create pb_remi
 this.Control[]={this.pb_ci,&
 this.dw_oscuerpo,&
 this.cb_12,&
@@ -1655,8 +1655,8 @@ this.cb_delserv,&
 this.cb_nvserv,&
 this.sle_1,&
 this.st_18,&
-this.pb_remi,&
-this.pb_ord}
+this.pb_ord,&
+this.pb_remi}
 end on
 
 on tp_1.destroy
@@ -1667,8 +1667,8 @@ destroy(this.cb_delserv)
 destroy(this.cb_nvserv)
 destroy(this.sle_1)
 destroy(this.st_18)
-destroy(this.pb_remi)
 destroy(this.pb_ord)
+destroy(this.pb_remi)
 end on
 
 type pb_ci from picturebutton within tp_1
@@ -1730,14 +1730,7 @@ boolean livescroll = true
 borderstyle borderstyle = stylelowered!
 end type
 
-event p_itemchanged();string ls_estado
-ls_estado=dw_oscab.getitemstring(dw_oscab.getrow(),"estado")
-
-if i_tingre='1' and (ls_estado="2" or ls_estado="3"  or ls_estado='4' ) then
-	return
-end if
-
-accepttext()
+event p_itemchanged();accepttext()
 update()
 commit;
 end event
@@ -2126,6 +2119,97 @@ string text = "Código Proc:"
 boolean focusrectangle = false
 end type
 
+type pb_ord from pb_report within tp_1
+integer x = 5815
+integer y = 16
+integer taborder = 40
+string text = "          &o"
+boolean originalsize = false
+string picturename = "print2.gif"
+string disabledname = "d_print2.gif"
+string powertiptext = "Imprimir Orden de Servicio [Alt+O]"
+string nombre_rep = "Orden de Servicio"
+string tipo_rep = "interno!"
+boolean dialogo = true
+end type
+
+event clicked;call super::clicked;if f_permiso_boton(this,'ATOS')=0 then return -1
+
+if dw_oscab.getitemstring(dw_oscab.getrow(),"estado")='3' then return
+any par[3]
+
+par[1]=i_contador
+par[2]=i_norden
+par[3]=i_clug_his
+
+Integer index,ls_impreso
+string ls_tiporep
+l_archivos.DirList ("C:\windows\temp\*.png",0)
+For index=1 To l_archivos.totalItems ( )
+     FileDelete ( l_archivos.text(index))
+Next
+l_archivos.DirList ("C:\windows\temp\*.bmp",0)
+For index=1 To l_archivos.totalItems ( )
+     FileDelete ( l_archivos.text(index))
+Next
+
+if imprimir(par,dw_oscab.getitemstring(dw_oscab.getrow(),'codprof'),'1')=1 then
+	if i_tingre='1' then //ap dx
+		ls_tiporep=dw_oscab.getitemstring(dw_oscab.getrow(),'cont_imp')
+		if isnull(ls_tiporep) then ls_tiporep='N'
+		
+		dw_oscab.setitem(dw_oscab.getrow(),'estado','2')
+		
+		select 
+			count(tipo) as ctos,max(impreso) into :index,:ls_impreso
+		from
+		(
+			select distinct oscabeza.impreso,oscuerpo.tipo
+			from oscabeza inner join oscuerpo on (oscabeza.nsolicitud = oscuerpo.nsolicitud) and (oscabeza.clugar = oscuerpo.clugar) and (oscabeza.contador = oscuerpo.contador)
+			where (((oscabeza.contador)=:i_contador) and ((oscabeza.clugar)=:i_clug_his) and ((oscabeza.nsolicitud)=:i_norden))
+		) as todos;
+		
+		if isnull(ls_impreso) or ls_impreso=0  then 
+			if index >1 and ls_tiporep='N' then
+				ls_impreso=0
+				dw_oscab.setitem(dw_oscab.getrow(),'cont_imp','P')
+			else
+				ls_impreso=1
+			end if
+		else
+			if index >1 and ls_tiporep='N'  then
+				ls_impreso=2
+				dw_oscab.setitem(dw_oscab.getrow(),'cont_imp','1')
+			else
+				if ls_tiporep='P' then 
+					ls_impreso++		
+				end if
+			end if
+		end if
+		dw_oscab.setitem(dw_oscab.getrow(),'impreso',ls_impreso)
+	
+		if dw_oscab.update(true,false)=-1 then
+			rollback;
+		else
+			commit;
+			UPDATE OSCuerpo SET estado = '2'
+			WHERE 
+				(((Contador)=:i_contador) AND 
+				((clugar)=:i_clug_his) AND ((NSolicitud)=:i_norden));
+			if dw_oscab.update(true,false)=-1 then
+				rollback;
+			else
+				commit;
+			end if
+			dw_oscab.resetupdate()
+			dw_oscab.event rowfocuschanged(dw_oscab.getrow())
+		end if
+	end if
+end if
+
+
+end event
+
 type pb_remi from picturebutton within tp_1
 integer x = 5815
 integer y = 16
@@ -2221,93 +2305,6 @@ if dw_formato.retrieve(i_contador,i_norden,i_clug_his)>0 then
 		end if
 	end if
 end if
-end event
-
-type pb_ord from pb_report within tp_1
-integer x = 5815
-integer y = 16
-integer taborder = 40
-string text = "          &o"
-boolean originalsize = false
-string picturename = "print2.gif"
-string disabledname = "d_print2.gif"
-string powertiptext = "Imprimir Orden de Servicio [Alt+O]"
-string nombre_rep = "Orden de Servicio"
-string tipo_rep = "interno!"
-boolean dialogo = true
-end type
-
-event clicked;call super::clicked;if f_permiso_boton(this,'ATOS')=0 then return -1
-
-if dw_oscab.getitemstring(dw_oscab.getrow(),"estado")='3' then return
-any par[3]
-
-par[1]=i_contador
-par[2]=i_norden
-par[3]=i_clug_his
-
-Integer index,ls_impreso
-string ls_tiporep
-l_archivos.DirList ("C:\windows\temp\*.png",0)
-For index=1 To l_archivos.totalItems ( )
-     FileDelete ( l_archivos.text(index))
-Next
-
-if imprimir(par,dw_oscab.getitemstring(dw_oscab.getrow(),'codprof'),'1')=1 then
-	if i_tingre='1' then //ap dx
-		ls_tiporep=dw_oscab.getitemstring(dw_oscab.getrow(),'cont_imp')
-		if isnull(ls_tiporep) then ls_tiporep='N'
-		
-		dw_oscab.setitem(dw_oscab.getrow(),'estado','2')
-		
-		select 
-			count(tipo) as ctos,max(impreso) into :index,:ls_impreso
-		from
-		(
-			select distinct oscabeza.impreso,oscuerpo.tipo
-			from oscabeza inner join oscuerpo on (oscabeza.nsolicitud = oscuerpo.nsolicitud) and (oscabeza.clugar = oscuerpo.clugar) and (oscabeza.contador = oscuerpo.contador)
-			where (((oscabeza.contador)=:i_contador) and ((oscabeza.clugar)=:i_clug_his) and ((oscabeza.nsolicitud)=:i_norden))
-		) as todos;
-		
-		if isnull(ls_impreso) or ls_impreso=0  then 
-			if index >1 and ls_tiporep='N' then
-				ls_impreso=0
-				dw_oscab.setitem(dw_oscab.getrow(),'cont_imp','P')
-			else
-				ls_impreso=1
-			end if
-		else
-			if index >1 and ls_tiporep='N'  then
-				ls_impreso=2
-				dw_oscab.setitem(dw_oscab.getrow(),'cont_imp','1')
-			else
-				if ls_tiporep='P' then 
-					ls_impreso++		
-				end if
-			end if
-		end if
-		dw_oscab.setitem(dw_oscab.getrow(),'impreso',ls_impreso)
-	
-		if dw_oscab.update(true,false)=-1 then
-			rollback;
-		else
-			commit;
-			UPDATE OSCuerpo SET estado = '2'
-			WHERE 
-				(((Contador)=:i_contador) AND 
-				((clugar)=:i_clug_his) AND ((NSolicitud)=:i_norden));
-			if dw_oscab.update(true,false)=-1 then
-				rollback;
-			else
-				commit;
-			end if
-			dw_oscab.resetupdate()
-			dw_oscab.event rowfocuschanged(dw_oscab.getrow())
-		end if
-	end if
-end if
-
-
 end event
 
 type tp_2 from userobject within tab_1
@@ -2478,6 +2475,15 @@ any par[3]
 int index,ls_impreso, l_i
 string ls_tiporep,ls_resul
 
+l_archivos.DirList ("C:\windows\temp\*.png",0)
+For index=1 To l_archivos.totalItems ( )
+     FileDelete ( l_archivos.text(index))
+Next
+l_archivos.DirList ("C:\windows\temp\*.bmp",0)
+For index=1 To l_archivos.totalItems ( )
+     FileDelete ( l_archivos.text(index))
+Next
+
 ///PARA 202
 if is_202='1' then
 	for l_i= 1 to tab_1.tp_2.dw_formula.rowcount()
@@ -2498,7 +2504,7 @@ end if
 par[1]=i_contador
 par[2]=i_norden
 par[3]=i_clug_his
-if imprimir(par,dw_oscab.getitemstring(dw_oscab.getrow(),'codprof'),'0')=1 then
+if imprimir(par,dw_oscab.getitemstring(dw_oscab.getrow(),'codprof'),'1')=1 then
 	if i_tingre='1' then
 		ls_tiporep=dw_oscab.getitemstring(dw_oscab.getrow(),'cont_imp')
 		if isnull(ls_tiporep) then ls_tiporep='N'
@@ -2564,13 +2570,7 @@ boolean livescroll = true
 borderstyle borderstyle = stylelowered!
 end type
 
-event p_itemchanged();string ls_estado
-ls_estado=dw_oscab.getitemstring(dw_oscab.getrow(),"estado")
-
-if i_tingre='1' and (ls_estado="2" or ls_estado="3"  or ls_estado='4' ) then
-	return
-end if
-accepttext()
+event p_itemchanged();accepttext()
 update()
 commit;
 end event
