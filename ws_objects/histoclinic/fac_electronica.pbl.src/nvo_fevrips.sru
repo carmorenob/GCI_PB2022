@@ -18,7 +18,8 @@ end variables
 forward prototypes
 public function st_ret_dian emite_json_capita (decimal al_nro_fact, string as_clug_fact, string as_tipo_fac, string as_tipo_docu, string as_coddoc)
 public function st_ret_dian emite_json_evento (decimal al_nro_fact, string as_clug_fact, string as_tipo_fac, string as_tipo_docu, string as_coddoc, string as_ruta)
-public function string loginsispro (string as_ambiente, string as_td, string as_doc, string as_pasw, string as_nit)
+public function string sispro_login (string as_ambiente, string as_td, string as_doc, string as_pasw, string as_nit)
+public function long sispro_cargarfevrips (string as_token, string as_ambiente, string as_ruta, string as_doc)
 end prototypes
 
 public function st_ret_dian emite_json_capita (decimal al_nro_fact, string as_clug_fact, string as_tipo_fac, string as_tipo_docu, string as_coddoc);//as_tipo_docu = f:factura de venta ; a: nota credito de anulacion , c:nota credito , d:nota debito
@@ -908,7 +909,7 @@ destroy lds_fact
 return lst_ret_dian
 end function
 
-public function string loginsispro (string as_ambiente, string as_td, string as_doc, string as_pasw, string as_nit);Integer li_rc
+public function string sispro_login (string as_ambiente, string as_td, string as_doc, string as_pasw, string as_nit);Integer li_rc
 String ls_ReturnJson,ls_json,ls_token
 
 HttpClient lnv_HttpClient
@@ -917,6 +918,7 @@ lnv_HttpClient = Create HttpClient
 jsonpackage lnv_json
 lnv_json = create jsonpackage
 
+//POST /api/auth/LoginSISPRO { "persona": { "identificacion": { "tipo": "CC", "numero": "1234567890" } }, "clave": "secretpassword", "nit": "123456789" }
 lnv_json.setvalue("persona",'{"identificacion":{"tipo":"'+as_td+'","numero":"'+as_doc+'"}}')
 lnv_json.setvalue("clave",as_pasw,false)
 lnv_json.setvalue("nit",as_nit,false)
@@ -936,12 +938,101 @@ if li_rc = 1 and lnv_HttpClient.GetResponseStatusCode() = 200 then
 	lnv_json.loadstring(ls_ReturnJson)
 	ls_token=lnv_json.GetValue("token")
 else
-	ls_token= '400'	
+	ls_token= '-1'	
 end if
 
 destroy lnv_json
 destroy lnv_HttpClient
 return ls_token
+end function
+
+public function long sispro_cargarfevrips (string as_token, string as_ambiente, string as_ruta, string as_doc);Integer li_rc,li_filenum
+String ls_ReturnJson,ls_json,ls_envio,ls_err
+JsonGenerator ljg_json
+blob lblob_xml
+uo_datastore lds_retorno
+
+lds_retorno=create uo_datastore
+lds_retorno.dataobject='dw_retorno_cargarfevrips'
+
+
+
+//// ABRE JSON
+as_ruta='C:\facturas\EV76613\'
+as_doc=as_ruta+'EV76613.json'
+
+ljg_json = Create JsonGenerator
+ljg_json.ImportFile(as_doc)
+ls_json = ljg_json.GetJsonString()
+
+///ABRE XML
+as_doc=as_ruta+'ad08060103050002400027102.xml'
+
+li_filenum = FileOpen(as_doc, StreamMode!, Read!, LockReadWrite!, Append!, EncodingANSI!)
+IF li_FileNum = -1 THEN Return -1
+li_rc = FileReadEx(li_FileNum, lblob_xml)
+IF li_rc = -1 THEN Return -2
+FileClose(li_FileNum)
+
+CoderObject lnv_CoderObject
+lnv_CoderObject = Create CoderObject
+
+HttpClient lnv_HttpClient
+lnv_HttpClient = Create HttpClient
+
+jsonpackage lnv_json
+lnv_json = create jsonpackage
+
+lnv_json.setvalue("rips",ls_json)
+///Pasa xnl a base64
+lnv_json.setvalue("xmlFevFile", lnv_CoderObject.Base64Encode(lblob_xml), false)
+ls_envio=lnv_json.GetJsonString()
+
+lnv_HttpClient.SetRequestHeader("Content-Type", "application/json;charset=UTF-8")
+lnv_HttpClient.SetRequestHeader("Authorization",+'Bearer '+as_token)
+if as_ambiente='2' then
+	li_rc = lnv_HttpClient.SendRequest("POST", "https://localhost:9443/api/PaquetesFevRips/CargarFevRips", ls_envio, EncodingUTF8!)
+else
+	li_rc = lnv_HttpClient.SendRequest("POST", "https://localhost:9443/api/PaquetesFevRips/CargarFevRips", ls_envio, EncodingUTF8!)
+end if
+
+if li_rc = 1 and lnv_HttpClient.GetResponseStatusCode() = 200 then
+
+	jsonpackage lnv_json1
+	string ls_ResultadosValidacion
+	lnv_json1=create jsonpackage
+	
+	lnv_HttpClient.GetResponseBody(ls_ReturnJson)
+	lnv_json.loadstring(ls_ReturnJson)
+	ls_err = lnv_json1.LoadString(ls_ReturnJson)
+	if Len(ls_err) = 0 then
+		ls_ResultadosValidacion =  lnv_json1.GetValue("ResultadosValidacion")
+		li_rc=	lds_retorno.ImportJson(ls_ResultadosValidacion ,ls_err)
+	end if
+	
+//jsonpackage lnv_json
+//datastore lds_import_json
+//int j
+//
+//lds_import_json=create datastore
+//lds_import_json.dataobject="dw_import_json_ead"
+//
+//
+//lds_import_json.importJson(lnv_json.getValue("valores"))
+//	
+//for j=1 to lds_import_json.rowcount()
+//	adw_valores.setitem(lds_import_json.getitemnumber(j,'nro_item'),'respuesta',lds_import_json.getitemnumber(j,'respuesta'))
+//	adw_valores.expand(lds_import_json.getitemnumber(j,'nro_item'),1)
+//	adw_valores.setitem(lds_import_json.getitemnumber(j,'nro_item'),'bloquear',0)
+//next
+else
+	ls_ReturnJson= '-1'	
+end if
+
+destroy ljg_json
+destroy lnv_json
+destroy lnv_HttpClient
+return 0
 end function
 
 on nvo_fevrips.create
