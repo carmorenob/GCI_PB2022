@@ -7123,7 +7123,7 @@ if ls_filtro ='1' then
 end if
 
 ldt_fecha_c=datetime(today(),now())
-update nom_cab set recal='1',fecha_calcul=:ldt_fecha_c
+update nom_cab set recal='1',fecha_calculo=:ldt_fecha_c
 where num_nomina=:li_j;
 if sqlca.sqlcode=-1 then
 	messagebox("Error Actualizando cabeza linea 16",sqlca.sqlerrtext)
@@ -7257,7 +7257,7 @@ cambio = TRUE
 tab_n.tpn_2.dw_empnom.ScrolltoRow(1)
 
 li_j=tab_n.tpn_1.dw_nomcab.getitemnumber(tab_n.tpn_1.dw_nomcab.GetRow(),'num_nomina')
-update nom_cab set recal='0',fecha_calcul=:ldt_fecha_c
+update nom_cab set recal='0',fecha_calculo=:ldt_fecha_c
 where num_nomina=:li_j;
 if sqlca.sqlcode=-1 then
 	messagebox("Error Actualizando cabeza linea 197",sqlca.sqlerrtext)
@@ -7667,7 +7667,7 @@ if ls_filtro ='1' then
 end if
 
 ldt_fecha_c=datetime(today(),now())
-update nom_cab set recal='1',fecha_calcul=:ldt_fecha_c
+update nom_cab set recal='1',fecha_calculo=:ldt_fecha_c
 where num_nomina=:li_j;
 if sqlca.sqlcode=-1 then
 	messagebox("Error Actualizando cabeza linea 16",sqlca.sqlerrtext)
@@ -7781,7 +7781,7 @@ tab_1.p_5.dw_ap.SetRedraw(TRUE)
 calctotal()
 tab_1.p_3.dw_plan.TriggerEvent(rowfocuschanged!)
 tab_1.p_4.dw_acab.TriggerEvent(rowfocuschanged!)
-update nom_cab set recal='0',fecha_calcul=:ldt_fecha_c
+update nom_cab set recal='0',fecha_calculo=:ldt_fecha_c
 where num_nomina=:li_j;
 if sqlca.sqlcode=-1 then
 	messagebox("Error Actualizando cabeza linea 130",sqlca.sqlerrtext)
