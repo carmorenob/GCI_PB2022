@@ -251,9 +251,8 @@ global w_captur_rip w_captur_rip
 type variables
 int xant,yant
 string sexo_paci,orden,anterior,ord,ant
-datawindowchild dw_contrato,gc_regimen
+datawindowchild dw_contrato,gc_regimen,idw_causaex,idw_finproc
 end variables
-
 on w_captur_rip.create
 this.tab_1=create tab_1
 this.st_fact=create st_fact
@@ -2251,7 +2250,11 @@ st_edad.text=this.getitemstring(cual,"edad")
 st_fact.text=string(this.getitemnumber(cual,"nfactura"))
 end event
 
-event constructor;settransobject(sqlca)
+event constructor;getchild('s_finalidadproced',idw_finproc)
+getchild('s_causaexterna',idw_causaex)
+idw_causaex.settransobject(sqlca)
+idw_finproc.settransobject(SQLCA)
+settransobject(sqlca)
 end event
 
 event itemerror;return 1

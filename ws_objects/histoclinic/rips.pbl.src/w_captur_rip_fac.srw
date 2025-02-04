@@ -117,9 +117,8 @@ global w_captur_rip_fac w_captur_rip_fac
 type variables
 int xant,yant
 string sexo_paci,orden,anterior,ord,ant
-datawindowchild dw_contrato
+datawindowchild dw_contrato,idw_causaex,idw_finproc
 end variables
-
 on w_captur_rip_fac.create
 this.pb_1=create pb_1
 this.st_fact=create st_fact
@@ -225,11 +224,26 @@ end on
 event open;dw_rias.settransobject(sqlca)
 st_factus st
 st=message.powerobjectparm
+
 if dw_trae.retrieve(st.desde,st.hasta,clugar,st.tipo1,st.tipo2)>0 then 
 	cb_registra.triggerevent(clicked!)
 else
 	close(this)
 end if
+
+dw_rias.getchild('s_finalidadproced',idw_finproc)
+dw_rias.getchild('s_causaexterna',idw_causaex)
+idw_causaex.settransobject(sqlca)
+idw_finproc.settransobject(SQLCA)
+idw_causaex.setfilter("xa_hosp='1'")
+idw_causaex.filter()
+string ls_sex
+int li_dias
+li_dias=w_principal.dw_1.getitemnumber(1,'dias')
+if w_principal.dw_1.getitemstring(1,'sexo')="F" then ls_sex='2'
+if w_principal.dw_1.getitemstring(1,'sexo')="M" then ls_sex='1'
+idw_finproc.setfilter(" indsexo in('0','"+ls_sex+"') and  "+string(li_dias)+">=edadini  and  "+string(li_dias)+"<=edadfin ")
+idw_finproc.filter()
 end event
 
 type pb_1 from picturebutton within w_captur_rip_fac

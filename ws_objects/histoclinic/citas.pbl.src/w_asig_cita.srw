@@ -2,6 +2,8 @@
 forward
 global type w_asig_cita from window
 end type
+type dw_fin_proced from datawindow within w_asig_cita
+end type
 type dw_ver from datawindow within w_asig_cita
 end type
 type st_cita from statictext within w_asig_cita
@@ -142,6 +144,7 @@ windowstate windowstate = maximized!
 long backcolor = 67108864
 string icon = "r_asig_cita.ico"
 string pointer = "Arrow!"
+dw_fin_proced dw_fin_proced
 dw_ver dw_ver
 st_cita st_cita
 dw_4 dw_4
@@ -832,6 +835,7 @@ timer(15)
 end event
 
 on w_asig_cita.create
+this.dw_fin_proced=create dw_fin_proced
 this.dw_ver=create dw_ver
 this.st_cita=create st_cita
 this.dw_4=create dw_4
@@ -863,7 +867,8 @@ this.mc_1=create mc_1
 this.dw_escog_profe=create dw_escog_profe
 this.cbx_1=create cbx_1
 this.dw_cuenta_citas=create dw_cuenta_citas
-this.Control[]={this.dw_ver,&
+this.Control[]={this.dw_fin_proced,&
+this.dw_ver,&
 this.st_cita,&
 this.dw_4,&
 this.dw_3,&
@@ -897,6 +902,7 @@ this.dw_cuenta_citas}
 end on
 
 on w_asig_cita.destroy
+destroy(this.dw_fin_proced)
 destroy(this.dw_ver)
 destroy(this.st_cita)
 destroy(this.dw_4)
@@ -941,6 +947,22 @@ event resize;tab_2.resize(3237,newheight  - 1100)
 tab_2.tp2_1.dw_consultxgcita.height= tab_2.height -250
 tab_2.tp2_2.dw_citas_ante.height= tab_2.height - 250
 tab_2.tp2_3.dw_citas_no_asig.height= tab_2.height - 250
+end event
+
+type dw_fin_proced from datawindow within w_asig_cita
+boolean visible = false
+integer x = 3003
+integer y = 732
+integer width = 165
+integer height = 184
+integer taborder = 130
+string title = "none"
+string dataobject = "dw_finalidad_cups"
+boolean border = false
+boolean livescroll = true
+end type
+
+event constructor;settransobject(sqlca)
 end event
 
 type dw_ver from datawindow within w_asig_cita
@@ -2700,7 +2722,9 @@ boolean border = false
 boolean livescroll = true
 end type
 
-event itemchanged;choose case getcolumn()
+event itemchanged;string ls_filtro
+
+choose case getcolumn()
 	case 1
 		if isvalid(w_trasl_cita) then
 			settext(getitemstring(1,1))
@@ -2714,27 +2738,27 @@ event itemchanged;choose case getcolumn()
 		tab_2.tp2_1.dw_consultxgcita.groupcalc()
 		tab_2.tp2_1.dw_consultxgcita.setredraw(true)
 		if tab_2.tp2_1.dw_consultxgcita.rowcount()=0 then dw_1.reset()
-		string filtro
+
 		if not isnull(i_dw_grupc.getitemstring(i_dw_grupc.getrow(),"codaadx")) then
 			Modify("codproced.dddw.name='dw_procgcli2'")
 			tab_1.tp_1.dw_serv_cita.modify("cproced.dddw.name='dw_procgcli2'")
-			filtro=i_dw_grupc.getitemstring(i_dw_grupc.getrow(),"codaadx")
+			ls_filtro=i_dw_grupc.getitemstring(i_dw_grupc.getrow(),"codaadx")
 		else
 			Modify("codproced.dddw.name='dw_proc_gcita'")
 			tab_1.tp_1.dw_serv_cita.modify("cproced.dddw.name='dw_proc_gcita'")
 			if isnull(getitemstring(1,1)) then
-				filtro=''
+				ls_filtro=''
 			else
-				filtro="'"+getitemstring(1,1)+"'"
+				ls_filtro="'"+getitemstring(1,1)+"'"
 			end if
 		end if
 		dw_escog_profe.getchild("codproced",i_dw_proc_gcita)
 		i_dw_proc_gcita.settransobject(SQLCA)
 		i_dw_proc_gcita.retrieve()
 		if not isnull(i_dw_grupc.getitemstring(i_dw_grupc.getrow(),"codaadx")) then
-			i_dw_proc_gcita.setfilter("codaadx ='"+filtro+"'")
+			i_dw_proc_gcita.setfilter("codaadx ='"+ls_filtro+"'")
 		else
-			i_dw_proc_gcita.setfilter("codgc="+filtro)
+			i_dw_proc_gcita.setfilter("codgc="+ls_filtro)
 		end if
 		i_dw_proc_gcita.filter()
 		setitem(1,2,"")
@@ -2754,12 +2778,12 @@ event itemchanged;choose case getcolumn()
 		
 	case 2
 		accepttext()
-		long citas
-		string eval
+		long ldb_citas
+		string ls_eval
 		if isvalid(w_trasl_cita) then return
-		citas=i_dw_grupc.getitemnumber(i_dw_grupc.getrow(),'citas_x_mes')
+		ldb_citas=i_dw_grupc.getitemnumber(i_dw_grupc.getrow(),'citas_x_mes')
 		
-		if citas>0 then//para no dejar dar más de tantas citas por grupo por mes
+		if ldb_citas>0 then//para no dejar dar más de tantas ldb_citas por grupo por mes
 			date ld_fecha
 			datetime ldt_fecha1,ldt_fecha2
 			
@@ -2772,29 +2796,29 @@ event itemchanged;choose case getcolumn()
 			if isdate(string(year(ld_fecha))+'-'+string(month(ld_fecha))+'-31') then ldt_fecha2=datetime(date(year(ld_fecha),month(ld_fecha),31),time(23,59,29))
 			
 			if dw_cuenta_citas.retrieve(getitemstring(1,'codgc'),ldt_fecha1,ldt_fecha2,tipdoc,docu)=-1 then return
-			if dw_cuenta_citas.rowcount()>=citas then
-				messagebox('Atención','El paciente ya tiene '+string(citas)+' citas de este grupo en el mes')
+			if dw_cuenta_citas.rowcount()>=ldb_citas then
+				messagebox('Atención','El paciente ya tiene '+string(ldb_citas)+' ldb_citas de este grupo en el mes')
 				return
 			end if
 		end if
-		long donde
+		long ldb_donde
 
-		donde=tab_1.tp_1.dw_serv_cita.find("cproced='"+data+"'",1,tab_1.tp_1.dw_serv_cita.rowcount())
-		if donde=0 then
+		ldb_donde=tab_1.tp_1.dw_serv_cita.find("cproced='"+data+"'",1,tab_1.tp_1.dw_serv_cita.rowcount())
+		if ldb_donde=0 then
 			long i,k
-			donde=tab_1.tp_1.dw_serv_cita.insertrow(0)
-			for i=1 to donde 
-				if tab_1.tp_1.dw_serv_cita.find("nservicio="+string(i),1,donde)= 0 then 
-					tab_1.tp_1.dw_serv_cita.setitem(donde,"nservicio",i)
+			ldb_donde=tab_1.tp_1.dw_serv_cita.insertrow(0)
+			for i=1 to ldb_donde 
+				if tab_1.tp_1.dw_serv_cita.find("nservicio="+string(i),1,ldb_donde)= 0 then 
+					tab_1.tp_1.dw_serv_cita.setitem(ldb_donde,"nservicio",i)
 					exit
 				end if
 			next
-			tab_1.tp_1.dw_serv_cita.setitem(donde,"cproced",data)
-			tab_1.tp_1.dw_serv_cita.setitem(donde,"cod_cups",i_dw_proc_gcita.getitemstring(i_dw_proc_gcita.getrow(),"cod_cups"))
-			tab_1.tp_1.dw_serv_cita.setitem(donde,"nturnos",i_dw_proc_gcita.getitemnumber(i_dw_proc_gcita.getrow(),"nturnos"))
-			tab_1.tp_1.dw_serv_cita.setitem(donde,"secuencia",i_dw_proc_gcita.getitemstring(i_dw_proc_gcita.getrow(),"secuencia"))
-			if not isnull(i_dw_grupc.getitemstring(i_dw_grupc.getrow(),"codaadx")) then tab_1.tp_1.dw_serv_cita.setitem(donde,"grup_clinic",i_dw_grupc.getitemstring(i_dw_grupc.getrow(),"codaadx"))
-			for k=1 to tab_1.tp_1.dw_serv_cita.getitemnumber(donde,"nturnos")
+			tab_1.tp_1.dw_serv_cita.setitem(ldb_donde,"cproced",data)
+			tab_1.tp_1.dw_serv_cita.setitem(ldb_donde,"cod_cups",i_dw_proc_gcita.getitemstring(i_dw_proc_gcita.getrow(),"cod_cups"))
+			tab_1.tp_1.dw_serv_cita.setitem(ldb_donde,"nturnos",i_dw_proc_gcita.getitemnumber(i_dw_proc_gcita.getrow(),"nturnos"))
+			tab_1.tp_1.dw_serv_cita.setitem(ldb_donde,"secuencia",i_dw_proc_gcita.getitemstring(i_dw_proc_gcita.getrow(),"secuencia"))
+			if not isnull(i_dw_grupc.getitemstring(i_dw_grupc.getrow(),"codaadx")) then tab_1.tp_1.dw_serv_cita.setitem(ldb_donde,"grup_clinic",i_dw_grupc.getitemstring(i_dw_grupc.getrow(),"codaadx"))
+			for k=1 to tab_1.tp_1.dw_serv_cita.getitemnumber(ldb_donde,"nturnos")
 				tab_1.tp_2.dw_serv_turno.insertrow(1)
 				tab_1.tp_2.dw_serv_turno.setitem(1,'nservicio',i)
 				if tab_1.tp_1.dw_serv_cita.getitemnumber(tab_1.tp_1.dw_serv_cita.getrow(),"nturnos")=1 then
@@ -2804,6 +2828,17 @@ event itemchanged;choose case getcolumn()
 				end if
 				tab_1.tp_2.dw_serv_turno.setitem(1,'cproced',data)
 			next
+			
+			dw_fin_proced.retrieve(data)
+			setnull(ls_filtro)
+			for i=1 to dw_fin_proced.rowcount()
+				if i=1 then
+					ls_filtro="'"+dw_fin_proced.getitemstring(i,'codfin')+"'"
+				else
+					ls_filtro+=",'"+dw_fin_proced.getitemstring(i,'codfin')+"'"
+				end if
+			next			
+			
 		end if
 		pb_nocita.enabled=true
 end choose
@@ -2814,7 +2849,11 @@ double li_dias
 li_dias=w_principal.dw_1.getitemnumber(1,'dias')
 if w_principal.dw_1.getitemstring(1,'sexo')="F" then ls_sex='2'
 if w_principal.dw_1.getitemstring(1,'sexo')="M" then ls_sex='1'
-idw_fincon.setfilter(" indsexo in('0','"+ls_sex+"') and  "+string(li_dias)+">=edadini  and  "+string(li_dias)+"<=edadfin ")
+if not isnull( ls_filtro) then 
+	idw_fincon.setfilter("codfin in ("+ls_filtro+") and indsexo in('0','"+ls_sex+"') and  "+string(li_dias)+">=edadini  and  "+string(li_dias)+"<=edadfin ")
+else
+	idw_fincon.setfilter("indsexo in('0','"+ls_sex+"') and  "+string(li_dias)+">=edadini  and  "+string(li_dias)+"<=edadfin ")
+end if
 idw_fincon.filter()
 
 end event

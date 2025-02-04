@@ -122,6 +122,7 @@ datawindowchild idw_ufun,idw_cc,idw_espe,idw_causaex,idw_finproc
 trae i_st
 string i_cambio='n',i_cdiaging,i_causaext,i_fin_consulta,i_tipodx,i_mueve_kardex
 end variables
+
 on w_new_estad_ria_os.create
 this.dw_entregas=create dw_entregas
 this.st_desproc=create st_desproc
@@ -379,6 +380,7 @@ choose case i_st.tingres
 		if ls_pro=64 THEN	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\SUMINISTROS\", "ALM_AMB", Regstring!, temp )
 		idw_causaex.setfilter("xa_hosp='1'")
 end choose
+idw_causaex.filter()
 
 string ls_sex
 int li_dias
