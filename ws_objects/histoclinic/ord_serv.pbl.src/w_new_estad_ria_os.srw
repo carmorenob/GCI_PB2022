@@ -118,11 +118,10 @@ global w_new_estad_ria_os w_new_estad_ria_os
 type variables
 string sexo_paci,i_est_hadm,i_clug_hadm,i_cemp,i_ccont,i_nautoriza,i_tingreso
 long i_nh,i_norden
-datawindowchild idw_ufun,idw_cc,idw_espe
+datawindowchild idw_ufun,idw_cc,idw_espe,idw_causaex,idw_finproc
 trae i_st
 string i_cambio='n',i_cdiaging,i_causaext,i_fin_consulta,i_tipodx,i_mueve_kardex
 end variables
-
 on w_new_estad_ria_os.create
 this.dw_entregas=create dw_entregas
 this.st_desproc=create st_desproc
@@ -244,10 +243,14 @@ else
 end if
 
 if i_st.otro="carga" then
+	dw_rias.getchild('s_finalidadproced',idw_finproc)
 	dw_rias.getchild('desufuncional',idw_ufun)
 	dw_rias.getchild('descripcion',idw_cc)
+	dw_rias.getchild('s_causaexterna',idw_causaex)
 	idw_ufun.settransobject(sqlca)
 	idw_cc.settransobject(sqlca)
+	idw_causaex.settransobject(sqlca)
+	idw_finproc.settransobject(SQLCA)
 	dw_rias.settransobject(SQLCA)
 	for j=1 to i_st.dw_procs.rowcount()
 		if i_st.dw_procs.getitemstring(j,"agrupser")="10" then continue
@@ -334,9 +337,14 @@ else
     dw_trae.resetupdate()
 else//revisa
 	cb_registra.enabled=false
+	
 	dw_rias.dataobject="dw_rips_os_todos"
 	dw_rias.getchild('desufuncional',idw_ufun)
 	dw_rias.getchild('descripcion',idw_cc)
+	dw_rias.getchild('s_causaexterna',idw_causaex)
+	dw_rias.getchild('s_finalidadproced',idw_finproc)
+	idw_finproc.settransobject(SQLCA)
+	idw_causaex.settransobject(sqlca)
 	idw_ufun.settransobject(sqlca)
 	idw_ufun.insertrow(1)
 	idw_cc.settransobject(sqlca)
@@ -359,13 +367,26 @@ choose case i_st.tingres
 	case '2'
 		if ls_pro=32 THEN	RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\SUMINISTROS\", "ALM_URG", Regstring!, temp )
 		if ls_pro=64 THEN	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\SUMINISTROS\", "ALM_URG", Regstring!, temp )
+		idw_causaex.setfilter("xa_urge='1'")	
+		
 	case '3','7'
 		if ls_pro=32 THEN	RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\SUMINISTROS\", "ALM_HOSP", Regstring!, temp )
 		if ls_pro=64 THEN	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\SUMINISTROS\", "ALM_HOSP", Regstring!, temp )
+		idw_causaex.setfilter("xa_hosp='1'")
+		
 	case '4'
 		if ls_pro=32 THEN	RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\SUMINISTROS\", "ALM_AMB", Regstring!, temp )
 		if ls_pro=64 THEN	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\SUMINISTROS\", "ALM_AMB", Regstring!, temp )
+		idw_causaex.setfilter("xa_hosp='1'")
 end choose
+
+string ls_sex
+int li_dias
+li_dias=w_principal.dw_1.getitemnumber(1,'dias')
+if w_principal.dw_1.getitemstring(1,'sexo')="F" then ls_sex='2'
+if w_principal.dw_1.getitemstring(1,'sexo')="M" then ls_sex='1'
+idw_finproc.setfilter(" indsexo in('0','"+ls_sex+"') and  "+string(li_dias)+">=edadini  and  "+string(li_dias)+"<=edadfin ")
+idw_finproc.filter()
 
 end event
 

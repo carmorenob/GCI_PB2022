@@ -198,6 +198,7 @@ boolean guardo=true
 DataWindowChild pab, Hab,Camas,idw_tiping,idw_precibe,idw_destino,idw_viaing,idw_causaex
 String Pabellon, Habitacion, Cdemp, Ctemp,cama,continua
 end variables
+
 forward prototypes
 public function integer rn (long nh, string clug_hadm)
 public function integer guardar ()
@@ -1746,16 +1747,13 @@ else
 end if
 
 setnull(enobserv)
-//tab_1.tabpage_1.cbx_2.visible=true
-//tab_1.tabpage_1.cbx_2.enabled=false
+
 select perte into :enobserv from hospadmi where nh=:nh and clugar=:clug_hadm and codtingre=:tipo_ingres;
 if enobserv='1' then 
-//	tab_1.tabpage_1.cbx_2.checked=true
 	tab_1.tabpage_1.pb_4.enabled=true
 end if
 
 	if idw_viaing.getitemstring(idw_viaing.getrow(),'accion')='1' then
-//		tab_1.tabpage_1.cbx_1.y=600
 		this.modify ("gb_6.visible=1")
 		this.modify ("gb_6.height=308")		
 		this.modify ("t_6.visible=1")
@@ -1784,7 +1782,6 @@ end if
 		this.modify ("cod_rips.y=764")
 		this.modify ("desdiag.y=764")
 	else
-//		tab_1.tabpage_1.cbx_1.y=536
 		this.modify ("gb_6.visible=0")
 		this.modify ("gb_6.height=224")			
 		this.modify ("t_6.visible=0")
