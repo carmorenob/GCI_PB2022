@@ -207,7 +207,7 @@ if pos('2347',i_tingres)>0 then
 		dw_diags.setitem(1,'d_diagingre2',ds.getitemstring(1,'desdiagingre2'))
 		dw_diags.setitem(1,'d_diagingre3',ds.getitemstring(1,'desdiagingre3'))
 		dw_diags.setitem(1,'tipo_diag',ds.getitemstring(1,'tipodiagprin'))
-		dw_diags.setitem(1,'cod_modrel',ds.getitemstring(1,'cod_modrel'))		
+		dw_diags.setitem(1,'cod_modrel',ds.getitemstring(1,'cod_modrel'))	
 		if not isnull(ds.getitemstring(1,'fin_consulta')) then
 			dw_diags.setitem(1,'finalidad',ds.getitemstring(1,'fin_consulta'))
 			f_ubica=idw_finalidad.find("codfin='"+ds.getitemstring(1,'fin_consulta')+"'",1,idw_finalidad.RowCount())
@@ -255,7 +255,16 @@ if pos('2347',i_tingres)>0 then
 		dw_diags.accepttext()
 		lb_paso=true
 	end if
+	if i_tingres='2' then 
+		idw_causaext.setfilter("xa_urge='1'")
+	else
+		idw_causaext.setfilter("xa_hosp='1'")
+	end if
+	idw_causaext.filter()
 else //de cons ext/odonto
+	idw_causaext.setfilter("xa_cext='1'")
+	idw_causaext.filter()
+
 	ds.dataobject='dw_diags_cext'
 	ds.settransobject(sqlca)
 	lb_paso=false

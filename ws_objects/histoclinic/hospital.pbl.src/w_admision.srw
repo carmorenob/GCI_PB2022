@@ -195,10 +195,9 @@ global w_admision w_admision
 type variables
 string tipo_ingres,clugar_ing,i_varios_ingre,l_aut,l_autc
 boolean guardo=true
-DataWindowChild pab, Hab,Camas,idw_tiping,idw_precibe,idw_destino,idw_viaing
+DataWindowChild pab, Hab,Camas,idw_tiping,idw_precibe,idw_destino,idw_viaing,idw_causaex
 String Pabellon, Habitacion, Cdemp, Ctemp,cama,continua
 end variables
-
 forward prototypes
 public function integer rn (long nh, string clug_hadm)
 public function integer guardar ()
@@ -473,7 +472,7 @@ integer x = 1614
 integer y = 2148
 integer width = 343
 integer height = 116
-integer taborder = 65
+integer taborder = 110
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -489,7 +488,7 @@ integer x = 1902
 integer y = 380
 integer width = 146
 integer height = 128
-integer taborder = 70
+integer taborder = 120
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -542,7 +541,7 @@ integer x = 5
 integer y = 2128
 integer width = 686
 integer height = 400
-integer taborder = 55
+integer taborder = 80
 string title = "none"
 string dataobject = "dw_historial_acumcab"
 boolean livescroll = true
@@ -558,7 +557,7 @@ integer x = 2208
 integer y = 376
 integer width = 146
 integer height = 128
-integer taborder = 60
+integer taborder = 90
 boolean bringtotop = true
 integer textsize = -8
 integer weight = 400
@@ -596,7 +595,7 @@ integer x = 320
 integer y = 392
 integer width = 1061
 integer height = 84
-integer taborder = 60
+integer taborder = 30
 string title = "none"
 string dataobject = "dw_tip_ingres_drop"
 boolean border = false
@@ -629,6 +628,7 @@ event itemchanged;if isnull(gettext()) or gettext()='' then
 	tab_1.tabpage_3.dw_sale.reset()
 	return 0
 end if
+tipo_ingres=gettext()
 if guardar()=1 then 
 	settext(getitemstring(1,1))
 	return 1
@@ -638,11 +638,12 @@ tab_1.tabpage_1.cbx_res.visible=false
 //tab_1.tabpage_1.cbx_2.visible=false
 tab_1.tabpage_1.pb_4.enabled=false
 dw_historial.reset()
-tipo_ingres=gettext()
 if tipo_ingres='2' then
 	tab_1.tabpage_1.pb_triage.enabled=true
+	idw_causaex.setfilter("xa_urge='1'")
 else
 	tab_1.tabpage_1.pb_triage.enabled=false
+	idw_causaex.setfilter("xa_hosp='1'")
 end if
 if tipo_ingres='4' then
 	tab_1.tabpage_1.pb_change_ting.visible=true
@@ -650,7 +651,7 @@ else
 	tab_1.tabpage_1.pb_change_ting.visible=false
 end if
 i_varios_ingre=idw_tiping.getitemstring(idw_tiping.getrow(),'varios_ingre')
-
+idw_causaex.filter()
 dw_historial.retrieve(tipdoc,docu,tipo_ingres)
 tab_1.tabpage_2.dw_1.triggerevent(constructor!)
 return 0
@@ -703,7 +704,7 @@ integer x = 1408
 integer y = 380
 integer width = 146
 integer height = 128
-integer taborder = 50
+integer taborder = 60
 boolean bringtotop = true
 integer textsize = -8
 integer weight = 400
@@ -766,7 +767,7 @@ integer x = 4128
 integer y = 652
 integer width = 146
 integer height = 128
-integer taborder = 70
+integer taborder = 130
 boolean bringtotop = true
 integer textsize = -8
 integer weight = 400
@@ -993,7 +994,7 @@ integer x = 37
 integer y = 516
 integer width = 5143
 integer height = 1616
-integer taborder = 50
+integer taborder = 70
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -1571,6 +1572,8 @@ getchild('prof_recibe',idw_precibe)
 idw_precibe.settransobject(sqlca)
 idw_precibe.setfilter("cirujano ='1' or  anestesia ='1' or  odontologo ='1' or  mgeneral ='1'")
 idw_precibe.filter()
+getchild('causaexterna',idw_causaex)
+idw_causaex.settransobject(sqlca)
 
 end event
 
@@ -3074,7 +3077,7 @@ integer x = 1751
 integer y = 380
 integer width = 146
 integer height = 128
-integer taborder = 40
+integer taborder = 50
 boolean bringtotop = true
 integer textsize = -8
 integer weight = 400
@@ -3116,7 +3119,7 @@ integer x = 14
 integer y = 68
 integer width = 3109
 integer height = 308
-integer taborder = 30
+integer taborder = 20
 string title = "none"
 string dataobject = "dw_empacguarda"
 boolean hscrollbar = true
@@ -3134,7 +3137,7 @@ integer x = 3163
 integer y = 68
 integer width = 2021
 integer height = 420
-integer taborder = 20
+integer taborder = 10
 string title = "none"
 string dataobject = "dw_historial_tipo"
 boolean hscrollbar = true
@@ -3319,7 +3322,6 @@ dw_historial.setitem(1,"fecha",datetime(today(),time(string(now()))))
 dw_historial.setitem(1,"tipodoc",tipdoc)
 dw_historial.setitem(1,"documento",docu)
 dw_historial.setitem(1,"indapdx",tipo_ingres)
-//dw_historial.setitem(1,"contador",contador)
 dw_historial.setitem(1,"clugar",clugar)
 dw_historial.setitem(1,"consec_soat",consec_soat)
 dw_historial.setitem(1,"clugar_soat",clugar_soat)
@@ -3333,7 +3335,6 @@ tab_1.tabpage_1.dw_admi.setitem(1,"clugar",clugar)
 tab_1.tabpage_1.dw_admi.setitem(1,"CodTIngre",tipo_ingres)
 tab_1.tabpage_1.dw_admi.setitem(1,"cemp",empr)
 tab_1.tabpage_1.dw_admi.setitem(1,"ccontrato",contr)
-//tab_1.tabpage_1.dw_admi.setitem(1,"contador",contador)
 tab_1.tabpage_1.dw_admi.Setitem(1,"CUsuario",usuario)
 tab_1.tabpage_1.dw_admi.setitem(1,"FechaIngreso",datetime(today()))
 tab_1.tabpage_1.dw_admi.setitem(1,"Horaingreso",datetime(date('1/1/1900'),time(string(now()))))
