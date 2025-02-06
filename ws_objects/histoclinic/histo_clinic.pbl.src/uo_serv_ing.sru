@@ -2,6 +2,8 @@
 forward
 global type uo_serv_ing from userobject
 end type
+type dw_fin_proced from datawindow within uo_serv_ing
+end type
 type pb_3 from pb_report within uo_serv_ing
 end type
 type pb_2 from picturebutton within uo_serv_ing
@@ -53,7 +55,7 @@ end type
 end forward
 
 global type uo_serv_ing from userobject
-integer width = 5344
+integer width = 5472
 integer height = 1468
 long backcolor = 67108864
 string text = "none"
@@ -63,6 +65,7 @@ event borra_serv ( long p_contador,  string p_clugar_his,  long p_nservicio )
 event cambio_tto ( )
 event cambia_diags ( string p_cdiag )
 event cambian_serv ( readonly long p_filas )
+dw_fin_proced dw_fin_proced
 pb_3 pb_3
 pb_2 pb_2
 dw_mvto_cpo dw_mvto_cpo
@@ -101,7 +104,7 @@ private long i_contador=-1,i_nservicio,i_difp
 private string i_clugar_his,i_profe,i_espe,i_atiende,i_alm,i_cdoc_cons='SC',ls_antece,ls_resgt,ls_origen
 private boolean i_confirma_ge=true,i_cambio_insumo
 private st_fact st_f
-DataWindowChild idw_fincon
+DataWindowChild idw_fincon,idw_finproc,idw_causaex
 end variables
 
 forward prototypes
@@ -434,6 +437,7 @@ else
 	end if
 end if
 return dw_serv_ing.rowcount()
+
 end function
 
 public subroutine f_restringue (string p_resgt, string p_origen, long p_conta, string p_lug);long l_cuan
@@ -464,6 +468,7 @@ end if
 end subroutine
 
 on uo_serv_ing.create
+this.dw_fin_proced=create dw_fin_proced
 this.pb_3=create pb_3
 this.pb_2=create pb_2
 this.dw_mvto_cpo=create dw_mvto_cpo
@@ -488,7 +493,8 @@ this.st_1=create st_1
 this.dw_serv_ing=create dw_serv_ing
 this.dw_diags=create dw_diags
 this.gb_2=create gb_2
-this.Control[]={this.pb_3,&
+this.Control[]={this.dw_fin_proced,&
+this.pb_3,&
 this.pb_2,&
 this.dw_mvto_cpo,&
 this.dw_sum_cab,&
@@ -515,6 +521,7 @@ this.gb_2}
 end on
 
 on uo_serv_ing.destroy
+destroy(this.dw_fin_proced)
 destroy(this.pb_3)
 destroy(this.pb_2)
 destroy(this.dw_mvto_cpo)
@@ -544,6 +551,20 @@ end on
 event constructor;idw_cont_det=create uo_datastore
 idw_cont_det.dataobject='dw_cont_deta'
 idw_cont_det.settransobject(sqlca)
+end event
+
+type dw_fin_proced from datawindow within uo_serv_ing
+integer x = 3442
+integer width = 686
+integer height = 124
+integer taborder = 90
+string title = "none"
+string dataobject = "dw_finalidad_cups"
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event constructor;settransobject(sqlca)
 end event
 
 type pb_3 from pb_report within uo_serv_ing
@@ -1306,11 +1327,15 @@ if i_nservicio= 0 then
 end if
 dw_diags.setredraw(FALSE)
 dw_diags.retrieve(i_contador,i_clugar_his,i_nservicio)
+dw_fin_proced.retrieve(dw_serv_ing.getitemstring(dw_serv_ing.getrow(),"cproced"))
 dw_diags.event itemfocuschanged(1,dw_diags.object.codrip_prin)
 dw_diags.setredraw(true)
 
 datetime ld_fecha_atn
+string ls_sex,ls_filtro
+int li_dias
 integer li_temp_dx=10
+
 ld_fecha_atn=dw_serv_ing.getitemdatetime(dw_serv_ing.getrow(),"fecha")
 if daysAfter(date(ld_fecha_atn),date(now())) >0 then
 	dw_diags.enabled=false
@@ -1328,6 +1353,30 @@ else
 	end if
 end if
 
+setnull(ls_filtro)
+for li_dias=1 to dw_fin_proced.rowcount()
+	if li_dias=1 then
+		ls_filtro="'"+dw_fin_proced.getitemstring(li_dias,'codfin')+"'"
+	else
+		ls_filtro+=",'"+dw_fin_proced.getitemstring(li_dias,'codfin')+"'"
+	end if
+next			
+
+li_dias=w_principal.dw_1.getitemnumber(1,'dias')
+if w_principal.dw_1.getitemstring(1,'sexo')="F" then ls_sex='2'
+if w_principal.dw_1.getitemstring(1,'sexo')="M" then ls_sex='1'
+if not isnull( ls_filtro) then 
+	idw_fincon.setfilter("codfin in ("+ls_filtro+") and indsexo in('0','"+ls_sex+"') and  "+string(li_dias)+">=edadini  and  "+string(li_dias)+"<=edadfin ")
+else
+	idw_fincon.setfilter("indsexo in('0','"+ls_sex+"') and  "+string(li_dias)+">=edadini  and  "+string(li_dias)+"<=edadfin ")
+end if
+idw_fincon.filter()
+
+idw_causaex.setfilter("xa_cext='1'")
+idw_causaex.filter()
+
+idw_finproc.setfilter(" indsexo in('0','"+ls_sex+"') and  "+string(li_dias)+">=edadini  and  "+string(li_dias)+"<=edadfin ")
+idw_finproc.filter()
 end event
 
 event retrieveend;if rowcount=0 then 
@@ -1407,7 +1456,7 @@ end event
 type dw_diags from datawindow within uo_serv_ing
 integer x = 14
 integer y = 1008
-integer width = 5321
+integer width = 5381
 integer height = 424
 integer taborder = 10
 string title = "none"
@@ -1418,13 +1467,10 @@ end type
 event constructor;settransobject(sqlca)
 getchild('fin_consulta',idw_fincon)
 idw_fincon.settransobject(sqlca)
-string ls_sex
-int li_dias
-li_dias=w_principal.dw_1.getitemnumber(1,'dias')
-if w_principal.dw_1.getitemstring(1,'sexo')="F" then ls_sex='2'
-if w_principal.dw_1.getitemstring(1,'sexo')="M" then ls_sex='1'
-idw_fincon.setfilter(" indsexo in('0','"+ls_sex+"') and  "+string(li_dias)+">=edadini  and  "+string(li_dias)+"<=edadfin ")
-idw_fincon.filter()
+dw_diags.getchild('finalidadproced',idw_finproc)
+idw_finproc.settransobject(SQLCA)
+dw_diags.getchild('causaexterna',idw_causaex)
+idw_causaex.settransobject(sqlca)
 
 end event
 
