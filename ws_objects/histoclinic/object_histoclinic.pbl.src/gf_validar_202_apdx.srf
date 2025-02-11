@@ -435,15 +435,18 @@ end if
 
 //PSA PAREJA(109/73)
 if as_variable='109' then
-	if (ai_edad_dias <10585) and (ls_sexo=ls_sexoval) then
-		if isnull(ls_fresul) then
+	if ls_sexo='2' then
+		ls_resul='0'
+		ls_fresul='1845-01-01'
+	else
+		if ((ai_edad_dias <10585) or (ai_edad_dias >27375)) then
 			ls_resul='0'
 			ls_fresul='1845-01-01'
-		end if
-	else
-		if isnull(ls_fresul) then
-			ls_resul='998'
-			ls_fresul='1800-01-01'
+		else
+			if isnull(ls_fresul) or ls_fresul='' then
+				ls_resul='998'
+				ls_fresul='1800-01-01'
+			end if
 		end if
 	end if
 	
