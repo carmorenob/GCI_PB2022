@@ -17,7 +17,7 @@ end variables
 
 forward prototypes
 public function st_ret_dian emite_json_evento (decimal al_nro_fact, string as_clug_fact, string as_tipo_fac, string as_tipo_docu, string as_coddoc, string as_ruta)
-public function st_ret_dian emite_json_capita (decimal al_nro_fact, string as_clug_fact, string as_tipo_fac, string as_tipo_docu, string as_coddoc, string as_ruta)
+public function st_ret_dian emite_json_capita (decimal al_nro_fact, string as_clug_fact, string as_tipo_fac, string as_tipo_docu, string as_coddoc, string as_ruta, string as_capita0)
 end prototypes
 
 public function st_ret_dian emite_json_evento (decimal al_nro_fact, string as_clug_fact, string as_tipo_fac, string as_tipo_docu, string as_coddoc, string as_ruta);//as_tipo_docu = f:factura de venta ; a: nota credito de anulacion , c:nota credito , d:nota debito
@@ -472,7 +472,7 @@ destroy lds_fact
 return lst_ret_dian
 end function
 
-public function st_ret_dian emite_json_capita (decimal al_nro_fact, string as_clug_fact, string as_tipo_fac, string as_tipo_docu, string as_coddoc, string as_ruta);//as_tipo_docu = f:factura de venta ; a: nota credito de anulacion , c:nota credito , d:nota debito
+public function st_ret_dian emite_json_capita (decimal al_nro_fact, string as_clug_fact, string as_tipo_fac, string as_tipo_docu, string as_coddoc, string as_ruta, string as_capita0);//as_tipo_docu = f:factura de venta ; a: nota credito de anulacion , c:nota credito , d:nota debito
 string 	ls_texto,	ls_nulo
 uo_datastore lds_fact,lds_usu,lds_ripsc,lds_ripsp,lds_ripsu
 uo_datastore lds_ripsh,lds_ripsrc,lds_ripsme,lds_ripsot
@@ -549,8 +549,8 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 			/////SACA DATOS PARA FILTRO
 			ls_ltd=lds_usu.getitemstring(ldb_cu,"tipodoc")
 			ls_jdoc=lds_usu.getitemstring(ldb_cu,"documento")
-			ripse_json.AddItemString(ldb_ci,"tipoDocumentoldentificacion",ls_ltd)
-			ripse_json.AddItemString(ldb_ci,"numDocumentoldentificacion",ls_jdoc)
+			ripse_json.AddItemString(ldb_ci,"tipoDocumentoIdentificacion",ls_ltd)
+			ripse_json.AddItemString(ldb_ci,"numDocumentoIdentificacion",ls_jdoc)
 			ripse_json.AddItemString(ldb_ci,"tipoUsuario",lds_usu.getitemstring(ldb_cu,"tipousuario"))
 			ripse_json.AddItemString(ldb_ci,"fechaNacimiento",string(lds_usu.getitemdatetime(ldb_cu,"fnacimiento"),'yyyy-mm-dd'))
 			ripse_json.AddItemString(ldb_ci,"codSexo",lds_usu.getitemstring(ldb_cu,"sexo"))
@@ -579,7 +579,7 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 			if lds_ripsc.rowcount()>0 then
 				ldb_cin= ripse_json.AddItemArray(ldb_serv,"consultas")	
 				for ldb_ci=1 to lds_ripsc.rowcount()
-					ldb_fcon = ripse_json.AddItemObject(ldb_cin)				
+					ldb_fcon = ripse_json.AddItemObject(ldb_cin)		
 					ripse_json.AddItemString(ldb_fcon,"codPrestador",lds_ripsc.getitemstring(ldb_ci,'c_supersalud'))
 					ripse_json.AddItemString(ldb_fcon,"fechaInicioAtencion",string(lds_ripsc.getitemdatetime(ldb_ci,"fecha"),'yyyy-mm-dd hh:mm'))
 					if isnull(lds_ripsc.getitemstring(ldb_ci,'nautoriza')) or lds_ripsc.getitemstring(ldb_ci,'nautoriza')='' then
@@ -588,46 +588,54 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 						ripse_json.AddItemString(ldb_fcon,"numAutorizacion",lds_ripsc.getitemstring(ldb_ci,'nautoriza'))
 					end if
 					ripse_json.AddItemString(ldb_fcon,"codConsulta",lds_ripsc.getitemstring(ldb_ci,'cod_cups'))
+					
+					
 					if isnull(lds_ripsc.getitemstring(ldb_ci,'cod_modrel')) then
-						ripse_json.AddItemString(ldb_fcon,"modalidadGrupoServicioTecSal")
+						ripse_json.AddItemNull(ldb_fcon,"modalidadGrupoServicioTecSal")
 					else
 						ripse_json.AddItemString(ldb_fcon,"modalidadGrupoServicioTecSal",lds_ripsc.getitemstring(ldb_ci,'cod_modrel'))
 					end if
 	
 					ripse_json.AddItemString(ldb_fcon,"grupoServicios",lds_ripsc.getitemstring(ldb_ci,'cod_grpserv'))
-					ripse_json.AddItemString(ldb_fcon,"codServicio",lds_ripsc.getitemstring(ldb_ci,'cod_serv'))
+					ripse_json.AddItemNumber(ldb_fcon,"codServicio",double(lds_ripsc.getitemstring(ldb_ci,'cod_serv')))
 					ripse_json.AddItemString(ldb_fcon,"finalidadTecnologiaSalud",lds_ripsc.getitemstring(ldb_ci,'fin_consulta'))
 					ripse_json.AddItemString(ldb_fcon,"causaMotivoAtencion",lds_ripsc.getitemstring(ldb_ci,'causaexterna'))
-					ripse_json.AddItemString(ldb_fcon,"codDiagnosticoPrincipal",lds_ripsc.getitemstring(ldb_ci,'cod_rips'))
-					if isnull(lds_ripsc.getitemstring(ldb_ci,'cod_rips_1')) then
+					ripse_json.AddItemString(ldb_fcon,"codDiagnosticoPrincipal",lds_ripsc.getitemstring(ldb_ci,'dxppal'))
+					if isnull(lds_ripsc.getitemstring(ldb_ci,'dxr1')) then
 						ripse_json.AddItemNull(ldb_fcon,"codDiagnosticoRelacionado1")
 					else
-						ripse_json.AddItemString(ldb_fcon,"codDiagnosticoRelacionado1",lds_ripsc.getitemstring(ldb_ci,'cod_rips_1'))
+						ripse_json.AddItemString(ldb_fcon,"codDiagnosticoRelacionado1",lds_ripsc.getitemstring(ldb_ci,'dxr1'))
 					end if
 					
-					if isnull(lds_ripsc.getitemstring(ldb_ci,'cod_rips_2')) then
+					if isnull(lds_ripsc.getitemstring(ldb_ci,'dxr2')) then
 						ripse_json.AddItemNull(ldb_fcon,"codDiagnosticoRelacionado2")
 					else
-						ripse_json.AddItemString(ldb_fcon,"codDiagnosticoRelacionado2",lds_ripsc.getitemstring(ldb_ci,'cod_rips_2'))
+						ripse_json.AddItemString(ldb_fcon,"codDiagnosticoRelacionado2",lds_ripsc.getitemstring(ldb_ci,'dxr2'))
 					end if
 					
-					if isnull(lds_ripsc.getitemstring(ldb_ci,'cod_rips_3') ) then
+					if isnull(lds_ripsc.getitemstring(ldb_ci,'dxr3') ) then
 						ripse_json.AddItemNull(ldb_fcon,"codDiagnosticoRelacionado3")
 					else
-						ripse_json.AddItemString(ldb_fcon,"codDiagnosticoRelacionado3",lds_ripsc.getitemstring(ldb_ci,'cod_rips_3'))
+						ripse_json.AddItemString(ldb_fcon,"codDiagnosticoRelacionado3",lds_ripsc.getitemstring(ldb_ci,'dxr3'))
 					end if
 					
 					ripse_json.AddItemString(ldb_fcon,"tipoDiagnosticoPrincipal",lds_ripsc.getitemstring(ldb_ci,'tipodiagprin'))
-					ripse_json.AddItemString(ldb_fcon,"tipoDocumentoIdentificacion",ls_ltd)
-					ripse_json.AddItemString(ldb_fcon,"numDocumentoIdentificacion",ls_jdoc)
-					ripse_json.AddItemnumber(ldb_fcon,"vrServicio",lds_ripsc.getitemnumber(ldb_ci,'vproced'))
-					ripse_json.AddItemString(ldb_fcon,"tipoPagoModerador",lds_ripsc.getitemstring(ldb_ci,'vtmd'))
-					ripse_json.AddItemnumber(ldb_fcon,"valorPagoModerador",lds_ripsc.getitemnumber(ldb_ci,'vpm'))
-					if isnull(lds_ripsc.getitemstring(ldb_ci,'prefijo')) or lds_ripsc.getitemstring(ldb_ci,'prefijo')='' then
-						ripse_json.AddItemString(ldb_ci,"numFactura",string(lds_fact.getitemnumber(1,'nfact')))		
+					ripse_json.AddItemString(ldb_fcon,"tipoDocumentoIdentificacion",lds_ripsc.getitemstring(ldb_ci,'tdoc'))
+					ripse_json.AddItemString(ldb_fcon,"numDocumentoIdentificacion",lds_ripsc.getitemstring(ldb_ci,'documento'))
+					if as_capita0='1' then
+						ripse_json.AddItemnumber(ldb_fcon,"vrServicio",lds_ripsc.getitemnumber(ldb_ci,'vproced'))
+						ripse_json.AddItemString(ldb_fcon,"conceptoRecaudo",lds_ripsc.getitemstring(ldb_ci,'vtmd'))
 					else
-						ripse_json.AddItemString(ldb_fcon,"numFactura",lds_fact.getitemstring(1,'prefijo')+string(lds_fact.getitemnumber(1,'nfact')))
+						ripse_json.AddItemnumber(ldb_fcon,"vrServicio",0)
+						ripse_json.AddItemString(ldb_fcon,"conceptoRecaudo",lds_ripsc.getitemstring(ldb_ci,'vtmd'))
 					end if
+					ripse_json.AddItemnumber(ldb_fcon,"valorPagoModerador",lds_ripsc.getitemnumber(ldb_ci,'vpm'))
+//					if isnull(lds_ripsc.getitemstring(ldb_ci,'prefijo')) or lds_ripsc.getitemstring(ldb_ci,'prefijo')='' then
+//						ripse_json.AddItemString(ldb_ci,"numFactura",string(lds_fact.getitemnumber(1,'nfact')))		
+//					else
+//						ripse_json.AddItemString(ldb_fcon,"numFactura",lds_fact.getitemstring(1,'prefijo')+string(lds_fact.getitemnumber(1,'nfact')))
+//					end if
+					ripse_json.AddItemNull(ldb_fcon,"numFEVPagoModerador")
 					ripse_json.AddItemnumber(ldb_fcon,"consecutivo",ldb_ci)		
 				next
 			end if			
@@ -661,8 +669,8 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 					ripse_json.AddItemString(ldb_fcon,"grupoServicios",lds_ripsp.getitemstring(ldb_ci,'cod_grpserv'))
 					ripse_json.AddItemNumber(ldb_fcon,"codServicio",double(lds_ripsp.getitemstring(ldb_ci,'cod_serv')))
 					ripse_json.AddItemString(ldb_fcon,"finalidadTecnologiaSalud",lds_ripsp.getitemstring(ldb_ci,'finalidadproced'))
-					ripse_json.AddItemString(ldb_fcon,"tipoDocumentoIdentificacion",ls_ltd)
-					ripse_json.AddItemString(ldb_fcon,"numDocumentoIdentificacion",ls_jdoc)				
+					ripse_json.AddItemString(ldb_fcon,"tipoDocumentoIdentificacion",lds_ripsp.getitemstring(ldb_ci,'tdoc'))
+					ripse_json.AddItemString(ldb_fcon,"numDocumentoIdentificacion",lds_ripsp.getitemstring(ldb_ci,'documento'))
 					ripse_json.AddItemString(ldb_fcon,"codDiagnosticoPrincipal",lds_ripsp.getitemstring(ldb_ci,'cod_rips'))
 					if isnull(lds_ripsp.getitemstring(ldb_ci,'cod_rips_1')) then 
 						ripse_json.AddItemNull(ldb_fcon,"codDiagnosticoRelacionado")
@@ -674,14 +682,20 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 					else
 						ripse_json.AddItemString(ldb_fcon,"codComplicacion",lds_ripsp.getitemstring(ldb_ci,'cod_rips_2'))
 					end if
-					ripse_json.AddItemnumber(ldb_fcon,"vrServicio",lds_ripsp.getitemnumber(ldb_ci,'vproced'))
-					ripse_json.AddItemString(ldb_fcon,"tipoPagoModerador",lds_ripsp.getitemstring(ldb_ci,'vtmd'))
-					ripse_json.AddItemnumber(ldb_fcon,"valorPagoModerador",lds_ripsp.getitemnumber(ldb_ci,'vpm'))
-					if isnull(lds_ripsp.getitemstring(ldb_ci,'prefijo')) or lds_ripsp.getitemstring(ldb_ci,'prefijo')='' then
-						ripse_json.AddItemString(ldb_ci,"numFactura",string(lds_fact.getitemnumber(1,'nfact')))		
+					if as_capita0='1' then
+						ripse_json.AddItemnumber(ldb_fcon,"vrServicio",lds_ripsp.getitemnumber(ldb_ci,'vproced'))
+						ripse_json.AddItemString(ldb_fcon,"conceptoRecaudo",lds_ripsp.getitemstring(ldb_ci,'vtmd'))						
 					else
-						ripse_json.AddItemString(ldb_fcon,"numFactura",lds_fact.getitemstring(1,'prefijo')+string(lds_fact.getitemnumber(1,'nfact')))
+						ripse_json.AddItemnumber(ldb_fcon,"vrServicio",0)
+						ripse_json.AddItemString(ldb_fcon,"conceptoRecaudo",lds_ripsp.getitemstring(ldb_ci,'vtmd'))		
 					end if
+					ripse_json.AddItemnumber(ldb_fcon,"valorPagoModerador",lds_ripsp.getitemnumber(ldb_ci,'vpm'))
+//					if isnull(lds_ripsp.getitemstring(ldb_ci,'prefijo')) or lds_ripsp.getitemstring(ldb_ci,'prefijo')='' then
+//						ripse_json.AddItemString(ldb_ci,"numFactura",string(lds_fact.getitemnumber(1,'nfact')))		
+//					else
+//						ripse_json.AddItemString(ldb_fcon,"numFactura",lds_fact.getitemstring(1,'prefijo')+string(lds_fact.getitemnumber(1,'nfact')))
+//					end if
+					ripse_json.AddItemNull(ldb_fcon,"numFEVPagoModerador")					
 					ripse_json.AddItemnumber(ldb_fcon,"consecutivo", ldb_ci)
 				next
 			end if		
@@ -790,7 +804,7 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 			end if
 			
 			//MEDICAMENTOS
-			lds_ripsme.setfilter("tipodoc='"+ls_ltd+"' and  docpac='"+ls_jdoc+"'")
+			lds_ripsme.setfilter("tdpac='"+ls_ltd+"' and  docpac='"+ls_jdoc+"'")
 			lds_ripsme.filter()		
 			if lds_ripsme.rowcount()>0 then
 				ldb_cin= ripse_json.AddItemArray(ldb_serv,"medicamentos")
@@ -801,7 +815,11 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 					ripse_json.AddItemString(ldb_fcon,"idMIPRES",lds_ripsme.getitemstring(ldb_ci,'idmipres'))
 					ripse_json.AddItemString(ldb_fcon,"fechaDispensAdmon",string(lds_ripsme.getitemdatetime(ldb_ci,'fecha'),'yyyy-mm-dd HH:mm'))
 					ripse_json.AddItemString(ldb_fcon,"codDiagnosticoPrincipal",lds_ripsme.getitemstring(ldb_ci,'dx1'))
-					ripse_json.AddItemString(ldb_fcon,"codDiagnosticoRelacionado",lds_ripsme.getitemstring(ldb_ci,'dxr1'))
+					if isnull(lds_ripsme.getitemstring(ldb_ci,'dxr1')) or lds_ripsme.getitemstring(ldb_ci,'dxr1')='' then
+						ripse_json.AddItemNull(ldb_fcon,"codDiagnosticoRelacionado")	
+					else
+						ripse_json.AddItemString(ldb_fcon,"codDiagnosticoRelacionado",lds_ripsme.getitemstring(ldb_ci,'dxr1'))
+					end if
 					ripse_json.AddItemString(ldb_fcon,"tipoMedicamento",lds_ripsme.getitemstring(ldb_ci,'cod_tmedica'))
 					
 					
@@ -839,18 +857,25 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 					ripse_json.AddItemnumber(ldb_fcon,"unidadMinDispensa",integer(lds_ripsme.getitemstring(ldb_ci,'umm')))
 
 					ripse_json.AddItemnumber(ldb_fcon,"cantidadMedicamento",lds_ripsme.getitemnumber(ldb_ci,'cantidad'))
-					ripse_json.AddItemString(ldb_fcon,"diasTratamiento",'1')
-					ripse_json.AddItemString(ldb_fcon,"tipoDocumentoldentificacion",ls_ltd)
-					ripse_json.AddItemString(ldb_fcon,"numDocumentoldentificacion",ls_jdoc)
-					ripse_json.AddItemnumber(ldb_fcon,"vrUnitMedicamento",lds_ripsme.getitemnumber(ldb_ci,'vuni'))
-					ripse_json.AddItemnumber(ldb_fcon,"vrServicio",lds_ripsme.getitemnumber(ldb_ci,'vproced'))
+					ripse_json.AddItemnumber(ldb_fcon,"diasTratamiento",1)
+					ripse_json.AddItemString(ldb_fcon,"tipoDocumentoIdentificacion",lds_ripsme.getitemstring(ldb_ci,'tdoc'))
+					ripse_json.AddItemString(ldb_fcon,"numDocumentoIdentificacion",lds_ripsme.getitemstring(ldb_ci,'documento'))
+					if as_capita0='1' then
+						ripse_json.AddItemnumber(ldb_fcon,"vrUnitMedicamento",lds_ripsme.getitemnumber(ldb_ci,'vuni'))					
+						ripse_json.AddItemnumber(ldb_fcon,"vrServicio",lds_ripsme.getitemnumber(ldb_ci,'vproced'))
+					else
+						ripse_json.AddItemnumber(ldb_fcon,"vrUnitMedicamento",0)					
+						ripse_json.AddItemnumber(ldb_fcon,"vrServicio",0)						
+					end if
+					
 					ripse_json.AddItemString(ldb_fcon,"conceptoRecaudo",lds_ripsme.getitemstring(ldb_ci,'vtmd'))
 					ripse_json.AddItemnumber(ldb_fcon,"valorPagoModerador",lds_ripsme.getitemnumber(ldb_ci,'vpm'))
-					if isnull(lds_ripsme.getitemstring(ldb_ci,'prefijo')) or lds_ripsme.getitemstring(ldb_ci,'prefijo')='' then
-						ripse_json.AddItemString(ldb_ci,"numFactura",string(lds_fact.getitemnumber(1,'nfact')))		
-					else
-						ripse_json.AddItemString(ldb_fcon,"numFactura",lds_fact.getitemstring(1,'prefijo')+string(lds_fact.getitemnumber(1,'nfact')))
-					end if
+//					if isnull(lds_ripsme.getitemstring(ldb_ci,'prefijo')) or lds_ripsme.getitemstring(ldb_ci,'prefijo')='' then
+//						ripse_json.AddItemString(ldb_ci,"numFactura",string(lds_fact.getitemnumber(1,'nfact')))		
+//					else
+//						ripse_json.AddItemString(ldb_fcon,"numFactura",lds_fact.getitemstring(1,'prefijo')+string(lds_fact.getitemnumber(1,'nfact')))
+//					end if
+					ripse_json.AddItemNull(ldb_fcon,"numFEVPagoModerador")	
 					ripse_json.AddItemnumber(ldb_fcon,"consecutivo",ldb_ci)
 				next
 			end if
@@ -892,11 +917,12 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 					ripse_json.AddItemnumber(ldb_fcon,"vrServicio",lds_ripsot.getitemnumber(ldb_ci,'vproced'))
 					ripse_json.AddItemString(ldb_fcon,"conceptoRecaudo",lds_ripsot.getitemstring(ldb_ci,'vtmd'))
 					ripse_json.AddItemnumber(ldb_fcon,"valorPagoModerador",lds_ripsot.getitemnumber(ldb_ci,'vpm'))
-					if isnull(lds_ripsot.getitemstring(ldb_ci,'prefijo')) or lds_ripsot.getitemstring(ldb_ci,'prefijo')='' then
-						ripse_json.AddItemString(ldb_ci,"numFactura",string(lds_fact.getitemnumber(1,'nfact')))		
-					else
-						ripse_json.AddItemString(ldb_fcon,"numFactura",lds_fact.getitemstring(1,'prefijo')+string(lds_fact.getitemnumber(1,'nfact')))
-					end if
+//					if isnull(lds_ripsot.getitemstring(ldb_ci,'prefijo')) or lds_ripsot.getitemstring(ldb_ci,'prefijo')='' then
+//						ripse_json.AddItemString(ldb_ci,"numFactura",string(lds_fact.getitemnumber(1,'nfact')))		
+//					else
+//						ripse_json.AddItemString(ldb_fcon,"numFactura",lds_fact.getitemstring(1,'prefijo')+string(lds_fact.getitemnumber(1,'nfact')))
+//					end if
+					ripse_json.AddItemNull(ldb_fcon,"numFEVPagoModerador")			
 					ripse_json.AddItemnumber(ldb_fcon,"consecutivo",ldb_ci)
 				next
 			end if

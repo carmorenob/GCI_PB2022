@@ -119,6 +119,7 @@ int xant,yant
 string sexo_paci,orden,anterior,ord,ant
 datawindowchild dw_contrato,idw_causaex,idw_finproc
 end variables
+
 on w_captur_rip_fac.create
 this.pb_1=create pb_1
 this.st_fact=create st_fact
@@ -235,7 +236,7 @@ dw_rias.getchild('s_finalidadproced',idw_finproc)
 dw_rias.getchild('s_causaexterna',idw_causaex)
 idw_causaex.settransobject(sqlca)
 idw_finproc.settransobject(SQLCA)
-idw_causaex.setfilter("xa_hosp='1'")
+idw_causaex.setfilter("xa_cext='1'")
 idw_causaex.filter()
 string ls_sex
 int li_dias

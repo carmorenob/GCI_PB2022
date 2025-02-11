@@ -24,24 +24,18 @@ type cb_4 from commandbutton within q_i
 end type
 type dw_3 from datawindow within q_i
 end type
-type cb_3 from commandbutton within q_i
-end type
 type dw_2 from datawindow within q_i
 end type
 type dw_1 from datawindow within q_i
 end type
 type ads_datos from datawindow within q_i
 end type
-type mle_2 from multilineedit within q_i
-end type
-type mle_1 from multilineedit within q_i
-end type
 type cb_1 from commandbutton within q_i
 end type
 end forward
 
 global type q_i from window
-integer width = 3410
+integer width = 4165
 integer height = 2112
 boolean titlebar = true
 boolean controlmenu = true
@@ -60,12 +54,9 @@ sle_f sle_f
 cb_5 cb_5
 cb_4 cb_4
 dw_3 dw_3
-cb_3 cb_3
 dw_2 dw_2
 dw_1 dw_1
 ads_datos ads_datos
-mle_2 mle_2
-mle_1 mle_1
 cb_1 cb_1
 end type
 global q_i q_i
@@ -82,12 +73,9 @@ this.sle_f=create sle_f
 this.cb_5=create cb_5
 this.cb_4=create cb_4
 this.dw_3=create dw_3
-this.cb_3=create cb_3
 this.dw_2=create dw_2
 this.dw_1=create dw_1
 this.ads_datos=create ads_datos
-this.mle_2=create mle_2
-this.mle_1=create mle_1
 this.cb_1=create cb_1
 this.Control[]={this.pb_2,&
 this.dw_electronica_cap,&
@@ -100,12 +88,9 @@ this.sle_f,&
 this.cb_5,&
 this.cb_4,&
 this.dw_3,&
-this.cb_3,&
 this.dw_2,&
 this.dw_1,&
 this.ads_datos,&
-this.mle_2,&
-this.mle_1,&
 this.cb_1}
 end on
 
@@ -121,16 +106,14 @@ destroy(this.sle_f)
 destroy(this.cb_5)
 destroy(this.cb_4)
 destroy(this.dw_3)
-destroy(this.cb_3)
 destroy(this.dw_2)
 destroy(this.dw_1)
 destroy(this.ads_datos)
-destroy(this.mle_2)
-destroy(this.mle_1)
 destroy(this.cb_1)
 end on
 
 type pb_2 from picturebutton within q_i
+string tag = "capita"
 integer x = 101
 integer y = 500
 integer width = 146
@@ -195,6 +178,8 @@ string dataobject = "dw_factura_electronica_postgres19"
 end type
 
 type pb_1 from picturebutton within q_i
+string tag = "Evento"
+boolean visible = false
 integer x = 96
 integer y = 332
 integer width = 146
@@ -284,7 +269,7 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 long textcolor = 33554432
-string text = "72"
+string text = "01"
 borderstyle borderstyle = stylelowered!
 end type
 
@@ -301,13 +286,13 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 long textcolor = 33554432
-string text = "76613"
+string text = "789"
 borderstyle borderstyle = stylelowered!
 end type
 
 type cb_5 from commandbutton within q_i
-integer x = 279
-integer y = 500
+integer x = 261
+integer y = 368
 integer width = 402
 integer height = 112
 integer taborder = 115
@@ -324,7 +309,7 @@ event clicked;	nvo_rips_json u_rips
 	
 	u_rips=create nvo_rips_json
 //	u_rips.emite_json_evento(49971,'74','F','f','FV')
-	u_rips.emite_json_capita(double(sle_f.text),sle_l.text,'F','f','FV','d:\prueba.json')
+	u_rips.emite_json_capita(double(sle_f.text),sle_l.text,'F','f','FV','d:\prueba.json','0')
 	destroy 	u_rips
 end event
 
@@ -353,14 +338,15 @@ event clicked;	nvo_rips_json u_rips
 end event
 
 type dw_3 from datawindow within q_i
-boolean visible = false
-integer x = 2857
-integer y = 1576
-integer width = 539
-integer height = 268
+integer x = 1893
+integer y = 232
+integer width = 1934
+integer height = 1016
 integer taborder = 160
 string title = "none"
-string dataobject = "dw_hc_plan_ajuste"
+string dataobject = "dw_retorno_cargarfevrips"
+boolean hscrollbar = true
+boolean vscrollbar = true
 boolean livescroll = true
 borderstyle borderstyle = stylelowered!
 end type
@@ -368,68 +354,9 @@ end type
 event constructor;settransobject(sqlca)
 end event
 
-type cb_3 from commandbutton within q_i
-boolean visible = false
-integer x = 69
-integer y = 1104
-integer width = 402
-integer height = 112
-integer taborder = 140
-integer textsize = -10
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-string text = "plantilla"
-end type
-
-event clicked;double ld_i,ld_cam,ld_item,fin
-string  ls_pla,entrada,salida
-blob ent,sal
-
-dw_3.retrieve()
-if dw_3.rowcount()>2000 then
-	fin=2000
-else
-	fin=dw_3.rowcount()
-end if
-for ld_i=1 to fin
-	ls_pla= dw_3.getitemstring(ld_i,'codplantilla')
-	ld_cam= dw_3.getitemnumber(ld_i,'numcampo')
-	ld_item= dw_3.getitemnumber(ld_i,'item')
-	
-	selectblob plantilla into :ent 
-	from hc_plantilla
-	where codplantilla=:ls_pla and numcampo=:ld_cam and item=:ld_item;
-	if sqlca.sqlcode=-1 then
-		messagebox("Error leyendo",sqlca.sqlerrtext)
-		return -1
-	end if
-	
-	entrada=string(ent)
-	//mle_1.text=entrada
-	salida=f_rtf_a_txt(entrada)
-	if salida='' or isnull(salida) then continue
-	ent=blob(salida)
-	updateblob hc_plantilla set plantilla_new=:ent
-	where codplantilla=:ls_pla and numcampo=:ld_cam and item=:ld_item;
-	if sqlca.sqlcode=-1 then
-		messagebox("Error acualiza",sqlca.sqlerrtext)
-		return -1
-	end if
-	commit;
-	setnull(entrada)
-	setnull(ent)
-	setnull(salida)
-next
-
-end event
-
 type dw_2 from datawindow within q_i
 boolean visible = false
-integer x = 485
-integer y = 660
+integer x = 1893
 integer width = 421
 integer height = 228
 integer taborder = 120
@@ -474,49 +401,6 @@ end type
 event constructor;settransobject(sqlca)
 end event
 
-type mle_2 from multilineedit within q_i
-boolean visible = false
-integer x = 709
-integer y = 680
-integer width = 2011
-integer height = 552
-integer taborder = 50
-integer textsize = -10
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-long textcolor = 33554432
-string text = "none"
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean autohscroll = true
-boolean autovscroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-type mle_1 from multilineedit within q_i
-boolean visible = false
-integer x = 727
-integer y = 248
-integer width = 2011
-integer height = 376
-integer taborder = 60
-integer textsize = -10
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-long textcolor = 33554432
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean autohscroll = true
-boolean autovscroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
 type cb_1 from commandbutton within q_i
 integer x = 59
 integer y = 812
@@ -532,15 +416,40 @@ string facename = "Tahoma"
 string text = "loginsispro"
 end type
 
-event clicked;	nvo_fevrips u_rips
-	string ls_token
+event clicked;nvo_fevrips u_rips
+string ls_token,ls_err
+int li_rc
+st_retorno_gral lst_ret_gral
 	
-	u_rips=create nvo_fevrips
-	ls_token=u_rips.sispro_login('2','CC','9298274','/*Ese/*123..','806010305')
-	if ls_token<>'-1' then 
-		u_rips.sispro_cargarfevrips(ls_token,'2','','')
+u_rips=create nvo_fevrips
+ls_token=u_rips.sispro_login('2','CC','9298274','/*Ese/*123..','806010305')
+if ls_token<>'-1' then 
+//	lst_ret_gral=u_rips.sispro_carga_fev_rips(ls_token,'2','','')
+//	if lst_ret_gral.i_valor=-1 then 
+//		rollback;
+//	end if
+	
+	lst_ret_gral=u_rips.sispro_carga_capita_ini(ls_token,'2','','')
+	if lst_ret_gral.i_valor=-1 then 
+		rollback;
 	end if
+
 	
-	destroy 	u_rips
+	jsonpackage lnv_json
+	string ls_ResultadosValidacion
+	lnv_json=create jsonpackage
+	
+	lnv_json.loadstring( lst_ret_gral.s_valor)
+	ls_err = lnv_json.LoadString(lst_ret_gral.s_valor)
+	if Len(ls_err) = 0 then
+		ls_ResultadosValidacion =  lnv_json.GetValue("ResultadosValidacion")
+		li_rc=dw_3.ImportJson(ls_ResultadosValidacion ,ls_err)
+	end if		
+
+end if
+
+
+destroy lnv_json
+destroy u_rips
 end event
 

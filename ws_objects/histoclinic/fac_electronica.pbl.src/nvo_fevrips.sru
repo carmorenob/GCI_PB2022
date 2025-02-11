@@ -19,7 +19,8 @@ forward prototypes
 public function st_ret_dian emite_json_capita (decimal al_nro_fact, string as_clug_fact, string as_tipo_fac, string as_tipo_docu, string as_coddoc)
 public function st_ret_dian emite_json_evento (decimal al_nro_fact, string as_clug_fact, string as_tipo_fac, string as_tipo_docu, string as_coddoc, string as_ruta)
 public function string sispro_login (string as_ambiente, string as_td, string as_doc, string as_pasw, string as_nit)
-public function long sispro_cargarfevrips (string as_token, string as_ambiente, string as_ruta, string as_doc)
+public function st_retorno_gral sispro_carga_capita_ini (string as_token, string as_ambiente, string as_ruta, string as_doc)
+public function st_retorno_gral sispro_carga_fev_rips (string as_token, string as_ambiente, string as_ruta, string as_doc)
 end prototypes
 
 public function st_ret_dian emite_json_capita (decimal al_nro_fact, string as_clug_fact, string as_tipo_fac, string as_tipo_docu, string as_coddoc);//as_tipo_docu = f:factura de venta ; a: nota credito de anulacion , c:nota credito , d:nota debito
@@ -60,6 +61,8 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 	ldb_usu = ripse_json.AddItemArray(li_root,"usuarios")	
 	lds_usu.dataobject='dw_json_usuario_cap'
 	lds_usu.settransobject(sqlca)
+						messagebox("",'entre')
+	
 	//USUARIO
 	if lds_usu.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 		
@@ -129,6 +132,7 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 			if lds_ripsc.rowcount()>0 then
 				ldb_cin= ripse_json.AddItemArray(ldb_serv,"consultas")	
 				for ldb_ci=1 to lds_ripsc.rowcount()
+					messagebox("",string( ldb_ci))
 					ldb_fcon = ripse_json.AddItemObject(ldb_cin)				
 					ripse_json.AddItemString(ldb_fcon,"codPrestador",lds_ripsc.getitemstring(ldb_ci,'c_supersalud'))
 					ripse_json.AddItemString(ldb_fcon,"fechaInicioAtencion",string(lds_ripsc.getitemdatetime(ldb_ci,"fecha"),'yyyy-mm-dd hh:mm'))
@@ -144,36 +148,38 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 					ripse_json.AddItemString(ldb_fcon,"codServicio",lds_ripsc.getitemstring(ldb_ci,'cod_serv'))
 					ripse_json.AddItemString(ldb_fcon,"finalidadTecnologiaSalud",lds_ripsc.getitemstring(ldb_ci,'fin_consulta'))
 					ripse_json.AddItemString(ldb_fcon,"causaMotivoAtencion",lds_ripsc.getitemstring(ldb_ci,'causaexterna'))
-					ripse_json.AddItemString(ldb_fcon,"codDiagnosticoPrincipal",lds_ripsc.getitemstring(ldb_ci,'cod_rips'))
-					if isnull(lds_ripsc.getitemstring(ldb_ci,'cod_rips_1')) then
+					ripse_json.AddItemString(ldb_fcon,"codDiagnosticoPrincipal",lds_ripsc.getitemstring(ldb_ci,'dxppal'))
+					
+					if isnull(lds_ripsc.getitemstring(ldb_ci,'dxr1')) then
 						ripse_json.AddItemNull(ldb_fcon,"codDiagnosticoRelacionado1")
 					else
-						ripse_json.AddItemString(ldb_fcon,"codDiagnosticoRelacionado1",lds_ripsc.getitemstring(ldb_ci,'cod_rips_1'))
+						ripse_json.AddItemString(ldb_fcon,"codDiagnosticoRelacionado1",lds_ripsc.getitemstring(ldb_ci,'dxr1'))
 					end if
 					
-					if isnull(lds_ripsc.getitemstring(ldb_ci,'cod_rips_2')) then
+					if isnull(lds_ripsc.getitemstring(ldb_ci,'dxr2')) then
 						ripse_json.AddItemNull(ldb_fcon,"codDiagnosticoRelacionado2")
 					else
-						ripse_json.AddItemString(ldb_fcon,"codDiagnosticoRelacionado2",lds_ripsc.getitemstring(ldb_ci,'cod_rips_2'))
+						ripse_json.AddItemString(ldb_fcon,"codDiagnosticoRelacionado2",lds_ripsc.getitemstring(ldb_ci,'dxr2'))
 					end if
 					
-					if isnull(lds_ripsc.getitemstring(ldb_ci,'cod_rips_3') ) then
+					if isnull(lds_ripsc.getitemstring(ldb_ci,'dxr3') ) then
 						ripse_json.AddItemNull(ldb_fcon,"codDiagnosticoRelacionado3")
 					else
-						ripse_json.AddItemString(ldb_fcon,"codDiagnosticoRelacionado3",lds_ripsc.getitemstring(ldb_ci,'cod_rips_3'))
+						ripse_json.AddItemString(ldb_fcon,"codDiagnosticoRelacionado3",lds_ripsc.getitemstring(ldb_ci,'dxr3'))
 					end if
 					
 					ripse_json.AddItemString(ldb_fcon,"tipoDiagnosticoPrincipal",lds_ripsc.getitemstring(ldb_ci,'tipodiagprin'))
-					ripse_json.AddItemString(ldb_fcon,"tipoDocumentoIdentificacion",ls_ltd)
-					ripse_json.AddItemString(ldb_fcon,"numDocumentoIdentificacion",ls_jdoc)
+					ripse_json.AddItemString(ldb_fcon,"tipoDocumentoIdentificacion",lds_ripsc.getitemstring(ldb_ci,'tdoc'))
+					ripse_json.AddItemString(ldb_fcon,"numDocumentoIdentificacion",lds_ripsc.getitemstring(ldb_ci,'documento'))
 					ripse_json.AddItemnumber(ldb_fcon,"vrServicio",lds_ripsc.getitemnumber(ldb_ci,'vproced'))
 					ripse_json.AddItemString(ldb_fcon,"tipoPagoModerador",lds_ripsc.getitemstring(ldb_ci,'vtmd'))
 					ripse_json.AddItemnumber(ldb_fcon,"valorPagoModerador",lds_ripsc.getitemnumber(ldb_ci,'vpm'))
-					if isnull(lds_ripsc.getitemstring(ldb_ci,'prefijo')) or lds_ripsc.getitemstring(ldb_ci,'prefijo')='' then
-						ripse_json.AddItemString(ldb_ci,"numFactura",string(lds_fact.getitemnumber(1,'nfact')))		
-					else
-						ripse_json.AddItemString(ldb_fcon,"numFactura",lds_fact.getitemstring(1,'prefijo')+string(lds_fact.getitemnumber(1,'nfact')))
-					end if
+//					if isnull(lds_ripsc.getitemstring(ldb_ci,'prefijo')) or lds_ripsc.getitemstring(ldb_ci,'prefijo')='' then
+//						ripse_json.AddItemString(ldb_ci,"numFactura",string(lds_fact.getitemnumber(1,'nfact')))		
+//					else
+//						ripse_json.AddItemString(ldb_fcon,"numFactura",lds_fact.getitemstring(1,'prefijo')+string(lds_fact.getitemnumber(1,'nfact')))
+//					end if
+					ripse_json.AddItemNull(ldb_fcon,"numFactura")
 					ripse_json.AddItemnumber(ldb_fcon,"consecutivo",ldb_ci)		
 				next
 			end if			
@@ -207,8 +213,8 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 					ripse_json.AddItemString(ldb_fcon,"grupoServicios",lds_ripsp.getitemstring(ldb_ci,'cod_grpserv'))
 					ripse_json.AddItemNumber(ldb_fcon,"codServicio",double(lds_ripsp.getitemstring(ldb_ci,'cod_serv')))
 					ripse_json.AddItemString(ldb_fcon,"finalidadTecnologiaSalud",lds_ripsp.getitemstring(ldb_ci,'finalidadproced'))
-					ripse_json.AddItemString(ldb_fcon,"tipoDocumentoIdentificacion",ls_ltd)
-					ripse_json.AddItemString(ldb_fcon,"numDocumentoIdentificacion",ls_jdoc)				
+					ripse_json.AddItemString(ldb_fcon,"tipoDocumentoIdentificacion",lds_ripsp.getitemstring(ldb_ci,'tdoc'))
+					ripse_json.AddItemString(ldb_fcon,"numDocumentoIdentificacion",lds_ripsp.getitemstring(ldb_ci,'documento'))				
 					ripse_json.AddItemString(ldb_fcon,"codDiagnosticoPrincipal",lds_ripsp.getitemstring(ldb_ci,'cod_rips'))
 					if isnull(lds_ripsp.getitemstring(ldb_ci,'cod_rips_1')) then 
 						ripse_json.AddItemNull(ldb_fcon,"codDiagnosticoRelacionado")
@@ -910,10 +916,10 @@ return lst_ret_dian
 end function
 
 public function string sispro_login (string as_ambiente, string as_td, string as_doc, string as_pasw, string as_nit);Integer li_rc
-String ls_ReturnJson,ls_json,ls_token
+String ls_ReturnJson,ls_json,ls_token, ls_url
 
-HttpClient lnv_HttpClient
-lnv_HttpClient = Create HttpClient
+HttpClient lo_client
+lo_client = Create HttpClient
 
 jsonpackage lnv_json
 lnv_json = create jsonpackage
@@ -925,16 +931,18 @@ lnv_json.setvalue("nit",as_nit,false)
 
 ls_json=lnv_json.GetJsonString()
 
-lnv_HttpClient.SetRequestHeader("Content-Type", "application/json;charset=UTF-8")
+lo_client.SetRequestHeader("Content-Type", "application/json;charset=UTF-8")
 
 if as_ambiente='2' then
-	li_rc = lnv_HttpClient.SendRequest("POST", "https://localhost:9443/api/Auth/LoginSISPRO", ls_json, EncodingUTF8!)
+	ls_url="https://localhost:9443/api/Auth/LoginSISPRO"
 else
-	li_rc = lnv_HttpClient.SendRequest("POST", "https://localhost:9443/api/Auth/LoginSISPRO", ls_json, EncodingUTF8!)
+	ls_url="https://localhost:9443/api/Auth/LoginSISPRO"
 end if
+	
+li_rc = lo_client.SendRequest("POST",ls_url , ls_json, EncodingUTF8!)
 
-if li_rc = 1 and lnv_HttpClient.GetResponseStatusCode() = 200 then
- 	lnv_HttpClient.GetResponseBody(ls_ReturnJson)
+if li_rc = 1 and lo_client.GetResponseStatusCode() = 200 then
+ 	lo_client.GetResponseBody(ls_ReturnJson)
 	lnv_json.loadstring(ls_ReturnJson)
 	ls_token=lnv_json.GetValue("token")
 else
@@ -942,20 +950,83 @@ else
 end if
 
 destroy lnv_json
-destroy lnv_HttpClient
+destroy lo_client
 return ls_token
 end function
 
-public function long sispro_cargarfevrips (string as_token, string as_ambiente, string as_ruta, string as_doc);Integer li_rc,li_filenum
-String ls_ReturnJson,ls_json,ls_envio,ls_err
+public function st_retorno_gral sispro_carga_capita_ini (string as_token, string as_ambiente, string as_ruta, string as_doc);Integer li_rc,li_filenum,li_StatusCode 
+String ls_ReturnJson,ls_json,ls_envio,ls_err, ls_url
 JsonGenerator ljg_json
 blob lblob_xml
-uo_datastore lds_retorno
+st_retorno_gral lst_ret 
 
-lds_retorno=create uo_datastore
-lds_retorno.dataobject='dw_retorno_cargarfevrips'
+///ABRE XML
+as_ruta='C:\facturas\CA821\'
+as_doc=as_ruta+'ad08060103050002500008773.xml'
 
+li_filenum = FileOpen(as_doc, StreamMode!, Read!, LockReadWrite!, Append!, EncodingANSI!)
+IF li_FileNum = -1 THEN 
+	lst_ret.i_valor=-1
+	return lst_ret
+end if
+li_rc = FileReadEx(li_FileNum, lblob_xml)
+IF li_rc = -1 THEN 
+	lst_ret.i_valor=-2
+	return lst_ret
+end if
+FileClose(li_FileNum)
 
+///CREA JSON
+CoderObject lnv_CoderObject
+lnv_CoderObject = Create CoderObject
+
+ljg_json=create JSONGenerator
+li_rc = ljg_json.CreateJsonObject()
+ljg_json.AddItemNull(li_rc ,"rips")
+ljg_json.AddItemString(li_rc ,"xmlFevFile",lnv_CoderObject.Base64Encode(lblob_xml))
+ls_envio=ljg_json.GetJsonString()
+
+httpClient lo_client
+lo_client = Create HttpClient
+lo_client.SetRequestHeader("Content-Type", "application/json;charset=UTF-8")
+lo_client.SetRequestHeader("Authorization",+'Bearer '+as_token)
+
+if as_ambiente='2' then
+	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarCapitaInicial"
+else
+	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarCapitaInicial"
+end if
+
+li_rc =lo_client.sendrequest('POST',ls_url, ls_envio, EncodingUTF8!)
+li_StatusCode = lo_client.GetResponseStatusCode()
+ls_err = lo_client.GetResponseStatusText( )
+li_rc = lo_client.getresponsebody(ls_ReturnJson)
+
+if li_statusCode<0 then
+	if isnull(ls_err) then
+		ls_err='Error de API Minsaalud'
+	else
+		ls_err='Error de API Minsaalud'+ls_err
+	end if
+	messagebox("Atención"+string(li_StatusCode),ls_err)
+	
+	lst_ret.i_valor=-1
+	return lst_ret
+end if
+
+destroy ljg_json
+destroy lo_client
+lst_ret.i_valor=1
+lst_ret.s_valor=ls_ReturnJson
+
+return lst_ret
+end function
+
+public function st_retorno_gral sispro_carga_fev_rips (string as_token, string as_ambiente, string as_ruta, string as_doc);Integer li_rc,li_filenum,li_StatusCode 
+String ls_ReturnJson,ls_json,ls_envio,ls_err, ls_url
+JsonGenerator ljg_json
+blob lblob_xml
+st_retorno_gral lst_ret 
 
 //// ABRE JSON
 as_ruta='C:\facturas\EV76613\'
@@ -969,16 +1040,22 @@ ls_json = ljg_json.GetJsonString()
 as_doc=as_ruta+'ad08060103050002400027102.xml'
 
 li_filenum = FileOpen(as_doc, StreamMode!, Read!, LockReadWrite!, Append!, EncodingANSI!)
-IF li_FileNum = -1 THEN Return -1
+IF li_FileNum = -1 THEN 
+	lst_ret.i_valor=-1
+	return lst_ret
+end if
 li_rc = FileReadEx(li_FileNum, lblob_xml)
-IF li_rc = -1 THEN Return -2
+IF li_rc = -1 THEN 
+	lst_ret.i_valor=-2
+	return lst_ret
+end if
 FileClose(li_FileNum)
 
 CoderObject lnv_CoderObject
 lnv_CoderObject = Create CoderObject
 
-HttpClient lnv_HttpClient
-lnv_HttpClient = Create HttpClient
+httpClient lo_client
+lo_client = Create HttpClient
 
 jsonpackage lnv_json
 lnv_json = create jsonpackage
@@ -988,51 +1065,40 @@ lnv_json.setvalue("rips",ls_json)
 lnv_json.setvalue("xmlFevFile", lnv_CoderObject.Base64Encode(lblob_xml), false)
 ls_envio=lnv_json.GetJsonString()
 
-lnv_HttpClient.SetRequestHeader("Content-Type", "application/json;charset=UTF-8")
-lnv_HttpClient.SetRequestHeader("Authorization",+'Bearer '+as_token)
+lo_client.SetRequestHeader("Content-Type", "application/json;charset=UTF-8")
+lo_client.SetRequestHeader("Authorization",+'Bearer '+as_token)
+
 if as_ambiente='2' then
-	li_rc = lnv_HttpClient.SendRequest("POST", "https://localhost:9443/api/PaquetesFevRips/CargarFevRips", ls_envio, EncodingUTF8!)
+	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarFevRips"
 else
-	li_rc = lnv_HttpClient.SendRequest("POST", "https://localhost:9443/api/PaquetesFevRips/CargarFevRips", ls_envio, EncodingUTF8!)
+	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarFevRips"
 end if
 
-if li_rc = 1 and lnv_HttpClient.GetResponseStatusCode() = 200 then
+li_rc =lo_client.sendrequest('POST',ls_url, ls_envio, EncodingUTF8!)
+	
+li_StatusCode = lo_client.GetResponseStatusCode()
+ls_err = lo_client.GetResponseStatusText( )
+li_rc = lo_client.getresponsebody(ls_ReturnJson)
 
-	jsonpackage lnv_json1
-	string ls_ResultadosValidacion
-	lnv_json1=create jsonpackage
-	
-	lnv_HttpClient.GetResponseBody(ls_ReturnJson)
-	lnv_json.loadstring(ls_ReturnJson)
-	ls_err = lnv_json1.LoadString(ls_ReturnJson)
-	if Len(ls_err) = 0 then
-		ls_ResultadosValidacion =  lnv_json1.GetValue("ResultadosValidacion")
-		li_rc=	lds_retorno.ImportJson(ls_ResultadosValidacion ,ls_err)
+if li_statusCode<0 then
+	if isnull(ls_err) then
+		ls_err='Error de API Minsaalud'
+	else
+		ls_err='Error de API Minsaalud'+ls_err
 	end if
+	messagebox("Atención"+string(li_StatusCode),ls_err)
 	
-//jsonpackage lnv_json
-//datastore lds_import_json
-//int j
-//
-//lds_import_json=create datastore
-//lds_import_json.dataobject="dw_import_json_ead"
-//
-//
-//lds_import_json.importJson(lnv_json.getValue("valores"))
-//	
-//for j=1 to lds_import_json.rowcount()
-//	adw_valores.setitem(lds_import_json.getitemnumber(j,'nro_item'),'respuesta',lds_import_json.getitemnumber(j,'respuesta'))
-//	adw_valores.expand(lds_import_json.getitemnumber(j,'nro_item'),1)
-//	adw_valores.setitem(lds_import_json.getitemnumber(j,'nro_item'),'bloquear',0)
-//next
-else
-	ls_ReturnJson= '-1'	
+	lst_ret.i_valor=-1
+	return lst_ret
 end if
 
 destroy ljg_json
 destroy lnv_json
-destroy lnv_HttpClient
-return 0
+destroy lo_client
+lst_ret.i_valor=1
+lst_ret.s_valor=ls_ReturnJson
+
+return lst_ret
 end function
 
 on nvo_fevrips.create

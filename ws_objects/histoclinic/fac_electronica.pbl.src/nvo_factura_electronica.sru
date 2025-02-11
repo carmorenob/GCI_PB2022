@@ -2741,9 +2741,13 @@ if as_tipo_docu='f' or as_tipo_docu='r'  then
 	end if
 	
 	if adw_factura.getitemnumber(1,'vproced') - adw_factura.getitemnumber(1,'vemp')<>0 then
-		adw_factura.Modify("DataWindow.Export.XML.UseTemplate = 'dian19' ")
+		if as_coddoc='RV' then
+			ls_t=adw_factura.Modify("DataWindow.Export.XML.UseTemplate = 'dian19_cap' ")
+		else
+			ls_t=adw_factura.Modify("DataWindow.Export.XML.UseTemplate = 'dian19' ")
+		end if
 	else
-		adw_factura.Modify("DataWindow.Export.XML.UseTemplate = 'dian19src' ")
+		ls_t=adw_factura.Modify("DataWindow.Export.XML.UseTemplate = 'dian19src' ")
 	end if
 		
 else
@@ -2762,6 +2766,7 @@ else
 	end if
 end if
 	
+setnull(ls_t)
 ls_prefac=adw_factura.getitemstring(1,'prefijo')
 ls_numfact=string(adw_factura.getitemnumber(1,'nfact'))
 
