@@ -37,8 +37,8 @@ end type
 end forward
 
 global type w_vacunas from window
-integer width = 4498
-integer height = 1712
+integer width = 5239
+integer height = 2052
 boolean titlebar = true
 string title = "Vacunas de Paciente"
 boolean controlmenu = true
@@ -72,10 +72,10 @@ datawindowchild idw,iprof
 end variables
 
 forward prototypes
-public function long f_insert_servicio (string p_cups, long i_contador, string i_lugar, string i_profe, datetime i_fecha, long i_nservicio, string i_cemp, string i_ccont)
+public function long f_insert_servicio (string as_cups, long ad_contador, string as_lugar, string as_profe, datetime ad_fecha, long ad_nservicio, string as_cemp, string as_ccont, string as_modrel)
 end prototypes
 
-public function long f_insert_servicio (string p_cups, long i_contador, string i_lugar, string i_profe, datetime i_fecha, long i_nservicio, string i_cemp, string i_ccont);long l_fila
+public function long f_insert_servicio (string as_cups, long ad_contador, string as_lugar, string as_profe, datetime ad_fecha, long ad_nservicio, string as_cemp, string as_ccont, string as_modrel);long l_fila
 string nulo,p_coduf,p_codcc
 
 setnull(nulo)
@@ -84,30 +84,36 @@ setnull(p_codcc)
 
 
 l_fila=dw_serv_ing.insertrow(0)
-dw_serv_ing.setitem(l_fila,"contador",i_contador)
-dw_serv_ing.setitem(l_fila,"clugar",i_lugar)
-dw_serv_ing.setitem(l_fila,"nservicio",i_nservicio)
-dw_serv_ing.setitem(l_fila,"cproced",p_cups)
-dw_serv_ing.setitem(l_fila,"finalidadproced",'3')
+dw_serv_ing.setitem(l_fila,"contador",ad_contador)
+dw_serv_ing.setitem(l_fila,"clugar",as_lugar)
+dw_serv_ing.setitem(l_fila,"nservicio",ad_nservicio)
+dw_serv_ing.setitem(l_fila,"cproced",as_cups)
+if isnull(idw.getitemstring(idw.getrow(),'dx')) then 
+	dw_serv_ing.setitem(l_fila,"finalidadproced",'3')
+	dw_serv_ing.setitem(l_fila,"ambitoproced","1")
+end if
 dw_serv_ing.setitem(l_fila,"rips",'9')
 dw_serv_ing.setitem(l_fila,"estria",'1')
 dw_serv_ing.setitem(l_fila,"persoatiende",nulo)
-dw_serv_ing.setitem(l_fila,"ambitoproced","1")
-dw_serv_ing.setitem(l_fila,"fecha",i_fecha)
+
+dw_serv_ing.setitem(l_fila,"fecha",ad_fecha)
 dw_serv_ing.setitem(l_fila,"usuario",usuario)
-dw_serv_ing.setitem(l_fila,"cprof",i_profe)
+dw_serv_ing.setitem(l_fila,"cprof",as_profe)
 dw_serv_ing.setitem(l_fila,"tipo_orden",'V')
-dw_serv_ing.setitem(l_fila,"cemp",i_cemp)
-dw_serv_ing.setitem(l_fila,"ccontrato",i_ccont)
-dw_serv_ing.setitem(l_fila,"diagprin",idw.getitemstring(idw.getrow(),'dx'))
-dw_serv_ing.setitem(l_fila,"fin_consulta",idw.getitemstring(idw.getrow(),'fin_consulta'))
+dw_serv_ing.setitem(l_fila,"cemp",as_cemp)
+dw_serv_ing.setitem(l_fila,"ccontrato",as_ccont)
+if not isnull(idw.getitemstring(idw.getrow(),'dx')) then 
+	dw_serv_ing.setitem(l_fila,"diagprin",idw.getitemstring(idw.getrow(),'dx'))
+	dw_serv_ing.setitem(l_fila,"finalidadproced",idw.getitemstring(idw.getrow(),'fin_consulta'))
+	dw_serv_ing.setitem(l_fila,"cod_modrel",as_modrel)
+	dw_serv_ing.setitem(l_fila,"ambitoproced","01")
+end if
+
 if dw_serv_ing.update()<1 then
 	dw_serv_ing.deleterow(l_fila)
 	return -1
 end if
-return i_nservicio
-
-
+return ad_nservicio
 end function
 
 on w_vacunas.create
@@ -174,7 +180,7 @@ end event
 
 type pb_4 from picturebutton within w_vacunas
 string tag = "Cambio Resposable"
-integer x = 4274
+integer x = 4750
 integer y = 1148
 integer width = 146
 integer height = 128
@@ -268,7 +274,7 @@ end event
 
 type pb_3 from picturebutton within w_vacunas
 event mousemove pbm_mousemove
-integer x = 4274
+integer x = 4750
 integer y = 1004
 integer width = 146
 integer height = 128
@@ -461,7 +467,7 @@ end event
 
 type cb_3 from picturebutton within w_vacunas
 event mousemove pbm_mousemove
-integer x = 4274
+integer x = 4750
 integer y = 868
 integer width = 146
 integer height = 128
@@ -642,8 +648,8 @@ end event
 type dw_dosis from datawindow within w_vacunas
 integer x = 59
 integer y = 736
-integer width = 4183
-integer height = 840
+integer width = 4645
+integer height = 1180
 integer taborder = 40
 string dragicon = "none!"
 string dataobject = "dw_dosis_vac"
@@ -756,7 +762,7 @@ end event
 
 type pb_2 from picturebutton within w_vacunas
 event mousemove pbm_mousemove
-integer x = 4274
+integer x = 4750
 integer y = 736
 integer width = 146
 integer height = 128
@@ -815,7 +821,7 @@ end if
 if dw_historial.update() = 1 then
 	for j=1 to dw_dosis.rowcount()
 		if dw_dosis.GetItemstring(j,'atender') = '1'  and  isnull(dw_dosis.GetItemnumber(j,'contador')) then
-			nserv= f_insert_servicio(l_cod_cups,li_contador,clugar,dw_dosis.getitemstring(j,'profe'),dw_dosis.getitemdatetime(j,'fechavac'),nserv1,st_emp.emp,st_emp.cont	)	
+			nserv= f_insert_servicio(l_cod_cups,li_contador,clugar,dw_dosis.getitemstring(j,'profe'),dw_dosis.getitemdatetime(j,'fechavac'),nserv1,st_emp.emp,st_emp.cont,dw_dosis.getitemstring(j,'cod_modrel'))	
 			if nserv>= 1 then
 				if l_ges<>'1' then
 					dw_dosis.SetItem(j,'gestante','0')	
