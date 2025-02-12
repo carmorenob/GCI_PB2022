@@ -6015,7 +6015,7 @@ if tab_2.tp2_1.tab_1.tp_p.dw_radica.rowcount()>0 then
 			else
 				ls_nomarch=tab_2.tp2_1.sle_dir.text+'\'+tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'prefijo')+string(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"num_radicacion"))+'.json'
 			end if
-			u_rips.emite_json_capita(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'num_radicacion'),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'clugar'),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'tipo'),'f','FV',ls_nomarch)
+			u_rips.emite_json_capita(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'num_radicacion'),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'clugar'),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'tipo'),'f','FV',ls_nomarch,'0')
 			destroy 	u_rips
 		end if
 		tab_2.tp2_1.t1.tp1.barra.position=0

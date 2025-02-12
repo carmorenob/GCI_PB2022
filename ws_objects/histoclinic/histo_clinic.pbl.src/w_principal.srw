@@ -1035,7 +1035,7 @@ w_principal.ArrangeSheets ( layer!)
 end event
 
 event e_cohortes(long param);if not enabled then return
-opensheet (w_genera_202,w_principal,7,original!)
+opensheet (w_cohortes_paciente,w_principal,7,original!)
 w_principal.ArrangeSheets ( layer!)
 end event
 

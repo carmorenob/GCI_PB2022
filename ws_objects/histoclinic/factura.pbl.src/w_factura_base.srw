@@ -221,11 +221,9 @@ long i_nrecibo
 st_nfact ist_nfactura,ist_nrecibo
 boolean i_otro_resp,i_reviso_multiples=false,i_tiene_base
 transaction sqlba
-//long i_cant_ant
 string i_mueve_kardex,i_alm_cext,i_alm_hosp,i_alm_urg,i_alm_amb //todas son para mover kardex
 string i_anterior,i_pideprof,i_tipo_prof ,i_profe,i_profe_ord ,i_orden
 end variables
-
 forward prototypes
 public subroutine totales ()
 public function real f_topes (string campo, string empre, string cont, string est)
