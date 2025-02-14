@@ -532,7 +532,23 @@ for j=1 to dw_2.rowcount()
 			rollback;
 			return
 		end if
-				
+	
+		UPDATE pacientes_alergias_elimina SET tipodoc= :tdocnew, documento= :docnew
+		WHERE tipodoc=:tdocx AND documento=:docx;
+		if sqlca.sqlcode=-1 then
+			messagebox("Error Actualizando pacientes_alergias_elimina",sqlca.sqlerrtext)
+			rollback;
+			return
+		end if
+
+		UPDATE pacientes_antecedente_elimina SET tipodoc= :tdocnew, documento= :docnew
+		WHERE tipodoc=:tdocx AND documento=:docx;
+		if sqlca.sqlcode=-1 then
+			messagebox("Error Actualizando pacientes_antecedente_elimina",sqlca.sqlerrtext)
+			rollback;
+			return
+		end if
+	
 		UPDATE gral_ma_integrantes_nucleo SET tdoc= :tdocnew, docu= :docnew
 		WHERE tdoc=:tdocx AND docu=:docx;
 		if sqlca.sqlcode=-1 then
@@ -589,6 +605,24 @@ for j=1 to dw_2.rowcount()
 			return
 		end if
 		
+		
+		UPDATE pacientes_ririas SET tipodoc = :tdocnew, Documento = :docnew
+		WHERE 
+			TipoDoc=:tdocx AND Documento=:docx 
+			AND NOT EXISTS (
+	  			SELECT  
+				  	*
+				FROM 
+					pacientes_ririas AS pa
+				WHERE 
+					(((pa.tipodoc=:tdocnew) AND (pa.documento=:docnew))
+				);
+		if sqlca.sqlcode=-1 then
+			messagebox("Error Actualizando pacientes_ririas",sqlca.sqlerrtext)
+			rollback;
+			return
+		end if
+
 		//
 		delete from embarazo where historia=:histx;
 		if sqlca.sqlcode=-1 then
