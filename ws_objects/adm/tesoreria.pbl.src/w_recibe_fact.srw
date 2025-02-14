@@ -3220,8 +3220,7 @@ tab_2.t2_3.tab_4.t4_1.dw_cab.retrieve(clug,is_cdoc,nrel)
 tab_2.t2_3.t5.t5_4.tab_legal.tab_devo.dw_devo.retrieve(clug,is_cdoc,nrel)
 tab_2.t2_3.tab_4.t4_2.dw_tot.retrieve(clug,is_cdoc,nrel)
 dw_rela.retrieve(clug,is_cdoc,nrel)
-int jaer
-jaer=dw_rela.rowcount()
+
 tab_2.t2_3.t_ret.t_o.dw_rte.retrieve(clug,is_cdoc,nrel)
 tab_2.t2_3.t_ret.t_c.dw_rtem.retrieve(clug,is_cdoc,nrel)
 tab_2.t2_3.t5.t5_2.dw_anti.retrieve(clug,is_cdoc,nrel)
