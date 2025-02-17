@@ -173,8 +173,9 @@ end type
 
 event itemchanged;this.accepttext()
 double vigencia
+
 vigencia = this.GetItemNumber(this.GetRow(),'cod_vigencia')
-tab_2.t2.dw_2.setfilter('cod_vigencia ='+string(vigencia))
+tab_2.t2.dw_2.setfilter('cod_vigencia ='+string(vigencia)+" and tipodoc='"+st_ord.ps_tipodoc+"' and documento='"+st_ord.ps_docu+"'")
 tab_2.t2.dw_2.filter()
 
 end event
