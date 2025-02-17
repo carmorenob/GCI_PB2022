@@ -1042,6 +1042,8 @@ choose case column
 		esta.accepttext()
 		return 1
 end choose
+esta.setitem(esta.getrow(),'usu_modif',usuario)
+esta.setitem(esta.getrow(),'fecha_modif',datetime(today(),now()))
 
 end function
 
@@ -1853,7 +1855,8 @@ else
 	cambio=true
 	i_cam_gral=true
 end if
-
+this.setitem(this.getrow(),'usu_modif',usuario)
+this.setitem(this.getrow(),'fecha_modif',datetime(today(),now()))
 end event
 
 event rbuttondown;long fila
