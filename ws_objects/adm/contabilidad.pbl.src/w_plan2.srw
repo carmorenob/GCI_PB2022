@@ -1181,6 +1181,8 @@ choose case column
 	case else
 		esta.accepttext()
 end choose
+esta.setitem(esta.getrow(),'usu_modif',usuario)
+esta.setitem(esta.getrow(),'fecha_modif',datetime(today(),now()))
 return 1
 end function
 
@@ -1218,7 +1220,7 @@ event resize;call super::resize;tab_1.event resize(newwidth -50 ,newheight -250)
 end event
 
 type pb_grabar from w_center`pb_grabar within w_plan2
-integer x = 3849
+integer x = 3822
 integer y = 24
 integer taborder = 40
 integer textsize = -8
@@ -1779,96 +1781,14 @@ if dwo.type<>"datawindow" then
 	fila=row
 	if getcolumnname()<>dwo.name then setcolumn(string(dwo.name))
 end if
-//CHOOSE CASE getcolumnname()
-//	CASE "mayor"
-//		sle_1.text=getitemstring(fila,"mayor")
-//		filtro="lower(codtotal) like '"+lower(trim(sle_1.text))+"%'"
-//		menu.m_con_1.m_filtrarpor.text="Filtrar por: "+ sle_1.text
-//		if getitemstring(fila,"mayor")='' or isnull(getitemstring(fila,"mayor")) then
-//			menu.m_con_1.m_filtrarpor.enabled=false
-//		else
-//			menu.m_con_1.m_filtrarpor.enabled=true
-//		end if
-//		menu.m_con_1.PopMenu (w_principal.PointerX(), w_principal.PointerY())
-//	case "grupo"
-//		sle_1.text=getitemstring(fila,"mayor")+getitemstring(getrow(),"grupo")
-//		filtro="lower(codtotal) like '"+lower(trim(sle_1.text))+"%'"
-//		menu.m_con_1.m_filtrarpor.text="Filtrar por: "+ sle_1.text
-//		if getitemstring(fila,"grupo")='' or isnull(getitemstring(fila,"grupo")) then
-//			menu.m_con_1.m_filtrarpor.enabled=false
-//		else
-//			menu.m_con_1.m_filtrarpor.enabled=true
-//		end if
-//		menu.m_con_1.PopMenu (w_principal.PointerX(), w_principal.PointerY())
-//	case "cuenta"
-//		sle_1.text=getitemstring(fila,"mayor")+getitemstring(getrow(),"grupo")+getitemstring(getrow(),"cuenta")
-//		filtro="lower(codtotal) like '"+lower(trim(sle_1.text))+"%'"
-//		menu.m_con_1.m_filtrarpor.text="Filtrar por: "+ sle_1.text
-//		if getitemstring(fila,"cuenta")='' or isnull(getitemstring(fila,"cuenta")) then
-//			menu.m_con_1.m_filtrarpor.enabled=false
-//		else
-//			menu.m_con_1.m_filtrarpor.enabled=true
-//		end if
-//		menu.m_con_1.PopMenu (w_principal.PointerX(), w_principal.PointerY())
-//	case "subcuenta"
-//		sle_1.text=getitemstring(fila,"mayor")+getitemstring(getrow(),"grupo")+getitemstring(getrow(),"cuenta")+getitemstring(fila,"subcuenta")
-//		filtro="lower(codtotal) like '"+lower(trim(sle_1.text))+"%'"
-//		menu.m_con_1.m_filtrarpor.text="Filtrar por: "+ sle_1.text
-//		if getitemstring(fila,"subcuenta")='' or isnull(getitemstring(fila,"subcuenta")) then
-//			menu.m_con_1.m_filtrarpor.enabled=false
-//		else
-//			menu.m_con_1.m_filtrarpor.enabled=true
-//		end if
-//		menu.m_con_1.PopMenu (w_principal.PointerX(), w_principal.PointerY())
-//	case "nivel1"
-//		sle_1.text=getitemstring(fila,"mayor")+getitemstring(getrow(),"grupo")+getitemstring(getrow(),"cuenta")+getitemstring(fila,"subcuenta")+getitemstring(fila,"nivel1")
-//		filtro="lower(codtotal) like '"+lower(trim(sle_1.text))+"%'"
-//		menu.m_con_1.m_filtrarpor.text="Filtrar por: "+ sle_1.text
-//		if getitemstring(fila,"nivel1")='' or isnull(getitemstring(fila,"nivel1")) then
-//			menu.m_con_1.m_filtrarpor.enabled=false
-//		else
-//			menu.m_con_1.m_filtrarpor.enabled=true
-//		end if
-//		menu.m_con_1.PopMenu (w_principal.PointerX(), w_principal.PointerY())
-//	case "nivel2"
-//		sle_1.text=getitemstring(fila,"mayor")+getitemstring(getrow(),"grupo")+getitemstring(getrow(),"cuenta")+getitemstring(fila,"subcuenta")+getitemstring(fila,"nivel1")+getitemstring(fila,"nivel2")
-//		filtro="lower(codtotal) like '"+lower(trim(sle_1.text))+"%'"
-//		menu.m_con_1.m_filtrarpor.text="Filtrar por: "+ sle_1.text
-//		if getitemstring(fila,"nivel2")='' or isnull(getitemstring(fila,"nivel2")) then
-//			menu.m_con_1.m_filtrarpor.enabled=false
-//		else
-//			menu.m_con_1.m_filtrarpor.enabled=true
-//		end if
-//		menu.m_con_1.PopMenu (w_principal.PointerX(), w_principal.PointerY())
-//	case "nivel3"
-//		sle_1.text=getitemstring(fila,"mayor")+getitemstring(getrow(),"grupo")+getitemstring(getrow(),"cuenta")+getitemstring(fila,"subcuenta")+getitemstring(fila,"nivel1")+getitemstring(fila,"nivel2")+getitemstring(fila,"nivel3")
-//		filtro="lower(codtotal) like '"+lower(trim(sle_1.text))+"%'"
-//		menu.m_con_1.m_filtrarpor.text="Filtrar por: "+ sle_1.text
-//		if getitemstring(fila,"nivel3")='' or isnull(getitemstring(fila,"nivel3")) then
-//			menu.m_con_1.m_filtrarpor.enabled=false
-//		else
-//			menu.m_con_1.m_filtrarpor.enabled=true
-//		end if
-//		menu.m_con_1.PopMenu (w_principal.PointerX(), w_principal.PointerY())
-//	case "nivel4"
-//		sle_1.text=getitemstring(fila,"mayor")+getitemstring(getrow(),"grupo")+getitemstring(getrow(),"cuenta")+getitemstring(fila,"subcuenta")+getitemstring(fila,"nivel1")+getitemstring(fila,"nivel2")+getitemstring(fila,"nivel3")+getitemstring(fila,"nivel4")
-//		filtro="lower(codtotal) like '"+lower(trim(sle_1.text))+"%'"
-//		menu.m_con_1.m_filtrarpor.text="Filtrar por: "+ sle_1.text
-//		if getitemstring(fila,"nivel4")='' or isnull(getitemstring(fila,"nivel5")) then
-//			menu.m_con_1.m_filtrarpor.enabled=false
-//		else
-//			menu.m_con_1.m_filtrarpor.enabled=true
-//		end if
-//		menu.m_con_1.PopMenu (w_principal.PointerX(), w_principal.PointerY())
-//	case 'nivel5'
-//	case else
-		if isnull(dwo) then return
-		st_dw_xa_funciones st
-		st.dw=this
-		st.dwo=dwo
-		st.row=row
-		openwithparm(w_funcion_dw,st)
-//END CHOOSE
+
+if isnull(dwo) then return
+st_dw_xa_funciones st
+st.dw=this
+st.dwo=dwo
+st.row=row
+openwithparm(w_funcion_dw,st)
+
 end event
 
 event rowfocuschanged;long fila
@@ -3225,39 +3145,7 @@ choose case f_itemchanged(this,dwnull,data,idw_cc9)
 		cambio=true
 		i_cam_n5=true
 end choose
-//long fila
-//fila=this.getrow()
-//if fila<0 then return
-//if this.getcolumnname()="cta_ajuste" or this.getcolumnname()="cta_cpartida" then
-//	string revisa,otro
-//	otro=this.gettext()
-//	setnull(revisa)
-//	select codtotal into :revisa from cont_plan where codtotal=:otro and cod_empresa=:i_codemp and movimiento='1';
-//	if isnull(revisa) then
-//		this.setitem(this.getrow(),this.getcolumnname(),revisa)
-//		return 1
-//	else
-//		this.accepttext()
-//		cambio=true
-//		i_cam_n5=true
-//	end if
-//end if
-//string actual
-//choose case this.getcolumnname()
-//	case "nivel5"
-//		if this.find("nivel5='"+data+"'",1,this.rowcount())>0 then
-//			this.setitem(fila,"nivel5",actual)
-//			return 1
-//		end if
-//		this.accepttext()
-//		this.setitem(fila,"codtotal",this.getitemstring(fila,"mayor")+this.getitemstring(fila,"grupo")+this.getitemstring(fila,"cuenta")+this.getitemstring(fila,"subcuenta")+this.getitemstring(fila,"nivel1")+this.getitemstring(fila,"nivel2")+this.getitemstring(fila,"nivel3")+this.getitemstring(fila,"nivel4")+this.getitemstring(fila,"nivel5"))
-//		i_cam_n5=true
-//		cambio=true
-//	case else
-//		this.accepttext()
-//		i_cam_n5=true
-//		cambio=true
-//end choose
+
 end event
 
 event buttonclicked;if not f_buttonclicked(row,this) then return
