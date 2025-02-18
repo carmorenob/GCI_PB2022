@@ -1037,7 +1037,7 @@ end type
 type dw_orig from datawindow within w_recibe_fact
 integer x = 1339
 integer y = 88
-integer width = 1399
+integer width = 1815
 integer height = 88
 integer taborder = 20
 boolean bringtotop = true
@@ -1221,8 +1221,8 @@ idw_concep.retrieve(is_emp,'R','1')
 end event
 
 type pb_search from picturebutton within w_recibe_fact
-integer x = 2775
-integer y = 40
+integer x = 3223
+integer y = 24
 integer width = 146
 integer height = 128
 integer taborder = 30
@@ -2800,85 +2800,94 @@ end if
 
 choose case is_orig
 	case 'SCT','NC'
-		tab_2.t2_1.tab_fp.tabfp.dw_fpag.setfilter('nrelacion_relfact='+string(nrel))
-		tab_2.t2_1.tab_fp.tabfp.dw_fpag.filter()
-		for fila=1 to tab_2.t2_1.tab_fp.tabfp.dw_fpag.rowcount()
-			// Para disminuir conceptos
-			l_año= tab_2.t2_1.tab_fp.tabfp.dw_fpag.getitemnumber(fila,'ano')
-			l_con=tab_2.t2_1.tab_fp.tabfp.dw_fpag.getitemnumber(fila,'ncontrato')
-			l_otrs=tab_2.t2_1.tab_fp.tabfp.dw_fpag.getitemnumber(fila,'otrosi')
-			l_item=tab_2.t2_1.tab_fp.tabfp.dw_fpag.getitemnumber(fila,'item')
-			for j=1 to tab_2.t2_3.t5.t5_1.dw_cpo.rowcount()
-				setnull(ls_crel)
-				ls_crel=tab_2.t2_3.t5.t5_1.dw_cpo.getitemstring(j,'cod_rel')
-				l_filas=tab_2.t2_1.tab_1.tabconp.dw_concep_cont.find('ano='+string(l_año)+' and ncontrato='+string(l_con)+' and otrosi='+string(l_otrs)+' and item='+string(l_item)+" and cod_rel='"+ls_crel+"'",1,tab_2.t2_1.tab_1.tabconp.dw_concep_cont.rowcount())
-				if l_filas>0 then
-					setnull(monto)
-					monto= tab_2.t2_3.t5.t5_1.dw_cpo.getitemnumber(j,'val_bruto')		
-					tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setitem(l_filas,'v_siniva',tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l_filas,'v_siniva') -monto)		
-					
-					setnull(monto)
-					monto= tab_2.t2_3.t5.t5_1.dw_cpo.getitemnumber(j,'tbruto')
-					tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setitem(l_filas,'tbruto',tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l_filas,'tbruto') -monto)		
-					
-					setnull(monto)
-					monto= tab_2.t2_3.t5.t5_1.dw_cpo.getitemnumber(j,'tneto')
-					tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setitem(l_filas,'tneto',tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l_filas,'tneto') -monto)
-				end if	
-				
-				//devuelve montos interfaz
-				if tab_2.t2_3.tab_4.t4_1.dw_cab.getitemstring(tab_2.t2_3.tab_4.t4_1.dw_cab.getrow(),'definitivo')='1' then
-					for ldb_k=1 to dw_rela.rowcount()
-						nres=dw_rela.getitemnumber(ldb_k,'num_orig1')
-						clug_res=dw_rela.getitemstring(ldb_k,'char_orig2')
-						cdoc_res=dw_rela.getitemstring(ldb_k,'char_orig1')
-						item_cpo=dw_rela.getitemnumber(ldb_k,'num_orig2')
-						valor=round(dw_rela.getitemnumber(ldb_k,'valor'),2)
-						tdoc=dw_rela.getitemstring(ldb_k,'char_orig3')
-						docum=dw_rela.getitemstring(ldb_k,'char_doc3')
-						update 
-							pre_docu_cp 
-						set 
-							monto_interfaz=monto_interfaz -:valor 
-						where
-							coddoc=:cdoc_res and clugar=:clug_res and numdoc=:nres and item=:item_cpo;
-						if sqlca.sqlcode=-1 then
-							err=sqlca.sqlerrtext
-							messagebox("Error actualizando 'monto_interfaz' de Pre_docu_Cp",err)
-							goto error
-						end if
 		
-						update 
-							pre_dispo_ter 
-						set 
-							monto_reser=monto_reser - :valor 
-						where
-							coddocu=:cdoc_res and clugar=:clug_res and numdoc=:nres and tipodoc=:tdoc and documento=:docum;
-						if sqlca.sqlcode=-1 then
-							err=sqlca.sqlerrtext
-							messagebox('Error actualizando pre_dispo_ter',err)
-							rollback;
-							return -1
-						end if
-					next		
-				end if
-			next
-			tab_2.t2_1.tab_fp.tabfp.dw_fpag.setitem(fila,'clugar_relfact',nulo)
-			tab_2.t2_1.tab_fp.tabfp.dw_fpag.setitem(fila,'coddoc_relfact',nulo)
-			tab_2.t2_1.tab_fp.tabfp.dw_fpag.setitem(fila,'nrelacion_relfact',nnulo)
-			tab_2.t2_1.tab_fp.tabfp.dw_fpag.setitem(fila,'causa_impu',nulo)
+		l_año= dw_hist.getitemnumber(dw_hist.getrow(),'ano')
+		l_con=dw_hist.getitemnumber(dw_hist.getrow(),'ncontrato')
+		l_otrs=dw_hist.getitemnumber(dw_hist.getrow(),'otrosi')
+		if not isnull(l_con) then
+			fila=tab_2.t2_1.dw_cont.find('ano='+string(l_año)+' and ncontrato='+string(l_con)+' and  otrosi='+string(l_otrs) ,1, tab_2.t2_1.dw_cont.rowcount())
+			if fila>0 then tab_2.t2_1.dw_cont.scroll(fila)
+			tab_2.t2_1.tab_fp.tabfp.dw_fpag.retrieve(l_año,l_con,l_otrs)
+
+			tab_2.t2_1.tab_fp.tabfp.dw_fpag.setfilter('nrelacion_relfact='+string(nrel))
+			tab_2.t2_1.tab_fp.tabfp.dw_fpag.filter()
+			for fila=1 to tab_2.t2_1.tab_fp.tabfp.dw_fpag.rowcount()
+				// Para disminuir conceptos
+				l_año= tab_2.t2_1.tab_fp.tabfp.dw_fpag.getitemnumber(fila,'ano')
+				l_con=tab_2.t2_1.tab_fp.tabfp.dw_fpag.getitemnumber(fila,'ncontrato')
+				l_otrs=tab_2.t2_1.tab_fp.tabfp.dw_fpag.getitemnumber(fila,'otrosi')
+				l_item=tab_2.t2_1.tab_fp.tabfp.dw_fpag.getitemnumber(fila,'item')
+				for j=1 to tab_2.t2_3.t5.t5_1.dw_cpo.rowcount()
+					setnull(ls_crel)
+					ls_crel=tab_2.t2_3.t5.t5_1.dw_cpo.getitemstring(j,'cod_rel')
+					l_filas=tab_2.t2_1.tab_1.tabconp.dw_concep_cont.find('ano='+string(l_año)+' and ncontrato='+string(l_con)+' and otrosi='+string(l_otrs)+' and item='+string(l_item)+" and cod_rel='"+ls_crel+"'",1,tab_2.t2_1.tab_1.tabconp.dw_concep_cont.rowcount())
+					if l_filas>0 then
+						setnull(monto)
+						monto= tab_2.t2_3.t5.t5_1.dw_cpo.getitemnumber(j,'val_bruto')		
+						tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setitem(l_filas,'v_siniva',tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l_filas,'v_siniva') -monto)		
+						
+						setnull(monto)
+						monto= tab_2.t2_3.t5.t5_1.dw_cpo.getitemnumber(j,'tbruto')
+						tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setitem(l_filas,'tbruto',tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l_filas,'tbruto') -monto)		
+						
+						setnull(monto)
+						monto= tab_2.t2_3.t5.t5_1.dw_cpo.getitemnumber(j,'tneto')
+						tab_2.t2_1.tab_1.tabconp.dw_concep_cont.setitem(l_filas,'tneto',tab_2.t2_1.tab_1.tabconp.dw_concep_cont.getitemnumber(l_filas,'tneto') -monto)
+					end if	
+					
+					//devuelve montos interfaz
+					if tab_2.t2_3.tab_4.t4_1.dw_cab.getitemstring(tab_2.t2_3.tab_4.t4_1.dw_cab.getrow(),'definitivo')='1' then
+						for ldb_k=1 to dw_rela.rowcount()
+							nres=dw_rela.getitemnumber(ldb_k,'num_orig1')
+							clug_res=dw_rela.getitemstring(ldb_k,'char_orig2')
+							cdoc_res=dw_rela.getitemstring(ldb_k,'char_orig1')
+							item_cpo=dw_rela.getitemnumber(ldb_k,'num_orig2')
+							valor=round(dw_rela.getitemnumber(ldb_k,'valor'),2)
+							tdoc=dw_rela.getitemstring(ldb_k,'char_orig3')
+							docum=dw_rela.getitemstring(ldb_k,'char_doc3')
+							update 
+								pre_docu_cp 
+							set 
+								monto_interfaz=monto_interfaz -:valor 
+							where
+								coddoc=:cdoc_res and clugar=:clug_res and numdoc=:nres and item=:item_cpo;
+							if sqlca.sqlcode=-1 then
+								err=sqlca.sqlerrtext
+								messagebox("Error actualizando 'monto_interfaz' de Pre_docu_Cp",err)
+								goto error
+							end if
 			
-		next
-		tab_2.t2_1.tab_fp.tabfp.dw_fpag.setfilter('')
-		tab_2.t2_1.tab_fp.tabfp.dw_fpag.filter()	
-		if tab_2.t2_1.tab_1.tabconp.dw_concep_cont.update()=-1 then goto error
-		if tab_2.t2_1.tab_fp.tabfp.dw_fpag.update()=-1 then goto error	
-		
-		///Actualoia monto contrato
-		monto=dw_hist.getitemnumber(dw_hist.getrow(),'tbruto')
-		tab_2.t2_1.dw_cont.setitem(tab_2.t2_1.dw_cont.getrow(),'acum_cobro',tab_2.t2_1.dw_cont.getitemnumber(tab_2.t2_1.dw_cont.getrow(),'cobro_ori') -monto)
-		if tab_2.t2_1.dw_cont.update()=-1 then goto error
-		
+							update 
+								pre_dispo_ter 
+							set 
+								monto_reser=monto_reser - :valor 
+							where
+								coddocu=:cdoc_res and clugar=:clug_res and numdoc=:nres and tipodoc=:tdoc and documento=:docum;
+							if sqlca.sqlcode=-1 then
+								err=sqlca.sqlerrtext
+								messagebox('Error actualizando pre_dispo_ter',err)
+								rollback;
+								return -1
+							end if
+						next		
+					end if
+				next
+				tab_2.t2_1.tab_fp.tabfp.dw_fpag.setitem(fila,'clugar_relfact',nulo)
+				tab_2.t2_1.tab_fp.tabfp.dw_fpag.setitem(fila,'coddoc_relfact',nulo)
+				tab_2.t2_1.tab_fp.tabfp.dw_fpag.setitem(fila,'nrelacion_relfact',nnulo)
+				tab_2.t2_1.tab_fp.tabfp.dw_fpag.setitem(fila,'causa_impu',nulo)
+				
+			next
+			tab_2.t2_1.tab_fp.tabfp.dw_fpag.setfilter('')
+			tab_2.t2_1.tab_fp.tabfp.dw_fpag.filter()	
+			if tab_2.t2_1.tab_1.tabconp.dw_concep_cont.update()=-1 then goto error
+			if tab_2.t2_1.tab_fp.tabfp.dw_fpag.update()=-1 then goto error	
+			
+			///Actualoia monto contrato
+			monto=dw_hist.getitemnumber(dw_hist.getrow(),'tbruto')
+			tab_2.t2_1.dw_cont.setitem(tab_2.t2_1.dw_cont.getrow(),'acum_cobro',tab_2.t2_1.dw_cont.getitemnumber(tab_2.t2_1.dw_cont.getrow(),'cobro_ori') -monto)
+			if tab_2.t2_1.dw_cont.update()=-1 then goto error
+		end if
 	case '-'
 		dw_hist.setitem(dw_hist.getrow(),'estado',usuario)//solo de mostrario
 	case 'RFC'
