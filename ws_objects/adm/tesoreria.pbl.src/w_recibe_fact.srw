@@ -1242,8 +1242,8 @@ end event
 
 type dw_rela from datawindow within w_recibe_fact
 boolean visible = false
-integer x = 4064
-integer width = 1605
+integer x = 4105
+integer width = 480
 integer height = 116
 boolean enabled = false
 string title = "none"

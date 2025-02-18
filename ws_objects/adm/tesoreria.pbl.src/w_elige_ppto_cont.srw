@@ -214,20 +214,15 @@ for ld_j = 1 to tab_2.t2.dw_2.rowCount()
 		ls_cdoc=tab_2.t2.dw_2.getItemString(ld_j, "coddoc")
 		ls_clg= tab_2.t2.dw_2.getItemString(ld_j, "clugar")
 		ls_nr=string(tab_2.t2.dw_2.getItemNumber(ld_j, "numdoc"))
-		//ls_ir=string(st_ord.ld_fila)
 		ls_ir=string(tab_2.t2.dw_2.getItemNumber(ld_j, "item"))
-		string jaer
-		
-		jaer="char_orig1 ='"+ls_cdoc+ "' and  char_orig2 ='"+ls_clg+"' and num_orig1 ="+ls_nr+" and  num_orig2 ="+ls_ir+" and  codigo='"+st_ord.ps_flujo+"' and char_orig3='"+st_ord.ps_tipodoc+"' and char_doc3='"+st_ord.ps_docu +"'"
-		
 		ld_fila=st_ord.dw_intfaz.find( "char_orig1 ='"+ls_cdoc+ "' and  char_orig2 ='"+ls_clg+"' and num_orig1 ="+ls_nr+" and  num_orig2="+ls_ir+" and  codigo='"+st_ord.ps_flujo+"' and char_orig3='"+st_ord.ps_tipodoc+"' and char_doc3='"+st_ord.ps_docu +"'", 1, st_ord.dw_intfaz.rowCount())
 		if ld_fila=0 then
 			ld_fila =st_ord.dw_intfaz.InsertRow(0)
 			st_ord.dw_intfaz.setItem(ld_fila, 'char_orig1', ls_cdoc)
 			st_ord.dw_intfaz.setItem(ld_fila, 'char_orig2', ls_clg)
 			st_ord.dw_intfaz.setItem(ld_fila, 'num_orig1', tab_2.t2.dw_2.getItemNumber(ld_j, "numdoc"))
-			st_ord.dw_intfaz.setItem(ld_fila, 'num_orig2', tab_2.t2.dw_2.getItemNumber(ld_j, "item"))
-			//st_ord.dw_intfaz.setItem(ld_fila, 'num_orig2',ls_ir)
+			st_ord.dw_intfaz.setItem(ld_fila, 'num_orig2', tab_2.t2.dw_2.getItemNumber(ld_j, "itemr"))
+			
 			st_ord.dw_intfaz.setitem(ld_fila,'num_doc2',tab_1.t1.dw_cab.getitemnumber(1,'n_concep'))
 			st_ord.dw_intfaz.setItem(ld_fila, 'valor', tab_2.t2.dw_2.getItemNumber(ld_j, "a_usar"))
 			st_ord.dw_intfaz.setItem(ld_fila, 'codigo', st_ord.ps_flujo)
