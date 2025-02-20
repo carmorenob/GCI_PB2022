@@ -950,7 +950,6 @@ on m_extraido.create
 call super::create
 this.tag = "1"
 this.text = "Perdido x caries"
-this.enabled = false
 this.microhelp = "Perdidos x caries"
 this.toolbaritemname = "perdidoc.ico"
 this.toolbaritemtext = "Extraido"

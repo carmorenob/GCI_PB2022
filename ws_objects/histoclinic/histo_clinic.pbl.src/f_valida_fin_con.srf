@@ -3,29 +3,38 @@ global type f_valida_fin_con from function_object
 end type
 
 forward prototypes
-global function integer f_valida_fin_con (string finalidad, string causa, string sex, double dias, string diagnos)
+global function integer f_valida_fin_con (string as_final, string as_causa, string as_sexo, double ad_dias, string as_dx)
 end prototypes
 
-global function integer f_valida_fin_con (string finalidad, string causa, string sex, double dias, string diagnos);int devuelve=1, l_cuant
+global function integer f_valida_fin_con (string as_final, string as_causa, string as_sexo, double ad_dias, string as_dx);int devuelve=1, l_cuant
 long edi_s0,edf_s0,edi_s1,edf_s1,edi_s2,edf_s2
 string salida,sexo_pac,gen0,gen1,gen2
 
-if sex="F" then sexo_pac ='2'
-if sex="M" then sexo_pac ='1'
-if isnull(finalidad) then return -1
+if as_sexo="F" then sexo_pac ='2'
+if as_sexo="M" then sexo_pac ='1'
+if isnull(as_final) then return -1
 
-choose case finalidad
-	case '10'
-//		if left(diagnos,1)='Z' then
-//			messagebox('Atención','Finalidad 10 No puede tener Diagnostico con código Z')
+//choose case finalidad
+//	case '10'
+////		if left(diagnos,1)='Z' then
+////			messagebox('Atención','Finalidad 10 No puede tener Diagnostico con código Z')
+////			return -1
+////		end if	  //cambios noramtivos lineamiento del 2019
+//	case '01','02','03','04','05','06','07','08'
+//		if causa <>'15' and not isnull(causa) then
+//			messagebox('Atención','Causa externa debe ser 15 para esa Finalidad por ser actividad de PyP')
 //			return -1
-//		end if	  //cambios noramtivos lineamiento del 2019
-	case '01','02','03','04','05','06','07','08'
-		if causa <>'15' and not isnull(causa) then
-			messagebox('Atención','Causa externa debe ser 15 para esa Finalidad por ser actividad de PyP')
-			return -1
-		end if
-end choose
+//		end if
+//end choose
+
+setnull(l_cuant)
+SELECT 
+	count(1) into  :l_cuant
+FROM 
+	finconsulta_causaexterna
+WHERE 
+	(((finconsulta_causaexterna.codfin)=:as_final) AND ((finconsulta_causaexterna.causaext)=:as_causa));
+
 
 setnull(l_cuant)
 SELECT  
@@ -48,7 +57,7 @@ SELECT
 FROM 
 	FINCONSULTA_EDAD
 WHERE 
-	(FINCONSULTA_EDAD.CODFIN=:finalidad) 
+	(FINCONSULTA_EDAD.CODFIN=:as_final) 
 ) as todos;
 if sqlca.sqlcode=-1 then
 	messagebox("Error leyendo tabla Diag_finalidad_edad valida",sqlca.sqlerrtext)
@@ -60,7 +69,7 @@ SELECT
 FROM 
 	FINCONSULTA_EDAD
 WHERE 
-	(((FINCONSULTA_EDAD.CODFIN)=:finalidad) AND (:dias between FINCONSULTA_EDAD.EDADINI AND FINCONSULTA_EDAD.EDADFIN) 
+	(((FINCONSULTA_EDAD.CODFIN)=:as_final) AND (:ad_dias between FINCONSULTA_EDAD.EDADINI AND FINCONSULTA_EDAD.EDADFIN) 
 	AND ((FINCONSULTA_EDAD.INDSEXO) In ('0',:sexo_pac)));
 if sqlca.sqlcode=-1 then
 	messagebox("Error leyendo tabla Diag_finalidad_edad",sqlca.sqlerrtext)
@@ -85,10 +94,10 @@ if isnull(l_cuant) or l_cuant=0 then
 end if
 
 setnull(l_cuant)
-if finalidad<>'10' and not isnull(diagnos) then
+if as_final<>'10' and not isnull(as_dx) then
 	SELECT Count(1) into :l_cuant
 	FROM Diag_finalidad
-	WHERE (((Diag_finalidad.cod_rips)=:diagnos) AND ((Diag_finalidad.CODFIN)=:finalidad));
+	WHERE (((Diag_finalidad.cod_rips)=:as_dx) AND ((Diag_finalidad.CODFIN)=:as_final));
 	if sqlca.sqlcode=-1 then
 		messagebox("Error leyendo tabla Diag_finalidad",sqlca.sqlerrtext)
 		return - 1
