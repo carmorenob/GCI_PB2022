@@ -35,6 +35,14 @@ FROM
 WHERE 
 	(((finconsulta_causaexterna.codfin)=:as_final) AND ((finconsulta_causaexterna.causaext)=:as_causa));
 
+if sqlca.sqlcode=-1 then
+	messagebox("Error leyendo tabla finconsulta_causaexterna",sqlca.sqlerrtext)
+	return - 1
+end if
+if isnull(l_cuant) or l_cuant=0 then
+	messagebox('Atención','Causa Externa ('+as_causa+')  vs Finalidad ('+as_final+' ) no valido')
+	devuelve=-1
+end if
 
 setnull(l_cuant)
 SELECT  
