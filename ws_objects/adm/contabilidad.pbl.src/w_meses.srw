@@ -125,7 +125,7 @@ if mes=1 and dw_meses.rowcount()>1 then
 	anoant=ano -1
 	if g_motor='postgres' then
 		string l_envio
-		select * into  :l_envio  from sp_comienza_cont(:i_codemp, :anoant,: li_dec_gral);
+		select * into  :l_envio  from sp_comienza_cont(:i_codemp, :anoant);
 	else
 		DECLARE sp PROCEDURE FOR  sp_comienza_cont @emp = :i_codemp, @anyo = :anoant , @deci=:li_dec_gral;
 		execute sp;
@@ -133,30 +133,7 @@ if mes=1 and dw_meses.rowcount()>1 then
 	if sqlca.sqlcode=-1 then
 		messagebox('Error ejecutando sp_comienza_cont',sqlca.sqlerrtext)
 	end if
-//	b_1.position=10
-//	mesant=dw_meses.getitemnumber(2,"mes")
-//	anoant=dw_meses.getitemnumber(2,"ano")
-//	INSERT INTO cont_saldos ( 
-//		COD_EMPRESA, ano, mes, cod_general, Cuenta, tipodoc, nit, Dverificacion, CUFuncional, ccosto, 
-//		saldodebito, saldocredito, Debito, Credito, cierredebito, cierrecredito ,saldocorriente,
-//		saldonocorriente,cierrecorriente,cierrenocorriente,clugar)
-//	SELECT 
-//		CONT_SALDOS.COD_EMPRESA, :ano as ano, :mes as mes, CONT_SALDOS.cod_general, CONT_SALDOS.Cuenta, 
-//		CONT_SALDOS.tipodoc, CONT_SALDOS.nit, CONT_SALDOS.Dverificacion, CONT_SALDOS.CUFuncional, 
-//		CONT_SALDOS.ccosto, CONT_SALDOS.cierredebito AS salddeb, CONT_SALDOS.cierrecredito AS salcred, 
-//		0 AS deb, 0 AS cred, CONT_SALDOS.cierredebito AS ciedeb, CONT_SALDOS.cierrecredito AS ciecred,
-//		CONT_SALDOS.cierrecorriente as saldcorr,CONT_SALDOS.cierrenocorriente as saldnocorr,
-//		CONT_SALDOS.cierrecorriente as cie_corr,CONT_SALDOS.cierrenocorriente as cie_nocorr,
-//		CONT_SALDOS.clugar
-//	FROM CONT_SALDOS
-//	WHERE CONT_SALDOS.COD_EMPRESA=:i_codemp AND CONT_SALDOS.ano=:anoant AND CONT_SALDOS.mes=:mesant ;
-//	b_1.position=30
-//	if sqlca.sqlcode=-1 then 
-//		messagebox("Error creando los nuevos saldos iniciales",sqlca.sqlerrtext)
-//		rollback;
-//		b_1.position=0
-//		return
-//	end if
+
 end if
 b_1.position=80
 commit;

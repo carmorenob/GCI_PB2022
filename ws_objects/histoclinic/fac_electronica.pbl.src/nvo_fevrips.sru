@@ -1214,9 +1214,9 @@ lo_client.SetRequestHeader("Content-Type", "application/json;charset=UTF-8")
 lo_client.SetRequestHeader("Authorization",+'Bearer '+as_token)
 
 if as_ambiente='2' then
-	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarCapitaPeriodo"
+	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarCapitaFinal"
 else
-	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarCapitaPeriodo"
+	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarCapitaFinal"
 end if
 
 li_rc =lo_client.sendrequest('POST',ls_url, ls_envio, EncodingUTF8!)
