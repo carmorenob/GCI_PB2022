@@ -1761,6 +1761,7 @@ event clicked;////////ELECTRONICA
 if is_elec='2' then
 	double l_i,l_nfactura
 	string ls_clugar,ls_tfac
+	datetime ldt_ff
 	nvo_factura_electronica u_elec
 	st_ret_dian    lst_lle
 	
@@ -1768,12 +1769,15 @@ if is_elec='2' then
 
 	for l_i =1 to dw_facturas.rowcount()
 		
+
 		if dw_facturas.getitemstring(l_i,'tipo')= 'C'  then continue
 		if dw_facturas.getitemstring(l_i,'envio_xml')='0' then continue
 		if dw_facturas.getitemstring(l_i,'estado_dian')='1' then continue
 		if dw_facturas.getitemstring(l_i,'file_name_fact')='0' then continue
 		
-		if datetime(dw_facturas.getitemdate(l_i,'fecha'))>ldt_iniciafevs then
+		ldt_ff=datetime(dw_facturas.getitemdate(l_i,'fecha'))
+		
+		if ldt_ff>ldt_iniciafevs then
 			if g_motor='postgres' then
 				dw_electronica.dataobject="dw_factura_electronica_postgres19"
 			else
@@ -2170,8 +2174,8 @@ boolean focusrectangle = false
 end type
 
 type cbx_1 from checkbox within tp_2
-integer x = 1285
-integer y = 900
+integer x = 1550
+integer y = 884
 integer width = 626
 integer height = 52
 integer taborder = 71
