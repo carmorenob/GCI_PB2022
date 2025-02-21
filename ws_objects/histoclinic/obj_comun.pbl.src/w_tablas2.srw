@@ -919,6 +919,7 @@ if dw_2.dataobject='dw_diag_finalidad' then
 		st_es.sexo='0'
 		st_es.edad=43800
 		st_es.antece='0'
+		st_es.proced='0'	
 		openwithparm(w_busca_diag,st_es)
 		st_d=message.powerobjectparm
 		if not isValid(st_d) then return

@@ -639,6 +639,7 @@ if dataobject='dw_vacuna' then
 		st_es.sexo='A'
 		st_es.edad=0
 		st_es.antece='0'
+		st_es.proced='0'
 		openwithparm(w_busca_diag,st_es)
 		st_d=message.powerobjectparm
 		if not isValid(st_d) then return

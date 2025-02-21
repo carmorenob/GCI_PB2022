@@ -1584,6 +1584,7 @@ st_diag st_d
 st_es.sexo=w_principal.dw_1.getitemstring(1,"sexo")
 st_es.edad=w_principal.dw_1.getitemnumber(1,"dias")
 st_es.antece='0'
+st_es.proced='0'
 openwithparm(w_busca_diag,st_es)
 st_d=message.powerobjectparm
 if not isValid(st_d) then return
@@ -2909,6 +2910,7 @@ choose case nombre
 		st_es.sexo=w_principal.dw_1.getitemstring(1,"sexo")
 		st_es.edad=w_principal.dw_1.getitemnumber(1,"dias")
 		st_es.antece='0'
+		st_es.proced='0'		
 		openwithparm(w_busca_diag,st_es)
 		st_d=message.powerobjectparm
 		if not isValid(st_d) then return

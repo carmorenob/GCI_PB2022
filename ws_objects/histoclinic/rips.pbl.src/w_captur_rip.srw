@@ -253,6 +253,7 @@ int xant,yant
 string sexo_paci,orden,anterior,ord,ant
 datawindowchild dw_contrato,gc_regimen,idw_causaex,idw_finproc
 end variables
+
 on w_captur_rip.create
 this.tab_1=create tab_1
 this.st_fact=create st_fact
@@ -2154,6 +2155,11 @@ if colu="s_diagprin_" or colu="s_diagrel1_" or colu="s_diagrel2_" or colu="s_dia
 	st_es.sexo=getitemstring(row,"sexo")
 	st_es.edad=getitemnumber(row,"dias")
 	st_es.antece='0'
+	if getitemstring(getrow(),'rips')='1' then
+		st_es.proced='0'
+	else
+		st_es.proced='1'
+	end if	
 	openwithparm(w_busca_diag,st_es)
 	st_d=message.powerobjectparm
 	if not isValid(st_d) then return

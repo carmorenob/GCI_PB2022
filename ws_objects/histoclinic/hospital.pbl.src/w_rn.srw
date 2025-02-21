@@ -457,6 +457,7 @@ choose case nombre
 		st_es.sexo=this.getitemstring(this.getrow(),"sexorn")
 		st_es.edad=daysafter(date(this.getitemdatetime(this.getrow(),'fechareg')),today())
 		st_es.antece='0'
+		st_es.proced='0'		
 		openwithparm(w_busca_diag,st_es)
 		st_d=message.powerobjectparm
 		if not isValid(st_d) then return

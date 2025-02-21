@@ -236,6 +236,7 @@ event doubleclicked;call super::doubleclicked;choose case dwo.name
 		if getcolumnname()<>dwo.name then return
 		st_edadsexo st_es
 		st_es.saltar_validacion=true
+		st_es.proced='0'
 		openwithparm(w_busca_diag,st_es)
 		st_diag st_diag
 		st_diag=message.powerobjectparm

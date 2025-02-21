@@ -541,6 +541,11 @@ if colu="s_diagprin_" or colu="s_diagrel1_" or colu="s_diagrel2_" or colu="s_dia
 	st_es.sexo=w_principal.dw_1.getitemstring(1,"sexo")
 	st_es.edad=w_principal.dw_1.getitemnumber(1,"dias")
 	st_es.antece='0'
+	if getitemstring(getrow(),'rips')='1' then
+		st_es.proced='0'
+	else
+		st_es.proced='1'
+	end if	
 	openwithparm(w_busca_diag,st_es)
 	st_d=message.powerobjectparm
 	if not isValid(st_d) then return

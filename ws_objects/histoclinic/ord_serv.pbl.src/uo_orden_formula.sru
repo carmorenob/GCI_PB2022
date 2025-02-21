@@ -3040,6 +3040,7 @@ if  getcolumnname()= 'cod_rips' then
 	st_es.sexo=w_principal.dw_1.getitemstring(1,"sexo")
 	st_es.edad=w_principal.dw_1.getitemnumber(1,"dias")
 	st_es.antece='0'
+	st_es.proced='0'
 	openwithparm(w_busca_diag,st_es)
 	st_d=message.powerobjectparm
 	if not isValid(st_d) then return
@@ -3050,11 +3051,6 @@ if  getcolumnname()= 'cod_rips' then
 			cb_nvorden.triggerevent(clicked!)
 			filasord=1
 		end if
-	//	for i=1 to filasord
-	//		dw_oscab.setitem(i,'codgeral',st_d.codgeral)
-	//		dw_oscab.setitem(i,'cod_rips',st_d.codrip)
-	//		dw_oscab.setitem(i,'diagnostico',st_d.descripcion)
-	//	next	
 		dw_oscab.setitem(dw_oscab.getrow(),'codgeral',st_d.codgeral)
 		dw_oscab.setitem(dw_oscab.getrow(),'cod_rips',st_d.codrip)
 		dw_oscab.setitem(dw_oscab.getrow(),'diagnostico',st_d.descripcion)
