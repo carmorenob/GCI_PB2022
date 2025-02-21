@@ -89,6 +89,13 @@ if sqlca.sqlcode=-1 then
 end if
 st.codgeral=ls_cap+ls_diag+ls_version
 
+
+if ps_servicio='0' and ls_serv='1' then
+	Messagebox("Atención","("+ps_diagnos+") diagnóstico no es válido para procedimientos")
+	st.descrip_diag=''
+	return st
+end if
+
 SELECT 
 	DiagEdad.EdadIni, DiagEdad.EdadFin, DiagEdad.IndSexo
 INTO 
@@ -104,12 +111,6 @@ if sqlca.sqlcode=-1 then
 end if
 if isnull(ls_sexo) then
 	messagebox("Atención","No se puede validar "+"("+ps_diagnos+") dianóstico, no está en la tabla DIAGEDAD")
-	st.descrip_diag=''
-	return st
-end if
-
-if ps_servicio='0' and ls_serv='1' then
-	Messagebox("Atención","("+ps_diagnos+") diagnóstico no es válido para procedimientos")
 	st.descrip_diag=''
 	return st
 end if

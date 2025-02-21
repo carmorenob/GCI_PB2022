@@ -410,9 +410,9 @@ end event
 
 type sle_diagpqx from singlelineedit within w_atiende_qx
 integer x = 2839
-integer y = 56
+integer y = 60
 integer width = 206
-integer height = 72
+integer height = 68
 integer taborder = 30
 boolean bringtotop = true
 integer textsize = -8
@@ -441,7 +441,7 @@ st_return_diags st
 
 este=this.tag
 if isnull(este) or este<>this.text then este=''
-st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0')
+st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0','2')
 if st.descrip_diag="" then 
 	this.text =  ""
 	this.tag=nulo
@@ -1059,7 +1059,7 @@ st_return_diags st
 
 este=this.tag
 if isnull(este) or este<>this.text then este=''
-st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0')
+st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0','2')
 if st.descrip_diag="" then 
 	this.text =  ""
 	this.tag=''
@@ -1081,7 +1081,7 @@ if isnull(este) or este='' then
 	sle_textdiag1.text =""
 	return
 end if
-st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0')
+st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0','2')
 if st.descrip_diag="" then 
 	this.text =  ""
 	this.tag=''
@@ -1175,7 +1175,7 @@ st_return_diags st
 
 este=this.tag
 if isnull(este) or este<>this.text then este=''
-st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0')
+st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0','2')
 if st.descrip_diag="" then 
 	this.text =  ""
 	this.tag=''
@@ -1197,7 +1197,7 @@ if isnull(este) or este='' then
 	sle_textdiag1.text =""
 	return
 end if
-st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0')
+st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0','2')
 if st.descrip_diag="" then 
 	this.text =  ""
 	this.tag=''
@@ -1240,7 +1240,7 @@ st_return_diags st
 
 este=this.tag
 if isnull(este) or este<>this.text then este=''
-st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0')
+st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0','2')
 if st.descrip_diag="" then 
 	text =  ""
 	tag=''
@@ -1262,7 +1262,7 @@ if isnull(este) or este='' then
 	sle_textdiag1.text =""
 	return
 end if
-st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0')
+st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0','2')
 if st.descrip_diag="" then 
 	this.text =  ""
 	this.tag=''

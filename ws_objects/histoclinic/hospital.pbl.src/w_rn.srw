@@ -401,7 +401,7 @@ choose case col
 		end if
 		sex_busca=this.getitemstring(1,"sexorn")
 		edad_busca=daysafter(date(this.getitemdatetime(this.getrow(),'fechareg')),today())
-		st=f_check_diag(data,sex_busca,edad_busca,este,'0')
+		st=f_check_diag(data,sex_busca,edad_busca,este,'0','1')
 		if st.descrip_diag="" then
 			this.setitem(1,col,"")
 			this.setitem(1,left(col,len(col)-1),nulo)
@@ -436,7 +436,7 @@ choose case col
 			if this.getitemstring(this.getrow(),"sexorn")='M' then sex_busca='1'
 			if this.getitemstring(this.getrow(),"sexorn")='F' then sex_busca='2'
 			edad_busca=daysafter(date(this.getitemdatetime(this.getrow(),'fechareg')),today())
-			st=f_check_diag(data,sex_busca,edad_busca,este,'0')
+			st=f_check_diag(data,sex_busca,edad_busca,este,'0','1')
 			//stt_diag.text=diagn
 		else
 		//	stt_diag.text=""

@@ -533,7 +533,7 @@ choose case colum
 		setnull(nulo)
 		
 		if data<>"" then
-			st=f_check_diag(data,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0')
+			st=f_check_diag(data,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0',this.getitemstring(row,'rips'))
 			if st.descrip_diag="" then
 				this.setitem(row,colum,"")
 				this.setitem(row,left(col,len(col)-1),nulo)
@@ -611,7 +611,7 @@ choose case colum
 			este=this.getitemstring(row,left(col,len(col)-1))
 			setnull( nulo)
 			
-			st=f_check_diag(this.getitemstring(row,colum),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0')
+			st=f_check_diag(this.getitemstring(row,colum),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0',this.getitemstring(row,'rips'))
 			if st.descrip_diag="" then
 				this.setitem(row,colum,"")
 				this.setitem(row,left(col,len(col)-1),nulo)

@@ -1606,7 +1606,7 @@ event itemchanged;if getcolumnname()="cod_rips" then
 	end if
 	sex_busca=w_principal.dw_1.getitemstring(1,"sexo_t")
 	edad_busca=w_principal.dw_1.getitemnumber(1,"dias")
-	st=f_check_diag(data,sex_busca,edad_busca,este,'0')
+	st=f_check_diag(data,sex_busca,edad_busca,este,'0','1')
 	if st.descrip_diag="" or isnull(st.descrip_diag) then
 		setitem(1,"diagingre",nulo)
 		setitem(1,"cod_rips",'')
@@ -2822,7 +2822,7 @@ choose case colum
 		string este=''
 		sex_busca=w_principal.dw_1.getitemstring(1,"sexo_t")
 		edad_busca=w_principal.dw_1.getitemnumber(1,"dias")
-		st=f_check_diag(data,sex_busca,edad_busca,este,'0')
+		st=f_check_diag(data,sex_busca,edad_busca,este,'0','1')
 		if st.descrip_diag="" then
 			setitem(1,colum,"")
 			setitem(1,left(colum,len(colum)-1),nulo)
@@ -2893,7 +2893,7 @@ choose case col
 			sex_busca=w_principal.dw_1.getitemstring(1,"sexo_t")
 			edad_busca=w_principal.dw_1.getitemnumber(1,"dias")
 			este=getitemstring(1,left(col,len(col)-1))
-			st=f_check_diag(data,sex_busca,edad_busca,este,'0')
+			st=f_check_diag(data,sex_busca,edad_busca,este,'0','1')
 			st_diagsal.text=st.descrip_diag
 		else
 			st_diagsal.text=""

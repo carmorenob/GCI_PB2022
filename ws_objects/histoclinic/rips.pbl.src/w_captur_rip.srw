@@ -2123,7 +2123,7 @@ choose case colum
 		end if
 	case 64,65,66,67,68
 		if data<>"" then
-			st=f_check_diag(data,sex_busca,edad_busca,este,'0')
+			st=f_check_diag(data,sex_busca,edad_busca,este,'0',this.getitemstring(row,'rips'))
 			if st.descrip_diag="" then
 				this.setitem(row,colum,"")
 				this.setitem(row,left(col,len(col)-1),nulo)
@@ -2207,7 +2207,7 @@ choose case colum
 	case 64,65,66,67,68
 		if this.getitemstring(row,colum)<>"" then
 			este=this.getitemstring(row,left(col,len(col)-1))
-			st=f_check_diag(this.getitemstring(row,colum),this.getitemstring(row,"sexo"),this.getitemnumber(row,"dias"),este,'0')
+			st=f_check_diag(this.getitemstring(row,colum),this.getitemstring(row,"sexo"),this.getitemnumber(row,"dias"),este,'0',this.getitemstring(row,'rips'))
 			if st.descrip_diag="" then
 				this.setitem(row,colum,"")
 				string nulo

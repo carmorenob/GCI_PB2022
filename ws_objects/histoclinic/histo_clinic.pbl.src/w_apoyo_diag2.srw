@@ -2338,7 +2338,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-02-20"), Time("19:59:54.000000"))
+datetime value = DateTime(Date("2025-02-21"), Time("18:01:49.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2360,7 +2360,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-02-20"), Time("19:59:54.000000"))
+datetime value = DateTime(Date("2025-02-21"), Time("18:01:49.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -4747,7 +4747,7 @@ event itemchanged;choose case getcolumnname()
 		
 		pedazo=right(getcolumnname(),4)
 		if trim(gettext())<>'' then
-			st=f_check_diag(trim(gettext()),w_principal.dw_1.getitemstring(1,'sexo'),w_principal.dw_1.getitemnumber(1,'dias'),este,'0')
+			st=f_check_diag(trim(gettext()),w_principal.dw_1.getitemstring(1,'sexo'),w_principal.dw_1.getitemnumber(1,'dias'),este,'0',this.getitemstring(row,'rips'))
 			if st.descrip_diag='' then
 				settext(getitemstring(1,getcolumnname()))
 				return 1

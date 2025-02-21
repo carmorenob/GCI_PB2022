@@ -85,6 +85,7 @@ FROM &
 	INNER JOIN diags ON (capdiags.codcap = diags.ccap) AND (capdiags.c_version = diags.c_version)&
 WHERE diags.estado='1' and diags.c_version='"
 end variables
+
 forward prototypes
 public subroutine filtrar ()
 end prototypes
@@ -428,7 +429,7 @@ if getitemdatetime(getrow(),"val_hasta")<datetime(today()) then
 end if
 
 if not ist_ed_sex.saltar_validacion then 
-	st=f_check_diag(getitemstring(getrow(),'cod_rips'),ist_ed_sex.sexo,ist_ed_sex.edad,este,ist_ed_sex.antece)
+	st=f_check_diag(getitemstring(getrow(),'cod_rips'),ist_ed_sex.sexo,ist_ed_sex.edad,este,ist_ed_sex.antece,'1')
 	if st.descrip_diag="" then return
 end if
 

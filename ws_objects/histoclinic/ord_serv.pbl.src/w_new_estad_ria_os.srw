@@ -1448,7 +1448,7 @@ choose case colum
 end choose
 if col='s_diagprin_' or col='s_diagrel1_' or col='s_diagrel2_' or col='s_diagrel3_' or col='s_diagcompli' then
 	if data<>"" then
-		st=f_check_diag(data,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0')
+		st=f_check_diag(data,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0',this.getitemstring(row,'rips'))
 		if st.descrip_diag="" then
 			setitem(row,colum,"")
 			setitem(row,left(col,len(col)-1),nulo)
@@ -1534,7 +1534,7 @@ if col='s_diagprin_' or col='s_diagrel1_' or col='s_diagrel2_' or col='s_diagrel
 	if getitemstring(row,colum)<>"" then
 		string este
 		este=getitemstring(row,left(col,len(col)-1))
-		st=f_check_diag(getitemstring(row,colum),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0')
+		st=f_check_diag(getitemstring(row,colum),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0',this.getitemstring(row,'rips'))
 		if st.descrip_diag="" then
 			setitem(row,colum,"")
 			return 1

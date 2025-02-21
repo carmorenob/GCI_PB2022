@@ -2057,7 +2057,7 @@ choose case colum
 		end if
 	case 68,69,70,71,72
 			if cbx_replica.checked then
-				st=f_check_diag(data,sex_busca,edad_busca,este,'0')
+				st=f_check_diag(data,sex_busca,edad_busca,este,'0',this.getitemstring(row,'rips'))
 				if st.descrip_diag="" then
 					this.setitem(row,colum,"")
 					this.setitem(row,left(col,len(col)-1),nulo)
@@ -2069,7 +2069,7 @@ choose case colum
 				next
 			else
 				if data<>"" then
-					st=f_check_diag(data,sex_busca,edad_busca,este,'0')
+					st=f_check_diag(data,sex_busca,edad_busca,este,'0',this.getitemstring(row,'rips'))
 					if st.descrip_diag="" then
 						setitem(row,colum,"")
 						setitem(row,left(col,len(col)-1),nulo)
@@ -2148,7 +2148,7 @@ choose case colum
 		if getitemstring(row,colum)<>"" then
 			string este
 			este=getitemstring(row,left(col,len(col)-1))
-			st=f_check_diag(getitemstring(row,colum),getitemstring(row,"sexo"),getitemnumber(1,"dias"),este,'0')
+			st=f_check_diag(getitemstring(row,colum),getitemstring(row,"sexo"),getitemnumber(1,"dias"),este,'0',this.getitemstring(row,'rips'))
 			if st.descrip_diag="" then
 				string nulo
 				setnull(nulo)
