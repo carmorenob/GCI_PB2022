@@ -1251,7 +1251,33 @@ st_os.grupo = dw_escog_profe.GetItemString(dw_escog_profe.GetRow(),'codgc')
 st_os.dw_os = tab_1.tp_1.dw_serv_cita
 st_os.dw_sercios = tab_1.tp_2.dw_serv_turno
 openwithparm(w_citas_os,st_os)
-if tab_1.tp_1.dw_serv_cita.rowcount()>0 then enabled=false
+
+if tab_1.tp_1.dw_serv_cita.rowcount()>0 then 
+	enabled=false
+	
+	string ls_sex,ls_filtro,ls_proc
+	double li_dias,ld_i
+	ls_proc=tab_1.tp_1.dw_serv_cita.getitemstring(1,'cproced')
+	li_dias=w_principal.dw_1.getitemnumber(1,'dias')
+	if w_principal.dw_1.getitemstring(1,'sexo')="F" then ls_sex='2'
+	if w_principal.dw_1.getitemstring(1,'sexo')="M" then ls_sex='1'
+	dw_fin_proced.retrieve(ls_proc)
+	setnull(ls_filtro)
+	for ld_i=1 to dw_fin_proced.rowcount()
+		if ld_i=1 then
+			ls_filtro="'"+dw_fin_proced.getitemstring(ld_i,'codfin')+"'"
+		else
+			ls_filtro+=",'"+dw_fin_proced.getitemstring(ld_i,'codfin')+"'"
+		end if
+	next			
+	
+	if not isnull( ls_filtro) then 
+		idw_fincon.setfilter("codfin in ("+ls_filtro+") and indsexo in('0','"+ls_sex+"') and  "+string(li_dias)+">=edadini  and  "+string(li_dias)+"<=edadfin ")
+	else
+		idw_fincon.setfilter("indsexo in('0','"+ls_sex+"') and  "+string(li_dias)+">=edadini  and  "+string(li_dias)+"<=edadfin ")
+	end if
+	idw_fincon.filter()
+end if
 end event
 
 type pb_nocita from picturebutton within w_asig_cita
