@@ -14,35 +14,35 @@ if as_sexo="F" then sexo_pac ='2'
 if as_sexo="M" then sexo_pac ='1'
 if isnull(as_final) then return -1
 
-//choose case finalidad
-//	case '10'
-////		if left(diagnos,1)='Z' then
-////			messagebox('Atención','Finalidad 10 No puede tener Diagnostico con código Z')
-////			return -1
-////		end if	  //cambios noramtivos lineamiento del 2019
-//	case '01','02','03','04','05','06','07','08'
-//		if causa <>'15' and not isnull(causa) then
-//			messagebox('Atención','Causa externa debe ser 15 para esa Finalidad por ser actividad de PyP')
+choose case as_final
+	case '10'
+//		if left(diagnos,1)='Z' then
+//			messagebox('Atención','Finalidad 10 No puede tener Diagnostico con código Z')
 //			return -1
-//		end if
-//end choose
+//		end if	  //cambios noramtivos lineamiento del 2019
+	case '01','02','03','04','05','06','07','08'
+		if as_causa <>'15' and not isnull(as_causa) then
+			messagebox('Atención','Causa externa debe ser 15 para esa Finalidad por ser actividad de PyP')
+			return -1
+		end if
+end choose
 
-setnull(l_cuant)
-SELECT 
-	count(1) into  :l_cuant
-FROM 
-	finconsulta_causaexterna
-WHERE 
-	(((finconsulta_causaexterna.codfin)=:as_final) AND ((finconsulta_causaexterna.causaext)=:as_causa));
-
-if sqlca.sqlcode=-1 then
-	messagebox("Error leyendo tabla finconsulta_causaexterna",sqlca.sqlerrtext)
-	return - 1
-end if
-if isnull(l_cuant) or l_cuant=0 then
-	messagebox('Atención','Causa Externa ('+as_causa+')  vs Finalidad ('+as_final+' ) no valido')
-	devuelve=-1
-end if
+//setnull(l_cuant)
+//SELECT 
+//	count(1) into  :l_cuant
+//FROM 
+//	finconsulta_causaexterna
+//WHERE 
+//	(((finconsulta_causaexterna.codfin)=:as_final) AND ((finconsulta_causaexterna.causaext)=:as_causa));
+//
+//if sqlca.sqlcode=-1 then
+//	messagebox("Error leyendo tabla finconsulta_causaexterna",sqlca.sqlerrtext)
+//	return - 1
+//end if
+//if isnull(l_cuant) or l_cuant=0 then
+//	messagebox('Atención','Causa Externa ('+as_causa+')  vs Finalidad ('+as_final+' ) no valido')
+//	devuelve=-1
+//end if
 
 setnull(l_cuant)
 SELECT  

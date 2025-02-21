@@ -112,7 +112,7 @@ integer width = 146
 integer height = 128
 integer taborder = 40
 integer textsize = -8
-integer weight = 400
+integer weight = 700
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
@@ -615,7 +615,7 @@ for j=1 to dw_2.rowcount()
 				FROM 
 					pacientes_ririas AS pa
 				WHERE 
-					(((pa.tipodoc=:tdocnew) AND (pa.documento=:docnew))
+					(((pa.tipodoc=:tdocnew) AND (pa.documento=:docnew)))
 				);
 		if sqlca.sqlcode=-1 then
 			messagebox("Error Actualizando pacientes_ririas",sqlca.sqlerrtext)
