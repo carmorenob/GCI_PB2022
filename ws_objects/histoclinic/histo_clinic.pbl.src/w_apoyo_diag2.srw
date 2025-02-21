@@ -2338,7 +2338,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-01-29"), Time("15:04:54.000000"))
+datetime value = DateTime(Date("2025-02-20"), Time("19:59:54.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2360,7 +2360,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-01-29"), Time("15:04:54.000000"))
+datetime value = DateTime(Date("2025-02-20"), Time("19:59:54.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -4723,6 +4723,11 @@ choose case colu
 		st_es.edad=w_principal.dw_1.getitemnumber(1,'dias')
 		st_es.sexo=w_principal.dw_1.getitemstring(1,'sexo')
 		st_es.antece='0'
+		if getitemstring(getrow(),'rips')='1' then
+			st_es.proced='0'
+		else
+			st_es.proced='1'
+		end if		
 		openwithparm(w_busca_diag,st_es)
 		st_diag st_diag
 		st_diag=message.powerobjectparm

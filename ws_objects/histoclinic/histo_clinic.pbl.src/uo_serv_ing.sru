@@ -1341,13 +1341,16 @@ if daysAfter(date(ld_fecha_atn),date(now())) >0 then
 	dw_diags.enabled=false
 	cb_est_ria.enabled=false
 	pb_guarda_diags.enabled=false
+	dw_serv_ing.enabled=false			
 else
 	if  SecondsAfter(time(ld_fecha_atn),time(now())) > (integer(li_temp_dx)*5) then 
 		dw_diags.enabled=false
+		dw_serv_ing.enabled=false
 		cb_est_ria.enabled=false
 		pb_guarda_diags.enabled=false
 	else
 		dw_diags.enabled=true
+		dw_serv_ing.enabled=true		
 		cb_est_ria.enabled=true
 		pb_guarda_diags.enabled=true
 	end if
@@ -1388,6 +1391,7 @@ else
 	sle_proced.enabled=false
 	cb_4.enabled=false
 	pb_kit.enabled=false
+	dw_serv_ing.enabled=false		
 	datetime ld_fecha_atn
 	integer li_temp_dx=10
 	ld_fecha_atn=dw_serv_ing.getitemdatetime(dw_serv_ing.getrow(),"fecha")
@@ -1398,10 +1402,12 @@ else
 	else
 		if  SecondsAfter(time(ld_fecha_atn),time(now())) > (integer(li_temp_dx)*5) then 
 			dw_diags.enabled=false
+			dw_serv_ing.enabled=false			
 			cb_est_ria.enabled=false
 			pb_guarda_diags.enabled=false
 		else
 			dw_diags.enabled=true
+			dw_serv_ing.enabled=true			
 			cb_est_ria.enabled=true
 			pb_guarda_diags.enabled=true
 		end if
@@ -1540,6 +1546,11 @@ choose case colu
 		st_es.edad=w_principal.dw_1.getitemnumber(1,'dias')
 		st_es.sexo=w_principal.dw_1.getitemstring(1,'sexo')
 		st_es.antece='0'
+		if getitemstring(getrow(),'rips')='1' then
+			st_es.proced='0'
+		else
+			st_es.proced='1'
+		end if
 		openwithparm(w_busca_diag,st_es)
 		st_diag st_diag
 		st_diag=message.powerobjectparm
