@@ -717,6 +717,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_conecta_mi
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,dw_clasif_cuenta,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_consigna_cheque,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_slecta,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,finmes,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\afijos.pbl,dw_af_regcom,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\simulafac.pbl,dw_getareo_cumple,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\simulafac.pbl,dw_tip_ingres_drop,d
