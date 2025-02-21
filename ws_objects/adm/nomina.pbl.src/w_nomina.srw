@@ -386,6 +386,7 @@ ids_req.DataObject = "dw_concep_req"
 ids_req.SetTransObject(SQLCA)
 ids_req.retrieve()
 
+
 ids_novedad = create uo_datastore
 ids_novedad.DataObject = "dw_pm_novedad"
 ids_novedad.SetTransObject(SQLCA)
@@ -2760,7 +2761,7 @@ end subroutine
 
 public function integer calc_prestamos (string tipodoc, string documento, integer filahist);
 string form_calculo, form_verifica, ls_codp
-int li_k = 1, j, fila, diasVacSig, diasVacAct
+int li_k = 1, j, fila, diasVac, diasVacSig, diasVacAct
 decimal vrVac
 
 //if  is_tnom<>'R' and  is_tnom<>'V' and  is_tnom='C' and  is_tnom='P' then
@@ -2787,16 +2788,15 @@ decimal vrVac
 			tab_1.p_2.dw_novedad.SetItem(fila,'tipo', dw_prestaact.GetItemString(j, 'tipo'))
 			tab_1.p_2.dw_novedad.SetItem(fila,'cantidad_ac',1)
 			if wf_vac_anticipada() = '1' then
-				diasVacSig = f_dias_vac_per(tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc'), tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento'), inicmessig(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia'))  ) 
-				diasVacAct = f_dias_vac_per(tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc'), tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento'), tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')  ) 
-				if  vac=0 then 
-					//diasVacSig = f_dias_vac(tipodoc, documento, ls_vac, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia') , tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina')  ) 
-				else
+				diasVacSig = f_dias_vac_per(tipodoc, documento, inicmessig(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia'))  ) 
+				diasVacAct = f_dias_vac_per(tipodoc, documento, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')  ) 
+				//if  vac=0 then 
+					diasVac = f_dias_vac(tipodoc, documento, ls_vac, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia') , tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina')  ) 
+				//else
 					//diasVacSig=0
-				end if
-				//diasVacAct = f_dias_vac_per(tipodoc, documento, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')  ) 
-				if diasVacSig >0 or diasVacAct > 0 then
-					vrVac = round(dw_prestaact.GetItemNumber(j,'valor') * diasVacSig / 30, 0) - round(dw_prestaact.GetItemNumber(j,'valor') * diasVacAct / 30, 0)
+				//end if
+				if diasVac >0 or diasVacAct > 0 then
+					vrVac = round(dw_prestaact.GetItemNumber(j,'valor') * diasVac / 30, 0) - round(dw_prestaact.GetItemNumber(j,'valor') * diasVacAct / 30, 0)
 				else
 					vrVac = 0
 				end if
@@ -2868,11 +2868,11 @@ blob bfc,bfc1
 				tab_1.p_2.dw_novedad.SetItem(fila,'cantidad_ac',1)
 				if dw_ahorroact.GetItemString(j,'tipo') = '0' then
 					if wf_vac_anticipada() = '1' then
-						if  vac=0 then 
+						//if  vac=0 then 
 							diasVacSig=f_dias_vac(tipodoc, documento, ls_vac, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia') , tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina')  ) 
-						else
-							diasVacSig=0
-						end if
+						//else
+							//diasVacSig=0
+						//end if
 						diasVacAct = f_dias_vac_per(tipodoc, documento, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')  ) 
 						if diasVacSig >0 or diasVacAct > 0 then
 							vrVac = round(dw_ahorroact.GetItemNumber(j,'vfijo') * diasVacSig / 30, 0) - round(dw_ahorroact.GetItemNumber(j,'vfijo') * diasVacAct / 30, 0)
@@ -6474,7 +6474,7 @@ If ls_tipon='C' then
 		hpb_1.Position = l_c
 	next
 	hpb_1.Visible = false
-
+	
 	tab_n.tpn_2.dw_empnom.SetRedraw(true)
 	tab_1.p_1.dw_devenga.SetRedraw(true)
 	tab_1.p_1.dw_deduce.SetRedraw(true)
