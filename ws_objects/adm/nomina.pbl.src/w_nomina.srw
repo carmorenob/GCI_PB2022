@@ -386,7 +386,6 @@ ids_req.DataObject = "dw_concep_req"
 ids_req.SetTransObject(SQLCA)
 ids_req.retrieve()
 
-
 ids_novedad = create uo_datastore
 ids_novedad.DataObject = "dw_pm_novedad"
 ids_novedad.SetTransObject(SQLCA)
@@ -3172,7 +3171,7 @@ end if
 
 ls_tdnov=tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'tipodoc')
 ls_docnov=tab_n.tpn_2.dw_empnom.GetItemString(tab_n.tpn_2.dw_empnom.GetRow(),'documento')
-datos_empleado(ls_tdnov, ls_docnov)
+//datos_empleado(ls_tdnov, ls_docnov)
 
 ldb_filanov = tab_1.p_2.dw_novedad.InsertRow(0)
 tab_1.p_2.dw_novedad.SetItem(ldb_filanov,'num_nomina',tab_n.tpn_1.dw_nomcab.GetItemNumber(tab_n.tpn_1.dw_nomcab.GetRow(),'num_nomina'))
@@ -6474,7 +6473,7 @@ If ls_tipon='C' then
 		hpb_1.Position = l_c
 	next
 	hpb_1.Visible = false
-	
+
 	tab_n.tpn_2.dw_empnom.SetRedraw(true)
 	tab_1.p_1.dw_devenga.SetRedraw(true)
 	tab_1.p_1.dw_deduce.SetRedraw(true)
