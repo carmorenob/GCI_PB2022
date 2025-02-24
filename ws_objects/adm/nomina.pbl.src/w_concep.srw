@@ -124,7 +124,15 @@ integer x = 2336
 integer y = 1640
 end type
 
-event pb_grabar::clicked;call super::clicked;grabar()
+event pb_grabar::clicked;call super::clicked;if dw_concep.getitemnumber(1,'espacios')>0 then
+	double ldb_fesp
+	ldb_fesp=dw_concep.find('espacio=1',1,dw_concep.rowcount())
+	dw_concep.scroll(ldb_fesp)
+	messagebox("Atención",'El concepto ('+dw_concep.getitemstring(ldb_fesp,'cod_concep')+') '+dw_concep.getitemstring(ldb_fesp,'des_concep')+'tiene carcater espacio en la sigla, no puede tener este caracter')
+	return
+end if
+
+grabar()
 end event
 
 type dw_concep from datawindow within w_concep

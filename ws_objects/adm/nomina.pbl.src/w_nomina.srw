@@ -2809,7 +2809,9 @@ decimal vrVac
 			tab_1.p_2.dw_novedad.SetItem(fila,'num_plan',dw_prestaact.GetItemNumber(j,'num_plan'))
 			tab_1.p_2.dw_novedad.SetItem(fila,'cuota',dw_prestaact.GetItemNumber(j,'ncuota'))
 			////se agrega para cálculos ese indias
-			if f_addcompute(dw_prestaact.GetItemString(j, 'sigla'), string(round(dw_prestaact.GetItemNumber(j,'valor')+ vrVac,0)), string(round(dw_prestaact.GetItemNumber(j,'valor')+ vrVac,0)), dw_prestaact.GetItemNumber(j,'tarifa'), dw_prestaact.GetItemNumber(j,'tarifa_esp'), li_k) = -1 then Return -1	
+			if f_addcompute(dw_prestaact.GetItemString(j, 'sigla'), string(round(dw_prestaact.GetItemNumber(j,'valor')+ vrVac,0)), string(round(dw_prestaact.GetItemNumber(j,'valor')+ vrVac,0)), dw_prestaact.GetItemNumber(j,'tarifa'), dw_prestaact.GetItemNumber(j,'tarifa_esp'), li_k) = -1 then 
+				Return -1	
+			end if
 		next
 	end if
 //end if	
@@ -2892,7 +2894,9 @@ blob bfc,bfc1
 						tab_1.p_2.dw_novedad.SetItem(fila, 'tarifa', dw_ahorroact.GetItemNumber(j,'porcensal'))
 					end if
 
-					if f_addcompute(dw_ahorroact.GetItemString(j,'sigla'), form_calculo,form_verifica,tarifa,tarifa_esp,li_k) = -1 then Return -1
+					if f_addcompute(dw_ahorroact.GetItemString(j,'sigla'), form_calculo,form_verifica,tarifa,tarifa_esp,li_k) = -1 then 
+						Return -1
+					end if
 					long k
 					dw_historia.SetItem(filahist, f_get_ctrl(dw_ahorroact.GetItemString(j,'sigla')), 1)
 					tab_1.p_2.dw_novedad.ScrolltoRow(fila)
