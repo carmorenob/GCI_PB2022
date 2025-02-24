@@ -100,7 +100,7 @@ string text = "            &a"
 boolean originalsize = true
 string picturename = "aceptar.GIF"
 string disabledname = "d_aceptar.gif"
-alignment htextalign = left!
+alignment htextalign = Right!
 string powertiptext = "Aceptar [Alt+A]"
 end type
 
@@ -182,6 +182,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	update banco_donacion SET tipodoc = :tdocnew, Documento = :docunew
 	WHERE TipoDoc=:tipdoc AND documento=:docu;
 	if sqlca.sqlcode=-1 then
@@ -189,6 +190,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	insert into banco_paciente(tipodoc,documento,cod_banco,apto,apto_desde)
 	select :tdocnew,:docunew,cod_banco,apto,apto_desde from banco_paciente where tipodoc=:tipdoc and documento=:docu;
 	if sqlca.sqlcode=-1 then
@@ -196,6 +198,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	update banco_paciente_caract set tipodoc=:tdocnew , documento=:docunew 
 	where tipodoc=:tipdoc and documento=:docu;
 	if sqlca.sqlcode=-1 then
@@ -203,12 +206,14 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	delete from banco_paciente where tipodoc=:tipdoc and documento=:docu; 
 	if sqlca.sqlcode=-1 then
 		messagebox("Error borrando de banco_paciente",sqlca.sqlerrtext)
 		rollback;
 		return
 	end if
+	
 	UPDATE CitasAsig SET TipoDoc = :tdocnew, Documento = :docunew
 	WHERE CitasAsig.TipoDoc=:tipdoc AND CitasAsig.Documento=:docu;
 	if sqlca.sqlcode=-1 then
@@ -216,6 +221,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE CompFamiliar SET NHistoria = :histnew
 	WHERE CompFamiliar.NHistoria=:histo;
 	if sqlca.sqlcode=-1 then
@@ -223,6 +229,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE cotiza_cab SET TipoDoc = :tdocnew, Documento = :docunew
 	WHERE TipoDoc=:tipdoc AND Documento=:docu;
 	if sqlca.sqlcode=-1 then
@@ -230,6 +237,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	INSERT INTO Embarazo ( Historia, NEmbarazo, Contador,clugar_his, FechaReg, Menarquia, G, P, A, C, Planificacion, FUR, FPP, Diabetes, HTA, Obito, Otros, GSF, RHF, GSM, RHM, FechaParto, TipoParto, CausaCesarea, CompliMaternas, Observacion, PeriodoGestacion, ControlPrenatal, CausamuerteM, FechaMuerteM )
 	SELECT :histnew AS nueva, Embarazo.NEmbarazo, Embarazo.Contador,embarazo.clugar_his, Embarazo.FechaReg, Embarazo.Menarquia, Embarazo.G, Embarazo.P, Embarazo.A, Embarazo.C, Embarazo.Planificacion, Embarazo.FUR, Embarazo.FPP, Embarazo.Diabetes, Embarazo.HTA, Embarazo.Obito, Embarazo.Otros, Embarazo.GSF, Embarazo.RHF, Embarazo.GSM, Embarazo.RHM, Embarazo.FechaParto, Embarazo.TipoParto, Embarazo.CausaCesarea, Embarazo.CompliMaternas, Embarazo.Observacion, Embarazo.PeriodoGestacion, Embarazo.ControlPrenatal, Embarazo.CausamuerteM, Embarazo.FechaMuerteM
 	FROM Embarazo
@@ -239,6 +247,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	INSERT INTO EmbarazoControl ( Historia, NEmbarazo, clugar,NControl, Contador,clugar_his, FechaControl, Peso, TA, AU, RsCsFs, MsFs, EdGesta, TRiesgo, Observacion )
 	SELECT :histnew AS nueva, EmbarazoControl.NEmbarazo, embarazocontrol.clugar,EmbarazoControl.NControl, EmbarazoControl.Contador,EmbarazoControl.clugar_his, EmbarazoControl.FechaControl, EmbarazoControl.Peso, EmbarazoControl.TA, EmbarazoControl.AU, EmbarazoControl.RsCsFs, EmbarazoControl.MsFs, EmbarazoControl.EdGesta, EmbarazoControl.TRiesgo, EmbarazoControl.Observacion
 	FROM EmbarazoControl
@@ -248,6 +257,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE EmbarazoCADx SET Historia = :histnew
 	WHERE EmbarazoCADx.Historia=:histo;
 	if sqlca.sqlcode=-1 then
@@ -255,6 +265,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE EmbarazoRN SET Historia = :histnew
 	WHERE EmbarazoRN.Historia=:histo;
 	if sqlca.sqlcode=-1 then
@@ -287,6 +298,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE FactCpo SET TipoDoc = :tdocnew, Documento = :docunew
 	WHERE FactCpo.TipoDoc=:tipdoc AND FactCpo.Documento=:docu;
 	if sqlca.sqlcode=-1 then
@@ -294,6 +306,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE HistLaboral SET NHistoria = :histnew
 	WHERE HistLaboral.NHistoria=:histo;
 	if sqlca.sqlcode=-1 then
@@ -301,6 +314,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE Historial SET TipoDoc = :tdocnew, Documento = :docunew
 	WHERE Historial.TipoDoc=:tipdoc AND Historial.Documento=:docu;
 	if sqlca.sqlcode=-1 then
@@ -308,6 +322,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	INSERT INTO Historiaubica ( NHistoria, ntraslado, Fechatraslado, archivo, estan, entrepano, Observacion, estado )
 	SELECT :histnew AS nueva, Historiaubica.ntraslado, Historiaubica.Fechatraslado, Historiaubica.archivo, Historiaubica.estan, Historiaubica.entrepano, Historiaubica.Observacion, Historiaubica.estado
 	FROM Historiaubica
@@ -317,6 +332,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE Historiaprestamo SET NHistoria = :histnew
 	WHERE Historiaprestamo.NHistoria=:histo;
 	if sqlca.sqlcode=-1 then
@@ -324,6 +340,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE HospAdmi SET TipoDoc = :tdocnew, Documento = :docunew
 	WHERE HospAdmi.TipoDoc=:tipdoc AND HospAdmi.Documento=:docu;
 	if sqlca.sqlcode=-1 then
@@ -331,6 +348,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE IngresoADX SET TipoDoc = :tdocnew, Documento = :docunew
 	WHERE IngresoADX.TipoDoc=:tipdoc AND IngresoADX.Documento=:docu;
 	if sqlca.sqlcode=-1 then
@@ -338,6 +356,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE odongramacb SET TipoDoc = :tdocnew, Documento = :docunew
 	WHERE TipoDoc=:tipdoc AND documento=:docu;
 	if sqlca.sqlcode=-1 then
@@ -345,6 +364,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE odontratacab SET TipoDoc = :tdocnew, Documento = :docunew
 	WHERE TipoDoc=:tipdoc AND documento=:docu;
 	if sqlca.sqlcode=-1 then
@@ -352,6 +372,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	update pacientesnotas set tipodoc=:tdocnew,documento=:docunew
 	where tipodoc=:tipdoc and documento=:docu;
 	if sqlca.sqlcode=-1 then
@@ -359,6 +380,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	update pyp_progpaci set tipodoc=:tdocnew,documento=:docunew
 	where tipodoc=:tipdoc and documento=:docu;
 	if sqlca.sqlcode=-1 then
@@ -366,6 +388,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	update pyp_pac_condi set tipodoc=:tdocnew,documento=:docunew
 	where tipodoc=:tipdoc and documento=:docu;
 	if sqlca.sqlcode=-1 then
@@ -373,6 +396,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE QxCabActo SET TipoDoc = :tdocnew, Documento = :docunew
 	WHERE QxCabActo.TipoDoc=:tipdoc AND QxCabActo.Documento=:docu;
 	if sqlca.sqlcode=-1 then
@@ -380,6 +404,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE PACIENTESQUEJAS SET TipoDoc = :tdocnew, Documento = :docunew
 	WHERE TipoDoc=:tipdoc AND Documento=:docu;
 	if sqlca.sqlcode=-1 then
@@ -396,7 +421,6 @@ If tip_doc.rowcount()>0 then
 		return
 	end if
 		
-	
 	UPDATE QxCita SET TipoDoc = :tdocnew, Documento = :docunew
 	WHERE TipoDoc=:tipdoc AND Documento=:docu;
 	if sqlca.sqlcode=-1 then
@@ -404,6 +428,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE resultadoscab SET TipoDoc = :tdocnew, Documento = :docunew
 	WHERE TipoDoc=:tipdoc AND documento=:docu;
 	if sqlca.sqlcode=-1 then
@@ -427,6 +452,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE tesorecajcab SET TipoDoc = :tdocnew, Documento = :docunew
 	WHERE tesorecajcab.TipoDoc=:tipdoc AND tesorecajcab.Documento=:docu;
 	if sqlca.sqlcode=-1 then
@@ -434,6 +460,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	INSERT INTO VacunaPac ( Historia, CodVacuna, Estado )
 	SELECT :histnew AS nueva, VacunaPac.CodVacuna, VacunaPac.Estado
 	FROM VacunaPac
@@ -443,6 +470,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE VacunaDosis SET Historia = :histnew
 	WHERE VacunaDosis.Historia=:histo;
 	if sqlca.sqlcode=-1 then
@@ -450,6 +478,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE pacientes_pvunerable SET TipoDoc = :tdocnew, Documento = :docunew
 	WHERE (((pacientes_pvunerable.tipodoc)=:tipdoc) AND ((pacientes_pvunerable.documento)=:docu));
 	if sqlca.sqlcode=-1 then
@@ -457,6 +486,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE pacientes_imagen SET TipoDoc = :tdocnew, Documento = :docunew
 	WHERE (((pacientes_imagen.tipodoc)=:tipdoc) AND ((pacientes_imagen.documento)=:docu));
 	if sqlca.sqlcode=-1 then
@@ -464,6 +494,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE pacientes_biometria SET TipoDoc = :tdocnew, Documento = :docunew
 	WHERE (((pacientes_biometria.tipodoc)=:tipdoc) AND ((pacientes_biometria.documento)=:docu));
 	if sqlca.sqlcode=-1 then
@@ -471,17 +502,59 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	UPDATE pacientes_antecedente SET TipoDoc = :tdocnew, Documento = :docunew
-	WHERE (((pacientes_antecedente.tipodoc)=:tipdoc) AND ((pacientes_antecedente.documento)=:docu));
+	WHERE 
+		TipoDoc=:tipdoc AND Documento=:docu 
+		AND NOT EXISTS (
+			SELECT  
+			  	*
+			FROM 
+				pacientes_antecedente AS pa
+			WHERE 
+				(((pa.tipodoc=:tdocnew) AND (pa.documento=:docunew)
+				AND(pa.cod_tipoa=pacientes_antecedente.cod_tipoa) 
+				AND(pa.item=pacientes_antecedente.item)))
+		);
 	if sqlca.sqlcode=-1 then
-		messagebox("Error Actualizando pacientes_antecedente",sqlca.sqlerrtext)
+		messagebox("Error Actualizando pacientes_antecedentes",sqlca.sqlerrtext)
 		rollback;
 		return
 	end if
+			
 	UPDATE pacientes_alergias SET TipoDoc = :tdocnew, Documento = :docunew
-	WHERE (((pacientes_alergias.tipodoc)=:tipdoc) AND ((pacientes_alergias.documento)=:docu));
+	WHERE 
+		TipoDoc=:tipdoc AND Documento=:docu 
+		AND NOT EXISTS (
+			SELECT  
+			  	*
+			FROM 
+				pacientes_alergias AS pa
+			WHERE 
+				(((pa.tipodoc=:tdocnew) AND (pa.documento=:docunew)
+	  			AND (pa.cod_tipoa=pacientes_alergias.cod_tipoa) 
+	  			AND (pa.cod_tipo=pacientes_alergias.cod_tipo)
+				AND (pa. cod_alergia=pacientes_alergias.cod_alergia)))
+			);
 	if sqlca.sqlcode=-1 then
-		messagebox("Error Actualizando Pacientes_alergia",sqlca.sqlerrtext)
+		messagebox("Error Actualizando pacientes_antecedentes",sqlca.sqlerrtext)
+		rollback;
+		return
+	end if
+		
+	UPDATE pacientes_ririas SET tipodoc = :tdocnew, Documento = :docunew
+	WHERE 
+		TipoDoc=:tipdoc AND Documento=:docu 
+		AND NOT EXISTS (
+			SELECT  
+			  	*
+			FROM 
+				pacientes_ririas AS pa
+			WHERE 
+				(((pa.tipodoc=:tdocnew) AND (pa.documento=:docunew)))
+			);
+	if sqlca.sqlcode=-1 then
+		messagebox("Error Actualizando pacientes_ririas",sqlca.sqlerrtext)
 		rollback;
 		return
 	end if
@@ -501,6 +574,7 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	//////////////////////////
 	delete from compfamiliar WHERE nHistoria=:histo;
 	if sqlca.sqlcode=-1 then
@@ -508,24 +582,28 @@ If tip_doc.rowcount()>0 then
 		rollback;
 		return
 	end if
+	
 	delete from embarazo where historia=:histo;
 	if sqlca.sqlcode=-1 then
 		messagebox("Error borrando fila de Embarazo",sqlca.sqlerrtext)
 		rollback;
 		return
 	end if
+	
 	delete from embarazocontrol WHERE EmbarazoControl.Historia=:histo;
 	if sqlca.sqlcode=-1 then
 		messagebox("Error borrando fila de EmbarazoControl",sqlca.sqlerrtext)
 		rollback;
 		return
 	end if
+	
 	delete from Historiaubica WHERE Historiaubica.NHistoria=:histo;
 	if sqlca.sqlcode=-1 then
 		messagebox("Error borrando fila de Historiaubica",sqlca.sqlerrtext)
 		rollback;
 		return
 	end if
+	
 	delete from VacunaPac WHERE VacunaPac.Historia=:histo;
 	if sqlca.sqlcode=-1 then
 		messagebox("Error borrando fila de VacunaPac",sqlca.sqlerrtext)
@@ -533,6 +611,7 @@ If tip_doc.rowcount()>0 then
 		return
 	end if
 	//
+	
 	delete from pacientes where tipodoc=:tipdoc and documento=:docu;
 	if sqlca.sqlcode=-1 then
 		messagebox("Error borrando fila de Pacientes",sqlca.sqlerrtext)
@@ -563,7 +642,6 @@ docu=docunew
 
 w_principal.busca_paciente()
 close(parent)
-
 end event
 
 type cb_cancel from picturebutton within w_cambio_docu

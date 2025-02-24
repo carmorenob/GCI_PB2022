@@ -149,6 +149,7 @@ for j=1 to dw_2.rowcount()
 			rollback;
 			return
 		end if
+		
 		INSERT INTO EmbarazoControl ( Historia, NEmbarazo, clugar, NControl, Contador, clugar_his, FechaControl, Peso, TA, AU, RsCsFs, MsFs, EdGesta, TRiesgo, Observacion )
 		SELECT :histnew AS nueva, EmbarazoControl.NEmbarazo, EmbarazoControl.clugar, EmbarazoControl.NControl, EmbarazoControl.Contador, EmbarazoControl.clugar_his, EmbarazoControl.FechaControl, EmbarazoControl.Peso, EmbarazoControl.TA, EmbarazoControl.AU, EmbarazoControl.RsCsFs, EmbarazoControl.MsFs, EmbarazoControl.EdGesta, EmbarazoControl.TRiesgo, EmbarazoControl.Observacion
 		FROM EmbarazoControl LEFT outer JOIN EmbarazoControl AS EmbarazoControl_1 ON (EmbarazoControl.NControl = EmbarazoControl_1.NControl) AND (EmbarazoControl.clugar = EmbarazoControl_1.clugar) AND (EmbarazoControl.NEmbarazo = EmbarazoControl_1.NEmbarazo)
@@ -158,6 +159,7 @@ for j=1 to dw_2.rowcount()
 			rollback;
 			return
 		end if
+		
 		UPDATE EmbarazoCADx SET Historia = :histnew
 		WHERE EmbarazoCADx.Historia=:histx;
 		if sqlca.sqlcode=-1 then
@@ -165,6 +167,7 @@ for j=1 to dw_2.rowcount()
 			rollback;
 			return
 		end if
+		
 		UPDATE EmbarazoRN SET Historia = :histnew
 		WHERE EmbarazoRN.Historia=:histx;
 		if sqlca.sqlcode=-1 then
@@ -172,6 +175,7 @@ for j=1 to dw_2.rowcount()
 			rollback;
 			return
 		end if
+		
 		UPDATE EvolucionHC SET TipoDoc = :tdocnew, Documento = :docnew
 		WHERE EvolucionHC.TipoDoc=:tdocx AND EvolucionHC.Documento=:docx;
 		if sqlca.sqlcode=-1 then
@@ -179,6 +183,7 @@ for j=1 to dw_2.rowcount()
 			rollback;
 			return
 		end if
+		
 		insert into banco_paciente(tipodoc,documento,cod_banco,apto,apto_desde)
 		select :tdocnew,:docnew,cod_banco,apto,apto_desde from banco_paciente where tipodoc=:tdocx and documento=:docx;
 		if sqlca.sqlcode=-1 then
@@ -186,6 +191,7 @@ for j=1 to dw_2.rowcount()
 			rollback;
 			return
 		end if
+		
 		UPDATE banco_paciente_caract  SET TipoDoc = :tdocnew, Documento = :docnew
 		WHERE  TipoDoc=:tdocx AND Documento=:docx;
 		if sqlca.sqlcode=-1 then
@@ -193,12 +199,14 @@ for j=1 to dw_2.rowcount()
 			rollback;
 			return
 		end if		
+		
 		delete from banco_paciente where tipodoc=:tdocx  and documento=:docx; 
 		if sqlca.sqlcode=-1 then
 			messagebox("Error borrando de banco_paciente",sqlca.sqlerrtext)
 			rollback;
 			return
 		end if	
+		
 		UPDATE HospAdmi SET TipoDoc = :tdocnew, Documento = :docnew
 		WHERE HospAdmi.TipoDoc=:tdocx AND HospAdmi.Documento=:docx;
 		if sqlca.sqlcode=-1 then
@@ -206,6 +214,7 @@ for j=1 to dw_2.rowcount()
 			rollback;
 			return
 		end if
+		
 		UPDATE pacientesquejas SET TipoDoc = :tdocnew, Documento = :docnew
 		WHERE TipoDoc=:tdocx AND Documento=:docx;
 		if sqlca.sqlcode=-1 then
@@ -583,8 +592,7 @@ for j=1 to dw_2.rowcount()
 			rollback;
 			return
 		end if
-		
-		
+			
 		UPDATE pacientes_alergias SET TipoDoc = :tdocnew, Documento = :docnew
 		WHERE 
 			TipoDoc=:tdocx AND Documento=:docx 
@@ -604,7 +612,6 @@ for j=1 to dw_2.rowcount()
 			rollback;
 			return
 		end if
-		
 		
 		UPDATE pacientes_ririas SET tipodoc = :tdocnew, Documento = :docnew
 		WHERE 

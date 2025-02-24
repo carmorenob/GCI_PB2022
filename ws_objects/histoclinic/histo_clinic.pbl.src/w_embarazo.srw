@@ -542,7 +542,7 @@ event itemchanged;if dwo.name="causacesarea1" or dwo.name="causamuertem1" then
 	
 	setnull(nulo)
 	uno = dwo.name
-	st=f_check_diag(data,"F",w_principal.dw_1.getitemnumber(1,"dias"),este,'0')
+	st=f_check_diag(data,"F",w_principal.dw_1.getitemnumber(1,"dias"),este,'0','1')
 	if st.descrip_diag="" then 
 		setnull(st.descrip_diag)
 		st_diags.text=""
