@@ -2838,8 +2838,6 @@ blob bfc,bfc1
 			else
 				acumulado = 0
 			end if
-			//if acumulado >= dw_ahorroact.GetItemNumber(j,'vfijo') and dw_ahorroact.GetItemString(j,'tipo') = '0' then CONTINUE
-			//if date(dw_ahorroact.GetItemdatetime(j,'fecha'))>= date(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')) and date(dw_ahorroact.GetItemdatetime(j,'fecha'))<= date(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina')) then				
 			fila = dw_cuotas.find("fecha >= date('" + string(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')) + &
 				"') and fecha <= date('"+ string(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina'))+"')" ,1,dw_cuotas.Rowcount())
 			if fila = 0 then
@@ -2867,11 +2865,7 @@ blob bfc,bfc1
 				tab_1.p_2.dw_novedad.SetItem(fila,'cantidad_ac',1)
 				if dw_ahorroact.GetItemString(j,'tipo') = '0' then
 					if wf_vac_anticipada() = '1' then
-						//if  vac=0 then 
-							diasVacSig=f_dias_vac(tipodoc, documento, ls_vac, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia') , tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina')  ) 
-						//else
-							//diasVacSig=0
-						//end if
+						diasVacSig=f_dias_vac(tipodoc, documento, ls_vac, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia') , tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina')  ) 
 						diasVacAct = f_dias_vac_per(tipodoc, documento, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')  ) 
 						if diasVacSig >0 or diasVacAct > 0 then
 							vrVac = round(dw_ahorroact.GetItemNumber(j,'vfijo') * diasVacSig / 30, 0) - round(dw_ahorroact.GetItemNumber(j,'vfijo') * diasVacAct / 30, 0)
