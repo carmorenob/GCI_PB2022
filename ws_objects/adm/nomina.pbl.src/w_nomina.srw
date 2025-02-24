@@ -7222,6 +7222,7 @@ for li_j = 1 to tab_n.tpn_2.dw_empnom.RowCount()
 			hpb_1.Visible = FALSE
 			ibn_calculando = FALSE
 			st_15.visible = FALSE
+			goto sale
 			Return -1
 		end if
 		log.info("GRABAR empleado "+ ls_tdc+ls_docc)
@@ -7249,6 +7250,8 @@ ibn_calculando = FALSE
 cambio = TRUE
 tab_n.tpn_2.dw_empnom.ScrolltoRow(1)
 
+
+SALE:
 li_j=tab_n.tpn_1.dw_nomcab.getitemnumber(tab_n.tpn_1.dw_nomcab.GetRow(),'num_nomina')
 update nom_cab set recal='0',fecha_calculo=:ldt_fecha_c
 where num_nomina=:li_j;
