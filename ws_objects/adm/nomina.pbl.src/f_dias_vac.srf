@@ -9,7 +9,6 @@ end prototypes
 global function integer f_dias_vac (string tipodoc, string documento, string ls_vac, datetime ini, datetime fin);datastore dw_vac
 int ano ,mes, dias = 0
 datetime fini,ffin
-date jaer
 
 if ls_vac='1' then 
 	ano =year(date(ini))
@@ -19,17 +18,17 @@ if ls_vac='1' then
 		mes = 1
 	end if
 	fini = datetime(date(ano,mes,1))
-	ffin = datetime(RelativeDate(date(fin),30))
+	ffin = finmes(fini) 
 else
 	fini=ini
 	ffin=fin
 end if
 
 dw_vac = create DataStore
-dw_vac.DataObject = 'dw_ausentismo'
+dw_vac.DataObject = 'dw_vac_periodo'
 dw_vac.setTransObject(SQLCA)
-if dw_vac.Retrieve(tipodoc, documento,'VA', fini, ffin) > 0 then
-	dias = dw_vac.getItemNumber(1, 'compute_1')
+if dw_vac.Retrieve(tipodoc, documento, date(fini), date(ffin)) > 0 then
+	dias = dw_vac.getItemNumber(1, 'totalvacaciones')
 end if
 
 return dias

@@ -2821,106 +2821,104 @@ end function
 
 public function integer calc_ahorros (string tipodoc, string documento, integer filahist);uo_datastore dw_ahorroact, dw_cuotas
 String ls_codp,  form_calculo, form_verifica, valor
-Integer j, fila, li_k, diasVacSig = 0, diasVacAct = 0
+Integer j, fila, li_k, diasVacSig = 0, diasVacAct = 0,diasVac = 0
 decimal acumulado, calculado, fpago = 0,tarifa,tarifa_esp, vrVac
 blob bfc,bfc1
 
-//if  is_tnom<>'R' and  is_tnom<>'V' and  is_tnom='C' and  is_tnom='P' then
-	dw_ahorroact = create uo_datastore
-	dw_ahorroact.DataObject = "dw_ahorrocabnom"
-	dw_ahorroact.SetTransObject(SQLCA)
-	if dw_ahorroact.Retrieve(tipodoc, documento) > 0 then
-		dw_cuotas = create uo_datastore
-		dw_cuotas.DataObject = "dw_ahorrocpo"
-		dw_cuotas.SetTransObject(SQLCA)
-		ls_codp = dw_ahorroact.GetItemString(1,'cod_concep')
-		for j = 1 to dw_ahorroact.RowCount()		
-			if dw_cuotas.Retrieve(dw_ahorroact.GetItemNumber(j,'num_ahorro')) > 0 then
-				acumulado = dw_cuotas.GetItemNumber(1,'compute_1')
+dw_ahorroact = create uo_datastore
+dw_ahorroact.DataObject = "dw_ahorrocabnom"
+dw_ahorroact.SetTransObject(SQLCA)
+if dw_ahorroact.Retrieve(tipodoc, documento) > 0 then
+	dw_cuotas = create uo_datastore
+	dw_cuotas.DataObject = "dw_ahorrocpo"
+	dw_cuotas.SetTransObject(SQLCA)
+	ls_codp = dw_ahorroact.GetItemString(1,'cod_concep')
+	for j = 1 to dw_ahorroact.RowCount()		
+		if dw_cuotas.Retrieve(dw_ahorroact.GetItemNumber(j,'num_ahorro')) > 0 then
+			acumulado = dw_cuotas.GetItemNumber(1,'compute_1')
+		else
+			acumulado = 0
+		end if
+		fila = dw_cuotas.find("fecha >= date('" + string(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')) + &
+			"') and fecha <= date('"+ string(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina'))+"')" ,1,dw_cuotas.Rowcount())
+		if fila = 0 then
+			cod_concepahorro = dw_ahorroact.GetItemString(j,'cod_concep')
+			if ls_codp= cod_concepahorro and j<>1 then 
+				ls_codp=cod_concepahorro
+				li_k++
 			else
-				acumulado = 0
-			end if
-			fila = dw_cuotas.find("fecha >= date('" + string(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')) + &
-				"') and fecha <= date('"+ string(tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina'))+"')" ,1,dw_cuotas.Rowcount())
-			if fila = 0 then
-				cod_concepahorro = dw_ahorroact.GetItemString(j,'cod_concep')
-				if ls_codp= cod_concepahorro and j<>1 then 
-					ls_codp=cod_concepahorro
-					li_k++
-				else
-					li_k=1
-				end if	
-	
-				fila = tab_1.p_2.dw_novedad.InsertRow(0)
-				tab_1.p_2.dw_novedad.SetItem(fila,'num_nomina',tab_n.tpn_1.dw_nomcab.GetItemNumber(tab_n.tpn_1.dw_nomcab.GetRow(),'num_nomina'))
-				tab_1.p_2.dw_novedad.SetItem(fila,'tipodoc', tipodoc)
-				tab_1.p_2.dw_novedad.SetItem(fila,'documento',documento)
-				tab_1.p_2.dw_novedad.SetItem(fila,'cod_concep',cod_concepahorro)
-				tab_1.p_2.dw_novedad.SetItem(fila,'item',j)
-				tab_1.p_2.dw_novedad.SetItem(fila,'ncargo', dw_historia.GetItemNumber(filahist,'ncargo'))
-				tab_1.p_2.dw_novedad.SetItem(fila,'nsalario', dw_historia.GetItemNumber(filahist,'nsalario'))
-				tab_1.p_2.dw_novedad.SetItem(fila,'ntraslado', dw_historia.GetItemNumber(filahist,'ntraslado'))
-				tab_1.p_2.dw_novedad.SetItem(fila,'cod_tipo_concep', dw_ahorroact.GetItemString(j,'cod_tipo_concep'))
-				tab_1.p_2.dw_novedad.SetItem(fila,'des_concep', dw_ahorroact.GetItemString(j,'des_concep'))
-				tab_1.p_2.dw_novedad.SetItem(fila,'sigla', dw_ahorroact.GetItemString(j,'sigla'))
-				tab_1.p_2.dw_novedad.SetItem(fila,'tipo', dw_ahorroact.GetItemString(j,'tipo_concep'))
-				tab_1.p_2.dw_novedad.SetItem(fila,'cantidad_ac',1)
-				if dw_ahorroact.GetItemString(j,'tipo') = '0' then
-					if wf_vac_anticipada() = '1' then
-						diasVacSig=f_dias_vac(tipodoc, documento, ls_vac, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia') , tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina')  ) 
-						diasVacAct = f_dias_vac_per(tipodoc, documento, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')  ) 
-						if diasVacSig >0 or diasVacAct > 0 then
-							vrVac = round(dw_ahorroact.GetItemNumber(j,'vfijo') * diasVacSig / 30, 0) - round(dw_ahorroact.GetItemNumber(j,'vfijo') * diasVacAct / 30, 0)
-						else
-							vrVac = 0
-						end if
-					end if
-					tab_1.p_2.dw_novedad.SetItem(fila,'valor_c',round(dw_ahorroact.GetItemNumber(j,'vfijo') + vrVac,0))
-					tab_1.p_2.dw_novedad.SetItem(fila,'pagado',round(dw_ahorroact.GetItemNumber(j,'vfijo') + vrVac,0))
-					////se agrega para calculos ese indias						
-					if f_addcompute(dw_ahorroact.GetItemString(j,'sigla'), string(round(dw_ahorroact.GetItemNumber(j,'vfijo') +vrVac,0)), string(round(dw_ahorroact.GetItemNumber(j,'vfijo')+vrVac,0)), tarifa, tarifa_esp, li_k) = -1 then Return -1
-				else
-					selectblob form_calculo into :bfc
-					from nom_concep where cod_concep=:cod_concepahorro;
-	
-					selectblob form_verifica into :bfc1
-					from nom_concep where cod_concep=:cod_concepahorro;
-	
-					form_calculo = string(bfc)
-					form_verifica = string(bfc1)
-					if  dw_ahorroact.GetItemNumber(j,'porcensal') <>0 then
-						tarifa=dw_ahorroact.GetItemNumber(j,'porcensal')
-						calculado = round((dw_ahorroact.GetItemNumber(j,'porcensal')/100 * calculado),0)
-						tab_1.p_2.dw_novedad.SetItem(fila, 'tarifa', dw_ahorroact.GetItemNumber(j,'porcensal'))
-					end if
+				li_k=1
+			end if	
 
-					if f_addcompute(dw_ahorroact.GetItemString(j,'sigla'), form_calculo,form_verifica,tarifa,tarifa_esp,li_k) = -1 then 
-						Return -1
-					end if
-					long k
-					dw_historia.SetItem(filahist, f_get_ctrl(dw_ahorroact.GetItemString(j,'sigla')), 1)
-					tab_1.p_2.dw_novedad.ScrolltoRow(fila)
-					tab_1.p_2.dw_novedad.SetColumn('cantidad_ac')
-					dw_historia.SetItem(filahist,get_parm_nov(tab_1.p_2.dw_novedad.GetItemString(fila,'sigla')),1)
-					calculado = round(dw_historia.GetItemNumber(filahist,tab_1.p_2.dw_novedad.GetItemString(fila,'sigla')),0)
-					if tab_n.tpn_1.dw_nomcab.GetItemstring(tab_n.tpn_1.dw_nomcab.Getrow(),'esp')='1' then
-						tab_1.p_2.dw_novedad.SetItem(fila, 'tarifa', tarifa_esp)
+			fila = tab_1.p_2.dw_novedad.InsertRow(0)
+			tab_1.p_2.dw_novedad.SetItem(fila,'num_nomina',tab_n.tpn_1.dw_nomcab.GetItemNumber(tab_n.tpn_1.dw_nomcab.GetRow(),'num_nomina'))
+			tab_1.p_2.dw_novedad.SetItem(fila,'tipodoc', tipodoc)
+			tab_1.p_2.dw_novedad.SetItem(fila,'documento',documento)
+			tab_1.p_2.dw_novedad.SetItem(fila,'cod_concep',cod_concepahorro)
+			tab_1.p_2.dw_novedad.SetItem(fila,'item',j)
+			tab_1.p_2.dw_novedad.SetItem(fila,'ncargo', dw_historia.GetItemNumber(filahist,'ncargo'))
+			tab_1.p_2.dw_novedad.SetItem(fila,'nsalario', dw_historia.GetItemNumber(filahist,'nsalario'))
+			tab_1.p_2.dw_novedad.SetItem(fila,'ntraslado', dw_historia.GetItemNumber(filahist,'ntraslado'))
+			tab_1.p_2.dw_novedad.SetItem(fila,'cod_tipo_concep', dw_ahorroact.GetItemString(j,'cod_tipo_concep'))
+			tab_1.p_2.dw_novedad.SetItem(fila,'des_concep', dw_ahorroact.GetItemString(j,'des_concep'))
+			tab_1.p_2.dw_novedad.SetItem(fila,'sigla', dw_ahorroact.GetItemString(j,'sigla'))
+			tab_1.p_2.dw_novedad.SetItem(fila,'tipo', dw_ahorroact.GetItemString(j,'tipo_concep'))
+			tab_1.p_2.dw_novedad.SetItem(fila,'cantidad_ac',1)
+			if dw_ahorroact.GetItemString(j,'tipo') = '0' then
+				if wf_vac_anticipada() = '1' then
+					diasVac=f_dias_vac(tipodoc, documento, ls_vac, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia') , tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'termina')  ) 
+					diasVacAct = f_dias_vac_per(tipodoc, documento, tab_n.tpn_1.dw_nomcab.GetItemDateTime(tab_n.tpn_1.dw_nomcab.GetRow(),'inicia')  ) 
+					if diasVac>0 or diasVacAct > 0 then
+						vrVac = round(dw_ahorroact.GetItemNumber(j,'vfijo') * diasVac/ 30, 0) - round(dw_ahorroact.GetItemNumber(j,'vfijo') * diasVacAct / 30, 0)
 					else
-						tab_1.p_2.dw_novedad.SetItem(fila, 'tarifa', tarifa)
+						vrVac = 0
 					end if
-					tab_1.p_2.dw_novedad.SetItem(fila, 'valor_c', calculado)
-					tab_1.p_2.dw_novedad.SetItem(fila, 'pagado', calculado)
 				end if
-				tab_1.p_2.dw_novedad.SetItem(fila,'ncargo',dw_historia.GetItemNumber(filahist,'ncargo'))
-				tab_1.p_2.dw_novedad.SetItem(fila,'numdoc',dw_ahorroact.GetItemNumber(j,'num_ahorro'))
-				valor = dw_cuotas.Describe("Evaluate('max(ncuota)', 0)")
-				if isNull(valor) then valor = '0'
-				tab_1.p_2.dw_novedad.SetItem(fila,'cuota',long(valor) + 1)
+				tab_1.p_2.dw_novedad.SetItem(fila,'valor_c',round(dw_ahorroact.GetItemNumber(j,'vfijo') + vrVac,0))
+				tab_1.p_2.dw_novedad.SetItem(fila,'pagado',round(dw_ahorroact.GetItemNumber(j,'vfijo') + vrVac,0))
+				////se agrega para calculos ese indias						
+				if f_addcompute(dw_ahorroact.GetItemString(j,'sigla'), string(round(dw_ahorroact.GetItemNumber(j,'vfijo') +vrVac,0)), string(round(dw_ahorroact.GetItemNumber(j,'vfijo')+vrVac,0)), tarifa, tarifa_esp, li_k) = -1 then Return -1
+			else
+				selectblob form_calculo into :bfc
+				from nom_concep where cod_concep=:cod_concepahorro;
+
+				selectblob form_verifica into :bfc1
+				from nom_concep where cod_concep=:cod_concepahorro;
+
+				form_calculo = string(bfc)
+				form_verifica = string(bfc1)
+				if  dw_ahorroact.GetItemNumber(j,'porcensal') <>0 then
+					tarifa=dw_ahorroact.GetItemNumber(j,'porcensal')
+					calculado = round((dw_ahorroact.GetItemNumber(j,'porcensal')/100 * calculado),0)
+					tab_1.p_2.dw_novedad.SetItem(fila, 'tarifa', dw_ahorroact.GetItemNumber(j,'porcensal'))
+				end if
+
+				if f_addcompute(dw_ahorroact.GetItemString(j,'sigla'), form_calculo,form_verifica,tarifa,tarifa_esp,li_k) = -1 then 
+					Return -1
+				end if
+				
+				long k
+				dw_historia.SetItem(filahist, f_get_ctrl(dw_ahorroact.GetItemString(j,'sigla')), 1)
+				tab_1.p_2.dw_novedad.ScrolltoRow(fila)
+				tab_1.p_2.dw_novedad.SetColumn('cantidad_ac')
+				dw_historia.SetItem(filahist,get_parm_nov(tab_1.p_2.dw_novedad.GetItemString(fila,'sigla')),1)
+				calculado = round(dw_historia.GetItemNumber(filahist,tab_1.p_2.dw_novedad.GetItemString(fila,'sigla')),0)
+				if tab_n.tpn_1.dw_nomcab.GetItemstring(tab_n.tpn_1.dw_nomcab.Getrow(),'esp')='1' then
+					tab_1.p_2.dw_novedad.SetItem(fila, 'tarifa', tarifa_esp)
+				else
+					tab_1.p_2.dw_novedad.SetItem(fila, 'tarifa', tarifa)
+				end if
+				tab_1.p_2.dw_novedad.SetItem(fila, 'valor_c', calculado)
+				tab_1.p_2.dw_novedad.SetItem(fila, 'pagado', calculado)
 			end if
-		//	end if
-		next
-	end if
-//end if
+			tab_1.p_2.dw_novedad.SetItem(fila,'ncargo',dw_historia.GetItemNumber(filahist,'ncargo'))
+			tab_1.p_2.dw_novedad.SetItem(fila,'numdoc',dw_ahorroact.GetItemNumber(j,'num_ahorro'))
+			valor = dw_cuotas.Describe("Evaluate('max(ncuota)', 0)")
+			if isNull(valor) then valor = '0'
+			tab_1.p_2.dw_novedad.SetItem(fila,'cuota',long(valor) + 1)
+		end if
+	next
+end if
 
 end function
 
