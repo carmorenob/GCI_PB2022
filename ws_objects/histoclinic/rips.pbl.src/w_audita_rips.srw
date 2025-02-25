@@ -257,7 +257,6 @@ integer height = 2416
 boolean titlebar = true
 string title = "Auditoría y Acumulados de RIPS no Radicados"
 boolean controlmenu = true
-boolean minbox = true
 boolean maxbox = true
 boolean resizable = true
 windowtype windowtype = child!

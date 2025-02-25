@@ -508,7 +508,6 @@ integer height = 2612
 boolean titlebar = true
 string title = "Generador de RIPS"
 boolean controlmenu = true
-boolean minbox = true
 boolean maxbox = true
 boolean resizable = true
 windowtype windowtype = child!

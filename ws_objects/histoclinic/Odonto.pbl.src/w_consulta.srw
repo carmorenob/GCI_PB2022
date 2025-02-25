@@ -108,6 +108,7 @@ integer height = 2288
 boolean titlebar = true
 string title = "Odontología - Consulta"
 boolean controlmenu = true
+boolean maxbox = true
 windowtype windowtype = child!
 long backcolor = 67108864
 string icon = "r_odoncon.ico"

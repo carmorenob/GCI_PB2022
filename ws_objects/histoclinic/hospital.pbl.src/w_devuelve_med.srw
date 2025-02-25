@@ -73,6 +73,7 @@ integer height = 2036
 boolean titlebar = true
 string title = "Devolución de Medicamentos"
 boolean controlmenu = true
+boolean maxbox = true
 windowtype windowtype = child!
 long backcolor = 67108864
 string icon = "r_dev_med.ico"

@@ -17,11 +17,9 @@ end type
 end forward
 
 global type w_cotizar from w_factura_base
-boolean visible = true
 integer width = 3607
 integer height = 1816
 string title = "Cotización de Servicios"
-boolean minbox = false
 boolean maxbox = false
 boolean resizable = false
 windowtype windowtype = response!
@@ -199,6 +197,12 @@ if cuantos=0 then
 end if
 end event
 
+type sle_siras from w_factura_base`sle_siras within w_cotizar
+end type
+
+type ddlb_archivos from w_factura_base`ddlb_archivos within w_cotizar
+end type
+
 type dw_his_acu from w_factura_base`dw_his_acu within w_cotizar
 end type
 
@@ -216,7 +220,6 @@ boolean visible = false
 integer x = 3671
 integer y = 1184
 boolean enabled = false
-boolean originalsize = false
 end type
 
 type pb_factu from w_factura_base`pb_factu within w_cotizar
@@ -245,8 +248,6 @@ type pb_kit from w_factura_base`pb_kit within w_cotizar
 boolean visible = false
 integer x = 3781
 integer y = 708
-integer width = 41
-integer height = 52
 boolean enabled = false
 end type
 
@@ -280,8 +281,6 @@ type pb_req_cont from w_factura_base`pb_req_cont within w_cotizar
 boolean visible = false
 integer x = 3771
 integer y = 1048
-integer width = 64
-integer height = 60
 boolean enabled = false
 end type
 
@@ -385,8 +384,6 @@ type pb_buscar from w_factura_base`pb_buscar within w_cotizar
 boolean visible = false
 integer x = 3781
 integer y = 640
-integer width = 41
-integer height = 60
 boolean enabled = false
 end type
 
@@ -453,8 +450,6 @@ type pb_paci from w_factura_base`pb_paci within w_cotizar
 boolean visible = false
 integer x = 3785
 integer y = 780
-integer width = 41
-integer height = 52
 boolean enabled = false
 end type
 
@@ -462,8 +457,6 @@ type pb_emp from w_factura_base`pb_emp within w_cotizar
 boolean visible = false
 integer x = 3767
 integer y = 896
-integer width = 64
-integer height = 60
 boolean enabled = false
 end type
 
@@ -471,8 +464,6 @@ type pb_reimprimir from w_factura_base`pb_reimprimir within w_cotizar
 boolean visible = false
 integer x = 3767
 integer y = 972
-integer width = 64
-integer height = 60
 boolean enabled = false
 end type
 
@@ -511,7 +502,6 @@ integer x = 3675
 integer y = 1244
 integer height = 40
 boolean enabled = false
-boolean originalsize = false
 end type
 
 type pb_parcial from w_factura_base`pb_parcial within w_cotizar
@@ -533,6 +523,9 @@ type gb_4 from w_factura_base`gb_4 within w_cotizar
 integer y = 416
 end type
 
+type pb_faccon from w_factura_base`pb_faccon within w_cotizar
+end type
+
 type dw_emppac from w_factura_base`dw_emppac within w_cotizar
 integer x = 1920
 integer y = 60
@@ -545,12 +538,21 @@ integer width = 1664
 integer height = 376
 end type
 
+type st_siras from w_factura_base`st_siras within w_cotizar
+end type
+
+type cbx_4 from w_factura_base`cbx_4 within w_cotizar
+end type
+
 type pb_pagares from w_factura_base`pb_pagares within w_cotizar
 integer x = 3680
 integer y = 1552
 integer width = 55
 integer height = 48
 boolean originalsize = false
+end type
+
+type dw_reccaj_cpo from w_factura_base`dw_reccaj_cpo within w_cotizar
 end type
 
 type dw_procs from datawindow within w_cotizar

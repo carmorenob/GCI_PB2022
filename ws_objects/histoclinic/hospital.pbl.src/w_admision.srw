@@ -170,6 +170,7 @@ integer height = 2316
 boolean titlebar = true
 string title = "Admisiones del Paciente (Hospitalización y/o Urgencias)"
 boolean controlmenu = true
+boolean maxbox = true
 windowtype windowtype = child!
 long backcolor = 67108864
 string icon = "r_hospital.ico"

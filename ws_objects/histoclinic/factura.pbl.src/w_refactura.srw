@@ -27,7 +27,6 @@ end forward
 global type w_refactura from w_factura_base
 integer width = 5829
 integer height = 2488
-boolean minbox = false
 boolean maxbox = false
 boolean resizable = false
 windowtype windowtype = response!
@@ -860,8 +859,6 @@ type pb_buscar from w_factura_base`pb_buscar within w_refactura
 boolean visible = false
 integer x = 3671
 integer y = 1724
-integer width = 151
-integer height = 132
 boolean enabled = false
 end type
 

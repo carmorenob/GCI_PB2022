@@ -70,6 +70,7 @@ integer height = 2028
 boolean titlebar = true
 string title = "Pacientes con ingresos Activos"
 boolean controlmenu = true
+boolean maxbox = true
 boolean resizable = true
 windowtype windowtype = popup!
 long backcolor = 67108864

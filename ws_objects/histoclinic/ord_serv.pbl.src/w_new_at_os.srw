@@ -28,6 +28,7 @@ integer height = 2748
 boolean titlebar = true
 string title = "Atención de órdenes de Servicio"
 boolean controlmenu = true
+boolean maxbox = true
 windowtype windowtype = child!
 long backcolor = 67108864
 string icon = "r_os.ico"
@@ -148,6 +149,7 @@ integer height = 128
 integer taborder = 110
 string title = "none"
 string dataobject = "dw_inf_emp_cama"
+boolean maxbox = true
 boolean border = false
 boolean livescroll = true
 end type

@@ -194,7 +194,6 @@ integer height = 2248
 boolean titlebar = true
 string title = "Captura de RIPS (Recibos no atendidos)"
 boolean controlmenu = true
-boolean minbox = true
 boolean maxbox = true
 boolean resizable = true
 windowtype windowtype = child!

@@ -139,6 +139,7 @@ integer height = 2516
 boolean titlebar = true
 string title = "Asignación de Citas"
 boolean controlmenu = true
+boolean maxbox = true
 windowtype windowtype = child!
 windowstate windowstate = maximized!
 long backcolor = 67108864

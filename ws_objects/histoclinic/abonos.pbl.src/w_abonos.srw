@@ -79,7 +79,6 @@ integer height = 1756
 boolean titlebar = true
 string title = "Anticipos de Paciente"
 boolean controlmenu = true
-boolean minbox = true
 boolean maxbox = true
 boolean resizable = true
 windowtype windowtype = child!

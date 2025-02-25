@@ -74,6 +74,7 @@ integer height = 2108
 boolean titlebar = true
 string title = "Entrega de Medicamentos"
 boolean controlmenu = true
+boolean maxbox = true
 windowtype windowtype = child!
 long backcolor = 67108864
 string icon = "r_entrega_med.ico"

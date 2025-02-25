@@ -103,6 +103,7 @@ integer height = 1936
 boolean titlebar = true
 string title = "Odontología - Tratamiento"
 boolean controlmenu = true
+boolean maxbox = true
 windowtype windowtype = child!
 long backcolor = 67108864
 string icon = "r_odontto.ico"

@@ -59,10 +59,11 @@ end forward
 
 global type w_hist_gral from window
 integer width = 6981
-integer height = 2644
+integer height = 3120
 boolean titlebar = true
 string title = "Consultorio"
 boolean controlmenu = true
+boolean maxbox = true
 boolean hscrollbar = true
 boolean vscrollbar = true
 windowtype windowtype = child!
@@ -208,16 +209,16 @@ else
 end if
 end event
 
-event resize;if height>=1888 then
-	vscrollbar=false
-else
-	vscrollbar=true
-end if
-if this.width>=3584 then 
-	this.hscrollbar=false
-else
-	this.hscrollbar=true
-end if
+event resize;//if height>=1888 then
+//	vscrollbar=false
+//else
+//	vscrollbar=true
+//end if
+//if this.width>=3584 then 
+//	this.hscrollbar=false
+//else
+//	this.hscrollbar=true
+//end if
 tab_s.resize(newwidth - 20 , newheight - tab_s.y)
 tab_s.tps_2.uo_hc_new.tamanyo(newwidth - 70,newheight - tab_s.y - 140)
 
@@ -593,7 +594,7 @@ event mousemove pbm_mousemove
 integer x = 32
 integer y = 564
 integer width = 6853
-integer height = 1920
+integer height = 2312
 integer taborder = 70
 string dragicon = "none!"
 integer textsize = -8
@@ -634,7 +635,7 @@ type tps_1 from userobject within tab_s
 integer x = 18
 integer y = 112
 integer width = 6816
-integer height = 1792
+integer height = 2184
 string dragicon = "none!"
 long backcolor = 67108864
 string pointer = "Arrow!"
@@ -704,7 +705,7 @@ type tps_2 from userobject within tab_s
 integer x = 18
 integer y = 112
 integer width = 6816
-integer height = 1792
+integer height = 2184
 string dragicon = "none!"
 long backcolor = 67108864
 string pointer = "Arrow!"
@@ -777,7 +778,7 @@ type tps_3 from userobject within tab_s
 integer x = 18
 integer y = 112
 integer width = 6816
-integer height = 1792
+integer height = 2184
 string dragicon = "none!"
 long backcolor = 67108864
 string pointer = "Arrow!"

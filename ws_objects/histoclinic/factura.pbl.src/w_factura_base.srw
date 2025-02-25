@@ -138,7 +138,6 @@ integer height = 2100
 boolean titlebar = true
 string title = "Facturación de Servicios"
 boolean controlmenu = true
-boolean minbox = true
 boolean maxbox = true
 boolean resizable = true
 windowtype windowtype = child!
@@ -224,6 +223,7 @@ transaction sqlba
 string i_mueve_kardex,i_alm_cext,i_alm_hosp,i_alm_urg,i_alm_amb //todas son para mover kardex
 string i_anterior,i_pideprof,i_tipo_prof ,i_profe,i_profe_ord ,i_orden
 end variables
+
 forward prototypes
 public subroutine totales ()
 public function real f_topes (string campo, string empre, string cont, string est)

@@ -36,6 +36,7 @@ integer height = 1580
 boolean titlebar = true
 string title = "Envia Resultados"
 boolean controlmenu = true
+boolean maxbox = true
 long backcolor = 67108864
 string icon = "emasivo.ico"
 boolean center = true

@@ -210,7 +210,6 @@ integer height = 2584
 boolean titlebar = true
 string title = "Salas Quirúrgicas"
 boolean controlmenu = true
-boolean minbox = true
 boolean maxbox = true
 boolean hscrollbar = true
 boolean vscrollbar = true
