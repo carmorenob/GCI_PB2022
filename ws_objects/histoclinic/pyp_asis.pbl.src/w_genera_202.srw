@@ -30,7 +30,6 @@ integer height = 1592
 boolean titlebar = true
 string title = "Genera 202"
 boolean controlmenu = true
-boolean minbox = true
 boolean maxbox = true
 boolean resizable = true
 windowtype windowtype = child!

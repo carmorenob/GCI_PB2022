@@ -56,6 +56,7 @@ integer height = 1704
 boolean titlebar = true
 string title = "Impresion Masiva HC"
 boolean controlmenu = true
+boolean maxbox = true
 windowtype windowtype = child!
 long backcolor = 67108864
 string icon = "r_imprimem.ico"

@@ -50,6 +50,7 @@ integer height = 2684
 boolean titlebar = true
 string title = "Explorador de Historial Médico del Paciente"
 boolean controlmenu = true
+boolean maxbox = true
 windowtype windowtype = child!
 windowstate windowstate = maximized!
 long backcolor = 67108864

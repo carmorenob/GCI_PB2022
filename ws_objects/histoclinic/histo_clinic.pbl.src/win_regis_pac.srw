@@ -320,6 +320,7 @@ integer height = 2468
 boolean titlebar = true
 string title = "Datos generales paciente"
 boolean controlmenu = true
+boolean maxbox = true
 boolean hscrollbar = true
 boolean vscrollbar = true
 windowtype windowtype = child!

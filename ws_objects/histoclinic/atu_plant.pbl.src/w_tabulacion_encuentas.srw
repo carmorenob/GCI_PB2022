@@ -12,6 +12,7 @@ integer height = 2168
 boolean titlebar = true
 string title = "Encuestas"
 boolean controlmenu = true
+boolean maxbox = true
 long backcolor = 67108864
 string icon = "tab_encu.ico"
 uo_encuesta uo_encuesta

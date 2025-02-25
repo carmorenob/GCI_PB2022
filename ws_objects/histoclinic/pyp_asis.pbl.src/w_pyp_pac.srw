@@ -81,7 +81,6 @@ integer height = 1992
 boolean titlebar = true
 string title = "Promoción y Prevención"
 boolean controlmenu = true
-boolean minbox = true
 boolean maxbox = true
 boolean resizable = true
 long backcolor = 67108864

@@ -42,6 +42,7 @@ integer height = 2052
 boolean titlebar = true
 string title = "Vacunas de Paciente"
 boolean controlmenu = true
+boolean maxbox = true
 windowtype windowtype = child!
 long backcolor = 67108864
 string icon = "r_vacunas.ico"

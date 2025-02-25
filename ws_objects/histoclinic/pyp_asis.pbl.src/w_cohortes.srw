@@ -24,7 +24,6 @@ integer height = 1844
 boolean titlebar = true
 string title = "Cohortes"
 boolean controlmenu = true
-boolean minbox = true
 boolean maxbox = true
 long backcolor = 67108864
 string icon = "AppIcon!"

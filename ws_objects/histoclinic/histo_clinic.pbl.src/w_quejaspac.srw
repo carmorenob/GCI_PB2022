@@ -68,6 +68,7 @@ integer height = 2428
 boolean titlebar = true
 string title = "Novedades en Atención"
 boolean controlmenu = true
+boolean maxbox = true
 windowtype windowtype = child!
 long backcolor = 67108864
 string icon = "AppIcon!"

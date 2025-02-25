@@ -20,7 +20,6 @@ integer height = 2108
 boolean titlebar = true
 string title = "Cohortes Paciente"
 boolean controlmenu = true
-boolean minbox = true
 boolean maxbox = true
 boolean resizable = true
 windowtype windowtype = child!
@@ -88,8 +87,8 @@ end type
 type pb_terminar from picturebutton within w_cohortes_paciente
 integer x = 4055
 integer y = 160
-integer width = 151
-integer height = 132
+integer width = 146
+integer height = 128
 integer taborder = 30
 integer textsize = -10
 integer weight = 400

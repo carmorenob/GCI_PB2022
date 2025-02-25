@@ -78,7 +78,6 @@ integer height = 2168
 boolean titlebar = true
 string title = "Llamadas a Pacientes - Citas"
 boolean controlmenu = true
-boolean minbox = true
 boolean maxbox = true
 boolean resizable = true
 long backcolor = 67108864
