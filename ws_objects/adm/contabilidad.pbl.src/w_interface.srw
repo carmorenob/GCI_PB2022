@@ -690,8 +690,6 @@ for j=1 to dw_cab.rowcount()
 			case 3
 				dw_cpo.setfilter("#23='"+dw_cab.getitemstring(j,2)+"' and #26="+string(dw_cab.getitemnumber(j,1))+" and #24='"+dw_cab.getitemstring(j,3)+"'") 
 			case 5
-				string jaer
-				jaer="#1='"+dw_cab.getitemstring(j,1)+"' and #2='"+dw_cab.getitemstring(j,2)+"' and #3="+string(dw_cab.getitemnumber(j,3))+" and #4='"+dw_cab.getitemstring(j,4)+"' and #5="+string(dw_cab.getitemnumber(j,5))				
 				dw_cpo.setfilter("#1='"+dw_cab.getitemstring(j,1)+"' and #2='"+dw_cab.getitemstring(j,2)+"' and #3="+string(dw_cab.getitemnumber(j,3))+" and #4='"+dw_cab.getitemstring(j,4)+"' and #5="+string(dw_cab.getitemnumber(j,5)))
 			case 6
 				dw_cpo.setfilter("#1='"+dw_cab.getitemstring(j,1)+"' and #2='"+dw_cab.getitemstring(j,2)+"' and #3="+string(dw_cab.getitemnumber(j,3))+" and #4='"+dw_cab.getitemstring(j,4)+"' and #5="+string(dw_cab.getitemnumber(j,5))+" and #6="+string(dw_cab.getitemnumber(j,6)))

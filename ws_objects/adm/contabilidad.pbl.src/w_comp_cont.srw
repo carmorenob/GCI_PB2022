@@ -1303,7 +1303,7 @@ public function integer lf_reversa_doc ();if (not isnull(dw_docus.getitemstring(
 				case 'tesocuentasmovi'	
 					sql="UPDATE tesocuentasmovi SET "+dw_docus.getitemstring(dw_docus.getrow(),'nombre_campo')+" = 'P' FROM CONT_DOC_CP  WHERE (((CONT_DOC_CP.COD_EMPRESA)='"+i_codemp+"') AND ((CONT_DOC_CP.Ano)="+string(l_ano)+") AND ((CONT_DOC_CP.CDoc)='"+docum_contable+"') AND ((CONT_DOC_CP.ndoc)="+string(num_docu_contable)+")) AND (tesocuentasmovi.item = CONT_DOC_CP.ndocR) AND (tesocuentasmovi.signo = CONT_DOC_CP.llave5) AND (tesocuentasmovi.numcuenta = CONT_DOC_CP.llave4)  "
 				case 'af_deprecia'
-					sql="UPDATE af_deprecia SET  "+dw_docus.getitemstring(dw_docus.getrow(),'nombre_campo')+" = 'P'  FROM CONT_DOC_CP INNER JOIN AF_DEPRECIA ON (CONT_DOC_CP.LLAVE4 = AF_DEPRECIA.PLACA) AND (CONT_DOC_CP.CDOCR = AF_DEPRECIA.CODDOCU) AND (CONT_DOC_CP.CLUGAR_DOC = AF_DEPRECIA.CLUGAR) SET " +dw_docus.getitemstring(dw_docus.getrow(),'nombre_campo')+  "='P' WHERE (((CONT_DOC_CP.COD_EMPRESA)='"+i_codemp+"') AND ((CONT_DOC_CP.ANO)="+string(l_ano)+") AND ((CONT_DOC_CP.CDOC)='"+docum_contable+") AND ((CONT_DOC_CP.NDOC)="+string(num_docu_contable)+") AND ((AF_DEPRECIA.calculado)=CONT_DOC_CP.LLAVE5));"
+					sql="UPDATE af_deprecia SET  "+dw_docus.getitemstring(dw_docus.getrow(),'nombre_campo')+" = 'P'  FROM CONT_DOC_CP WHERE (((CONT_DOC_CP.COD_EMPRESA)='"+i_codemp+"') AND ((CONT_DOC_CP.ANO)="+string(l_ano)+") AND ((CONT_DOC_CP.CDOC)='"+docum_contable+"') AND ((CONT_DOC_CP.NDOC)="+string(num_docu_contable)+") AND  (af_deprecia.item = cont_doc_cp.llave6) AND (af_deprecia.mes = cont_doc_cp.llave5) AND (af_deprecia.placa = cont_doc_cp.llave4) AND (af_deprecia.anyo = cont_doc_cp.ndocr) AND (af_deprecia.coddocu = cont_doc_cp.cdocr) AND (af_deprecia.clugar = cont_doc_cp.clugar_doc));"
 				case 'car_cobro_cpo'
 					sql="UPDATE car_cobro_cpo SET "+dw_docus.getitemstring(dw_docus.getrow(),'nombre_campo')+" = 'P' FROM CONT_DOC_CP WHERE (((CONT_DOC_CP.COD_EMPRESA)='"+i_codemp+"') AND ((CONT_DOC_CP.Ano)="+string(l_ano)+") AND ((CONT_DOC_CP.CDoc)='"+docum_contable+"') AND ((CONT_DOC_CP.ndoc)="+string(num_docu_contable)+")) AND (CONT_DOC_CP.llave5 = CAR_COBRO_CPO.item) AND (CONT_DOC_CP.llave4 = CAR_COBRO_CPO.cartipo) AND (CONT_DOC_CP.ndocR = CAR_COBRO_CPO.num_cobro) AND (CONT_DOC_CP.CDocR = CAR_COBRO_CPO.coddoc) AND (CONT_DOC_CP.CLugar_doc = CAR_COBRO_CPO.clugar)  "
 				case 'nom_cab'
@@ -2433,7 +2433,7 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 boolean originalsize = true
-string picturename = "LLEVAR2.GIF"
+string picturename = "llevar2.gif"
 string disabledname = "d_LLEVAR2.GIF"
 string powertiptext = "Nuevo Asiento desde Interface"
 end type
