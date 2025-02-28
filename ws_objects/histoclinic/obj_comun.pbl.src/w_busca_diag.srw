@@ -71,7 +71,7 @@ st_diag ist_di
 private string is_sql1="SELECT &
 	diags.codgeral,diags.desdiag,diags.coddiag,   &
 	diags.ccap,diags.cod_rips,diags_version.val_hasta,   &
-	diags.guia,capdiags.antecedente,diags.tservicio  &
+	diags.guia,capdiags.antecedente,diags.tservicio,diags.morbilidad  &
 FROM &
 	(diags_version INNER JOIN capdiags ON diags_version.c_version = capdiags.c_version) &
 	INNER JOIN diags ON (capdiags.codcap = diags.ccap) AND (capdiags.c_version = diags.c_version)&
@@ -79,13 +79,12 @@ WHERE diags.estado='1' and diags.c_version='"
 
 private string is_sql2=" union all SELECT DISTINCT &
 	capdiags.codcap, capdiags.descap, capdiags.codcap, diags.ccap, capdiags.codcap, &
-	diags_version.val_hasta, diags.guia, capdiags.antecedente,diags.tservicio &
+	diags_version.val_hasta, diags.guia, capdiags.antecedente,diags.tservicio,diags.morbilidad &
 FROM &
 	(diags_version INNER JOIN capdiags ON diags_version.c_version = capdiags.c_version) &
 	INNER JOIN diags ON (capdiags.codcap = diags.ccap) AND (capdiags.c_version = diags.c_version)&
 WHERE diags.estado='1' and diags.c_version='"
 end variables
-
 forward prototypes
 public subroutine filtrar ()
 end prototypes

@@ -2,8 +2,9 @@
 global type st_edadsexo from structure
 	string		sexo
 	double		edad
-	string		antece
-	string		proced
+	string		antece		descriptor "comment" = "si muestra solos antecedentes"
+	string		proced		descriptor "comment" = "saber si muestra todos dx o no para proced"
 	boolean		saltar_validacion		descriptor "comment" = "poner en true si no es necesario validar edades o sexo"
+	string		dxrel		descriptor "comment" = "Para saber si muestra todos o solos morbilidad"
 end type
 

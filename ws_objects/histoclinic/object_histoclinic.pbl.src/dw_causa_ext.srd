@@ -5,11 +5,12 @@ header(height=0 color="536870912" transparency="0" gradient.color="8421504" grad
 summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 detail(height=60 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
-table(column=(type=char(2) update=yes updatewhereclause=yes key=yes name=codcausaexter dbname="CAUSAEXTERNA.codcausaexter" )
- column=(type=char(120) updatewhereclause=yes name=descripcion dbname="CAUSAEXTERNA.descripcion" )
+table(column=(type=char(2) update=yes updatewhereclause=yes key=yes name=codcausaexter dbname="causaexterna.codcausaexter" dbalias=".codcausaexter" )
+ column=(type=char(120) updatewhereclause=yes name=descripcion dbname="causaexterna.descripcion" dbalias=".descripcion" )
+ column=(type=char(1) updatewhereclause=yes name=dxrel dbname="causaexterna.dxrel" dbalias=".dxrel" )
  retrieve="SELECT 
 	codcausaexter,
-	descripcion     
+	descripcion,dxrel     
 FROM 
 	causaexterna    
 WHERE 

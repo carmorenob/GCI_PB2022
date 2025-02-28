@@ -5,19 +5,20 @@ header(height=56 color="536870912" transparency="0" gradient.color="8421504" gra
 summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 detail(height=68 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
-table(column=(type=char(12) update=yes updatewhereclause=yes name=codgeral dbname="diags.codgeral" )
- column=(type=char(255) update=yes updatewhereclause=yes name=desdiag dbname="diags.desdiag" )
- column=(type=char(2) update=yes updatewhereclause=yes name=coddiag dbname="diags.coddiag" )
- column=(type=char(5) update=yes updatewhereclause=yes name=ccap dbname="diags.ccap" )
- column=(type=char(7) updatewhereclause=yes name=cod_rips dbname="diags.cod_rips" )
- column=(type=datetime updatewhereclause=yes name=val_hasta dbname="diags.val_hasta" )
- column=(type=char(255) updatewhereclause=yes name=guia dbname="diags.guia" )
- column=(type=char(1) updatewhereclause=yes name=antecedente dbname="diags.antecedente" )
- column=(type=char(1) updatewhereclause=yes name=tservicio dbname="diags.tservicio" )
+table(column=(type=char(12) update=yes updatewhereclause=yes name=codgeral dbname="diags.codgeral" dbalias=".codgeral" )
+ column=(type=char(255) update=yes updatewhereclause=yes name=desdiag dbname="diags.desdiag" dbalias=".desdiag" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=coddiag dbname="diags.coddiag" dbalias=".coddiag" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=ccap dbname="diags.ccap" dbalias=".ccap" )
+ column=(type=char(7) updatewhereclause=yes name=cod_rips dbname="diags.cod_rips" dbalias=".cod_rips" )
+ column=(type=datetime updatewhereclause=yes name=val_hasta dbname="diags.val_hasta" dbalias=".val_hasta" )
+ column=(type=char(255) updatewhereclause=yes name=guia dbname="diags.guia" dbalias=".guia" )
+ column=(type=char(1) updatewhereclause=yes name=antecedente dbname="diags.antecedente" dbalias=".antecedente" )
+ column=(type=char(1) updatewhereclause=yes name=tservicio dbname="diags.tservicio" dbalias=".tservicio" )
+ column=(type=char(1) updatewhereclause=yes name=morbilidad dbname="diags.morbilidad" dbalias=".morbilidad" )
  retrieve="SELECT 
 	diags.codgeral,diags.desdiag,diags.coddiag,   
 	diags.ccap,diags.cod_rips,diags_version.val_hasta,   
-	diags.guia,capdiags.antecedente ,diags.tservicio
+	diags.guia,capdiags.antecedente ,diags.tservicio,diags.morbilidad
 FROM 
 	(diags_version INNER JOIN capdiags ON diags_version.c_version = capdiags.c_version) 
 	INNER JOIN diags ON (capdiags.codcap = diags.ccap) AND (capdiags.c_version = diags.c_version)

@@ -662,7 +662,6 @@ integer y = 24
 integer width = 5554
 integer height = 1396
 integer taborder = 20
-boolean bringtotop = true
 string i_indapdx = "0"
 string tipo_ingres = "1"
 end type

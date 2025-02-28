@@ -101,7 +101,7 @@ picturebutton ipb_newingre //en los constructor hay que asignarlo , por eso no e
 datawindow idw_emppac //en la ventana de interface con factu y recibo la llama por eso no es private, es el dw que tiene la empresa y contrato del pac
 private uo_datastore idw_cont_det
 private long i_contador=-1,i_nservicio,i_difp
-private string i_clugar_his,i_profe,i_espe,i_atiende,i_alm,i_cdoc_cons='SC',ls_antece,ls_resgt,ls_origen
+private string i_clugar_his,i_profe,i_espe,i_atiende,i_alm,i_cdoc_cons='SC',ls_antece,ls_resgt,ls_origen,is_cext
 private boolean i_confirma_ge=true,i_cambio_insumo
 private st_fact st_f
 DataWindowChild idw_fincon,idw_finproc,idw_causaex
@@ -554,10 +554,12 @@ idw_cont_det.settransobject(sqlca)
 end event
 
 type dw_fin_proced from datawindow within uo_serv_ing
+boolean visible = false
 integer x = 3442
 integer width = 686
 integer height = 124
 integer taborder = 90
+boolean enabled = false
 string title = "none"
 string dataobject = "dw_finalidad_cups"
 boolean livescroll = true
@@ -755,6 +757,13 @@ else
 	desde=dw_serv_ing.getrow()
 	hasta=dw_serv_ing.getrow()
 end if
+
+
+if is_cext='1' and (isnull(dw_diags.getitemstring(1,'diagrel1')) or dw_diags.getitemstring(1,'diagrel1')='') and dw_diags.getitemstring(1,'rips')='1' then
+	messagebox("Error Datos","La Causa Externa ("+dw_diags.getitemstring(1,'causaexterna')+") exige Dx Relacionado1 Obligatorio")
+	return -1
+end if
+
 if dw_diags.getitemstring(1,'r_causaexterna')<>'0' then dw_serv_ing.setitem(dw_serv_ing.getrow(),'causaexterna',dw_diags.getitemstring(1,'causaexterna'))
 if dw_diags.getitemstring(1,'r_fin_consulta')<>'0' then dw_serv_ing.setitem(dw_serv_ing.getrow(),'fin_consulta',dw_diags.getitemstring(1,'fin_consulta'))
 if dw_diags.getitemstring(1,'r_tipo_actoqx')<>'0' then dw_serv_ing.setitem(dw_serv_ing.getrow(),'tipo_actoqx',dw_diags.getitemstring(1,'tipo_actoqx'))
@@ -1510,6 +1519,14 @@ choose case getcolumnname()
 			this.setitem(row,'fin_consulta',nulo)
 			return 1
 		end if
+		setnull(veri)
+		veri=idw_causaex.find("codcausaexter ='"+this.getitemstring(row,'causaexterna')+"'",1,idw_causaex.rowcount())
+		if veri>0 then
+			is_cext=idw_causaex.getitemstring(veri,'dxrel')
+		else
+			is_cext='0'
+		end if
+
 	case 'codrip_prin','codrip_rel1','codrip_rel2','codrip_comp'
 		string este,pedazo,l_sex
 		setnull(este)
@@ -1551,6 +1568,7 @@ choose case colu
 		else
 			st_es.proced='1'
 		end if
+		st_es.dxrel=is_cext
 		openwithparm(w_busca_diag,st_es)
 		st_diag st_diag
 		st_diag=message.powerobjectparm
