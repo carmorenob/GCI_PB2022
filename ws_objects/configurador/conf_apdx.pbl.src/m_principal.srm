@@ -182,6 +182,10 @@ type m_tipocorreos from menu within m_tipos
 end type
 type m_tipodirección from menu within m_tipos
 end type
+type m_fincausa from menu within m_tipos
+end type
+type m_finproced from menu within m_tipos
+end type
 type m_tipos from menu within m_tablasbásicas
 m_tipodocumento m_tipodocumento
 m_tipoprocedimientos m_tipoprocedimientos
@@ -189,6 +193,8 @@ m_tiposdeingreso m_tiposdeingreso
 m_tiporegimen m_tiporegimen
 m_tipocorreos m_tipocorreos
 m_tipodirección m_tipodirección
+m_fincausa m_fincausa
+m_finproced m_finproced
 end type
 type m_gruposetareos from menu within m_tablasbásicas
 end type
@@ -3372,6 +3378,8 @@ m_tiposdeingreso m_tiposdeingreso
 m_tiporegimen m_tiporegimen
 m_tipocorreos m_tipocorreos
 m_tipodirección m_tipodirección
+m_fincausa m_fincausa
+m_finproced m_finproced
 end type
 
 on m_tipos.create
@@ -3404,12 +3412,16 @@ this.m_tiposdeingreso=create m_tiposdeingreso
 this.m_tiporegimen=create m_tiporegimen
 this.m_tipocorreos=create m_tipocorreos
 this.m_tipodirección=create m_tipodirección
+this.m_fincausa=create m_fincausa
+this.m_finproced=create m_finproced
 this.Item[UpperBound(this.Item)+1]=this.m_tipodocumento
 this.Item[UpperBound(this.Item)+1]=this.m_tipoprocedimientos
 this.Item[UpperBound(this.Item)+1]=this.m_tiposdeingreso
 this.Item[UpperBound(this.Item)+1]=this.m_tiporegimen
 this.Item[UpperBound(this.Item)+1]=this.m_tipocorreos
 this.Item[UpperBound(this.Item)+1]=this.m_tipodirección
+this.Item[UpperBound(this.Item)+1]=this.m_fincausa
+this.Item[UpperBound(this.Item)+1]=this.m_finproced
 end on
 
 on m_tipos.destroy
@@ -3420,6 +3432,8 @@ destroy(this.m_tiposdeingreso)
 destroy(this.m_tiporegimen)
 destroy(this.m_tipocorreos)
 destroy(this.m_tipodirección)
+destroy(this.m_fincausa)
+destroy(this.m_finproced)
 end on
 
 type m_tipodocumento from menu within m_tipos
@@ -3641,6 +3655,72 @@ this.bitmapgradient = true
 end on
 
 on m_tipodirección.destroy
+call super::destroy
+end on
+
+type m_fincausa from menu within m_tipos
+end type
+
+on m_fincausa.create
+call super::create
+this.tag = "Finalidad vs Causa Externa"
+this.text = "Finalidad vs Causa Externa"
+this.microhelp = "Finalidad vs Causa Externa"
+this.toolbaritemtext = "Finalidad vs Causa Externa"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_fincausa.destroy
+call super::destroy
+end on
+
+type m_finproced from menu within m_tipos
+end type
+
+on m_finproced.create
+call super::create
+this.tag = "Finalidad vs Procedimiento"
+this.text = "Finalidad vs Procedimiento"
+this.microhelp = "Finalidad vs Procedimiento"
+this.toolbaritemtext = "Finalidad vs Procedimiento"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_finproced.destroy
 call super::destroy
 end on
 

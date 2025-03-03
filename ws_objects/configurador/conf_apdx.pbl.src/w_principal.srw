@@ -398,6 +398,8 @@ event e_servcups ( long param1,  long param2,  long param3 )
 event e_servlugar ( long param1,  long param2,  long param3 )
 event e_apdxnotap ( long param1,  long param2,  long param3 )
 event e_adire ( long param1,  long param2,  long param3 )
+event e_fincext ( long param1,  long param2,  long param3 )
+event e_finproced ( long param1,  long param2,  long param3 )
 integer width = 3191
 integer height = 492
 long backcolor = 15132390
@@ -1069,5 +1071,11 @@ event e_apdxnotap(long param1, long param2, long param3);mf_abre_tablas("Notas P
 end event
 
 event e_adire(long param1, long param2, long param3);mf_abre_tablas("Abreviatura Direcciones",'dw_pm_direccion',0)
+end event
+
+event e_fincext(long param1, long param2, long param3);mf_abre_tablas("Finalidad vs Causa Externa",'dw_finconsulta_causaexterna',0)
+end event
+
+event e_finproced(long param1, long param2, long param3);mf_abre_tablas("Finalidad vs Procedimiento",'dw_finconsulta_proced',0)
 end event
 
