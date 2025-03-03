@@ -4,7 +4,7 @@ end type
 
 forward prototypes
 global function st_return_diags f_check_diag2 ()
-global function st_return_diags f_check_diag2 (string ps_diagnos, string ps_sexo_pac, double pdb_edad, string ps_servicio)
+global function st_return_diags f_check_diag2 (string ps_diagnos, string ps_sexo_pac, double pdb_edad, string ps_servicio, string ps_dxrel)
 end prototypes
 
 global function st_return_diags f_check_diag2 ();st_return_diags st
@@ -12,14 +12,14 @@ global function st_return_diags f_check_diag2 ();st_return_diags st
 return st
 end function
 
-global function st_return_diags f_check_diag2 (string ps_diagnos, string ps_sexo_pac, double pdb_edad, string ps_servicio);//devuelve Descripcion del diag si todo OK o "" si hubo error
+global function st_return_diags f_check_diag2 (string ps_diagnos, string ps_sexo_pac, double pdb_edad, string ps_servicio, string ps_dxrel);//devuelve Descripcion del diag si todo OK o "" si hubo error
 // la edad debe venir en dias
 // diagnos es el codigo que digita el medico
 // p_codgeral es codgeral
 long ld_edad_ini,ld_edad_fin,ldb_ctos
 datetime ldt_ahora
 st_return_diags st
-string ls_sexo,ls_version
+string ls_sexo,ls_version,ls_dxrel
 ldt_ahora=datetime(today())
 setnull(ls_sexo)
 
@@ -45,9 +45,9 @@ end if
 
 if g_motor='postgres' then
 	SELECT  
-		diags.c_version, diags.desdiag, diags.cod_vigila, diags_vigila.codplantilla, diags.guia, capdiags.antecedente
+		diags.c_version, diags.desdiag, diags.cod_vigila, diags_vigila.codplantilla, diags.guia, capdiags.antecedente,diags.morbilidad
 	INTO 
-		:ls_version , :st.descrip_diag,:st.vigila,:st.plantilla,:st.guia,:st.antecedente
+		:ls_version , :st.descrip_diag,:st.vigila,:st.plantilla,:st.guia,:st.antecedente,:ls_dxrel
 	FROM 
 		((diags LEFT JOIN diags_vigila ON diags.cod_vigila = diags_vigila.cod_vigila) 
 		INNER JOIN diags_version ON diags.c_version = diags_version.c_version) 
@@ -56,9 +56,9 @@ if g_motor='postgres' then
 		(((Ccap||coddiag)=:ps_diagnos) AND ((diags_version.val_hasta)>=:ldt_ahora) AND ((diags.estado)='1'));
 else
 	SELECT  
-		diags.c_version, diags.desdiag, diags.cod_vigila, diags_vigila.codplantilla, diags.guia, capdiags.antecedente
+		diags.c_version, diags.desdiag, diags.cod_vigila, diags_vigila.codplantilla, diags.guia, capdiags.antecedente,diags.morbilidad
 	INTO 
-		:ls_version , :st.descrip_diag,:st.vigila,:st.plantilla,:st.guia,:st.antecedente
+		:ls_version , :st.descrip_diag,:st.vigila,:st.plantilla,:st.guia,:st.antecedente,:ls_dxrel
 	FROM 
 		((diags LEFT JOIN diags_vigila ON diags.cod_vigila = diags_vigila.cod_vigila) 
 		INNER JOIN diags_version ON diags.c_version = diags_version.c_version) 
@@ -74,9 +74,9 @@ end if
 
 string ls_cap,ls_diag,ls_serv
 SELECT 
-	Diags.desdiag,Diags.c_version,Diags.ccap,Diags.coddiag,diags.tservicio 
+	Diags.desdiag,Diags.c_version,Diags.ccap,Diags.coddiag,diags.tservicio ,diags.morbilidad
 INTO
-	:st.descrip_diag,:ls_version,:ls_cap,:ls_diag,:ls_serv
+	:st.descrip_diag,:ls_version,:ls_cap,:ls_diag,:ls_serv,:ls_dxrel
 FROM 
 	Diags INNER JOIN diags_version ON Diags.c_version = diags_version.c_version
 WHERE 
@@ -89,7 +89,12 @@ if sqlca.sqlcode=-1 then
 end if
 st.codgeral=ls_cap+ls_diag+ls_version
 
-
+if ps_dxrel='1' and ls_dxrel='0' then
+	Messagebox("Atención","("+ps_diagnos+") diagnóstico no es válido Dx Relacionado")
+	st.descrip_diag=''
+	return st
+end if		
+	
 if ps_servicio='0' and ls_serv='1' then
 	Messagebox("Atención","("+ps_diagnos+") diagnóstico no es válido para procedimientos")
 	st.descrip_diag=''

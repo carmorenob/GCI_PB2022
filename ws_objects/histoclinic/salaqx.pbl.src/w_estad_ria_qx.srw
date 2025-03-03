@@ -36,14 +36,12 @@ type dw_rias from datawindow within w_estad_ria_qx
 end type
 type gb_1 from groupbox within w_estad_ria_qx
 end type
-type gb_2 from groupbox within w_estad_ria_qx
-end type
 type sle_4 from singlelineedit within w_estad_ria_qx
 end type
 end forward
 
 global type w_estad_ria_qx from window
-integer width = 3753
+integer width = 6011
 integer height = 1736
 boolean titlebar = true
 string title = "Estado de Rips"
@@ -71,15 +69,14 @@ rb_comp rb_comp
 rb_tod rb_tod
 dw_rias dw_rias
 gb_1 gb_1
-gb_2 gb_2
 sle_4 sle_4
 end type
 global w_estad_ria_qx w_estad_ria_qx
 
 type variables
-string sexo_paci
+string sexo_paci,is_cext
+DataWindowChild idw_fincon,idw_finproc,idw_causaex
 end variables
-
 on w_estad_ria_qx.create
 this.st_2=create st_2
 this.cbx_replica=create cbx_replica
@@ -98,7 +95,6 @@ this.rb_comp=create rb_comp
 this.rb_tod=create rb_tod
 this.dw_rias=create dw_rias
 this.gb_1=create gb_1
-this.gb_2=create gb_2
 this.sle_4=create sle_4
 this.Control[]={this.st_2,&
 this.cbx_replica,&
@@ -117,7 +113,6 @@ this.rb_comp,&
 this.rb_tod,&
 this.dw_rias,&
 this.gb_1,&
-this.gb_2,&
 this.sle_4}
 end on
 
@@ -139,19 +134,17 @@ destroy(this.rb_comp)
 destroy(this.rb_tod)
 destroy(this.dw_rias)
 destroy(this.gb_1)
-destroy(this.gb_2)
 destroy(this.sle_4)
 end on
 
-event open;dw_rias.settransobject(SQLCA)
-dw_rias.retrieve(w_new_sala_qx.n_ingres,w_new_sala_qx.clugar_acto)
+event open;dw_rias.retrieve(w_new_sala_qx.n_ingres,w_new_sala_qx.clugar_acto)
 sle_5.backcolor=rgb(255,255,200) //color crema para el mostrario de no obligatorio
 
 end event
 
 type st_2 from statictext within w_estad_ria_qx
 integer x = 151
-integer y = 444
+integer y = 216
 integer width = 448
 integer height = 104
 integer textsize = -8
@@ -168,7 +161,7 @@ end type
 
 type cbx_replica from checkbox within w_estad_ria_qx
 integer x = 69
-integer y = 440
+integer y = 228
 integer width = 73
 integer height = 68
 integer textsize = -8
@@ -183,8 +176,8 @@ boolean checked = true
 end type
 
 type sle_5 from singlelineedit within w_estad_ria_qx
-integer x = 1554
-integer y = 296
+integer x = 3346
+integer y = 84
 integer width = 343
 integer height = 80
 integer taborder = 70
@@ -201,8 +194,8 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type sle_3 from singlelineedit within w_estad_ria_qx
-integer x = 1554
-integer y = 184
+integer x = 2510
+integer y = 84
 integer width = 343
 integer height = 80
 integer taborder = 60
@@ -218,8 +211,8 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type sle_2 from singlelineedit within w_estad_ria_qx
-integer x = 896
-integer y = 288
+integer x = 1947
+integer y = 84
 integer width = 329
 integer height = 92
 integer taborder = 60
@@ -235,8 +228,8 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type sle_1 from singlelineedit within w_estad_ria_qx
-integer x = 896
-integer y = 172
+integer x = 1595
+integer y = 88
 integer width = 329
 integer height = 88
 integer taborder = 50
@@ -253,10 +246,10 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type gb_4 from groupbox within w_estad_ria_qx
-integer x = 1509
-integer y = 104
-integer width = 905
-integer height = 316
+integer x = 2395
+integer y = 32
+integer width = 1339
+integer height = 164
 integer taborder = 40
 integer textsize = -8
 integer weight = 400
@@ -270,10 +263,10 @@ string text = "Obligatoriedad de campos"
 end type
 
 type gb_3 from groupbox within w_estad_ria_qx
-integer x = 850
-integer y = 104
-integer width = 576
-integer height = 320
+integer x = 1509
+integer y = 32
+integer width = 809
+integer height = 164
 integer taborder = 30
 integer textsize = -8
 integer weight = 400
@@ -288,8 +281,8 @@ end type
 
 type cb_cancel from picturebutton within w_estad_ria_qx
 event mousemove pbm_mousemove
-integer x = 2350
-integer y = 1500
+integer x = 2875
+integer y = 1492
 integer width = 146
 integer height = 128
 integer taborder = 20
@@ -313,8 +306,8 @@ end event
 
 type cb_guarda from picturebutton within w_estad_ria_qx
 event mousemove pbm_mousemove
-integer x = 2190
-integer y = 1500
+integer x = 2715
+integer y = 1492
 integer width = 146
 integer height = 128
 integer taborder = 20
@@ -339,9 +332,9 @@ end if
 end event
 
 type st_1 from statictext within w_estad_ria_qx
-integer x = 814
-integer y = 476
-integer width = 2830
+integer x = 667
+integer y = 248
+integer width = 3095
 integer height = 76
 string dragicon = "none!"
 integer textsize = -8
@@ -359,10 +352,10 @@ boolean focusrectangle = false
 end type
 
 type rb_anul from radiobutton within w_estad_ria_qx
-integer x = 229
-integer y = 328
-integer width = 402
-integer height = 80
+integer x = 1111
+integer y = 112
+integer width = 302
+integer height = 72
 string dragicon = "none!"
 integer textsize = -8
 integer weight = 400
@@ -381,10 +374,10 @@ dw_rias.filter()
 end event
 
 type rb_incomp from radiobutton within w_estad_ria_qx
-integer x = 229
-integer y = 256
-integer width = 402
-integer height = 80
+integer x = 759
+integer y = 112
+integer width = 352
+integer height = 72
 string dragicon = "none!"
 integer textsize = -8
 integer weight = 400
@@ -403,10 +396,10 @@ dw_rias.filter()
 end event
 
 type rb_comp from radiobutton within w_estad_ria_qx
-integer x = 229
-integer y = 184
-integer width = 402
-integer height = 80
+integer x = 407
+integer y = 112
+integer width = 320
+integer height = 72
 string dragicon = "none!"
 integer textsize = -8
 integer weight = 400
@@ -425,10 +418,10 @@ dw_rias.filter()
 end event
 
 type rb_tod from radiobutton within w_estad_ria_qx
-integer x = 229
+integer x = 169
 integer y = 112
-integer width = 402
-integer height = 80
+integer width = 219
+integer height = 72
 string dragicon = "none!"
 integer textsize = -8
 integer weight = 400
@@ -448,10 +441,10 @@ dw_rias.filter()
 end event
 
 type dw_rias from datawindow within w_estad_ria_qx
-integer x = 59
-integer y = 568
-integer width = 3579
-integer height = 912
+integer x = 32
+integer y = 356
+integer width = 5312
+integer height = 1124
 integer taborder = 10
 string dragicon = "none!"
 string dataobject = "dw_rips_qx"
@@ -481,7 +474,7 @@ end event
 event itemchanged;this.accepttext()
 string cod,otro,col,este='',nulo
 st_return_diags st
-long colum,i
+long colum,i,veri
 
 setnull(nulo)
 colum=this.getcolumn()
@@ -507,7 +500,16 @@ choose case colum
 end choose
 if col='s_diagprin_' or col='s_diagrel1_' or col='s_diagrel2_' or col='s_diagrel3_' or col='s_diagcompli' then
 	if data<>"" then
-		st=f_check_diag(data,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0',this.getitemstring(row,'rips'))
+		setnull(veri)
+		veri=idw_causaex.find("codcausaexter ='"+this.getitemstring(row,'causaexterna')+"'",1,idw_causaex.rowcount())
+		if veri>0 then
+			is_cext=idw_causaex.getitemstring(veri,'dxrel')
+		else
+			is_cext='0'
+		end if
+		
+		
+		st=f_check_diag(data,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0',this.getitemstring(row,'rips'),is_cext)
 		if st.descrip_diag="" then
 			this.setitem(row,colum,"")
 			this.setitem(row,left(col,len(col)-1),nulo)
@@ -566,7 +568,7 @@ end event
 
 event itemfocuschanged;this.accepttext()
 string cod,ojo,col
-long colum
+long colum,veri
 st_return_diags st
 
 colum=this.getcolumn()
@@ -580,9 +582,18 @@ choose case colum
 end choose
 if col='s_diagprin_' or col='s_diagrel1_' or col='s_diagrel2_' or col='s_diagrel3_' or col='s_diagcompli' then
 	if this.getitemstring(row,colum)<>"" then
+		
+		setnull(veri)
+		veri=idw_causaex.find("codcausaexter ='"+this.getitemstring(row,'causaexterna')+"'",1,idw_causaex.rowcount())
+		if veri>0 then
+			is_cext=idw_causaex.getitemstring(veri,'dxrel')
+		else
+			is_cext='0'
+		end if
+		
 		string este
 		este=this.getitemstring(row,left(col,len(col)-1))
-		st=f_check_diag(this.getitemstring(row,colum),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0',this.getitemstring(row,'rips'))
+		st=f_check_diag(this.getitemstring(row,colum),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0',this.getitemstring(row,'rips'),is_cext)
 		if st.descrip_diag="" then
 			this.setitem(row,colum,"")
 			return 1
@@ -604,11 +615,21 @@ end if
 
 end event
 
+event constructor;settransobject(SQLCA)
+getchild('s_fin_consulta',idw_fincon)
+idw_fincon.settransobject(sqlca)
+getchild('s_finalidadproced',idw_finproc)
+idw_finproc.settransobject(SQLCA)
+getchild('s_causaexterna',idw_causaex)
+idw_causaex.settransobject(sqlca)
+
+end event
+
 type gb_1 from groupbox within w_estad_ria_qx
-integer x = 96
+integer x = 37
 integer y = 32
-integer width = 562
-integer height = 400
+integer width = 1435
+integer height = 164
 integer taborder = 10
 string dragicon = "none!"
 integer textsize = -8
@@ -623,26 +644,9 @@ long backcolor = 67108864
 string text = "&Estado Rips"
 end type
 
-type gb_2 from groupbox within w_estad_ria_qx
-integer x = 800
-integer y = 44
-integer width = 1646
-integer height = 400
-integer taborder = 20
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-long textcolor = 33554432
-long backcolor = 79741120
-string text = "Convenciones"
-end type
-
 type sle_4 from singlelineedit within w_estad_ria_qx
-integer x = 1984
-integer y = 184
+integer x = 2939
+integer y = 84
 integer width = 343
 integer height = 80
 integer taborder = 60

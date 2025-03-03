@@ -250,10 +250,9 @@ global w_captur_rip w_captur_rip
 
 type variables
 int xant,yant
-string sexo_paci,orden,anterior,ord,ant
+string sexo_paci,orden,anterior,ord,ant,is_cext
 datawindowchild dw_contrato,gc_regimen,idw_causaex,idw_finproc
 end variables
-
 on w_captur_rip.create
 this.tab_1=create tab_1
 this.st_fact=create st_fact
@@ -2123,7 +2122,15 @@ choose case colum
 		end if
 	case 64,65,66,67,68
 		if data<>"" then
-			st=f_check_diag(data,sex_busca,edad_busca,este,'0',this.getitemstring(row,'rips'))
+			setnull(veri)
+			veri=idw_causaex.find("codcausaexter ='"+this.getitemstring(row,'causaexterna')+"'",1,idw_causaex.rowcount())
+			if veri>0 then
+				is_cext=idw_causaex.getitemstring(veri,'dxrel')
+			else
+				is_cext='0'
+			end if
+			
+			st=f_check_diag(data,sex_busca,edad_busca,este,'0',this.getitemstring(row,'rips'),is_cext)
 			if st.descrip_diag="" then
 				this.setitem(row,colum,"")
 				this.setitem(row,left(col,len(col)-1),nulo)
@@ -2188,7 +2195,7 @@ end event
 
 event itemfocuschanged;this.accepttext()
 string cod,ojo,este,col
-long colum
+long colum,veri
 st_return_diags st
 
 col=this.getcolumnname()
@@ -2206,8 +2213,16 @@ choose case colum
 		end if
 	case 64,65,66,67,68
 		if this.getitemstring(row,colum)<>"" then
+			
+			setnull(veri)
+			veri=idw_causaex.find("codcausaexter ='"+this.getitemstring(row,'causaexterna')+"'",1,idw_causaex.rowcount())
+			if veri>0 then
+				is_cext=idw_causaex.getitemstring(veri,'dxrel')
+			else
+				is_cext='0'
+			end if	
 			este=this.getitemstring(row,left(col,len(col)-1))
-			st=f_check_diag(this.getitemstring(row,colum),this.getitemstring(row,"sexo"),this.getitemnumber(row,"dias"),este,'0',this.getitemstring(row,'rips'))
+			st=f_check_diag(this.getitemstring(row,colum),this.getitemstring(row,"sexo"),this.getitemnumber(row,"dias"),este,'0',this.getitemstring(row,'rips'),is_cext)
 			if st.descrip_diag="" then
 				this.setitem(row,colum,"")
 				string nulo

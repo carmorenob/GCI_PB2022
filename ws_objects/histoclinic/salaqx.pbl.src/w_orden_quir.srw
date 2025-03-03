@@ -693,7 +693,7 @@ event itemchanged;IF THIS.getcolumnname()='cod_rips' then
 	end if
 	sex_busca=w_principal.dw_1.getitemstring(1,"sexo_t")
 	edad_busca=w_principal.dw_1.getitemnumber(1,"dias")
-	st=f_check_diag(data,sex_busca,edad_busca,este,'0','2')
+	st=f_check_diag(data,sex_busca,edad_busca,este,'0','2','0')
 	if st.descrip_diag="" then
 		this.setitem(row,"codgeral",nulo)
 		this.setitem(row,"cod_rips",'')

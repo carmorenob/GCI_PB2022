@@ -48,8 +48,6 @@ type pb_1 from picturebutton within uo_hclin
 end type
 type dw_img_old from datawindow within uo_hclin
 end type
-type dw_procs_new from datawindow within uo_hclin
-end type
 type t_procs from tab within uo_hclin
 end type
 type tp1 from userobject within t_procs
@@ -134,6 +132,8 @@ type mle_1 from uo_multilineedit within uo_hclin
 end type
 type dw_new_det from datawindow within uo_hclin
 end type
+type dw_procs_new from datawindow within uo_hclin
+end type
 end forward
 
 global type uo_hclin from userobject
@@ -169,7 +169,6 @@ dw_meds_new dw_meds_new
 dw_res_old dw_res_old
 pb_1 pb_1
 dw_img_old dw_img_old
-dw_procs_new dw_procs_new
 t_procs t_procs
 t_result_old t_result_old
 t_procs_old t_procs_old
@@ -183,6 +182,7 @@ mle_2 mle_2
 mle_3 mle_3
 mle_1 mle_1
 dw_new_det dw_new_det
+dw_procs_new dw_procs_new
 end type
 global uo_hclin uo_hclin
 
@@ -1571,7 +1571,6 @@ this.dw_meds_new=create dw_meds_new
 this.dw_res_old=create dw_res_old
 this.pb_1=create pb_1
 this.dw_img_old=create dw_img_old
-this.dw_procs_new=create dw_procs_new
 this.t_procs=create t_procs
 this.t_result_old=create t_result_old
 this.t_procs_old=create t_procs_old
@@ -1585,6 +1584,7 @@ this.mle_2=create mle_2
 this.mle_3=create mle_3
 this.mle_1=create mle_1
 this.dw_new_det=create dw_new_det
+this.dw_procs_new=create dw_procs_new
 this.Control[]={this.cb_modo,&
 this.dw_img_new,&
 this.pb_4,&
@@ -1608,7 +1608,6 @@ this.dw_meds_new,&
 this.dw_res_old,&
 this.pb_1,&
 this.dw_img_old,&
-this.dw_procs_new,&
 this.t_procs,&
 this.t_result_old,&
 this.t_procs_old,&
@@ -1621,7 +1620,8 @@ this.dw_res_new,&
 this.mle_2,&
 this.mle_3,&
 this.mle_1,&
-this.dw_new_det}
+this.dw_new_det,&
+this.dw_procs_new}
 end on
 
 on uo_hclin.destroy
@@ -1648,7 +1648,6 @@ destroy(this.dw_meds_new)
 destroy(this.dw_res_old)
 destroy(this.pb_1)
 destroy(this.dw_img_old)
-destroy(this.dw_procs_new)
 destroy(this.t_procs)
 destroy(this.t_result_old)
 destroy(this.t_procs_old)
@@ -1662,6 +1661,7 @@ destroy(this.mle_2)
 destroy(this.mle_3)
 destroy(this.mle_1)
 destroy(this.dw_new_det)
+destroy(this.dw_procs_new)
 end on
 
 event constructor;ids_hijos_histo=create uo_datastore
@@ -2886,99 +2886,6 @@ borderstyle borderstyle = stylelowered!
 end type
 
 event constructor;settransobject(sqlca)
-end event
-
-type dw_procs_new from datawindow within uo_hclin
-boolean visible = false
-integer x = 1568
-integer y = 1032
-integer width = 4402
-integer height = 1052
-integer taborder = 50
-string title = "none"
-string dataobject = "dw_rips_hc"
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event constructor;settransobject(sqlca)
-end event
-
-event itemchanged;choose case getcolumnname()
-	case 'codrip_prin','codrip_rel1','codrip_rel2','codrip_comp'
-		string este,pedazo
-		st_return_diags st
-
-		pedazo=right(getcolumnname(),4)
-		if trim(gettext())<>'' then
-			st=f_check_diag(trim(gettext()),w_principal.dw_1.getitemstring(1,'sexo'),w_principal.dw_1.getitemnumber(1,'dias'),este,'0',this.getitemstring(row,'rips'))
-			if st.descrip_diag='' then
-				settext(getitemstring(getrow(),getcolumnname()))
-				return 1
-			end if
-			setitem(getrow(),'desdiag_'+pedazo,st.descrip_diag)
-			setitem(getrow(),'diag'+pedazo,este)
-			st_muestra.text=st.descrip_diag
-		else
-			string nulo
-			setnull(nulo)
-			setitem(getrow(),'desdiag_'+pedazo,nulo)
-			setitem(getrow(),'diag'+pedazo,nulo)
-			st_muestra.text=''
-		end if
-end choose
-accepttext()
-end event
-
-event itemfocuschanged;if row<1 or rowcount()<1 then return
-choose case dwo.name
-	case 'codrip_prin'
-		st_muestra.text=getitemstring(getrow(),'desdiag_prin')
-	case 'codrip_rel1'
-		st_muestra.text=getitemstring(getrow(),'desdiag_rel1')
-	case 'codrip_rel2'
-		st_muestra.text=getitemstring(getrow(),'desdiag_rel2')
-	case 'codrip_comp'
-		st_muestra.text=getitemstring(getrow(),'desdiag_comp')
-end choose
-end event
-
-event doubleclicked;string colu,pedazo
-colu=dwo.name
-pedazo=right(colu,4)
-choose case colu
-	case 'codrip_prin','codrip_rel1','codrip_rel2','codrip_comp'
-		if getcolumnname()<>dwo.name then return
-		st_edadsexo st_es
-		st_es.edad=w_principal.dw_1.getitemnumber(1,'dias')
-		st_es.sexo=w_principal.dw_1.getitemstring(1,'sexo')
-		st_es.antece='0'
-		st_es.proced='0'
-		openwithparm(w_busca_diag,st_es)
-		st_diag st_diag
-		st_diag=message.powerobjectparm
-		if not isvalid(st_diag) then return
-		setitem(1,'diag'+pedazo,st_diag.codgeral)
-		setitem(1,'codrip_'+pedazo,st_diag.codrip)
-		setitem(1,'desdiag_'+pedazo,st_diag.descripcion)
-		st_muestra.text=st_diag.descripcion
-end choose
-accepttext()
-end event
-
-event rowfocuschanged;if getrow()<1 then return
-choose case getcolumnname()
-	case 'codrip_prin'
-		st_muestra.text=getitemstring(getrow(),'desdiag_prin')
-	case 'codrip_rel1'
-		st_muestra.text=getitemstring(getrow(),'desdiag_rel1')
-	case 'codrip_rel2'
-		st_muestra.text=getitemstring(getrow(),'desdiag_rel2')
-	case 'codrip_comp'
-		st_muestra.text=getitemstring(getrow(),'desdiag_comp')
-end choose
 end event
 
 type t_procs from tab within uo_hclin
@@ -4576,5 +4483,99 @@ dw_new_det.scrolltorow(row)
 end event
 
 event losefocus;if AcceptText() = -1 then Return -1
+end event
+
+type dw_procs_new from datawindow within uo_hclin
+boolean visible = false
+integer x = 1568
+integer y = 1032
+integer width = 4402
+integer height = 1052
+integer taborder = 50
+boolean bringtotop = true
+string title = "none"
+string dataobject = "dw_rips_hc"
+boolean hscrollbar = true
+boolean vscrollbar = true
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event constructor;settransobject(sqlca)
+end event
+
+event itemchanged;choose case getcolumnname()
+	case 'codrip_prin','codrip_rel1','codrip_rel2','codrip_comp'
+		string este,pedazo
+		st_return_diags st
+
+		pedazo=right(getcolumnname(),4)
+		if trim(gettext())<>'' then
+			st=f_check_diag(trim(gettext()),w_principal.dw_1.getitemstring(1,'sexo'),w_principal.dw_1.getitemnumber(1,'dias'),este,'0',this.getitemstring(row,'rips'),'0')
+			if st.descrip_diag='' then
+				settext(getitemstring(getrow(),getcolumnname()))
+				return 1
+			end if
+			setitem(getrow(),'desdiag_'+pedazo,st.descrip_diag)
+			setitem(getrow(),'diag'+pedazo,este)
+			st_muestra.text=st.descrip_diag
+		else
+			string nulo
+			setnull(nulo)
+			setitem(getrow(),'desdiag_'+pedazo,nulo)
+			setitem(getrow(),'diag'+pedazo,nulo)
+			st_muestra.text=''
+		end if
+end choose
+accepttext()
+end event
+
+event itemfocuschanged;if row<1 or rowcount()<1 then return
+choose case dwo.name
+	case 'codrip_prin'
+		st_muestra.text=getitemstring(getrow(),'desdiag_prin')
+	case 'codrip_rel1'
+		st_muestra.text=getitemstring(getrow(),'desdiag_rel1')
+	case 'codrip_rel2'
+		st_muestra.text=getitemstring(getrow(),'desdiag_rel2')
+	case 'codrip_comp'
+		st_muestra.text=getitemstring(getrow(),'desdiag_comp')
+end choose
+end event
+
+event doubleclicked;string colu,pedazo
+colu=dwo.name
+pedazo=right(colu,4)
+choose case colu
+	case 'codrip_prin','codrip_rel1','codrip_rel2','codrip_comp'
+		if getcolumnname()<>dwo.name then return
+		st_edadsexo st_es
+		st_es.edad=w_principal.dw_1.getitemnumber(1,'dias')
+		st_es.sexo=w_principal.dw_1.getitemstring(1,'sexo')
+		st_es.antece='0'
+		st_es.proced='0'
+		openwithparm(w_busca_diag,st_es)
+		st_diag st_diag
+		st_diag=message.powerobjectparm
+		if not isvalid(st_diag) then return
+		setitem(1,'diag'+pedazo,st_diag.codgeral)
+		setitem(1,'codrip_'+pedazo,st_diag.codrip)
+		setitem(1,'desdiag_'+pedazo,st_diag.descripcion)
+		st_muestra.text=st_diag.descripcion
+end choose
+accepttext()
+end event
+
+event rowfocuschanged;if getrow()<1 then return
+choose case getcolumnname()
+	case 'codrip_prin'
+		st_muestra.text=getitemstring(getrow(),'desdiag_prin')
+	case 'codrip_rel1'
+		st_muestra.text=getitemstring(getrow(),'desdiag_rel1')
+	case 'codrip_rel2'
+		st_muestra.text=getitemstring(getrow(),'desdiag_rel2')
+	case 'codrip_comp'
+		st_muestra.text=getitemstring(getrow(),'desdiag_comp')
+end choose
 end event
 

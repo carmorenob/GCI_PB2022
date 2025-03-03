@@ -2624,7 +2624,7 @@ choose case getcolumnname()
 			string diag,este=''
 			st_return_diags st
 			
-			st=f_check_diag(trim(gettext()),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0',this.getitemstring(fila,'rips'))
+			st=f_check_diag(trim(gettext()),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0',this.getitemstring(fila,'rips'),'0')
 			if st.descrip_diag<>"" then
 				setitem(fila,"diagnostico",st.descrip_diag)
 				setitem(fila,"codgeral",este)

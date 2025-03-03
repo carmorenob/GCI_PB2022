@@ -246,7 +246,6 @@ int xant,yant
 string sexo_paci,orden,anterior,ord,ant
 datawindowchild dw_contrato,gc_regimen
 end variables
-
 on w_captur_rip_rec.create
 this.tab_1=create tab_1
 this.st_fact=create st_fact
@@ -2054,9 +2053,10 @@ choose case colum
 			this.setitem(row,colum,"")
 			return 1
 		end if
+		
 	case 68,69,70,71,72
 			if cbx_replica.checked then
-				st=f_check_diag(data,sex_busca,edad_busca,este,'0',this.getitemstring(row,'rips'))
+				st=f_check_diag(data,sex_busca,edad_busca,este,'0',this.getitemstring(row,'rips'),'0')
 				if st.descrip_diag="" then
 					this.setitem(row,colum,"")
 					this.setitem(row,left(col,len(col)-1),nulo)
@@ -2068,7 +2068,7 @@ choose case colum
 				next
 			else
 				if data<>"" then
-					st=f_check_diag(data,sex_busca,edad_busca,este,'0',this.getitemstring(row,'rips'))
+					st=f_check_diag(data,sex_busca,edad_busca,este,'0',this.getitemstring(row,'rips'),'0')
 					if st.descrip_diag="" then
 						setitem(row,colum,"")
 						setitem(row,left(col,len(col)-1),nulo)
@@ -2147,7 +2147,7 @@ choose case colum
 		if getitemstring(row,colum)<>"" then
 			string este
 			este=getitemstring(row,left(col,len(col)-1))
-			st=f_check_diag(getitemstring(row,colum),getitemstring(row,"sexo"),getitemnumber(1,"dias"),este,'0',this.getitemstring(row,'rips'))
+			st=f_check_diag(getitemstring(row,colum),getitemstring(row,"sexo"),getitemnumber(1,"dias"),este,'0',this.getitemstring(row,'rips'),'0')
 			if st.descrip_diag="" then
 				string nulo
 				setnull(nulo)

@@ -1036,7 +1036,7 @@ choose case colum
 		string este=''
 		setnull(nulo)
 		if data<>"" then
-			st=f_check_diag(data,this.getitemstring(row,"sexo"),this.getitemnumber(row,"dias"),este,'0',this.getitemstring(row,'rips'))
+			st=f_check_diag(data,this.getitemstring(row,"sexo"),this.getitemnumber(row,"dias"),este,'0',this.getitemstring(row,'rips'),'0')
 			if st.descrip_diag="" then
 				this.setitem(row,colum,"")
 				this.setitem(row,left(col,len(col)-1),nulo)
@@ -1064,7 +1064,7 @@ if this.dataobject="dr_rips_rn" or this.dataobject="dr_rips_rn_viejo" then
 	case 15,16
 		if this.getitemstring(row,colum)<>"" then
 			este=this.getitemstring(row,left(col,len(col)-1))
-			st=f_check_diag(this.getitemstring(row,colum),this.getitemstring(row,"sexorn"),1,este,'0',this.getitemstring(row,'rips'))
+			st=f_check_diag(this.getitemstring(row,colum),this.getitemstring(row,"sexorn"),1,este,'0',this.getitemstring(row,'rips'),'0')
 			if st.descrip_diag="" then
 				this.setitem(row,colum,"")
 				this.setitem(row,left(col,len(col)-1),nulo)
@@ -1087,7 +1087,7 @@ choose case colum
 	case 62,63,64,65,66
 		if this.getitemstring(row,colum)<>"" then
 			este=this.getitemstring(row,left(col,len(col)-1))
-			st=f_check_diag(this.getitemstring(row,colum),this.getitemstring(row,"sexo"),this.getitemnumber(row,"dias"),este,'0',this.getitemstring(row,'rips'))
+			st=f_check_diag(this.getitemstring(row,colum),this.getitemstring(row,"sexo"),this.getitemnumber(row,"dias"),este,'0',this.getitemstring(row,'rips'),'0')
 			if st.descrip_diag="" then
 				this.setitem(row,colum,"")
 				this.setitem(row,left(col,len(col)-1),nulo)
@@ -2383,7 +2383,7 @@ choose case colum
 		string este=''
 		setnull(nulo)
 		if data<>"" then
-			st=f_check_diag(data,this.getitemstring(row,"sexo"),this.getitemnumber(row,"dias"),este,'0',this.getitemstring(row,'rips'))
+			st=f_check_diag(data,this.getitemstring(row,"sexo"),this.getitemnumber(row,"dias"),este,'0',this.getitemstring(row,'rips'),'0')
 			if st.descrip_diag="" then
 				this.setitem(row,colum,"")
 				this.setitem(row,left(col,len(col)-1),nulo)
@@ -2416,7 +2416,7 @@ choose case colum
 	case 44,45,46,47,48
 		if this.getitemstring(row,colum)<>"" then
 			este=this.getitemstring(row,left(col,len(col)-1))
-			st=f_check_diag(this.getitemstring(row,colum),this.getitemstring(row,"sexo"),this.getitemnumber(row,"dias"),este,'0',this.getitemstring(row,'rips'))
+			st=f_check_diag(this.getitemstring(row,colum),this.getitemstring(row,"sexo"),this.getitemnumber(row,"dias"),este,'0',this.getitemstring(row,'rips'),'0')
 			if st.descrip_diag="" then
 				this.setitem(row,colum,"")
 				this.setitem(row,left(col,len(col)-1),nulo)
@@ -2554,7 +2554,7 @@ choose case colum
 		string este=''
 		setnull(nulo)
 		if data<>"" then
-			st=f_check_diag(data,this.getitemstring(row,"sexo"),this.getitemnumber(row,"dias"),este,'0',this.getitemstring(row,'rips'))
+			st=f_check_diag(data,this.getitemstring(row,"sexo"),this.getitemnumber(row,"dias"),este,'0',this.getitemstring(row,'rips'),'0')
 			if st.descrip_diag="" then
 				this.setitem(row,colum,"")
 				this.setitem(row,left(col,len(col)-1),nulo)
@@ -2587,7 +2587,7 @@ choose case colum
 	case 44,45,46,47,48
 		if this.getitemstring(row,colum)<>"" then
 			este=this.getitemstring(row,left(col,len(col)-1))
-			st=f_check_diag(this.getitemstring(row,colum),this.getitemstring(row,"sexo"),this.getitemnumber(row,"dias"),este,'0',this.getitemstring(row,'rips'))
+			st=f_check_diag(this.getitemstring(row,colum),this.getitemstring(row,"sexo"),this.getitemnumber(row,"dias"),este,'0',this.getitemstring(row,'rips'),'0')
 			if st.descrip_diag="" then
 				this.setitem(row,colum,"")
 				this.setitem(row,left(col,len(col)-1),nulo)

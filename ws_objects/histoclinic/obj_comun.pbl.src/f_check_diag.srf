@@ -4,7 +4,7 @@ end type
 
 forward prototypes
 global function st_return_diags f_check_diag ()
-global function st_return_diags f_check_diag (string ps_diagnos, string ps_sexopac, double ldb_edad, ref string ls_este, string ps_ante, string ps_servicio)
+global function st_return_diags f_check_diag (string ps_diagnos, string ps_sexopac, double ldb_edad, ref string ls_este, string ps_ante, string ps_servicio, string ps_dxrel)
 end prototypes
 
 global function st_return_diags f_check_diag ();
@@ -15,13 +15,13 @@ st_return_diags st
 return st
 end function
 
-global function st_return_diags f_check_diag (string ps_diagnos, string ps_sexopac, double ldb_edad, ref string ls_este, string ps_ante, string ps_servicio);// la edad debe venir en dias
+global function st_return_diags f_check_diag (string ps_diagnos, string ps_sexopac, double ldb_edad, ref string ls_este, string ps_ante, string ps_servicio, string ps_dxrel);// la edad debe venir en dias
 // ps_diagnos es el codigo que digita el medico
 // este es codgeral
 long ldb_edad_ini,ldb_edad_fin,ldb_cuant
 datetime ldt_ahora
 string ls_sexo,ls_retorna,ls_version
-string ls_cap,ls_diag,ls_serv
+string ls_cap,ls_diag,ls_serv,ls_dxrel
 st_return_diags st
 
 ldt_ahora=datetime(today())
@@ -35,7 +35,7 @@ if ps_ante='0' then
 		GROUP BY Diags.c_version;
 		
 		if sqlca.sqlcode=-1 then
-			messagebox("Error leyendo tabla diags f_check_diag linea 20",sqlca.sqlerrtext)
+			messagebox("Error leyendo tabla diags f_check_diag linea 21",sqlca.sqlerrtext)
 			st.descrip_diag=''
 			return st
 		end if
@@ -51,57 +51,63 @@ if ps_ante='0' then
 		end if
 		if g_motor='postgres' then
 			SELECT 
-				Diags.c_version, Diags.desdiag, capdiags.antecedente,diags.tservicio   
+				Diags.c_version, Diags.desdiag, capdiags.antecedente,diags.tservicio,diags.morbilidad
 			INTO
-				:ls_version , :ls_retorna,:st.antecedente
+				:ls_version , :ls_retorna,:st.antecedente,:ls_dxrel
 			FROM capdiags 
 				INNER JOIN diags ON (diags.c_version = capdiags.c_version) AND (capdiags.codcap = diags.ccap)
 			WHERE 
 				((Ccap || coddiag=:ps_diagnos) AND  (capdiags.c_version=:ls_version) and  (Diags.estado='1'));
 		else
 			SELECT 
-				Diags.c_version, Diags.desdiag, capdiags.antecedente  ,diags.tservicio 
+				Diags.c_version, Diags.desdiag, capdiags.antecedente,diags.tservicio,diags.morbilidad
 			INTO 
-				:ls_version , :ls_retorna,:st.antecedente,:ls_serv
+				:ls_version , :ls_retorna,:st.antecedente,:ls_serv,:ls_dxrel
 			FROM capdiags INNER JOIN diags ON (diags.c_version = capdiags.c_version) AND (capdiags.codcap = diags.ccap)
 			WHERE ((Ccap + coddiag=:ps_diagnos) AND  (capdiags.c_version=:ls_version) and  (Diags.estado='1'));
 		end if
 		if sqlca.sqlcode=-1 then
-			messagebox("Error leyendo tabla diags f_check_diag linea 44",sqlca.sqlerrtext)
+			messagebox("Error leyendo tabla diags f_check_diag linea 53",sqlca.sqlerrtext)
 			st.descrip_diag=''
 			return st
 		end if
 		
 		SELECT 
-			Diags.desdiag,Diags.c_version,Diags.ccap,Diags.coddiag, capdiags.antecedente,diags.tservicio 
+			Diags.desdiag,Diags.c_version,Diags.ccap,Diags.coddiag, capdiags.antecedente,diags.tservicio,diags.morbilidad 
 		INTO
-			:ls_retorna,:ls_version,:ls_cap,:ls_diag,:st.antecedente,:ls_serv
+			:ls_retorna,:ls_version,:ls_cap,:ls_diag,:st.antecedente,:ls_serv,:ls_dxrel
 		FROM 
 			(diags_version INNER JOIN capdiags ON diags_version.c_version = capdiags.c_version) 
 			INNER JOIN Diags ON (capdiags.c_version = Diags.c_version) AND (capdiags.codcap = Diags.ccap)
 		WHERE 
 			((Diags.cod_rips=:ps_diagnos) AND (diags_version.val_hasta>=:ldt_ahora) and  (Diags.estado='1'));
 		if sqlca.sqlcode=-1 then
-			messagebox("Error leyendo tabla diags f_check_diag linea 54",sqlca.sqlerrtext)
+			messagebox("Error leyendo tabla diags f_check_diag linea 68",sqlca.sqlerrtext)
 			st.descrip_diag=''
 			return st
 		end if
 		ls_este=ls_cap+ls_diag+ls_version
 	else  /// else este
 		SELECT 
-			diags.desdiag, capdiags.antecedente,diags.tservicio 
+			diags.desdiag, capdiags.antecedente,diags.tservicio ,diags.morbilidad
 		into 
-			:ls_retorna,:st.antecedente,:ls_serv
+			:ls_retorna,:st.antecedente,:ls_serv,:ls_dxrel
 		FROM 
 			capdiags INNER JOIN diags ON (diags.c_version = capdiags.c_version) AND (capdiags.codcap = diags.ccap)
 		WHERE 
 			(codgeral=:ls_este and estado='1');
 		if sqlca.sqlcode=-1 then
-			messagebox("Error leyendo tabla diags f_check_diag linea 64",sqlca.sqlerrtext)
+			messagebox("Error leyendo tabla diags f_check_diag linea 83",sqlca.sqlerrtext)
 			st.descrip_diag=''
 			return st
 		end if
 	end if //fin este
+	
+	if ps_dxrel='1' and ls_dxrel='0' then
+		Messagebox("Atención","("+ps_diagnos+") diagnóstico no es válido Dx Relacionado")
+		st.descrip_diag=''
+		return st
+	end if		
 	
 	if ((ps_servicio<>'1') and (ls_serv='1')) then
 		Messagebox("Atención","("+ps_diagnos+") diagnóstico no es válido para procedimientos")

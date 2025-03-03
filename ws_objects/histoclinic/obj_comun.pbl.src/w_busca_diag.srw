@@ -85,6 +85,7 @@ FROM &
 	INNER JOIN diags ON (capdiags.codcap = diags.ccap) AND (capdiags.c_version = diags.c_version)&
 WHERE diags.estado='1' and diags.c_version='"
 end variables
+
 forward prototypes
 public subroutine filtrar ()
 end prototypes
@@ -358,6 +359,10 @@ If ist_ed_sex.proced='1' then
 	ls_sql+=" and diags.tservicio not In ('1')"
 end if
 
+If ist_ed_sex.dxrel='1' then
+	ls_sql+=" and diags.morbilidad In ('1')"
+end if
+
 int li_ret
 li_ret=dw_2.setSqlSelect(ls_sql)
 st_1.text=string(dw_2.retrieve())+' Regs.'
@@ -428,7 +433,7 @@ if getitemdatetime(getrow(),"val_hasta")<datetime(today()) then
 end if
 
 if not ist_ed_sex.saltar_validacion then 
-	st=f_check_diag(getitemstring(getrow(),'cod_rips'),ist_ed_sex.sexo,ist_ed_sex.edad,este,ist_ed_sex.antece,'1')
+	st=f_check_diag(getitemstring(getrow(),'cod_rips'),ist_ed_sex.sexo,ist_ed_sex.edad,este,ist_ed_sex.antece,'1','0')
 	if st.descrip_diag="" then return
 end if
 

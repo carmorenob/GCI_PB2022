@@ -58,8 +58,6 @@ type rb_tod from radiobutton within w_new_estad_ria_os
 end type
 type dw_rias from datawindow within w_new_estad_ria_os
 end type
-type gb_2 from groupbox within w_new_estad_ria_os
-end type
 type sle_4 from singlelineedit within w_new_estad_ria_os
 end type
 type gb_1 from groupbox within w_new_estad_ria_os
@@ -108,7 +106,6 @@ rb_incomp rb_incomp
 rb_comp rb_comp
 rb_tod rb_tod
 dw_rias dw_rias
-gb_2 gb_2
 sle_4 sle_4
 gb_1 gb_1
 dw_inf dw_inf
@@ -152,7 +149,6 @@ this.rb_incomp=create rb_incomp
 this.rb_comp=create rb_comp
 this.rb_tod=create rb_tod
 this.dw_rias=create dw_rias
-this.gb_2=create gb_2
 this.sle_4=create sle_4
 this.gb_1=create gb_1
 this.dw_inf=create dw_inf
@@ -184,7 +180,6 @@ this.rb_incomp,&
 this.rb_comp,&
 this.rb_tod,&
 this.dw_rias,&
-this.gb_2,&
 this.sle_4,&
 this.gb_1,&
 this.dw_inf}
@@ -219,7 +214,6 @@ destroy(this.rb_incomp)
 destroy(this.rb_comp)
 destroy(this.rb_tod)
 destroy(this.dw_rias)
-destroy(this.gb_2)
 destroy(this.sle_4)
 destroy(this.gb_1)
 destroy(this.dw_inf)
@@ -433,7 +427,7 @@ end type
 
 type st_desdiag from statictext within w_new_estad_ria_os
 integer x = 544
-integer y = 928
+integer y = 832
 integer width = 5431
 integer height = 68
 integer textsize = -8
@@ -451,7 +445,7 @@ end type
 
 type st_cdiaging from statictext within w_new_estad_ria_os
 integer x = 357
-integer y = 928
+integer y = 832
 integer width = 174
 integer height = 68
 integer textsize = -8
@@ -469,8 +463,8 @@ boolean focusrectangle = false
 end type
 
 type st_3 from statictext within w_new_estad_ria_os
-integer x = 27
-integer y = 932
+integer x = 37
+integer y = 836
 integer width = 315
 integer height = 56
 integer textsize = -8
@@ -596,8 +590,8 @@ end event
 
 type dw_trae_varias from datawindow within w_new_estad_ria_os
 boolean visible = false
-integer x = 2944
-integer y = 708
+integer x = 4795
+integer y = 684
 integer width = 151
 integer height = 72
 integer taborder = 170
@@ -610,8 +604,8 @@ end type
 
 type cb_registra from picturebutton within w_new_estad_ria_os
 event mousemove pbm_mousemove
-integer x = 3269
-integer y = 592
+integer x = 4393
+integer y = 596
 integer width = 146
 integer height = 128
 integer taborder = 70
@@ -1003,8 +997,8 @@ end event
 
 type dw_empac from datawindow within w_new_estad_ria_os
 boolean visible = false
-integer x = 3150
-integer y = 700
+integer x = 5001
+integer y = 676
 integer width = 64
 integer height = 68
 integer taborder = 180
@@ -1020,8 +1014,8 @@ end event
 
 type dw_cont_det from datawindow within w_new_estad_ria_os
 boolean visible = false
-integer x = 3040
-integer y = 608
+integer x = 4891
+integer y = 584
 integer width = 82
 integer height = 72
 integer taborder = 150
@@ -1041,8 +1035,8 @@ end event
 
 type dw_segrespon from datawindow within w_new_estad_ria_os
 boolean visible = false
-integer x = 2930
-integer y = 608
+integer x = 4782
+integer y = 584
 integer width = 87
 integer height = 52
 integer taborder = 160
@@ -1058,10 +1052,10 @@ event constructor;settransobject(sqlca)
 end event
 
 type st_2 from statictext within w_new_estad_ria_os
-integer x = 128
-integer y = 820
-integer width = 448
-integer height = 104
+integer x = 114
+integer y = 740
+integer width = 782
+integer height = 68
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -1075,8 +1069,8 @@ boolean focusrectangle = false
 end type
 
 type cbx_replica from checkbox within w_new_estad_ria_os
-integer x = 46
-integer y = 816
+integer x = 32
+integer y = 736
 integer width = 73
 integer height = 68
 integer textsize = -8
@@ -1091,8 +1085,8 @@ boolean checked = true
 end type
 
 type sle_5 from singlelineedit within w_new_estad_ria_os
-integer x = 2062
-integer y = 708
+integer x = 2994
+integer y = 632
 integer width = 338
 integer height = 68
 integer taborder = 140
@@ -1110,8 +1104,8 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type sle_3 from singlelineedit within w_new_estad_ria_os
-integer x = 1691
-integer y = 708
+integer x = 2624
+integer y = 632
 integer width = 338
 integer height = 68
 integer taborder = 110
@@ -1128,8 +1122,8 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type sle_2 from singlelineedit within w_new_estad_ria_os
-integer x = 1216
-integer y = 704
+integer x = 2149
+integer y = 632
 integer width = 283
 integer height = 68
 integer taborder = 120
@@ -1146,8 +1140,8 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type sle_1 from singlelineedit within w_new_estad_ria_os
-integer x = 878
-integer y = 704
+integer x = 1810
+integer y = 632
 integer width = 283
 integer height = 68
 integer taborder = 100
@@ -1165,8 +1159,8 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type gb_4 from groupbox within w_new_estad_ria_os
-integer x = 1627
-integer y = 648
+integer x = 2560
+integer y = 580
 integer width = 1225
 integer height = 144
 integer taborder = 90
@@ -1182,8 +1176,8 @@ string text = "Obligatoriedad de campos"
 end type
 
 type gb_3 from groupbox within w_new_estad_ria_os
-integer x = 855
-integer y = 648
+integer x = 1787
+integer y = 580
 integer width = 677
 integer height = 144
 integer taborder = 80
@@ -1252,9 +1246,9 @@ end if
 end event
 
 type st_1 from statictext within w_new_estad_ria_os
-integer x = 805
-integer y = 836
-integer width = 5170
+integer x = 919
+integer y = 740
+integer width = 4983
 integer height = 76
 string dragicon = "none!"
 integer textsize = -8
@@ -1272,8 +1266,8 @@ boolean focusrectangle = false
 end type
 
 type rb_anul from radiobutton within w_new_estad_ria_os
-integer x = 46
-integer y = 720
+integer x = 645
+integer y = 640
 integer width = 302
 integer height = 52
 string dragicon = "none!"
@@ -1294,8 +1288,8 @@ dw_rias.filter()
 end event
 
 type rb_incomp from radiobutton within w_new_estad_ria_os
-integer x = 370
-integer y = 720
+integer x = 1088
+integer y = 628
 integer width = 347
 integer height = 52
 string dragicon = "none!"
@@ -1317,7 +1311,7 @@ end event
 
 type rb_comp from radiobutton within w_new_estad_ria_os
 integer x = 41
-integer y = 644
+integer y = 640
 integer width = 325
 integer height = 52
 string dragicon = "none!"
@@ -1339,7 +1333,7 @@ end event
 
 type rb_tod from radiobutton within w_new_estad_ria_os
 integer x = 375
-integer y = 644
+integer y = 640
 integer width = 242
 integer height = 52
 string dragicon = "none!"
@@ -1362,9 +1356,9 @@ end event
 
 type dw_rias from datawindow within w_new_estad_ria_os
 integer x = 27
-integer y = 1004
+integer y = 928
 integer width = 5938
-integer height = 764
+integer height = 840
 integer taborder = 10
 string dragicon = "none!"
 string dataobject = "dw_rips_os"
@@ -1448,7 +1442,7 @@ choose case colum
 end choose
 if col='s_diagprin_' or col='s_diagrel1_' or col='s_diagrel2_' or col='s_diagrel3_' or col='s_diagcompli' then
 	if data<>"" then
-		st=f_check_diag(data,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0',this.getitemstring(row,'rips'))
+		st=f_check_diag(data,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0',this.getitemstring(row,'rips'),'0')
 		if st.descrip_diag="" then
 			setitem(row,colum,"")
 			setitem(row,left(col,len(col)-1),nulo)
@@ -1534,7 +1528,7 @@ if col='s_diagprin_' or col='s_diagrel1_' or col='s_diagrel2_' or col='s_diagrel
 	if getitemstring(row,colum)<>"" then
 		string este
 		este=getitemstring(row,left(col,len(col)-1))
-		st=f_check_diag(getitemstring(row,colum),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0',this.getitemstring(row,'rips'))
+		st=f_check_diag(getitemstring(row,colum),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0',this.getitemstring(row,'rips'),'0')
 		if st.descrip_diag="" then
 			setitem(row,colum,"")
 			return 1
@@ -1578,26 +1572,9 @@ end event
 event itemerror;return 1
 end event
 
-type gb_2 from groupbox within w_new_estad_ria_os
-integer x = 800
-integer y = 584
-integer width = 2107
-integer height = 224
-integer taborder = 50
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-long textcolor = 33554432
-long backcolor = 79741120
-string text = "Convenciones"
-end type
-
 type sle_4 from singlelineedit within w_new_estad_ria_os
-integer x = 2432
-integer y = 708
+integer x = 3365
+integer y = 632
 integer width = 338
 integer height = 68
 integer taborder = 130
@@ -1617,9 +1594,9 @@ end type
 
 type gb_1 from groupbox within w_new_estad_ria_os
 integer x = 23
-integer y = 584
-integer width = 713
-integer height = 216
+integer y = 580
+integer width = 1710
+integer height = 144
 integer taborder = 20
 string dragicon = "none!"
 integer textsize = -8

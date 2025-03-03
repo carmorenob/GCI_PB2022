@@ -36,14 +36,12 @@ type dw_rias from datawindow within w_odonest_ria
 end type
 type gb_1 from groupbox within w_odonest_ria
 end type
-type gb_2 from groupbox within w_odonest_ria
-end type
 type sle_4 from singlelineedit within w_odonest_ria
 end type
 end forward
 
 global type w_odonest_ria from window
-integer width = 3986
+integer width = 5435
 integer height = 1736
 boolean titlebar = true
 string title = "Estado de Rips"
@@ -71,7 +69,6 @@ rb_comp rb_comp
 rb_tod rb_tod
 dw_rias dw_rias
 gb_1 gb_1
-gb_2 gb_2
 sle_4 sle_4
 end type
 global w_odonest_ria w_odonest_ria
@@ -100,7 +97,6 @@ this.rb_comp=create rb_comp
 this.rb_tod=create rb_tod
 this.dw_rias=create dw_rias
 this.gb_1=create gb_1
-this.gb_2=create gb_2
 this.sle_4=create sle_4
 this.Control[]={this.st_2,&
 this.cbx_replica,&
@@ -119,7 +115,6 @@ this.rb_comp,&
 this.rb_tod,&
 this.dw_rias,&
 this.gb_1,&
-this.gb_2,&
 this.sle_4}
 end on
 
@@ -141,7 +136,6 @@ destroy(this.rb_comp)
 destroy(this.rb_tod)
 destroy(this.dw_rias)
 destroy(this.gb_1)
-destroy(this.gb_2)
 destroy(this.sle_4)
 end on
 
@@ -159,8 +153,8 @@ sle_5.backcolor=rgb(255,255,200) //color crema para el mostrario de no obligator
 end event
 
 type st_2 from statictext within w_odonest_ria
-integer x = 151
-integer y = 444
+integer x = 128
+integer y = 224
 integer width = 448
 integer height = 104
 integer textsize = -8
@@ -176,8 +170,8 @@ boolean focusrectangle = false
 end type
 
 type cbx_replica from checkbox within w_odonest_ria
-integer x = 69
-integer y = 440
+integer x = 46
+integer y = 220
 integer width = 73
 integer height = 68
 integer textsize = -8
@@ -192,10 +186,10 @@ boolean checked = true
 end type
 
 type sle_5 from singlelineedit within w_odonest_ria
-integer x = 1554
-integer y = 296
+integer x = 3269
+integer y = 92
 integer width = 343
-integer height = 80
+integer height = 88
 integer taborder = 70
 boolean bringtotop = true
 integer textsize = -8
@@ -210,10 +204,10 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type sle_3 from singlelineedit within w_odonest_ria
-integer x = 1554
-integer y = 184
+integer x = 2478
+integer y = 92
 integer width = 343
-integer height = 80
+integer height = 88
 integer taborder = 60
 integer textsize = -8
 integer weight = 400
@@ -227,10 +221,10 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type sle_2 from singlelineedit within w_odonest_ria
-integer x = 896
-integer y = 288
+integer x = 1984
+integer y = 92
 integer width = 329
-integer height = 92
+integer height = 88
 integer taborder = 60
 integer textsize = -8
 integer weight = 400
@@ -244,8 +238,8 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type sle_1 from singlelineedit within w_odonest_ria
-integer x = 896
-integer y = 172
+integer x = 1632
+integer y = 92
 integer width = 329
 integer height = 88
 integer taborder = 50
@@ -262,10 +256,10 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type gb_4 from groupbox within w_odonest_ria
-integer x = 1509
-integer y = 104
-integer width = 905
-integer height = 316
+integer x = 2432
+integer y = 20
+integer width = 1321
+integer height = 176
 integer taborder = 40
 integer textsize = -8
 integer weight = 400
@@ -279,10 +273,10 @@ string text = "Obligatoriedad de campos"
 end type
 
 type gb_3 from groupbox within w_odonest_ria
-integer x = 850
-integer y = 104
-integer width = 576
-integer height = 320
+integer x = 1550
+integer y = 32
+integer width = 805
+integer height = 176
 integer taborder = 30
 integer textsize = -8
 integer weight = 400
@@ -297,8 +291,8 @@ end type
 
 type cb_cancel from picturebutton within w_odonest_ria
 event mousemove pbm_mousemove
-integer x = 1422
-integer y = 1492
+integer x = 3118
+integer y = 1500
 integer width = 142
 integer height = 124
 integer taborder = 20
@@ -321,8 +315,8 @@ end event
 
 type cb_guarda from picturebutton within w_odonest_ria
 event mousemove pbm_mousemove
-integer x = 1275
-integer y = 1492
+integer x = 2971
+integer y = 1500
 integer width = 142
 integer height = 124
 integer taborder = 20
@@ -347,9 +341,9 @@ end if
 end event
 
 type st_1 from statictext within w_odonest_ria
-integer x = 814
-integer y = 476
-integer width = 3104
+integer x = 791
+integer y = 256
+integer width = 2971
 integer height = 76
 string dragicon = "none!"
 integer textsize = -8
@@ -367,9 +361,9 @@ boolean focusrectangle = false
 end type
 
 type rb_anul from radiobutton within w_odonest_ria
-integer x = 229
-integer y = 328
-integer width = 402
+integer x = 1065
+integer y = 112
+integer width = 302
 integer height = 80
 string dragicon = "none!"
 integer textsize = -8
@@ -389,9 +383,9 @@ dw_rias.filter()
 end event
 
 type rb_incomp from radiobutton within w_odonest_ria
-integer x = 229
-integer y = 256
-integer width = 402
+integer x = 709
+integer y = 112
+integer width = 375
 integer height = 80
 string dragicon = "none!"
 integer textsize = -8
@@ -411,9 +405,9 @@ dw_rias.filter()
 end event
 
 type rb_comp from radiobutton within w_odonest_ria
-integer x = 229
-integer y = 184
-integer width = 402
+integer x = 398
+integer y = 112
+integer width = 334
 integer height = 80
 string dragicon = "none!"
 integer textsize = -8
@@ -433,9 +427,9 @@ dw_rias.filter()
 end event
 
 type rb_tod from radiobutton within w_odonest_ria
-integer x = 229
+integer x = 169
 integer y = 112
-integer width = 402
+integer width = 224
 integer height = 80
 string dragicon = "none!"
 integer textsize = -8
@@ -456,10 +450,10 @@ dw_rias.filter()
 end event
 
 type dw_rias from datawindow within w_odonest_ria
-integer x = 59
-integer y = 568
-integer width = 3858
-integer height = 912
+integer x = 37
+integer y = 352
+integer width = 5161
+integer height = 1128
 integer taborder = 10
 string dragicon = "none!"
 string dataobject = "dw_rips"
@@ -512,7 +506,7 @@ choose case colum
 		string este='',nulo
 		setnull(nulo)
 		if data<>"" then
-			st=f_check_diag(data,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0',this.getitemstring(row,'rips'))
+			st=f_check_diag(data,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0',this.getitemstring(row,'rips'),'0')
 			if st.descrip_diag="" then
 				this.setitem(row,colum,"")
 				this.setitem(row,left(col,len(col)-1),nulo)
@@ -588,7 +582,7 @@ choose case colum
 			este=this.getitemstring(row,left(col,len(col)-1))
 			setnull( nulo)
 			
-			st=f_check_diag(this.getitemstring(row,colum),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0',this.getitemstring(row,'rips'))
+			st=f_check_diag(this.getitemstring(row,colum),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0',this.getitemstring(row,'rips'),'0')
 			if st.descrip_diag="" then
 				this.setitem(row,colum,"")
 				this.setitem(row,left(col,len(col)-1),nulo)
@@ -612,10 +606,10 @@ end if
 end event
 
 type gb_1 from groupbox within w_odonest_ria
-integer x = 96
+integer x = 37
 integer y = 32
-integer width = 562
-integer height = 400
+integer width = 1408
+integer height = 176
 integer taborder = 10
 string dragicon = "none!"
 integer textsize = -8
@@ -630,28 +624,11 @@ long backcolor = 67108864
 string text = "&Estado Rips"
 end type
 
-type gb_2 from groupbox within w_odonest_ria
-integer x = 800
-integer y = 44
-integer width = 1646
-integer height = 400
-integer taborder = 20
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-long textcolor = 33554432
-long backcolor = 79741120
-string text = "Convenciones"
-end type
-
 type sle_4 from singlelineedit within w_odonest_ria
-integer x = 1984
-integer y = 184
+integer x = 2907
+integer y = 92
 integer width = 343
-integer height = 80
+integer height = 88
 integer taborder = 60
 boolean bringtotop = true
 integer textsize = -8

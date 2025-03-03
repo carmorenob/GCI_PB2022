@@ -461,7 +461,7 @@ event itemchanged;if this.getcolumnname()="cod_rips" then
 	end if
 	sex_busca=w_principal.dw_1.getitemstring(1,"sexo")
 	edad_busca=w_principal.dw_1.getitemnumber(1,"dias")
-	st=f_check_diag(data,sex_busca,edad_busca,este,'0','1')
+	st=f_check_diag(data,sex_busca,edad_busca,este,'0','1','0')
 	if st.descrip_diag="" then
 		this.setitem(1,"diagingre",nulo)
 		this.setitem(1,"cod_rips",'')
@@ -528,7 +528,7 @@ event itemfocuschanged;if this.getcolumnname()="cod_rips" then
 		este=this.getitemstring(1,'diagingre')
 		sex_busca=w_principal.dw_1.getitemstring(1,"sexo_t")
 		edad_busca=w_principal.dw_1.getitemnumber(1,"dias")
-		st=f_check_diag(data,sex_busca,edad_busca,este,'0','1')
+		st=f_check_diag(data,sex_busca,edad_busca,este,'0','1','0')
 		stt_diag.text=st.descrip_diag
 	else
 		stt_diag.text=""

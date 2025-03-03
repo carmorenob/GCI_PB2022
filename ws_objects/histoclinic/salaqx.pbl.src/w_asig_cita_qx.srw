@@ -989,7 +989,7 @@ choose case getcolumnName()
 		string diagn,este=''
 		sex_busca=w_principal.dw_1.getitemstring(1,"sexo_t")
 		edad_busca=w_principal.dw_1.getitemnumber(1,"dias")
-		st=f_check_diag(data,sex_busca,edad_busca,este,'0','2')
+		st=f_check_diag(data,sex_busca,edad_busca,este,'0','2','0')
 		if st.descrip_diag="" then
 			setitem(row,'cod_rips','')
 			setitem(row,'dx_preqx','')

@@ -1866,7 +1866,7 @@ if tab_servicios.tabpage_1.dw_serv_ing.rowcount()=0 then return
 string este
 este=this.tag
 if isnull(este) or este<>this.text then este=''
-st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0','2')
+st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0','2','0')
 if st.descrip_diag="" then 
 	this.text =  ""
 	this.tag=''
@@ -2135,7 +2135,7 @@ if tab_servicios.tabpage_1.dw_serv_ing.rowcount()=0 then return
 string este
 este=this.tag
 if isnull(este) or este<>this.text then este=''
-st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0','2')
+st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0','2','0')
 if st.descrip_diag="" then 
 	this.text =  ""
 	this.tag=''
@@ -2258,7 +2258,7 @@ if tab_servicios.tabpage_1.dw_serv_ing.rowcount()=0 then return
 string este
 este=this.tag
 if isnull(este) or este<>this.text then este=''
-st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0','2')
+st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0','2','0')
 if st.descrip_diag="" then 
 	this.text =  ""
 	this.tag=''
@@ -2319,7 +2319,7 @@ if tab_servicios.tabpage_1.dw_serv_ing.rowcount()=0 then return
 string este
 este=this.tag
 if isnull(este) or este<>this.text then este=''
-st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0','2')
+st=f_check_diag(this.text,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0','2','0')
 if st.descrip_diag="" then 
 	this.text =  ""
 	this.tag=''

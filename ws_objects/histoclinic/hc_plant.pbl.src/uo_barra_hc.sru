@@ -78,7 +78,7 @@ global uo_barra_hc uo_barra_hc
 type variables
 long i_contador,i_nreg,i_ncampo
 string i_clug,i_cplant,i_ing,i_tipo_plant,i_tingres,i_cemp,i_ccont,i_tipo_memo,i_cprof,i_cesp,is_guia,ls_tipo,is_pdf,i_cpo
-string i_antecedente,i_alergia,i_codant,i_tipoa
+string i_antecedente,i_alergia,i_codant,i_tipoa,is_cext
 //richtextedit i_rte
 multilineedit i_mle
 datawindowchild idw_tipodiag,idw_profe,idw_desturg,idw_finalidad,idw_causaext,idw_fincon,idw_modrea
@@ -86,7 +86,6 @@ singlelineedit i_st
 datawindow idw_results,idw_dats,idw_memos, idw_frm
 uo_hclin i_uo_padre
 end variables
-
 forward prototypes
 public subroutine retrieve (integer p_item)
 public function integer f_enlaza_ordenes (string p_codigo, string p_tipo, string p_agrupserv)
@@ -1690,6 +1689,13 @@ choose case dwo.name
 			this.accepttext()
 			return 2
 		end if
+		setnull(veri)
+		veri=idw_causaext.find("codcausaexter ='"+this.getitemstring(row,'causaexterna')+"'",1,idw_causaext.rowcount())
+		if veri>0 then
+			is_cext=idw_causaext.getitemstring(veri,'dxrel')
+		else
+			is_cext='0'
+		end if		
 
 	case 'causaext'
 		this.accepttext()
@@ -1699,6 +1705,13 @@ choose case dwo.name
 			this.accepttext()
 			return 2
 		end if
+		setnull(veri)
+		veri=idw_causaext.find("codcausaexter ='"+this.getitemstring(row,'causaexterna')+"'",1,idw_causaext.rowcount())
+		if veri>0 then
+			is_cext=idw_causaext.getitemstring(veri,'dxrel')
+		else
+			is_cext='0'
+		end if		
 
 	case 'c_diagprin','c_diagrel1','c_diagrel2','c_diagrel3','c_diagrel4','c_diagrel5','c_diagcompli','c_diagingre1','c_diagingre2','c_diagingre3','c_diagingre','c_diagegreso','c_diagegreso1','c_diagegreso2','c_diagegreso3','c_diagcomplica','c_causamuerte'
 		st_return_diags st
@@ -1709,9 +1722,17 @@ choose case dwo.name
 			setitem(1,dwo.name,ls_nulo)
 			return
 		end if
+		setnull(veri)
+		veri=idw_causaext.find("codcausaexter ='"+this.getitemstring(row,'causaexterna')+"'",1,idw_causaext.rowcount())
+		if veri>0 then
+			is_cext=idw_causaext.getitemstring(veri,'dxrel')
+		else
+			is_cext='0'
+		end if		
+		
 		sex_busca=w_principal.dw_1.getitemstring(1,"sexo_t")
 		edad_busca=w_principal.dw_1.getitemnumber(1,"dias")
-		st=f_check_diag2(data,sex_busca,edad_busca,'0')
+		st=f_check_diag2(data,sex_busca,edad_busca,'0',is_cext)
 		if st.descrip_diag="" then
 			setitem(1,dwo.name,ls_nulo)
 			setitem(1,"r_"+mid(dwo.name,3),'')

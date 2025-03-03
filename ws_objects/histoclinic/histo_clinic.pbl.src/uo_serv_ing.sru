@@ -933,7 +933,6 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 string text = "        &i"
-boolean originalsize = true
 string picturename = "rips.gif"
 string disabledname = "d_rips.gif"
 alignment htextalign = left!
@@ -1529,10 +1528,18 @@ choose case getcolumnname()
 
 	case 'codrip_prin','codrip_rel1','codrip_rel2','codrip_comp'
 		string este,pedazo,l_sex
+		
+		setnull(veri)
+		veri=idw_causaex.find("codcausaexter ='"+this.getitemstring(row,'causaexterna')+"'",1,idw_causaex.rowcount())
+		if veri>0 then
+			is_cext=idw_causaex.getitemstring(veri,'dxrel')
+		else
+			is_cext='0'
+		end if
 		setnull(este)
 		pedazo=right(getcolumnname(),4)
 		if trim(gettext())<>'' then
-			st=f_check_diag(data,w_principal.dw_1.getitemstring(1,'sexo'),w_principal.dw_1.getitemnumber(1,'dias'),este,'0',this.getitemstring(row,'rips'))
+			st=f_check_diag(data,w_principal.dw_1.getitemstring(1,'sexo'),w_principal.dw_1.getitemnumber(1,'dias'),este,'0',this.getitemstring(row,'rips'),is_cext)
 			if st.descrip_diag='' or isnull(st.descrip_diag) then
 				settext(getitemstring(1,getcolumnname()))
 				return 1
@@ -1554,6 +1561,7 @@ accepttext()
 end event
 
 event doubleclicked;string colu,pedazo
+double ldb_veri
 colu=dwo.name
 pedazo=right(colu,4)
 choose case colu
@@ -1568,7 +1576,20 @@ choose case colu
 		else
 			st_es.proced='1'
 		end if
-		st_es.dxrel=is_cext
+		setnull(ldb_veri)
+		ldb_veri=idw_causaex.find("codcausaexter ='"+this.getitemstring(row,'causaexterna')+"'",1,idw_causaex.rowcount())
+		if ldb_veri>0 then
+			is_cext=idw_causaex.getitemstring(ldb_veri,'dxrel')
+		else
+			is_cext='0'
+		end if		
+	
+		if is_cext='1' and (colu='codrip_rel1' or colu='codrip_rel2') then
+			st_es.dxrel='1'
+		else
+			st_es.dxrel='0'			
+		end if
+
 		openwithparm(w_busca_diag,st_es)
 		st_diag st_diag
 		st_diag=message.powerobjectparm

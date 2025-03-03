@@ -2981,7 +2981,7 @@ choose case getcolumnname()
 	case 'cod_rips'
 		if (trim(data)<>"" or (trim(this.getitemstring(fila,'cod_rips'))<>"" and not isnull(this.getitemstring(fila,'cod_rips'))))then
 			string diag,este=''
-			st=f_check_diag(trim(gettext()),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0','2')
+			st=f_check_diag(trim(gettext()),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0','2','0')
 			if st.descrip_diag<>"" then
 				setitem(fila,"diagnostico",st.descrip_diag)
 				setitem(fila,"codgeral",este)
