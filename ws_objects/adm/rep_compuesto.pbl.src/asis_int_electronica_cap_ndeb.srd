@@ -238,8 +238,8 @@ table(column=(type=char(8190) updatewhereclause=no name=cufe dbname="cufe" )
 	null as poliza,ips.nom1_rpl,ips.nom2_rpl,ips.ape1_rpl,ips.ape2_rpl,
 	documentos.ruta_certificado, documentos.clave_certificado,
 
-	(select codigo from pm_tipousuario_fems where tipo_reg=contratos.ctreg and (codta =emppac.codta  or codta is null)) as cod_tipousuario,
-	(select descripcion from pm_tipousuario_fems where tipo_reg=contratos.ctreg and (codta =emppac.codta  or codta is null)) as nom_tipousuario,
+	(select tipousuario from tipousuario where tipousuario=pacientes.tu and (codta =emppac.codta  or codta is null)) as cod_tipousuario,
+	(select descripcion from tipousuario where tipousuario=pacientes.tu and (codta =emppac.codta  or codta is null)) as nom_tipousuario,
 	'' as cumdp, '' as nom_umdp,
 	ripsradica.fecha_inicial as ini_per, ripsradica.fecha_final as fin_per,
 	pm_bancos.nombre as nombanco, contratos.tipocuenta, contratos.cuenta,
@@ -358,4 +358,3 @@ export.xml(usetemplate="dian" headgroups="1" includewhitespace="0" metadatatype=
 import.xml()
 export.pdf(method=0 distill.custompostscript="0" nativepdf.customsize=5 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 
