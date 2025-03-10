@@ -23,6 +23,7 @@ public function st_retorno_gral sispro_carga_capita_ini (string as_token, string
 public function st_retorno_gral sispro_carga_fev_rips (string as_token, string as_ambiente, string as_ruta, string as_doc)
 public function st_retorno_gral sispro_carga_capita_mes (string as_token, string as_ambiente, string as_ruta, string as_doc)
 public function st_retorno_gral sispro_carga_capita_fin (string as_token, string as_ambiente, string as_ruta, string as_doc)
+public function st_retorno_gral sispro_carga_nccapita (string as_token, string as_ambiente, string as_ruta, string as_doc)
 end prototypes
 
 public function st_ret_dian emite_json_capita (decimal al_nro_fact, string as_clug_fact, string as_tipo_fac, string as_tipo_docu, string as_coddoc);//as_tipo_docu = f:factura de venta ; a: nota credito de anulacion , c:nota credito , d:nota debito
@@ -394,8 +395,8 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 
 					ripse_json.AddItemnumber(ldb_fcon,"cantidadMedicamento",lds_ripsme.getitemnumber(ldb_ci,'cantidad'))
 					ripse_json.AddItemString(ldb_fcon,"diasTratamiento",'1')
-					ripse_json.AddItemString(ldb_fcon,"tipoDocumentoldentificacion",ls_ltd)
-					ripse_json.AddItemString(ldb_fcon,"numDocumentoldentificacion",ls_jdoc)
+					ripse_json.AddItemString(ldb_fcon,"tipoDocumentoldentificacion",lds_ripsme.getitemstring(ldb_ci,'tdoc'))
+					ripse_json.AddItemString(ldb_fcon,"numDocumentoldentificacion",lds_ripsme.getitemstring(ldb_ci,'documento'))
 					ripse_json.AddItemnumber(ldb_fcon,"vrUnitMedicamento",lds_ripsme.getitemnumber(ldb_ci,'vuni'))
 					ripse_json.AddItemnumber(ldb_fcon,"vrServicio",lds_ripsme.getitemnumber(ldb_ci,'vproced'))
 					ripse_json.AddItemString(ldb_fcon,"conceptoRecaudo",lds_ripsme.getitemstring(ldb_ci,'vtmd'))
@@ -440,8 +441,8 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 					end if
 					
 					ripse_json.AddItemnumber(ldb_fcon,"cantidadOS",lds_ripsot.getitemnumber(ldb_ci,'cantidad'))
-					ripse_json.AddItemString(ldb_fcon,"tipoDocumentoIdentificacion",ls_ltd)
-					ripse_json.AddItemString(ldb_fcon,"numDocumentoIdentificacion",ls_jdoc)
+					ripse_json.AddItemString(ldb_fcon,"tipoDocumentoIdentificacion",lds_ripsot.getitemstring(ldb_ci,'tdoc'))
+					ripse_json.AddItemString(ldb_fcon,"numDocumentoIdentificacion",lds_ripsot.getitemstring(ldb_ci,'documento'))
 					ripse_json.AddItemnumber(ldb_fcon,"vrUnitOS",lds_ripsot.getitemnumber(ldb_ci,'vuni'))
 					ripse_json.AddItemnumber(ldb_fcon,"vrServicio",lds_ripsot.getitemnumber(ldb_ci,'vproced'))
 					ripse_json.AddItemString(ldb_fcon,"conceptoRecaudo",lds_ripsot.getitemstring(ldb_ci,'vtmd'))
@@ -1217,6 +1218,83 @@ if as_ambiente='2' then
 	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarCapitaFinal"
 else
 	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarCapitaFinal"
+end if
+
+li_rc =lo_client.sendrequest('POST',ls_url, ls_envio, EncodingUTF8!)
+li_StatusCode = lo_client.GetResponseStatusCode()
+ls_err = lo_client.GetResponseStatusText( )
+li_rc = lo_client.getresponsebody(ls_ReturnJson)
+
+if li_statusCode<0 then
+	if isnull(ls_err) then
+		ls_err='Error de API Minsaalud'
+	else
+		ls_err='Error de API Minsaalud'+ls_err
+	end if
+	messagebox("Atención"+string(li_StatusCode),ls_err)
+	
+	lst_ret.i_valor=-1
+	return lst_ret
+end if
+
+destroy ljg_json
+destroy lo_client
+lst_ret.i_valor=1
+lst_ret.s_valor=ls_ReturnJson
+
+return lst_ret
+end function
+
+public function st_retorno_gral sispro_carga_nccapita (string as_token, string as_ambiente, string as_ruta, string as_doc);Integer li_rc,li_filenum,li_StatusCode 
+String ls_ReturnJson,ls_json,ls_envio,ls_err, ls_url
+JsonGenerator ljg_json
+blob lblob_xml
+st_retorno_gral lst_ret 
+
+//// ABRE JSON
+as_ruta='C:\facturas\CA789\'
+as_doc=as_ruta+'CA789.json'
+
+ljg_json = Create JsonGenerator
+ljg_json.ImportFile(as_doc)
+ls_json = ljg_json.GetJsonString()
+
+///ABRE XML
+as_doc=as_ruta+'ad08060103050002500002523.xml'
+
+li_filenum = FileOpen(as_doc, StreamMode!, Read!, LockReadWrite!, Append!, EncodingANSI!)
+IF li_FileNum = -1 THEN 
+	lst_ret.i_valor=-1
+	return lst_ret
+end if
+li_rc = FileReadEx(li_FileNum, lblob_xml)
+IF li_rc = -1 THEN 
+	lst_ret.i_valor=-2
+	return lst_ret
+end if
+FileClose(li_FileNum)
+
+CoderObject lnv_CoderObject
+lnv_CoderObject = Create CoderObject
+
+httpClient lo_client
+lo_client = Create HttpClient
+
+jsonpackage lnv_json
+lnv_json = create jsonpackage
+
+lnv_json.setvalue("rips",ls_json)
+///Pasa xnl a base64
+lnv_json.setvalue("xmlFevFile", lnv_CoderObject.Base64Encode(lblob_xml), false)
+ls_envio=lnv_json.GetJsonString()
+
+lo_client.SetRequestHeader("Content-Type", "application/json;charset=UTF-8")
+lo_client.SetRequestHeader("Authorization",+'Bearer '+as_token)
+
+if as_ambiente='2' then
+	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarCapitaPeriodo"
+else
+	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarCapitaPeriodo"
 end if
 
 li_rc =lo_client.sendrequest('POST',ls_url, ls_envio, EncodingUTF8!)

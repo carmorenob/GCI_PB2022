@@ -2,6 +2,8 @@
 forward
 global type q_i from window
 end type
+type pb_3 from picturebutton within q_i
+end type
 type pb_2 from picturebutton within q_i
 end type
 type dw_electronica_cap from uo_datawindow within q_i
@@ -43,6 +45,7 @@ windowtype windowtype = response!
 long backcolor = 67108864
 string icon = "AppIcon!"
 boolean center = true
+pb_3 pb_3
 pb_2 pb_2
 dw_electronica_cap dw_electronica_cap
 dw_electronica dw_electronica
@@ -62,6 +65,7 @@ end type
 global q_i q_i
 
 on q_i.create
+this.pb_3=create pb_3
 this.pb_2=create pb_2
 this.dw_electronica_cap=create dw_electronica_cap
 this.dw_electronica=create dw_electronica
@@ -77,7 +81,8 @@ this.dw_2=create dw_2
 this.dw_1=create dw_1
 this.ads_datos=create ads_datos
 this.cb_1=create cb_1
-this.Control[]={this.pb_2,&
+this.Control[]={this.pb_3,&
+this.pb_2,&
 this.dw_electronica_cap,&
 this.dw_electronica,&
 this.pb_1,&
@@ -95,6 +100,7 @@ this.cb_1}
 end on
 
 on q_i.destroy
+destroy(this.pb_3)
 destroy(this.pb_2)
 destroy(this.dw_electronica_cap)
 destroy(this.dw_electronica)
@@ -111,6 +117,46 @@ destroy(this.dw_1)
 destroy(this.ads_datos)
 destroy(this.cb_1)
 end on
+
+type pb_3 from picturebutton within q_i
+string tag = "NCcapita"
+integer x = 933
+integer y = 500
+integer width = 146
+integer height = 128
+integer taborder = 125
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+string picturename = "dian.gif"
+alignment htextalign = left!
+string powertiptext = "NCCapita"
+end type
+
+event clicked;////////ELECTRONICA	
+double l_i,l_nfactura
+string ls_clugar,ls_tfac,ls_filename
+nvo_factura_electronica u_elec
+st_ret_dian    lst_lle
+
+u_elec=create nvo_factura_electronica
+
+if dw_1.retrieve(double(sle_f.text),sle_l.text,'F',1)>0 then
+	l_nfactura=dw_1.getitemnumber(1,'nfact')
+	ls_clugar=dw_1.getitemstring(1,'clugar')
+	ls_tfac=dw_1.getitemstring(1,'tipo')
+	ls_filename=dw_1.getitemstring(1,'file_name_fact')
+	
+	lst_lle=u_elec.envio_sin_validacion19(dw_electronica_cap,l_nfactura,ls_clugar,ls_tfac,1,'a','RV') 
+	u_elec.of_enviar_new_correo_fevs(l_nfactura,ls_clugar,ls_tfac,1,'C',ls_filename,'C')
+end if
+messagebox('','Proceso Finalizado')
+////////ELECTRONICA
+
+end event
 
 type pb_2 from picturebutton within q_i
 string tag = "capita"
@@ -141,7 +187,7 @@ u_elec=create nvo_factura_electronica
 
 //--588,'01'
 
-if dw_1.retrieve(double(sle_f.text),sle_l.text,'F')>0 then
+if dw_1.retrieve(double(sle_f.text),sle_l.text,'F',0)>0 then
 	l_nfactura=dw_1.getitemnumber(1,'nfact')
 	ls_clugar=dw_1.getitemstring(1,'clugar')
 	ls_tfac=dw_1.getitemstring(1,'tipo')
@@ -156,14 +202,12 @@ messagebox('','Proceso Finalizado')
 end event
 
 type dw_electronica_cap from uo_datawindow within q_i
-boolean visible = false
 integer x = 2523
 integer y = 556
 integer width = 521
 integer height = 388
 integer taborder = 10
-boolean enabled = false
-string dataobject = "asis_int_factura_ele_cap19"
+string dataobject = "asis_int_electronica_cap_ncre19"
 end type
 
 type dw_electronica from uo_datawindow within q_i
@@ -286,7 +330,7 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 long textcolor = 33554432
-string text = "789"
+string text = "698"
 borderstyle borderstyle = stylelowered!
 end type
 

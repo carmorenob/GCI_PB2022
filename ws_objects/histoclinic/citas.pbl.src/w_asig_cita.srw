@@ -1009,6 +1009,7 @@ integer height = 112
 integer taborder = 70
 string title = "none"
 string dataobject = "dw_finalidad_cita"
+boolean hscrollbar = true
 boolean border = false
 boolean livescroll = true
 borderstyle borderstyle = stylelowered!

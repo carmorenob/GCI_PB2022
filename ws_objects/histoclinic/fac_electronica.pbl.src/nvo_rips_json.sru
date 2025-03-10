@@ -883,7 +883,7 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 			//OTROS
 			lds_ripsot.setfilter("tdpac='"+ls_ltd+"' and  docpac='"+ls_jdoc+"'")
 			lds_ripsot.filter()
-			if lds_ripsot.rowcount()>1 then 
+			if lds_ripsot.rowcount()>0 then 
 				ldb_cin= ripse_json.AddItemArray(ldb_serv,"otrosServicios")
 				for ldb_ci=1 to lds_ripsot.rowcount()
 					ldb_fcon = ripse_json.AddItemObject(ldb_cin)
@@ -911,8 +911,8 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 					end if
 					
 					ripse_json.AddItemnumber(ldb_fcon,"cantidadOS",lds_ripsot.getitemnumber(ldb_ci,'cantidad'))
-					ripse_json.AddItemString(ldb_fcon,"tipoDocumentoIdentificacion",ls_ltd)
-					ripse_json.AddItemString(ldb_fcon,"numDocumentoIdentificacion",ls_jdoc)
+					ripse_json.AddItemString(ldb_fcon,"tipoDocumentoIdentificacion",lds_ripsot.getitemstring(ldb_ci,'tdoc'))
+					ripse_json.AddItemString(ldb_fcon,"numDocumentoIdentificacion",lds_ripsot.getitemstring(ldb_ci,'documento'))
 					ripse_json.AddItemnumber(ldb_fcon,"vrUnitOS",lds_ripsot.getitemnumber(ldb_ci,'vuni'))
 					ripse_json.AddItemnumber(ldb_fcon,"vrServicio",lds_ripsot.getitemnumber(ldb_ci,'vproced'))
 					ripse_json.AddItemString(ldb_fcon,"conceptoRecaudo",lds_ripsot.getitemstring(ldb_ci,'vtmd'))

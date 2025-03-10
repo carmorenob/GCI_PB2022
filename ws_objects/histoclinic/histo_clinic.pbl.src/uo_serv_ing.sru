@@ -261,6 +261,7 @@ if p_emp ='' then SetNull(p_emp)
 if p_cont ='' then SetNull(p_cont)
 
 long fila , j
+string ls_fin,ls_cext
 ///// fin revisa a quien le van a cargar esto
 i_alm=p_alm
 
@@ -292,8 +293,38 @@ dw_serv_ing.setitem(fila,"contador",i_contador)
 dw_serv_ing.setitem(fila,"finalidadproced",stp.tipoproc)
 dw_serv_ing.setitem(fila,"rips",stp.rips)
 if stp.rips='9' then dw_serv_ing.setitem(fila,"estria",'1')
-if stp.rips='1' then dw_serv_ing.setitem(fila,"fin_consulta",'10')
-if stp.rips='1' then dw_serv_ing.setitem(fila,"causaexterna",'13')
+
+if stp.rips='1' then
+	SELECT 
+		codfin 
+	INTO
+		:ls_fin
+	FROM 
+		finconsulta
+	WHERE 
+		(((estado)='1') AND ((defec)='1'));
+	if sqlca.sqlnrows=0 then
+		messagebox('Atencíon','No hay finalidad por Defecto')
+		return -1
+	end if
+
+	SELECT 
+		codcausaexter
+	into
+		:ls_cext
+	FROM 
+		causaexterna
+	WHERE 
+		(((estado)='1') AND ((defec)='1'));
+	if sqlca.sqlnrows=0 then
+		messagebox('Atencíon','No hay CausaExterna por Defecto')
+		return -1
+	end if
+
+	dw_serv_ing.setitem(fila,"fin_consulta",ls_fin)
+	dw_serv_ing.setitem(fila,"causaexterna",ls_cext)
+end if
+
 dw_serv_ing.setitem(fila,"codespecialidad",i_espe)
 dw_serv_ing.setitem(fila,"cprof",i_profe)
 dw_serv_ing.setitem(fila,"persoatiende",i_atiende)

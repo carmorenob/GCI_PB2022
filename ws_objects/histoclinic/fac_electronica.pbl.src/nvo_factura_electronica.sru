@@ -2398,7 +2398,7 @@ lds_xml_attached=create uo_datastore
 if as_origen='C' then
 	if as_tnota='C' then 
 		if g_motor='postgres' then
-			ldw_factura.dataobject='asis_int_electronica_cap_ncre'
+			ldw_factura.dataobject='asis_int_electronica_cap_ncre19'
 		else
 			ldw_factura.dataobject='dw_factura_electronica_cap_sql' 
 		end if	
@@ -2757,6 +2757,8 @@ else
 			lst_ret_dian.as_estado="-2"
 			return lst_ret_dian
 		end if	
+		ls_t=adw_factura.Modify("DataWindow.Export.XML.UseTemplate = 'nc_cap_dian19' ")		
+//		ls_t=adw_factura.Modify("DataWindow.Export.XML.UseTemplate = 'nc_cap_dian' ")		
 	else
 		if adw_factura.retrieve(al_nro_fact,as_clug_factura,as_tipofac)<=0 then 
 			messagebox('Atencíon','No se pueden recuperar datos')
