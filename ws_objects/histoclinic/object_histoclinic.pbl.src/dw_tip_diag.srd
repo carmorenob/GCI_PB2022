@@ -5,9 +5,13 @@ header(height=0 color="536870912" transparency="0" gradient.color="8421504" grad
 summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 detail(height=60 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
-table(column=(type=char(1) update=yes updatewhereclause=yes key=yes name=codtipdiag dbname="tipodiagnostico.codtipdiag" )
- column=(type=char(50) updatewhereclause=yes name=descripcion dbname="tipodiagnostico.descripcion" )
- retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"tipodiagnostico~" ) COLUMN(NAME=~"tipodiagnostico.codtipdiag~") COLUMN(NAME=~"tipodiagnostico.descripcion~")) " update="tipodiagnostico" updatewhere=1 updatekeyinplace=no )
+table(column=(type=char(1) update=yes updatewhereclause=yes key=yes name=codtipdiag dbname="tipodiagnostico.codtipdiag" dbalias=".codtipdiag" )
+ column=(type=char(50) updatewhereclause=yes name=descripcion dbname="tipodiagnostico.descripcion" dbalias=".descripcion" )
+ retrieve="SELECT 
+	codtipdiag,descripcion  
+FROM 
+	tipodiagnostico   
+" update="tipodiagnostico" updatewhere=1 updatekeyinplace=no )
 compute(band=detail alignment="0" expression=" '('+codtipdiag +~") ~" + descripcion "border="0" color="0" x="14" y="4" height="52" width="974" format="[GENERAL]" html.valueishtml="0"  name=todo visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 htmltable(border="1" )
 htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )

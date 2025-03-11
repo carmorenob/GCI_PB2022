@@ -104,9 +104,8 @@ private long i_contador=-1,i_nservicio,i_difp
 private string i_clugar_his,i_profe,i_espe,i_atiende,i_alm,i_cdoc_cons='SC',ls_antece,ls_resgt,ls_origen,is_cext
 private boolean i_confirma_ge=true,i_cambio_insumo
 private st_fact st_f
-DataWindowChild idw_fincon,idw_finproc,idw_causaex
+DataWindowChild idw_fincon,idw_finproc,idw_causaex,idw_ambproc
 end variables
-
 forward prototypes
 public subroutine cambia_emppac (datawindow dw)
 public function integer reset ()
@@ -1435,16 +1434,28 @@ else
 	integer li_temp_dx=10
 	ld_fecha_atn=dw_serv_ing.getitemdatetime(dw_serv_ing.getrow(),"fecha")
 	if daysAfter(date(ld_fecha_atn),date(now())) >0 then
+		idw_fincon.retrieve('%')
+		idw_finproc.retrieve('%')
+		idw_causaex.retrieve('%')	
+		idw_ambproc.retrieve('%')	
 		dw_diags.enabled=false
 		cb_est_ria.enabled=false
 		pb_guarda_diags.enabled=false
 	else
 		if  SecondsAfter(time(ld_fecha_atn),time(now())) > (integer(li_temp_dx)*5) then 
+			idw_fincon.retrieve('%')
+			idw_finproc.retrieve('%')
+			idw_causaex.retrieve('%')
+			idw_ambproc.retrieve('%')
 			dw_diags.enabled=false
 			dw_serv_ing.enabled=false			
 			cb_est_ria.enabled=false
 			pb_guarda_diags.enabled=false
 		else
+			idw_fincon.retrieve('1')
+			idw_finproc.retrieve('1')
+			idw_causaex.retrieve('1')
+			idw_ambproc.retrieve('1')
 			dw_diags.enabled=true
 			dw_serv_ing.enabled=true			
 			cb_est_ria.enabled=true
@@ -1516,7 +1527,8 @@ dw_diags.getchild('finalidadproced',idw_finproc)
 idw_finproc.settransobject(SQLCA)
 dw_diags.getchild('causaexterna',idw_causaex)
 idw_causaex.settransobject(sqlca)
-
+dw_diags.getchild('ambitoproced',idw_ambproc)
+idw_ambproc.settransobject(sqlca)
 end event
 
 event itemfocuschanged;if row<1 or rowcount()<1 then return
