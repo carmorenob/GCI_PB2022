@@ -183,7 +183,7 @@ global w_asig_cita w_asig_cita
 type variables
 long i_dura,i_cuantos,i_fila_prof,i_fila_ant,i_col_ant
 int l_cita 
-datawindowchild i_dw_grupc,i_dw_proc_gcita,idw_lugar,idw_fincon
+datawindowchild i_dw_grupc,i_dw_proc_gcita,idw_lugar,idw_fincon,idw_finconpac
 datetime i_desde,i_hasta
 string i_profes,i_esp,i_consul,i_clug,ls_tipo,is_pdf
 boolean i_guardo,lb_espera=false,lb_fina=false,lb_tipoc=false
@@ -191,7 +191,6 @@ boolean i_guardo,lb_espera=false,lb_fina=false,lb_tipoc=false
 m_ppal im_main 
 
 end variables
-
 forward prototypes
 public subroutine trae_agenda ()
 public subroutine pinta ()
@@ -1018,6 +1017,7 @@ end type
 event constructor;settransobject(sqlca)
 getchild('codfin',idw_fincon)
 idw_fincon.settransobject(sqlca)
+idw_fincon.retrieve('1')
 insertrow(1)
 
 end event
@@ -1691,6 +1691,9 @@ end choose
 end event
 
 event constructor;settransobject(sqlca)
+getchild('cod_fina',idw_finconpac)
+idw_finconpac.settransobject(sqlca)
+idw_finconpac.retrieve('%')
 end event
 
 event buttonclicked;any par[2]
