@@ -121,10 +121,10 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_emp_pac,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,w_factura_base,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,w_factu_serv_emp,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,w_cambia_valores,w
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\fac_electronica.pbl,nvo_fevrips,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,dw_lab_integra,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_combo_prof,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_vacuna_config,d
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\fac_electronica.pbl,nvo_fevrips,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,dw_antecedente_pac_elimina_postgres,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_dwr_service,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,u_version,u
@@ -790,7 +790,6 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_plant_rtf_
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\enfermeria.pbl,dw_liq_reg,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\ord_serv.pbl,w_new_estad_ria_os,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,dw_contra_deta,d
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\fac_electronica.pbl,nvo_rips_json,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\rips.pbl,dw_factu_sin_rip_nro,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hospital.pbl,w_entrega_med,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\costos_asis.pbl,dw_sum_mvto_cab_insumos,d
