@@ -349,9 +349,9 @@ string facename = "Arial"
 string text = "josnCapita"
 end type
 
-event clicked;	nvo_rips_json u_rips
+event clicked;	nvo_fevrips u_rips
 	
-	u_rips=create nvo_rips_json
+	u_rips=create nvo_fevrips
 //	u_rips.emite_json_evento(49971,'74','F','f','FV')
 	u_rips.emite_json_capita(double(sle_f.text),sle_l.text,'F','f','FV','d:\prueba.json','0')
 	destroy 	u_rips
@@ -373,11 +373,10 @@ string facename = "Arial"
 string text = "Evento"
 end type
 
-event clicked;	nvo_rips_json u_rips
+event clicked;	nvo_fevrips u_rips
 	
-	u_rips=create nvo_rips_json
+	u_rips=create nvo_fevrips
 	u_rips.emite_json_evento(double(sle_f.text),sle_l.text,'F','f','FV','D:\json'+'.json')
-//	u_rips.emite_json_evento(49971,'74','F','f','FV')
 	destroy 	u_rips
 end event
 
@@ -472,7 +471,7 @@ if ls_token<>'-1' then
 //	if lst_ret_gral.i_valor=-1 then 
 //		rollback;
 //	end if
-//	
+	
 //	lst_ret_gral=u_rips.sispro_carga_capita_ini(ls_token,'2','','')
 //	if lst_ret_gral.i_valor=-1 then 
 //		rollback;
@@ -483,14 +482,11 @@ if ls_token<>'-1' then
 		rollback;
 	end if
 
-//
-//
 //	lst_ret_gral=u_rips.sispro_carga_capita_fin(ls_token,'2','','')
 //	if lst_ret_gral.i_valor=-1 then 
 //		rollback;
 //	end if
 
-	
 	jsonpackage lnv_json
 	string ls_ResultadosValidacion
 	lnv_json=create jsonpackage
@@ -501,9 +497,7 @@ if ls_token<>'-1' then
 		ls_ResultadosValidacion =  lnv_json.GetValue("ResultadosValidacion")
 		li_rc=dw_3.ImportJson(ls_ResultadosValidacion ,ls_err)
 	end if		
-
 end if
-
 
 destroy lnv_json
 destroy u_rips

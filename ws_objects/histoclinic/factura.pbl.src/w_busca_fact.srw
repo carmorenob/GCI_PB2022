@@ -166,14 +166,14 @@ alignment htextalign = left!
 string powertiptext = "Emite estructura Json"
 end type
 
-event clicked;nvo_rips_json luo_rips
+event clicked;nvo_fevrips luo_rips
 double ldb_nfac
 string ls_clu,ls_tip
 
 ldb_nfac=dw_encuentra.getitemnumber(dw_encuentra.getrow(),'nfact')
 ls_clu=dw_encuentra.getitemstring(dw_encuentra.getrow(),'clugar')
 ls_tip=dw_encuentra.getitemstring(dw_encuentra.getrow(),'tipo')
-luo_rips=create nvo_rips_json
+luo_rips=create nvo_fevrips
 luo_rips.emite_json_evento(ldb_nfac,ls_clu,ls_tip,'f','FV','D:\json'+'.json')
 destroy 	luo_rips
 end event

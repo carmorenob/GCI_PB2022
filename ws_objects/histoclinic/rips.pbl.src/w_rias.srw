@@ -6010,10 +6010,10 @@ if tab_2.tp2_1.tab_1.tp_p.dw_radica.rowcount()>0 then
 					messagebox("Atención",'Archivos generados con éxito')
 			end choose
 		else
-			nvo_rips_json u_rips
+			nvo_fevrips u_rips
 			string ls_nomarch
 			
-			u_rips=create nvo_rips_json
+			u_rips=create nvo_fevrips
 			if  isnull(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'prefijo')) then
 				ls_nomarch=tab_2.tp2_1.sle_dir.text+'\'+string(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"num_radicacion"))+'.json'
 			else
