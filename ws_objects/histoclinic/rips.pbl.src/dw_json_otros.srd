@@ -12,7 +12,7 @@ table(column=(type=char(12) updatewhereclause=yes name=c_supersalud dbname="c_su
  column=(type=char(255) updatewhereclause=yes name=codigo_uni dbname="codigo_uni" )
  column=(type=char(255) updatewhereclause=yes name=medicamento dbname="medicamento" )
  column=(type=number updatewhereclause=yes name=cantidad dbname="cantidad" )
- column=(type=decimal(6) updatewhereclause=yes name=vuni dbname="vuni" )
+ column=(type=number updatewhereclause=yes name=vuni dbname="vuni" )
  column=(type=decimal(2) updatewhereclause=yes name=vproced dbname="vproced" )
  column=(type=long updatewhereclause=yes name=nitem dbname="nitem" )
  column=(type=datetime updatewhereclause=yes name=fecha dbname="fecha" )
@@ -184,6 +184,148 @@ FROM
 		AND ((factcpo.RIA)='7') AND ((factcab.NFact)=:nfact) 
 		AND ((factcab.clugar)=:clug) AND ((factcab.tipo)=:tipo) 
 		AND ((contratos.ctcontra)='1') AND ((factcab.c_aut) Is Not Null))
+
+	UNION ALL
+		
+	SELECT 
+		Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
+		factcab.fecha as fechaat,
+		Medicamentos.codigo_unif AS codigo_uni, 
+		Medicamentos.Medicamento, 
+		factcpo.Cantidad, 
+		factcpo.vproced/factcpo.Cantidad AS vuni, 
+		factcpo.VProced, factcpo.NItem, factcab.Fecha, factcab.clugar AS clugar_fac, ips.c_supersalud AS csuper_ips, 
+		sumarticulo.cum, factcpo.tipo AS tipo_fac, DOCUMENTOS_AUTFACT.PREFIJO, sumarticulo.cum_espe, factcab.NFact,
+		profe.tdoc, profe.documento, 
+		case when 
+			factcpo.vcopago<>0
+		then
+			'02'
+		else
+			 case when 
+				factcpo.vcm<>0
+			then
+				'01'
+			else
+				case when 
+					factcpo.vpart<>0
+				then
+					'03'
+				else
+					'05'
+				end
+			end
+		end as VTMD,
+			
+		factcpo.vcopago+factcpo.vcm+factcpo.vpart+factcpo.vcr as vpm,
+		sumarticulo.ium,  agrupservicios.tipo_serv as tipoos, 
+		tesorecajcpo.nrcaj, documentos_autfact_1.prefijo as pref_rc,
+		factcpo.c_medica
+	FROM 
+		((((((((((((((((((((factcab 
+		INNER JOIN factcpo ON (factcab.clugar = factcpo.clugar) AND (factcab.NFact = factcpo.NFact) 
+		AND (factcab.TIPO = factcpo.TIPO)) 
+		INNER JOIN Lugar ON factcab.clugar = Lugar.codlugar) 
+		INNER JOIN ips ON factcab.ips = ips.c_ips) 
+		INNER JOIN contratos ON (factcab.ccontrato = contratos.codcontrato) AND (factcab.cemp = contratos.codemp)) 
+		INNER JOIN Medicamentos ON factcpo.c_medica = Medicamentos.c_medica) 
+		INNER JOIN MedFormaF ON Medicamentos.codformaf = MedFormaF.codformaf) 
+		INNER JOIN MedUMedida ON Medicamentos.cum_pes = MedUMedida.codumeddca) 
+		LEFT JOIN sumarticulo ON factcpo.codarticulo = sumarticulo.codarticulo) 
+		INNER JOIN PACIENTES ON (factcpo.DOCUMENTO = PACIENTES.DOCUMENTO) AND (factcpo.TIPODOC = PACIENTES.TIPODOC)) 
+		INNER JOIN TIPOIDENTIFICACION ON PACIENTES.TIPODOC = TIPOIDENTIFICACION.CODTIPOIDENT) 
+		LEFT JOIN serviciosingreso ON (factcpo.nfact = serviciosingreso.nfactura) AND (factcpo.clugar = serviciosingreso.clugar_fac) 
+		AND (factcpo.tipo = serviciosingreso.tipo_fac) AND (factcpo.nitem = serviciosingreso.nitem_fac)) 
+		INNER JOIN ripsradica ON (factcab.nradica = ripsradica.num_radicacion) AND (factcab.clugar_rad = ripsradica.clugar) 
+		AND (factcab.tipo_rad = ripsradica.tipo)) 
+		INNER JOIN DOCUMENTOS_AUTFACT ON ripsradica.c_aut = DOCUMENTOS_AUTFACT.c_aut) 
+		INNER JOIN oscuerpo ON (factcpo.nfact = oscuerpo.nfact) AND (factcpo.clugar = oscuerpo.clugar_fact) AND (factcpo.tipo = oscuerpo.tipo_fact) 
+		AND (factcpo.nitem = oscuerpo.nitem_fact)) 
+		INNER JOIN oscabeza ON (oscuerpo.contador = oscabeza.contador) AND (oscuerpo.clugar = oscabeza.clugar) AND (oscuerpo.nsolicitud = oscabeza.nsolicitud)) 
+		INNER JOIN diags ON oscabeza.codgeral = diags.codgeral) 
+		INNER JOIN profe ON oscabeza.codprof = profe.codprof) 
+		INNER JOIN agrupservicios ON factcpo.codconcepto = agrupservicios.codconcepto) 
+		LEFT JOIN tesorecajcpo ON (factcab.tipo = tesorecajcpo.tipo_fac) AND (factcab.clugar = tesorecajcpo.clugar_fac) 
+		AND (factcab.nfact = tesorecajcpo.nfact)) 
+		LEFT JOIN tesorecajcab ON (tesorecajcpo.clugar = tesorecajcab.clugar) AND (tesorecajcpo.nrcaj = tesorecajcab.nrcaj)) 
+		LEFT JOIN documentos_autfact AS documentos_autfact_1 ON tesorecajcab.c_aut = documentos_autfact_1.c_aut
+	WHERE 
+		(((factcab.tipo)='C') AND ((DOCUMENTOS_AUTFACT.coddoc)='FV') 
+		AND ((DOCUMENTOS_AUTFACT.clugar)='01') 
+		AND ((factcpo.RIA)='7') 
+		AND ((factcab.NFact)=:nfact) AND ((factcab.clugar)=:clug) AND ((factcab.tipo)=:tipo) 
+		AND ((contratos.ctcontra)='2') AND ((factcab.codtingre)='1') 
+		AND ((serviciosingreso.nfactura) Is Null))
+	
+	UNION ALL
+	
+	SELECT 
+		Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
+		factcab.fecha as fechaat,
+		Medicamentos.codigo_unif AS codigo_uni, 
+		Medicamentos.Medicamento, 
+		factcpo.Cantidad, 
+		factcpo.vproced/factcpo.Cantidad AS vuni, 
+		factcpo.VProced, factcpo.NItem, factcab.Fecha, factcab.clugar AS clugar_fac, ips.c_supersalud AS csuper_ips, 
+		sumarticulo.cum, factcpo.tipo AS tipo_fac, DOCUMENTOS_AUTFACT.PREFIJO, sumarticulo.cum_espe, factcab.NFact,
+		profe.tdoc, profe.documento, 
+		case when 
+			factcpo.vcopago<>0
+		then
+			'02'
+		else
+			 case when 
+				factcpo.vcm<>0
+			then
+				'01'
+			else
+				case when 
+					factcpo.vpart<>0
+				then
+					'03'
+				else
+					'05'
+				end
+			end
+		end as VTMD,
+			
+		factcpo.vcopago+factcpo.vcm+factcpo.vpart+factcpo.vcr as vpm,
+		sumarticulo.ium,  agrupservicios.tipo_serv as tipoos, 
+		tesorecajcpo.nrcaj, documentos_autfact_1.prefijo as pref_rc,
+		factcpo.c_medica
+	FROM 
+		(((((((((((((((((((factcab 
+		INNER JOIN factcpo ON (factcab.TIPO = factcpo.TIPO) AND (factcab.NFact = factcpo.NFact) AND (factcab.clugar = factcpo.clugar)) 
+		INNER JOIN Lugar ON factcab.clugar = Lugar.codlugar) INNER JOIN ips ON factcab.ips = ips.c_ips) 
+		INNER JOIN contratos ON (factcab.cemp = contratos.codemp) AND (factcab.ccontrato = contratos.codcontrato)) 
+		INNER JOIN Medicamentos ON factcpo.c_medica = Medicamentos.c_medica) 
+		INNER JOIN MedFormaF ON Medicamentos.codformaf = MedFormaF.codformaf) 
+		INNER JOIN MedUMedida ON Medicamentos.cum_pes = MedUMedida.codumeddca) 
+		LEFT JOIN sumarticulo ON factcpo.codarticulo = sumarticulo.codarticulo) 
+		INNER JOIN PACIENTES ON (factcpo.TIPODOC = PACIENTES.TIPODOC) AND (factcpo.DOCUMENTO = PACIENTES.DOCUMENTO)) 
+		INNER JOIN TIPOIDENTIFICACION ON PACIENTES.TIPODOC = TIPOIDENTIFICACION.CODTIPOIDENT) 
+		LEFT JOIN serviciosingreso ON (factcpo.nitem = serviciosingreso.nitem_fac) AND (factcpo.tipo = serviciosingreso.tipo_fac) 
+		AND (factcpo.clugar = serviciosingreso.clugar_fac) AND (factcpo.nfact = serviciosingreso.nfactura)) 
+		INNER JOIN ripsradica ON (factcab.tipo_rad = ripsradica.tipo) AND (factcab.clugar_rad = ripsradica.clugar) 
+		AND (factcab.nradica = ripsradica.num_radicacion)) 
+		INNER JOIN DOCUMENTOS_AUTFACT ON ripsradica.c_aut = DOCUMENTOS_AUTFACT.c_aut) 
+		LEFT JOIN oscuerpo ON (factcpo.nitem = oscuerpo.nitem_fact) AND (factcpo.tipo = oscuerpo.tipo_fact) AND (factcpo.clugar = oscuerpo.clugar_fact) 
+		AND (factcpo.nfact = oscuerpo.nfact)) 
+		INNER JOIN profe ON factcab.cprof_ordena = profe.codprof) 
+		INNER JOIN diags ON factcab.dxppal = diags.codgeral) 
+		INNER JOIN agrupservicios ON factcpo.codconcepto = agrupservicios.codconcepto) 
+		LEFT JOIN tesorecajcpo ON (factcab.tipo = tesorecajcpo.tipo_fac) AND (factcab.clugar = tesorecajcpo.clugar_fac) 
+		AND (factcab.nfact = tesorecajcpo.nfact)) 
+		LEFT JOIN tesorecajcab ON (tesorecajcpo.clugar = tesorecajcab.clugar) AND (tesorecajcpo.nrcaj = tesorecajcab.nrcaj)) 
+		LEFT JOIN documentos_autfact AS documentos_autfact_1 ON tesorecajcab.c_aut = documentos_autfact_1.c_aut
+	WHERE 
+		(((factcab.tipo)='C') AND ((DOCUMENTOS_AUTFACT.coddoc)='FV') 
+		AND ((DOCUMENTOS_AUTFACT.clugar)='01') 
+		AND ((factcpo.RIA)='7') 
+		AND ((factcab.NFact)=:nfact) AND ((factcab.clugar)=:clug) AND ((factcab.tipo)=:tipo) 
+		AND ((contratos.ctcontra)='2') AND ((factcab.codtingre)='1') 
+		AND ((serviciosingreso.nfactura) Is Null)
+		AND ((oscuerpo.nfact) Is Null))
 ) as Uniones" arguments=(("nfact", number),("clug", string),("tipo", string)) )
 text(band=header alignment="2" text="Vuni" border="0" color="33554432" x="379" y="8" height="64" width="690" html.valueishtml="0"  name=vuni_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="0" text="Idmipres" border="0" color="0" x="9" y="4" height="64" width="361" html.valueishtml="0"  name=idmipres_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
@@ -212,6 +354,7 @@ text(band=header alignment="0" text="Tipoos" border="0" color="0" x="11534" y="4
 text(band=header alignment="0" text="Nrcaj" border="0" color="0" x="11589" y="4" height="64" width="229" html.valueishtml="0"  name=nrcaj_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="0" text="Pref Rc" border="0" color="0" x="11826" y="4" height="64" width="101" html.valueishtml="0"  name=pref_rc_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="0" text="C Medica" border="0" color="33554432" x="11936" y="4" height="64" width="398" html.valueishtml="0"  name=c_medica_t visible="1"  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="0" text="Fechat" border="0" color="33554432" x="12343" y="4" height="64" width="2130" html.valueishtml="0"  name=fechat_t visible="1"  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
 column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="33554432" x="379" y="4" height="52" width="690" format="[general]" html.valueishtml="0"  name=vuni visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="33554432" x="9" y="4" height="52" width="361" format="[general]" html.valueishtml="0"  name=idmipres visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 column(band=detail id=21 alignment="0" tabsequence=32766 border="0" color="33554432" x="1079" y="0" height="64" width="247" format="[general]" html.valueishtml="0"  name=vtmd visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
@@ -239,8 +382,7 @@ column(band=detail id=25 alignment="0" tabsequence=32766 border="0" color="33554
 column(band=detail id=26 alignment="0" tabsequence=32766 border="0" color="33554432" x="11589" y="0" height="64" width="229" format="[general]" html.valueishtml="0"  name=nrcaj visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 column(band=detail id=27 alignment="0" tabsequence=32766 border="0" color="33554432" x="11826" y="0" height="64" width="101" format="[general]" html.valueishtml="0"  name=pref_rc visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 column(band=detail id=28 alignment="0" tabsequence=32766 border="0" color="33554432" x="11936" y="0" height="64" width="398" format="[general]" html.valueishtml="0"  name=c_medica visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
-column(band=detail id=4 alignment="0" tabsequence=0 border="0" color="33554432" x="12347" y="0" height="64" width="2126" html.valueishtml="0"  name=fechat visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
-text(band=header alignment="0" text="Fechat" border="0" color="33554432" x="12343" y="4" height="64" width="2130" html.valueishtml="0"  name=fechat_t visible="1"  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="33554432" x="12347" y="0" height="64" width="2126" format="[shortdate] [time]" html.valueishtml="0"  name=fechat visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 htmltable(border="1" )
 htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
 xhtmlgen() cssgen(sessionspecific="0" )
