@@ -1290,8 +1290,8 @@ end if
 ///********************GENERA JSON SOLO EVENTO***************
 
 if (as_tipo_docu='f' and as_coddoc='FV')  then 
-	nvo_rips_json u_rips
-	u_rips=create nvo_rips_json
+	nvo_fevrips u_rips
+	u_rips=create nvo_fevrips
 	u_rips.emite_json_evento(al_nro_fact,as_clug_factura,as_tipofac,as_tipo_docu,as_coddoc,is_ruta_facturas+ls_prefac+ls_numfact+'.json')
 	destroy 	u_rips
 end if
