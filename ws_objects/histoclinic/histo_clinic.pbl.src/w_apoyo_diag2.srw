@@ -329,12 +329,12 @@ boolean i_pideconf,i_print,i_cambio_insumo
 long i_fila,i_contador,i_ningreso,i_nserving,i_nservadx,i_muestra,i_itemcpo,i_nrepor
 string is_202
 datawindowchild idw_area,idw_lista1,idw_profe,idw_lista2,idw_lista3
+DataWindowChild idw_finconapx,idw_finprocapx,idw_causaexapx,idw_ambprocapx
 datetime i_fecha
 int ntomas
 transaction sqllab
 
 end variables
-
 forward prototypes
 public function string f_revisa_planes ()
 public function string f_valida_usuarios (string p_usu, string p_area)
@@ -892,7 +892,7 @@ else
 		end if
 	end if
 	if not isnull(p_nfact) then 
-		update factcab set muestra=:i_muestra where nfact=:p_nfact and clugar=:p_clugfac;
+		update factcab set muestra=:i_muestra where nfact=:p_nfact and clugar=:p_clugfac and tipo=:p_tipofac;
 		if sqlca.sqlcode= -1 then
 			messagebox("Error actualizando número de muestra de factura",sqlca.sqlerrtext)
 			tab_1.tp_1.dw_procs.deleterow(fila)
@@ -2338,7 +2338,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-03-03"), Time("09:58:00.000000"))
+datetime value = DateTime(Date("2025-03-13"), Time("17:10:10.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2360,7 +2360,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-03-03"), Time("09:58:00.000000"))
+datetime value = DateTime(Date("2025-03-13"), Time("17:10:10.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -4512,7 +4512,6 @@ if tab_1.tp_1.dw_procs.getitemstring(fila,'clugar')<>clugar then
 	return -1
 end if
 insertrow(1)
-setitem(1,"ambitoproced",'1')
 
 setitem(1,"contador",w_apoyo_diag2.i_contador)
 setitem(1,"clugar",w_apoyo_diag2.i_clughis)
@@ -4558,7 +4557,7 @@ setitem(1,"norden_serv",tab_1.tp_1.dw_procs.getitemnumber(fila,'nsolicitud_os'))
 setitem(1,"item_orden",tab_1.tp_1.dw_procs.getitemnumber(fila,'item_os'))
 
 long ncita,nservcita,seccantcita,nfact,nitemfc,nrec,itemrec,nitemrec,conta_os,norden,nitem_os
-string clugfac,clugrec,clug_os,clug_cita,tipofac,ls_dx
+string clugfac,clugrec,clug_os,clug_cita,tipofac,ls_dx,ls_fina,ls_amb
 
 setnull(ls_dx)
 if i_tipoing<>'1' then
@@ -4574,16 +4573,40 @@ else
 	clugfac=tab_1.tp_1.dw_procs.getitemstring(fila,'clugar_fac')
 	tipofac=tab_1.tp_1.dw_procs.getitemstring(fila,'tipo_fac')
 	nitemfc=tab_1.tp_1.dw_procs.getitemnumber(fila,'nitem')
-	select oscabeza.codgeral into :ls_dx
-	from oscuerpo inner join oscabeza on (oscuerpo.nsolicitud = oscabeza.nsolicitud) and (oscuerpo.clugar = oscabeza.clugar) and (oscuerpo.contador = oscabeza.contador)
-	where (((oscuerpo.nfact)=:nfact) and ((oscuerpo.clugar_fact)=:clugfac) and ((oscuerpo.tipo_fact)=:tipofac) and ((oscuerpo.nitem_fact)=:nitemfc));
+	select 
+		oscabeza.codgeral,oscabeza.cod_fina
+	into 
+		:ls_dx,:ls_fina
+	from 
+		oscuerpo inner join oscabeza on (oscuerpo.nsolicitud = oscabeza.nsolicitud) 
+		and (oscuerpo.clugar = oscabeza.clugar) and (oscuerpo.contador = oscabeza.contador)
+	where 
+		(((oscuerpo.nfact)=:nfact) and ((oscuerpo.clugar_fact)=:clugfac) 
+		and ((oscuerpo.tipo_fact)=:tipofac) and ((oscuerpo.nitem_fact)=:nitemfc));
 	if sqlca.sqlcode=-1 then
 		messagebox("Error en interface oscuerpo",sqlca.sqlerrtext)
 		return -1
 	end if
+	if sqlca.Sqlnrows=0 then
+		select 
+			dxppal, finalidad,modar
+		into 
+			:ls_dx,:ls_fina,:ls_amb
+		from 
+			factcab
+		where 
+			(((factcab.nfact)=:nfact) AND ((factcab.clugar)=:clugfac) AND ((factcab.tipo)=:tipofac));
+		if sqlca.sqlcode=-1 then
+			messagebox("Error en interface factcab",sqlca.sqlerrtext)
+			return -1
+		end if			
+	end if
 end if
+setitem(1,"ambitoproced",'1')
 if not isnull(ls_dx) or ls_dx<>'' then 
 	setitem(1,"diagprin", ls_dx)
+	setitem(1,"finalidadproced",ls_fina)
+	setitem(1,"ambitoproced",ls_amb)	
 end if
 if update()=-1 then return -1
 
@@ -4710,7 +4733,18 @@ object.remite.visible=false
 object.view_estado.y=216
 object.gb_1.visible=false
 object.t_2.y=292
-
+getchild('fin_consulta',idw_finconapx)
+idw_finconapx.settransobject(sqlca)
+getchild('finalidadproced',idw_finprocapx)
+idw_finprocapx.settransobject(SQLCA)
+getchild('causaexterna',idw_causaexapx)
+idw_causaexapx.settransobject(sqlca)
+getchild('ambitoproced',idw_ambprocapx)
+idw_ambprocapx.settransobject(sqlca)
+idw_finconapx.retrieve('1')
+idw_finprocapx.retrieve('1')
+idw_causaexapx.retrieve('1')
+idw_ambprocapx.retrieve('1')
 end event
 
 event doubleclicked;string colu,pedazo
