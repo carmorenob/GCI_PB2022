@@ -2,6 +2,10 @@
 forward
 global type w_factura_base from window
 end type
+type dw_dx from datawindow within w_factura_base
+end type
+type pb_dx from picturebutton within w_factura_base
+end type
 type sle_siras from singlelineedit within w_factura_base
 end type
 type ddlb_archivos from dropdownlistbox within w_factura_base
@@ -41,10 +45,6 @@ end type
 type dw_segrespon from datawindow within w_factura_base
 end type
 type sle_proc from singlelineedit within w_factura_base
-end type
-type gb_8 from groupbox within w_factura_base
-end type
-type gb_7 from groupbox within w_factura_base
 end type
 type gb_5 from groupbox within w_factura_base
 end type
@@ -98,8 +98,6 @@ type pb_calcula from picturebutton within w_factura_base
 end type
 type dw_factura_cpo from datawindow within w_factura_base
 end type
-type p_1 from picture within w_factura_base
-end type
 type st_5 from statictext within w_factura_base
 end type
 type dw_rec_caj_cab from datawindow within w_factura_base
@@ -113,8 +111,6 @@ end type
 type dw_acum_soat from datawindow within w_factura_base
 end type
 type dw_factura from datawindow within w_factura_base
-end type
-type gb_4 from groupbox within w_factura_base
 end type
 type pb_faccon from pb_report within w_factura_base
 end type
@@ -130,11 +126,13 @@ type pb_pagares from picturebutton within w_factura_base
 end type
 type dw_reccaj_cpo from datawindow within w_factura_base
 end type
+type gb_4 from groupbox within w_factura_base
+end type
 end forward
 
 global type w_factura_base from window
-integer width = 5125
-integer height = 2100
+integer width = 5755
+integer height = 2460
 boolean titlebar = true
 string title = "Facturación de Servicios"
 boolean controlmenu = true
@@ -144,6 +142,8 @@ windowtype windowtype = child!
 windowstate windowstate = maximized!
 long backcolor = 67108864
 string icon = "factura.ico"
+dw_dx dw_dx
+pb_dx pb_dx
 sle_siras sle_siras
 ddlb_archivos ddlb_archivos
 dw_his_acu dw_his_acu
@@ -164,8 +164,6 @@ cbx_1 cbx_1
 pb_req_cont pb_req_cont
 dw_segrespon dw_segrespon
 sle_proc sle_proc
-gb_8 gb_8
-gb_7 gb_7
 gb_5 gb_5
 st_4 st_4
 st_3 st_3
@@ -192,7 +190,6 @@ pb_emp pb_emp
 pb_reimprimir pb_reimprimir
 pb_calcula pb_calcula
 dw_factura_cpo dw_factura_cpo
-p_1 p_1
 st_5 st_5
 dw_rec_caj_cab dw_rec_caj_cab
 pb_pagare pb_pagare
@@ -200,7 +197,6 @@ pb_parcial pb_parcial
 dw_memory dw_memory
 dw_acum_soat dw_acum_soat
 dw_factura dw_factura
-gb_4 gb_4
 pb_faccon pb_faccon
 dw_emppac dw_emppac
 gb_6 gb_6
@@ -208,6 +204,7 @@ st_siras st_siras
 cbx_4 cbx_4
 pb_pagares pb_pagares
 dw_reccaj_cpo dw_reccaj_cpo
+gb_4 gb_4
 end type
 global w_factura_base w_factura_base
 
@@ -222,6 +219,7 @@ boolean i_otro_resp,i_reviso_multiples=false,i_tiene_base
 transaction sqlba
 string i_mueve_kardex,i_alm_cext,i_alm_hosp,i_alm_urg,i_alm_amb //todas son para mover kardex
 string i_anterior,i_pideprof,i_tipo_prof ,i_profe,i_profe_ord ,i_orden
+st_x_ordenext st_ord_ext
 end variables
 
 forward prototypes
@@ -248,7 +246,7 @@ public function long f_es_soat (string p_emp, string p_cont, ref long p_cons_soa
 public function integer f_cambiar_cant (long p_fila, decimal p_cant, string p_desde)
 public subroutine f_cc (boolean esmedica, string almacen, string p_cups, ref string p_uf, ref string p_cc, string p_tipoing, string p_versi)
 public function integer f_lee_de_tarifas (long p_fila, string p_cproc_man, ref string p_cups, ref decimal p_valor, ref decimal p_por_iva, ref string p_rips, ref string p_cod_concep, ref string p_versi)
-public function integer lf_cargar_a (string p_codigo, string p_desproc, long p_cantidad, string p_tipo, string p_tipoing, string p_autoriza, string p_cemp, string p_cont, long p_cons_soat, string p_clug_soat, string p_tdoc, string p_docu, long p_edad, string p_sexo, string p_codta, string p_estrato, string p_uf, string p_cc, string p_desde, integer p_facturar, long p_contador, string p_clug_his, long p_nserv, string p_prof_cir, string p_espe_cir, string p_via, integer p_acto, string p_tipo_cir, long p_ncita, string p_clug_cita, long p_nserv_cita, long p_sec_cant_cita, long p_nreci, string p_clug_rec, integer p_item_rec, long p_ntrat, string p_clug_trat, integer p_item_trat, string p_aneste, string p_cod_auxqx, long p_nro_insumo, long p_norden, long p_nitem_ord, string p_articulo, string p_tipo_fac, double p_nfact_ref, string p_clugar_ref, string p_tipo_fac_ref, integer p_item_ref, string p_facscerrar, string p_siras, string p_oxig)
+public function integer lf_cargar_a (string p_codigo, string p_desproc, long p_cantidad, string p_tipo, string p_tipoing, string p_autoriza, string p_cemp, string p_cont, long p_cons_soat, string p_clug_soat, string p_tdoc, string p_docu, long p_edad, string p_sexo, string p_codta, string p_estrato, string p_uf, string p_cc, string p_desde, integer p_facturar, long p_contador, string p_clug_his, long p_nserv, string p_prof_cir, string p_espe_cir, string p_via, integer p_acto, string p_tipo_cir, long p_ncita, string p_clug_cita, long p_nserv_cita, long p_sec_cant_cita, long p_nreci, string p_clug_rec, integer p_item_rec, long p_ntrat, string p_clug_trat, integer p_item_trat, string p_aneste, string p_cod_auxqx, long p_nro_insumo, long p_norden, long p_nitem_ord, string p_articulo, string p_tipo_fac, double p_nfact_ref, string p_clugar_ref, string p_tipo_fac_ref, integer p_item_ref, string p_facscerrar, string p_siras, string p_oxig, string p_dx, string p_finc, string p_ambp)
 end prototypes
 
 public subroutine totales ();if dw_factura.rowcount()=0 then
@@ -1071,7 +1069,7 @@ end if
 return lf_cargar_a(cod,desproc,p_cant,tipo,tingres,autoriza,emp,cont,cons_soat, &
   clug_soat,tdo,doc,edad,sexo,codta,estrato,uf,cc,p_desde,1,0, &
   '',0,prof_cir,esp_cir,via,acto,tip_cir,0,'',0,&
-  0,0,'',0,0,'',0,ls_aneste,ls_auxqx,ll_nro_insumo,ll_norden,ll_nitem_ord,articulo,l_tip_fac,0,'','',0,p_facscerrar,ls_siras,ls_codoxig)
+  0,0,'',0,0,'',0,ls_aneste,ls_auxqx,ll_nro_insumo,ll_norden,ll_nitem_ord,articulo,l_tip_fac,0,'','',0,p_facscerrar,ls_siras,ls_codoxig,'','','')
 
 end function
 
@@ -1548,7 +1546,7 @@ p_versi=dw_tarifas.getitemstring(p_fila,"cod_version")
 return 1
 end function
 
-public function integer lf_cargar_a (string p_codigo, string p_desproc, long p_cantidad, string p_tipo, string p_tipoing, string p_autoriza, string p_cemp, string p_cont, long p_cons_soat, string p_clug_soat, string p_tdoc, string p_docu, long p_edad, string p_sexo, string p_codta, string p_estrato, string p_uf, string p_cc, string p_desde, integer p_facturar, long p_contador, string p_clug_his, long p_nserv, string p_prof_cir, string p_espe_cir, string p_via, integer p_acto, string p_tipo_cir, long p_ncita, string p_clug_cita, long p_nserv_cita, long p_sec_cant_cita, long p_nreci, string p_clug_rec, integer p_item_rec, long p_ntrat, string p_clug_trat, integer p_item_trat, string p_aneste, string p_cod_auxqx, long p_nro_insumo, long p_norden, long p_nitem_ord, string p_articulo, string p_tipo_fac, double p_nfact_ref, string p_clugar_ref, string p_tipo_fac_ref, integer p_item_ref, string p_facscerrar, string p_siras, string p_oxig);//38 parametros ( p_codigo,p_desproc,p_cantidad,  p_tipo,  p_tipoing,  p_autoriza,  p_cemp,  p_cont,  p_cons_soat, 
+public function integer lf_cargar_a (string p_codigo, string p_desproc, long p_cantidad, string p_tipo, string p_tipoing, string p_autoriza, string p_cemp, string p_cont, long p_cons_soat, string p_clug_soat, string p_tdoc, string p_docu, long p_edad, string p_sexo, string p_codta, string p_estrato, string p_uf, string p_cc, string p_desde, integer p_facturar, long p_contador, string p_clug_his, long p_nserv, string p_prof_cir, string p_espe_cir, string p_via, integer p_acto, string p_tipo_cir, long p_ncita, string p_clug_cita, long p_nserv_cita, long p_sec_cant_cita, long p_nreci, string p_clug_rec, integer p_item_rec, long p_ntrat, string p_clug_trat, integer p_item_trat, string p_aneste, string p_cod_auxqx, long p_nro_insumo, long p_norden, long p_nitem_ord, string p_articulo, string p_tipo_fac, double p_nfact_ref, string p_clugar_ref, string p_tipo_fac_ref, integer p_item_ref, string p_facscerrar, string p_siras, string p_oxig, string p_dx, string p_finc, string p_ambp);//38 parametros ( p_codigo,p_desproc,p_cantidad,  p_tipo,  p_tipoing,  p_autoriza,  p_cemp,  p_cont,  p_cons_soat, 
 //  p_clug_soat,  p_tdoc,  p_docu,  p_edad,  p_sexo,  p_codta, p_estrato, p_uf,  p_cc,  p_desde,  p_facturar,  p_contador, 
 //  p_clug_his,  p_nserv,  p_prof_cir,  p_espe_cir,  p_via,  p_acto,  p_tipo_cir,  p_ncita,  p_nserv_cita, 
 //  p_sec_cant_cita, p_nreci,  p_clug_rec,  p_item_rec,  p_ntrat,p_clug_trat, p_item_trat,p_articulo,p_tipo_fac,p_nfact_ref,p_clugar_ref,p_tipo_fac_ref,p_item_ref)
@@ -1612,6 +1610,15 @@ if p_nitem_ord=0 then setnull(p_nitem_ord)
 if p_articulo='' then setnull(p_articulo)
 if p_tipo_fac='' then setnull(p_tipo_fac)
 if p_facscerrar='' then setnull(p_facscerrar)
+if p_dx='' then setnull(p_dx)
+if p_finc='' then setnull(p_finc)
+if p_ambp='' then setnull(p_ambp)
+
+if dw_dx.rowcount()>0 then
+	p_dx=dw_dx.getitemstring(1,'codgeral')
+	p_finc=dw_dx.getitemstring(1,'finc')
+	p_ambp=dw_dx.getitemstring(1,'ambp')
+end if
 
 long j,donde,memory,l_puntos,soat_c_v,ll_cont
 dec percent,tempo,pormin,tope,l_pormanual
@@ -2104,6 +2111,38 @@ end choose
 ////////////////////// fin C E N T R O    D E    C O S T O S
 string temp
 temp=p_tipoing
+if l_rips<>'1' and p_tipoing='1' and dw_dx.rowcount()=0 and isnull(p_dx) then 
+	setnull(st_ord_ext.dx)
+	setnull(st_ord_ext.descp)
+	setnull(st_ord_ext.finc)
+	setnull(st_ord_ext.ambp)
+	setnull(st_ord_ext.codgeral)
+	openwithparm(w_escog_profe,st_ord_ext)
+	st_ord_ext=message.powerobjectparm
+	if st_ord_ext.ambp='' or isnull(st_ord_ext.ambp) then return -1
+	dw_dx.enabled=true
+	dw_dx.visible=true
+	pb_dx.enabled=true
+	dw_dx.insertrow(1)
+	dw_dx.setitem(1,'codrip',st_ord_ext.dx)
+	dw_dx.setitem(1,'desc',st_ord_ext.descp)
+	dw_dx.setitem(1,'finc',st_ord_ext.finc)
+	dw_dx.setitem(1,'ambp',st_ord_ext.ambp)	
+	dw_dx.setitem(1,'codgeral',st_ord_ext.codgeral)	
+	
+	p_dx=st_ord_ext.codgeral
+	p_finc=st_ord_ext.finc
+	p_ambp=st_ord_ext.ambp
+end if
+if l_rips<>'1' and p_tipoing='1' and dw_dx.rowcount()=0 and not isnull(p_dx) then 
+	dw_dx.insertrow(1)
+	dw_dx.setitem(1,'codrip',p_dx)
+	dw_dx.setitem(1,'desc','')
+	dw_dx.setitem(1,'finc',p_finc)
+	dw_dx.setitem(1,'ambp',p_ambp)	
+	dw_dx.setitem(1,'codgeral','')
+end if
+
 donde=dw_factura.insertrow(0)
 p_tipoing=temp
 if esmedica then dw_factura.setitem(donde,"es_medica","1")
@@ -2131,6 +2170,7 @@ else
 		end if
 	end if
 end if
+
 dw_factura.setitem(donde,"percent_pac",percent)
 dw_factura.setitem(donde,"coduf",p_uf)
 dw_factura.setitem(donde,"codcc",p_cc)
@@ -2170,6 +2210,9 @@ dw_factura.setitem(donde,"nitem_ord",p_nitem_ord)
 dw_factura.setitem(donde,"cod_auxqx",p_cod_auxqx)
 dw_factura.setitem(donde,"articulo",p_articulo)
 dw_factura.setitem(donde,"cod_oxig",p_oxig)
+dw_factura.setitem(donde,'dx',p_dx)
+dw_factura.setitem(donde,'fina',p_finc)
+dw_factura.setitem(donde,'amb',p_ambp)
 dw_factura.setitem(donde,"fact_scer",p_facscerrar)
 if soat>0 then 
 	dw_factura.setitem(donde,"consec_soat",p_cons_soat)
@@ -2244,6 +2287,8 @@ return 1
 end function
 
 on w_factura_base.create
+this.dw_dx=create dw_dx
+this.pb_dx=create pb_dx
 this.sle_siras=create sle_siras
 this.ddlb_archivos=create ddlb_archivos
 this.dw_his_acu=create dw_his_acu
@@ -2264,8 +2309,6 @@ this.cbx_1=create cbx_1
 this.pb_req_cont=create pb_req_cont
 this.dw_segrespon=create dw_segrespon
 this.sle_proc=create sle_proc
-this.gb_8=create gb_8
-this.gb_7=create gb_7
 this.gb_5=create gb_5
 this.st_4=create st_4
 this.st_3=create st_3
@@ -2292,7 +2335,6 @@ this.pb_emp=create pb_emp
 this.pb_reimprimir=create pb_reimprimir
 this.pb_calcula=create pb_calcula
 this.dw_factura_cpo=create dw_factura_cpo
-this.p_1=create p_1
 this.st_5=create st_5
 this.dw_rec_caj_cab=create dw_rec_caj_cab
 this.pb_pagare=create pb_pagare
@@ -2300,7 +2342,6 @@ this.pb_parcial=create pb_parcial
 this.dw_memory=create dw_memory
 this.dw_acum_soat=create dw_acum_soat
 this.dw_factura=create dw_factura
-this.gb_4=create gb_4
 this.pb_faccon=create pb_faccon
 this.dw_emppac=create dw_emppac
 this.gb_6=create gb_6
@@ -2308,7 +2349,10 @@ this.st_siras=create st_siras
 this.cbx_4=create cbx_4
 this.pb_pagares=create pb_pagares
 this.dw_reccaj_cpo=create dw_reccaj_cpo
-this.Control[]={this.sle_siras,&
+this.gb_4=create gb_4
+this.Control[]={this.dw_dx,&
+this.pb_dx,&
+this.sle_siras,&
 this.ddlb_archivos,&
 this.dw_his_acu,&
 this.pb_aut_cc,&
@@ -2328,8 +2372,6 @@ this.cbx_1,&
 this.pb_req_cont,&
 this.dw_segrespon,&
 this.sle_proc,&
-this.gb_8,&
-this.gb_7,&
 this.gb_5,&
 this.st_4,&
 this.st_3,&
@@ -2356,7 +2398,6 @@ this.pb_emp,&
 this.pb_reimprimir,&
 this.pb_calcula,&
 this.dw_factura_cpo,&
-this.p_1,&
 this.st_5,&
 this.dw_rec_caj_cab,&
 this.pb_pagare,&
@@ -2364,17 +2405,19 @@ this.pb_parcial,&
 this.dw_memory,&
 this.dw_acum_soat,&
 this.dw_factura,&
-this.gb_4,&
 this.pb_faccon,&
 this.dw_emppac,&
 this.gb_6,&
 this.st_siras,&
 this.cbx_4,&
 this.pb_pagares,&
-this.dw_reccaj_cpo}
+this.dw_reccaj_cpo,&
+this.gb_4}
 end on
 
 on w_factura_base.destroy
+destroy(this.dw_dx)
+destroy(this.pb_dx)
 destroy(this.sle_siras)
 destroy(this.ddlb_archivos)
 destroy(this.dw_his_acu)
@@ -2395,8 +2438,6 @@ destroy(this.cbx_1)
 destroy(this.pb_req_cont)
 destroy(this.dw_segrespon)
 destroy(this.sle_proc)
-destroy(this.gb_8)
-destroy(this.gb_7)
 destroy(this.gb_5)
 destroy(this.st_4)
 destroy(this.st_3)
@@ -2423,7 +2464,6 @@ destroy(this.pb_emp)
 destroy(this.pb_reimprimir)
 destroy(this.pb_calcula)
 destroy(this.dw_factura_cpo)
-destroy(this.p_1)
 destroy(this.st_5)
 destroy(this.dw_rec_caj_cab)
 destroy(this.pb_pagare)
@@ -2431,7 +2471,6 @@ destroy(this.pb_parcial)
 destroy(this.dw_memory)
 destroy(this.dw_acum_soat)
 destroy(this.dw_factura)
-destroy(this.gb_4)
 destroy(this.pb_faccon)
 destroy(this.dw_emppac)
 destroy(this.gb_6)
@@ -2439,6 +2478,7 @@ destroy(this.st_siras)
 destroy(this.cbx_4)
 destroy(this.pb_pagares)
 destroy(this.dw_reccaj_cpo)
+destroy(this.gb_4)
 end on
 
 event open;if not isnull(w_principal.dw_1.getitemstring(1,"documento")) AND (isnull(w_principal.dw_1.getitemdatetime(1,"fecha_captura")) OR (DaysAfter(date(w_principal.dw_1.getitemdatetime(1,"fecha_captura")),date(now()))> 365)) then
@@ -2523,9 +2563,68 @@ event close;if isvalid(sqlba) then
 end if
 end event
 
+type dw_dx from datawindow within w_factura_base
+integer x = 2962
+integer y = 680
+integer width = 2647
+integer height = 172
+integer taborder = 270
+string title = "none"
+string dataobject = "dw_dx_factura"
+boolean border = false
+boolean livescroll = true
+end type
+
+event constructor;DataWindowChild idw_ambproc,idw_fincon
+settransobject(sqlca)
+getchild('ambp',idw_ambproc)
+idw_ambproc.settransobject(sqlca)
+getchild('finc',idw_fincon)
+idw_fincon.settransobject(sqlca)
+idw_ambproc.retrieve('1')
+idw_fincon.retrieve('1')
+end event
+
+type pb_dx from picturebutton within w_factura_base
+integer x = 1495
+integer y = 480
+integer width = 146
+integer height = 128
+integer taborder = 140
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+boolean enabled = false
+boolean originalsize = true
+string picturename = "dx.gif"
+string disabledname = "d_dx.gif"
+alignment htextalign = left!
+string powertiptext = "Captura de Dx Externos"
+end type
+
+event clicked;if i_tipoingreso<>'1' then return
+
+st_ord_ext.dx=dw_dx.getitemstring(1,'codrip')
+st_ord_ext.descp=dw_dx.getitemstring(1,'desc')
+st_ord_ext.finc=dw_dx.getitemstring(1,'finc')
+st_ord_ext.ambp=dw_dx.getitemstring(1,'ambp')
+st_ord_ext.codgeral=dw_dx.getitemstring(1,'codgeral')
+openwithparm(w_escog_profe,st_ord_ext)
+st_ord_ext=message.powerobjectparm
+if st_ord_ext.ambp='' or isnull(st_ord_ext.ambp) then return -1
+dw_dx.setitem(1,'codrip',st_ord_ext.dx)
+dw_dx.setitem(1,'desc',st_ord_ext.descp)
+dw_dx.setitem(1,'finc',st_ord_ext.finc)
+dw_dx.setitem(1,'ambp',st_ord_ext.ambp)	
+dw_dx.setitem(1,'codgeral',st_ord_ext.codgeral)	
+end event
+
 type sle_siras from singlelineedit within w_factura_base
 integer x = 4000
-integer y = 288
+integer y = 308
 integer width = 1010
 integer height = 72
 integer taborder = 90
@@ -2558,8 +2657,8 @@ end event
 
 type ddlb_archivos from dropdownlistbox within w_factura_base
 boolean visible = false
-integer x = 3497
-integer y = 172
+integer x = 4809
+integer y = 416
 integer width = 82
 integer height = 92
 integer taborder = 150
@@ -2575,8 +2674,8 @@ end type
 
 type dw_his_acu from datawindow within w_factura_base
 boolean visible = false
-integer x = 5243
-integer y = 776
+integer x = 5490
+integer y = 52
 integer width = 215
 integer height = 84
 integer taborder = 330
@@ -2637,8 +2736,8 @@ end event
 
 type dw_lote_mov from datawindow within w_factura_base
 boolean visible = false
-integer x = 3493
-integer y = 340
+integer x = 5088
+integer y = 64
 integer width = 142
 integer height = 72
 integer taborder = 170
@@ -2656,8 +2755,8 @@ event constructor;settransobject(sqlca)
 end event
 
 type pb_reci from pb_report within w_factura_base
-integer x = 3858
-integer y = 444
+integer x = 4128
+integer y = 500
 integer width = 64
 integer height = 52
 integer taborder = 140
@@ -2676,8 +2775,8 @@ openwithparm(w_conf_pag,this.report)
 end event
 
 type pb_factu from pb_report within w_factura_base
-integer x = 3858
-integer y = 380
+integer x = 4133
+integer y = 432
 integer width = 64
 integer height = 52
 integer taborder = 120
@@ -2732,8 +2831,8 @@ end event
 
 type st_ayuda from statictext within w_factura_base
 boolean visible = false
-integer x = 841
-integer y = 1804
+integer x = 800
+integer y = 2364
 integer width = 343
 integer height = 60
 integer textsize = -8
@@ -2751,8 +2850,8 @@ end type
 
 type pb_kit from picturebutton within w_factura_base
 event mousemove pbm_mousemove
-integer x = 649
-integer y = 408
+integer x = 690
+integer y = 480
 integer width = 146
 integer height = 128
 integer taborder = 230
@@ -2806,9 +2905,9 @@ end event
 
 type cbx_equiv from checkbox within w_factura_base
 integer x = 1536
-integer y = 556
+integer y = 664
 integer width = 626
-integer height = 52
+integer height = 60
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -2823,9 +2922,9 @@ end type
 
 type cbx_3 from checkbox within w_factura_base
 integer x = 709
-integer y = 556
+integer y = 664
 integer width = 809
-integer height = 48
+integer height = 60
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -2839,8 +2938,8 @@ boolean checked = true
 end type
 
 type st_cuant from statictext within w_factura_base
-integer x = 2962
-integer y = 608
+integer x = 2313
+integer y = 788
 integer width = 603
 integer height = 68
 integer textsize = -8
@@ -2857,8 +2956,8 @@ boolean focusrectangle = false
 end type
 
 type cbx_2 from checkbox within w_factura_base
-integer x = 3794
-integer y = 440
+integer x = 4059
+integer y = 496
 integer width = 713
 integer height = 64
 integer taborder = 110
@@ -2878,8 +2977,8 @@ event clicked;pb_reci.visible=checked
 end event
 
 type cbx_1 from checkbox within w_factura_base
-integer x = 3794
-integer y = 376
+integer x = 4059
+integer y = 428
 integer width = 969
 integer height = 64
 integer taborder = 100
@@ -2900,8 +2999,8 @@ end event
 
 type pb_req_cont from picturebutton within w_factura_base
 event mousemove pbm_mousemove
-integer x = 1275
-integer y = 408
+integer x = 1349
+integer y = 480
 integer width = 146
 integer height = 128
 integer taborder = 220
@@ -2949,9 +3048,9 @@ event constructor;settransobject(sqlca)
 end event
 
 type sle_proc from singlelineedit within w_factura_base
-integer x = 27
-integer y = 432
-integer width = 320
+integer x = 23
+integer y = 488
+integer width = 347
 integer height = 84
 integer taborder = 130
 integer textsize = -8
@@ -3002,47 +3101,15 @@ estrato=w_principal.dw_1.getitemstring(1,'estrato')
 ret=lf_cargar_a(text,'',1,'','1',sle_autoriza.text,emp,cont,0, &
   '',tipdoc,docu,edad,sexo,codta,estrato,'','','',1,0, &
   '',0,'','','',0,'',0,'',0,&
-  0,0,'',0,0,'',0,'','!',0,0,0,'',tfac,0,'','',0,'',sle_siras.text,ls_coxig)
+  0,0,'',0,0,'',0,'','!',0,0,0,'',tfac,0,'','',0,'',sle_siras.text,ls_coxig,'','','')
 text=''
 return ret
 end event
 
-type gb_8 from groupbox within w_factura_base
-integer x = 1595
-integer y = 356
-integer width = 174
-integer height = 200
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-long textcolor = 33554432
-long backcolor = 67108864
-boolean enabled = false
-end type
-
-type gb_7 from groupbox within w_factura_base
-integer x = 1431
-integer y = 356
-integer width = 174
-integer height = 200
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-long textcolor = 33554432
-long backcolor = 67108864
-boolean enabled = false
-end type
-
 type gb_5 from groupbox within w_factura_base
-integer x = 818
-integer y = 356
-integer width = 622
+integer x = 855
+integer y = 424
+integer width = 1097
 integer height = 200
 integer textsize = -8
 integer weight = 400
@@ -3057,7 +3124,7 @@ end type
 
 type st_4 from statictext within w_factura_base
 integer x = 23
-integer y = 608
+integer y = 724
 integer width = 375
 integer height = 68
 integer textsize = -8
@@ -3076,7 +3143,7 @@ end type
 
 type st_3 from statictext within w_factura_base
 integer x = 3689
-integer y = 216
+integer y = 220
 integer width = 311
 integer height = 56
 integer textsize = -8
@@ -3093,7 +3160,7 @@ end type
 
 type sle_autoriza from singlelineedit within w_factura_base
 integer x = 4000
-integer y = 208
+integer y = 212
 integer width = 1010
 integer height = 72
 integer taborder = 80
@@ -3126,8 +3193,8 @@ end event
 
 type pb_borra from picturebutton within w_factura_base
 event mousemove pbm_mousemove
-integer x = 503
-integer y = 408
+integer x = 539
+integer y = 480
 integer width = 146
 integer height = 128
 integer taborder = 180
@@ -3288,8 +3355,8 @@ end event
 
 type pb_buscar from picturebutton within w_factura_base
 event mousemove pbm_mousemove
-integer x = 357
-integer y = 408
+integer x = 389
+integer y = 480
 integer width = 146
 integer height = 128
 integer taborder = 150
@@ -3394,10 +3461,10 @@ type dw_resumen from datawindow within w_factura_base
 event clickup pbm_dwnlbuttonup
 event mousemove pbm_dwnmousemove
 string tag = "Imprimir Estado de Cuenta por Empresa/Contrato"
-integer x = 18
-integer y = 1408
-integer width = 5001
-integer height = 524
+integer x = 23
+integer y = 1888
+integer width = 5609
+integer height = 424
 integer taborder = 310
 boolean bringtotop = true
 string title = "none"
@@ -3501,8 +3568,8 @@ end event
 
 type dw_forma_pago from datawindow within w_factura_base
 boolean visible = false
-integer x = 1957
-integer y = 400
+integer x = 2181
+integer y = 468
 integer width = 567
 integer height = 140
 integer taborder = 280
@@ -3525,8 +3592,8 @@ end event
 type pb_soat from picturebutton within w_factura_base
 event mousemove pbm_mousemove
 boolean visible = false
-integer x = 3497
-integer y = 40
+integer x = 3474
+integer y = 36
 integer width = 146
 integer height = 128
 integer taborder = 40
@@ -3562,7 +3629,7 @@ end event
 type gb_1 from groupbox within w_factura_base
 integer x = 3662
 integer width = 1399
-integer height = 376
+integer height = 420
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -3575,9 +3642,9 @@ string text = "Generalidades"
 end type
 
 type gb_2 from groupbox within w_factura_base
-integer x = 1769
-integer y = 356
-integer width = 1970
+integer x = 1993
+integer y = 424
+integer width = 2016
 integer height = 200
 integer textsize = -8
 integer weight = 400
@@ -3591,9 +3658,9 @@ string text = "Cargo a paciente"
 end type
 
 type gb_3 from groupbox within w_factura_base
-integer x = 5
-integer y = 356
-integer width = 805
+integer x = 9
+integer y = 424
+integer width = 832
 integer height = 200
 integer textsize = -8
 integer weight = 400
@@ -3608,8 +3675,8 @@ end type
 
 type pb_facturar from picturebutton within w_factura_base
 event mousemove pbm_mousemove
-integer x = 1445
-integer y = 408
+integer x = 1646
+integer y = 480
 integer width = 146
 integer height = 128
 integer taborder = 240
@@ -3638,6 +3705,11 @@ if dw_factura.rowcount()=0 or dw_resumen.rowcount()=0 then return
 if tag='1' then
 	if f_permiso_boton(this,'FC')=0 then return -1
 end if
+if dw_factura.getitemnumber(1,'psdx')>0 then
+	messagebox("Atención","Hay procedimientos sin DX o Finalidad")
+	Return -1
+end if
+
 if dw_factura.getitemnumber(1,"grupos")>1 and not i_reviso_multiples then
 	messagebox("Atención","No ha revisado la liquidación de las cirugias, revise esto para continuar")
 	Return -1
@@ -3659,8 +3731,8 @@ end event
 
 type pb_paci from picturebutton within w_factura_base
 event mousemove pbm_mousemove
-integer x = 837
-integer y = 408
+integer x = 910
+integer y = 480
 integer width = 146
 integer height = 128
 integer taborder = 190
@@ -3691,8 +3763,8 @@ end event
 
 type pb_emp from picturebutton within w_factura_base
 event mousemove pbm_mousemove
-integer x = 983
-integer y = 408
+integer x = 1056
+integer y = 480
 integer width = 146
 integer height = 128
 integer taborder = 200
@@ -3724,8 +3796,8 @@ end event
 
 type pb_reimprimir from picturebutton within w_factura_base
 event mousemove pbm_mousemove
-integer x = 1129
-integer y = 408
+integer x = 1202
+integer y = 480
 integer width = 146
 integer height = 128
 integer taborder = 210
@@ -3757,8 +3829,8 @@ end event
 type pb_calcula from picturebutton within w_factura_base
 event mousemove pbm_mousemove
 boolean visible = false
-integer x = 1614
-integer y = 408
+integer x = 1797
+integer y = 480
 integer width = 146
 integer height = 128
 integer taborder = 250
@@ -3823,28 +3895,9 @@ boolean livescroll = true
 borderstyle borderstyle = stylelowered!
 end type
 
-type p_1 from picture within w_factura_base
-integer x = 1271
-integer width = 946
-integer height = 56
-boolean bringtotop = true
-string pointer = "mano.cur"
-boolean originalsize = true
-string picturename = "mod_factu.gif"
-boolean focusrectangle = false
-end type
-
-event clicked;string j
-setredraw(false)
-j=picturename
-picturename=''
-picturename=j
-setredraw(true)
-end event
-
 type st_5 from statictext within w_factura_base
 integer x = 411
-integer y = 608
+integer y = 724
 integer width = 2514
 integer height = 68
 boolean bringtotop = true
@@ -3863,8 +3916,8 @@ end type
 
 type dw_rec_caj_cab from datawindow within w_factura_base
 boolean visible = false
-integer x = 2519
-integer y = 408
+integer x = 2784
+integer y = 480
 integer width = 1198
 integer height = 120
 integer taborder = 290
@@ -3890,8 +3943,8 @@ end event
 
 type pb_pagare from pb_report within w_factura_base
 boolean visible = false
-integer x = 3858
-integer y = 504
+integer x = 4123
+integer y = 568
 integer width = 64
 integer height = 52
 integer taborder = 160
@@ -3912,8 +3965,8 @@ end event
 
 type pb_parcial from pb_report within w_factura_base
 boolean visible = false
-integer x = 18
-integer y = 1476
+integer x = 27
+integer y = 1856
 integer width = 96
 integer height = 88
 integer taborder = 320
@@ -3928,8 +3981,8 @@ end type
 
 type dw_memory from datawindow within w_factura_base
 boolean visible = false
-integer x = 3483
-integer y = 12
+integer x = 5129
+integer y = 392
 integer width = 64
 integer height = 88
 boolean bringtotop = true
@@ -3941,8 +3994,8 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type dw_acum_soat from datawindow within w_factura_base
-integer x = 5243
-integer y = 652
+integer x = 5509
+integer y = 160
 integer width = 174
 integer height = 96
 integer taborder = 90
@@ -3964,10 +4017,10 @@ end event
 type dw_factura from datawindow within w_factura_base
 event mousemove pbm_mousemove
 event keypres pbm_dwnkey
-integer x = 18
-integer y = 680
-integer width = 5010
-integer height = 728
+integer x = 23
+integer y = 852
+integer width = 5618
+integer height = 992
 integer taborder = 300
 string title = "none"
 string dataobject = "dw_factura"
@@ -4251,21 +4304,6 @@ end if
 
 end event
 
-type gb_4 from groupbox within w_factura_base
-integer y = 556
-integer width = 5070
-integer height = 1408
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-long textcolor = 33554432
-long backcolor = 67108864
-string text = "Procedimientos asignados"
-end type
-
 type pb_faccon from pb_report within w_factura_base
 integer x = 3749
 integer y = 336
@@ -4287,10 +4325,10 @@ end event
 
 type dw_emppac from datawindow within w_factura_base
 event retrie ( )
-integer x = 50
+integer x = 23
 integer y = 48
-integer width = 3365
-integer height = 296
+integer width = 3378
+integer height = 352
 integer taborder = 20
 string title = "none"
 string dataobject = "dw_empacguarda"
@@ -4389,7 +4427,7 @@ end event
 type gb_6 from groupbox within w_factura_base
 integer x = 9
 integer width = 3447
-integer height = 356
+integer height = 424
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -4403,7 +4441,7 @@ end type
 
 type st_siras from statictext within w_factura_base
 integer x = 3689
-integer y = 288
+integer y = 308
 integer width = 293
 integer height = 56
 boolean bringtotop = true
@@ -4421,9 +4459,9 @@ end type
 
 type cbx_4 from checkbox within w_factura_base
 boolean visible = false
-integer x = 3794
-integer y = 500
-integer width = 713
+integer x = 4059
+integer y = 564
+integer width = 539
 integer height = 64
 integer taborder = 110
 integer textsize = -8
@@ -4443,8 +4481,8 @@ end event
 type pb_pagares from picturebutton within w_factura_base
 event mousemove pbm_mousemove
 boolean visible = false
-integer x = 1787
-integer y = 408
+integer x = 2007
+integer y = 480
 integer width = 146
 integer height = 128
 integer taborder = 270
@@ -4477,8 +4515,8 @@ end event
 
 type dw_reccaj_cpo from datawindow within w_factura_base
 boolean visible = false
-integer x = 69
-integer y = 1716
+integer x = 55
+integer y = 2340
 integer width = 686
 integer height = 132
 integer taborder = 330
@@ -4490,4 +4528,20 @@ end type
 
 event constructor;settransobject(sqlca)
 end event
+
+type gb_4 from groupbox within w_factura_base
+integer x = 9
+integer y = 628
+integer width = 5673
+integer height = 1712
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 67108864
+string text = "Procedimientos asignados"
+end type
 

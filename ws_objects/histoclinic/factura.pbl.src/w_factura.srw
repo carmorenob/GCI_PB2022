@@ -21,8 +21,8 @@ end type
 end forward
 
 global type w_factura from w_factura_base
-integer width = 5746
-integer height = 2400
+integer width = 5783
+integer height = 2636
 string title = "Facturación de Servicios - MODULO DE FACTURACIÓN  -"
 string i_cdoc = "FC"
 dw_fact_subcpo dw_fact_subcpo
@@ -47,13 +47,7 @@ string ya_recibo,proeq,manu,pla,cempres,ccontrat,clug_trat,ctipo_fac,ls_tipos_fa
 
 ya_recibo="no"
 if f_catastrofe()=-1 then return -1
-setnull(i_profe)
-setnull(i_profe_ord)
-if i_tipoingreso='1' and i_pideprof='1' and (i_profe='' or i_tipo_prof<>'2') then
-	openwithparm(w_escog_profe,'fac')
-	i_profe=message.stringparm
-	if i_profe='' or isnull(i_profe) then return -1
-end if
+
 long nh,factus
 string clug_adm
 
@@ -96,8 +90,8 @@ for k=1 to dw_resumen.rowcount()
 	dw_fact_cab.setitem(1,"cemp",cempres)
 	dw_fact_cab.setitem(1,"ccontrato",ccontrat)
 	dw_fact_cab.setitem(1,"tipo",ctipo_fac)
-	dw_fact_cab.setitem(1,"codprof",i_profe)
-	dw_fact_cab.setitem(1,"cprof_ordena",i_profe_ord)
+	//dw_fact_cab.setitem(1,"codprof",i_profe)
+	//dw_fact_cab.setitem(1,"cprof_ordena",i_profe_ord)
 	dw_fact_cab.setitem(1,"vtiva",dw_resumen.getitemdecimal(k,"vtiva"))
 	dw_fact_cab.setitem(1,"vtcopago",dw_resumen.getitemnumber(k,"vtcop"))
 	dw_fact_cab.setitem(1,"vtcrec",dw_resumen.getitemnumber(k,"vtcr"))
@@ -122,6 +116,11 @@ for k=1 to dw_resumen.rowcount()
 	dw_fact_cab.setitem(1,"iva_cp",dw_resumen.getitemnumber(k,"iva_cp"))
 	dw_fact_cab.setitem(1,"usuario",usuario)
 	dw_fact_cab.setitem(1,"clugar",CLUGAR)
+	if dw_dx.rowcount()>0 then
+		dw_fact_cab.setitem(1,"dxppal",dw_dx.getitemstring(1,"codgeral"))
+		dw_fact_cab.setitem(1,"finalidad",dw_dx.getitemstring(1,"finc"))
+		dw_fact_cab.setitem(1,"modar",dw_dx.getitemstring(1,"ambp"))
+	end if	
 	dw_fact_cab.setitem(1,"tproced",dw_resumen.getitemnumber(k,"tcant"))  //listo fact_cab
 	if ctipo_fac='C' then i_cdoc='FC'
 	if ctipo_fac='F' then  i_cdoc='FV'
@@ -798,11 +797,12 @@ dw_memory.reset()
 dw_lote_mov.reset()
 dw_kardexdeta.reset()
 dw_rela_abon.reset()
+dw_dx.reset()
 resumen('')
 cbx_4.checked=false
 cbx_4.visible=false
 pb_pagare.visible=false
-
+dw_dx.visible=false
 end subroutine
 
 public function integer encuestar ();uo_datastore dw_ti
@@ -870,9 +870,19 @@ destroy(this.cb_2)
 destroy(this.cb_1)
 end on
 
+type dw_dx from w_factura_base`dw_dx within w_factura
+integer x = 2999
+integer y = 664
+integer height = 164
+string title = ""
+end type
+
+type pb_dx from w_factura_base`pb_dx within w_factura
+end type
+
 type sle_siras from w_factura_base`sle_siras within w_factura
 integer x = 4398
-integer y = 308
+integer y = 320
 end type
 
 type ddlb_archivos from w_factura_base`ddlb_archivos within w_factura
@@ -880,7 +890,8 @@ integer y = 192
 end type
 
 type dw_his_acu from w_factura_base`dw_his_acu within w_factura
-integer y = 796
+integer x = 5513
+integer y = 192
 end type
 
 type pb_aut_cc from w_factura_base`pb_aut_cc within w_factura
@@ -888,22 +899,20 @@ integer y = 596
 end type
 
 type dw_kardexdeta from w_factura_base`dw_kardexdeta within w_factura
-integer x = 5093
-integer y = 404
+integer x = 5682
+integer y = 416
 end type
 
 type dw_lote_mov from w_factura_base`dw_lote_mov within w_factura
-integer y = 360
+integer y = 392
 end type
 
 type pb_reci from w_factura_base`pb_reci within w_factura
-integer x = 4128
-integer y = 460
+integer y = 492
 end type
 
 type pb_factu from w_factura_base`pb_factu within w_factura
 integer x = 4128
-integer y = 400
 string cod_rep = "FV"
 end type
 
@@ -921,86 +930,71 @@ type st_ayuda from w_factura_base`st_ayuda within w_factura
 end type
 
 type pb_kit from w_factura_base`pb_kit within w_factura
-integer x = 690
-integer y = 424
+integer y = 472
 end type
 
 type cbx_equiv from w_factura_base`cbx_equiv within w_factura
-integer y = 576
+integer y = 660
 integer height = 56
 end type
 
 type cbx_3 from w_factura_base`cbx_3 within w_factura
-integer y = 576
-integer height = 60
+integer y = 660
 end type
 
 type st_cuant from w_factura_base`st_cuant within w_factura
-integer y = 628
+integer x = 2587
+integer y = 732
+integer width = 384
 end type
 
 type cbx_2 from w_factura_base`cbx_2 within w_factura
-integer x = 4059
-integer y = 452
+integer y = 484
 integer height = 68
 end type
 
 type cbx_1 from w_factura_base`cbx_1 within w_factura
-integer x = 4059
-integer y = 396
 end type
 
 type pb_req_cont from w_factura_base`pb_req_cont within w_factura
-integer x = 1431
-integer y = 428
 end type
 
 type dw_segrespon from w_factura_base`dw_segrespon within w_factura
-integer y = 72
+integer x = 5979
+integer y = 324
 end type
 
 type sle_proc from w_factura_base`sle_proc within w_factura
-integer width = 347
-end type
-
-type gb_8 from w_factura_base`gb_8 within w_factura
-integer x = 1751
-integer y = 376
-end type
-
-type gb_7 from w_factura_base`gb_7 within w_factura
-integer x = 1586
-integer y = 376
 end type
 
 type gb_5 from w_factura_base`gb_5 within w_factura
-integer x = 974
-integer y = 376
+integer x = 891
+integer width = 1051
 end type
 
 type st_4 from w_factura_base`st_4 within w_factura
-integer y = 652
+integer y = 732
 end type
 
 type st_3 from w_factura_base`st_3 within w_factura
 integer x = 4087
-integer y = 236
+integer y = 244
+integer width = 306
 end type
 
 type sle_autoriza from w_factura_base`sle_autoriza within w_factura
 integer x = 4398
-integer y = 228
+integer y = 236
 integer width = 1015
 end type
 
 type pb_borra from w_factura_base`pb_borra within w_factura
-integer x = 539
-integer y = 424
+integer y = 472
 end type
 
 type dw_getareo from w_factura_base`dw_getareo within w_factura
-integer x = 5353
-integer y = 396
+integer x = 5687
+integer y = 360
 end type
 
 type dw_equiv from w_factura_base`dw_equiv within w_factura
@@ -1010,7 +1004,8 @@ end type
 
 type st_2 from w_factura_base`st_2 within w_factura
 integer x = 4087
-integer y = 156
+integer y = 160
+integer width = 306
 end type
 
 type st_1 from w_factura_base`st_1 within w_factura
@@ -1020,7 +1015,7 @@ end type
 
 type sle_poliza from w_factura_base`sle_poliza within w_factura
 integer x = 4398
-integer y = 148
+integer y = 152
 integer width = 1015
 end type
 
@@ -1030,8 +1025,8 @@ integer y = 160
 end type
 
 type dw_cont_det from w_factura_base`dw_cont_det within w_factura
-integer x = 3365
-integer y = 1848
+integer x = 2981
+integer y = 2392
 integer width = 82
 integer height = 112
 boolean hscrollbar = true
@@ -1039,8 +1034,7 @@ boolean vscrollbar = true
 end type
 
 type pb_buscar from w_factura_base`pb_buscar within w_factura
-integer x = 389
-integer y = 424
+integer y = 472
 end type
 
 type dw_tip_ingres from w_factura_base`dw_tip_ingres within w_factura
@@ -1049,14 +1043,14 @@ integer y = 72
 end type
 
 type dw_resumen from w_factura_base`dw_resumen within w_factura
-integer y = 1728
+integer y = 1896
 integer width = 5618
-integer height = 500
+integer height = 412
 end type
 
 type dw_forma_pago from w_factura_base`dw_forma_pago within w_factura
 integer x = 2190
-integer y = 424
+integer y = 476
 integer width = 594
 integer height = 132
 end type
@@ -1069,23 +1063,23 @@ end type
 type gb_1 from w_factura_base`gb_1 within w_factura
 integer x = 4059
 integer y = 20
-integer height = 368
+integer width = 1417
+integer height = 400
+string text = "Generalidades Modulo de Facturación"
 end type
 
 type gb_2 from w_factura_base`gb_2 within w_factura
 integer x = 1961
-integer y = 376
 integer width = 2066
 end type
 
 type gb_3 from w_factura_base`gb_3 within w_factura
-integer y = 364
-integer width = 864
+integer width = 855
 end type
 
 type pb_facturar from w_factura_base`pb_facturar within w_factura
-integer x = 1605
-integer y = 428
+integer x = 1641
+boolean originalsize = false
 end type
 
 event pb_facturar::clicked;call super::clicked;Super::EVENT Clicked()
@@ -1098,58 +1092,47 @@ end if
 end event
 
 type pb_paci from w_factura_base`pb_paci within w_factura
-integer x = 992
-integer y = 428
 end type
 
 event pb_paci::clicked;call super::clicked;f_abrir_pendientes()
 end event
 
 type pb_emp from w_factura_base`pb_emp within w_factura
-integer x = 1138
-integer y = 428
 end type
 
 type pb_reimprimir from w_factura_base`pb_reimprimir within w_factura
-integer x = 1285
-integer y = 428
 end type
 
 event pb_reimprimir::clicked;call super::clicked;openwithparm(w_busca_fact,'factu')
 end event
 
 type pb_calcula from w_factura_base`pb_calcula within w_factura
-integer x = 1769
-integer y = 428
+integer x = 1787
+boolean originalsize = false
 end type
 
 type dw_factura_cpo from w_factura_base`dw_factura_cpo within w_factura
-integer x = 5207
-integer y = 412
-end type
-
-type p_1 from w_factura_base`p_1 within w_factura
-integer x = 1655
+integer x = 5755
+integer y = 624
 end type
 
 type st_5 from w_factura_base`st_5 within w_factura
-integer y = 652
+integer y = 732
+integer width = 2153
 end type
 
 type dw_rec_caj_cab from w_factura_base`dw_rec_caj_cab within w_factura
-integer x = 2784
-integer y = 428
 integer height = 128
 end type
 
 type pb_pagare from w_factura_base`pb_pagare within w_factura
-integer x = 4128
-integer y = 520
+integer x = 4133
+integer y = 564
 end type
 
 type pb_parcial from w_factura_base`pb_parcial within w_factura
-integer x = 50
-integer y = 2044
+integer x = 41
+integer y = 1928
 end type
 
 type dw_memory from w_factura_base`dw_memory within w_factura
@@ -1158,20 +1141,14 @@ end type
 
 type dw_acum_soat from w_factura_base`dw_acum_soat within w_factura
 boolean visible = false
-integer y = 672
+integer x = 5513
+integer y = 60
 boolean enabled = false
 end type
 
 type dw_factura from w_factura_base`dw_factura within w_factura
-integer y = 724
-integer width = 5623
-integer height = 996
-end type
-
-type gb_4 from w_factura_base`gb_4 within w_factura
-integer y = 572
-integer width = 5673
-integer height = 1712
+integer y = 836
+integer height = 1048
 end type
 
 type pb_faccon from w_factura_base`pb_faccon within w_factura
@@ -1181,37 +1158,37 @@ integer y = 344
 end type
 
 type dw_emppac from w_factura_base`dw_emppac within w_factura
-integer y = 68
-integer width = 3662
+integer width = 3680
 end type
 
 type gb_6 from w_factura_base`gb_6 within w_factura
-integer y = 20
 integer width = 3744
+integer height = 416
 end type
 
 type st_siras from w_factura_base`st_siras within w_factura
 integer x = 4087
-integer y = 312
+integer y = 324
+integer width = 306
 end type
 
 type cbx_4 from w_factura_base`cbx_4 within w_factura
-integer x = 4059
-integer y = 516
+integer y = 556
 end type
 
 type pb_pagares from w_factura_base`pb_pagares within w_factura
-integer x = 2007
-integer y = 428
 end type
 
 type dw_reccaj_cpo from w_factura_base`dw_reccaj_cpo within w_factura
 end type
 
+type gb_4 from w_factura_base`gb_4 within w_factura
+end type
+
 type dw_fact_subcpo from datawindow within w_factura
 boolean visible = false
-integer x = 608
-integer y = 1864
+integer x = 265
+integer y = 2380
 integer width = 489
 integer height = 96
 integer taborder = 240
@@ -1229,8 +1206,8 @@ end event
 
 type dw_fact_cab from datawindow within w_factura
 boolean visible = false
-integer x = 1102
-integer y = 1868
+integer x = 759
+integer y = 2384
 integer width = 366
 integer height = 92
 integer taborder = 250
@@ -1248,8 +1225,8 @@ end event
 
 type dw_fact_cpo from datawindow within w_factura
 boolean visible = false
-integer x = 1472
-integer y = 1872
+integer x = 1129
+integer y = 2388
 integer width = 402
 integer height = 96
 integer taborder = 260
@@ -1267,8 +1244,8 @@ end event
 
 type dw_rela_abon from datawindow within w_factura
 boolean visible = false
-integer x = 1888
-integer y = 1872
+integer x = 1545
+integer y = 2388
 integer width = 686
 integer height = 96
 integer taborder = 270
@@ -1287,8 +1264,8 @@ end event
 
 type dw_odo_cita from datawindow within w_factura
 boolean visible = false
-integer x = 2601
-integer y = 1868
+integer x = 2258
+integer y = 2384
 integer width = 686
 integer height = 96
 integer taborder = 270
@@ -1307,8 +1284,8 @@ end event
 
 type dw_electronica from uo_datawindow within w_factura
 boolean visible = false
-integer x = 3950
-integer y = 980
+integer x = 5531
+integer y = 288
 integer width = 201
 integer height = 84
 integer taborder = 90
@@ -1319,7 +1296,7 @@ end type
 type cb_2 from commandbutton within w_factura
 boolean visible = false
 integer x = 4507
-integer y = 348
+integer y = 380
 integer width = 233
 integer height = 92
 integer taborder = 140
@@ -1429,7 +1406,7 @@ end event
 type cb_1 from commandbutton within w_factura
 boolean visible = false
 integer x = 4786
-integer y = 360
+integer y = 392
 integer width = 279
 integer height = 80
 integer taborder = 180

@@ -439,8 +439,8 @@ string powertiptext = "Aceptar y facturar [Alt+A]"
 end type
 
 event clicked;long j,cuantos,donde,fila_c,k,contador,nserv,nserv_cita,ncita,sec_cant_cita,reci,item_rec,cons_soat,l_ttato,l_iet
-string quepaga,clug_his,clug_rec,nautoriza,uf,cc,clug_soat,clug_trat,clug_cita,c_lugar_fact,tipo_fac,nsiras
-string emp,cont,sexo,codta,cproc,estrato,desproc,tipo
+string quepaga,clug_his,clug_rec,nautoriza,ls_uf,ls_cc,clug_soat,clug_trat,ls_clugcita,ls_clugarfact,ls_tipofac,ls_nsiras
+string emp,cont,sexo,codta,cproc,estrato,desproc,tipo,ls_oxig,ls_dx,ls_finc,ls_ambp
 long edad,cantidad,ntrat,item_trat,nfact,item_fac
 
 
@@ -473,15 +473,15 @@ for j=1 to dw_serv_nofactu.rowcount()
 			nserv=dw_serv_nofactu.getitemnumber(j,"nservicio")
 			nserv_cita=dw_serv_nofactu.getitemnumber(j,"nserv_turno")
 			ncita=dw_serv_nofactu.getitemnumber(j,"ncita")
-			clug_cita=dw_serv_nofactu.getitemstring(j,"clugar_cita")
+			ls_clugcita=dw_serv_nofactu.getitemstring(j,"clugar_cita")
 			sec_cant_cita=dw_serv_nofactu.getitemnumber(j,"sec_cant")
 			reci=dw_serv_nofactu.getitemnumber(j,"nrcaj")
 			clug_rec=dw_serv_nofactu.getitemstring(j,"clugar_rec")
 			item_rec=dw_serv_nofactu.getitemnumber(j,"items")
 			nautoriza=dw_serv_nofactu.getitemstring(j,"nautoriza")
-			nsiras=dw_serv_nofactu.getitemstring(j,"siras")
-			uf=dw_serv_nofactu.getitemstring(j,"cufuncional")
-			cc=dw_serv_nofactu.getitemstring(j,"cccosto")
+			ls_nsiras=dw_serv_nofactu.getitemstring(j,"siras")
+			ls_uf=dw_serv_nofactu.getitemstring(j,"cufuncional")
+			ls_cc=dw_serv_nofactu.getitemstring(j,"cccosto")
 			cons_soat=dw_serv_nofactu.getitemnumber(j,"consec_soat")
 			clug_soat=dw_serv_nofactu.getitemstring(j,"clugar_soat")
 			cantidad=dw_serv_nofactu.getitemnumber(j,"cantidad")
@@ -497,22 +497,17 @@ for j=1 to dw_serv_nofactu.rowcount()
 				close(parent)
 				return
 			end if
-			//36 parametros ( p_codigo,  p_cantidad,  p_tipo,  p_tipoing,  p_autoriza,  p_cemp,  p_cont,  p_cons_soat, 
-			//  p_clug_soat,  p_tdoc,  p_docu,  p_edad,  p_sexo,  p_codta,p_estrato, p_uf,  p_cc,  p_desde,  p_facturar,  p_contador, 
-			//  p_clug_his,  p_nserv,  p_prof_cir,  p_espe_cir,  p_via,  p_acto,  p_tipo_cir,  p_ncita, p_clug_cita,  p_nserv_cita, 
-			//  p_sec_cant_cita, p_nreci,  p_clug_rec,  p_item_rec,  p_ntrat,p_clug_trat, p_item_trat,p_articulo)
 			if isvalid(w_factura) then
-		//		w_factura.lf_cargar_a(cproc,desproc,cantidad,tipo,'1',nautoriza,emp,cont,cons_soat, &
 				w_factura.lf_cargar_a(cproc,desproc,cantidad,tipo,'1',nautoriza,emp,cont,cons_soat, &
-			  	clug_soat,tipdoc,docu,edad,sexo,codta,estrato,uf,cc,'S',1,contador, &
-			  	clug_his,nserv,'','','',0,'',ncita,clug_cita,nserv_cita,&
-			  sec_cant_cita,reci,clug_rec,item_rec,0,'',0,'','!',dw_serv_nofactu.getitemnumber(j,"nro_insumo"),0,0,'',i_tipo_fac,0,'','',0,'0',nsiras,'')
+			  	clug_soat,tipdoc,docu,edad,sexo,codta,estrato,ls_uf,ls_cc,'S',1,contador, &
+			  	clug_his,nserv,'','','',0,'',ncita,ls_clugcita,nserv_cita,&
+			  sec_cant_cita,reci,clug_rec,item_rec,0,'',0,'','!',dw_serv_nofactu.getitemnumber(j,"nro_insumo"),0,0,'',i_tipo_fac,0,'','',0,'0',ls_nsiras,ls_oxig,ls_dx,ls_finc,ls_ambp)
 			end if
 			if isvalid(w_rec_caja) then
 				w_rec_caja.lf_cargar_a(cproc,desproc,cantidad,tipo,'1',nautoriza,emp,cont,cons_soat, &
-			  	clug_soat,tipdoc,docu,edad,sexo,codta,estrato,uf,cc,'S',1,contador, &
-			  	clug_his,nserv,'','','',0,'',ncita,clug_cita,nserv_cita,&
-			  sec_cant_cita,reci,clug_rec,item_rec,0,'',0,'','!',dw_serv_nofactu.getitemnumber(j,"nro_insumo"),0,0,'',i_tipo_fac,0,'','',0,'0',nsiras,'')
+			  	clug_soat,tipdoc,docu,edad,sexo,codta,estrato,ls_uf,ls_cc,'S',1,contador, &
+			  	clug_his,nserv,'','','',0,'',ncita,ls_clugcita,nserv_cita,&
+			  sec_cant_cita,reci,clug_rec,item_rec,0,'',0,'','!',dw_serv_nofactu.getitemnumber(j,"nro_insumo"),0,0,'',i_tipo_fac,0,'','',0,'0',ls_nsiras,ls_oxig,ls_dx,ls_finc,ls_ambp)
 			end if
 			
 		elseif rb_1.checked then//de citas
@@ -529,21 +524,21 @@ for j=1 to dw_serv_nofactu.rowcount()
 			cantidad=dw_serv_nofactu.getitemnumber(j,"cantidad")
 			nserv_cita=dw_serv_nofactu.getitemnumber(j,"nserv_turno")
 			ncita=dw_serv_nofactu.getitemnumber(j,"ncita")
-			clug_cita=dw_serv_nofactu.getitemstring(j,"clugar_cita")
+			ls_clugcita=dw_serv_nofactu.getitemstring(j,"clugar_cita")
 			sec_cant_cita=dw_serv_nofactu.getitemnumber(j,"sec_cant")
 			reci=dw_serv_nofactu.getitemnumber(j,"nrcaj")
 			clug_rec=dw_serv_nofactu.getitemstring(j,"clugar_rec")
 			item_rec=dw_serv_nofactu.getitemnumber(j,"items")
-			cc=dw_serv_nofactu.getitemstring(j,"cccosto")
-			uf=dw_serv_nofactu.getitemstring(j,"cufuncional")
+			ls_cc=dw_serv_nofactu.getitemstring(j,"cccosto")
+			ls_uf=dw_serv_nofactu.getitemstring(j,"cufuncional")
 			emp=dw_serv_nofactu.getitemstring(j,"cemp")
 			cont=dw_serv_nofactu.getitemstring(j,"ccontrato")
 			ntrat=dw_serv_nofactu.getitemnumber(j,"ntratamiento")
 			clug_trat=dw_serv_nofactu.getitemstring(j,"clugar_tto")
 			item_trat=dw_serv_nofactu.getitemnumber(j,"item_tto")
 			nfact=dw_serv_nofactu.getitemnumber(j,"nfact")
-			c_lugar_fact=dw_serv_nofactu.getitemstring(j,"clugar_fac")
-			tipo_fac=dw_serv_nofactu.getitemstring(j,"tipo_fac")
+			ls_clugarfact=dw_serv_nofactu.getitemstring(j,"clugar_fac")
+			ls_tipofac=dw_serv_nofactu.getitemstring(j,"tipo_fac")
 			item_fac=dw_serv_nofactu.getitemnumber(j,"nitem")
 			if isvalid(w_factura) then
 				nautoriza=w_factura.sle_autoriza.text
@@ -551,9 +546,9 @@ for j=1 to dw_serv_nofactu.rowcount()
 				setnull(nautoriza)
 			end if
 			if isvalid(w_factura) then
-				nsiras=w_factura.sle_siras.text
+				ls_nsiras=w_factura.sle_siras.text
 			else
-				setnull(nsiras)
+				setnull(ls_nsiras)
 			end if
 						
 			
@@ -567,25 +562,21 @@ for j=1 to dw_serv_nofactu.rowcount()
 				return
 			end if
 			
-			//37 parametros ( p_codigo,  p_cantidad,  p_tipo,  p_tipoing,  p_autoriza,  p_cemp,  p_cont,  p_cons_soat, 
-			//  p_clug_soat,  p_tdoc,  p_docu,  p_edad,  p_sexo,  p_codta,  p_uf,  p_cc,  p_desde,  p_facturar,  p_contador, 
-			//  p_clug_his,  p_nserv,  p_prof_cir,  p_espe_cir,  p_via,  p_acto,  p_tipo_cir,  p_ncita,  p_nserv_cita, 
-			//  p_sec_cant_cita,  p_fecha_cita,  p_hora_cita,  p_nreci,  p_clug_rec,  p_item_rec,  p_ntrat,  
-			//  p_clug_trat, p_item_trat,p_articulo)
 			if isvalid(w_factura) then
 				w_factura.lf_cargar_a(cproc,desproc,cantidad,'C','1',nautoriza,emp,cont,0, &
-				  '',tipdoc,docu,edad,sexo,codta,estrato,uf,cc,'S',1,0, &
-				  '',0,'','','',0,'',ncita,clug_cita,nserv_cita,&
-				  sec_cant_cita,reci,clug_rec,item_rec,ntrat,clug_trat,item_trat,'','!',0,0,0,'',i_tipo_fac,0,'','',0,'0',nsiras,'')
+				  '',tipdoc,docu,edad,sexo,codta,estrato,ls_uf,ls_cc,'S',1,0, &
+				  '',0,'','','',0,'',ncita,ls_clugcita,nserv_cita,&
+				  sec_cant_cita,reci,clug_rec,item_rec,ntrat,clug_trat,item_trat,'','!',0,0,0,'',i_tipo_fac,0,'','',0,'0',ls_nsiras,ls_oxig,ls_dx,ls_finc,ls_ambp)
 			end if
 			if isvalid(w_rec_caja) then
 				w_rec_caja.lf_cargar_a(cproc,desproc,cantidad,'C','1',nautoriza,emp,cont,0, &
-				  '',tipdoc,docu,edad,sexo,codta,estrato,uf,cc,'S',1,0, &
-				  '',0,'','','',0,'',ncita,clug_cita,nserv_cita,&
-				  sec_cant_cita,reci,clug_rec,item_rec,ntrat,clug_trat,item_trat,'','!',0,0,0,'',i_tipo_fac,0,'','',0,'0',nsiras,'')
+				  '',tipdoc,docu,edad,sexo,codta,estrato,ls_uf,ls_cc,'S',1,0, &
+				  '',0,'','','',0,'',ncita,ls_clugcita,nserv_cita,&
+				  sec_cant_cita,reci,clug_rec,item_rec,ntrat,clug_trat,item_trat,'','!',0,0,0,'',i_tipo_fac,0,'','',0,'0',ls_nsiras,ls_oxig,ls_dx,ls_finc,ls_ambp)
 			end if
 			
 		elseif rb_4.checked then//de ordenes de cons. Externa
+		
 			if isnull(dw_serv_nofactu.getitemstring(j,"codproced")) then
 				cproc=dw_serv_nofactu.getitemstring(j,"codig")		
 				tipo='M'
@@ -596,36 +587,37 @@ for j=1 to dw_serv_nofactu.rowcount()
   			desproc=dw_serv_nofactu.getitemstring(j,"descrip")
 		     contador=dw_serv_nofactu.getitemnumber(j,"contador")
 			clug_his=dw_serv_nofactu.getitemstring(j,"clugar")
-			setnull(nserv)//=dw_serv_nofactu.getitemnumber(j,"nservicio")
-			setnull(nserv_cita)//=dw_serv_nofactu.getitemnumber(j,"nserv_turno")
-			setnull(ncita)//=dw_serv_nofactu.getitemnumber(j,"ncita")
-			setnull(clug_cita)//=dw_serv_nofactu.getitemstring(j,"clugar_cita")
-			setnull(sec_cant_cita)//=dw_serv_nofactu.getitemnumber(j,"sec_cant")
-			setnull(reci)//=dw_serv_nofactu.getitemnumber(j,"nrcaj")
-			setnull(clug_rec)//=dw_serv_nofactu.getitemstring(j,"clugar_rec")
-			setnull(item_rec)//=dw_serv_nofactu.getitemnumber(j,"items")
-			setnull(nautoriza)//=dw_serv_nofactu.getitemstring(j,"nautoriza")
-			setnull(nsiras)//=dw_serv_nofactu.getitemstring(j,"nautoriza")			
-			setnull(uf)//=dw_serv_nofactu.getitemstring(j,"cufuncional")
-			setnull(cc)//=dw_serv_nofactu.getitemstring(j,"cccosto")
-			setnull(cons_soat)//=dw_serv_nofactu.getitemnumber(j,"consec_soat")
-			setnull(clug_soat)//=dw_serv_nofactu.getitemstring(j,"clugar_soat")
+			setnull(nserv)
+			setnull(nserv_cita)
+			setnull(ncita)
+			setnull(ls_clugcita)
+			setnull(sec_cant_cita)
+			setnull(reci)
+			setnull(clug_rec)
+			setnull(item_rec)
+			setnull(nautoriza)
+			setnull(ls_nsiras)
+			setnull(ls_uf)
+			setnull(ls_cc)
+			setnull(cons_soat)
+			setnull(clug_soat)
 			cantidad=dw_serv_nofactu.getitemnumber(j,"solicitada")
-			setnull(emp)//=dw_serv_nofactu.getitemstring(j,"cemp")
-			setnull(cont)//=dw_serv_nofactu.getitemstring(j,"ccontrato")
+			setnull(emp)
+			setnull(cont)
+			setnull(ls_oxig)
+			ls_dx=dw_serv_nofactu.getitemstring(j,"diagnostico")
+			ls_finc=dw_serv_nofactu.getitemstring(j,"cod_fina")
+			ls_ambp='02'
 			if f_busca_emp(emp,cont,codta)=-1 then
 				w_factura.blanquea()
 				close(parent)
 				return
 			end if
-			//36 parametros ( p_codigo,  p_cantidad,  p_tipo,  p_tipoing,  p_autoriza,  p_cemp,  p_cont,  p_cons_soat, 
-			//  p_clug_soat,  p_tdoc,  p_docu,  p_edad,  p_sexo,  p_codta,p_estrato, p_uf,  p_cc,  p_desde,  p_facturar,  p_contador, 
-			//  p_clug_his,  p_nserv,  p_prof_cir,  p_espe_cir,  p_via,  p_acto,  p_tipo_cir,  p_ncita, p_clug_cita,  p_nserv_cita, 
-			//  p_sec_cant_cita, p_nreci,  p_clug_rec,  p_item_rec,  p_ntrat,p_clug_trat, p_item_trat)
 			w_factura.lf_cargar_a(cproc,desproc,cantidad,tipo,'1',nautoriza,emp,cont,cons_soat, &
-			  clug_soat,tipdoc,docu,edad,sexo,codta,estrato,uf,cc,'S',1,contador, &
-			  clug_his,nserv,'','','',0,'',ncita,clug_cita,nserv_cita,&
-			  sec_cant_cita,reci,clug_rec,item_rec,0,'',0,'','!',0,dw_serv_nofactu.getitemnumber(j,'nsolicitud'),dw_serv_nofactu.getitemnumber(j,'item'),'',i_tipo_fac,0,'','',0,'0',nsiras,'')
+			  clug_soat,tipdoc,docu,edad,sexo,codta,estrato,ls_uf,ls_cc,'S',1,contador, &
+			  clug_his,nserv,'','','',0,'',ncita,ls_clugcita,nserv_cita,&
+			  sec_cant_cita,reci,clug_rec,item_rec,0,'',0,'','!',0,dw_serv_nofactu.getitemnumber(j,'nsolicitud'),dw_serv_nofactu.getitemnumber(j,'item'),'',&
+			  i_tipo_fac,0,'','',0,'0',ls_nsiras,ls_oxig,ls_dx,ls_finc,ls_ambp)
 			
 			
 		elseif rb_5.checked then//de ordenes de cons. Hospitaliza
@@ -638,36 +630,37 @@ for j=1 to dw_serv_nofactu.rowcount()
 			end if
   			contador=dw_serv_nofactu.getitemnumber(j,"contador")
 			clug_his=dw_serv_nofactu.getitemstring(j,"clugar")
-			setnull(nserv)//=dw_serv_nofactu.getitemnumber(j,"nservicio")
-			setnull(nserv_cita)//=dw_serv_nofactu.getitemnumber(j,"nserv_turno")
-			setnull(ncita)//=dw_serv_nofactu.getitemnumber(j,"ncita")
-			setnull(clug_cita)//=dw_serv_nofactu.getitemstring(j,"clugar_cita")
-			setnull(sec_cant_cita)//=dw_serv_nofactu.getitemnumber(j,"sec_cant")
-			setnull(reci)//=dw_serv_nofactu.getitemnumber(j,"nrcaj")
-			setnull(clug_rec)//=dw_serv_nofactu.getitemstring(j,"clugar_rec")
-			setnull(item_rec)//=dw_serv_nofactu.getitemnumber(j,"items")
-			setnull(nautoriza)//=dw_serv_nofactu.getitemstring(j,"nautoriza")
-			setnull(nsiras)//=dw_serv_nofactu.getitemstring(j,"nautoriza")
-			setnull(uf)//=dw_serv_nofactu.getitemstring(j,"cufuncional")
-			setnull(cc)//=dw_serv_nofactu.getitemstring(j,"cccosto")
-			setnull(cons_soat)//=dw_serv_nofactu.getitemnumber(j,"consec_soat")
-			setnull(clug_soat)//=dw_serv_nofactu.getitemstring(j,"clugar_soat")
+			setnull(nserv)
+			setnull(nserv_cita)
+			setnull(ncita)
+			setnull(ls_clugcita)
+			setnull(sec_cant_cita)
+			setnull(reci)
+			setnull(clug_rec)
+			setnull(item_rec)
+			setnull(nautoriza)
+			setnull(ls_nsiras)
+			setnull(ls_uf)
+			setnull(ls_cc)
+			setnull(cons_soat)
+			setnull(clug_soat)
 			cantidad=dw_serv_nofactu.getitemnumber(j,"solicitada")
-			setnull(emp)//=dw_serv_nofactu.getitemstring(j,"cemp")
-			setnull(cont)//=dw_serv_nofactu.getitemstring(j,"ccontrato")
+			setnull(emp)
+			setnull(cont)
+			ls_dx=dw_serv_nofactu.getitemstring(j,"diagegreso")
+			ls_finc=dw_serv_nofactu.getitemstring(j,"fin_consulta")
+			ls_ambp=dw_serv_nofactu.getitemstring(j,"claseproced")
 			if f_busca_emp(emp,cont,codta)=-1 then
 				w_factura.blanquea()
 				close(parent)
 				return
 			end if
-			//36 parametros ( p_codigo,  p_cantidad,  p_tipo,  p_tipoing,  p_autoriza,  p_cemp,  p_cont,  p_cons_soat, 
-			//  p_clug_soat,  p_tdoc,  p_docu,  p_edad,  p_sexo,  p_codta,p_estrato, p_uf,  p_cc,  p_desde,  p_facturar,  p_contador, 
-			//  p_clug_his,  p_nserv,  p_prof_cir,  p_espe_cir,  p_via,  p_acto,  p_tipo_cir,  p_ncita, p_clug_cita,  p_nserv_cita, 
-			//  p_sec_cant_cita, p_nreci,  p_clug_rec,  p_item_rec,  p_ntrat,p_clug_trat, p_item_trat)
+
 			w_factura.lf_cargar_a(cproc,desproc,cantidad,tipo,'1',nautoriza,emp,cont,cons_soat, &
-			  clug_soat,tipdoc,docu,edad,sexo,codta,estrato,uf,cc,'S',1,contador, &
-			  clug_his,nserv,'','','',0,'',ncita,clug_cita,nserv_cita,&
-			  sec_cant_cita,reci,clug_rec,item_rec,0,'',0,'','!',0,dw_serv_nofactu.getitemnumber(j,'nsolicitud'),dw_serv_nofactu.getitemnumber(j,'item'),'',i_tipo_fac,0,'','',0,'0',nsiras,'')
+			  clug_soat,tipdoc,docu,edad,sexo,codta,estrato,ls_uf,ls_cc,'S',1,contador, &
+			  clug_his,nserv,'','','',0,'',ncita,ls_clugcita,nserv_cita,&
+			  sec_cant_cita,reci,clug_rec,item_rec,0,'',0,'','!',0,dw_serv_nofactu.getitemnumber(j,'nsolicitud'),dw_serv_nofactu.getitemnumber(j,'item'),'',&
+			  i_tipo_fac,0,'','',0,'0',ls_nsiras,ls_oxig,ls_dx,ls_finc,ls_ambp)
 		else //de odontología
 			uo_datastore dw_contdet
 			dw_contdet=create uo_datastore
@@ -783,9 +776,9 @@ for j=1 to dw_serv_nofactu.rowcount()
 				//  p_clug_his,  p_nserv,  p_prof_cir,  p_espe_cir,  p_via,  p_acto,  p_tipo_cir,  p_ncita,  p_nserv_cita, 
 				//  p_sec_cant_cita,  p_fecha_cita,  p_hora_cita,  p_nreci,  p_clug_rec,  p_item_rec,  p_ntrat,p_clug_trat, p_item_trat)
 				w_factura.lf_cargar_a(cproc,desproc,cantidad,'C','1','',emp,cont,0, &
-				  '',tipdoc,docu,edad,sexo,codta,estrato,uf,cc,'S',1,contador, &
+				  '',tipdoc,docu,edad,sexo,codta,estrato,ls_uf,ls_cc,'S',1,contador, &
 				  clug_his,nserv,'','','',0,'',0,'',0,&
-				  0,0,'',0,ntrat,clug_trat,item_trat,'','!',0,0,0,'',i_tipo_fac,0,'','',0,'0','','')	
+				  0,0,'',0,ntrat,clug_trat,item_trat,'','!',0,0,0,'',i_tipo_fac,0,'','',0,'0','',ls_oxig,ls_dx,ls_finc,ls_ambp)	
 			end if
 		end if
 		cuantos ++

@@ -620,6 +620,12 @@ end if
 i_mueve_kardex='0'
 end event
 
+type dw_dx from w_factura_base`dw_dx within w_refactura
+end type
+
+type pb_dx from w_factura_base`pb_dx within w_refactura
+end type
+
 type sle_siras from w_factura_base`sle_siras within w_refactura
 boolean visible = false
 integer x = 4050
@@ -743,22 +749,6 @@ integer y = 1856
 integer width = 50
 integer height = 36
 boolean enabled = false
-end type
-
-type gb_8 from w_factura_base`gb_8 within w_refactura
-boolean visible = false
-integer x = 3666
-integer y = 1536
-integer width = 59
-integer height = 48
-end type
-
-type gb_7 from w_factura_base`gb_7 within w_refactura
-boolean visible = false
-integer x = 3666
-integer y = 1580
-integer width = 59
-integer height = 48
 end type
 
 type gb_5 from w_factura_base`gb_5 within w_refactura
@@ -956,14 +946,6 @@ integer width = 55
 integer height = 36
 end type
 
-type p_1 from w_factura_base`p_1 within w_refactura
-boolean visible = false
-integer x = 3552
-integer width = 174
-boolean enabled = false
-boolean originalsize = false
-end type
-
 type st_5 from w_factura_base`st_5 within w_refactura
 integer x = 494
 integer y = 936
@@ -1013,13 +995,6 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 end type
 
-type gb_4 from w_factura_base`gb_4 within w_refactura
-integer x = 101
-integer y = 868
-integer width = 5422
-integer height = 1200
-end type
-
 type pb_faccon from w_factura_base`pb_faccon within w_refactura
 end type
 
@@ -1053,6 +1028,13 @@ end type
 
 type dw_reccaj_cpo from w_factura_base`dw_reccaj_cpo within w_refactura
 integer x = 151
+end type
+
+type gb_4 from w_factura_base`gb_4 within w_refactura
+integer x = 101
+integer y = 868
+integer width = 5422
+integer height = 1200
 end type
 
 type dw_serv_nofactu from datawindow within w_refactura
@@ -1267,7 +1249,7 @@ for j=1 to dw_serv_nofactu.rowcount()
 		if lf_cargar_a(cod,desproc,canti,'C',tingres,autoriza,emp,cont,cons_soat, &
 		  clug_soat,tdoc,doc,edad,sexo,codta,estrato,uf,cc,'H',facturar,contador, &
 		  clug_his,nserv,prof_cir,espe_cir,via,acto,tipo_cir,0,'',0,&
-		  0,0,'',0,0,'',0,dw_serv_nofactu.getitemstring(j,"anestesiologo"),dw_serv_nofactu.getitemstring(j,"auxiliarqx"),0,0,0,l_articulo,tipo_fac,nfact_ref,clugar_ref,tipo_fac_ref,item_ref,'0',siras,ls_coxig)=-1 then
+		  0,0,'',0,0,'',0,dw_serv_nofactu.getitemstring(j,"anestesiologo"),dw_serv_nofactu.getitemstring(j,"auxiliarqx"),0,0,0,l_articulo,tipo_fac,nfact_ref,clugar_ref,tipo_fac_ref,item_ref,'0',siras,ls_coxig,'','','')=-1 then
 			blanquea()
 			close(parent)
 			return
@@ -1276,7 +1258,7 @@ for j=1 to dw_serv_nofactu.rowcount()
 		if lf_cargar_a(cod,desproc,canti,'M',tingres,autoriza,emp,cont,cons_soat, &
 		  clug_soat,tdoc,doc,edad,sexo,codta,estrato,uf,cc,'H',facturar,contador, &
 		  clug_his,nserv,'','','',0,'',0,'',0,&
-		  0,0,'',0,0,'',0,'','!',dw_serv_nofactu.getitemnumber(j,"nro_insumo"),0,0,l_articulo,tipo_fac,nfact_ref,clugar_ref,tipo_fac_ref,item_ref,'0',siras,ls_coxig)=-1 then
+		  0,0,'',0,0,'',0,'','!',dw_serv_nofactu.getitemnumber(j,"nro_insumo"),0,0,l_articulo,tipo_fac,nfact_ref,clugar_ref,tipo_fac_ref,item_ref,'0',siras,ls_coxig,'','','')=-1 then
 			blanquea()
 			close(parent)
 			return

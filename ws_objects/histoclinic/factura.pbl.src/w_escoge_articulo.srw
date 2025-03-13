@@ -217,7 +217,7 @@ borderstyle borderstyle = stylelowered!
 end type
 
 event doubleclicked;if this.getrow()<1 then return
-If isnull(ROW) then row=1
+If isnull(row) then row=1
 closewithreturn(parent,dw_tarifa.getitemstring(row,'codarticulo'))
 end event
 

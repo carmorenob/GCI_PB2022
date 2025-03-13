@@ -430,7 +430,7 @@ event clicked;calcula()
 end event
 
 type pb_cancel from picturebutton within w_cirugias_uvr
-integer x = 1792
+integer x = 1563
 integer y = 1080
 integer width = 146
 integer height = 128
@@ -455,7 +455,7 @@ event clicked;close(parent)
 end event
 
 type pb_aceptar from picturebutton within w_cirugias_uvr
-integer x = 1605
+integer x = 1376
 integer y = 1080
 integer width = 146
 integer height = 128

@@ -9,7 +9,7 @@ end type
 end forward
 
 global type w_rec_caja from w_factura_base
-integer width = 3662
+integer width = 5778
 integer height = 2060
 string title = "Generación de Recibos de Caja"
 string icon = "rec_caja.ico"
@@ -326,6 +326,12 @@ destroy(this.dw_tesodeta)
 destroy(this.dw_tesosubcpo)
 end on
 
+type dw_dx from w_factura_base`dw_dx within w_rec_caja
+end type
+
+type pb_dx from w_factura_base`pb_dx within w_rec_caja
+end type
+
 type sle_siras from w_factura_base`sle_siras within w_rec_caja
 end type
 
@@ -398,14 +404,6 @@ end type
 type sle_proc from w_factura_base`sle_proc within w_rec_caja
 end type
 
-type gb_8 from w_factura_base`gb_8 within w_rec_caja
-integer x = 1463
-end type
-
-type gb_7 from w_factura_base`gb_7 within w_rec_caja
-integer x = 1298
-end type
-
 type gb_5 from w_factura_base`gb_5 within w_rec_caja
 integer width = 489
 end type
@@ -460,6 +458,7 @@ type pb_soat from w_factura_base`pb_soat within w_rec_caja
 end type
 
 type gb_1 from w_factura_base`gb_1 within w_rec_caja
+string text = "Generalidades Recibo de Caja"
 end type
 
 type gb_2 from w_factura_base`gb_2 within w_rec_caja
@@ -505,11 +504,6 @@ integer width = 78
 integer height = 124
 end type
 
-type p_1 from w_factura_base`p_1 within w_rec_caja
-boolean visible = false
-boolean enabled = false
-end type
-
 type st_5 from w_factura_base`st_5 within w_rec_caja
 end type
 
@@ -532,9 +526,6 @@ end type
 type dw_factura from w_factura_base`dw_factura within w_rec_caja
 end type
 
-type gb_4 from w_factura_base`gb_4 within w_rec_caja
-end type
-
 type pb_faccon from w_factura_base`pb_faccon within w_rec_caja
 end type
 
@@ -551,6 +542,12 @@ type cbx_4 from w_factura_base`cbx_4 within w_rec_caja
 end type
 
 type pb_pagares from w_factura_base`pb_pagares within w_rec_caja
+end type
+
+type dw_reccaj_cpo from w_factura_base`dw_reccaj_cpo within w_rec_caja
+end type
+
+type gb_4 from w_factura_base`gb_4 within w_rec_caja
 end type
 
 type dw_tesodeta from datawindow within w_rec_caja

@@ -5,8 +5,8 @@ header(height=0 color="536870912" transparency="0" gradient.color="8421504" grad
 summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 detail(height=60 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
-table(column=(type=char(2) update=yes updatewhereclause=yes key=yes name=codclapro dbname="claseproced.codclapro" dbalias=".codclapro" )
- column=(type=char(100) updatewhereclause=yes name=descripcion dbname="claseproced.descripcion" dbalias=".descripcion" )
+table(column=(type=char(2) update=yes updatewhereclause=yes key=yes name=codclapro dbname="claseproced.codclapro" )
+ column=(type=char(100) updatewhereclause=yes name=descripcion dbname="claseproced.descripcion" )
  retrieve="SELECT 
 	codclapro,   
     descripcion  

@@ -143,7 +143,7 @@ for j=1 to dw_serv_nofactu.rowcount()
 		 if w_rec_caja.lf_cargar_a(cproc,desproc,cantidad,'C','1','',emp,cont,0, &
 		  '',tipdoc,docu,edad,sexo,codta,estrato,'','','S',1,contador_ate, &
 		  clugar_ate,nser_ate,'','','',0,'',ncita,clug_cita,nserv_cita,&
-		  sec_cant_cita,0,'',0,0,'',0,'','!',0,0,0,'','',0,'','',0,'0','','')<>-1 then cuantos ++
+		  sec_cant_cita,0,'',0,0,'',0,'','!',0,0,0,'','',0,'','',0,'0','','','','','')<>-1 then cuantos ++
 		  
 	end if 
 next

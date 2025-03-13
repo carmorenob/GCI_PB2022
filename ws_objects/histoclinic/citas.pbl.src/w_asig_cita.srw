@@ -191,6 +191,7 @@ boolean i_guardo,lb_espera=false,lb_fina=false,lb_tipoc=false
 m_ppal im_main 
 
 end variables
+
 forward prototypes
 public subroutine trae_agenda ()
 public subroutine pinta ()
@@ -373,7 +374,7 @@ for col=1 to tab_1.tp_1.dw_serv_cita.rowcount()
 	w_factura.lf_cargar_a(cproc,desproc,cantidad,'C','1','',emp,cont,0, &
 	  '',tipdoc,docu,edad,sexo,codta,estrato,uf,cc,'C',1,0, &
 	  '',0,'','','',0,'',ncita,i_clug,nserv_cita,&
-	  0,0,'',0,0,'',0,'','!',0,0,0,'',tipo_cont,0,'','',0,'0','','')
+	  0,0,'',0,0,'',0,'','!',0,0,0,'',tipo_cont,0,'','',0,'0','','','','','')
 		
 next
 w_factura.i_tipo_prof=tab_2.tp2_1.dw_consultxgcita.getitemstring(tab_2.tp2_1.dw_consultxgcita.getrow(),'persoatiende')
@@ -629,7 +630,7 @@ for col=1 to tab_1.tp_1.dw_serv_cita.rowcount()
 	w_rec_caja.lf_cargar_a(cproc,desproc,cantidad,'C','1','',emp,cont,0, &
 	  '',tipdoc,docu,edad,sexo,codta,estrato,uf,cc,'C',1,0, &
 	  '',0,'','','',0,'',ncita,i_clug,nserv_cita,&
-	  0,0,'',0,0,'',0,'','!',0,0,0,'',tipo_fac,0,'','',0,'0','','')
+	  0,0,'',0,0,'',0,'','!',0,0,0,'',tipo_fac,0,'','',0,'0','','','','','')
 		
 next
 w_rec_caja.i_tipo_prof=tab_2.tp2_1.dw_consultxgcita.getitemstring(tab_2.tp2_1.dw_consultxgcita.getrow(),'persoatiende')

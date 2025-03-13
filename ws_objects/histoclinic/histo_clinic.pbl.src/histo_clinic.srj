@@ -55,6 +55,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_buscater,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,st_notas,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hospital.pbl,st_lotes,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_titulos_dw_st,f
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_x_ordenext,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hospital.pbl,dw_xa_cambiarempqx_cp,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\pyp_asis.pbl,dw_pyp_pacxprog,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,dw_new_facts,d
@@ -872,6 +873,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_dwr_service_base,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_proced,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,uo_multilineedit,u
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,dw_orden_ext,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,dw_rec_caj_cab,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,w_general_especial,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\ord_serv.pbl,dw_oscpo_form_hadm,d
@@ -1152,10 +1154,10 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,st_xa_grafica
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_vent_padre,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_direccion_captura,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,dw_combo_emp_cont,d
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hospital.pbl,dw_combo_profe,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,dw_tesosubcpo,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,w_escoge_equiv,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,f_anula_mov_kardex,f
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hospital.pbl,dw_combo_profe,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\atu_plant.pbl,w_tabulacion_encuentas,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\ord_serv.pbl,dw_oscpo_form_cext,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\Odonto.pbl,w_tratamiento,w

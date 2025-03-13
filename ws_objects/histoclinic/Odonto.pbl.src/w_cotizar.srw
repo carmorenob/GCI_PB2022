@@ -299,20 +299,6 @@ integer height = 92
 boolean enabled = false
 end type
 
-type gb_8 from w_factura_base`gb_8 within w_cotizar
-integer x = 3776
-integer y = 1464
-integer width = 69
-integer height = 80
-end type
-
-type gb_7 from w_factura_base`gb_7 within w_cotizar
-integer x = 3776
-integer y = 1356
-integer width = 69
-integer height = 80
-end type
-
 type gb_5 from w_factura_base`gb_5 within w_cotizar
 integer x = 3776
 integer y = 1248
@@ -519,10 +505,6 @@ type dw_factura from w_factura_base`dw_factura within w_cotizar
 integer y = 540
 end type
 
-type gb_4 from w_factura_base`gb_4 within w_cotizar
-integer y = 416
-end type
-
 type pb_faccon from w_factura_base`pb_faccon within w_cotizar
 end type
 
@@ -553,6 +535,10 @@ boolean originalsize = false
 end type
 
 type dw_reccaj_cpo from w_factura_base`dw_reccaj_cpo within w_cotizar
+end type
+
+type gb_4 from w_factura_base`gb_4 within w_cotizar
+integer y = 416
 end type
 
 type dw_procs from datawindow within w_cotizar
@@ -627,7 +613,7 @@ for j=1 to dw_procs.rowcount()
 	ret=lf_cargar_a(cproc,desproc,1,'C','1',sle_autoriza.text,emp,cont,0, &
 	  '',tipdoc,docu,edad,sexo,codta,estrato,'','','S',1,0, &
 	  '',0,'','','',0,'',0,'',0,&
-	  0,0,'',0,ntrat,clug_trat,nitem_trat,'','!',0,0,0,'',tipo_fac,0,'','',0,'0','','')
+	  0,0,'',0,ntrat,clug_trat,nitem_trat,'','!',0,0,0,'',tipo_fac,0,'','',0,'0','','','','','')
 next
 pb_facturar.enabled=true
 pb_borra.enabled=true

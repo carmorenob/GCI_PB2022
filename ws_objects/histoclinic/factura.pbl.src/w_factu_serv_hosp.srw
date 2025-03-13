@@ -719,7 +719,7 @@ for j=1 to dw_serv_nofactu.rowcount()
 		if w_factura.lf_cargar_a(cod,desproc,canti,'C',tingres,autoriza,emp,cont,cons_soat, &
 		  clug_soat,tipdoc,docu,edad,sexo,codta,estrato,uf,cc,'H',facturar,contador, &
 		  clug_his,nserv,prof_cir,espe_cir,via,acto,tipo_cir,dw_serv_nofactu.getitemnumber(j,"ncita"),dw_serv_nofactu.getitemstring(j,"clugar_cita"),dw_serv_nofactu.getitemnumber(j,"nservicio"),&
-		  dw_serv_nofactu.getitemnumber(j,"sec_cant"),0,'',0,0,'',0,dw_serv_nofactu.getitemstring(j,"anestesiologo"),dw_serv_nofactu.getitemstring(j,"auxiliarqx"),0,0,0,l_codarticulo,tipo_fac,0,'','',0,fac_sincer,'',ls_coxig)=-1 then
+		  dw_serv_nofactu.getitemnumber(j,"sec_cant"),0,'',0,0,'',0,dw_serv_nofactu.getitemstring(j,"anestesiologo"),dw_serv_nofactu.getitemstring(j,"auxiliarqx"),0,0,0,l_codarticulo,tipo_fac,0,'','',0,fac_sincer,'',ls_coxig,'','','')=-1 then
 			w_factura.blanquea()
 			close(parent)
 			return
@@ -728,7 +728,7 @@ for j=1 to dw_serv_nofactu.rowcount()
 		if w_factura.lf_cargar_a(cod,desproc,canti,'M',tingres,autoriza,emp,cont,cons_soat, &
 		  clug_soat,tipdoc,docu,edad,sexo,codta,estrato,uf,cc,'H',facturar,contador, &
 		  clug_his,nserv,'','','',0,'',0,'',0,&
-		  0,0,'',0,0,'',0,'','!',dw_serv_nofactu.getitemnumber(j,"nro_insumo"),0,0,l_codarticulo,tipo_fac,0,'','',0,fac_sincer,'',ls_coxig)=-1 then
+		  0,0,'',0,0,'',0,'','!',dw_serv_nofactu.getitemnumber(j,"nro_insumo"),0,0,l_codarticulo,tipo_fac,0,'','',0,fac_sincer,'',ls_coxig,'','','')=-1 then
 			w_factura.blanquea()
 			close(parent)
 			return
