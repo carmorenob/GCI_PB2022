@@ -1,0 +1,9 @@
+﻿$PBExportHeader$st_x_ordenext.srs
+global type st_x_ordenext from structure
+	string		ambp
+	string		finc
+	string		dx
+	string		descp
+	string		codgeral
+end type
+

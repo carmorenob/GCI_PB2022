@@ -2,6 +2,8 @@
 forward
 global type w_para_grales_new from window
 end type
+type rb_1 from radiobutton within w_para_grales_new
+end type
 type cb_7 from picturebutton within w_para_grales_new
 end type
 type pb_2 from picturebutton within w_para_grales_new
@@ -55,8 +57,6 @@ end type
 type gb_9 from groupbox within w_para_grales_new
 end type
 type c_asis from checkbox within w_para_grales_new
-end type
-type gb_8 from groupbox within w_para_grales_new
 end type
 type st_11 from statictext within w_para_grales_new
 end type
@@ -558,21 +558,15 @@ tab_mipres tab_mipres
 end type
 type sle_3 from singlelineedit within w_para_grales_new
 end type
-type ddlb_4 from dropdownlistbox within w_para_grales_new
-end type
 type st_13 from statictext within w_para_grales_new
 end type
 type em_3 from editmask within w_para_grales_new
 end type
 type rb_3 from radiobutton within w_para_grales_new
 end type
-type rb_4 from radiobutton within w_para_grales_new
-end type
 type st_14 from statictext within w_para_grales_new
 end type
 type em_cont from editmask within w_para_grales_new
-end type
-type gb_4 from groupbox within w_para_grales_new
 end type
 type st_15 from statictext within w_para_grales_new
 end type
@@ -618,10 +612,16 @@ type gb_18 from groupbox within w_para_grales_new
 end type
 type gb_19 from groupbox within w_para_grales_new
 end type
+type ddlb_4 from dropdownlistbox within w_para_grales_new
+end type
+type gb_8 from groupbox within w_para_grales_new
+end type
+type gb_4 from groupbox within w_para_grales_new
+end type
 end forward
 
 global type w_para_grales_new from window
-integer width = 4393
+integer width = 4942
 integer height = 2100
 boolean titlebar = true
 string title = "Parámetros generales de la aplicación en este Computador"
@@ -633,6 +633,7 @@ long backcolor = 67108864
 string icon = "ribon_param.ico"
 boolean clientedge = true
 boolean center = true
+rb_1 rb_1
 cb_7 cb_7
 pb_2 pb_2
 pb_1 pb_1
@@ -660,18 +661,14 @@ em_teso em_teso
 em_2 em_2
 gb_9 gb_9
 c_asis c_asis
-gb_8 gb_8
 st_11 st_11
 tab_1 tab_1
 sle_3 sle_3
-ddlb_4 ddlb_4
 st_13 st_13
 em_3 em_3
 rb_3 rb_3
-rb_4 rb_4
 st_14 st_14
 em_cont em_cont
-gb_4 gb_4
 st_15 st_15
 sle_5 sle_5
 st_12 st_12
@@ -694,6 +691,9 @@ c_car c_car
 c_sum c_sum
 gb_18 gb_18
 gb_19 gb_19
+ddlb_4 ddlb_4
+gb_8 gb_8
+gb_4 gb_4
 end type
 global w_para_grales_new w_para_grales_new
 
@@ -704,6 +704,7 @@ datawindowchild idw_almcext,idw_almcurg,idw_almhosp,idw_almcamb
 end variables
 
 on w_para_grales_new.create
+this.rb_1=create rb_1
 this.cb_7=create cb_7
 this.pb_2=create pb_2
 this.pb_1=create pb_1
@@ -731,18 +732,14 @@ this.em_teso=create em_teso
 this.em_2=create em_2
 this.gb_9=create gb_9
 this.c_asis=create c_asis
-this.gb_8=create gb_8
 this.st_11=create st_11
 this.tab_1=create tab_1
 this.sle_3=create sle_3
-this.ddlb_4=create ddlb_4
 this.st_13=create st_13
 this.em_3=create em_3
 this.rb_3=create rb_3
-this.rb_4=create rb_4
 this.st_14=create st_14
 this.em_cont=create em_cont
-this.gb_4=create gb_4
 this.st_15=create st_15
 this.sle_5=create sle_5
 this.st_12=create st_12
@@ -765,7 +762,11 @@ this.c_car=create c_car
 this.c_sum=create c_sum
 this.gb_18=create gb_18
 this.gb_19=create gb_19
-this.Control[]={this.cb_7,&
+this.ddlb_4=create ddlb_4
+this.gb_8=create gb_8
+this.gb_4=create gb_4
+this.Control[]={this.rb_1,&
+this.cb_7,&
 this.pb_2,&
 this.pb_1,&
 this.ilim_pres,&
@@ -792,18 +793,14 @@ this.em_teso,&
 this.em_2,&
 this.gb_9,&
 this.c_asis,&
-this.gb_8,&
 this.st_11,&
 this.tab_1,&
 this.sle_3,&
-this.ddlb_4,&
 this.st_13,&
 this.em_3,&
 this.rb_3,&
-this.rb_4,&
 this.st_14,&
 this.em_cont,&
-this.gb_4,&
 this.st_15,&
 this.sle_5,&
 this.st_12,&
@@ -825,10 +822,14 @@ this.c_act,&
 this.c_car,&
 this.c_sum,&
 this.gb_18,&
-this.gb_19}
+this.gb_19,&
+this.ddlb_4,&
+this.gb_8,&
+this.gb_4}
 end on
 
 on w_para_grales_new.destroy
+destroy(this.rb_1)
 destroy(this.cb_7)
 destroy(this.pb_2)
 destroy(this.pb_1)
@@ -856,18 +857,14 @@ destroy(this.em_teso)
 destroy(this.em_2)
 destroy(this.gb_9)
 destroy(this.c_asis)
-destroy(this.gb_8)
 destroy(this.st_11)
 destroy(this.tab_1)
 destroy(this.sle_3)
-destroy(this.ddlb_4)
 destroy(this.st_13)
 destroy(this.em_3)
 destroy(this.rb_3)
-destroy(this.rb_4)
 destroy(this.st_14)
 destroy(this.em_cont)
-destroy(this.gb_4)
 destroy(this.st_15)
 destroy(this.sle_5)
 destroy(this.st_12)
@@ -890,14 +887,40 @@ destroy(this.c_car)
 destroy(this.c_sum)
 destroy(this.gb_18)
 destroy(this.gb_19)
+destroy(this.ddlb_4)
+destroy(this.gb_8)
+destroy(this.gb_4)
 end on
 
 event close;if not isvalid(w_principal) then halt
 end event
 
+type rb_1 from radiobutton within w_para_grales_new
+integer x = 110
+integer y = 440
+integer width = 343
+integer height = 72
+integer taborder = 50
+boolean bringtotop = true
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+long textcolor = 33554432
+long backcolor = 67108864
+string text = "Definitiva"
+boolean checked = true
+end type
+
+event clicked;em_2.visible=false
+st_14.visible=false
+end event
+
 type cb_7 from picturebutton within w_para_grales_new
-integer x = 919
-integer y = 1640
+integer x = 923
+integer y = 1788
 integer width = 146
 integer height = 128
 integer taborder = 450
@@ -917,8 +940,8 @@ event clicked;open(w_cambia_clave)
 end event
 
 type pb_2 from picturebutton within w_para_grales_new
-integer x = 2002
-integer y = 1800
+integer x = 3255
+integer y = 1836
 integer width = 146
 integer height = 128
 integer taborder = 480
@@ -940,8 +963,8 @@ end event
 
 type pb_1 from picturebutton within w_para_grales_new
 string tag = "&Guardar"
-integer x = 1815
-integer y = 1800
+integer x = 3067
+integer y = 1836
 integer width = 146
 integer height = 128
 integer taborder = 470
@@ -1033,9 +1056,8 @@ end if
 l_activacion=sle_5.text
 val_hast=em_2.text
 //l_activacion=f_descripta(sle_5.text)
-l_activacion=sle_5.text
 
-if rb_4.checked then esta+=val_hast
+if rb_3.checked then esta+=val_hast
 string temp='0'
 if c_con.checked then temp=em_con.text
 esta+=temp
@@ -1708,7 +1730,7 @@ end event
 
 type ilim_pres from checkbox within w_para_grales_new
 integer x = 741
-integer y = 1360
+integer y = 1492
 integer width = 192
 integer height = 64
 integer taborder = 410
@@ -1734,7 +1756,7 @@ end event
 
 type ilim_cost from checkbox within w_para_grales_new
 integer x = 741
-integer y = 1272
+integer y = 1404
 integer width = 192
 integer height = 64
 integer taborder = 370
@@ -1760,7 +1782,7 @@ end event
 
 type ilim_nomi from checkbox within w_para_grales_new
 integer x = 741
-integer y = 1188
+integer y = 1320
 integer width = 192
 integer height = 64
 integer taborder = 330
@@ -1786,7 +1808,7 @@ end event
 
 type ilim_acti from checkbox within w_para_grales_new
 integer x = 741
-integer y = 1104
+integer y = 1236
 integer width = 192
 integer height = 64
 integer taborder = 290
@@ -1812,7 +1834,7 @@ end event
 
 type ilim_cart from checkbox within w_para_grales_new
 integer x = 741
-integer y = 1020
+integer y = 1152
 integer width = 192
 integer height = 64
 integer taborder = 250
@@ -1838,7 +1860,7 @@ end event
 
 type ilim_sumi from checkbox within w_para_grales_new
 integer x = 741
-integer y = 936
+integer y = 1068
 integer width = 192
 integer height = 64
 integer taborder = 210
@@ -1864,7 +1886,7 @@ end event
 
 type ilim_teso from checkbox within w_para_grales_new
 integer x = 741
-integer y = 852
+integer y = 984
 integer width = 192
 integer height = 64
 integer taborder = 170
@@ -1890,7 +1912,7 @@ end event
 
 type ilim_conta from checkbox within w_para_grales_new
 integer x = 741
-integer y = 768
+integer y = 900
 integer width = 192
 integer height = 64
 integer taborder = 130
@@ -1915,8 +1937,8 @@ end if
 end event
 
 type ilim_asis from checkbox within w_para_grales_new
-integer x = 1093
-integer y = 336
+integer x = 942
+integer y = 504
 integer width = 197
 integer height = 64
 integer textsize = -8
@@ -1941,7 +1963,7 @@ end event
 
 type st_37 from statictext within w_para_grales_new
 integer x = 133
-integer y = 1460
+integer y = 1592
 integer width = 197
 integer height = 56
 integer textsize = -8
@@ -1958,7 +1980,7 @@ end type
 
 type sle_vers_adm from singlelineedit within w_para_grales_new
 integer x = 539
-integer y = 1452
+integer y = 1584
 integer width = 242
 integer height = 80
 integer taborder = 430
@@ -1980,8 +2002,8 @@ text=uo_ver.i_version_adm
 end event
 
 type sle_vers_as from singlelineedit within w_para_grales_new
-integer x = 311
-integer y = 520
+integer x = 1243
+integer y = 448
 integer width = 261
 integer height = 76
 integer taborder = 80
@@ -2003,8 +2025,8 @@ text=uo_ver.i_version_asis
 end event
 
 type st_36 from statictext within w_para_grales_new
-integer x = 123
-integer y = 520
+integer x = 1253
+integer y = 516
 integer width = 197
 integer height = 56
 integer textsize = -8
@@ -2021,7 +2043,7 @@ end type
 
 type st_200 from statictext within w_para_grales_new
 integer x = 987
-integer y = 712
+integer y = 844
 integer width = 293
 integer height = 56
 boolean bringtotop = true
@@ -2039,7 +2061,7 @@ end type
 
 type em_pres from editmask within w_para_grales_new
 integer x = 983
-integer y = 1360
+integer y = 1492
 integer width = 297
 integer height = 72
 integer taborder = 420
@@ -2067,7 +2089,7 @@ end event
 
 type em_cost from editmask within w_para_grales_new
 integer x = 983
-integer y = 1272
+integer y = 1404
 integer width = 297
 integer height = 72
 integer taborder = 380
@@ -2095,7 +2117,7 @@ end event
 
 type em_nomi from editmask within w_para_grales_new
 integer x = 983
-integer y = 1188
+integer y = 1320
 integer width = 297
 integer height = 72
 integer taborder = 340
@@ -2122,7 +2144,7 @@ end event
 
 type em_acti from editmask within w_para_grales_new
 integer x = 983
-integer y = 1104
+integer y = 1236
 integer width = 297
 integer height = 72
 integer taborder = 300
@@ -2149,7 +2171,7 @@ end event
 
 type em_cart from editmask within w_para_grales_new
 integer x = 983
-integer y = 1020
+integer y = 1152
 integer width = 297
 integer height = 72
 integer taborder = 260
@@ -2177,7 +2199,7 @@ end event
 
 type em_sumi from editmask within w_para_grales_new
 integer x = 983
-integer y = 936
+integer y = 1068
 integer width = 297
 integer height = 72
 integer taborder = 220
@@ -2205,7 +2227,7 @@ end event
 
 type em_teso from editmask within w_para_grales_new
 integer x = 983
-integer y = 852
+integer y = 984
 integer width = 297
 integer height = 72
 integer taborder = 180
@@ -2232,8 +2254,8 @@ if ls_pro=64 THEN RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "HASTA_TESO", 
 end event
 
 type em_2 from editmask within w_para_grales_new
-integer x = 795
-integer y = 444
+integer x = 933
+integer y = 588
 integer width = 283
 integer height = 84
 integer taborder = 70
@@ -2259,16 +2281,16 @@ if ls_pro=64 then	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "HASTA", Regst
 if this.text="0000/00" then
 	this.visible=false
 	st_14.visible=false
-	rb_3.checked=true
+	rb_1.checked=true
 else
-	rb_4.checked=true
+	rb_3.checked=true
 end if
 end event
 
 type gb_9 from groupbox within w_para_grales_new
 integer x = 78
-integer y = 640
-integer width = 1221
+integer y = 772
+integer width = 1481
 integer height = 960
 integer textsize = -8
 integer weight = 400
@@ -2322,21 +2344,6 @@ end if
 this.triggerevent(clicked!)
 end event
 
-type gb_8 from groupbox within w_para_grales_new
-integer x = 78
-integer y = 168
-integer width = 1230
-integer height = 456
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-long textcolor = 33554432
-long backcolor = 67108864
-end type
-
 type st_11 from statictext within w_para_grales_new
 integer x = 69
 integer y = 104
@@ -2355,8 +2362,8 @@ boolean focusrectangle = false
 end type
 
 type tab_1 from tab within w_para_grales_new
-integer x = 1381
-integer y = 32
+integer x = 1650
+integer y = 60
 integer width = 2971
 integer height = 1764
 integer taborder = 460
@@ -2438,7 +2445,7 @@ event create ( )
 event destroy ( )
 integer x = 69
 integer y = 604
-integer width = 2706
+integer width = 2848
 integer height = 964
 integer taborder = 140
 integer textsize = -8
@@ -2468,7 +2475,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 2670
+integer width = 2811
 integer height = 836
 long backcolor = 67108864
 string text = "Parametros"
@@ -2490,7 +2497,7 @@ end on
 type dw_4 from datawindow within tabpage_2
 integer x = 27
 integer y = 16
-integer width = 2606
+integer width = 2761
 integer height = 808
 integer taborder = 100
 string title = "none"
@@ -4960,7 +4967,7 @@ end choose
 end event
 
 type cbx_rf from checkbox within tabpage_1
-integer x = 887
+integer x = 73
 integer y = 1032
 integer width = 608
 integer height = 72
@@ -4987,8 +4994,9 @@ end if
 end event
 
 type cbx_pideprof from checkbox within tabpage_1
-integer x = 59
-integer y = 1028
+boolean visible = false
+integer x = 1490
+integer y = 1040
 integer width = 727
 integer height = 68
 integer taborder = 110
@@ -5000,6 +5008,7 @@ fontfamily fontfamily = swiss!
 string facename = "Arial"
 long textcolor = 33554432
 long backcolor = 67108864
+boolean enabled = false
 string text = "Exigir Profesional al Facturar"
 end type
 
@@ -5354,10 +5363,12 @@ end type
 type tab_mipres from userobject within tab_1
 event create ( )
 event destroy ( )
+boolean visible = false
 integer x = 18
 integer y = 112
 integer width = 2935
 integer height = 1636
+boolean enabled = false
 long backcolor = 67108864
 string text = "Mipres"
 long tabtextcolor = 33554432
@@ -6126,7 +6137,7 @@ end event
 type sle_3 from singlelineedit within w_para_grales_new
 integer x = 238
 integer y = 104
-integer width = 1056
+integer width = 1344
 integer height = 76
 integer taborder = 10
 boolean bringtotop = true
@@ -6146,52 +6157,9 @@ if ls_pro=64 then RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "CLIENTE", Reg
 
 end event
 
-type ddlb_4 from dropdownlistbox within w_para_grales_new
-integer x = 110
-integer y = 324
-integer width = 645
-integer height = 576
-integer taborder = 30
-boolean bringtotop = true
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-long textcolor = 33554432
-string text = "none"
-boolean sorted = false
-boolean hscrollbar = true
-string item[] = {"CONSULTORIO","APOYO DIAGNOSTICO","ESPECIALISTA","CONSULTA EXTERNA","CLINICA","HOSPITAL","ODONTOLOGIA"}
-borderstyle borderstyle = stylelowered!
-end type
-
-event constructor;string aplicac,cual
-if ls_pro=32 then RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\","APLICATIVO", Regstring!, aplicac )
-if ls_pro=64 then RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\","APLICATIVO", Regstring!, aplicac )
-choose case aplicac
-	case "1"
-		cual="CONSULTORIO"
-	case "2"
-		cual="APOYO DIAGNOSTICO"
-	case "3"
-		cual="ESPECIALISTA"
-	case "4"
-		cual="CONSULTA EXTERNA"
-	case "5"
-		cual="CLINICA"
-	case "6"
-		cual="HOSPITAL"
-	case "7"
-		cual="ODONTOLOGIA"
-end choose
-this.text=cual
-end event
-
 type st_13 from statictext within w_para_grales_new
-integer x = 805
-integer y = 264
+integer x = 654
+integer y = 432
 integer width = 242
 integer height = 56
 boolean bringtotop = true
@@ -6208,8 +6176,8 @@ boolean focusrectangle = false
 end type
 
 type em_3 from editmask within w_para_grales_new
-integer x = 795
-integer y = 328
+integer x = 645
+integer y = 496
 integer width = 279
 integer height = 88
 integer taborder = 40
@@ -6239,31 +6207,8 @@ end if
 end event
 
 type rb_3 from radiobutton within w_para_grales_new
-integer x = 146
-integer y = 440
-integer width = 343
-integer height = 72
-integer taborder = 50
-boolean bringtotop = true
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-long textcolor = 33554432
-long backcolor = 67108864
-string text = "Definitiva"
-boolean checked = true
-end type
-
-event clicked;em_2.visible=false
-st_14.visible=false
-end event
-
-type rb_4 from radiobutton within w_para_grales_new
-integer x = 466
-integer y = 444
+integer x = 114
+integer y = 600
 integer width = 320
 integer height = 64
 integer taborder = 60
@@ -6284,8 +6229,8 @@ st_14.visible=true
 end event
 
 type st_14 from statictext within w_para_grales_new
-integer x = 795
-integer y = 532
+integer x = 640
+integer y = 600
 integer width = 293
 integer height = 56
 boolean bringtotop = true
@@ -6303,7 +6248,7 @@ end type
 
 type em_cont from editmask within w_para_grales_new
 integer x = 983
-integer y = 768
+integer y = 900
 integer width = 297
 integer height = 72
 integer taborder = 140
@@ -6329,25 +6274,9 @@ if ls_pro=64 THEN RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "HASTA_CONT", 
 
 end event
 
-type gb_4 from groupbox within w_para_grales_new
-integer x = 46
-integer y = 32
-integer width = 1289
-integer height = 1768
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-long textcolor = 33554432
-long backcolor = 67108864
-string text = "Validación de Licencias:"
-end type
-
 type st_15 from statictext within w_para_grales_new
 integer x = 91
-integer y = 1648
+integer y = 1844
 integer width = 192
 integer height = 56
 boolean bringtotop = true
@@ -6365,7 +6294,7 @@ end type
 
 type sle_5 from singlelineedit within w_para_grales_new
 integer x = 288
-integer y = 1636
+integer y = 1832
 integer width = 590
 integer height = 84
 integer taborder = 440
@@ -6407,7 +6336,7 @@ end type
 
 type c_con from checkbox within w_para_grales_new
 integer x = 123
-integer y = 768
+integer y = 900
 integer width = 411
 integer height = 64
 integer taborder = 90
@@ -6458,7 +6387,7 @@ end event
 
 type c_tes from checkbox within w_para_grales_new
 integer x = 123
-integer y = 852
+integer y = 984
 integer width = 411
 integer height = 64
 integer taborder = 150
@@ -6509,7 +6438,7 @@ end event
 
 type st_7a from statictext within w_para_grales_new
 integer x = 635
-integer y = 712
+integer y = 844
 integer width = 229
 integer height = 52
 boolean bringtotop = true
@@ -6527,7 +6456,7 @@ end type
 
 type em_con from editmask within w_para_grales_new
 integer x = 544
-integer y = 768
+integer y = 900
 integer width = 183
 integer height = 72
 integer taborder = 120
@@ -6547,7 +6476,7 @@ end type
 
 type em_tes from editmask within w_para_grales_new
 integer x = 544
-integer y = 852
+integer y = 984
 integer width = 183
 integer height = 72
 integer taborder = 160
@@ -6567,7 +6496,7 @@ end type
 
 type em_sum from editmask within w_para_grales_new
 integer x = 544
-integer y = 936
+integer y = 1068
 integer width = 183
 integer height = 72
 integer taborder = 200
@@ -6587,7 +6516,7 @@ end type
 
 type em_car from editmask within w_para_grales_new
 integer x = 544
-integer y = 1020
+integer y = 1152
 integer width = 183
 integer height = 72
 integer taborder = 240
@@ -6607,7 +6536,7 @@ end type
 
 type em_act from editmask within w_para_grales_new
 integer x = 544
-integer y = 1104
+integer y = 1236
 integer width = 183
 integer height = 72
 integer taborder = 280
@@ -6627,7 +6556,7 @@ end type
 
 type em_nom from editmask within w_para_grales_new
 integer x = 544
-integer y = 1188
+integer y = 1320
 integer width = 183
 integer height = 72
 integer taborder = 320
@@ -6647,7 +6576,7 @@ end type
 
 type em_cos from editmask within w_para_grales_new
 integer x = 544
-integer y = 1272
+integer y = 1404
 integer width = 183
 integer height = 72
 integer taborder = 360
@@ -6667,7 +6596,7 @@ end type
 
 type em_pre from editmask within w_para_grales_new
 integer x = 544
-integer y = 1360
+integer y = 1492
 integer width = 183
 integer height = 72
 integer taborder = 400
@@ -6687,7 +6616,7 @@ end type
 
 type c_pre from checkbox within w_para_grales_new
 integer x = 123
-integer y = 1360
+integer y = 1492
 integer width = 375
 integer height = 64
 integer taborder = 390
@@ -6738,7 +6667,7 @@ end event
 
 type c_cos from checkbox within w_para_grales_new
 integer x = 123
-integer y = 1272
+integer y = 1404
 integer width = 411
 integer height = 64
 integer taborder = 350
@@ -6789,7 +6718,7 @@ end event
 
 type c_nom from checkbox within w_para_grales_new
 integer x = 123
-integer y = 1188
+integer y = 1320
 integer width = 411
 integer height = 64
 integer taborder = 310
@@ -6840,7 +6769,7 @@ end event
 
 type c_act from checkbox within w_para_grales_new
 integer x = 123
-integer y = 1104
+integer y = 1236
 integer width = 375
 integer height = 64
 integer taborder = 270
@@ -6891,7 +6820,7 @@ end event
 
 type c_car from checkbox within w_para_grales_new
 integer x = 123
-integer y = 1020
+integer y = 1152
 integer width = 411
 integer height = 64
 integer taborder = 230
@@ -6942,7 +6871,7 @@ end event
 
 type c_sum from checkbox within w_para_grales_new
 integer x = 123
-integer y = 936
+integer y = 1068
 integer width = 411
 integer height = 64
 integer taborder = 190
@@ -6993,7 +6922,7 @@ end event
 
 type gb_18 from groupbox within w_para_grales_new
 integer x = 78
-integer y = 692
+integer y = 824
 integer width = 795
 integer height = 176
 integer taborder = 100
@@ -7010,7 +6939,7 @@ end type
 
 type gb_19 from groupbox within w_para_grales_new
 integer x = 78
-integer y = 692
+integer y = 824
 integer width = 795
 integer height = 176
 integer taborder = 110
@@ -7023,5 +6952,79 @@ string facename = "Arial"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "Biometria"
+end type
+
+type ddlb_4 from dropdownlistbox within w_para_grales_new
+integer x = 110
+integer y = 324
+integer width = 1399
+integer height = 576
+integer taborder = 30
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+long textcolor = 33554432
+string text = "none"
+boolean border = false
+boolean hscrollbar = true
+boolean vscrollbar = true
+string item[] = {"CONSULTORIO","APOYO DIAGNOSTICO","ESPECIALISTA","CONSULTA EXTERNA","CLINICA","HOSPITAL","ODONTOLOGIA","CONSULTORIO + FEVRIPS","APOYO DIAGNOSTICO + FEVRIPS","ESPECIALISTA + FEVRIPS","CONSULTA EXTERNA + FEVRIPS","CLINICA + FEVRIPS","HOSPITAL + FEVRIPS","ODONTOLOGIA + FEVRIPS"}
+borderstyle borderstyle = stylelowered!
+end type
+
+event constructor;string aplicac,cual
+if ls_pro=32 then RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\","APLICATIVO", Regstring!, aplicac )
+if ls_pro=64 then RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\","APLICATIVO", Regstring!, aplicac )
+choose case aplicac
+	case "1"
+		cual="CONSULTORIO"
+	case "2"
+		cual="APOYO DIAGNOSTICO"
+	case "3"
+		cual="ESPECIALISTA"
+	case "4"
+		cual="CONSULTA EXTERNA"
+	case "5"
+		cual="CLINICA"
+	case "6"
+		cual="HOSPITAL"
+	case "7"
+		cual="ODONTOLOGIA"
+end choose
+this.text=cual
+end event
+
+type gb_8 from groupbox within w_para_grales_new
+integer x = 78
+integer y = 168
+integer width = 1490
+integer height = 584
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+long textcolor = 33554432
+long backcolor = 67108864
+end type
+
+type gb_4 from groupbox within w_para_grales_new
+integer x = 46
+integer y = 32
+integer width = 1559
+integer height = 1924
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+long textcolor = 33554432
+long backcolor = 67108864
+string text = "Validación de Licencias:"
 end type
 

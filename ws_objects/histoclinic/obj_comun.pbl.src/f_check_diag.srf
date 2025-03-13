@@ -29,13 +29,19 @@ setnull(ls_sexo)
 if ps_ante='0' then 
 	
 	if ls_este='' or isnull(ls_este) then
-		SELECT Diags.c_version,Count(Diags.CodGeral) into :ls_version,:ldb_cuant
-		FROM Diags INNER JOIN diags_version ON Diags.c_version = diags_version.c_version
-		WHERE (((Diags.cod_rips)=:ps_diagnos) AND ((diags_version.val_hasta)>=:ldt_ahora) and  (Diags.estado='1'))
-		GROUP BY Diags.c_version;
+		SELECT 
+			Diags.c_version,Count(Diags.CodGeral) 
+		INTO
+			:ls_version,:ldb_cuant
+		FROM 
+			Diags INNER JOIN diags_version ON Diags.c_version = diags_version.c_version
+		WHERE 
+			(((Diags.cod_rips)=:ps_diagnos) AND ((diags_version.val_hasta)>=:ldt_ahora) and  (Diags.estado='1'))
+		GROUP BY 
+			Diags.c_version;
 		
 		if sqlca.sqlcode=-1 then
-			messagebox("Error leyendo tabla diags f_check_diag linea 21",sqlca.sqlerrtext)
+			messagebox("Error leyendo tabla diags f_check_diag linea 27",sqlca.sqlerrtext)
 			st.descrip_diag=''
 			return st
 		end if
@@ -53,8 +59,9 @@ if ps_ante='0' then
 			SELECT 
 				Diags.c_version, Diags.desdiag, capdiags.antecedente,diags.tservicio,diags.morbilidad
 			INTO
-				:ls_version , :ls_retorna,:st.antecedente,:ls_dxrel
-			FROM capdiags 
+				:ls_version , :ls_retorna,:st.antecedente,:ls_serv,:ls_dxrel
+			FROM 
+				capdiags 
 				INNER JOIN diags ON (diags.c_version = capdiags.c_version) AND (capdiags.codcap = diags.ccap)
 			WHERE 
 				((Ccap || coddiag=:ps_diagnos) AND  (capdiags.c_version=:ls_version) and  (Diags.estado='1'));
@@ -63,11 +70,13 @@ if ps_ante='0' then
 				Diags.c_version, Diags.desdiag, capdiags.antecedente,diags.tservicio,diags.morbilidad
 			INTO 
 				:ls_version , :ls_retorna,:st.antecedente,:ls_serv,:ls_dxrel
-			FROM capdiags INNER JOIN diags ON (diags.c_version = capdiags.c_version) AND (capdiags.codcap = diags.ccap)
-			WHERE ((Ccap + coddiag=:ps_diagnos) AND  (capdiags.c_version=:ls_version) and  (Diags.estado='1'));
+			FROM 
+				capdiags INNER JOIN diags ON (diags.c_version = capdiags.c_version) AND (capdiags.codcap = diags.ccap)
+			WHERE 
+				((Ccap + coddiag=:ps_diagnos) AND  (capdiags.c_version=:ls_version) and  (Diags.estado='1'));
 		end if
 		if sqlca.sqlcode=-1 then
-			messagebox("Error leyendo tabla diags f_check_diag linea 53",sqlca.sqlerrtext)
+			messagebox("Error leyendo tabla diags f_check_diag linea 62",sqlca.sqlerrtext)
 			st.descrip_diag=''
 			return st
 		end if
@@ -82,7 +91,7 @@ if ps_ante='0' then
 		WHERE 
 			((Diags.cod_rips=:ps_diagnos) AND (diags_version.val_hasta>=:ldt_ahora) and  (Diags.estado='1'));
 		if sqlca.sqlcode=-1 then
-			messagebox("Error leyendo tabla diags f_check_diag linea 68",sqlca.sqlerrtext)
+			messagebox("Error leyendo tabla diags f_check_diag linea 77",sqlca.sqlerrtext)
 			st.descrip_diag=''
 			return st
 		end if
@@ -97,7 +106,7 @@ if ps_ante='0' then
 		WHERE 
 			(codgeral=:ls_este and estado='1');
 		if sqlca.sqlcode=-1 then
-			messagebox("Error leyendo tabla diags f_check_diag linea 83",sqlca.sqlerrtext)
+			messagebox("Error leyendo tabla diags f_check_diag linea 92",sqlca.sqlerrtext)
 			st.descrip_diag=''
 			return st
 		end if
@@ -115,12 +124,16 @@ if ps_ante='0' then
 		return st
 	end if
 	
-	SELECT DiagEdad.EdadIni, DiagEdad.EdadFin, DiagEdad.IndSexo
-	INTO :ldb_edad_ini, :ldb_edad_fin, :ls_sexo
-	FROM DiagEdad
-	WHERE DiagEdad.CodGeral=:ls_este;
+	SELECT 
+		DiagEdad.EdadIni, DiagEdad.EdadFin, DiagEdad.IndSexo
+	INTO 
+		:ldb_edad_ini, :ldb_edad_fin, :ls_sexo
+	FROM 
+		DiagEdad
+	WHERE 
+		DiagEdad.CodGeral=:ls_este;
 	if sqlca.sqlcode=-1 then
-		messagebox("Error leyendo tabla diags f_check_diag linea 74",sqlca.sqlerrtext)
+		messagebox("Error leyendo tabla diags f_check_diag linea 119",sqlca.sqlerrtext)
 		st.descrip_diag=''
 		return st
 	end if

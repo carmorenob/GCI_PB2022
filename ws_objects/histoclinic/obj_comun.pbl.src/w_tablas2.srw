@@ -72,6 +72,12 @@ public subroutine inicializa ()
 end prototypes
 
 public subroutine inicializa ();dw_1.settransobject(sqlca)
+if dw_1.dataobject='dw_combo_finconsulta' then
+    dw_1.getchild('codfin',docus)
+	docus.settransobject(sqlca)
+	docus.retrieve('1')
+end if
+
 dw_1.insertrow(1)
 dw_2.settransobject(sqlca)
 if dw_2.dataobject='dw_tarifa_med' then
@@ -123,6 +129,7 @@ if dw_1.dataobject='dw_combo_bancos' then
 	docus.settransobject(sqlca)
 	docus.insertrow(1)
 end if
+
 end subroutine
 
 on w_tablas2.create
