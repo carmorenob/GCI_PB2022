@@ -114,6 +114,20 @@ if w_para_grales_new.c_asis.checked then
 			cual="6"
 		case "ODONTOLOGIA"
 			cual="7"
+		case "8"
+			cual="CONSULTORIO + FEVRIPS"
+		case "9"
+			cual="APOYO DIAGNOSTICO + FEVRIPS"
+		case "10"
+			cual="ESPECIALISTA + FEVRIPS"
+		case "11"
+			cual="CONSULTA EXTERNA + FEVRIPS"
+		case "12"
+			cual="CLINICA + FEVRIPS"
+		case "13"
+			cual="HOSPITAL + FEVRIPS"
+		case "14"
+			cual="ODONTOLOGIA + FEVRIPS"					
 	end choose
 	l_aplicativo=cual
 	esta+=l_lice+l_aplicativo
@@ -123,7 +137,7 @@ else
 end if
 val_hast=w_para_grales_new.em_2.text
 l_activacion=sle_1.text
-if w_para_grales_new.rb_4.checked then esta+=val_hast
+if w_para_grales_new.rb_2.checked then esta+=val_hast
 string temp='0'
 if w_para_grales_new.c_con.checked then temp=w_para_grales_new.em_con.text
 esta+=temp

@@ -562,7 +562,7 @@ type st_13 from statictext within w_para_grales_new
 end type
 type em_3 from editmask within w_para_grales_new
 end type
-type rb_3 from radiobutton within w_para_grales_new
+type rb_2 from radiobutton within w_para_grales_new
 end type
 type st_14 from statictext within w_para_grales_new
 end type
@@ -666,7 +666,7 @@ tab_1 tab_1
 sle_3 sle_3
 st_13 st_13
 em_3 em_3
-rb_3 rb_3
+rb_2 rb_2
 st_14 st_14
 em_cont em_cont
 st_15 st_15
@@ -737,7 +737,7 @@ this.tab_1=create tab_1
 this.sle_3=create sle_3
 this.st_13=create st_13
 this.em_3=create em_3
-this.rb_3=create rb_3
+this.rb_2=create rb_2
 this.st_14=create st_14
 this.em_cont=create em_cont
 this.st_15=create st_15
@@ -798,7 +798,7 @@ this.tab_1,&
 this.sle_3,&
 this.st_13,&
 this.em_3,&
-this.rb_3,&
+this.rb_2,&
 this.st_14,&
 this.em_cont,&
 this.st_15,&
@@ -862,7 +862,7 @@ destroy(this.tab_1)
 destroy(this.sle_3)
 destroy(this.st_13)
 destroy(this.em_3)
-destroy(this.rb_3)
+destroy(this.rb_2)
 destroy(this.st_14)
 destroy(this.em_cont)
 destroy(this.st_15)
@@ -1057,7 +1057,7 @@ l_activacion=sle_5.text
 val_hast=em_2.text
 //l_activacion=f_descripta(sle_5.text)
 
-if rb_3.checked then esta+=val_hast
+if rb_2.checked then esta+=val_hast
 string temp='0'
 if c_con.checked then temp=em_con.text
 esta+=temp
@@ -1581,7 +1581,7 @@ if ls_pro=64 then
 	RegistrySet ( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "HASTA_PRES", regstring!, em_pres.text)
 end If
 
-if rb_3.checked then //tempo o definitiva
+if rb_2.checked then //tempo o definitiva
 	if ls_pro=32 then
 		RegistrySet ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "HASTA", RegString!, "0000/00" )
 	end If
@@ -2283,7 +2283,7 @@ if this.text="0000/00" then
 	st_14.visible=false
 	rb_1.checked=true
 else
-	rb_3.checked=true
+	rb_2.checked=true
 end if
 end event
 
@@ -6206,7 +6206,7 @@ if text='1000' then
 end if
 end event
 
-type rb_3 from radiobutton within w_para_grales_new
+type rb_2 from radiobutton within w_para_grales_new
 integer x = 114
 integer y = 600
 integer width = 320
@@ -6993,6 +6993,20 @@ choose case aplicac
 		cual="HOSPITAL"
 	case "7"
 		cual="ODONTOLOGIA"
+	case "8"
+		cual="CONSULTORIO + FEVRIPS"
+	case "9"
+		cual="APOYO DIAGNOSTICO + FEVRIPS"
+	case "10"
+		cual="ESPECIALISTA + FEVRIPS"
+	case "11"
+		cual="CONSULTA EXTERNA + FEVRIPS"
+	case "12"
+		cual="CLINICA + FEVRIPS"
+	case "13"
+		cual="HOSPITAL + FEVRIPS"
+	case "14"
+		cual="ODONTOLOGIA + FEVRIPS"		
 end choose
 this.text=cual
 end event
