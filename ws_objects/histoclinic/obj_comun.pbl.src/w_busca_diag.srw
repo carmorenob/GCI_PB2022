@@ -161,7 +161,14 @@ color=long(dw_2.describe("datawindow.color"))
 datetime ahora
 ahora=datetime(today())
 string version
-select c_version into :version from diags_version where val_hasta>=:ahora;
+select 
+	c_version 
+into 
+	:version 
+from 
+	diags_version 
+where 
+	val_hasta>=:ahora;
 if isnull(version) then 
 	messagebox("Atención","No existe una versión de diagnósticos activa")
 else

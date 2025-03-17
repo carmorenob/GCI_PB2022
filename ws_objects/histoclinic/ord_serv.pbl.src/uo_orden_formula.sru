@@ -124,7 +124,7 @@ end type
 end forward
 
 global type uo_orden_formula from userobject
-integer width = 6071
+integer width = 6496
 integer height = 1612
 long backcolor = 67108864
 string text = "none"
@@ -167,7 +167,7 @@ private string i_clug_his,i_profe,i_indapdx,i_clug_hadm,i_est_hadm,i_cemp,i_ccon
 private int cant_serv
 private datetime fec,l_fechaingreso
 private string is_path="c:\windows\temp\",cod_fina
-datawindowchild i_dw_tmp,i_dw_frec
+datawindowchild i_dw_tmp,i_dw_frec,idw_fincon
 
 
 
@@ -1111,7 +1111,7 @@ end event
 
 type gb_1 from groupbox within uo_orden_formula
 integer x = 5
-integer width = 6021
+integer width = 6473
 integer height = 492
 integer taborder = 10
 integer textsize = -8
@@ -1129,7 +1129,7 @@ end type
 type pb_rn from picturebutton within uo_orden_formula
 event mousemove pbm_mousemove
 boolean visible = false
-integer x = 5833
+integer x = 6290
 integer y = 924
 integer width = 146
 integer height = 128
@@ -1164,7 +1164,7 @@ end event
 
 type pb_rip from picturebutton within uo_orden_formula
 event mousemove pbm_mousemove
-integer x = 5833
+integer x = 6290
 integer y = 784
 integer width = 146
 integer height = 128
@@ -1577,7 +1577,7 @@ type tab_1 from tab within uo_orden_formula
 event create ( )
 event destroy ( )
 integer y = 504
-integer width = 6021
+integer width = 6478
 integer height = 1092
 integer taborder = 30
 integer textsize = -8
@@ -1619,7 +1619,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 5984
+integer width = 6441
 integer height = 964
 long backcolor = 67108864
 string text = "Procedimientos"
@@ -1673,7 +1673,7 @@ end on
 
 type pb_ci from picturebutton within tp_1
 boolean visible = false
-integer x = 5824
+integer x = 6281
 integer y = 452
 integer width = 146
 integer height = 128
@@ -1718,7 +1718,7 @@ event keypress pbm_dwnkey
 event p_itemchanged ( )
 integer x = 27
 integer y = 156
-integer width = 5760
+integer width = 6217
 integer height = 808
 integer taborder = 20
 string dragicon = "none!"
@@ -2120,7 +2120,7 @@ boolean focusrectangle = false
 end type
 
 type pb_ord from pb_report within tp_1
-integer x = 5815
+integer x = 6272
 integer y = 16
 integer taborder = 40
 string text = "          &o"
@@ -2211,7 +2211,7 @@ end if
 end event
 
 type pb_remi from picturebutton within tp_1
-integer x = 5815
+integer x = 6272
 integer y = 16
 integer width = 146
 integer height = 128
@@ -2312,7 +2312,7 @@ event create ( )
 event destroy ( )
 integer x = 18
 integer y = 112
-integer width = 5984
+integer width = 6441
 integer height = 964
 long backcolor = 67108864
 string text = "Medicamentos"
@@ -2939,7 +2939,7 @@ event keypress pbm_dwnkey
 event pe_changed ( )
 integer x = 23
 integer y = 52
-integer width = 5792
+integer width = 6277
 integer height = 412
 integer taborder = 10
 string dragicon = "none!"
@@ -2968,6 +2968,10 @@ sqlca.autocommit=false
 end event
 
 event constructor;settransobject(sqlca)
+getchild('cod_fina',idw_fincon)
+idw_fincon.settransobject(sqlca)
+
+idw_fincon.retrieve('1')
 end event
 
 event itemchanged;long fila
@@ -3026,6 +3030,13 @@ else
 	tab_1.tp_1.pb_remi.visible=false
 	tab_1.tp_1.pb_ord.visible=true	
 end if
+if getitemstring(getrow(),"estado")<>'1' then
+	idw_fincon.retrieve('%')
+else
+	idw_fincon.retrieve('1')
+end if
+
+
 i_norden=getitemnumber(getrow(),"nsolicitud")
 tab_1.tp_1.dw_oscuerpo.retrieve(i_contador,i_clug_his,i_norden)
 tab_1.tp_2.dw_formula.retrieve(i_contador,i_clug_his,i_norden)
@@ -3040,7 +3051,7 @@ if  getcolumnname()= 'cod_rips' then
 	st_es.sexo=w_principal.dw_1.getitemstring(1,"sexo")
 	st_es.edad=w_principal.dw_1.getitemnumber(1,"dias")
 	st_es.antece='0'
-	st_es.proced='0'
+	st_es.proced='1'
 	openwithparm(w_busca_diag,st_es)
 	st_d=message.powerobjectparm
 	if not isValid(st_d) then return
@@ -3066,7 +3077,7 @@ end event
 type dw_profe from datawindow within uo_orden_formula
 integer x = 1861
 integer y = 52
-integer width = 869
+integer width = 1541
 integer height = 84
 integer taborder = 50
 boolean bringtotop = true
@@ -3104,7 +3115,7 @@ end type
 
 type cb_anul_ord from picturebutton within uo_orden_formula
 event mousemove pbm_mousemove
-integer x = 5842
+integer x = 6309
 integer y = 340
 integer width = 146
 integer height = 128
@@ -3154,7 +3165,7 @@ end event
 
 type cb_borrorden from picturebutton within uo_orden_formula
 event mousemove pbm_mousemove
-integer x = 5842
+integer x = 6309
 integer y = 200
 integer width = 146
 integer height = 128
@@ -3207,7 +3218,7 @@ end event
 
 type cb_nvorden from picturebutton within uo_orden_formula
 event mousemove pbm_mousemove
-integer x = 5842
+integer x = 6309
 integer y = 56
 integer width = 146
 integer height = 128
@@ -3303,6 +3314,12 @@ choose case i_tingre
 				next
 			end if
 		end if
+		dw_oscab.setitem(fila,'diagnostico',i_desdiag)
+		dw_oscab.setitem(fila,'cod_rips',i_codrips)
+		if i_coddiag='' then setnull(i_coddiag)
+		dw_oscab.setitem(fila,'codgeral',i_coddiag)	
+		
+		
 		return 1
 	case '1'
 		if dw_oscab.dataobject<>'dw_oscabeza_sale_hosp' then
@@ -3320,14 +3337,21 @@ choose case i_tingre
 					return -1
 				end if
 			
-			SELECT Count(1) AS cuantos, Historial.Fecha, ServiciosIngreso.diagprin, ServiciosIngreso.fin_consulta INTO :cant_serv, :fec,:i_coddiag,:cod_fina
-			FROM ServiciosIngreso INNER JOIN Historial ON (ServiciosIngreso.CLugar = Historial.clugar) AND (ServiciosIngreso.Contador = Historial.Contador)
-			WHERE  (((ServiciosIngreso.Contador)=:i_contador) AND ((ServiciosIngreso.CLugar)=:i_clug_his) AND ((ServiciosIngreso.nservicio)=
-			(	SELECT Min(ServiciosIngreso.nservicio) AS MínDenservicio
+			SELECT 
+				Count(1) AS cuantos, Historial.Fecha, ServiciosIngreso.diagprin, ServiciosIngreso.fin_consulta 
+			INTO 
+				:cant_serv, :fec,:i_coddiag,:cod_fina
+			FROM 
+				ServiciosIngreso 
+				INNER JOIN Historial ON (ServiciosIngreso.CLugar = Historial.clugar) AND (ServiciosIngreso.Contador = Historial.Contador)
+			WHERE  
+				(((ServiciosIngreso.Contador)=:i_contador) AND ((ServiciosIngreso.CLugar)=:i_clug_his) AND ((ServiciosIngreso.nservicio)=
+				(	SELECT Min(ServiciosIngreso.nservicio) AS MínDenservicio
 				FROM ServiciosIngreso INNER JOIN Historial ON (ServiciosIngreso.CLugar = Historial.clugar) AND (ServiciosIngreso.Contador = Historial.Contador)
 				WHERE (((ServiciosIngreso.Contador)=:i_contador) AND ((ServiciosIngreso.CLugar)=:i_clug_his))
 				)))
-			GROUP BY Historial.Fecha, ServiciosIngreso.diagprin, ServiciosIngreso.fin_consulta;
+			GROUP BY 
+				Historial.Fecha, ServiciosIngreso.diagprin, ServiciosIngreso.fin_consulta;
 			IF SQLCA.SQLCODE=-1 THEN 
 				messagebox("Error leyendo Servicios",sqlca.sqlerrtext)
 				return -1
@@ -3344,9 +3368,15 @@ choose case i_tingre
 			end if
 		end If
 		if dw_oscab.dataobject='dw_oscabeza_sale_hosp' then
-			SELECT hospadmi.estado, HospSali.DiagEgreso, HospSali.NSalida,hospadmi.fechaingreso into :i_est_hadm,:i_coddiag,:l_nsalida,:l_fechaingreso
-			FROM hospadmi LEFT JOIN HospSali ON (hospadmi.CodTIngre = HospSali.CodTIngre) AND (hospadmi.clugar = HospSali.clugar_hadm) AND (hospadmi.NH = HospSali.NHosp)
-			WHERE (((Contador)=:i_contador) AND ((clugar_his)=:i_clug_his));
+			SELECT 
+				hospadmi.estado, HospSali.DiagEgreso, HospSali.NSalida,hospadmi.fechaingreso 
+			INTO
+				:i_est_hadm,:i_coddiag,:l_nsalida,:l_fechaingreso
+			FROM 
+				hospadmi LEFT JOIN HospSali ON (hospadmi.CodTIngre = HospSali.CodTIngre) 
+				AND (hospadmi.clugar = HospSali.clugar_hadm) AND (hospadmi.NH = HospSali.NHosp)
+			WHERE 
+				(((Contador)=:i_contador) AND ((clugar_his)=:i_clug_his));
 			if sqlca.sqlcode=-1 then
 				messagebox('Error leyendo estado de HospAdmi',sqlca.sqlerrtext)
 			end if
@@ -3358,8 +3388,14 @@ choose case i_tingre
 				messagebox('Atención','Atención se encuentra Cerrada o Facturada')
 				return -1
 			end if
-			select desdiag,cod_rips into :i_desdiag,:i_codrips
-			from diags where codgeral=:i_coddiag;
+			select 
+				desdiag,cod_rips 
+			into 
+				:i_desdiag,:i_codrips
+			from 
+				diags 
+			where 
+				codgeral=:i_coddiag;
 		end if
 
 		fila=dw_oscab.insertrow(0)
@@ -3369,15 +3405,20 @@ choose case i_tingre
 		dw_oscab.setitem(fila,"codprof",i_profe)
 		dw_oscab.setitem(fila,"cesp",i_esp)
 		if i_desdiag='' then setnull(i_desdiag)
-		dw_oscab.setitem(fila,'diagnostico',i_desdiag)
-		dw_oscab.setitem(fila,'cod_rips',i_codrips)
-		dw_oscab.setitem(fila,'cod_fina',cod_fina)
-		if i_coddiag='' then setnull(i_coddiag)
-		dw_oscab.setitem(fila,'codgeral',i_coddiag)
+		//dw_oscab.setitem(fila,'diagnostico',i_desdiag)
+		//dw_oscab.setitem(fila,'cod_rips',i_codrips)
+		//dw_oscab.setitem(fila,'cod_fina',cod_fina)
+		//if i_coddiag='' then setnull(i_coddiag)
+		//dw_oscab.setitem(fila,'codgeral',i_coddiag)
 		dw_oscab.setitem(fila,'fecha',datetime(today(),now()))
-		SELECT Max(NSolicitud) into :nserv1
-		FROM OSCabeza
-		WHERE OSCabeza.Contador=:i_contador and clugar=:i_clug_his;
+		SELECT 
+			Max(NSolicitud) 
+		into 
+			:nserv1
+		FROM 
+			OSCabeza
+		WHERE 
+			OSCabeza.Contador=:i_contador and clugar=:i_clug_his;
 		if sqlca.sqlcode=-1 then return -1
 		if isnull(nserv1) then nserv1=0
 		nserv1++
