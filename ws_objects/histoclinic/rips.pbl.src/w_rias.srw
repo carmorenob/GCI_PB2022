@@ -539,8 +539,8 @@ string is_anterior,is_orden,is_concatena_fac,is_decual,is_capiv='0',is_repo_rips
 string is_rips_cd,is_elec, is_objeto
 boolean ibn_paso=false
 uo_report i_rep
+DataWindowChild idw_fincon,idw_finproc,idw_causaex,idw_ambproc
 end variables
-
 forward prototypes
 public subroutine cuenta ()
 public function integer genera_forecat (long p_nrad, string p_clug_rad, datetime p_fecha_fin, boolean p_faltan)
@@ -4096,6 +4096,19 @@ choose case cual
 			dw_ria.dataobject="dw_genera_rips"
 			if tab_2.tp2_1.tab_1.selectedtab=2 then dw_ria.dataobject+="2"
 			dw_ria.settransobject(sqlca)
+			dw_ria.getchild('s_fin_consulta',idw_fincon)
+			idw_fincon.settransobject(sqlca)
+			dw_ria.getchild('s_finalidadproced',idw_finproc)
+			idw_finproc.settransobject(SQLCA)
+			dw_ria.getchild('s_causaexterna',idw_causaex)
+			idw_causaex.settransobject(sqlca)
+			dw_ria.getchild('s_ambitoproced',idw_ambproc)
+			idw_ambproc.settransobject(sqlca)
+			
+			idw_fincon.retrieve('1')
+			idw_finproc.retrieve('1')
+			idw_causaex.retrieve('1')
+			idw_ambproc.retrieve('1')			
 		else
 			dw_ria.dataobject="dr_rips_consulta_viejo"
 			dw_ria.settransobject(sqlca)
@@ -4113,6 +4126,19 @@ choose case cual
 			dw_ria.dataobject="dw_genera_rips"
 			if tab_2.tp2_1.tab_1.selectedtab=2  then dw_ria.dataobject+="2"	
 			dw_ria.settransobject(sqlca)
+			dw_ria.getchild('s_fin_consulta',idw_fincon)
+			idw_fincon.settransobject(sqlca)
+			dw_ria.getchild('s_finalidadproced',idw_finproc)
+			idw_finproc.settransobject(SQLCA)
+			dw_ria.getchild('s_causaexterna',idw_causaex)
+			idw_causaex.settransobject(sqlca)
+			dw_ria.getchild('s_ambitoproced',idw_ambproc)
+			idw_ambproc.settransobject(sqlca)
+			
+			idw_fincon.retrieve('1')
+			idw_finproc.retrieve('1')
+			idw_causaex.retrieve('1')
+			idw_ambproc.retrieve('1')				
 		else
 			dw_ria.dataobject="dr_rips_procedimientos_viejo"
 			dw_ria.settransobject(sqlca)

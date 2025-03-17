@@ -277,6 +277,7 @@ datawindowchild dw_contrato,idw_emp,gc_regimen
 long xant,yant,maxi
 string anterior,orden,l_soat,l_sql,is_elec
 datetime ldt_iniciafevs
+DataWindowChild idw_fincon,idw_finproc,idw_causaex,idw_ambproc
 end variables
 
 forward prototypes
@@ -647,11 +648,23 @@ choose case cual
 		param="AC"
 		dw_ria.dataobject="dw_audita_rips_c_p"
 		dw_ria.settransobject(sqlca)
+		dw_ria.getchild('s_fin_consulta',idw_fincon)
+		idw_fincon.settransobject(sqlca)
+		dw_ria.getchild('s_causaexterna',idw_causaex)
+		idw_causaex.settransobject(sqlca)
 		pb_guardar.enabled=true
 	case "Procedimientos"
 		param="AP"
 		dw_ria.dataobject="dw_audita_rips_c_p"
 		dw_ria.settransobject(sqlca)
+		dw_ria.getchild('s_fin_consulta',idw_fincon)
+		idw_fincon.settransobject(sqlca)
+		dw_ria.getchild('s_finalidadproced',idw_finproc)
+		idw_finproc.settransobject(SQLCA)
+		dw_ria.getchild('s_causaexterna',idw_causaex)
+		idw_causaex.settransobject(sqlca)
+		dw_ria.getchild('s_ambitoproced',idw_ambproc)
+		idw_ambproc.settransobject(sqlca)		
 		pb_guardar.enabled=true
 	case "Urgencias"
 		dw_ria.dataobject="dw_audita_rips_urg"
@@ -684,6 +697,12 @@ choose case cual
 		pb_guardar.enabled=false
 		return
 end choose
+if  cual="Consulta" or cual="Procedimientos" then
+	idw_fincon.retrieve('1')
+	idw_finproc.retrieve('1')
+	idw_causaex.retrieve('1')
+	idw_ambproc.retrieve('1')
+end if
 dw_ria.retrieve(param,datetime(date(em_11.text)),datetime(date(em_21.text)),clugar)
 end event
 

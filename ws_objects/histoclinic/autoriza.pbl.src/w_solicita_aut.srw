@@ -35,8 +35,6 @@ dw_ord_cext dw_ord_cext
 end type
 type externa from userobject within soli
 end type
-type gb_5 from groupbox within externa
-end type
 type st_12 from statictext within externa
 end type
 type pb_8 from picturebutton within externa
@@ -53,8 +51,9 @@ type dw_dxext from datawindow within externa
 end type
 type sle_des_dx from statictext within externa
 end type
+type gb_5 from groupbox within externa
+end type
 type externa from userobject within soli
-gb_5 gb_5
 st_12 st_12
 pb_8 pb_8
 pb_7 pb_7
@@ -63,6 +62,7 @@ pb_5 pb_5
 dw_cpo_sol dw_cpo_sol
 dw_dxext dw_dxext
 sle_des_dx sle_des_dx
+gb_5 gb_5
 end type
 type soli from tab within p4
 interna interna
@@ -271,10 +271,9 @@ long fcpo
 int ing=0
 string serv
 datetime inicia,fin,inicia_ing,fin_ing,inicia_his,fin_his
-DataWindowChild idw_tiping
+DataWindowChild idw_tiping,idw_fincon,idw_causaex
 
 end variables
-
 forward prototypes
 public function string f_retorno_mail (mailreturncode a_mailreturncode)
 public subroutine filtre_ing ()
@@ -879,7 +878,6 @@ long tabtextcolor = 33554432
 string picturename = "Custom033!"
 long picturemaskcolor = 536870912
 string powertiptext = "Ordenes de Solictud Externas de la Ips que requieren Autorización"
-gb_5 gb_5
 st_12 st_12
 pb_8 pb_8
 pb_7 pb_7
@@ -888,10 +886,10 @@ pb_5 pb_5
 dw_cpo_sol dw_cpo_sol
 dw_dxext dw_dxext
 sle_des_dx sle_des_dx
+gb_5 gb_5
 end type
 
 on externa.create
-this.gb_5=create gb_5
 this.st_12=create st_12
 this.pb_8=create pb_8
 this.pb_7=create pb_7
@@ -900,19 +898,19 @@ this.pb_5=create pb_5
 this.dw_cpo_sol=create dw_cpo_sol
 this.dw_dxext=create dw_dxext
 this.sle_des_dx=create sle_des_dx
-this.Control[]={this.gb_5,&
-this.st_12,&
+this.gb_5=create gb_5
+this.Control[]={this.st_12,&
 this.pb_8,&
 this.pb_7,&
 this.pb_6,&
 this.pb_5,&
 this.dw_cpo_sol,&
 this.dw_dxext,&
-this.sle_des_dx}
+this.sle_des_dx,&
+this.gb_5}
 end on
 
 on externa.destroy
-destroy(this.gb_5)
 destroy(this.st_12)
 destroy(this.pb_8)
 destroy(this.pb_7)
@@ -921,25 +919,8 @@ destroy(this.pb_5)
 destroy(this.dw_cpo_sol)
 destroy(this.dw_dxext)
 destroy(this.sle_des_dx)
+destroy(this.gb_5)
 end on
-
-type gb_5 from groupbox within externa
-integer x = 27
-integer y = 20
-integer width = 3918
-integer height = 356
-integer taborder = 50
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Tahoma"
-long textcolor = 33554432
-long backcolor = 67108864
-string text = "Datos Diagnósticos Solicitud:"
-borderstyle borderstyle = styleraised!
-end type
 
 type st_12 from statictext within externa
 integer x = 50
@@ -1102,6 +1083,12 @@ boolean livescroll = true
 end type
 
 event constructor;setTransObject(SQLCA)
+getchild('finali',idw_fincon)
+idw_fincon.settransobject(sqlca)
+getchild('cext',idw_causaex)
+idw_causaex.settransobject(sqlca)
+idw_fincon.retrieve('1')
+idw_causaex.retrieve('1')
 end event
 
 event doubleclicked;if t1.p4.dw_emppac.rowcount()=0 then return
@@ -1162,6 +1149,24 @@ string facename = "Tahoma"
 long textcolor = 33554432
 long backcolor = 15793151
 boolean focusrectangle = false
+end type
+
+type gb_5 from groupbox within externa
+integer x = 27
+integer y = 20
+integer width = 3918
+integer height = 356
+integer taborder = 50
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 67108864
+string text = "Datos Diagnósticos Solicitud:"
+borderstyle borderstyle = styleraised!
 end type
 
 type p1 from userobject within t1
@@ -1318,7 +1323,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-03-03"), Time("09:45:58.000000"))
+datetime value = DateTime(Date("2025-03-17"), Time("10:02:36.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -1345,7 +1350,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-03-03"), Time("09:45:58.000000"))
+datetime value = DateTime(Date("2025-03-17"), Time("10:02:36.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2627,7 +2632,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-03-03"), Time("09:45:58.000000"))
+datetime value = DateTime(Date("2025-03-17"), Time("10:02:36.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2652,7 +2657,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-03-03"), Time("09:45:58.000000"))
+datetime value = DateTime(Date("2025-03-17"), Time("10:02:36.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2843,7 +2848,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-03-03"), Time("09:45:58.000000"))
+datetime value = DateTime(Date("2025-03-17"), Time("10:02:36.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2867,7 +2872,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-03-03"), Time("09:45:58.000000"))
+datetime value = DateTime(Date("2025-03-17"), Time("10:02:36.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!

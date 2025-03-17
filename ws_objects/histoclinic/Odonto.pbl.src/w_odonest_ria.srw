@@ -76,9 +76,9 @@ global w_odonest_ria w_odonest_ria
 type variables
 string sexo_paci
 datawindow dw_obj
+DataWindowChild idw_fincon,idw_finproc,idw_causaex,idw_ambproc
 
 end variables
-
 on w_odonest_ria.create
 this.st_2=create st_2
 this.cbx_replica=create cbx_replica
@@ -147,6 +147,19 @@ else
 	lugar = 'clugar_his'
 end if
 dw_rias.SetTransObject(SQLCA)
+dw_rias.getchild('s_fin_consulta',idw_fincon)
+idw_fincon.settransobject(sqlca)
+dw_rias.getchild('s_finalidadproced',idw_finproc)
+idw_finproc.settransobject(SQLCA)
+dw_rias.getchild('s_causaexterna',idw_causaex)
+idw_causaex.settransobject(sqlca)
+dw_rias.getchild('s_ambitoproced',idw_ambproc)
+idw_ambproc.settransobject(sqlca)
+
+idw_fincon.retrieve('1')
+idw_finproc.retrieve('1')
+idw_causaex.retrieve('1')
+idw_ambproc.retrieve('1')
 dw_rias.retrieve(dw_obj.GetItemNumber(dw_obj.GetRow(),'contador'),dw_obj.GetItemString(dw_obj.GetRow(),lugar))
 sle_5.backcolor=rgb(255,255,200) //color crema para el mostrario de no obligatorio
 
