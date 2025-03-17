@@ -28,8 +28,6 @@ type em_1 from editmask within uo_hclin
 end type
 type st_muestra from singlelineedit within uo_hclin
 end type
-type dw_serv_old from datawindow within uo_hclin
-end type
 type uo_1 from uo_barra_hc within uo_hclin
 end type
 type dw_captur_histo from datawindow within uo_hclin
@@ -40,13 +38,7 @@ type dw_ls from datawindow within uo_hclin
 end type
 type pb_pvisible from picturebutton within uo_hclin
 end type
-type dw_meds_new from datawindow within uo_hclin
-end type
-type dw_res_old from datawindow within uo_hclin
-end type
 type pb_1 from picturebutton within uo_hclin
-end type
-type dw_img_old from datawindow within uo_hclin
 end type
 type t_procs from tab within uo_hclin
 end type
@@ -118,8 +110,6 @@ type dw_new from datawindow within uo_hclin
 end type
 type dw_1 from datawindow within uo_hclin
 end type
-type dw_deta from datawindow within uo_hclin
-end type
 type dw_plants from datawindow within uo_hclin
 end type
 type dw_res_new from datawindow within uo_hclin
@@ -128,16 +118,26 @@ type mle_2 from uo_multilineedit within uo_hclin
 end type
 type mle_3 from multilineedit within uo_hclin
 end type
-type mle_1 from uo_multilineedit within uo_hclin
+type dw_meds_new from datawindow within uo_hclin
 end type
 type dw_new_det from datawindow within uo_hclin
+end type
+type mle_1 from uo_multilineedit within uo_hclin
+end type
+type dw_deta from datawindow within uo_hclin
+end type
+type dw_img_old from datawindow within uo_hclin
+end type
+type dw_res_old from datawindow within uo_hclin
+end type
+type dw_serv_old from datawindow within uo_hclin
 end type
 type dw_procs_new from datawindow within uo_hclin
 end type
 end forward
 
 global type uo_hclin from userobject
-integer width = 5989
+integer width = 6359
 integer height = 2244
 boolean enabled = false
 long backcolor = 67108864
@@ -159,29 +159,29 @@ st_vertical st_vertical
 dw_histo dw_histo
 em_1 em_1
 st_muestra st_muestra
-dw_serv_old dw_serv_old
 uo_1 uo_1
 dw_captur_histo dw_captur_histo
 st_1 st_1
 dw_ls dw_ls
 pb_pvisible pb_pvisible
-dw_meds_new dw_meds_new
-dw_res_old dw_res_old
 pb_1 pb_1
-dw_img_old dw_img_old
 t_procs t_procs
 t_result_old t_result_old
 t_procs_old t_procs_old
 t_result t_result
 dw_new dw_new
 dw_1 dw_1
-dw_deta dw_deta
 dw_plants dw_plants
 dw_res_new dw_res_new
 mle_2 mle_2
 mle_3 mle_3
-mle_1 mle_1
+dw_meds_new dw_meds_new
 dw_new_det dw_new_det
+mle_1 mle_1
+dw_deta dw_deta
+dw_img_old dw_img_old
+dw_res_old dw_res_old
+dw_serv_old dw_serv_old
 dw_procs_new dw_procs_new
 end type
 global uo_hclin uo_hclin
@@ -202,11 +202,13 @@ boolean i_sivigila //para referesacr si se guardo una plantilla sivigla
 long i_nh,i_nactoqx
 datawindow i_dw_oscab
 blob imags[],objs[],imags1[]
+
+datawindowchild idw_finconp,idw_finprocp,idw_causaexp,idw_ambprocp, idw_finconm,idw_finprocm,idw_causaexm,idw_ambprocm
+datawindowchild idw_finconold,idw_finprocold,idw_causaexold,idw_ambprocold
 int i_nro_imags,i_actual_image,i_nobjs[],i_control
 //i_ing_sal:(I:ingreso , S:salida)
 uo_datastore  ids_hijos_histo
 end variables
-
 forward prototypes
 public subroutine mover (long xpos)
 public subroutine mover2 (long xpos)
@@ -1561,29 +1563,29 @@ this.st_vertical=create st_vertical
 this.dw_histo=create dw_histo
 this.em_1=create em_1
 this.st_muestra=create st_muestra
-this.dw_serv_old=create dw_serv_old
 this.uo_1=create uo_1
 this.dw_captur_histo=create dw_captur_histo
 this.st_1=create st_1
 this.dw_ls=create dw_ls
 this.pb_pvisible=create pb_pvisible
-this.dw_meds_new=create dw_meds_new
-this.dw_res_old=create dw_res_old
 this.pb_1=create pb_1
-this.dw_img_old=create dw_img_old
 this.t_procs=create t_procs
 this.t_result_old=create t_result_old
 this.t_procs_old=create t_procs_old
 this.t_result=create t_result
 this.dw_new=create dw_new
 this.dw_1=create dw_1
-this.dw_deta=create dw_deta
 this.dw_plants=create dw_plants
 this.dw_res_new=create dw_res_new
 this.mle_2=create mle_2
 this.mle_3=create mle_3
-this.mle_1=create mle_1
+this.dw_meds_new=create dw_meds_new
 this.dw_new_det=create dw_new_det
+this.mle_1=create mle_1
+this.dw_deta=create dw_deta
+this.dw_img_old=create dw_img_old
+this.dw_res_old=create dw_res_old
+this.dw_serv_old=create dw_serv_old
 this.dw_procs_new=create dw_procs_new
 this.Control[]={this.cb_modo,&
 this.dw_img_new,&
@@ -1598,29 +1600,29 @@ this.st_vertical,&
 this.dw_histo,&
 this.em_1,&
 this.st_muestra,&
-this.dw_serv_old,&
 this.uo_1,&
 this.dw_captur_histo,&
 this.st_1,&
 this.dw_ls,&
 this.pb_pvisible,&
-this.dw_meds_new,&
-this.dw_res_old,&
 this.pb_1,&
-this.dw_img_old,&
 this.t_procs,&
 this.t_result_old,&
 this.t_procs_old,&
 this.t_result,&
 this.dw_new,&
 this.dw_1,&
-this.dw_deta,&
 this.dw_plants,&
 this.dw_res_new,&
 this.mle_2,&
 this.mle_3,&
-this.mle_1,&
+this.dw_meds_new,&
 this.dw_new_det,&
+this.mle_1,&
+this.dw_deta,&
+this.dw_img_old,&
+this.dw_res_old,&
+this.dw_serv_old,&
 this.dw_procs_new}
 end on
 
@@ -1638,29 +1640,29 @@ destroy(this.st_vertical)
 destroy(this.dw_histo)
 destroy(this.em_1)
 destroy(this.st_muestra)
-destroy(this.dw_serv_old)
 destroy(this.uo_1)
 destroy(this.dw_captur_histo)
 destroy(this.st_1)
 destroy(this.dw_ls)
 destroy(this.pb_pvisible)
-destroy(this.dw_meds_new)
-destroy(this.dw_res_old)
 destroy(this.pb_1)
-destroy(this.dw_img_old)
 destroy(this.t_procs)
 destroy(this.t_result_old)
 destroy(this.t_procs_old)
 destroy(this.t_result)
 destroy(this.dw_new)
 destroy(this.dw_1)
-destroy(this.dw_deta)
 destroy(this.dw_plants)
 destroy(this.dw_res_new)
 destroy(this.mle_2)
 destroy(this.mle_3)
-destroy(this.mle_1)
+destroy(this.dw_meds_new)
 destroy(this.dw_new_det)
+destroy(this.mle_1)
+destroy(this.dw_deta)
+destroy(this.dw_img_old)
+destroy(this.dw_res_old)
+destroy(this.dw_serv_old)
 destroy(this.dw_procs_new)
 end on
 
@@ -2661,24 +2663,6 @@ boolean displayonly = true
 borderstyle borderstyle = stylelowered!
 end type
 
-type dw_serv_old from datawindow within uo_hclin
-boolean visible = false
-integer x = 5381
-integer width = 293
-integer height = 68
-integer taborder = 60
-boolean bringtotop = true
-string title = "none"
-string dataobject = "dw_rips_hc"
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event constructor;settransobject(sqlca)
-end event
-
 type uo_1 from uo_barra_hc within uo_hclin
 event keypres pbm_keydown
 integer x = 1545
@@ -2787,56 +2771,6 @@ string facename = "Tahoma"
 string picturename = "resultados.gif"
 end type
 
-type dw_meds_new from datawindow within uo_hclin
-boolean visible = false
-integer x = 1573
-integer y = 1032
-integer width = 4201
-integer height = 1052
-integer taborder = 60
-boolean enabled = false
-string title = "none"
-string dataobject = "dw_rips_os"
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event constructor;settransobject(sqlca)
-end event
-
-type dw_res_old from datawindow within uo_hclin
-event keypres pbm_dwnkey
-boolean visible = false
-integer x = 2098
-integer y = 92
-integer width = 3849
-integer height = 600
-integer taborder = 20
-boolean bringtotop = true
-string title = "none"
-string dataobject = "dw_xa_resul_hc"
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event keypres;if key=i_nextitem or key=i_previtem or key=i_nextchild then navegar(key)
-end event
-
-event constructor;settransobject(sqlca)
-end event
-
-event buttonclicked;if not isvalid(w_deta_kit) then
-	open(w_val_norm)
-	w_val_norm.dw_1.retrieve(getitemstring(getrow(),'codproced'),getitemnumber(getrow(),'consecampo'))
-	w_val_norm.setfocus()
-end if
-end event
-
-event clicked;if row>0 and row<>getrow() then setrow(row)
-end event
-
 type pb_1 from picturebutton within uo_hclin
 integer x = 462
 integer width = 91
@@ -2869,23 +2803,6 @@ st_filtros_hc st
 st.dw_histo=dw_histo
 st.dw_vals=dw_deta
 openwithparm(w_filtros_hc,st)
-end event
-
-type dw_img_old from datawindow within uo_hclin
-boolean visible = false
-integer x = 2098
-integer y = 92
-integer width = 3849
-integer height = 600
-integer taborder = 20
-boolean bringtotop = true
-string title = "none"
-string dataobject = "dw_resultados_imagen"
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event constructor;settransobject(sqlca)
 end event
 
 type t_procs from tab within uo_hclin
@@ -3542,63 +3459,6 @@ event losefocus;if AcceptText() = -1 then Return -1
 
 end event
 
-type dw_deta from datawindow within uo_hclin
-event rec_revisa_padre ( long padre )
-event keypres pbm_dwnkey
-integer x = 2098
-integer y = 88
-integer width = 3849
-integer height = 600
-integer taborder = 20
-boolean bringtotop = true
-string title = "none"
-string dataobject = "dw_hclin_valores"
-boolean hscrollbar = true
-boolean vscrollbar = true
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event rec_revisa_padre(long padre);if padre=0 then return
-if find('item='+string(padre),1,rowcount())=0 then
-	long donde,donde2
-	donde=dw_new.find('numcampo='+string(padre),1,dw_new.rowcount())
-	donde2=insertrow(getrow())
-	setitem(donde2,'item',dw_new.getitemnumber(donde,'numcampo'))
-	setitem(donde2,'padre',dw_new.getitemnumber(donde,'padre'))
-	setitem(donde2,'orden',dw_new.getitemnumber(donde,'orden'))
-	setitem(donde2,'descampo',dw_new.getitemstring(donde,'label'))
-	setitem(donde2,'tipo',dw_new.getitemstring(donde,'tipo'))
-	event rec_revisa_padre(dw_new.getitemnumber(donde,'padre'))
-end if
-end event
-
-event keypres;if key=i_nextitem or key=i_previtem or key=i_nextchild then navegar(key)
-end event
-
-event constructor;settransobject(sqlca)
-end event
-
-event dberror;return f_dw_error(sqldbcode,sqlsyntax,sqlerrtext,classname())
-end event
-
-event buttonclicked;if dwo.name='b_gra' then
-	st_xa_graficas l_st
-	if isnull(getitemnumber(row ,'numero')) then 
-		MessageBox("Atención", "No hay campo en la casilla de captura para evaluar")
-		return
-	end if
-	l_st.codplantilla=this.getitemstring(row,'codplantilla')
-	l_st.numcampo=this.getitemnumber(row,'item')
-	l_st.edad=w_principal.dw_1.getitemnumber(1,'dias')
-	l_st.sexo=w_principal.dw_1.getitemstring(1,'sexo')
-	l_st.origen=2
-	l_st.dw_captura=dw_deta
-	l_st.fecha=this.getitemdatetime(row,'freg')
-	openwithparm(w_grafica_hc,l_st)
-end if
-end event
-
 type dw_plants from datawindow within uo_hclin
 event pinta ( )
 event keypres pbm_dwnkey
@@ -3813,14 +3673,35 @@ string text = "none"
 borderstyle borderstyle = stylelowered!
 end type
 
-type mle_1 from uo_multilineedit within uo_hclin
-integer x = 2098
-integer y = 88
-integer width = 3849
-integer height = 628
-integer taborder = 50
-boolean bringtotop = true
+type dw_meds_new from datawindow within uo_hclin
+boolean visible = false
+integer x = 1573
+integer y = 1032
+integer width = 4402
+integer height = 1052
+integer taborder = 60
+boolean enabled = false
+string title = "none"
+string dataobject = "dw_rips_os"
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
 end type
+
+event constructor;settransobject(sqlca)
+getchild('s_fin_consulta',idw_finconm)
+idw_finconm.settransobject(sqlca)
+getchild('s_finalidadproced',idw_finprocm)
+idw_finprocm.settransobject(SQLCA)
+getchild('s_causaexterna',idw_causaexm)
+idw_causaexm.settransobject(sqlca)
+getchild('s_ambitoproced',idw_ambprocm)
+idw_ambprocm.settransobject(sqlca)
+
+idw_finconm.retrieve('1')
+idw_finprocm.retrieve('1')
+idw_causaexm.retrieve('1')
+idw_ambprocm.retrieve('1')
+end event
 
 type dw_new_det from datawindow within uo_hclin
 event keypres pbm_dwnkey
@@ -3830,7 +3711,6 @@ integer y = 984
 integer width = 4402
 integer height = 1152
 integer taborder = 30
-boolean bringtotop = true
 string title = "none"
 string dataobject = "dw_captur_histo"
 richtexttoolbaractivation richtexttoolbaractivation = richtexttoolbaractivationalways!
@@ -4485,6 +4365,150 @@ end event
 event losefocus;if AcceptText() = -1 then Return -1
 end event
 
+type mle_1 from uo_multilineedit within uo_hclin
+integer x = 2098
+integer y = 88
+integer width = 3849
+integer height = 628
+integer taborder = 50
+end type
+
+type dw_deta from datawindow within uo_hclin
+event rec_revisa_padre ( long padre )
+event keypres pbm_dwnkey
+integer x = 2098
+integer y = 88
+integer width = 3849
+integer height = 600
+integer taborder = 20
+string title = "none"
+string dataobject = "dw_hclin_valores"
+boolean hscrollbar = true
+boolean vscrollbar = true
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event rec_revisa_padre(long padre);if padre=0 then return
+if find('item='+string(padre),1,rowcount())=0 then
+	long donde,donde2
+	donde=dw_new.find('numcampo='+string(padre),1,dw_new.rowcount())
+	donde2=insertrow(getrow())
+	setitem(donde2,'item',dw_new.getitemnumber(donde,'numcampo'))
+	setitem(donde2,'padre',dw_new.getitemnumber(donde,'padre'))
+	setitem(donde2,'orden',dw_new.getitemnumber(donde,'orden'))
+	setitem(donde2,'descampo',dw_new.getitemstring(donde,'label'))
+	setitem(donde2,'tipo',dw_new.getitemstring(donde,'tipo'))
+	event rec_revisa_padre(dw_new.getitemnumber(donde,'padre'))
+end if
+end event
+
+event keypres;if key=i_nextitem or key=i_previtem or key=i_nextchild then navegar(key)
+end event
+
+event constructor;settransobject(sqlca)
+end event
+
+event dberror;return f_dw_error(sqldbcode,sqlsyntax,sqlerrtext,classname())
+end event
+
+event buttonclicked;if dwo.name='b_gra' then
+	st_xa_graficas l_st
+	if isnull(getitemnumber(row ,'numero')) then 
+		MessageBox("Atención", "No hay campo en la casilla de captura para evaluar")
+		return
+	end if
+	l_st.codplantilla=this.getitemstring(row,'codplantilla')
+	l_st.numcampo=this.getitemnumber(row,'item')
+	l_st.edad=w_principal.dw_1.getitemnumber(1,'dias')
+	l_st.sexo=w_principal.dw_1.getitemstring(1,'sexo')
+	l_st.origen=2
+	l_st.dw_captura=dw_deta
+	l_st.fecha=this.getitemdatetime(row,'freg')
+	openwithparm(w_grafica_hc,l_st)
+end if
+end event
+
+type dw_img_old from datawindow within uo_hclin
+boolean visible = false
+integer x = 2098
+integer y = 92
+integer width = 3849
+integer height = 600
+integer taborder = 20
+string title = "none"
+string dataobject = "dw_resultados_imagen"
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event constructor;settransobject(sqlca)
+end event
+
+type dw_res_old from datawindow within uo_hclin
+event keypres pbm_dwnkey
+boolean visible = false
+integer x = 2098
+integer y = 92
+integer width = 3849
+integer height = 600
+integer taborder = 20
+string title = "none"
+string dataobject = "dw_xa_resul_hc"
+boolean hscrollbar = true
+boolean vscrollbar = true
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event keypres;if key=i_nextitem or key=i_previtem or key=i_nextchild then navegar(key)
+end event
+
+event constructor;settransobject(sqlca)
+end event
+
+event buttonclicked;if not isvalid(w_deta_kit) then
+	open(w_val_norm)
+	w_val_norm.dw_1.retrieve(getitemstring(getrow(),'codproced'),getitemnumber(getrow(),'consecampo'))
+	w_val_norm.setfocus()
+end if
+end event
+
+event clicked;if row>0 and row<>getrow() then setrow(row)
+end event
+
+type dw_serv_old from datawindow within uo_hclin
+boolean visible = false
+integer x = 5381
+integer width = 293
+integer height = 68
+integer taborder = 60
+boolean bringtotop = true
+string title = "none"
+string dataobject = "dw_rips_hc"
+boolean hscrollbar = true
+boolean vscrollbar = true
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event constructor;settransobject(sqlca)
+getchild('fin_consulta',idw_finconold)
+idw_finconold.settransobject(sqlca)
+getchild('finalidadproced',idw_finprocold)
+idw_finprocold.settransobject(SQLCA)
+getchild('causaexterna',idw_causaexold)
+idw_causaexold.settransobject(sqlca)
+getchild('ambitoproced',idw_ambprocold)
+idw_ambprocold.settransobject(sqlca)
+
+idw_finconold.retrieve('%')
+idw_finprocold.retrieve('%')
+idw_causaexold.retrieve('%')
+idw_ambprocold.retrieve('%')
+
+end event
+
 type dw_procs_new from datawindow within uo_hclin
 boolean visible = false
 integer x = 1568
@@ -4502,6 +4526,19 @@ borderstyle borderstyle = stylelowered!
 end type
 
 event constructor;settransobject(sqlca)
+getchild('fin_consulta',idw_finconp)
+idw_finconp.settransobject(sqlca)
+getchild('finalidadproced',idw_finprocp)
+idw_finprocp.settransobject(SQLCA)
+getchild('causaexterna',idw_causaexp)
+idw_causaexp.settransobject(sqlca)
+getchild('ambitoproced',idw_ambprocp)
+idw_ambprocp.settransobject(sqlca)
+
+idw_finconp.retrieve('1')
+idw_finprocp.retrieve('1')
+idw_causaexp.retrieve('1')
+idw_ambprocp.retrieve('1')
 end event
 
 event itemchanged;choose case getcolumnname()

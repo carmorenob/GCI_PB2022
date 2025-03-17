@@ -107,6 +107,7 @@ string proc_cita,clug_cita
 boolean lb_mult=false
 ncita=w_asig_cita.dw_1.getitemnumber(w_asig_cita.dw_1.getrow(),"ncita"+right(w_asig_cita.dw_1.getcolumnname(),1))
 clug_cita=w_asig_cita.i_clug
+DataWindowChild idw_finconanula
 
 
 /// Para veriifcar citas con mas de un producto
@@ -116,6 +117,9 @@ WHERE (((SerciosCita.NCita)=:ncita) AND ((SerciosCita.clugar)=:clug_cita));
 if l_n_citas>1 then
 	anula.dataobject="dw_xa_anular_cita_productos"	
 	ojo=anula.settransobject(sqlca)
+	anula.getchild('cod_fina',idw_finconanula)
+	idw_finconanula.settransobject(sqlca)	
+	idw_finconanula.retrieve('1')	
 	ojo=anula.retrieve(ncita,clug_cita)	
 	lb_mult=true
 else
@@ -135,10 +139,16 @@ else
 	if l_n_citas=1 and l_n_turno>1 then
 		anula.dataobject="dw_xa_anular_cita_cupos"	
 		ojo=anula.settransobject(sqlca)
+		anula.getchild('cod_fina',idw_finconanula)
+		idw_finconanula.settransobject(sqlca)	
+		idw_finconanula.retrieve('1')		
 		ojo=anula.retrieve(ncita,l_nser,proc_cita,clug_cita)
 	else
 		anula.dataobject="dw_xa_anular_cita"	
 		ojo=anula.settransobject(sqlca)
+		anula.getchild('cod_fina',idw_finconanula)
+		idw_finconanula.settransobject(sqlca)	
+		idw_finconanula.retrieve('1')		
 		ojo=anula.retrieve(ncita,sec_cant,proc_cita,clug_cita)
 	end if
 end if

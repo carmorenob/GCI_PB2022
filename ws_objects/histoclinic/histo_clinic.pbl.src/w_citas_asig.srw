@@ -217,7 +217,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2024-06-23"), Time("14:01:23.000000"))
+datetime value = DateTime(Date("2025-03-14"), Time("16:14:46.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -1035,7 +1035,7 @@ end event
 event constructor;settransobject(sqlca)
 getchild("desfin",idw_fincon)
 idw_fincon.settransobject(sqlca)
-idw_fincon.retrieve()
+idw_fincon.retrieve('1')
 end event
 
 event itemchanged;if getcolumnname()='desfin' then 

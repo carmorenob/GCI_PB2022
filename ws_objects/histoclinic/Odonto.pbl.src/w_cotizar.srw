@@ -462,15 +462,6 @@ type dw_factura_cpo from w_factura_base`dw_factura_cpo within w_cotizar
 integer x = 3721
 end type
 
-type p_1 from w_factura_base`p_1 within w_cotizar
-boolean visible = false
-integer x = 3680
-integer y = 768
-integer width = 64
-boolean enabled = false
-boolean originalsize = false
-end type
-
 type st_5 from w_factura_base`st_5 within w_cotizar
 integer y = 468
 end type

@@ -658,6 +658,7 @@ end function
 
 public function integer anular (string p_motivo, string p_codigo);uo_datastore anula
 anula=create uo_datastore
+DataWindowChild idw_finconanula
 
 long ncita,activos,sec_cant,j,ojo,fact,l_n_citas,l_n_turno,l_nser
 string prof_cita,proc_cita
@@ -672,6 +673,9 @@ WHERE (((SerciosCita.NCita)=:ncita) AND ((SerciosCita.clugar)=:i_clug));
 if l_n_citas>1 then
 	anula.dataobject="dw_xa_anular_cita_productos"	
 	ojo=anula.settransobject(sqlca)
+	anula.getchild('cod_fina',idw_finconanula)
+	idw_finconanula.settransobject(sqlca)	
+	idw_finconanula.retrieve('1')
 	ojo=anula.retrieve(ncita,i_clug)	
 else
 	///para verificar el numero de citas y los turnos respectivos
@@ -690,10 +694,16 @@ else
 	if l_n_citas=1 and l_n_turno>1 then
 		anula.dataobject="dw_xa_anular_cita_cupos"	
 		ojo=anula.settransobject(sqlca)
+		anula.getchild('cod_fina',idw_finconanula)
+		idw_finconanula.settransobject(sqlca)	
+		idw_finconanula.retrieve('1')
 		ojo=anula.retrieve(ncita,l_nser,proc_cita,i_clug)
 	else
 		anula.dataobject="dw_xa_anular_cita"	
 		ojo=anula.settransobject(sqlca)
+		anula.getchild('cod_fina',idw_finconanula)
+		idw_finconanula.settransobject(sqlca)	
+		idw_finconanula.retrieve('1')		
 		ojo=anula.retrieve(ncita,sec_cant,proc_cita,i_clug)
 	end if
 end if

@@ -39,14 +39,48 @@ FROM
 	AND (historial.Contador = oscabeza.Contador)) 
 	INNER JOIN oscuerpo ON (oscabeza.NSolicitud = oscuerpo.NSolicitud) 
 	AND (oscabeza.clugar = oscuerpo.clugar) AND (oscabeza.Contador = oscuerpo.Contador)) 
-	LEFT outer JOIN grupocitaproc ON oscuerpo.CodProced = grupocitaproc.CodProced) 
+	INNER JOIN grupocitaproc ON oscuerpo.CodProced = grupocitaproc.CodProced) 
 	INNER JOIN Proced ON oscuerpo.CodProced = Proced.CodProced
 WHERE 
 	(((historial.TipoDoc)=:tipodoc) 
 	AND ((historial.Documento)=:documento) 
-	AND ((oscabeza.estado)<>'3') AND ((historial.IndApDx)='0' Or (historial.IndApDx)='5') 
+	AND ((oscabeza.estado)<>'3') 
+	AND ((historial.IndApDx)='0' Or (historial.IndApDx)='5') 
 	AND ((oscuerpo.solicitada)>oscuerpo.cant_encita) 
-	AND ((grupocitaproc.codgc)=:codgr))
+	AND ((grupocitaproc.codgc) = :codgr))
+GROUP BY 
+	oscuerpo.Contador, oscuerpo.clugar, oscuerpo.NSolicitud, oscuerpo.Item, 
+	oscuerpo.CodProced, oscuerpo.Examen, oscuerpo.solicitada, oscuerpo.TipoRep, 
+	oscuerpo.registrada, oscuerpo.cant_encita,
+	oscuerpo.solicitada-oscuerpo.cant_encita, oscuerpo.ntratamiento, 
+	oscuerpo.clugar_tto, oscuerpo.item_tto, historial.Fecha,proced.cod_cups,proced.cod_version
+
+UNION ALL
+
+SELECT 
+	oscuerpo.Contador, oscuerpo.clugar, oscuerpo.NSolicitud, 
+	oscuerpo.Item, oscuerpo.CodProced, oscuerpo.Examen, oscuerpo.solicitada as cantidad, 
+	oscuerpo.TipoRep, oscuerpo.registrada, oscuerpo.cant_encita, 0 AS selec, 
+	oscuerpo.solicitada - oscuerpo.cant_encita AS pendiente, 
+	oscuerpo.ntratamiento, oscuerpo.clugar_tto, 
+	oscuerpo.item_tto, historial.Fecha, Min(procgclinico.NTurnos) AS NTurnos, 
+	Min(procgclinico.secuencia) AS secuencia,0 as c_llevar,proced.cod_cups,proced.cod_version
+FROM 
+	(((((historial 
+	INNER JOIN oscabeza ON (historial.clugar = oscabeza.clugar) AND (historial.contador = oscabeza.contador)) 
+	INNER JOIN oscuerpo ON (oscabeza.nsolicitud = oscuerpo.nsolicitud) AND (oscabeza.clugar = oscuerpo.clugar) 
+	AND (oscabeza.contador = oscuerpo.contador)) 
+	INNER JOIN procgclinico ON oscuerpo.codproced = procgclinico.codproced) 
+	INNER JOIN gclinico ON procgclinico.codgc = gclinico.codgc) 
+	INNER JOIN grupocita ON gclinico.codaadx = grupocita.codaadx) 
+	INNER JOIN proced ON oscuerpo.codproced = proced.codproced
+WHERE 
+	(((historial.TipoDoc)=:tipodoc) 
+	AND ((historial.Documento)=:documento) 
+	AND ((oscabeza.estado)<>'3') 
+	AND ((historial.IndApDx)='0' Or (historial.IndApDx)='5') 
+	AND ((oscuerpo.solicitada)>oscuerpo.cant_encita) 
+	AND ((grupocita.codgc) = :codgr))
 GROUP BY 
 	oscuerpo.Contador, oscuerpo.clugar, oscuerpo.NSolicitud, oscuerpo.Item, 
 	oscuerpo.CodProced, oscuerpo.Examen, oscuerpo.solicitada, oscuerpo.TipoRep, 
@@ -84,4 +118,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=0 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 

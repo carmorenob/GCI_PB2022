@@ -115,11 +115,11 @@ global w_new_estad_ria_os w_new_estad_ria_os
 type variables
 string sexo_paci,i_est_hadm,i_clug_hadm,i_cemp,i_ccont,i_nautoriza,i_tingreso
 long i_nh,i_norden
-datawindowchild idw_ufun,idw_cc,idw_espe,idw_causaex,idw_finproc
+datawindowchild idw_ufun,idw_cc,idw_espe
+DataWindowChild idw_fincon,idw_finproc,idw_causaex,idw_ambproc
 trae i_st
 string i_cambio='n',i_cdiaging,i_causaext,i_fin_consulta,i_tipodx,i_mueve_kardex
 end variables
-
 on w_new_estad_ria_os.create
 this.dw_entregas=create dw_entregas
 this.st_desproc=create st_desproc
@@ -1570,6 +1570,21 @@ end if
 end event
 
 event itemerror;return 1
+end event
+
+event constructor;getchild('s_fin_consulta',idw_fincon)
+idw_fincon.settransobject(sqlca)
+getchild('s_finalidadproced',idw_finproc)
+idw_finproc.settransobject(SQLCA)
+getchild('s_causaexterna',idw_causaex)
+idw_causaex.settransobject(sqlca)
+getchild('s_ambitoproced',idw_ambproc)
+idw_ambproc.settransobject(sqlca)
+
+idw_fincon.retrieve('1')
+idw_finproc.retrieve('1')
+idw_causaex.retrieve('1')
+idw_ambproc.retrieve('1')
 end event
 
 type sle_4 from singlelineedit within w_new_estad_ria_os

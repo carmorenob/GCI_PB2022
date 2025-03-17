@@ -251,7 +251,7 @@ global w_captur_rip w_captur_rip
 type variables
 int xant,yant
 string sexo_paci,orden,anterior,ord,ant,is_cext
-datawindowchild dw_contrato,gc_regimen,idw_causaex,idw_finproc
+datawindowchild dw_contrato,gc_regimen,idw_finconr,idw_finprocr,idw_causaexr,idw_ambprocr
 end variables
 on w_captur_rip.create
 this.tab_1=create tab_1
@@ -2123,9 +2123,9 @@ choose case colum
 	case 64,65,66,67,68
 		if data<>"" then
 			setnull(veri)
-			veri=idw_causaex.find("codcausaexter ='"+this.getitemstring(row,'causaexterna')+"'",1,idw_causaex.rowcount())
+			veri=idw_causaexr.find("codcausaexter ='"+this.getitemstring(row,'causaexterna')+"'",1,idw_causaexr.rowcount())
 			if veri>0 then
-				is_cext=idw_causaex.getitemstring(veri,'dxrel')
+				is_cext=idw_causaexr.getitemstring(veri,'dxrel')
 			else
 				is_cext='0'
 			end if
@@ -2215,9 +2215,9 @@ choose case colum
 		if this.getitemstring(row,colum)<>"" then
 			
 			setnull(veri)
-			veri=idw_causaex.find("codcausaexter ='"+this.getitemstring(row,'causaexterna')+"'",1,idw_causaex.rowcount())
+			veri=idw_causaexr.find("codcausaexter ='"+this.getitemstring(row,'causaexterna')+"'",1,idw_causaexr.rowcount())
 			if veri>0 then
-				is_cext=idw_causaex.getitemstring(veri,'dxrel')
+				is_cext=idw_causaexr.getitemstring(veri,'dxrel')
 			else
 				is_cext='0'
 			end if	
@@ -2271,11 +2271,20 @@ st_edad.text=this.getitemstring(cual,"edad")
 st_fact.text=string(this.getitemnumber(cual,"nfactura"))
 end event
 
-event constructor;getchild('s_finalidadproced',idw_finproc)
-getchild('s_causaexterna',idw_causaex)
-idw_causaex.settransobject(sqlca)
-idw_finproc.settransobject(SQLCA)
-settransobject(sqlca)
+event constructor;dw_rias.settransobject(sqlca)
+dw_rias.getchild('s_fin_consulta',idw_finconr)
+idw_finconr.settransobject(sqlca)
+dw_rias.getchild('s_finalidadproced',idw_finprocr)
+idw_finprocr.settransobject(SQLCA)
+dw_rias.getchild('s_causaexterna',idw_causaexr)
+idw_causaexr.settransobject(sqlca)
+dw_rias.getchild('s_ambitoproced',idw_ambprocr)
+idw_ambprocr.settransobject(sqlca)
+
+idw_finconr.retrieve('1')
+idw_finprocr.retrieve('1')
+idw_causaexr.retrieve('1')
+idw_ambprocr.retrieve('1')
 end event
 
 event itemerror;return 1

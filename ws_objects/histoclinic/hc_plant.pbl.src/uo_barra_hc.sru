@@ -86,6 +86,7 @@ singlelineedit i_st
 datawindow idw_results,idw_dats,idw_memos, idw_frm
 uo_hclin i_uo_padre
 end variables
+
 forward prototypes
 public subroutine retrieve (integer p_item)
 public function integer f_enlaza_ordenes (string p_codigo, string p_tipo, string p_agrupserv)
@@ -1653,6 +1654,10 @@ getchild('finconsulta',idw_fincon)
 idw_fincon.settransobject(sqlca)
 getchild('cod_modrel',idw_modrea)
 idw_modrea.settransobject(sqlca)
+
+idw_finalidad.retrieve('1')
+idw_causaext.retrieve('1')
+idw_fincon.retrieve('1')
 
 string ls_sex
 int li_dias

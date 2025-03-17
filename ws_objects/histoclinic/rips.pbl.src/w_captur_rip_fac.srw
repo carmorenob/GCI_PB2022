@@ -117,7 +117,7 @@ global w_captur_rip_fac w_captur_rip_fac
 type variables
 int xant,yant
 string sexo_paci,orden,anterior,ord,ant,is_cext
-datawindowchild dw_contrato,idw_causaex,idw_finproc
+datawindowchild dw_contrato,idw_finconr,idw_finprocr,idw_causaexr,idw_ambprocr
 end variables
 on w_captur_rip_fac.create
 this.pb_1=create pb_1
@@ -222,6 +222,21 @@ destroy(this.gb_2)
 end on
 
 event open;dw_rias.settransobject(sqlca)
+dw_rias.getchild('s_fin_consulta',idw_finconr)
+idw_finconr.settransobject(sqlca)
+dw_rias.getchild('s_finalidadproced',idw_finprocr)
+idw_finprocr.settransobject(SQLCA)
+dw_rias.getchild('s_causaexterna',idw_causaexr)
+idw_causaexr.settransobject(sqlca)
+dw_rias.getchild('s_ambitoproced',idw_ambprocr)
+idw_ambprocr.settransobject(sqlca)
+
+idw_finconr.retrieve('1')
+idw_finprocr.retrieve('1')
+idw_causaexr.retrieve('1')
+idw_ambprocr.retrieve('1')
+
+
 st_factus st
 st=message.powerobjectparm
 
@@ -231,19 +246,15 @@ else
 	close(this)
 end if
 
-dw_rias.getchild('s_finalidadproced',idw_finproc)
-dw_rias.getchild('s_causaexterna',idw_causaex)
-idw_causaex.settransobject(sqlca)
-idw_finproc.settransobject(SQLCA)
-idw_causaex.setfilter("xa_cext='1'")
-idw_causaex.filter()
+idw_causaexr.setfilter("xa_cext='1'")
+idw_causaexr.filter()
 string ls_sex
 int li_dias
 li_dias=w_principal.dw_1.getitemnumber(1,'dias')
 if w_principal.dw_1.getitemstring(1,'sexo')="F" then ls_sex='2'
 if w_principal.dw_1.getitemstring(1,'sexo')="M" then ls_sex='1'
-idw_finproc.setfilter(" indsexo in('0','"+ls_sex+"') and  "+string(li_dias)+">=edadini  and  "+string(li_dias)+"<=edadfin ")
-idw_finproc.filter()
+idw_finprocr.setfilter(" indsexo in('0','"+ls_sex+"') and  "+string(li_dias)+">=edadini  and  "+string(li_dias)+"<=edadfin ")
+idw_finprocr.filter()
 end event
 
 type pb_1 from picturebutton within w_captur_rip_fac
@@ -1075,9 +1086,9 @@ choose case colum
 	case 64,65,66,67,68
 		if data<>"" then
 			setnull(veri)
-			veri=idw_causaex.find("codcausaexter ='"+this.getitemstring(row,'causaexterna')+"'",1,idw_causaex.rowcount())
+			veri=idw_causaexr.find("codcausaexter ='"+this.getitemstring(row,'causaexterna')+"'",1,idw_causaexr.rowcount())
 			if veri>0 then
-				is_cext=idw_causaex.getitemstring(veri,'dxrel')
+				is_cext=idw_causaexr.getitemstring(veri,'dxrel')
 			else
 				is_cext='0'
 			end if					
@@ -1179,9 +1190,9 @@ choose case colum
 	case 64,65,66,67,68
 		if this.getitemstring(row,colum)<>"" then
 			setnull(veri)
-			veri=idw_causaex.find("codcausaexter ='"+this.getitemstring(row,'causaexterna')+"'",1,idw_causaex.rowcount())
+			veri=idw_causaexr.find("codcausaexter ='"+this.getitemstring(row,'causaexterna')+"'",1,idw_causaexr.rowcount())
 			if veri>0 then
-				is_cext=idw_causaex.getitemstring(veri,'dxrel')
+				is_cext=idw_causaexr.getitemstring(veri,'dxrel')
 			else
 				is_cext='0'
 			end if					

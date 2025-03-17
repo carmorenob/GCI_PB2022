@@ -5,27 +5,27 @@ header(height=64 color="536870912" transparency="0" gradient.color="8421504" gra
 summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 detail(height=64 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
-table(column=(type=number updatewhereclause=yes name=contador dbname="PROCED.Contador" )
- column=(type=char(2) updatewhereclause=yes name=clugar dbname="PROCED.clugar" )
- column=(type=long updatewhereclause=yes name=nsolicitud dbname="PROCED.NSolicitud" )
- column=(type=long updatewhereclause=yes name=item dbname="PROCED.Item" )
- column=(type=char(15) updatewhereclause=yes key=yes name=codproced dbname="PROCED.CodProced" )
- column=(type=char(255) updatewhereclause=yes name=examen dbname="PROCED.Examen" )
- column=(type=long updatewhereclause=yes name=cantidad dbname="PROCED.cantidad" )
- column=(type=char(2) updatewhereclause=yes name=tiporep dbname="PROCED.TipoRep" )
- column=(type=char(1) updatewhereclause=yes name=registrada dbname="PROCED.registrada" )
- column=(type=long updatewhereclause=yes name=cant_encita dbname="PROCED.cant_encita" )
+table(column=(type=number updatewhereclause=yes name=contador dbname="contador" )
+ column=(type=char(2) updatewhereclause=yes name=clugar dbname="clugar" )
+ column=(type=long updatewhereclause=yes name=nsolicitud dbname="nsolicitud" )
+ column=(type=long updatewhereclause=yes name=item dbname="item" )
+ column=(type=char(15) updatewhereclause=yes name=codproced dbname="codproced" )
+ column=(type=char(255) updatewhereclause=yes name=examen dbname="examen" )
+ column=(type=long updatewhereclause=yes name=cantidad dbname="cantidad" )
+ column=(type=char(2) updatewhereclause=yes name=tiporep dbname="tiporep" )
+ column=(type=char(1) updatewhereclause=yes name=registrada dbname="registrada" )
+ column=(type=long updatewhereclause=yes name=cant_encita dbname="cant_encita" )
  column=(type=long updatewhereclause=yes name=selec dbname="selec" values="	1/	0" )
  column=(type=long updatewhereclause=yes name=pendiente dbname="pendiente" )
- column=(type=number updatewhereclause=yes name=ntratamiento dbname="PROCED.ntratamiento" )
- column=(type=char(2) updatewhereclause=yes name=clugar_tto dbname="PROCED.clugar_tto" )
- column=(type=long updatewhereclause=yes name=item_tto dbname="PROCED.item_tto" )
- column=(type=datetime updatewhereclause=yes name=fecha dbname="PROCED.Fecha" )
- column=(type=long updatewhereclause=yes name=nturnos dbname="NTurnos" )
- column=(type=char(1) updatewhereclause=yes name=secuencia dbname="secuencia" values="Seguidos	1/Separados	2/" )
+ column=(type=number updatewhereclause=yes name=ntratamiento dbname="ntratamiento" )
+ column=(type=char(2) updatewhereclause=yes name=clugar_tto dbname="clugar_tto" )
+ column=(type=long updatewhereclause=yes name=item_tto dbname="item_tto" )
+ column=(type=datetime updatewhereclause=yes name=fecha dbname="fecha" )
+ column=(type=long updatewhereclause=yes name=nturnos dbname="nturnos" )
+ column=(type=char(8190) updatewhereclause=yes name=secuencia dbname="secuencia" values="Seguidos	1/Separados	2/" )
  column=(type=long updatewhereclause=yes name=c_llevar dbname="c_llevar" validation="long(gettext())>=0 and long(gettext())<=pendiente" validationmsg="'Cantidad no válida'" )
- column=(type=char(15) updatewhereclause=yes name=cod_cups dbname="PROCED.cod_cups" )
- column=(type=char(4) updatewhereclause=yes name=cod_version dbname="PROCED.cod_version" )
+ column=(type=char(15) updatewhereclause=yes name=cod_cups dbname="cod_cups" )
+ column=(type=char(4) updatewhereclause=yes name=cod_version dbname="cod_version" )
  retrieve="SELECT 
 	oscuerpo.Contador, oscuerpo.clugar, oscuerpo.NSolicitud, 
 	oscuerpo.Item, oscuerpo.CodProced, oscuerpo.Examen, oscuerpo.solicitada as cantidad, 
@@ -39,11 +39,16 @@ FROM
 	AND (historial.Contador = oscabeza.Contador)) 
 	INNER JOIN oscuerpo ON (oscabeza.NSolicitud = oscuerpo.NSolicitud) 
 	AND (oscabeza.clugar = oscuerpo.clugar) AND (oscabeza.Contador = oscuerpo.Contador)) 
-	LEFT outer JOIN grupocitaproc ON oscuerpo.CodProced = grupocitaproc.CodProced) 
+	INNER JOIN grupocitaproc ON oscuerpo.CodProced = grupocitaproc.CodProced) 
 	INNER JOIN Proced ON oscuerpo.CodProced = Proced.CodProced
 WHERE
- 	historial.TipoDoc=:tipodoc AND historial.Documento=:documento AND oscabeza.estado<>'3' 
-	AND Historial.IndApDx<>'0' AND 	oscuerpo.solicitada>oscuerpo.cant_encita and OSCabeza.tipo_orden='S'
+ 	((historial.TipoDoc=:tipodoc)
+	AND (historial.Documento=:documento)
+	AND (oscabeza.estado<>'3')
+	AND (Historial.IndApDx<>'0')
+	AND ((grupocitaproc.codgc) = :codgr)	
+	AND (oscuerpo.solicitada>oscuerpo.cant_encita)
+	AND (OSCabeza.tipo_orden='S'))
 GROUP BY 
 	oscuerpo.Contador, oscuerpo.clugar, oscuerpo.NSolicitud, oscuerpo.Item, 
 	oscuerpo.CodProced, oscuerpo.Examen, oscuerpo.solicitada, oscuerpo.TipoRep, 
@@ -51,7 +56,39 @@ GROUP BY
 	oscuerpo.solicitada-oscuerpo.cant_encita, oscuerpo.ntratamiento, 
 	oscuerpo.clugar_tto, oscuerpo.item_tto, historial.Fecha,proced.cod_cups,proced.cod_version
 
-" update="Proced" updatewhere=0 updatekeyinplace=no arguments=(("tipodoc", string),("documento", string))  sort="contador D nsolicitud A item A " )
+UNION ALL
+
+SELECT 
+	oscuerpo.Contador, oscuerpo.clugar, oscuerpo.NSolicitud, 
+	oscuerpo.Item, oscuerpo.CodProced, oscuerpo.Examen, oscuerpo.solicitada as cantidad, 
+	oscuerpo.TipoRep, oscuerpo.registrada, oscuerpo.cant_encita, 0 AS selec, 
+	oscuerpo.solicitada - oscuerpo.cant_encita AS pendiente, 
+	oscuerpo.ntratamiento, oscuerpo.clugar_tto, 
+	oscuerpo.item_tto, historial.Fecha, Min(procgclinico.NTurnos) AS NTurnos, 
+	Min(procgclinico.secuencia) AS secuencia,0 as c_llevar,proced.cod_cups,proced.cod_version
+FROM 
+	(((((historial 
+	INNER JOIN oscabeza ON (historial.clugar = oscabeza.clugar) AND (historial.contador = oscabeza.contador)) 
+	INNER JOIN oscuerpo ON (oscabeza.nsolicitud = oscuerpo.nsolicitud) AND (oscabeza.clugar = oscuerpo.clugar) 
+	AND (oscabeza.contador = oscuerpo.contador)) 
+	INNER JOIN procgclinico ON oscuerpo.codproced = procgclinico.codproced) 
+	INNER JOIN gclinico ON procgclinico.codgc = gclinico.codgc) 
+	INNER JOIN grupocita ON gclinico.codaadx = grupocita.codaadx) 
+	INNER JOIN proced ON oscuerpo.codproced = proced.codproced
+WHERE 
+	(((historial.TipoDoc)=:tipodoc) 
+	AND ((historial.Documento)=:documento) 
+	AND ((oscabeza.estado)<>'3') 
+	AND ((historial.IndApDx)<>'0' AND (historial.IndApDx)<>'5') 
+	AND ((oscuerpo.solicitada)>oscuerpo.cant_encita) 
+	AND ((grupocita.codgc) = :codgr)
+	AND (OSCabeza.tipo_orden='S'))
+GROUP BY 
+	oscuerpo.Contador, oscuerpo.clugar, oscuerpo.NSolicitud, oscuerpo.Item, 
+	oscuerpo.CodProced, oscuerpo.Examen, oscuerpo.solicitada, oscuerpo.TipoRep, 
+	oscuerpo.registrada, oscuerpo.cant_encita,
+	oscuerpo.solicitada-oscuerpo.cant_encita, oscuerpo.ntratamiento, 
+	oscuerpo.clugar_tto, oscuerpo.item_tto, historial.Fecha,proced.cod_cups,proced.cod_version" arguments=(("tipodoc", string),("documento", string),("codgr", string))  sort="contador D nsolicitud A item A " )
 group(level=1 header.height=64 trailer.height=0 by=("contador" , "nsolicitud" ) header.color="67108864" header.transparency="0" header.gradient.color="8421504" header.gradient.transparency="0" header.gradient.angle="0" header.brushmode="0" header.gradient.repetition.mode="0" header.gradient.repetition.count="0" header.gradient.repetition.length="100" header.gradient.focus="0" header.gradient.scale="100" header.gradient.spread="100" trailer.color="536870912" trailer.transparency="0" trailer.gradient.color="8421504" trailer.gradient.transparency="0" trailer.gradient.angle="0" trailer.brushmode="0" trailer.gradient.repetition.mode="0" trailer.gradient.repetition.count="0" trailer.gradient.repetition.length="100" trailer.gradient.focus="0" trailer.gradient.scale="100" trailer.gradient.spread="100" )
 text(band=header alignment="2" text="Selec." border="0" color="33554432" x="9" y="4" height="56" width="137" html.valueishtml="0"  name=selec_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="2" text="Item" border="0" color="0" x="155" y="4" height="56" width="128" html.valueishtml="0"  name=item_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )

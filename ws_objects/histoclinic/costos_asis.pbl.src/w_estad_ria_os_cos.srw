@@ -142,8 +142,8 @@ long i_nh,i_norden,i_nserv_cos
 datawindowchild idw_ufun,idw_cc,idw_espe
 trae i_st
 string i_cambio='n',i_cdiaging,i_causaext
+DataWindowChild idw_fincon,idw_finproc,idw_causaex,idw_ambproc
 end variables
-
 on w_estad_ria_os_cos.create
 this.st_4=create st_4
 this.dw_canasta=create dw_canasta
@@ -1601,6 +1601,19 @@ next
 end event
 
 event constructor;settransobject(sqlca)
+getchild('s_fin_consulta',idw_fincon)
+idw_fincon.settransobject(sqlca)
+getchild('s_finalidadproced',idw_finproc)
+idw_finproc.settransobject(SQLCA)
+getchild('s_causaexterna',idw_causaex)
+idw_causaex.settransobject(sqlca)
+getchild('s_ambitoproced',idw_ambproc)
+idw_ambproc.settransobject(sqlca)
+
+idw_fincon.retrieve('1')
+idw_finproc.retrieve('1')
+idw_causaex.retrieve('1')
+idw_ambproc.retrieve('1')
 end event
 
 event dberror;return f_dw_error(sqldbcode,sqlsyntax,sqlerrtext,classname())

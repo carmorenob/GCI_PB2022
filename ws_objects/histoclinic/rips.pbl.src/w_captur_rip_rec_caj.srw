@@ -117,9 +117,8 @@ global w_captur_rip_rec_caj w_captur_rip_rec_caj
 type variables
 int xant,yant
 string sexo_paci,orden,anterior,ord,ant
-datawindowchild dw_contrato
+datawindowchild dw_contrato,idw_finconr,idw_finprocr,idw_causaexr,idw_ambprocr
 end variables
-
 on w_captur_rip_rec_caj.create
 this.pb_1=create pb_1
 this.st_fact=create st_fact
@@ -223,6 +222,21 @@ destroy(this.gb_2)
 end on
 
 event open;dw_rias.settransobject(sqlca)
+dw_rias.getchild('s_fin_consulta',idw_finconr)
+idw_finconr.settransobject(sqlca)
+dw_rias.getchild('s_finalidadproced',idw_finprocr)
+idw_finprocr.settransobject(SQLCA)
+dw_rias.getchild('s_causaexterna',idw_causaexr)
+idw_causaexr.settransobject(sqlca)
+dw_rias.getchild('s_ambitoproced',idw_ambprocr)
+idw_ambprocr.settransobject(sqlca)
+
+idw_finconr.retrieve('1')
+idw_finprocr.retrieve('1')
+idw_causaexr.retrieve('1')
+idw_ambprocr.retrieve('1')
+
+
 st_factus st
 st=message.powerobjectparm
 if dw_trae.retrieve(st.desde,st.hasta,clugar)>0 then 
@@ -874,9 +888,9 @@ end type
 
 type rb_anul from radiobutton within w_captur_rip_rec_caj
 integer x = 1024
-integer y = 980
+integer y = 976
 integer width = 297
-integer height = 48
+integer height = 68
 string dragicon = "none!"
 integer textsize = -8
 integer weight = 400
@@ -896,9 +910,9 @@ end event
 
 type rb_incomp from radiobutton within w_captur_rip_rec_caj
 integer x = 667
-integer y = 980
+integer y = 976
 integer width = 347
-integer height = 48
+integer height = 68
 string dragicon = "none!"
 integer textsize = -8
 integer weight = 400
@@ -918,9 +932,9 @@ end event
 
 type rb_comp from radiobutton within w_captur_rip_rec_caj
 integer x = 329
-integer y = 980
+integer y = 976
 integer width = 325
-integer height = 48
+integer height = 68
 string dragicon = "none!"
 integer textsize = -8
 integer weight = 400
@@ -942,7 +956,7 @@ type rb_tod from radiobutton within w_captur_rip_rec_caj
 integer x = 82
 integer y = 976
 integer width = 242
-integer height = 64
+integer height = 68
 string dragicon = "none!"
 integer textsize = -8
 integer weight = 400

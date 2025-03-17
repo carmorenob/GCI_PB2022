@@ -38,9 +38,9 @@ type rte_1 from richtextedit within w_imag_diag
 end type
 type uo_odon from uo_odontograma within w_imag_diag
 end type
-type dw_temp from datawindow within w_imag_diag
-end type
 type uo_1 from uo_hclin within w_imag_diag
+end type
+type dw_temp from datawindow within w_imag_diag
 end type
 end forward
 
@@ -68,8 +68,8 @@ tab_1 tab_1
 st_vertical st_vertical
 rte_1 rte_1
 uo_odon uo_odon
-dw_temp dw_temp
 uo_1 uo_1
+dw_temp dw_temp
 end type
 global w_imag_diag w_imag_diag
 
@@ -77,8 +77,8 @@ type variables
 long i_fila
 dwobject i_dwo
 boolean i_cambia_rte
+DataWindowChild idw_finconold,idw_causaexold
 end variables
-
 forward prototypes
 public function integer pintar (integer p_numero)
 public subroutine cambia_dw (datawindow p_dw, string p_dataobject)
@@ -108,6 +108,22 @@ end function
 
 public subroutine cambia_dw (datawindow p_dw, string p_dataobject);p_dw.dataobject=p_dataobject
 p_dw.settransobject(sqlca)
+p_dw.getchild('fin_consulta',idw_finconold)
+idw_finconold.settransobject(sqlca)
+p_dw.getchild('causaexterna',idw_causaexold)
+idw_causaexold.settransobject(sqlca)
+
+
+//getchild('s_finalidadproced',idw_finproc)
+//idw_finproc.settransobject(SQLCA)
+//getchild('s_ambitoproced',idw_ambproc)
+//idw_ambproc.settransobject(sqlca)
+
+idw_finconold.retrieve('%')
+idw_causaexold.retrieve('%')
+//idw_finproc.retrieve('1')
+//idw_ambproc.retrieve('1')
+
 end subroutine
 
 public subroutine mover (long xpos);dw_histo.width=xpos
@@ -178,8 +194,8 @@ this.tab_1=create tab_1
 this.st_vertical=create st_vertical
 this.rte_1=create rte_1
 this.uo_odon=create uo_odon
-this.dw_temp=create dw_temp
 this.uo_1=create uo_1
+this.dw_temp=create dw_temp
 this.Control[]={this.uo_2,&
 this.dw_t3,&
 this.dw_t1,&
@@ -190,8 +206,8 @@ this.tab_1,&
 this.st_vertical,&
 this.rte_1,&
 this.uo_odon,&
-this.dw_temp,&
-this.uo_1}
+this.uo_1,&
+this.dw_temp}
 end on
 
 on w_imag_diag.destroy
@@ -205,8 +221,8 @@ destroy(this.tab_1)
 destroy(this.st_vertical)
 destroy(this.rte_1)
 destroy(this.uo_odon)
-destroy(this.dw_temp)
 destroy(this.uo_1)
+destroy(this.dw_temp)
 end on
 
 event resize;st_vertical.y=152
@@ -1237,10 +1253,25 @@ on uo_odon.destroy
 call uo_odontograma::destroy
 end on
 
+type uo_1 from uo_hclin within w_imag_diag
+boolean visible = false
+integer x = 1079
+integer y = 148
+integer width = 3419
+integer height = 1608
+integer taborder = 70
+boolean enabled = true
+boolean i_displayonly = true
+end type
+
+on uo_1.destroy
+call uo_hclin::destroy
+end on
+
 type dw_temp from datawindow within w_imag_diag
 event mousemove pbm_dwnmousemove
 boolean visible = false
-integer x = 1134
+integer x = 1079
 integer y = 152
 integer width = 1957
 integer height = 1600
@@ -1260,20 +1291,4 @@ else
 end if
 dw_barra.event mousemove(0,0,1,dw_barra.object.datawindow)
 end event
-
-type uo_1 from uo_hclin within w_imag_diag
-boolean visible = false
-integer x = 1079
-integer y = 148
-integer width = 3419
-integer height = 1608
-integer taborder = 70
-boolean bringtotop = true
-boolean enabled = true
-boolean i_displayonly = true
-end type
-
-on uo_1.destroy
-call uo_hclin::destroy
-end on
 

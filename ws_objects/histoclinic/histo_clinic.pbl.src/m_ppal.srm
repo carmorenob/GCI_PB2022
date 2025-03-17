@@ -1887,7 +1887,13 @@ anula=create uo_datastore
 anula.dataobject="dw_xa_anular_cita"
 long ncita,sec_cant,j
 string proc_cita,clug_cita
+DataWindowChild idw_finconx
+
 anula.settransobject(sqlca)
+anula.getchild('cod_fina',idw_finconx)
+idw_finconx.settransobject(sqlca)
+idw_finconx.retrieve('1')
+
 ncita=w_asig_cita.dw_1.getitemnumber(w_asig_cita.dw_1.getrow(),"ncita"+right(w_asig_cita.dw_1.getcolumnname(),1))
 proc_cita=w_asig_cita.dw_1.getitemstring(w_asig_cita.dw_1.getrow(),"proc"+right(w_asig_cita.dw_1.getcolumnname(),1))
 sec_cant=w_asig_cita.dw_1.getitemnumber(w_asig_cita.dw_1.getrow(),"sec_cant"+right(w_asig_cita.dw_1.getcolumnname(),1))

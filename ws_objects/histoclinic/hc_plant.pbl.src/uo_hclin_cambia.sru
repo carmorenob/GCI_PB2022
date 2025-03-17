@@ -66,9 +66,9 @@ long i_nh,i_nactoqx
 keycode i_nextitem=keyf7!,i_nextchild=keyf9!,i_previtem=keyf8!
 datawindow i_dw_oscab
 st_xa_cambiar i_st
+datawindowchild idw_finconp,idw_finprocp,idw_causaexp,idw_ambprocp
 
 end variables
-
 forward prototypes
 public subroutine mover (long xpos)
 public subroutine moverv (long ypos)
@@ -1115,6 +1115,19 @@ borderstyle borderstyle = stylelowered!
 end type
 
 event constructor;settransobject(sqlca)
+getchild('fin_consulta',idw_finconp)
+idw_finconp.settransobject(sqlca)
+getchild('finalidadproced',idw_finprocp)
+idw_finprocp.settransobject(SQLCA)
+getchild('causaexterna',idw_causaexp)
+idw_causaexp.settransobject(sqlca)
+getchild('ambitoproced',idw_ambprocp)
+idw_ambprocp.settransobject(sqlca)
+
+idw_finconp.retrieve('1')
+idw_finprocp.retrieve('1')
+idw_causaexp.retrieve('1')
+idw_ambprocp.retrieve('1')
 end event
 
 type dw_ls from datawindow within uo_hclin_cambia
