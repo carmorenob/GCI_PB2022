@@ -3314,10 +3314,14 @@ choose case i_tingre
 				next
 			end if
 		end if
-		dw_oscab.setitem(fila,'diagnostico',i_desdiag)
-		dw_oscab.setitem(fila,'cod_rips',i_codrips)
-		if i_coddiag='' then setnull(i_coddiag)
-		dw_oscab.setitem(fila,'codgeral',i_coddiag)	
+		if left(i_codrips,1)='R' and left(i_codrips,1)='W' and  left(i_codrips,1)='V' and left(i_codrips,1)='Z' then 
+			dw_oscab.setitem(fila,'diagnostico',i_desdiag)
+			dw_oscab.setitem(fila,'cod_rips',i_codrips)
+			dw_oscab.setitem(fila,'codgeral',i_coddiag)				
+		else
+			setnull(i_coddiag)
+			dw_oscab.setitem(fila,'codgeral',i_coddiag)	
+		end if
 		
 		
 		return 1
@@ -3405,11 +3409,14 @@ choose case i_tingre
 		dw_oscab.setitem(fila,"codprof",i_profe)
 		dw_oscab.setitem(fila,"cesp",i_esp)
 		if i_desdiag='' then setnull(i_desdiag)
-		//dw_oscab.setitem(fila,'diagnostico',i_desdiag)
-		//dw_oscab.setitem(fila,'cod_rips',i_codrips)
-		//dw_oscab.setitem(fila,'cod_fina',cod_fina)
-		//if i_coddiag='' then setnull(i_coddiag)
-		//dw_oscab.setitem(fila,'codgeral',i_coddiag)
+		if left(i_codrips,1)='R' and left(i_codrips,1)='W' and  left(i_codrips,1)='V' and left(i_codrips,1)='Z' then 
+			dw_oscab.setitem(fila,'diagnostico',i_desdiag)
+			dw_oscab.setitem(fila,'cod_rips',i_codrips)
+			dw_oscab.setitem(fila,'codgeral',i_coddiag)
+		else
+			setnull(i_coddiag)
+			dw_oscab.setitem(fila,'codgeral',i_coddiag)
+		end if
 		dw_oscab.setitem(fila,'fecha',datetime(today(),now()))
 		SELECT 
 			Max(NSolicitud) 

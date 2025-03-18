@@ -477,15 +477,22 @@ if ls_token<>'-1' then
 //		rollback;
 //	end if
 //
-	lst_ret_gral=u_rips.sispro_carga_capita_mes(ls_token,'2','','')
-	if lst_ret_gral.i_valor=-1 then 
-		rollback;
-	end if
+//	lst_ret_gral=u_rips.sispro_carga_capita_mes(ls_token,'2','','')
+//	if lst_ret_gral.i_valor=-1 then 
+//		rollback;
+//	end if
 
 //	lst_ret_gral=u_rips.sispro_carga_capita_fin(ls_token,'2','','')
 //	if lst_ret_gral.i_valor=-1 then 
 //		rollback;
 //	end if
+//
+
+	lst_ret_gral=u_rips.sispro_carga_nccapita(ls_token,'2','','')
+	if lst_ret_gral.i_valor=-1 then 
+		rollback;
+	end if
+
 
 	jsonpackage lnv_json
 	string ls_ResultadosValidacion

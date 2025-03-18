@@ -748,10 +748,17 @@ st_retorno_gral lst_ret
 as_ruta='C:\facturas\CA789\'
 as_doc=as_ruta+'CA789.json'
 
-ljg_json = Create JsonGenerator
-ljg_json.ImportFile(as_doc)
-ls_json = ljg_json.GetJsonString()
-destroy ljg_json
+//ljg_json = Create JsonGenerator
+//ljg_json.ImportFile(as_doc)
+//ls_json = ljg_json.GetJsonString()
+//destroy ljg_json
+//
+
+JsonParser lnv_JsonParser
+lnv_JsonParser = Create JsonParser
+
+ls_ReturnJson = lnv_JsonParser.LoadFile(as_doc)
+ls_json  = lnv_JsonParser.LoadString(ls_ReturnJson)
 
 
 ///CREA JSON
@@ -808,15 +815,15 @@ blob lblob_xml
 st_retorno_gral lst_ret 
 
 //// ABRE JSON
-as_ruta='C:\facturas\CA789\'
-as_doc=as_ruta+'CA789.json'
+as_ruta='C:\facturas\CA698\'
+as_doc=as_ruta+'CA698.json'
 
 ljg_json = Create JsonGenerator
 ljg_json.ImportFile(as_doc)
 ls_json = ljg_json.GetJsonString()
 
 ///ABRE XML
-as_doc=as_ruta+'ad08060103050002500002523.xml'
+as_doc=as_ruta+'ad08060103050002400000420.xml'
 
 li_filenum = FileOpen(as_doc, StreamMode!, Read!, LockReadWrite!, Append!, EncodingANSI!)
 IF li_FileNum = -1 THEN 
@@ -848,9 +855,9 @@ lo_client.SetRequestHeader("Content-Type", "application/json;charset=UTF-8")
 lo_client.SetRequestHeader("Authorization",+'Bearer '+as_token)
 
 if as_ambiente='2' then
-	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarCapitaPeriodo"
+	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarNcCapita"
 else
-	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarCapitaPeriodo"
+	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarNcCapita"
 end if
 
 li_rc =lo_client.sendrequest('POST',ls_url, ls_envio, EncodingUTF8!)
