@@ -201,7 +201,7 @@ boolean repord_dialogo , repfor_dialogo , repord_vprelim , repfor_vprelim , i_ob
 private long i_contador=-1 , i_norden , i_nh , i_nqx , i_consec_qx
 private string i_clug_his , i_profe , i_indapdx , i_clug_hadm , i_est_hadm , i_cemp , i_ccont , i_tingre , i_clug_qx,i_alm,i_cdoc_cons='SC', s_esp
 private string l_evo,l_usu,l_tpu, ori,profesi,l_enfe,ls_aordarea
-datawindowchild idw_procs , idw_genericos , idw_insumo
+datawindowchild idw_procs , idw_genericos , idw_insumo, idw_finproc
 end variables
 
 forward prototypes
@@ -2330,6 +2330,7 @@ sqlca.autocommit=false
 end event
 
 event constructor;settransobject(sqlca)
+
 end event
 
 event itemchanged;long fila
@@ -4014,6 +4015,7 @@ choose case i_tingre
 		if tag='1' then		
 			if f_permiso_boton(this,'ATOS')=0 then return -1
 		end if
+
 		if i_est_hadm<>"1" and i_est_hadm<>'R' then
 			Messagebox("Atención","No se pueden agregar más ordenes de servicio a esta admisión")
 			return -1
@@ -4048,7 +4050,22 @@ choose case i_tingre
 				s_esp=st_llega.cesp
 			end if
 		end if
+
 		
+		///Para DX y Finalidad
+		st_x_ordenext st_ord
+		setnull(st_ord.dx)
+		setnull(st_ord.descp)
+		setnull(st_ord.finc)
+		setnull(st_ord.ambp)
+		setnull(st_ord.codgeral)
+		st_ord.cual='ord'
+		st_ord.serv=i_tingre
+		openwithparm(w_escog_profe,st_ord)
+		st_ord=message.powerobjectparm
+		if st_ord.ambp='' or isnull(st_ord.ambp) then return -1
+		//////		
+				
 		long j
 		
 		select max(nsolicitud) into :j from oscabeza 
@@ -4071,6 +4088,10 @@ choose case i_tingre
 		dw_oscab.setitem(1,"codprof",dw_profe.getitemstring(1,1))
 		dw_oscab.setitem(1,"cesp",s_esp)
 		dw_oscab.setitem(1,"origen",origen)
+		dw_oscab.setitem(1,'cod_rips',st_ord.dx)
+		dw_oscab.setitem(1,'cod_fina',st_ord.finc)
+		dw_oscab.setitem(1,'codgeral',st_ord.codgeral)			
+			
 		if i_indapdx='Q' then
 			dw_oscab.setitem(1,"nro_qx",i_nqx)
 			dw_oscab.setitem(1,"clugar_qx",i_clug_qx)
@@ -4130,6 +4151,8 @@ choose case i_tingre
 				end if
 			end if
 		end if
+		
+		
 		return 1
 	///////////////////////////////////////////////////////	
 	case '1'

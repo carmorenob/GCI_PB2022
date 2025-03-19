@@ -12,7 +12,7 @@ end forward
 
 global type w_escog_profe from window
 integer width = 4357
-integer height = 572
+integer height = 512
 boolean titlebar = true
 string title = "Datos Orden Externa"
 windowtype windowtype = response!
@@ -30,6 +30,7 @@ type variables
 st_x_ordenext st_sale
 DataWindowChild idw_ambproc,idw_fincon
 end variables
+
 on w_escog_profe.create
 this.pb_2=create pb_2
 this.pb_1=create pb_1
@@ -49,15 +50,26 @@ event open;st_sale=message.powerobjectparm
 idw_ambproc.retrieve('1')
 idw_fincon.retrieve('1')
 dw_1.insertrow(1)
-if isnull(st_sale.ambp) then
-	dw_1.setitem(1,'ambp','01')
-	dw_1.setitem(1,'finc','44')
+if st_sale.cual='fact' then 
+	if isnull(st_sale.ambp) then
+		dw_1.setitem(1,'ambp','01')
+		dw_1.setitem(1,'finc','44')
+	else
+		dw_1.setitem(1,'codrip',st_sale.dx)
+		dw_1.setitem(1,'desc',st_sale.descp)
+		dw_1.setitem(1,'finc',st_sale.finc)
+		dw_1.setitem(1,'ambp',st_sale.ambp)	
+		dw_1.setitem(1,'codgeral',st_sale.codgeral)	
+	end if
+	this.title='Datos Orden Externa'
 else
-	dw_1.setitem(1,'codrip',st_sale.dx)
-	dw_1.setitem(1,'desc',st_sale.descp)
-	dw_1.setitem(1,'finc',st_sale.finc)
-	dw_1.setitem(1,'ambp',st_sale.ambp)	
-	dw_1.setitem(1,'codgeral',st_sale.codgeral)	
+	this.title='Datos Orden Intrahospitalaria'
+	if st_sale.serv='2' then 
+		dw_1.setitem(1,'ambp','03')
+	else
+		dw_1.setitem(1,'ambp','04')
+	end if
+	dw_1.setitem(1,'finc','44')
 end if
 end event
 

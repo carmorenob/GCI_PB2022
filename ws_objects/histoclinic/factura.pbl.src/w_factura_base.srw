@@ -2117,6 +2117,8 @@ if l_rips<>'1' and p_tipoing='1' and dw_dx.rowcount()=0 and isnull(p_dx) then
 	setnull(st_ord_ext.finc)
 	setnull(st_ord_ext.ambp)
 	setnull(st_ord_ext.codgeral)
+	st_ord_ext.cual='fact'
+	st_ord_ext.serv='1'	
 	openwithparm(w_escog_profe,st_ord_ext)
 	st_ord_ext=message.powerobjectparm
 	if st_ord_ext.ambp='' or isnull(st_ord_ext.ambp) then return -1
@@ -2612,6 +2614,8 @@ st_ord_ext.descp=dw_dx.getitemstring(1,'desc')
 st_ord_ext.finc=dw_dx.getitemstring(1,'finc')
 st_ord_ext.ambp=dw_dx.getitemstring(1,'ambp')
 st_ord_ext.codgeral=dw_dx.getitemstring(1,'codgeral')
+st_ord_ext.cual='fact'
+st_ord_ext.serv='1'
 openwithparm(w_escog_profe,st_ord_ext)
 st_ord_ext=message.powerobjectparm
 if st_ord_ext.ambp='' or isnull(st_ord_ext.ambp) then return -1

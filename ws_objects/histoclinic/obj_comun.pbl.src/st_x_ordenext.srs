@@ -5,5 +5,7 @@ global type st_x_ordenext from structure
 	string		dx
 	string		descp
 	string		codgeral
+	string		cual
+	string		serv
 end type
 
