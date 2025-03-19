@@ -23,12 +23,14 @@ end type
 end forward
 
 global type w_new_at_os from window
-integer width = 7013
-integer height = 2748
+integer width = 7086
+integer height = 2812
 boolean titlebar = true
 string title = "Atención de órdenes de Servicio"
 boolean controlmenu = true
 boolean maxbox = true
+boolean hscrollbar = true
+boolean vscrollbar = true
 windowtype windowtype = child!
 long backcolor = 67108864
 string icon = "r_os.ico"
