@@ -1718,7 +1718,7 @@ event keypress pbm_dwnkey
 event p_itemchanged ( )
 integer x = 27
 integer y = 156
-integer width = 6217
+integer width = 6249
 integer height = 808
 integer taborder = 20
 string dragicon = "none!"
@@ -2120,7 +2120,7 @@ boolean focusrectangle = false
 end type
 
 type pb_ord from pb_report within tp_1
-integer x = 6272
+integer x = 5897
 integer y = 16
 integer taborder = 40
 string text = "          &o"
@@ -2211,7 +2211,7 @@ end if
 end event
 
 type pb_remi from picturebutton within tp_1
-integer x = 6272
+integer x = 5897
 integer y = 16
 integer width = 146
 integer height = 128
@@ -2416,8 +2416,8 @@ end event
 
 type pb_np from picturebutton within tp_2
 boolean visible = false
-integer x = 5815
-integer y = 460
+integer x = 6272
+integer y = 432
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -2460,10 +2460,11 @@ linet.HyperlinkToURL(l_nopos)
 end event
 
 type pb_for from pb_report within tp_2
-integer x = 5810
-integer y = 16
+integer x = 5897
+integer y = 4
 integer taborder = 40
 string text = "      &F"
+boolean originalsize = false
 string powertiptext = "Imprimir Fórmula Médica [Alt+F]"
 string nombre_rep = "Fórmula Médica"
 string tipo_rep = "interno!"
@@ -2558,7 +2559,7 @@ event keypress pbm_dwnkey
 event p_itemchanged ( )
 integer x = 32
 integer y = 148
-integer width = 5755
+integer width = 6395
 integer height = 808
 integer taborder = 46
 string dragicon = "none!"
@@ -3314,16 +3315,14 @@ choose case i_tingre
 				next
 			end if
 		end if
-		if left(i_codrips,1)='R' and left(i_codrips,1)='W' and  left(i_codrips,1)='V' and left(i_codrips,1)='Z' then 
+		if left(i_codrips,1)<>'R' and left(i_codrips,1)<>'W' and  left(i_codrips,1)<>'V' and left(i_codrips,1)<>'Z' then 
 			dw_oscab.setitem(fila,'diagnostico',i_desdiag)
 			dw_oscab.setitem(fila,'cod_rips',i_codrips)
 			dw_oscab.setitem(fila,'codgeral',i_coddiag)				
 		else
 			setnull(i_coddiag)
 			dw_oscab.setitem(fila,'codgeral',i_coddiag)	
-		end if
-		
-		
+		end if		
 		return 1
 	case '1'
 		if dw_oscab.dataobject<>'dw_oscabeza_sale_hosp' then
@@ -3409,7 +3408,7 @@ choose case i_tingre
 		dw_oscab.setitem(fila,"codprof",i_profe)
 		dw_oscab.setitem(fila,"cesp",i_esp)
 		if i_desdiag='' then setnull(i_desdiag)
-		if left(i_codrips,1)='R' and left(i_codrips,1)='W' and  left(i_codrips,1)='V' and left(i_codrips,1)='Z' then 
+		if left(i_codrips,1)<>'R' and left(i_codrips,1)<>'W' and  left(i_codrips,1)<>'V' and left(i_codrips,1)<>'Z' then 
 			dw_oscab.setitem(fila,'diagnostico',i_desdiag)
 			dw_oscab.setitem(fila,'cod_rips',i_codrips)
 			dw_oscab.setitem(fila,'codgeral',i_coddiag)
@@ -3443,6 +3442,7 @@ choose case i_tingre
 			dw_oscab.scrolltorow(fila)
 			dw_oscab.setfocus()
 		end if
+		dw_oscab.setcolumn('cod_rips')
 		return 1
 end choose
 end event
