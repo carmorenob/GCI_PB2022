@@ -299,8 +299,8 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_seg.pbl,dw_nogrupolu
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_convproced,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_contrato_plan_reg,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_seg.pbl,m_principal_adm,m
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_error_ds,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_val_norm,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_error_ds,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_listconven,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_hc.pbl,w_plant_hcs,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\configurador\conf_apdx.pbl,dw_profe_combo,d
