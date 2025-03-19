@@ -1087,6 +1087,8 @@ if as_tipo_docu='a'  or as_tipo_docu='d'  or as_tipo_docu='c' then
 		ls_sufijo_campo='_anul'
 	end if
 end if
+
+		
 ////////////////NOMBRES y consecutivos de los ARCHIVOS
 of_files_names(adw_factura , lst_ret_dian.as_filename , lst_ret_dian.as_zipname , ll_nro_fact_x_anyo , ll_nro_zip_x_anyo , lbn_actu_consec_fact , lbn_actu_consec_zip , as_tipo_docu , ls_tipo_ambiente , li_anyo,ls_coddoc,as_coddoc)
 
@@ -1305,6 +1307,12 @@ destroy loo_Cert
 destroy loo_SbXmlSOAP  
 destroy loo_SbXml
 destroy loo_Bd
+
+//////**************************RENOMBRA XML*****************
+
+
+li_FileNum = FileMove (is_ruta_facturas+lst_ret_dian.as_filename+'.xml',is_ruta_facturas+lst_ret_dian.as_filename+'.xml1')
+li_FileNum = FileMove (is_ruta_facturas+lst_ret_dian.as_filename+'_test_ret.xml' ,is_ruta_facturas+lst_ret_dian.as_filename+'_test_ret.xml1')
 messagebox("Atención", "Factura firmada y envida con éxito !!")
 
 lst_ret_dian.as_estado="1"
@@ -2031,7 +2039,7 @@ end if
 lds_xml_attached.setitem(1,'cufe',ls_sfc)
 lds_xml_attached.setitem(1,'small_cufe',ls_small_cufex)
 
-li_file=fileOpen(is_ruta_facturas + as_filename+".xml",TextMode!)
+li_file=fileOpen(is_ruta_facturas + as_filename+".xml1",TextMode!)
 li_rc=fileReadEx(li_file,ls_xml_factura)
 li_rc=fileclose(li_file)
 
@@ -2039,7 +2047,7 @@ li_rc=fileclose(li_file)
 ///////////////////////// REPONSE
 ldw_result=create uo_datastore
 ldw_result.dataobject='dw_retornos_dian'
-li_status=ldw_result.importFile(XML!,is_ruta_facturas+as_filename+'_test_ret.xml')
+li_status=ldw_result.importFile(XML!,is_ruta_facturas+as_filename+'_test_ret.xml1')
 	
 if li_status<0 then
 	messagebox('Error importando Respuesta','No es posible importar el mensaje de respuesta de la DIAN:~r~n'+ is_ruta_facturas+'Status_ret.xml')
