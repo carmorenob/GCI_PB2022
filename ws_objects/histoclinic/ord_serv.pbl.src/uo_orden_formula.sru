@@ -3240,7 +3240,7 @@ string powertiptext = "Nueva Orden [Alt+N]"
 end type
 
 event clicked;if i_contador = -1 then return -1
-long fila,nserv1
+long fila,nserv1,lubi
 
 choose case i_tingre
 	case '2','3','4','7'
@@ -3408,6 +3408,12 @@ choose case i_tingre
 		dw_oscab.setitem(fila,"codprof",i_profe)
 		dw_oscab.setitem(fila,"cesp",i_esp)
 		if i_desdiag='' then setnull(i_desdiag)
+		lubi=idw_fincon.find(" tipproce ='"+cod_fina+"'",1,idw_fincon.rowcount())
+		If lubi<0 then 
+			setnull(cod_fina)
+		end if
+		dw_oscab.setitem(fila,'cod_fina',cod_fina)
+
 		if left(i_codrips,1)<>'R' and left(i_codrips,1)<>'W' and  left(i_codrips,1)<>'V' and left(i_codrips,1)<>'Z' then 
 			dw_oscab.setitem(fila,'diagnostico',i_desdiag)
 			dw_oscab.setitem(fila,'cod_rips',i_codrips)

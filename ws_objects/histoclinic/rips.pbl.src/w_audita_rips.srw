@@ -1783,7 +1783,7 @@ end type
 event clicked;////////ELECTRONICA	
 if is_elec='2' then
 	double l_i,l_nfactura
-	string ls_clugar,ls_tfac
+	string ls_clugar,ls_tfac,ls_fver
 	datetime ldt_ff
 	nvo_factura_electronica u_elec
 	st_ret_dian    lst_lle
@@ -1798,7 +1798,22 @@ if is_elec='2' then
 		if dw_facturas.getitemstring(l_i,'estado_dian')='1' then continue
 		if dw_facturas.getitemstring(l_i,'file_name_fact')='0' then continue
 		
-		ldt_ff=datetime(dw_facturas.getitemdate(l_i,'fecha'))
+		ldt_ff=datetime(dw_facturas.getitemdate(l_i,'fechat'))
+		
+		
+		SELECT 
+			pm_versionfe_dian.cod_version
+		INTO
+			:ls_fver
+		FROM 
+			pm_versionfe_dian
+		WHERE 
+			(((:ldt_ff)>=pm_versionfe_dian.valido_inicio And (:ldt_ff)<=pm_versionfe_dian.valido_hasta));
+		if sqlca.sqlnrows=0 then
+			messagebox('Atencíon','No hay version Facturacion Electronica Linea 72')
+			return
+		end if
+				
 		
 		if ldt_ff>ldt_iniciafevs then
 			if g_motor='postgres' then
@@ -1822,7 +1837,7 @@ if is_elec='2' then
 		
 		lst_lle=u_elec.sign_chilkat(dw_electronica,l_nfactura,ls_clugar,ls_tfac,0,'f','FV')
 		
-		if datetime(dw_facturas.getitemdate(l_i,'fecha'))>ldt_iniciafevs then
+		if datetime(dw_facturas.getitemdate(l_i,'fechat'))>ldt_iniciafevs then
 			if (dw_facturas.getitemnumber(l_i,'vtproced')<>dw_facturas.getitemnumber(l_i,'vtemp') ) and dw_empresa.getitemstring(1,"codemp")<>'0' then 
 				if g_motor='postgres' then
 					dw_electronica.dataobject="dw_factura_electronica_postgres_rc"
@@ -1835,7 +1850,7 @@ if is_elec='2' then
 			end if
 		end if
 		
-		update factcab set envio_xml='1' 
+		update factcab set envio_xml='1' ,cod_versionfe=:ls_fver
 		where nfact=:l_nfactura and clugar=:ls_clugar and tipo=:ls_tfac;
 		If SQLCA.SQLCode = -1 then
 			Rollback;
