@@ -124,6 +124,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_det_mov_banc,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,w_pago_nomina,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_contra_ppto_rfc,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumconfig.pbl,w_costoprom,w
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\fac_electronica.pbl,nvo_fevrips,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,str_proc,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_campo_plant_rtf,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,dw_objeciones_esp,d
@@ -755,16 +756,15 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,dw_nom_vpila,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\simulafac.pbl,dw_combo_forma_pago,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,dw_objes_respu,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\costos.pbl,w_canasta,w
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_error_ds,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_result_poly,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,uo_param,u
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_error_ds,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,dw_cierre,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,w_plan2,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumconfig.pbl,dw_cfgalmacen,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_certifidos,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\afijos.pbl,dw_af_responusu,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\afijos.pbl,w_af_bplaca,w
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\fac_electronica.pbl,nvo_rips_json,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\simulafac.pbl,dw_liq_uvr2,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,dw_combo_facts_glos,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,dw_glosa_a_carte,d
@@ -958,8 +958,8 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\simulafac.pbl,st_cargar_a,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\hoj_vida.pbl,dw_hc_empleedu_basica,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,addcompute,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\presup_new.pbl,dw_lleva_recep_giro,d
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_error,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_export,w
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_error,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,w_rad_lib,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\contabilidad.pbl,dw_pc_n1,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\tesoreria.pbl,dw_arqueo_detalle,d
