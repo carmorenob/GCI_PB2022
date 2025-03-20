@@ -2333,6 +2333,15 @@ borderstyle borderstyle = stylelowered!
 end type
 
 event constructor;this.settransobject(sqlca)
+getchild('s_fin_consulta',idw_fincon)
+idw_fincon.settransobject(sqlca)
+getchild('s_causaexterna',idw_causaex)
+idw_causaex.settransobject(sqlca)
+
+idw_fincon.retrieve('%')
+idw_causaex.retrieve('%')
+
+
 end event
 
 event updatestart;long i , filas
@@ -2505,6 +2514,13 @@ borderstyle borderstyle = stylelowered!
 end type
 
 event constructor;this.settransobject(sqlca)
+getchild('s_finalidadproced',idw_finproc)
+idw_finproc.settransobject(SQLCA)
+getchild('s_ambitoproced',idw_ambproc)
+idw_ambproc.settransobject(sqlca)
+
+idw_finproc.retrieve('%')
+idw_ambproc.retrieve('%')
 end event
 
 event updatestart;long i , filas
