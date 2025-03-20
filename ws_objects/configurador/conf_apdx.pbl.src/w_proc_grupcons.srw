@@ -58,9 +58,8 @@ end type
 global w_proc_grupcons w_proc_grupcons
 
 type variables
-datawindowchild dw_grupo
+datawindowchild dw_grupo,idw_fincon
 end variables
-
 on w_proc_grupcons.create
 this.tab_1=create tab_1
 this.pb_3=create pb_3
@@ -88,6 +87,9 @@ dw_grupo.retrieve()
 dw_1.settransobject(SQLCA)
 tab_1.tp_1.dw_2.settransobject(SQLCA)
 tab_1.tp_2.dw_3.settransobject(SQLCA)
+tab_1.tp_2.dw_3.getchild('cod_fina',idw_fincon)
+idw_fincon.settransobject(sqlca)
+idw_fincon.retrieve('%')
 dw_1.insertrow(1)
 end event
 
