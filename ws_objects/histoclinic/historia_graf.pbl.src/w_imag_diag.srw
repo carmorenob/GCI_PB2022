@@ -77,7 +77,7 @@ type variables
 long i_fila
 dwobject i_dwo
 boolean i_cambia_rte
-DataWindowChild idw_finconold,idw_causaexold
+DataWindowChild idw_finconold,idw_causaexold,idw_finprocold,idw_ambprocold
 end variables
 forward prototypes
 public function integer pintar (integer p_numero)
@@ -113,16 +113,15 @@ idw_finconold.settransobject(sqlca)
 p_dw.getchild('causaexterna',idw_causaexold)
 idw_causaexold.settransobject(sqlca)
 
-
-//getchild('s_finalidadproced',idw_finproc)
-//idw_finproc.settransobject(SQLCA)
-//getchild('s_ambitoproced',idw_ambproc)
-//idw_ambproc.settransobject(sqlca)
+p_dw.getchild('finalidadproced',idw_finprocold)
+idw_finprocold.settransobject(SQLCA)
+p_dw.getchild('ambitoproced',idw_ambprocold)
+idw_ambprocold.settransobject(sqlca)
 
 idw_finconold.retrieve('%')
 idw_causaexold.retrieve('%')
-//idw_finproc.retrieve('1')
-//idw_ambproc.retrieve('1')
+idw_finprocold.retrieve('%')
+idw_ambprocold.retrieve('%')
 
 end subroutine
 
