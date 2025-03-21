@@ -1289,14 +1289,7 @@ elseif adw_factura.getitemstring(1,'estado_dian'+ls_sufijo_campo)='0' then //ya 
 	commit;
 end if
 
-///********************GENERA JSON SOLO EVENTO***************
 
-if (as_tipo_docu='f' and as_coddoc='FV')  then 
-	nvo_fevrips u_rips
-	u_rips=create nvo_fevrips
-	u_rips.emite_json_evento(al_nro_fact,as_clug_factura,as_tipofac,as_tipo_docu,as_coddoc,is_ruta_facturas+ls_prefac+ls_numfact+'.json')
-	destroy 	u_rips
-end if
 //// **********************E N V I A R    C O R R E O    **********************************
 if of_enviar_correo(adw_factura,al_nro_fact,as_clug_factura,as_tipofac,as_nnota,as_tipo_docu,as_coddoc,lst_ret_dian.as_qrcode,lst_ret_dian.as_cufe,ls_small_cufex,lst_ret_dian.as_zipname,lst_ret_dian.as_filename,string(loo_SbXml.GetAsString()),ls_xml_ret,loo_Cert)=-1 then 
 	lst_ret_dian.as_estado="-2"
@@ -1309,12 +1302,42 @@ destroy loo_SbXml
 destroy loo_Bd
 
 //////**************************RENOMBRA XML*****************
-
-
 li_FileNum = FileMove (is_ruta_facturas+lst_ret_dian.as_filename+'.xml',is_ruta_facturas+lst_ret_dian.as_filename+'.xml1')
 li_FileNum = FileMove (is_ruta_facturas+lst_ret_dian.as_filename+'_test_ret.xml' ,is_ruta_facturas+lst_ret_dian.as_filename+'_test_ret.xml1')
 messagebox("Atención", "Factura firmada y envida con éxito !!")
 
+///********************GENERA JSON SOLO EVENTO***************
+if (as_tipo_docu='f' and as_coddoc='FV')  then 
+	nvo_fevrips u_rips
+	u_rips=create nvo_fevrips
+	u_rips.emite_json_evento(al_nro_fact,as_clug_factura,as_tipofac,as_tipo_docu,as_coddoc,is_ruta_facturas+ls_prefac+ls_numfact+'.json')
+
+	/////********************APIDOCKER
+	if aplicativo>'7' then
+		string ls_token, ls_tds,ls_docs,ls_pass,ls_ipsn
+	
+		SELECT 
+			usuarios.tipodoc, usuarios.documento, 
+			usuarios.clave_sispro, ips.documento
+		INTO
+			:ls_tds,:ls_docs,:ls_pass,:ls_ipsn
+		FROM 
+			usuarios, ips
+		WHERE (((usuarios.usuario)=:usuario));
+		if sqlca.sqlnrows=0 then
+			messagebox('Atencíon','No hay usuari sisipro')
+		end if
+		if isnull(ls_tds)  or isnull(ls_docs) or isnull(ls_pass) then
+			lst_ret_dian.as_estado="1"
+			return lst_ret_dian
+		end if
+		ls_token=u_rips.sispro_login(ls_tipo_ambiente,ls_tds,ls_docs,ls_pass,ls_ipsn)
+		if ls_token<>'-1' then 
+		end if
+	end if
+	destroy 	u_rips
+end if
+///////
 lst_ret_dian.as_estado="1"
 return lst_ret_dian
 end function

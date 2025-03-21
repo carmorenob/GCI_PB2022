@@ -460,12 +460,30 @@ string text = "loginsispro"
 end type
 
 event clicked;nvo_fevrips u_rips
-string ls_token,ls_err
+string ls_token,ls_err, ls_tds,ls_docs,ls_pass,ls_ipsn,ls_tipo_ambiente='2'
 int li_rc
 st_retorno_gral lst_ret_gral
 	
 u_rips=create nvo_fevrips
-ls_token=u_rips.sispro_login('2','CC','9298274','/*Ese/*123..','806010305')
+		
+SELECT 
+	usuarios.tipodoc, usuarios.documento, 
+	usuarios.clave_sispro, ips.documento
+INTO
+	:ls_tds,:ls_docs,:ls_pass,:ls_ipsn
+FROM 
+	usuarios, ips
+WHERE (((usuarios.usuario)=:usuario));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay usuari sisipro')
+	return 
+end if
+
+if isnull(ls_tds)  or isnull(ls_docs) or isnull(ls_pass) then
+	return
+end if
+ls_pass=f_descripta_new(ls_pass,'1')
+ls_token=u_rips.sispro_login(ls_tipo_ambiente,ls_tds,ls_docs,ls_pass,ls_ipsn)
 if ls_token<>'-1' then 
 //	lst_ret_gral=u_rips.sispro_carga_fev_rips(ls_token,'2','','')
 //	if lst_ret_gral.i_valor=-1 then 
