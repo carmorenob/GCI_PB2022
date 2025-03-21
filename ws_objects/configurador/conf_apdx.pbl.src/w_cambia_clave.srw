@@ -114,20 +114,20 @@ if w_para_grales_new.c_asis.checked then
 			cual="6"
 		case "ODONTOLOGIA"
 			cual="7"
-		case "8"
-			cual="CONSULTORIO + FEVRIPS"
-		case "9"
-			cual="APOYO DIAGNOSTICO + FEVRIPS"
-		case "10"
-			cual="ESPECIALISTA + FEVRIPS"
-		case "11"
-			cual="CONSULTA EXTERNA + FEVRIPS"
-		case "12"
-			cual="CLINICA + FEVRIPS"
-		case "13"
-			cual="HOSPITAL + FEVRIPS"
-		case "14"
-			cual="ODONTOLOGIA + FEVRIPS"					
+		case "CONSULTORIO + APIDOCKER"
+			cual="8"
+		case "APOYO DIAGNOSTICO + APIDOCKER"
+			cual="9"
+		case "ESPECIALISTA + APIDOCKER"
+			cual="10"
+		case "CONSULTA EXTERNA + APIDOCKER"
+			cual="11"
+		case "CLINICA + APIDOCKER"
+			cual="12"
+		case "HOSPITAL + APIDOCKER"
+			cual="13"
+		case "ODONTOLOGIA + APIDOCKER"
+			cual="14"					
 	end choose
 	l_aplicativo=cual
 	esta+=l_lice+l_aplicativo
@@ -176,9 +176,6 @@ if f_checksum(esta,l_activacion)=false then
 	return 
 end if
 w_para_grales_new.sle_5.text=sle_1.text
-//If f_valida_usuario(usuario,sle_1.text)<>0 then
-//	return -1
-//End If
 close(parent)
 end event
 

@@ -699,10 +699,10 @@ global w_para_grales_new w_para_grales_new
 
 type variables
 boolean ya=false,i_cambio=false
+string ls_enc='0'
 u_version uo_ver
 datawindowchild idw_almcext,idw_almcurg,idw_almhosp,idw_almcamb
 end variables
-
 on w_para_grales_new.create
 this.rb_1=create rb_1
 this.cb_7=create cb_7
@@ -1046,6 +1046,20 @@ if c_asis.checked then
 			cual="6"
 		case "ODONTOLOGIA"
 			cual="7"
+		case "CONSULTORIO + APIDOCKER"
+			cual="8"
+		case "APOYO DIAGNOSTICO + APIDOCKER"
+			cual="9"
+		case "ESPECIALISTA + APIDOCKER"
+			cual="10"
+		case "CONSULTA EXTERNA + APIDOCKER"
+			cual="11"
+		case "CLINICA + APIDOCKER"
+			cual="12"
+		case "HOSPITAL + APIDOCKER"
+			cual="13"
+		case "ODONTOLOGIA + APIDOCKER"
+			cual="14"			
 	end choose
 	l_aplicativo=cual
 	esta+=l_lice+l_aplicativo
@@ -1055,7 +1069,6 @@ else
 end if
 l_activacion=sle_5.text
 val_hast=em_2.text
-//l_activacion=f_descripta(sle_5.text)
 
 if rb_2.checked then esta+=val_hast
 string temp='0'
@@ -1091,7 +1104,6 @@ if c_pre.checked then temp=em_pre.text
 esta+=temp
 if c_pre.checked and em_pres.text<>"0000/00" then esta+=em_pres.text
 if c_con.checked or c_tes.checked or c_sum.checked or c_car.checked or c_act.checked or c_nom.checked or c_cos.checked or c_pre.checked then esta+=left(trim(sle_vers_adm.text),5)
-//if f_checksum(esta,f_descripta(l_activacion))=false then
 if f_checksum(esta,(l_activacion))=false then
 	messagebox("Error","La clave no es válida para los parámetros que tiene")
 	return 
@@ -1456,7 +1468,7 @@ else
 		RegistrySet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "OLE_PROVIDER_MIPRES", Regstring!,'')
 		RegistrySet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "OLE_FILE_MIPRES", Regstring!,'')
 		RegistrySet ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "DBPARM2_MIPRES",'')		
-		RegistrySet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "SERVERNAME_MIPRES", Regstring!,'')				
+		RegistrySet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "SERVERNAME_MIPRES", Regstring!,'')	
 	end If
   	 if ls_pro=64 then
 		Registryset ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "DATABASE_MIPRES", Regstring!,'')
@@ -1472,7 +1484,6 @@ else
   	 End If			
 end if
 ///////FIN MIPRES
-
 if ls_pro=32 then
 	RegistrySet ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "CLIENTE", RegString!, l_nom_regis )
 	RegistrySet ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "APLICATIVO", RegString!, l_aplicativo )
@@ -1670,6 +1681,7 @@ else
 		RegistrySet ( "HKEY_CURRENT_USER\SOFTWARE\GCI\", "RIPS_AL_FACTURAR",RegString!,'0')
 	end If
 end if
+
 if tab_1.tabpage_1.cbx_muevek.checked then
 	if ls_pro=32 then
 		RegistrySet ( "HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "MUEVE_KARDEX", RegString!, "1" )
@@ -3174,6 +3186,7 @@ end type
 
 event constructor;if ls_pro=32 THEN RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "OLE_FILE", Regstring!, text )
 if ls_pro=64 THEN RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "OLE_FILE", Regstring!, text )
+
 end event
 
 type st_41 from statictext within tp_ole
@@ -4012,6 +4025,7 @@ end type
 
 event constructor;if ls_pro=32 THEN RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "OLE_FILE_CAPI", Regstring!, text )
 if ls_pro=64 THEN RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "OLE_FILE_CAPI", Regstring!, text )
+
 end event
 
 type st_27 from statictext within tabpage_8
@@ -4843,6 +4857,7 @@ end type
 
 event constructor;if ls_pro=32 THEN RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "OLE_FILE_EQU", Regstring!, text )
 if ls_pro=64 THEN RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "OLE_FILE_EQU", Regstring!, text )
+
 end event
 
 type st_24 from statictext within tabpage_1
@@ -5140,7 +5155,7 @@ end type
 type dw_2 from datawindow within tabpage_1
 integer x = 699
 integer y = 936
-integer width = 1317
+integer width = 1376
 integer height = 84
 integer taborder = 60
 string title = "none"
@@ -5162,7 +5177,7 @@ end event
 type dw_1 from datawindow within tabpage_1
 integer x = 727
 integer y = 848
-integer width = 1289
+integer width = 1335
 integer height = 88
 integer taborder = 40
 string title = "none"

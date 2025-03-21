@@ -344,8 +344,6 @@ choose case gt_sqlca.dbms
 		RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBC.INI\ODBC Data Sources", dsn, Regstring!, tipo)
 		if pos(lower(tipo),"anywhere",1)<>0 then //es anywhere
 			gt_sqlca.dbParm =gt_sqlca.dbParm+gt_sqlca.logid+";PWD="+gt_sqlca.logpass+"',DisableBind=1,DelimitIdentifier='No',OJSyntax='ANSI',DBTextLimit='1000000',Host='sistemas',Host='"+nombre+"',AppName='GCI As."+nombre+"',"		
-		//	gt_sqlca.dbParm =gt_sqlca.dbParm+gt_sqlca.logid+";PWD="+gt_sqlca.logpass+"',DelimitIdentifier='No',OJSyntax='ANSI',DBTextLimit='1000000',Host='sistemas',Host='"+nombre+"',AppName='GCI As."+nombre+"',"
-	    //	gt_sqlca.dbParm =gt_sqlca.dbParm+gt_sqlca.logid+";PWD="+gt_sqlca.logpass+"';DelimitIdentifier='No';OJSyntax='ANSI';DBTextLimit='1000000';Host='sistemas';Host='"+nombre+"';AppName='GCI As."+nombre+"';"
 			g_motor='anywhere'
 		else
 			if pos(lower(tipo),"postgresql",1)<>0 then //es PostgreSQL Unicode
@@ -850,7 +848,6 @@ long textcolor = 33554432
 long backcolor = 553648127
 textcase textcase = upper!
 integer limit = 15
-borderstyle borderstyle = StyleBox!
 string placeholder = "Usuario"
 end type
 
@@ -881,7 +878,6 @@ long textcolor = 33554432
 long backcolor = 553648127
 boolean password = true
 integer limit = 10
-borderstyle borderstyle = StyleBox!
 boolean hideselection = false
 string placeholder = "Contraseña"
 end type
