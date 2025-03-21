@@ -44,7 +44,13 @@ end variables
 event open;ls_campo=message.stringparm
 x=300
 y=300
-
+if ls_campo='clave' then
+	sle_1.limit=10
+	sle_2.limit=10
+else
+	sle_1.limit=15
+	sle_2.limit=15	
+end if
 end event
 
 on w_clave_usuario.create
@@ -185,7 +191,7 @@ fontfamily fontfamily = swiss!
 string facename = "Arial"
 long textcolor = 33554432
 boolean password = true
-integer limit = 15
+integer limit = 10
 borderstyle borderstyle = stylelowered!
 end type
 
@@ -203,7 +209,7 @@ fontfamily fontfamily = swiss!
 string facename = "Arial"
 long textcolor = 33554432
 boolean password = true
-integer limit = 15
+integer limit = 10
 borderstyle borderstyle = stylelowered!
 end type
 
