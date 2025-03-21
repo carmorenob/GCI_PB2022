@@ -40,6 +40,7 @@ global w_clave_usuario w_clave_usuario
 type variables
 string ls_campo
 end variables
+
 event open;ls_campo=message.stringparm
 x=300
 y=300
@@ -184,7 +185,7 @@ fontfamily fontfamily = swiss!
 string facename = "Arial"
 long textcolor = 33554432
 boolean password = true
-integer limit = 10
+integer limit = 15
 borderstyle borderstyle = stylelowered!
 end type
 
@@ -202,7 +203,7 @@ fontfamily fontfamily = swiss!
 string facename = "Arial"
 long textcolor = 33554432
 boolean password = true
-integer limit = 10
+integer limit = 15
 borderstyle borderstyle = stylelowered!
 end type
 
