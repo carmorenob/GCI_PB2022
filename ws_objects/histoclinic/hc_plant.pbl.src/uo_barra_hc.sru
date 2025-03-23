@@ -387,11 +387,11 @@ else //de cons ext/odonto
 				return -1
 			end if			
 		end if
-		dw_diags.setitem(1,'causaext',ls_cext)
-
-		f_ubica=idw_causaext.find("codcausaexter='"+ls_cext+"'",1, idw_causaext.RowCount())
-		idw_causaext.setrow(f_ubica)
 	end if
+	dw_diags.setitem(1,'causaext',ls_cext)
+
+	f_ubica=idw_causaext.find("codcausaexter='"+ls_cext+"'",1, idw_causaext.RowCount())
+	idw_causaext.setrow(f_ubica)
 	
 	if isnull(ds.getitemstring(1,'cripprin'))	 then 
 		dw_diags.setitem(1,'c_diagprin',dw_diags.getitemstring(1,'cod_rips'))
