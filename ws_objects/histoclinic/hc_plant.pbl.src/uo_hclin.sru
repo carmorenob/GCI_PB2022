@@ -209,6 +209,7 @@ int i_nro_imags,i_actual_image,i_nobjs[],i_control
 //i_ing_sal:(I:ingreso , S:salida)
 uo_datastore  ids_hijos_histo
 end variables
+
 forward prototypes
 public subroutine mover (long xpos)
 public subroutine mover2 (long xpos)
@@ -1423,9 +1424,11 @@ else
 end if
 
 idw_plants.retrieve(i_tipo,i_tingre,i_ing_sal,i_cespe,sex_busca,edad_busca,i_codfina)
-if idw_plants.rowcount()=0 then
-	MessageBox("Atención","No existen Plantillas para edad del paciente verifique con Administrador del Sistema"+i_tipo+i_tingre+i_ing_sal)
-	Return -1	
+if i_codfina<>'%' then
+	if idw_plants.rowcount()=0 then
+		MessageBox("Atención","No existen Plantillas para edad del paciente verifique con Administrador del Sistema"+i_tipo+i_tingre+i_ing_sal)
+		Return -1	
+	end if
 end if
 i_cemp=p_cemp
 i_ccont=p_ccont

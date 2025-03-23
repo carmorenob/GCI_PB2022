@@ -79,6 +79,7 @@ dwobject i_dwo
 boolean i_cambia_rte
 DataWindowChild idw_finconold,idw_causaexold,idw_finprocold,idw_ambprocold
 end variables
+
 forward prototypes
 public function integer pintar (integer p_numero)
 public subroutine cambia_dw (datawindow p_dw, string p_dataobject)
@@ -822,7 +823,7 @@ choose case getitemstring(getrow(),'indapdx')
 		mostrar('D')
 	case 'p'
 		uo_1.reset()
-		uo_1.retrieve(getitemnumber(getrow(),'contador'), getitemstring(getrow(),'clugar'),getitemstring(getrow(),'tipo'),getItemString(getrow(),'codtingre'),getItemString(getrow(),'ingreso'),snulo,snulo,snulo,snulo,getItemNumber(getrow(),'nactoqx'),getItemString(getrow(),'clugar_qx'),'','')
+		uo_1.retrieve(getitemnumber(getrow(),'contador'), getitemstring(getrow(),'clugar'),getitemstring(getrow(),'tipo'),getItemString(getrow(),'codtingre'),getItemString(getrow(),'ingreso'),snulo,snulo,snulo,snulo,getItemNumber(getrow(),'nactoqx'),getItemString(getrow(),'clugar_qx'),'','%')
 		mostrar('A')	
 	case 'q'
 		cambia_dw(dw_temp,'dw_res_actoqx_hg')

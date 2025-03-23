@@ -69,9 +69,8 @@ global w_vacunas w_vacunas
 
 type variables
 string is_cod_vac, l_sex,l_ges,l_cod_cups
-datawindowchild idw,iprof
+datawindowchild idw,iprof,idw_finproc,idw_fincon1
 end variables
-
 forward prototypes
 public function long f_insert_servicio (string as_cups, long ad_contador, string as_lugar, string as_profe, datetime ad_fecha, long ad_nservicio, string as_cemp, string as_ccont, string as_modrel)
 end prototypes
@@ -644,6 +643,7 @@ boolean livescroll = true
 end type
 
 event constructor;getchild('codvacuna',idw)
+
 end event
 
 type dw_dosis from datawindow within w_vacunas
@@ -697,6 +697,9 @@ event constructor;getchild('profe',iprof)
 iprof.settransobject(sqlca)
 iprof.setfilter("vacunador='1'")
 iprof.filter()
+getchild('fin_consulta',idw_finproc)
+idw_finproc.settransobject(sqlca)
+idw_finproc.retrieve('1')
 end event
 
 event doubleclicked;if dwo.name="dx" then 

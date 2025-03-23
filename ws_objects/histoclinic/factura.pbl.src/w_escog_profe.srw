@@ -179,9 +179,9 @@ if getcolumnname()='codrip' then
 			settext(getitemstring(1,getcolumnname()))
 			return 1
 		end if
-		setitem(1,'codgeral',st.codgeral)
-		setitem(1,'codrip',data)
-		setitem(1,'desc',st.descrip_diag)
+			setitem(1,'codgeral',st.codgeral)
+			setitem(1,'codrip',data)
+			setitem(1,'desc',st.descrip_diag)					
 	else
 		setitem(1,'codgeral',ls_este)
 		setitem(1,'codrip',ls_este)

@@ -4060,10 +4060,12 @@ choose case i_tingre
 		setnull(st_ord.ambp)
 		setnull(st_ord.codgeral)
 		st_ord.cual='ord'
-		st_ord.serv=i_tingre
-		openwithparm(w_escog_profe,st_ord)
-		st_ord=message.powerobjectparm
-		if st_ord.ambp='' or isnull(st_ord.ambp) then return -1
+		st_ord.serv=i_tingre		
+		if isvalid(w_evolucion_new) then 
+			openwithparm(w_escog_profe,st_ord)
+			st_ord=message.powerobjectparm
+			if st_ord.ambp='' or isnull(st_ord.ambp) then return -1
+		end if
 		//////		
 				
 		long j

@@ -180,6 +180,7 @@ end function
 
 public function integer refresh_diags ();dw_diags.reset()
 long f_ubica
+string ls_fin
 boolean lb_paso
 uo_datastore ds
 ds=create uo_datastore
@@ -209,10 +210,26 @@ if pos('2347',i_tingres)>0 then
 		dw_diags.setitem(1,'tipo_diag',ds.getitemstring(1,'tipodiagprin'))
 		dw_diags.setitem(1,'cod_modrel',ds.getitemstring(1,'cod_modrel'))	
 		if not isnull(ds.getitemstring(1,'fin_consulta')) then
-			dw_diags.setitem(1,'finalidad',ds.getitemstring(1,'fin_consulta'))
-			f_ubica=idw_finalidad.find("codfin='"+ds.getitemstring(1,'fin_consulta')+"'",1,idw_finalidad.RowCount())
-			idw_finalidad.setrow(f_ubica)
+			ls_fin=ds.getitemstring(1,'fin_consulta')
+		else
+			SELECT 
+				codfin 
+			INTO
+				:ls_fin
+			FROM 
+				finconsulta
+			WHERE 
+				(((estado)='1') AND ((defec)='1'));
+			if sqlca.sqlnrows=0 then
+				messagebox('Atencíon','No hay finalidad por Defecto')
+				return -1
+			end if
 		end if
+		dw_diags.setitem(1,'finalidad',ls_fin)
+		f_ubica=idw_finalidad.find("codfin='"+ls_fin+"'",1,idw_finalidad.RowCount())
+		idw_finalidad.setrow(f_ubica)
+
+		
 		If not isnull(ds.getitemstring(1,'causaexterna')) then
 			dw_diags.setitem(1,'causaext',ds.getitemstring(1,'causaexterna'))
 			f_ubica=idw_causaext.find("codcausaexter='"+ds.getitemstring(1,'causaexterna')+"'",1, idw_causaext.RowCount())
