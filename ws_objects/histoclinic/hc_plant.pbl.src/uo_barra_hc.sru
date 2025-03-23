@@ -180,7 +180,7 @@ end function
 
 public function integer refresh_diags ();dw_diags.reset()
 long f_ubica
-string ls_fin
+string ls_fin,ls_cext
 boolean lb_paso
 uo_datastore ds
 ds=create uo_datastore
@@ -231,10 +231,25 @@ if pos('2347',i_tingres)>0 then
 
 		
 		If not isnull(ds.getitemstring(1,'causaexterna')) then
-			dw_diags.setitem(1,'causaext',ds.getitemstring(1,'causaexterna'))
-			f_ubica=idw_causaext.find("codcausaexter='"+ds.getitemstring(1,'causaexterna')+"'",1, idw_causaext.RowCount())
-			idw_causaext.setrow(f_ubica)
+			ls_cext=ds.getitemstring(1,'causaexterna')
+		else
+			SELECT 
+				codcausaexter
+			into
+				:ls_cext
+			FROM 
+				causaexterna
+			WHERE 
+				(((estado)='1') AND ((defec)='1'));
+			if sqlca.sqlnrows=0 then
+				messagebox('Atencíon','No hay CausaExterna por Defecto')
+				return -1
+			end if			
 		end if
+		dw_diags.setitem(1,'causaext',ls_cext)
+		f_ubica=idw_causaext.find("codcausaexter='"+ls_cext+"'",1, idw_causaext.RowCount())
+		idw_causaext.setrow(f_ubica)
+
 	elseif i_ing='S' then//los r_ son los reales de la BD
 		ds.dataobject='dw_diags_sale'
 		ds.settransobject(sqlca)
@@ -321,25 +336,60 @@ else //de cons ext/odonto
 	
 	if not isnull(dw_diags.getitemstring(1,'finconsulta')) then 
 		if dw_diags.getitemstring(1,'finconsulta') <>ds.getitemstring(1,'fin_consulta') then
-			dw_diags.setitem(1,'finalidad',dw_diags.getitemstring(1,'finconsulta'))
+			ls_fin=dw_diags.getitemstring(1,'finconsulta')
 			dw_diags.Modify("finalidad.protect=1")
 		else
-			dw_diags.setitem(1,'finalidad',ds.getitemstring(1,'fin_consulta'))
+			ls_fin=ds.getitemstring(1,'fin_consulta')
 			dw_diags.Modify("finalidad.protect=0")
 		end if
-		f_ubica=idw_finalidad.find("codfin='"+dw_diags.getitemstring(1,'finalidad')+"'",1,idw_finalidad.RowCount())
-		idw_finalidad.setrow(f_ubica)
+	else
+		SELECT 
+			codfin 
+		INTO
+			:ls_fin
+		FROM 
+			finconsulta
+		WHERE 
+			(((estado)='1') AND ((defec)='1'));
+		if sqlca.sqlnrows=0 then
+			messagebox('Atencíon','No hay finalidad por Defecto')
+			return -1
+		end if
 	end if
+	dw_diags.setitem(1,'finalidad',ls_fin)
+		
+	f_ubica=idw_finalidad.find("codfin='"+ls_fin+"'",1,idw_finalidad.RowCount())
+	idw_finalidad.setrow(f_ubica)
+
 
 	if not isnull(dw_diags.getitemstring(1,'causaexterna')) then 
 		if dw_diags.getitemstring(1,'causaexterna')<>ds.getitemstring(1,'causaexterna') then 
-			dw_diags.setitem(1,'causaext',dw_diags.getitemstring(1,'causaexterna'))
+			ls_cext=dw_diags.getitemstring(1,'causaexterna')
 			dw_diags.Modify("causaext.protect=1")
 		else
-			dw_diags.setitem(1,'causaext',ds.getitemstring(1,'causaexterna'))
+			ls_cext=ds.getitemstring(1,'causaexterna')
 			dw_diags.Modify("causaext.protect=0")			
 		end if
-		f_ubica=idw_causaext.find("codcausaexter='"+dw_diags.getitemstring(1,'causaext')+"'",1, idw_causaext.RowCount())
+	else			
+		If not isnull(ds.getitemstring(1,'causaexterna')) then
+			ls_cext=ds.getitemstring(1,'causaexterna')
+		else
+			SELECT 
+				codcausaexter
+			into
+				:ls_cext
+			FROM 
+				causaexterna
+			WHERE 
+				(((estado)='1') AND ((defec)='1'));
+			if sqlca.sqlnrows=0 then
+				messagebox('Atencíon','No hay CausaExterna por Defecto')
+				return -1
+			end if			
+		end if
+		dw_diags.setitem(1,'causaext',ls_cext)
+
+		f_ubica=idw_causaext.find("codcausaexter='"+ls_cext+"'",1, idw_causaext.RowCount())
 		idw_causaext.setrow(f_ubica)
 	end if
 	
