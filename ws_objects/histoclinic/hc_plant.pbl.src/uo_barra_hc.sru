@@ -81,7 +81,8 @@ string i_clug,i_cplant,i_ing,i_tipo_plant,i_tingres,i_cemp,i_ccont,i_tipo_memo,i
 string i_antecedente,i_alergia,i_codant,i_tipoa,is_cext
 //richtextedit i_rte
 multilineedit i_mle
-datawindowchild idw_tipodiag,idw_profe,idw_desturg,idw_finalidad,idw_causaext,idw_fincon,idw_modrea
+datawindowchild idw_tipodiag,idw_profe,idw_desturg,idw_finalidad,idw_causaext,idw_fincon,idw_modrea,idw_finproc,idw_ambproc
+
 singlelineedit i_st
 datawindow idw_results,idw_dats,idw_memos, idw_frm
 uo_hclin i_uo_padre
@@ -488,7 +489,7 @@ else
 end if
 //pb_antecedente.originalsize=true
 
-if p_tipo='D' then //de diags
+if p_tipo='D' or p_tipo='X' then //de diags
 	pb_cevol.visible=false
 	pb_medi.visible=false
 	dw_tri.visible=false
@@ -674,10 +675,9 @@ public function integer updaterte ();string  ls_text
 
 ls_text=""
 
-if i_tipo_memo='D' then //diags
+if i_tipo_memo='D' or i_tipo_memo='X' then //diags
 
 	if not isnull(dw_diags.GetItemString(1,"est_sale")) and trim(dw_diags.GetItemString(1,"est_sale"))<>''  then
-		
 		ls_text+='Estado a la Salida:'+'		'
 		if dw_diags.GetItemString(1,"est_sale")='1' then
 			ls_text+='Vivo~r~n'
@@ -687,13 +687,11 @@ if i_tipo_memo='D' then //diags
 
 		////COLOCA DX en ANTECENTE
 		if dw_diags.GetItemString(1,"antecedente")='1' then
-			
 			string ls_tpant , ls_dx , ls_codp
 			integer li_item
 			datetime ld_fechadx
 			
 			setnull(ls_tpant)
-			
 			SELECT cod_tipoa into :ls_tpant
 			FROM tipo_antecedente
 			WHERE (((tipo_antecedente.dx)='1'));
@@ -748,39 +746,35 @@ if i_tipo_memo='D' then //diags
 	end if
 
 	if not isnull(dw_diags.GetItemString(1,"dest_urg")) and trim(dw_diags.GetItemString(1,"dest_urg"))<>''  then
-		
 		ls_text+='Conducta de Urgencias:'+'		'+dw_diags.GetItemString(1,"dest_urg")+'  '+idw_desturg.GetItemString(idw_desturg.getrow(),'descripcion')+'~r~n'
-
 	end if
 	
 	if not isnull(dw_diags.GetItemString(1,"c_diagprin")) and trim(dw_diags.GetItemString(1,"c_diagprin"))<>''  then
-		
 		ls_text+='Como Diagnóstico Principal:'+'		'+dw_diags.GetItemString(1,"c_diagprin")+'  '+dw_diags.GetItemString(1,"d_diagprin")+'~r~n'
-
 	end if
 	
-	if not isnull(dw_diags.GetItemString(1,"tipo_diag")) and trim(dw_diags.GetItemString(1,"tipo_diag"))<>''  then
-		
+	if not isnull(dw_diags.GetItemString(1,"tipo_diag")) and trim(dw_diags.GetItemString(1,"tipo_diag"))<>'' and  i_tipo_memo='D' then
 		ls_text+='Tipo de Diagnóstico:'+'		'+dw_diags.GetItemString(1,"tipo_diag")+'  '+idw_tipodiag.GetItemString(idw_tipodiag.getrow(),'descripcion')+'~r~n'
-
 	end if
+
+	if not isnull(dw_diags.GetItemString(1,"ambito_proc")) and trim(dw_diags.GetItemString(1,"ambito_proc"))<>'' and  i_tipo_memo='X'  then	
+		ls_text+='Ambito Procedimiento:'+'		'+dw_diags.GetItemString(1,"ambito_proc")+'  '+idw_ambproc.GetItemString(idw_ambproc.getrow(),'descripcion')+'~r~n'
+	end if
+
+	if not isnull(dw_diags.GetItemString(1,"finalida_proc")) and trim(dw_diags.GetItemString(1,"finalida_proc"))<>''  and  i_tipo_memo='X' then
+		ls_text+='Finalidad Procedimiento:'+'			'+dw_diags.GetItemString(1,"finalida_proc")+'  '+idw_finproc.GetItemString(idw_finproc.getrow(),"descripcion")+'~r~n'
+	end if		
 		
-	if not isnull(dw_diags.GetItemString(1,"finalidad")) and trim(dw_diags.GetItemString(1,"finalidad"))<>''  then
-		
+	if not isnull(dw_diags.GetItemString(1,"finalidad")) and trim(dw_diags.GetItemString(1,"finalidad"))<>''  and i_tipo_memo='D'then		
 		ls_text+='Finalidad:'+'			'+dw_diags.GetItemString(1,"finalidad")+'  '+idw_finalidad.GetItemString(idw_finalidad.getrow(),"descripcion")+'~r~n'
-
 	end if
 
-	if not isnull(dw_diags.GetItemString(1,"causaext")) and trim(dw_diags.GetItemString(1,"causaext"))<>''  then
-		
+	if not isnull(dw_diags.GetItemString(1,"causaext")) and trim(dw_diags.GetItemString(1,"causaext"))<>'' and  i_tipo_memo='D' then
 		ls_text+='Causa Externa:'+'			'+dw_diags.GetItemString(1,"causaext")+'  '+idw_causaext.GetItemString(idw_causaext.getrow(),"descripcion")+'~r~n'
-
 	end if
 	
 	if not isnull(dw_diags.GetItemString(1,"cod_modrel")) and trim(dw_diags.GetItemString(1,"cod_modrel"))<>''  then
-		
 		ls_text+='Modo de Realización:'+'		'+dw_diags.GetItemString(1,"cod_modrel")+'  '+idw_modrea.GetItemString(idw_modrea.getrow(),"desp_modrel")+'~r~n'
-
 	end if
 	
 	if trim(dw_diags.GetItemString(1,"c_diagrel1"))<>'' or trim(dw_diags.GetItemString(1,"c_diagrel2"))<>'' or trim(dw_diags.GetItemString(1,"c_diagrel3"))<>'' or trim(dw_diags.GetItemString(1,"c_diagrel4"))<>'' or trim(dw_diags.GetItemString(1,"c_diagrel5"))<>'' then
@@ -1580,20 +1574,31 @@ event p_itemchanged();this.accepttext()
 end event
 
 event retrieveend;if rowcount()=0 then return
-//long suma=151,corre=24
 long suma=37,corre=24
 
 if getitemstring(1,'v_diagprin')='1' then
 	suma += long(describe('c_diagprin.width'))+corre
-	modify('tipo_diag.x='+string(suma))
-	modify('t_tipo_diag.x='+string(suma))
-	suma += long(describe('tipo_diag.width'))+corre
-	modify('finalidad.x='+string(suma))
-	modify('t_finalidad.x='+string(suma))
-	suma += long(describe('finalidad.width'))+corre
-	modify('causaext.x='+string(suma))
-	modify('t_causaext.x='+string(suma))
-	suma += long(describe('causaext.width'))+corre
+	if getitemstring(1,'tipo_memo')='D' then	
+		modify('tipo_diag.x='+string(suma))
+		modify('t_tipo_diag.x='+string(suma))
+		
+		suma += long(describe('tipo_diag.width'))+corre
+		modify('finalidad.x='+string(suma))
+		
+		modify('t_finalidad.x='+string(suma))
+		suma += long(describe('finalidad.width'))+corre
+		modify('causaext.x='+string(suma))
+		modify('t_causaext.x='+string(suma))
+		suma += long(describe('causaext.width'))+corre		
+	end if
+	if getitemstring(1,'tipo_memo')='X' then
+		modify('ambito_proc.x='+string(suma))
+		modify('t_amb.x='+string(suma))
+		suma += long(describe('ambito_proc.width'))+corre	
+		modify('finalida_proc.x='+string(suma))
+		modify('t_fproc.x='+string(suma))
+		suma += long(describe('finalida_proc.width'))+corre
+	end if
 	modify('cod_modrel.x='+string(suma))
 	modify('t_modrel.x='+string(suma))	
 	suma += long(describe('cod_modrel.width'))+corre			
@@ -1721,10 +1726,16 @@ getchild('finconsulta',idw_fincon)
 idw_fincon.settransobject(sqlca)
 getchild('cod_modrel',idw_modrea)
 idw_modrea.settransobject(sqlca)
+getchild('finalida_proc',idw_finproc)
+idw_finproc.settransobject(SQLCA)
+getchild('ambito_proc',idw_ambproc)
+idw_ambproc.settransobject(sqlca)
 
 idw_finalidad.retrieve('1')
 idw_causaext.retrieve('1')
 idw_fincon.retrieve('1')
+idw_finproc.retrieve('1')
+idw_ambproc.retrieve('1')
 
 string ls_sex
 int li_dias

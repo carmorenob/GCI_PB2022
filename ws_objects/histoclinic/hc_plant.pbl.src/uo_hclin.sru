@@ -872,6 +872,7 @@ return 1
 end function
 
 public function integer guarda_diags ();string err
+
 if i_tingre='2' then
 	if uo_1.dw_tri.getitemstatus(1,0,primary!)=datamodified! or uo_1.dw_tri.getitemstatus(1,0,primary!)=NewModified! then
 		//uo_1.dw_tri.setitem(1,'usu_triage',usuario)
@@ -881,6 +882,7 @@ if i_tingre='2' then
 		return -1
 	end if
 end if
+
 if pos('2347',i_tingre)>0 then
 	update hospadmi set estad_evol='1'
 	where contador=:i_contador and clugar_his=:i_clug;
@@ -994,10 +996,16 @@ if dw_campo.find('tipo="M" and tipo_memo="D"',1,dw_campo.rowcount())>0 and (ls_s
 		ds_diag.dataobject='dw_diags_cext'
 		ds_diag.settransobject(sqlca)
 		if ds_diag.retrieve(i_contador,i_clug)>0 then
-			ds_diag.setitem(1,'tipodiagprin',uo_1.dw_diags.getitemstring(1,'tipo_diag'))
-			ds_diag.setitem(1,'causaexterna',uo_1.dw_diags.getitemstring(1,'causaext'))
-			ds_diag.setitem(1,'fin_consulta',uo_1.dw_diags.getitemstring(1,'finalidad'))
-			
+			if uo_1.dw_diags.getitemstring(1,'tipo_memo')='D' then 		
+				ds_diag.setitem(1,'tipodiagprin',uo_1.dw_diags.getitemstring(1,'tipo_diag'))
+				ds_diag.setitem(1,'causaexterna',uo_1.dw_diags.getitemstring(1,'causaext'))
+				ds_diag.setitem(1,'fin_consulta',uo_1.dw_diags.getitemstring(1,'finalidad'))
+			end if
+			if uo_1.dw_diags.getitemstring(1,'tipo_memo')='X' then 		
+				ds_diag.setitem(1,'ambitoproced',uo_1.dw_diags.getitemstring(1,'ambito_proc'))
+				ds_diag.setitem(1,'finalidadproced',uo_1.dw_diags.getitemstring(1,'finalida_proc'))
+			end if
+				
 			if isnull(uo_1.dw_diags.getitemstring(1,'r_diagprin'))  or uo_1.dw_diags.getitemstring(1,'r_diagprin')='' then
 				ds_diag.setitem(1,'diagprin',snulo)
 			else
