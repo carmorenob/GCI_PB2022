@@ -1787,7 +1787,7 @@ if dwo.name = 'b_visible' then
 	openwithparm(w_formula_hc, this)
 	return
 end if
-if getitemstring(getrow(),'tipo_memo')='D' or getitemstring(getrow(),'tipo_memo')='C' or getitemstring(getrow(),'tipo_memo')='P' then
+if getitemstring(getrow(),'tipo_memo')='D' or getitemstring(getrow(),'tipo_memo')='X'  or getitemstring(getrow(),'tipo_memo')='C' or getitemstring(getrow(),'tipo_memo')='P' then
 	openwithparm(w_plantcampo,dw_save_campo)
 else
 	if getitemstring(getrow(),'tipo')='R' or getitemstring(getrow(),'tipo')='C' then

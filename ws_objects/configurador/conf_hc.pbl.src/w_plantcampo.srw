@@ -117,25 +117,37 @@ if dw_c.GetItemString(f,'tipo_memo') = 'C' then//conducta
 	dw_campo.SetItem(n,1,'codmedica')
 	n = dw_campo.InsertRow(0)
 	dw_campo.SetItem(n,1,'medicamento')
-elseif dw_c.GetItemString(f,'tipo_memo') = 'D' then//diagnostico
+elseif dw_c.GetItemString(f,'tipo_memo') = 'D' or dw_c.GetItemString(f,'tipo_memo') = 'X' then//diagnostico
 	if dw_c.GetItemString(f,'plant_tipo')='C' or dw_c.GetItemString(f,'plant_tipo')='P' or dw_c.GetItemString(f,'plant_tipo')='O' then
 		if dw_c.GetItemString(f,'diagprin') = '1' then
 			n = dw_campo.InsertRow(0)
 			dw_campo.SetItem(n,1,'diagprin')
 			n = dw_campo.InsertRow(0)
 			dw_campo.SetItem(n,1,'desc_diagprin')
-			n = dw_campo.InsertRow(0)
-			dw_campo.SetItem(n,1,'tipodiag')
-			n = dw_campo.InsertRow(0)
-			dw_campo.SetItem(n,1,'desc_tipodiag')
-			n = dw_campo.InsertRow(0)
-			dw_campo.SetItem(n,1,'finalidad')
-			n = dw_campo.InsertRow(0)
-			dw_campo.SetItem(n,1,'desc_finalidad')
-			n = dw_campo.InsertRow(0)
-			dw_campo.SetItem(n,1,'causaext')
-			n = dw_campo.InsertRow(0)
-			dw_campo.SetItem(n,1,'desc_causaext')
+			if dw_c.GetItemString(f,'tipo_memo') = 'D' then 
+				n = dw_campo.InsertRow(0)
+				dw_campo.SetItem(n,1,'tipodiag')
+				n = dw_campo.InsertRow(0)
+				dw_campo.SetItem(n,1,'desc_tipodiag')
+				n = dw_campo.InsertRow(0)
+				dw_campo.SetItem(n,1,'finalidad')
+				n = dw_campo.InsertRow(0)
+				dw_campo.SetItem(n,1,'desc_finalidad')
+				n = dw_campo.InsertRow(0)
+				dw_campo.SetItem(n,1,'causaext')
+				n = dw_campo.InsertRow(0)
+				dw_campo.SetItem(n,1,'desc_causaext')
+			end if
+			if dw_c.GetItemString(f,'tipo_memo') = 'X' then
+				n = dw_campo.InsertRow(0)				
+				dw_campo.SetItem(n,1,'ambitoproced')
+				n = dw_campo.InsertRow(0)
+				dw_campo.SetItem(n,1,'desc_ambitoproced')
+				n = dw_campo.InsertRow(0)
+				dw_campo.SetItem(n,1,'finalidadproced')
+				n = dw_campo.InsertRow(0)
+				dw_campo.SetItem(n,1,'desc_finalidad_proced')
+			end if
 			n = dw_campo.InsertRow(0)
 			dw_campo.SetItem(n,1,'modrealiza')	
 			n = dw_campo.InsertRow(0)
@@ -308,7 +320,7 @@ end if
 end event
 
 type st_1 from statictext within w_plantcampo
-integer x = 1248
+integer x = 1413
 integer y = 636
 integer width = 357
 integer height = 64
@@ -346,7 +358,7 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type pb_9 from picturebutton within w_plantcampo
-integer x = 1307
+integer x = 1422
 integer y = 300
 integer width = 146
 integer height = 128
@@ -367,7 +379,7 @@ event clicked;close(parent)
 end event
 
 type pb_5 from picturebutton within w_plantcampo
-integer x = 1307
+integer x = 1422
 integer y = 164
 integer width = 146
 integer height = 128
@@ -409,7 +421,7 @@ Return 0
 end event
 
 type pb_4 from picturebutton within w_plantcampo
-integer x = 1307
+integer x = 1422
 integer y = 28
 integer width = 146
 integer height = 128
@@ -435,7 +447,7 @@ end event
 type dw_campo from datawindow within w_plantcampo
 integer x = 41
 integer y = 40
-integer width = 1138
+integer width = 1335
 integer height = 632
 integer taborder = 50
 string title = "none"
