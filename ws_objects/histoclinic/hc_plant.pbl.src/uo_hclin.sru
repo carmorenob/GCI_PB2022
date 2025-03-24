@@ -3594,7 +3594,18 @@ insertrow(1)
 
 end event
 
-event itemchanged;event pinta()
+event itemchanged;int li_ctos=0
+SELECT count(0) into :li_ctos
+FROM hclin_registro
+WHERE (((hclin_registro.contador)=:i_contador) AND ((hclin_registro.clugar)=:i_clug) AND ((hclin_registro.codplantilla)=:data));
+
+if li_ctos >0 and i_tingre='1' then
+	messagebox('Atención','Ya hay una plantilla cargada para esta atención')
+	return -1
+end if
+
+
+event pinta()
 if i_fecha='1' then 
 	em_1.enabled=true
 else 
