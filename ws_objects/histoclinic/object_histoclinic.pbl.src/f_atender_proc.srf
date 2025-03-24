@@ -168,20 +168,7 @@ for k=1 to hasta
 	nserv ++
 next
 dw_rias.accepttext()
-//string nv_est,estr
-//
-//for k=1 to dw_rias.rowcount()
-//	nv_est=dw_rias.getitemstring(k,'estado')
-//	if nv_est<>"Anulado" then 
-//		choose case nv_est
-//			case "Completo"
-//				estr="1"
-//			case "Incompleto"
-//				estr="2"
-//		end choose
-//		dw_rias.setitem(k,"estria",estr)
-//	end if
-//next
+
 	
 if dw_rias.update() = 1 then 
 	commit;
@@ -194,7 +181,7 @@ commit;
 select count(item) into :j from oscuerpo
 where contador=:p_conta and clugar=:p_lugar and nsolicitud=:p_orden and estado='1';
 if j=0 then 
-	update oscabeza set estado='2' 
+	update oscabeza set estado='2',cod_fina=:i_fin_consulta, diagnostico=:i_cdiaging 
 	where contador=:p_conta and clugar=:p_lugar and nsolicitud=:p_orden;
 	if sqlca.sqlcode=-1 then
 		messagebox("Error actualizando estado de orden de servicio",sqlca.sqlerrtext)

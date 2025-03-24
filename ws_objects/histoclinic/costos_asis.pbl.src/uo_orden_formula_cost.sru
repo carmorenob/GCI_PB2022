@@ -4050,24 +4050,8 @@ choose case i_tingre
 				s_esp=st_llega.cesp
 			end if
 		end if
-
 		
-		///Para DX y Finalidad
-		st_x_ordenext st_ord
-		setnull(st_ord.dx)
-		setnull(st_ord.descp)
-		setnull(st_ord.finc)
-		setnull(st_ord.ambp)
-		setnull(st_ord.codgeral)
-		st_ord.cual='ord'
-		st_ord.serv=i_tingre		
-		if isvalid(w_evolucion_new) then 
-			openwithparm(w_escog_profe,st_ord)
-			st_ord=message.powerobjectparm
-			if st_ord.ambp='' or isnull(st_ord.ambp) then return -1
-		end if
-		//////		
-				
+		/////Para crear orden			
 		long j
 		
 		select max(nsolicitud) into :j from oscabeza 
@@ -4078,6 +4062,23 @@ choose case i_tingre
 		end if
 		if isnull(j) then j=0
 		j++
+		
+		///Para DX y Finalidad
+		st_x_ordenext st_ord
+		setnull(st_ord.dx)
+		setnull(st_ord.descp)
+		setnull(st_ord.finc)
+		setnull(st_ord.ambp)
+		setnull(st_ord.codgeral)
+		st_ord.cual='ord'
+		st_ord.serv=i_tingre		
+		if isvalid(w_evolucion_new) and j<>1 then 
+			openwithparm(w_escog_profe,st_ord)
+			st_ord=message.powerobjectparm
+			if st_ord.ambp='' or isnull(st_ord.ambp) then return -1
+		end if
+		//////		
+
 		dw_oscab.insertrow(1)
 		dw_oscab.scrolltorow(1)
 		dw_oscab.setitem(1,"contador",i_contador)
