@@ -131,11 +131,10 @@ long i_contador,i_consec,i_nservicio,i_nh,i_norden
 boolean pide_conf
 string manual,i_tipo_ingres,i_clugar_his,i_clugar_acto,i_clugar_hadm,i_estado_adm
 string carga_revisa
-datawindowchild i_dw_esp
+datawindowchild i_dw_esp,idw_finproc
 datastore ids_osd
 
 end variables
-
 forward prototypes
 public subroutine f_rev_estados (boolean todos)
 end prototypes
@@ -755,8 +754,12 @@ boolean livescroll = true
 end type
 
 event constructor;this.settransobject(sqlca)
+getchild('tipproce',idw_finproc)
+idw_finproc.settransobject(SQLCA)
+idw_finproc.retrieve('1')
 this.insertrow(1)
-this.setitem(1,1,'2')
+//this.setitem(1,1,'2')
+
 end event
 
 event itemchanged;accepttext()

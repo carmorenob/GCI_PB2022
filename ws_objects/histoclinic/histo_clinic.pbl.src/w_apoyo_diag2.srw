@@ -328,7 +328,7 @@ string l_repositorios,i_alm,i_cdoc_cons='SC',i_emp,i_cont,int_cliente
 boolean i_pideconf,i_print,i_cambio_insumo
 long i_fila,i_contador,i_ningreso,i_nserving,i_nservadx,i_muestra,i_itemcpo,i_nrepor
 string is_202
-datawindowchild idw_area,idw_lista1,idw_profe,idw_lista2,idw_lista3
+datawindowchild idw_area,idw_lista1,idw_profe,idw_lista2,idw_lista3,idw_tingre
 DataWindowChild idw_finconapx,idw_finprocapx,idw_causaexapx,idw_ambprocapx
 datetime i_fecha
 int ntomas
@@ -2041,6 +2041,8 @@ boolean livescroll = true
 end type
 
 event constructor;settransobject(sqlca)
+getchild('codtingre',idw_tingre)
+idw_tingre.settransobject(sqlca)
 insertrow(1)
 setitem(1,1,'1')
 end event
@@ -2338,7 +2340,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-03-13"), Time("17:10:10.000000"))
+datetime value = DateTime(Date("2025-03-25"), Time("17:53:52.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2360,7 +2362,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-03-13"), Time("17:10:10.000000"))
+datetime value = DateTime(Date("2025-03-25"), Time("17:53:52.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -4602,7 +4604,7 @@ else
 		end if			
 	end if
 end if
-setitem(1,"ambitoproced",'1')
+setitem(1,"ambitoproced",idw_tingre.getitemstring(idw_tingre.getrow(),'claseproced'))
 if not isnull(ls_dx) or ls_dx<>'' then 
 	setitem(1,"diagprin", ls_dx)
 	setitem(1,"finalidadproced",ls_fina)
