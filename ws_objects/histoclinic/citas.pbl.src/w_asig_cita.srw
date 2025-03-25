@@ -289,13 +289,12 @@ for j=1 to 7
 	do while donde<>0 
 		dw_1.setitem(donde,'sel'+string(j),'0')
 		dw_1.setitem(donde,'dia'+string(j),'Libre')
-		dw_1.setitem(donde,'proc'+string(j),'')
-		dw_1.setitem(donde,'nserv'+string(j),'')
 		dw_1.setitem(donde,'fac'+string(j),'')
 		dw_1.setitem(donde,'conf'+string(j),'')
 		donde=dw_1.find('sel'+string(j)+'="1"',donde,dw_1.rowcount())
 	loop
 next
+
 for j=1 to tab_1.tp_1.dw_serv_cita.rowcount()
 	tab_1.tp_1.dw_serv_cita.setitem(j,'tempo',0)
 next
@@ -2257,30 +2256,33 @@ end event
 event llena_asig(long p_fila, integer p_columna);tab_1.tp_2.dw_serv_turno.setredraw(false)
 tab_1.tp_2.dw_serv_turno.setfilter('isnull(fecha) and cproced="'+getitemstring(p_fila,'proc'+string(p_columna))+'" and sec_cant='+string(getitemnumber(p_fila,'sec_cant'+string(p_columna))))
 tab_1.tp_2.dw_serv_turno.filter()
-tab_1.tp_2.dw_serv_turno.setitem(1,'fecha',datetime(relativedate(date(i_desde),p_columna -1),time('00:00:00')))
-tab_1.tp_2.dw_serv_turno.setitem(1,'hora',datetime(date('1900-01-01'),getitemtime(p_fila,'hora')))
-tab_1.tp_2.dw_serv_turno.setitem(1,'prof',i_profes)
-tab_1.tp_2.dw_serv_turno.setitem(1,'consult',i_consul)
-tab_1.tp_2.dw_serv_turno.setitem(1,'duracion',i_dura)
+if tab_1.tp_2.dw_serv_turno.rowcount()> 0 then
+	tab_1.tp_2.dw_serv_turno.setitem(1,'fecha',datetime(relativedate(date(i_desde),p_columna -1),time('00:00:00')))
+	tab_1.tp_2.dw_serv_turno.setitem(1,'hora',datetime(date('1900-01-01'),getitemtime(p_fila,'hora')))
+	tab_1.tp_2.dw_serv_turno.setitem(1,'prof',i_profes)
+	tab_1.tp_2.dw_serv_turno.setitem(1,'consult',i_consul)
+	tab_1.tp_2.dw_serv_turno.setitem(1,'duracion',i_dura)
+end if
 tab_1.tp_2.dw_serv_turno.setfilter('')
 tab_1.tp_2.dw_serv_turno.filter()
 tab_1.tp_2.dw_serv_turno.setredraw(true)
 end event
 
-event borra_asig(boolean p_todos);string cual,proc
-long fila,sec_cant
-date fecha
-time hora
-fila=getrow()
-cual = right(getcolumnname(),1)
+event borra_asig(boolean p_todos);string ls_cual,ls_proc
+long ll_fila,ll_sec_cant
+date ldt_fecha
+time lt_hora
+
+ll_fila=getrow()
+ls_cual = right(getcolumnname(),1)
 if p_todos then
-	proc=getitemstring(fila,"proc"+cual)
-	sec_cant=getitemnumber(fila,"sec_cant"+cual)
-	tab_1.tp_2.dw_serv_turno.setfilter( 'cproced="'+proc+'"')
+	ls_proc=getitemstring(ll_fila,"proc"+ls_cual)
+	ll_sec_cant=getitemnumber(ll_fila,"sec_cant"+ls_cual)
+	tab_1.tp_2.dw_serv_turno.setfilter( 'cproced="'+ls_proc+'"')
 else
-	fecha=relativedate(date(i_desde), long(cual) -1)
-	hora=getitemtime(fila,'hora')
-	tab_1.tp_2.dw_serv_turno.setfilter('date(fecha)=date("'+string(fecha,'yyyy-mm-dd')+'") and time(hora)=time("'+string(hora,'HH:mm')+'")')
+	ldt_fecha=relativedate(date(i_desde), long(ls_cual) -1)
+	lt_hora=getitemtime(ll_fila,'hora')
+	tab_1.tp_2.dw_serv_turno.setfilter('date(fecha)=date("'+string(ldt_fecha,'yyyy-mm-dd')+'") and time(hora)=time("'+string(lt_hora,'HH:mm')+'")')
 end if
 tab_1.tp_2.dw_serv_turno.setredraw(false)
 tab_1.tp_2.dw_serv_turno.filter()
@@ -2394,11 +2396,13 @@ for l_i=1 to tab_1.tp_1.dw_serv_cita.rowcount()
 				st_6.visible=false
 				st_6.enabled=false
 			end if
-			busca=tab_1.tp_1.dw_serv_cita.find("cproced='"+getitemstring( l_i,"proc"+cual)+"'",1,tab_1.tp_1.dw_serv_cita.rowcount())
+			string ls_s
+			ls_s="cproced='"+getitemstring( fila,"proc"+cual)
+			busca=tab_1.tp_1.dw_serv_cita.find("cproced='"+getitemstring( fila,"proc"+cual)+"'",1,tab_1.tp_1.dw_serv_cita.rowcount())
 			if tab_1.tp_1.dw_serv_cita.getitemstring(busca,"secuencia") ='1' then
 				event borra_asig(true)
 				//busca2 es para buscar el primero de esa tanda
-				busca2=find("dia"+cual+"='"+getitemstring( l_i,"proc"+cual)+"' and sec_cant"+cual+"="+string(getitemnumber( l_i,"sec_cant"+cual)),1,rowcount())
+				busca2=find("dia"+cual+"='"+tab_1.tp_1.dw_serv_cita.getitemstring(l_i,"cproced")+"' and sec_cant"+cual+"="+string(getitemnumber( l_i,"sec_cant"+cual)),1,rowcount())
 				for k=1 to tab_1.tp_1.dw_serv_cita.getitemnumber(busca,"nturnos")
 					setitem(busca2 +k -1,"dia"+cual,"Libre")
 					setitem(busca2 +k -1,"sel"+cual,"0")
@@ -2424,7 +2428,6 @@ for l_i=1 to tab_1.tp_1.dw_serv_cita.rowcount()
 				st_6.enabled=true
 			end If
 			//asignar un proc
-			//if i_cuantos < tab_1.tp_1.dw_serv_cita.getitemnumber(tab_1.tp_1.dw_serv_cita.getrow(),"nturnos")*tab_1.tp_1.dw_serv_cita.getitemnumber(tab_1.tp_1.dw_serv_cita.getrow(),"cantidad") then
 			if i_cuantos < tab_1.tp_1.dw_serv_cita.getitemnumber(l_i,"nturnos")*tab_1.tp_1.dw_serv_cita.getitemnumber(l_i,"cantidad") then
 				fecha=datetime(relativedate(fec,columna - daynumber(fec)),time("00:00:00"))
 				hora=datetime(date("1/1/1900"),getitemtime( fila,"hora"))
@@ -2433,7 +2436,7 @@ for l_i=1 to tab_1.tp_1.dw_serv_cita.rowcount()
 				string pa_buscar
 				pa_buscar= "(time(hora)<=time('"+string(hora,'HH:mm')+"') and relativetime(time(hora),(duracion -1)*60)>=time('"+string(hora,'HH:mm')+"')) or "
 				pa_buscar+="(time(hora)>=time('"+string(hora,'HH:mm')+"') and relativetime(time('"+string(hora,'HH:mm')+"'),("+string(i_dura -1)+")*60 )>=time(hora))"
-				donde=tab_1.tp_2.dw_serv_turno.find(pa_buscar+' and date(fecha)=date("'+string(fecha,'yyyy-mm-dd')+"') and (cproced='"+ ls_prod+' ")',1,tab_1.tp_2.dw_serv_turno.rowcount())
+				donde=tab_1.tp_2.dw_serv_turno.find(pa_buscar+' and date(fecha)=date("'+string(fecha,'yyyy-mm-dd')+"') and (cproced='"+ ls_prod+'")',1,tab_1.tp_2.dw_serv_turno.rowcount())
 				if donde<>0 then
 					messagebox("Atención","Ya está asignado para esta fecha y hora otra cita")
 					return
@@ -2462,7 +2465,6 @@ for l_i=1 to tab_1.tp_1.dw_serv_cita.rowcount()
 							messagebox("Atención","No hay cupo libre para todos los turnos")
 							return
 						end if
-						//for k=1 to tab_1.tp_1.dw_serv_cita.getitemnumber(tab_1.tp_1.dw_serv_cita.getrow(),"nturnos")
 						for k=1 to tab_1.tp_1.dw_serv_cita.getitemnumber(l_i,"nturnos")
 							if (getitemstring(fila + k -1 ,"dia"+cual)<>"Libre" and l_i=1 ) or isnull(getitemstring(fila + k -1 ,"dia"+cual)) then
 								messagebox("Atención","No hay cupo libre para todos los turnos")
@@ -2470,21 +2472,19 @@ for l_i=1 to tab_1.tp_1.dw_serv_cita.rowcount()
 							end if
 						next
 						sec_cant=tab_1.tp_1.dw_serv_cita.event sec_cant()
-						//for k=1 to tab_1.tp_1.dw_serv_cita.getitemnumber(tab_1.tp_1.dw_serv_cita.getrow(),"nturnos")
 						for k=1 to tab_1.tp_1.dw_serv_cita.getitemnumber(l_i,"nturnos")
-							setitem( fila+ k -1,"sel"+cual,"1")
-							//setitem( l_i + k -1,"dia"+cual,tab_1.tp_1.dw_serv_cita.getitemstring(tab_1.tp_1.dw_serv_cita.getrow(),"cproced"))
+							if tab_1.tp_1.dw_serv_cita.rowcount()=l_i then
+								setitem( fila+ k -1,"sel"+cual,"1")
+							end if
 							setitem( fila+ k -1,"dia"+cual,tab_1.tp_1.dw_serv_cita.getitemstring(l_i,"cproced"))
-							//setitem( l_i + k -1,"proc"+cual,tab_1.tp_1.dw_serv_cita.getitemstring(tab_1.tp_1.dw_serv_cita.getrow(),"cproced"))
 							setitem( fila + k -1,"proc"+cual,tab_1.tp_1.dw_serv_cita.getitemstring(l_i,"cproced"))
-							//if tab_1.tp_1.dw_serv_cita.getitemnumber(tab_1.tp_1.dw_serv_cita.getrow(),"nturnos")=1 then
 							if tab_1.tp_1.dw_serv_cita.getitemnumber(l_i,"nturnos")=1 then
 								setitem( fila+ k -1,"sec_cant"+cual,sec_cant)
 							else
 								setitem( fila+ k -1,"sec_cant"+cual,k)
 							end if
 							i_cuantos++
-							event llena_asig( fila +k -1,columna)
+							event llena_asig( fila+k -1,columna)
 						next
 					case '2' //separados
 						sec_cant=tab_1.tp_1.dw_serv_cita.event sec_cant()
@@ -2897,7 +2897,12 @@ else
 	idw_fincon.setfilter("indsexo in('0','"+ls_sex+"') and  "+string(li_dias)+">=edadini  and  "+string(li_dias)+"<=edadfin ")
 end if
 idw_fincon.filter()
-
+fecha_esperada.enabled=false
+dw_3.visible=false
+dw_4.visible=false
+fecha_esperada.visible=false
+st_6.visible=false
+st_6.enabled=false
 end event
 
 event constructor;settransobject(sqlca)
