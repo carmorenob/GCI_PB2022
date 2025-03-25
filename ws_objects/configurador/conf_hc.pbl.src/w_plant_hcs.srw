@@ -649,7 +649,7 @@ end event
 
 type tab_1 from tab within w_plant_hcs
 integer y = 20
-integer width = 6217
+integer width = 6322
 integer height = 3052
 integer taborder = 10
 integer textsize = -8
@@ -685,7 +685,7 @@ end on
 type tp_1 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 6181
+integer width = 6286
 integer height = 2924
 long backcolor = 67108864
 string text = "Plantillas"
@@ -1771,7 +1771,7 @@ end event
 type dw_save_campo from datawindow within tp_1
 integer x = 2967
 integer y = 880
-integer width = 3154
+integer width = 3241
 integer height = 1108
 integer taborder = 80
 string dataobject = "dw_campos_plant"
@@ -2049,7 +2049,7 @@ end event
 type gb_1 from groupbox within tp_1
 integer x = 23
 integer y = 816
-integer width = 6112
+integer width = 6208
 integer height = 2076
 integer taborder = 50
 integer textsize = -7
@@ -2066,7 +2066,7 @@ end type
 type tp_2 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 6181
+integer width = 6286
 integer height = 2924
 long backcolor = 67108864
 string text = "Impresión"
