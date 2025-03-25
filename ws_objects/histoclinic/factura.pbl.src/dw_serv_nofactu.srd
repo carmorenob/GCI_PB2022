@@ -82,7 +82,7 @@ SELECT
 	tesoredetalle.vproced/tesoredetalle.cantidad*serviciosingreso.cantidad AS vproc, (tesoredetalle.vproced-tesoredetalle.v_paga)/tesoredetalle.cantidad*serviciosingreso.cantidad AS vemp, 
 	v_paga/tesoredetalle.cantidad*serviciosingreso.cantidad AS v_pac, tesoredetalle.Cplan AS plan_reci, tesoredetalle.cmanual AS man_reci, tesoredetalle.CodAADx, ServiciosIngreso.RIPS, 
 	SERVICIOSMAN.tiposervicio, SERVICIOSMAN.CODCONCEPTO, tesoredetalle.nitem, 0 AS nro_insumo, ServiciosIngreso.Cplan, ServiciosIngreso.tipo_orden, Proced.cod_cups, 
-	Proced.cod_version,null as siras, serviciosingreso.diagprin as dx, serviciosingreso.finalidadproced as as finap
+	Proced.cod_version,null as siras, serviciosingreso.diagprin as dx, serviciosingreso.finalidadproced as finap
 FROM 
 	(((((Historial INNER JOIN ServiciosIngreso ON (Historial.CLUGAR = ServiciosIngreso.CLUGAR) AND (Historial.CONTADOR = ServiciosIngreso.CONTADOR)) 
 	INNER JOIN Proced ON ServiciosIngreso.CPROCED = Proced.CODPROCED) LEFT JOIN SERCIOSTURNO ON (ServiciosIngreso.NSERVICIO = SERCIOSTURNO.NSERVICIO_INGRESO) 

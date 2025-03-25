@@ -27,7 +27,7 @@ table(column=(type=number update=yes updatewhereclause=yes key=yes name=contador
  retrieve="SELECT 
 	OSCuerpo.Contador, OSCuerpo.clugar, OSCuerpo.NSolicitud, OSCuerpo.Item, OSCabeza.fecha, OSCuerpo.solicitada, OSCuerpo.CodProced, 
 	OSCuerpo.c_medica, Proced.Descripcion, Medicamentos.Medicamento, OSCuerpo.NFact , '0' as esco,null as cplan, OSCuerpo.entregada,
-	proced.cod_cups,proced.cod_version,null as siras, OSCabeza.diagnostico, OSCabeza.cod_fina
+	proced.cod_cups,proced.cod_version,null as siras, OSCabeza.codgeral as diagnostico, OSCabeza.cod_fina
 FROM 
 	(((Historial INNER JOIN OSCabeza ON (Historial.CLUGAR = OSCabeza.CLUGAR) AND (Historial.CONTADOR = OSCabeza.CONTADOR)) 
 	INNER JOIN OSCuerpo ON (OSCabeza.NSOLICITUD = OSCuerpo.NSOLICITUD) AND (OSCabeza.CLUGAR = OSCuerpo.CLUGAR) 
@@ -83,4 +83,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=0 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 

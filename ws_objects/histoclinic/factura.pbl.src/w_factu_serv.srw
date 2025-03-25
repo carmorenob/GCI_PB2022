@@ -488,7 +488,9 @@ for j=1 to dw_serv_nofactu.rowcount()
 			emp=dw_serv_nofactu.getitemstring(j,"cemp")
 			cont=dw_serv_nofactu.getitemstring(j,"ccontrato")
 			ls_dx=dw_serv_nofactu.getitemstring(j,"dx")
+			if isnull(ls_dx) or ls_dx='' then  setnull(ls_dx)
 			ls_finc=dw_serv_nofactu.getitemstring(j,"finap")
+			if isnull(ls_finc) or ls_finc='' then  setnull(ls_finc)	
 			ls_ambp='02'	
 			
 			if f_busca_emp(emp,cont,codta)=-1 then
@@ -613,7 +615,9 @@ for j=1 to dw_serv_nofactu.rowcount()
 			setnull(cont)
 			setnull(ls_oxig)
 			ls_dx=dw_serv_nofactu.getitemstring(j,"diagnostico")
+			if isnull(ls_dx) or ls_dx='' then  setnull(ls_dx)
 			ls_finc=dw_serv_nofactu.getitemstring(j,"cod_fina")
+			if isnull(ls_finc) or ls_finc='' then  setnull(ls_finc)
 			ls_ambp='02'
 			if f_busca_emp(emp,cont,codta)=-1 then
 				w_factura.blanquea()

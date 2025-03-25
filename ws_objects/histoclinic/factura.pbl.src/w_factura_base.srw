@@ -1610,9 +1610,9 @@ if p_nitem_ord=0 then setnull(p_nitem_ord)
 if p_articulo='' then setnull(p_articulo)
 if p_tipo_fac='' then setnull(p_tipo_fac)
 if p_facscerrar='' then setnull(p_facscerrar)
-if p_dx='' then setnull(p_dx)
-if p_finc='' then setnull(p_finc)
-if p_ambp='' then setnull(p_ambp)
+if isnull(p_dx) or p_dx='' then setnull(p_dx)
+if isnull(p_finc) or p_finc='' then setnull(p_finc)
+if isnull(p_ambp) or p_ambp='' then setnull(p_ambp)
 
 if dw_dx.rowcount()>0 then
 	p_dx=dw_dx.getitemstring(1,'codgeral')
