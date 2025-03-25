@@ -269,17 +269,18 @@ this.setBloqueado(true)
 return 1
 end function
 
-public function integer extracind ();string ret 
+public function integer extracind ();if getBloqueado() then Return -1
+string ret 
 ret = dwc_dentalobj.modify("l_1.Visible=TRUE")
 ret = dwc_dentalobj.modify("l_2.Visible=TRUE")
 ret = dwc_dentalobj.modify("l_1.Pen.Color="+String(RGB(255,0,0)))
 ret = dwc_dentalobj.modify("l_2.Pen.Color="+String(RGB(255,0,0)))
-this.setBloqueado(true)
+//this.setBloqueado(true)
 return 1
 end function
 
-public function integer extraido ();string ret 
-
+public function integer extraido ();///if getBloqueado() then Return -1
+string ret 
 ret = dwc_dentalobj.modify("l_v.Visible=TRUE")
 ret = dwc_dentalobj.modify("l_v.Pen.Color="+String(RGB(0,0,0)))
 this.setBloqueado(true)
@@ -401,8 +402,8 @@ end function
 
 public function integer rmextrac ();string ret 
 
-ret = dwc_dentalobj.modify("l_1.Visible=FALSE l_2.Visible=FALSE")
-
+ret = dwc_dentalobj.modify("l_1.Visible=FALSE")
+ret = dwc_dentalobj.modify("l_2.Visible=FALSE")
 return 1
 end function
 
@@ -445,8 +446,8 @@ public function integer setsuperficie (integer convencion);sup1 = convencion
 return 0
 end function
 
-public function integer extraidot ();string ret 
-
+public function integer extraidot ();//if getBloqueado() then Return -1
+string ret 
 ret = dwc_dentalobj.modify("l_v1.Visible=TRUE")
 ret = dwc_dentalobj.modify("l_v1.Pen.Color="+String(RGB(0,0,255)))
 this.setBloqueado(true)

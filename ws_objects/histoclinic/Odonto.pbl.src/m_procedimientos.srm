@@ -987,7 +987,9 @@ end event
 on m_extracpend.create
 call super::create
 this.tag = "2"
+this.visible = false
 this.text = "Extracción Indicada"
+this.enabled = false
 this.microhelp = "Extracción por hacer"
 this.toolbaritemname = "extraind.ico"
 this.toolbaritemtext = "Extracción pendiente"

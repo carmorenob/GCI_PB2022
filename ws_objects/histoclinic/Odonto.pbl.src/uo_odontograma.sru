@@ -127,7 +127,7 @@ end type
 end forward
 
 global type uo_odontograma from userobject
-integer width = 3451
+integer width = 4366
 integer height = 1024
 long backcolor = 67108864
 string text = "none"
@@ -429,12 +429,12 @@ if (m_procedimientos.iSeleccionado = -1) then
 		,1,dwc_odongrama.RowCount())
 		if fila > 0 then
 			dwc_odongrama.DeleteRow(fila)
-			almacena=dent.rmExtraidot()
+			almacena=dent.rmExtraido()
 		else
 			Return 2
 		end if
 //		extrido por trauma
-	elseif (objeto = 'l_v') then
+	elseif (objeto = 'l_v1') then
 		fila = dwc_odongrama.find("codigo_cuadrante=" + String(dent.nCuadrante) + &
 		" and codigo_pieza="+String(dent.nPieza) + " and cod_conven=28 and protegido=0" &
 		,1,dwc_odongrama.RowCount())
@@ -2142,11 +2142,12 @@ end event
 
 type dwc_odongrama from datawindow within uo_odontograma
 boolean visible = false
-integer x = 50
-integer y = 48
-integer width = 517
-integer height = 340
+integer x = 2944
+integer y = 312
+integer width = 315
+integer height = 156
 integer taborder = 10
+boolean enabled = false
 string title = "none"
 string dataobject = "dw_odongrama"
 boolean vscrollbar = true
