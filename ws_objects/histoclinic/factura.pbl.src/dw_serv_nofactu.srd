@@ -49,26 +49,104 @@ table(column=(type=char(1) updatewhereclause=yes name=esco dbname="esco" values=
  column=(type=char(15) updatewhereclause=yes name=cod_cups dbname="proced.cod_cups" )
  column=(type=char(4) updatewhereclause=yes name=cod_version dbname="proced.cod_version" )
  column=(type=char(20) updatewhereclause=yes name=siras dbname="siras" )
- retrieve="SELECT distinct '0' AS esco, serviciosingreso.Fecha, serviciosingreso.Cantidad, serviciosingreso.cproced, Proced.Descripcion, serviciosingreso.nfactura, serviciosingreso.clugar_fac, serviciosingreso.Contador, serviciosingreso.CLugar, serviciosingreso.Nservicio, SerciosTurno.NCita,SerciosTurno.clugar as clugar_cita , SerciosTurno.NServicio AS nserv_turno, serviciosingreso.nrcaj, serviciosingreso.clugar_rec, serviciosingreso.items, serviciosingreso.nautoriza AS nautoriza, serviciosingreso.cprocedeq, serviciosingreso.cmanual, historial.consec_soat, historial.clugar_soat, SerciosTurno.sec_cant, serviciosingreso.CUFuncional, serviciosingreso.CCCosto, serviciosingreso.CEmp, serviciosingreso.CContrato, 'C' AS tipo, tesoredetalle.vproced/tesoredetalle.cantidad*serviciosingreso.cantidad AS vproc, (tesoredetalle.vproced-tesoredetalle.v_paga)/tesoredetalle.cantidad*serviciosingreso.cantidad AS vemp, v_paga/tesoredetalle.cantidad*serviciosingreso.cantidad AS v_pac, tesoredetalle.cplan AS plan_reci, tesoredetalle.cmanual AS man_reci, tesoredetalle.CodAADx, serviciosingreso.RIPS, SERVICIOSMAN.tiposervicio, SERVICIOSMAN.CODCONCEPTO, tesoredetalle.nitem as nitem_rec,0 as nro_insumo,ServiciosIngreso.Cplan,ServiciosIngreso.tipo_orden, proced.cod_cups,proced.cod_version,null as siras
-FROM ((((historial INNER JOIN serviciosingreso ON (historial.CLUGAR = serviciosingreso.CLUGAR) AND (historial.CONTADOR = serviciosingreso.CONTADOR)) INNER JOIN Proced ON serviciosingreso.CPROCED = Proced.CODPROCED) LEFT JOIN tesoredetalle ON (serviciosingreso.NITEM_REC = tesoredetalle.NITEM) AND (serviciosingreso.ITEMS = tesoredetalle.ITEMS) AND (serviciosingreso.CLUGAR_REC = tesoredetalle.CLUGAR) AND (serviciosingreso.NRCAJ = tesoredetalle.NRCAJ)) LEFT JOIN SERVICIOSMAN ON (tesoredetalle.CMANUAL = SERVICIOSMAN.CODMANUAL) AND (tesoredetalle.CPROCED = SERVICIOSMAN.CODSERVICIO)) LEFT JOIN SerciosTurno ON (serviciosingreso.NSERVICIO = SerciosTurno.NSERVICIO_INGRESO) AND (serviciosingreso.CLUGAR = SerciosTurno.CLUGAR_SER) AND (serviciosingreso.CONTADOR = SerciosTurno.CONTADOR)
-WHERE (((serviciosingreso.nfactura) Is Null) AND ((serviciosingreso.clugar_fac) Is Null) AND ((historial.TipoDoc)=:tipodoc) AND ((historial.Documento)=:docu) AND ((historial.IndApDx)='0' Or (historial.IndApDx)='1' Or (historial.IndApDx)='6'))
-union all
-SELECT '0' AS esco, ServiciosIngreso.Fecha, ServiciosIngreso.Cantidad, ServiciosIngreso.cproced, Proced.Descripcion, ServiciosIngreso.nfactura, ServiciosIngreso.clugar_fac, ServiciosIngreso.Contador, ServiciosIngreso.CLugar, ServiciosIngreso.Nservicio,  SerciosTurno.NCita,SerciosTurno.clugar as clugar_cita , SerciosTurno.NServicio AS nserv_turno, ServiciosIngreso.nrcaj, ServiciosIngreso.clugar_rec, ServiciosIngreso.items, ServiciosIngreso.nautoriza AS nautoriza, ServiciosIngreso.cprocedeq, ServiciosIngreso.cmanual, Historial.consec_soat, Historial.clugar_soat, Null AS sec_cant, ServiciosIngreso.CUFuncional, ServiciosIngreso.CCCosto, ServiciosIngreso.CEmp, ServiciosIngreso.CContrato, 'C' AS tipo, tesoredetalle.vproced/tesoredetalle.cantidad*serviciosingreso.cantidad AS vproc, (tesoredetalle.vproced-tesoredetalle.v_paga)/tesoredetalle.cantidad*serviciosingreso.cantidad AS vemp, v_paga/tesoredetalle.cantidad*serviciosingreso.cantidad AS v_pac, tesoredetalle.Cplan AS plan_reci, tesoredetalle.cmanual AS man_reci, tesoredetalle.CodAADx, ServiciosIngreso.RIPS, SERVICIOSMAN.tiposervicio, SERVICIOSMAN.CODCONCEPTO, tesoredetalle.nitem, 0 AS nro_insumo, ServiciosIngreso.Cplan, ServiciosIngreso.tipo_orden, Proced.cod_cups, Proced.cod_version,null as siras
-FROM (((((Historial INNER JOIN ServiciosIngreso ON (Historial.CLUGAR = ServiciosIngreso.CLUGAR) AND (Historial.CONTADOR = ServiciosIngreso.CONTADOR)) INNER JOIN Proced ON ServiciosIngreso.CPROCED = Proced.CODPROCED) LEFT JOIN SERCIOSTURNO ON (ServiciosIngreso.NSERVICIO = SERCIOSTURNO.NSERVICIO_INGRESO) AND (ServiciosIngreso.CLUGAR = SERCIOSTURNO.CLUGAR_SER) AND (ServiciosIngreso.CONTADOR = SERCIOSTURNO.CONTADOR)) LEFT JOIN odontratacpo ON (ServiciosIngreso.NSERVICIO = odontratacpo.NSERVICIO) AND (ServiciosIngreso.CLUGAR = odontratacpo.CLUGAR_HIS) AND (ServiciosIngreso.CONTADOR = odontratacpo.CONTADOR)) LEFT JOIN tesoredetalle ON (ServiciosIngreso.NITEM_REC = tesoredetalle.NITEM) AND (ServiciosIngreso.ITEMS = tesoredetalle.ITEMS) AND (ServiciosIngreso.CLUGAR_REC = tesoredetalle.CLUGAR) AND (ServiciosIngreso.NRCAJ = tesoredetalle.NRCAJ)) LEFT JOIN SERVICIOSMAN ON (tesoredetalle.CPROCED = SERVICIOSMAN.CODSERVICIO) AND (tesoredetalle.CMANUAL = SERVICIOSMAN.CODMANUAL)
-WHERE (((ServiciosIngreso.nfactura) Is Null) AND ((ServiciosIngreso.clugar_fac) Is Null) AND ((Historial.IndApDx)='5') AND ((odontratacpo.contador) Is Null) AND ((Historial.TipoDoc)=:tipodoc) AND ((Historial.Documento)=:docu))
-union all
-SELECT '0' AS esco, tesorecajcab.Fecha, tesoredetalle.Cantidad, tesoredetalle.c_medica, Medicamentos.Medicamento AS descripcion, tesorecajcpo.nfact, tesorecajcpo.clugar_fac, Null AS contador, Null AS clugar_his, Null AS nservicio, Null AS ncita,null as clugar_cita, Null AS st_nservicio, tesoredetalle.nrcaj, tesorecajcpo.clugar, tesoredetalle.items, tesoredetalle.autorizacion AS nautoriza, Null AS cprocedeq, tesoredetalle.cmanual, Null AS consec_soat, Null AS clugar_soat, Null AS sec_cant, Null AS cufuncional, Null AS cccosto, tesorecajcpo.CEmp, tesorecajcpo.CContrato, 'M' AS tipo, tesoredetalle.vproced AS valor, tesoredetalle.vproced-tesoredetalle.v_paga AS vemp, tesoredetalle.v_paga, tesoredetalle.cplan AS plan_reci, tesoredetalle.cmanual AS man_reci, tesoredetalle.CodAADx, Medicamentos.RIPS, 'M' AS tiposervicio, Medicamentos.AGRUPSER, tesoredetalle.nitem,0 as nro_insumo, tesoredetalle.cplan,'' as tipo_orden, '' AS cod_cups,'' AS cod_version,null as siras
-FROM (tesorecajcab INNER JOIN tesorecajcpo ON (tesorecajcab.CLugar = tesorecajcpo.clugar) AND (tesorecajcab.nrcaj = tesorecajcpo.nrcaj)) INNER JOIN (Medicamentos INNER JOIN tesoredetalle ON Medicamentos.c_medica = tesoredetalle.c_medica) ON (tesorecajcpo.items = tesoredetalle.items) AND (tesorecajcpo.clugar = tesoredetalle.clugar) AND (tesorecajcpo.nrcaj = tesoredetalle.nrcaj)
-WHERE (((tesorecajcpo.nfact) Is Null) AND ((tesorecajcpo.clugar_fac) Is Null) AND ((tesorecajcab.TipoDoc)=:tipodoc) AND ((tesorecajcab.Documento)=:docu))
-union all
-SELECT '0' AS esco, tesorecajcab.Fecha, tesoredetalle.Cantidad, tesoredetalle.proccups, Proced.Descripcion, tesorecajcpo.nfact, tesorecajcpo.clugar_fac, Null AS contador, Null AS clugar_his, Null AS nservicio, Null AS ncita, null as clugar_cita, Null AS st_nservicio, tesoredetalle.nrcaj, tesorecajcpo.clugar, tesoredetalle.items, tesoredetalle.autorizacion AS nautoriza, tesoredetalle.cproced, tesoredetalle.cmanual, Null AS consec_soat, Null AS clugar_soat, Null AS sec_cant, Null AS cufuncional, Null AS cccosto, tesorecajcpo.CEmp, tesorecajcpo.CContrato, 'M' AS tipo, tesoredetalle.vproced AS valor, tesoredetalle.vproced-tesoredetalle.v_paga AS vemp, tesoredetalle.v_paga, tesoredetalle.cplan AS plan_reci, tesoredetalle.cmanual AS man_reci, tesoredetalle.CodAADx, Proced.RIPS, SERVICIOSMAN.tiposervicio, SERVICIOSMAN.CODCONCEPTO, tesoredetalle.nitem,0 as nro_insumo, tesoredetalle.cplan,'' as tipo_orden, proced.cod_cups,proced.cod_version,null as siras
-FROM (((tesorecajcab INNER JOIN tesorecajcpo ON (tesorecajcab.CLUGAR = tesorecajcpo.CLUGAR) AND (tesorecajcab.NRCAJ = tesorecajcpo.NRCAJ)) INNER JOIN tesoredetalle ON (tesorecajcpo.ITEMS = tesoredetalle.ITEMS) AND (tesorecajcpo.CLUGAR = tesoredetalle.CLUGAR) AND (tesorecajcpo.NRCAJ = tesoredetalle.NRCAJ)) INNER JOIN Proced ON tesoredetalle.PROCCUPS = Proced.CODPROCED) INNER JOIN SERVICIOSMAN ON (tesoredetalle.CPROCED = SERVICIOSMAN.CODSERVICIO) AND (tesoredetalle.CMANUAL = SERVICIOSMAN.CODMANUAL)
-WHERE (((tesorecajcpo.nfact) Is Null) AND ((tesorecajcpo.clugar_fac) Is Null) AND ((tesorecajcab.TipoDoc)=:tipodoc) AND ((tesorecajcab.Documento)=:docu) AND ((Proced.RIPS)='6' Or (Proced.RIPS)='7'))
-union all
-SELECT '0' AS esco, ServiciosIngreso.Fecha, ServIng_insumo.cantidad, SUMGENERICO.c_medica, SUMGENERICO.descripcion, ServIng_insumo.nfactura, ServIng_insumo.clugar_fac, ServIng_insumo.Contador, ServIng_insumo.CLugar, ServIng_insumo.Nservicio, Null AS ncita, null as clugar_cita,Null AS st_nservicio, ServiciosIngreso.nrcaj, ServiciosIngreso.clugar_rec, ServiciosIngreso.items, ServiciosIngreso.nautoriza, Null AS cprocedeq, Null AS cmanual, Historial.consec_soat, Historial.clugar_soat, Null AS sec_cant, ServiciosIngreso.CUFuncional, ServiciosIngreso.CCCosto, ServiciosIngreso.CEmp, ServiciosIngreso.CContrato, 'M' AS tipo, Null AS valor, Null AS vemp, Null AS v_paga, Null AS plan_reci, Null AS manu_reci, Null AS codaadx, Medicamentos.RIPS, 'M' AS tiposervicio, Medicamentos.AGRUPSER, Null AS nitem, ServIng_insumo.nro_insumo,ServiciosIngreso.Cplan,ServiciosIngreso.tipo_orden, '' AS cod_cups,'' AS cod_version,null as siras
-FROM (((Historial INNER JOIN ServiciosIngreso ON (Historial.CLUGAR = ServiciosIngreso.CLUGAR) AND (Historial.CONTADOR = ServiciosIngreso.CONTADOR)) INNER JOIN ServIng_insumo ON (ServiciosIngreso.NSERVICIO = ServIng_insumo.NSERVICIO) AND (ServiciosIngreso.CLUGAR = ServIng_insumo.CLUGAR) AND (ServiciosIngreso.CONTADOR = ServIng_insumo.CONTADOR)) INNER JOIN SUMGENERICO ON ServIng_insumo.CODGENERICO = SUMGENERICO.CODGENERICO) INNER JOIN Medicamentos ON SUMGENERICO.C_MEDICA = Medicamentos.C_MEDICA
-WHERE (((ServIng_insumo.nfactura) Is Null) AND ((historial.TipoDoc)=:tipodoc) AND ((historial.Documento)=:docu) AND ((historial.IndApDx)='0' Or (historial.IndApDx)='1' Or (historial.IndApDx)='6')) AND ServIng_insumo.facturar=1
-" arguments=(("tipodoc", string),("docu", string))  sort="fecha D " )
+ column=(type=char(255) updatewhereclause=yes name=dx dbname="dx" )
+ column=(type=char(255) updatewhereclause=yes name= finap dbname=" finap" )
+ retrieve="SELECT DISTINCT 
+ 	'0' AS esco, serviciosingreso.Fecha, serviciosingreso.Cantidad, serviciosingreso.cproced, Proced.Descripcion, serviciosingreso.nfactura, serviciosingreso.clugar_fac, 
+	 serviciosingreso.Contador, serviciosingreso.CLugar, serviciosingreso.Nservicio, SerciosTurno.NCita,SerciosTurno.clugar as clugar_cita , SerciosTurno.NServicio AS nserv_turno, 
+	 serviciosingreso.nrcaj, serviciosingreso.clugar_rec, serviciosingreso.items, serviciosingreso.nautoriza AS nautoriza, serviciosingreso.cprocedeq, serviciosingreso.cmanual, 
+	 historial.consec_soat, historial.clugar_soat, SerciosTurno.sec_cant, serviciosingreso.CUFuncional, serviciosingreso.CCCosto, serviciosingreso.CEmp, 
+	 serviciosingreso.CContrato, 'C' AS tipo, tesoredetalle.vproced/tesoredetalle.cantidad*serviciosingreso.cantidad AS vproc, 
+	 (tesoredetalle.vproced-tesoredetalle.v_paga)/tesoredetalle.cantidad*serviciosingreso.cantidad AS vemp, v_paga/tesoredetalle.cantidad*serviciosingreso.cantidad AS v_pac, 
+	 tesoredetalle.cplan AS plan_reci, tesoredetalle.cmanual AS man_reci, tesoredetalle.CodAADx, serviciosingreso.RIPS, SERVICIOSMAN.tiposervicio, 
+	 SERVICIOSMAN.CODCONCEPTO, tesoredetalle.nitem as nitem_rec,0 as nro_insumo,ServiciosIngreso.Cplan,ServiciosIngreso.tipo_orden, proced.cod_cups,proced.cod_version,
+	 null as siras, serviciosingreso.diagprin as dx, serviciosingreso.finalidadproced as finap
+FROM 
+	((((historial INNER JOIN serviciosingreso ON (historial.CLUGAR = serviciosingreso.CLUGAR) AND (historial.CONTADOR = serviciosingreso.CONTADOR)) 
+	INNER JOIN Proced ON serviciosingreso.CPROCED = Proced.CODPROCED) LEFT JOIN tesoredetalle ON (serviciosingreso.NITEM_REC = tesoredetalle.NITEM) 
+	AND (serviciosingreso.ITEMS = tesoredetalle.ITEMS) AND (serviciosingreso.CLUGAR_REC = tesoredetalle.CLUGAR) AND (serviciosingreso.NRCAJ = tesoredetalle.NRCAJ)) 
+	LEFT JOIN SERVICIOSMAN ON (tesoredetalle.CMANUAL = SERVICIOSMAN.CODMANUAL) AND (tesoredetalle.CPROCED = SERVICIOSMAN.CODSERVICIO)) 
+	LEFT JOIN SerciosTurno ON (serviciosingreso.NSERVICIO = SerciosTurno.NSERVICIO_INGRESO) AND (serviciosingreso.CLUGAR = SerciosTurno.CLUGAR_SER) 
+	AND (serviciosingreso.CONTADOR = SerciosTurno.CONTADOR)
+WHERE 
+	(((serviciosingreso.nfactura) Is Null) AND ((serviciosingreso.clugar_fac) Is Null) AND ((historial.TipoDoc)=:tipodoc) AND ((historial.Documento)=:docu) 
+	AND ((historial.IndApDx)='0' Or (historial.IndApDx)='1' Or (historial.IndApDx)='6'))
+
+UNION ALL
+
+SELECT 
+	'0' AS esco, ServiciosIngreso.Fecha, ServiciosIngreso.Cantidad, ServiciosIngreso.cproced, Proced.Descripcion, ServiciosIngreso.nfactura, ServiciosIngreso.clugar_fac, 
+	ServiciosIngreso.Contador, ServiciosIngreso.CLugar, ServiciosIngreso.Nservicio,  SerciosTurno.NCita,SerciosTurno.clugar as clugar_cita , SerciosTurno.NServicio AS nserv_turno, 
+	ServiciosIngreso.nrcaj, ServiciosIngreso.clugar_rec, ServiciosIngreso.items, ServiciosIngreso.nautoriza AS nautoriza, ServiciosIngreso.cprocedeq, ServiciosIngreso.cmanual, 
+	Historial.consec_soat, Historial.clugar_soat, Null AS sec_cant, ServiciosIngreso.CUFuncional, ServiciosIngreso.CCCosto, ServiciosIngreso.CEmp, ServiciosIngreso.CContrato, 'C' AS tipo, 
+	tesoredetalle.vproced/tesoredetalle.cantidad*serviciosingreso.cantidad AS vproc, (tesoredetalle.vproced-tesoredetalle.v_paga)/tesoredetalle.cantidad*serviciosingreso.cantidad AS vemp, 
+	v_paga/tesoredetalle.cantidad*serviciosingreso.cantidad AS v_pac, tesoredetalle.Cplan AS plan_reci, tesoredetalle.cmanual AS man_reci, tesoredetalle.CodAADx, ServiciosIngreso.RIPS, 
+	SERVICIOSMAN.tiposervicio, SERVICIOSMAN.CODCONCEPTO, tesoredetalle.nitem, 0 AS nro_insumo, ServiciosIngreso.Cplan, ServiciosIngreso.tipo_orden, Proced.cod_cups, 
+	Proced.cod_version,null as siras, serviciosingreso.diagprin as dx, serviciosingreso.finalidadproced as as finap
+FROM 
+	(((((Historial INNER JOIN ServiciosIngreso ON (Historial.CLUGAR = ServiciosIngreso.CLUGAR) AND (Historial.CONTADOR = ServiciosIngreso.CONTADOR)) 
+	INNER JOIN Proced ON ServiciosIngreso.CPROCED = Proced.CODPROCED) LEFT JOIN SERCIOSTURNO ON (ServiciosIngreso.NSERVICIO = SERCIOSTURNO.NSERVICIO_INGRESO) 
+	AND (ServiciosIngreso.CLUGAR = SERCIOSTURNO.CLUGAR_SER) AND (ServiciosIngreso.CONTADOR = SERCIOSTURNO.CONTADOR)) 
+	LEFT JOIN odontratacpo ON (ServiciosIngreso.NSERVICIO = odontratacpo.NSERVICIO) AND (ServiciosIngreso.CLUGAR = odontratacpo.CLUGAR_HIS) 
+	AND (ServiciosIngreso.CONTADOR = odontratacpo.CONTADOR)) LEFT JOIN tesoredetalle ON (ServiciosIngreso.NITEM_REC = tesoredetalle.NITEM) 
+	AND (ServiciosIngreso.ITEMS = tesoredetalle.ITEMS) AND (ServiciosIngreso.CLUGAR_REC = tesoredetalle.CLUGAR) AND (ServiciosIngreso.NRCAJ = tesoredetalle.NRCAJ)) 
+	LEFT JOIN SERVICIOSMAN ON (tesoredetalle.CPROCED = SERVICIOSMAN.CODSERVICIO) AND (tesoredetalle.CMANUAL = SERVICIOSMAN.CODMANUAL)
+WHERE 
+	(((ServiciosIngreso.nfactura) Is Null) AND ((ServiciosIngreso.clugar_fac) Is Null) AND ((Historial.IndApDx)='5') 
+	AND ((odontratacpo.contador) Is Null) AND ((Historial.TipoDoc)=:tipodoc) AND ((Historial.Documento)=:docu))
+
+UNION ALL
+
+SELECT 
+	'0' AS esco, tesorecajcab.Fecha, tesoredetalle.Cantidad, tesoredetalle.c_medica, Medicamentos.Medicamento AS descripcion, tesorecajcpo.nfact, tesorecajcpo.clugar_fac, Null AS contador, 
+	Null AS clugar_his, Null AS nservicio, Null AS ncita,null as clugar_cita, Null AS st_nservicio, tesoredetalle.nrcaj, tesorecajcpo.clugar, tesoredetalle.items, tesoredetalle.autorizacion AS nautoriza, 
+	Null AS cprocedeq, tesoredetalle.cmanual, Null AS consec_soat, Null AS clugar_soat, Null AS sec_cant, Null AS cufuncional, Null AS cccosto, tesorecajcpo.CEmp, tesorecajcpo.CContrato, 
+	'M' AS tipo, tesoredetalle.vproced AS valor, tesoredetalle.vproced-tesoredetalle.v_paga AS vemp, tesoredetalle.v_paga, tesoredetalle.cplan AS plan_reci, tesoredetalle.cmanual AS man_reci, 
+	tesoredetalle.CodAADx, Medicamentos.RIPS, 'M' AS tiposervicio, Medicamentos.AGRUPSER, tesoredetalle.nitem,0 as nro_insumo, tesoredetalle.cplan,'' as tipo_orden, '' AS cod_cups,
+	'' AS cod_version,null as siras,null as dx, null as finap
+FROM 
+	(tesorecajcab INNER JOIN tesorecajcpo ON (tesorecajcab.CLugar = tesorecajcpo.clugar) AND (tesorecajcab.nrcaj = tesorecajcpo.nrcaj)) 
+	INNER JOIN (Medicamentos INNER JOIN tesoredetalle ON Medicamentos.c_medica = tesoredetalle.c_medica) ON (tesorecajcpo.items = tesoredetalle.items) 
+	AND (tesorecajcpo.clugar = tesoredetalle.clugar) AND (tesorecajcpo.nrcaj = tesoredetalle.nrcaj)
+WHERE 
+	(((tesorecajcpo.nfact) Is Null) AND ((tesorecajcpo.clugar_fac) Is Null) AND ((tesorecajcab.TipoDoc)=:tipodoc) AND ((tesorecajcab.Documento)=:docu))
+
+UNION ALL
+
+SELECT 
+	'0' AS esco, tesorecajcab.Fecha, tesoredetalle.Cantidad, tesoredetalle.proccups, Proced.Descripcion, tesorecajcpo.nfact, tesorecajcpo.clugar_fac, Null AS contador, 
+	Null AS clugar_his, Null AS nservicio, Null AS ncita, null as clugar_cita, Null AS st_nservicio, tesoredetalle.nrcaj, tesorecajcpo.clugar, tesoredetalle.items, tesoredetalle.autorizacion AS nautoriza, 
+	tesoredetalle.cproced, tesoredetalle.cmanual, Null AS consec_soat, Null AS clugar_soat, Null AS sec_cant, Null AS cufuncional, Null AS cccosto, tesorecajcpo.CEmp, tesorecajcpo.CContrato, 
+	'M' AS tipo, tesoredetalle.vproced AS valor, tesoredetalle.vproced-tesoredetalle.v_paga AS vemp, tesoredetalle.v_paga, tesoredetalle.cplan AS plan_reci, tesoredetalle.cmanual AS man_reci, 
+	tesoredetalle.CodAADx, Proced.RIPS, SERVICIOSMAN.tiposervicio, SERVICIOSMAN.CODCONCEPTO, tesoredetalle.nitem,0 as nro_insumo, tesoredetalle.cplan,
+	null as tipo_orden, proced.cod_cups,proced.cod_version,null as siras, null as dx, null as finap
+FROM 
+	(((tesorecajcab INNER JOIN tesorecajcpo ON (tesorecajcab.CLUGAR = tesorecajcpo.CLUGAR) AND (tesorecajcab.NRCAJ = tesorecajcpo.NRCAJ)) 
+	INNER JOIN tesoredetalle ON (tesorecajcpo.ITEMS = tesoredetalle.ITEMS) AND (tesorecajcpo.CLUGAR = tesoredetalle.CLUGAR) AND (tesorecajcpo.NRCAJ = tesoredetalle.NRCAJ)) 
+	INNER JOIN Proced ON tesoredetalle.PROCCUPS = Proced.CODPROCED) INNER JOIN SERVICIOSMAN 
+	ON (tesoredetalle.CPROCED = SERVICIOSMAN.CODSERVICIO) AND (tesoredetalle.CMANUAL = SERVICIOSMAN.CODMANUAL)
+WHERE 
+	(((tesorecajcpo.nfact) Is Null) AND ((tesorecajcpo.clugar_fac) Is Null) AND ((tesorecajcab.TipoDoc)=:tipodoc) 
+	AND ((tesorecajcab.Documento)=:docu) AND ((Proced.RIPS)='6' Or (Proced.RIPS)='7'))
+
+UNION ALL
+
+SELECT 
+	'0' AS esco, ServiciosIngreso.Fecha, ServIng_insumo.cantidad, SUMGENERICO.c_medica, SUMGENERICO.descripcion, ServIng_insumo.nfactura, ServIng_insumo.clugar_fac, 
+	ServIng_insumo.Contador, ServIng_insumo.CLugar, ServIng_insumo.Nservicio, Null AS ncita, null as clugar_cita,Null AS st_nservicio, ServiciosIngreso.nrcaj, 
+	ServiciosIngreso.clugar_rec, ServiciosIngreso.items, ServiciosIngreso.nautoriza, Null AS cprocedeq, Null AS cmanual, Historial.consec_soat, Historial.clugar_soat, 
+	Null AS sec_cant, ServiciosIngreso.CUFuncional, ServiciosIngreso.CCCosto, ServiciosIngreso.CEmp, ServiciosIngreso.CContrato, 'M' AS tipo, 
+	Null AS valor, Null AS vemp, Null AS v_paga, Null AS plan_reci, Null AS manu_reci, Null AS codaadx, Medicamentos.RIPS, 
+	'M' AS tiposervicio, Medicamentos.AGRUPSER, Null AS nitem, ServIng_insumo.nro_insumo,ServiciosIngreso.Cplan,ServiciosIngreso.tipo_orden, 
+	null AS cod_cups,null AS cod_version,null as siras,serviciosingreso.diagprin as dx, serviciosingreso.finalidadproced as finap
+FROM 
+	(((Historial INNER JOIN ServiciosIngreso ON (Historial.CLUGAR = ServiciosIngreso.CLUGAR) AND (Historial.CONTADOR = ServiciosIngreso.CONTADOR)) 
+	INNER JOIN ServIng_insumo ON (ServiciosIngreso.NSERVICIO = ServIng_insumo.NSERVICIO) AND (ServiciosIngreso.CLUGAR = ServIng_insumo.CLUGAR) 
+	AND (ServiciosIngreso.CONTADOR = ServIng_insumo.CONTADOR)) INNER JOIN SUMGENERICO ON ServIng_insumo.CODGENERICO = SUMGENERICO.CODGENERICO) 
+	INNER JOIN Medicamentos ON SUMGENERICO.C_MEDICA = Medicamentos.C_MEDICA
+WHERE 
+	(((ServIng_insumo.nfactura) Is Null) AND ((historial.TipoDoc)=:tipodoc) AND ((historial.Documento)=:docu) 
+	AND ((historial.IndApDx)='0' Or (historial.IndApDx)='1' Or (historial.IndApDx)='6')) AND ServIng_insumo.facturar=1" arguments=(("tipodoc", string),("docu", string))  sort="fecha D " )
 button(band=header text="Facturar" enabled=yes action="0" border="0" color="0" x="9" y="0" height="72" width="238" vtextalign="2" htextalign="0"  name=b_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217739" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 column(band=detail id=1 alignment="2" tabsequence=10 border="0" color="0" x="9" y="4" height="56" width="242" format="[general]" html.valueishtml="0"  name=esco visible="1" checkbox.text="Si" checkbox.on="1" checkbox.off="0" checkbox.scale=no checkbox.threed=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tif (esco='1',rgb( 255 ,192,192),rgb(255,255,255))" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 column(band=detail id=14 alignment="0" tabsequence=40 border="0" color="0" x="777" y="4" height="56" width="215" format="[general]" html.valueishtml="0"  name=nrcaj visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tif (esco='1',rgb( 255 ,192,192),rgb(255,255,255))" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )

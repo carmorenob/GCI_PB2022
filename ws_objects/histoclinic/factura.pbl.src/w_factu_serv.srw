@@ -487,6 +487,10 @@ for j=1 to dw_serv_nofactu.rowcount()
 			cantidad=dw_serv_nofactu.getitemnumber(j,"cantidad")
 			emp=dw_serv_nofactu.getitemstring(j,"cemp")
 			cont=dw_serv_nofactu.getitemstring(j,"ccontrato")
+			ls_dx=dw_serv_nofactu.getitemstring(j,"dx")
+			ls_finc=dw_serv_nofactu.getitemstring(j,"finap")
+			ls_ambp='02'	
+			
 			if f_busca_emp(emp,cont,codta)=-1 then
 				if isvalid(w_factura) then
 					w_factura.blanquea()
@@ -540,6 +544,10 @@ for j=1 to dw_serv_nofactu.rowcount()
 			ls_clugarfact=dw_serv_nofactu.getitemstring(j,"clugar_fac")
 			ls_tipofac=dw_serv_nofactu.getitemstring(j,"tipo_fac")
 			item_fac=dw_serv_nofactu.getitemnumber(j,"nitem")
+			ls_dx=dw_serv_nofactu.getitemstring(j,"dx")
+			ls_finc=dw_serv_nofactu.getitemstring(j,"finap")
+			ls_ambp='02'
+			
 			if isvalid(w_factura) then
 				nautoriza=w_factura.sle_autoriza.text
 			else
@@ -551,7 +559,6 @@ for j=1 to dw_serv_nofactu.rowcount()
 				setnull(ls_nsiras)
 			end if
 						
-			
 			if f_busca_emp(emp,cont,codta)=-1 then
 				if isvalid(w_factura) then
 					w_factura.blanquea()
