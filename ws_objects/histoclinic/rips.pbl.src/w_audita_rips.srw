@@ -2884,7 +2884,7 @@ if this.getcolumnname()='envio_xml' then
  	ldt_fechaa=today()
 	ldt_horaa=now()
 	ldt_fechaf=this.getitemdate(fila,'fecha')
-	ldt_horaf=time(this.getitemdatetime(fila,'hora'))
+	ldt_horaf=time(this.getitemdatetime(fila,'fecha'))
 
 	ll_days = DaysAfter(ldt_fechaf, ldt_fechaa )
 	ll_seconds = SecondsAfter (ldt_horaa, ldt_horaa )

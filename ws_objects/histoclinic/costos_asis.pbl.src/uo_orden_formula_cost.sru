@@ -1808,9 +1808,9 @@ if i_tingre='2'  then
 	if (not isnull(l_nsol)) and (l_nsol<>0) then
 		l_item=f_atender_proc(pro,i_contador,i_clug_his,l_cant, i_tingre, l_nsol,l_item,str.profes,str.cesp)
 		tab_1.tp_1.dw_oscuerpo.retrieve(i_contador,i_clug_his,l_nsol,ori)
-		revi_est_ord()
 	end if
 end if
+revi_est_ord()
 end event
 
 event constructor;f_inicia_boton(this,'ATOS')
