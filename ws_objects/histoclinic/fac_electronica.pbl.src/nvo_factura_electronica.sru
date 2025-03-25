@@ -111,7 +111,7 @@ if li_rc < 0 then
     MessageBox("Error of_desbloquear_chilkat","Connecting to COM object failed: Chilkat_9_5_0.Global")
     return -1
 end if
-li_Success = loo_Glob.UnlockBundle("Anything for 30-day trial")
+li_Success = loo_Glob.UnlockBundle("HSPCRT.CB1032026_zzYKLAke9R37")
 if li_Success <> 1 then
     messagebox("Error de desbloqueo de ChilKat_9.5.0", string(loo_Glob.LastErrorText))
     destroy loo_Glob
