@@ -280,12 +280,13 @@ end type
 end forward
 
 global type w_plant_hcs from window
-integer width = 6482
+integer width = 6555
 integer height = 3240
 boolean titlebar = true
 string title = "Plantillas de Historia Clínica"
 boolean controlmenu = true
 boolean minbox = true
+boolean vscrollbar = true
 windowtype windowtype = popup!
 windowstate windowstate = maximized!
 long backcolor = 67108864
@@ -1774,6 +1775,7 @@ integer width = 3154
 integer height = 1108
 integer taborder = 80
 string dataobject = "dw_campos_plant"
+boolean vscrollbar = true
 boolean border = false
 end type
 
