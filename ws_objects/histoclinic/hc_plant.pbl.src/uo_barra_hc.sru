@@ -1765,7 +1765,13 @@ choose case dwo.name
 			this.setitem(row,'causaext',ls_nulo)
 		end if 
 		this.accepttext()
-		veri=f_valida_fin_con(this.getitemstring(row,'finalidad'),this.getitemstring(row,'causaext'),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),this.getitemstring(row,'r_diagprin'))
+		if len(this.getitemstring(row,'r_diagprin')) >0 then
+			veri=f_valida_fin_con(this.getitemstring(row,'finalidad'),this.getitemstring(row,'causaext'),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),this.getitemstring(row,'r_diagprin'))
+		end if
+		if len(this.getitemstring(row,'r_diagingre'))>0 then
+			veri=f_valida_fin_con(this.getitemstring(row,'finalidad'),this.getitemstring(row,'causaext'),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),this.getitemstring(row,'r_diagingre'))
+		end if
+		
 		if veri=-1 then
 			this.setitem(row,'finalidad',ls_nulo)
 			this.setitem(row,'causaext',ls_nulo)
@@ -1782,7 +1788,12 @@ choose case dwo.name
 
 	case 'causaext'
 		this.accepttext()
-		veri=f_valida_fin_con(this.getitemstring(row,'finalidad'),this.getitemstring(row,'causaext'),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),this.getitemstring(row,'r_diagprin'))
+		if len(this.getitemstring(row,'r_diagprin')) >0 then
+			veri=f_valida_fin_con(this.getitemstring(row,'finalidad'),this.getitemstring(row,'causaext'),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),this.getitemstring(row,'r_diagprin'))
+		end if
+		if len(this.getitemstring(row,'r_diagingre'))>0 then
+			veri=f_valida_fin_con(this.getitemstring(row,'finalidad'),this.getitemstring(row,'causaext'),w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),this.getitemstring(row,'r_diagingre'))
+		end if
 		if veri=-1 then
 			this.setitem(row,'causaext',ls_nulo)
 			this.accepttext()
