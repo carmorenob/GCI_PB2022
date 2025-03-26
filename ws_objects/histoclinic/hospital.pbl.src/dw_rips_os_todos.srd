@@ -228,7 +228,7 @@ else rgb(192,192,192))
 column(band=detail id=16 alignment="0" tabsequence=100 border="0" color="0~tcase( estado 
 when 'Incompleto' then rgb(255,0,0) 
 when 'Completo' then rgb(0,0,0)
-when 'Anulado' then rgb(128,128,128))" x="4343" y="0" height="52" width="430" format="[general]" html.valueishtml="0" protect="0~tif(   r_fin_consulta ='0'  , 1, 0 )"  name=s_fin_consulta visible="1" dddw.name=dw_finconsulta dddw.displaycolumn=todo dddw.datacolumn=codfin dddw.percentwidth=300 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.autofill=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tcase(      r_fin_consulta 
+when 'Anulado' then rgb(128,128,128))" x="4343" y="0" height="52" width="430" format="[general]" html.valueishtml="0" protect="0~tif(   r_fin_consulta ='0'  , 1, 0 )"  name=s_fin_consulta visible="1" dddw.name=dw_finconsulta dddw.displaycolumn=todo dddw.datacolumn=codfin dddw.percentwidth=300 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.autofill=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes dddw.autoretrieve=no  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tcase(      r_fin_consulta 
 when '1' then rgb(255,255,255)
 when '2' then rgb(255,255,200)
 else rgb(192,192,192))
@@ -236,7 +236,7 @@ else rgb(192,192,192))
 column(band=detail id=18 alignment="0" tabsequence=110 border="0" color="0~tcase( estado 
 when 'Incompleto' then rgb(255,0,0) 
 when 'Completo' then rgb(0,0,0)
-when 'Anulado' then rgb(128,128,128))" x="4782" y="0" height="52" width="430" format="[general]" html.valueishtml="0" protect="0~tif(   r_causaexterna ='0'  , 1, 0 )"  name=s_causaexterna visible="1" dddw.name=dw_causa_ext dddw.displaycolumn=todo dddw.datacolumn=codcausaexter dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.autofill=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tcase(      r_causaexterna 
+when 'Anulado' then rgb(128,128,128))" x="4782" y="0" height="52" width="430" format="[general]" html.valueishtml="0" protect="0~tif(   r_causaexterna ='0'  , 1, 0 )"  name=s_causaexterna visible="1" dddw.name=dw_causa_ext dddw.displaycolumn=todo dddw.datacolumn=codcausaexter dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.autofill=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes dddw.autoretrieve=no  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tcase(      r_causaexterna 
 when '1' then rgb(255,255,255)
 when '2' then rgb(255,255,200)
 else rgb(192,192,192))
@@ -253,7 +253,7 @@ column(band=detail id=36 alignment="0" tabsequence=180 border="0" color="0~tif( 
 case( estado 
 when 'Incompleto' then rgb(255,0,0) 
 when 'Completo' then rgb(0,0,0)
-when 'Anulado' then rgb(128,128,128)))" x="7310" y="0" height="52" width="430" format="[general]" html.valueishtml="0" protect="0~tif(    r_ambitoproced ='0'  , 1, 0 )"  name=s_ambitoproced visible="1" dddw.name=dw_clase_proc dddw.displaycolumn=todo dddw.datacolumn=codclapro dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.autofill=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tcase(      r_ambitoproced 
+when 'Anulado' then rgb(128,128,128)))" x="7310" y="0" height="52" width="430" format="[general]" html.valueishtml="0" protect="0~tif(    r_ambitoproced ='0'  , 1, 0 )"  name=s_ambitoproced visible="1" dddw.name=dw_clase_proc dddw.displaycolumn=todo dddw.datacolumn=codclapro dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.autofill=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes dddw.autoretrieve=no  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tcase(      r_ambitoproced 
 when '1' then rgb(255,255,255)
 when '2' then rgb(255,255,200)
 else rgb(192,192,192))
@@ -261,7 +261,7 @@ else rgb(192,192,192))
 column(band=detail id=38 alignment="0" tabsequence=190 border="0" color="0~tcase( estado 
 when 'Incompleto' then rgb(255,0,0) 
 when 'Completo' then rgb(0,0,0)
-when 'Anulado' then rgb(128,128,128))" x="7749" y="0" height="52" width="453" format="[general]" html.valueishtml="0" protect="0~tif(   r_finalidadproced ='0'  , 1, 0 )"  name=s_finalidadproced visible="1" dddw.name=dw_tipo_proc dddw.displaycolumn=todo dddw.datacolumn=tipproce dddw.percentwidth=200 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.autofill=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tcase(      r_finalidadproced 
+when 'Anulado' then rgb(128,128,128))" x="7749" y="0" height="52" width="453" format="[general]" html.valueishtml="0" protect="0~tif(   r_finalidadproced ='0'  , 1, 0 )"  name=s_finalidadproced visible="1" dddw.name=dw_tipo_proc dddw.displaycolumn=todo dddw.datacolumn=tipproce dddw.percentwidth=200 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.autofill=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes dddw.autoretrieve=no  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="536870912~tcase(      r_finalidadproced 
 when '1' then rgb(255,255,255)
 when '2' then rgb(255,255,200)
 else rgb(192,192,192))

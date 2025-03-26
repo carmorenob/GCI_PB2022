@@ -120,6 +120,7 @@ DataWindowChild idw_fincon,idw_finproc,idw_causaex,idw_ambproc
 trae i_st
 string i_cambio='n',i_cdiaging,i_causaext,i_fin_consulta,i_tipodx,i_mueve_kardex
 end variables
+
 on w_new_estad_ria_os.create
 this.dw_entregas=create dw_entregas
 this.st_desproc=create st_desproc
@@ -238,15 +239,27 @@ else
 end if
 
 if i_st.otro="carga" then
-	dw_rias.getchild('s_finalidadproced',idw_finproc)
-	dw_rias.getchild('desufuncional',idw_ufun)
-	dw_rias.getchild('descripcion',idw_cc)
-	dw_rias.getchild('s_causaexterna',idw_causaex)
-	idw_ufun.settransobject(sqlca)
-	idw_cc.settransobject(sqlca)
-	idw_causaex.settransobject(sqlca)
-	idw_finproc.settransobject(SQLCA)
 	dw_rias.settransobject(SQLCA)
+	dw_rias.getchild('desufuncional',idw_ufun)
+	idw_ufun.settransobject(sqlca)	
+	dw_rias.getchild('descripcion',idw_cc)
+	idw_cc.settransobject(sqlca)	
+	dw_rias.getchild('s_fin_consulta',idw_fincon)
+	idw_fincon.settransobject(sqlca)
+	dw_rias.getchild('s_finalidadproced',idw_finproc)
+	idw_finproc.settransobject(SQLCA)
+	dw_rias.getchild('s_causaexterna',idw_causaex)
+	idw_causaex.settransobject(sqlca)
+	dw_rias.getchild('s_ambitoproced',idw_ambproc)
+	idw_ambproc.settransobject(sqlca)
+	idw_fincon.retrieve('1')
+	idw_finproc.retrieve('1')
+	idw_causaex.retrieve('1')
+	idw_ambproc.retrieve('1')
+	idw_ufun.insertrow(1)
+	idw_cc.insertrow(1)
+
+
 	for j=1 to i_st.dw_procs.rowcount()
 		if i_st.dw_procs.getitemstring(j,"agrupser")="10" then continue
 		if i_st.dw_procs.getitemstring(j,'escog')='0'   then continue
@@ -334,17 +347,27 @@ else//revisa
 	cb_registra.enabled=false
 	
 	dw_rias.dataobject="dw_rips_os_todos"
+	dw_rias.settransobject(SQLCA)
 	dw_rias.getchild('desufuncional',idw_ufun)
+	idw_ufun.settransobject(sqlca)	
 	dw_rias.getchild('descripcion',idw_cc)
-	dw_rias.getchild('s_causaexterna',idw_causaex)
+	idw_cc.settransobject(sqlca)	
+	dw_rias.getchild('s_fin_consulta',idw_fincon)
+	idw_fincon.settransobject(sqlca)
 	dw_rias.getchild('s_finalidadproced',idw_finproc)
 	idw_finproc.settransobject(SQLCA)
+	dw_rias.getchild('s_causaexterna',idw_causaex)
 	idw_causaex.settransobject(sqlca)
-	idw_ufun.settransobject(sqlca)
+	dw_rias.getchild('s_ambitoproced',idw_ambproc)
+	idw_ambproc.settransobject(sqlca)
+	idw_fincon.retrieve('1')
+	idw_finproc.retrieve('1')
+	idw_causaex.retrieve('1')
+	idw_ambproc.retrieve('1')
 	idw_ufun.insertrow(1)
-	idw_cc.settransobject(sqlca)
 	idw_cc.insertrow(1)
-	dw_rias.settransobject(sqlca)
+	
+
 	if i_st.dw_procs.rowcount()=0 then
 		dw_trae.retrieve(i_st.numero,i_st.lugar,i_st.dw_meds.getitemnumber(1,'nsolicitud'))
 		dw_rias.retrieve(i_st.numero,i_st.lugar,i_st.dw_meds.getitemnumber(1,'nsolicitud'))
@@ -357,6 +380,10 @@ string temp
 
 dw_rias.getchild('desesp',idw_espe)
 idw_espe.settransobject(sqlca)
+
+
+
+
 if dw_rias.rowcount()>0 then idw_espe.retrieve(dw_rias.getitemstring(1,'cprof'))
 choose case i_st.tingres
 	case '2'
@@ -1570,21 +1597,6 @@ end if
 end event
 
 event itemerror;return 1
-end event
-
-event constructor;getchild('s_fin_consulta',idw_fincon)
-idw_fincon.settransobject(sqlca)
-getchild('s_finalidadproced',idw_finproc)
-idw_finproc.settransobject(SQLCA)
-getchild('s_causaexterna',idw_causaex)
-idw_causaex.settransobject(sqlca)
-getchild('s_ambitoproced',idw_ambproc)
-idw_ambproc.settransobject(sqlca)
-
-idw_fincon.retrieve('1')
-idw_finproc.retrieve('1')
-idw_causaex.retrieve('1')
-idw_ambproc.retrieve('1')
 end event
 
 type sle_4 from singlelineedit within w_new_estad_ria_os
