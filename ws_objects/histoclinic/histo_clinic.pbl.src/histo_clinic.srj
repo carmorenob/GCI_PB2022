@@ -3,12 +3,12 @@ EXE:histo_clinic.exe,,0,1,0,0,C:\Program Files (x86)\Appeon\Common\PowerBuilder\
 CMP:0,0,0,2,0,0,1
 COM:GCI Ltda.
 DES:Gestión Clínica Integrada
-CPY:2000-2025
+CPY:2000-2026
 PRD:GCI Asistencial
-PVS:6,0,0,124
-PVN:6,0,0,124
-FVS:6,0,0,124
-FVN:6,0,0,124
+PVS:6,0,0,125
+PVN:6,0,0,125
+FVS:6,0,0,125
+FVN:6,0,0,125
 MAN:0,asInvoker,0
 PBD:histo_clinic.pbl,,1
 PBD:obj_comun.pbl,,1
