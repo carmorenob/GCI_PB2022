@@ -9,6 +9,7 @@ end type
 end forward
 
 global type w_escoge from w_center
+integer width = 3808
 integer height = 836
 string title = ""
 boolean minbox = false
@@ -70,8 +71,8 @@ end event
 
 type pb_grabar from w_center`pb_grabar within w_escoge
 string tag = "&Aceptar"
-integer x = 1143
-integer y = 600
+integer x = 1902
+integer y = 592
 string text = "         &a"
 boolean default = true
 string picturename = "aceptar.gif"
@@ -84,11 +85,12 @@ end event
 type dw_1 from datawindow within w_escoge
 integer x = 27
 integer y = 20
-integer width = 2615
+integer width = 3712
 integer height = 556
 integer taborder = 20
 boolean bringtotop = true
 string title = "none"
+string dataobject = "dw_empacguarda"
 boolean hscrollbar = true
 boolean vscrollbar = true
 boolean livescroll = true
@@ -103,8 +105,8 @@ end event
 type pb_buscar from picturebutton within w_escoge
 event mousemove pbm_mousemove
 string tag = "&Cancelar"
-integer x = 1298
-integer y = 600
+integer x = 2057
+integer y = 592
 integer width = 146
 integer height = 128
 integer taborder = 110

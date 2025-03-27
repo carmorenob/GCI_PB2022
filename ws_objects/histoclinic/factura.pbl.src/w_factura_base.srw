@@ -2142,7 +2142,7 @@ if l_rips<>'1' and p_tipoing='1' and dw_dx.rowcount()=0 and not isnull(p_dx) the
 	dw_dx.setitem(1,'desc','')
 	dw_dx.setitem(1,'finc',p_finc)
 	dw_dx.setitem(1,'ambp',p_ambp)	
-	dw_dx.setitem(1,'codgeral','')
+	dw_dx.setitem(1,'codgeral',p_dx)
 end if
 
 donde=dw_factura.insertrow(0)
