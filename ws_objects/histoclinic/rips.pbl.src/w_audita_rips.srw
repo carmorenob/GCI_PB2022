@@ -2884,10 +2884,10 @@ if this.getcolumnname()='envio_xml' then
  	ldt_fechaa=today()
 	ldt_horaa=now()
 	ldt_fechaf=this.getitemdate(fila,'fecha')
-	ldt_horaf=time(this.getitemdatetime(fila,'fecha'))
+	ldt_horaf=time(this.getitemdatetime(fila,'horas'))
 
 	ll_days = DaysAfter(ldt_fechaf, ldt_fechaa )
-	ll_seconds = SecondsAfter (ldt_horaa, ldt_horaa )
+	ll_seconds = SecondsAfter (ldt_horaf, ldt_horaa )
 
 	ll_result =( ll_days *  24 * 60 * 60)+ ll_seconds
 	if ll_result >= 18000 then
