@@ -41,7 +41,7 @@ datawindow g_dw_xabuscar
 string aplicativo,lice,nom_regis,activacion,g_logo_agua,g_firma,g_nequipo
 boolean g_demo=false
 string g_vencimiento //para lo de lotes
-string g_aplicacion='conf_apdx',g_version='6.0.0.44'
+string g_aplicacion='conf_apdx',g_version='6.0.0.46'
 uo_transaction gt_sqlca
 
 end variables

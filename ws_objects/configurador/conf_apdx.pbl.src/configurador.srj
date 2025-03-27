@@ -3,12 +3,12 @@ EXE:conf_apdx.exe,,0,1,1,0,C:\Program Files (x86)\Appeon\Common\PowerBuilder\Run
 CMP:0,0,0,2,0,0,1
 COM:GCI Ltda.
 DES:GCI Ltda Configurador
-CPY:2000-2025
+CPY:2000-2026
 PRD:GCI Configurador
-PVS:6,0,0,44
-PVN:6,0,0,44
-FVS:6,0,0,44
-FVN:6,0,0,44
+PVS:6,0,0,46
+PVN:6,0,0,46
+FVS:6,0,0,46
+FVN:6,0,0,46
 MAN:0,asInvoker,0
 PBD:conf_apdx.pbl,,1
 PBD:pyp.pbl,,1
