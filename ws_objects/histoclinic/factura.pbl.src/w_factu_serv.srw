@@ -326,7 +326,7 @@ end event
 type rb_3 from radiobutton within w_factu_serv
 integer x = 827
 integer y = 52
-integer width = 699
+integer width = 722
 integer height = 64
 integer textsize = -8
 integer weight = 400
@@ -371,7 +371,7 @@ end event
 type rb_1 from radiobutton within w_factu_serv
 integer x = 59
 integer y = 52
-integer width = 494
+integer width = 512
 integer height = 56
 integer textsize = -8
 integer weight = 400
@@ -491,6 +491,7 @@ for j=1 to dw_serv_nofactu.rowcount()
 			if isnull(ls_dx) or ls_dx='' then  setnull(ls_dx)
 			ls_finc=dw_serv_nofactu.getitemstring(j,"finap")
 			if isnull(ls_finc) or ls_finc='' then  setnull(ls_finc)	
+			if ls_finc='10' then ls_finc='44'
 			ls_ambp='02'	
 			
 			if f_busca_emp(emp,cont,codta)=-1 then
@@ -548,6 +549,8 @@ for j=1 to dw_serv_nofactu.rowcount()
 			item_fac=dw_serv_nofactu.getitemnumber(j,"nitem")
 			ls_dx=dw_serv_nofactu.getitemstring(j,"dx")
 			ls_finc=dw_serv_nofactu.getitemstring(j,"finap")
+			if isnull(ls_finc) or ls_finc='' then  setnull(ls_finc)	
+			if ls_finc='10' then ls_finc='44'
 			ls_ambp='02'
 			
 			if isvalid(w_factura) then
@@ -618,6 +621,7 @@ for j=1 to dw_serv_nofactu.rowcount()
 			if isnull(ls_dx) or ls_dx='' then  setnull(ls_dx)
 			ls_finc=dw_serv_nofactu.getitemstring(j,"cod_fina")
 			if isnull(ls_finc) or ls_finc='' then  setnull(ls_finc)
+			if ls_finc='10' then ls_finc='44'				
 			ls_ambp='02'
 			if f_busca_emp(emp,cont,codta)=-1 then
 				w_factura.blanquea()

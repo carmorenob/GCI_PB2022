@@ -250,7 +250,7 @@ u_elec=create nvo_factura_electronica
 
 //---55387,'69'
 
-if dw_1.retrieve(double(sle_f.text),sle_l.text,'F')>0 then
+if dw_1.retrieve(double(sle_f.text),sle_l.text,'F',0)>0 then
 	l_nfactura=dw_1.getitemnumber(1,'nfact')
 	ls_clugar=dw_1.getitemstring(1,'clugar')
 	ls_tfac=dw_1.getitemstring(1,'tipo')

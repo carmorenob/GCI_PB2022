@@ -2120,7 +2120,7 @@ boolean focusrectangle = false
 end type
 
 type pb_ord from pb_report within tp_1
-integer x = 5897
+integer x = 5746
 integer y = 16
 integer taborder = 40
 string text = "          &o"
@@ -2211,7 +2211,7 @@ end if
 end event
 
 type pb_remi from picturebutton within tp_1
-integer x = 5897
+integer x = 5746
 integer y = 16
 integer width = 146
 integer height = 128
@@ -2460,7 +2460,7 @@ linet.HyperlinkToURL(l_nopos)
 end event
 
 type pb_for from pb_report within tp_2
-integer x = 5897
+integer x = 5746
 integer y = 4
 integer taborder = 40
 string text = "      &F"
