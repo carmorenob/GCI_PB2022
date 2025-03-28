@@ -37,7 +37,7 @@ boolean g_semovio
 boolean  gb_adm //agrega fotos
 string gs_default_mevento,gs_mevento //el por defecto de un usuario
 //para la busqueda con el que se paraece a 'popmenu' (w_funcion_dw)
-string g_nombre_abuscar,g_abuscar,g_vencimiento,g_motor,g_chdate,g_logo_agua,g_firma,g_nequipo,gs_error
+string g_nombre_abuscar,g_abuscar,g_vencimiento,g_motor,g_chdate,gs_jsonsf,gs_filehc,g_nequipo,gs_error,gs_apidocker
 string almacen,  Regimen,retorna_busqueda // de suministros
 string gs_key='Jaer Key19332000',gs_inv='Jorca2021'
 window w_gen[20]
