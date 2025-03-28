@@ -40,8 +40,8 @@ global w_citas_os w_citas_os
 
 type variables
 st_citas_os st_os
+datetime isdt_ah,isdt_ah90d
 end variables
-
 on w_citas_os.create
 this.st_1=create st_1
 this.rb_2=create rb_2
@@ -70,7 +70,12 @@ destroy(this.dw_1)
 end on
 
 event open;st_os = Message.PowerObjectParm
-dw_1.Retrieve(tipdoc,docu,st_os.grupo)
+
+isdt_ah=datetime(today(),now())
+isdt_ah90d=datetime(relativedate(date(isdt_ah),-90),time(23,59,59))
+
+
+dw_1.Retrieve(tipdoc,docu,st_os.grupo,isdt_ah,isdt_ah90d)
 
 end event
 
@@ -96,7 +101,7 @@ end type
 type rb_2 from radiobutton within w_citas_os
 integer x = 878
 integer y = 12
-integer width = 823
+integer width = 850
 integer height = 64
 integer textsize = -8
 integer weight = 400
@@ -111,7 +116,7 @@ end type
 
 event clicked;dw_1.dataobject="dw_citas_os_hu"
 dw_1.settransobject(sqlca)
-dw_1.retrieve(tipdoc,docu,st_os.grupo)
+dw_1.retrieve(tipdoc,docu,st_os.grupo,isdt_ah,isdt_ah90d)
 st_1.text="El Paciente tiene los siguientes servicios de ordenes de servicio de Hospitalización/Urgencias sin Asignar, marque los que desea asignar y presione aceptar."
 end event
 
@@ -133,14 +138,14 @@ end type
 
 event clicked;dw_1.dataobject="dw_citas_tto_odonto"
 dw_1.settransobject(sqlca)
-dw_1.retrieve(tipdoc,docu,st_os.grupo)
+dw_1.retrieve(tipdoc,docu,st_os.grupo,isdt_ah,isdt_ah90d)
 st_1.text="El Paciente tiene los siguientes servicios de tratamientos Odontológicos sin Asignar, marque los que desea asignar y presione aceptar."
 end event
 
 type rb_1 from radiobutton within w_citas_os
 integer x = 41
 integer y = 12
-integer width = 718
+integer width = 750
 integer height = 56
 integer textsize = -8
 integer weight = 400
@@ -156,7 +161,7 @@ end type
 
 event clicked;dw_1.dataobject="dw_citas_os"
 dw_1.settransobject(sqlca)
-dw_1.retrieve(tipdoc,docu,st_os.grupo)
+dw_1.retrieve(tipdoc,docu,st_os.grupo,isdt_ah,isdt_ah90d)
 st_1.text="El Paciente tiene los siguientes servicios de ordenes de servicio de Consulta Externa sin Asignar, marque los que desea asignar y presione aceptar."
 end event
 

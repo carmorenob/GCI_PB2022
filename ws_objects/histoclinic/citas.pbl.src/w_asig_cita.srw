@@ -1059,7 +1059,7 @@ end event
 
 type pb_1 from pb_report within w_asig_cita
 integer x = 27
-integer y = 848
+integer y = 888
 integer taborder = 150
 string text = "       &o"
 string powertiptext = "Imprimir Reporte de Citas Asignadas [Alt+O]"
@@ -1076,7 +1076,7 @@ end event
 
 type cb_guarda from picturebutton within w_asig_cita
 integer x = 178
-integer y = 848
+integer y = 888
 integer width = 146
 integer height = 128
 integer taborder = 100
@@ -1118,7 +1118,7 @@ end event
 
 type cb_2 from picturebutton within w_asig_cita
 integer x = 329
-integer y = 848
+integer y = 888
 integer width = 146
 integer height = 128
 integer taborder = 160
@@ -1142,7 +1142,7 @@ end event
 
 type cb_lleva from picturebutton within w_asig_cita
 integer x = 485
-integer y = 848
+integer y = 888
 integer width = 146
 integer height = 128
 integer taborder = 170
@@ -1184,7 +1184,7 @@ end event
 
 type cb_guarda_yrec from picturebutton within w_asig_cita
 integer x = 635
-integer y = 848
+integer y = 888
 integer width = 146
 integer height = 128
 integer taborder = 180
@@ -1228,7 +1228,7 @@ end event
 
 type pb_2 from picturebutton within w_asig_cita
 integer x = 786
-integer y = 848
+integer y = 888
 integer width = 146
 integer height = 128
 integer taborder = 190
@@ -1294,7 +1294,7 @@ end event
 
 type pb_nocita from picturebutton within w_asig_cita
 integer x = 937
-integer y = 848
+integer y = 888
 integer width = 146
 integer height = 128
 integer taborder = 200
@@ -1503,9 +1503,9 @@ type tab_2 from tab within w_asig_cita
 event create ( )
 event destroy ( )
 integer x = 18
-integer y = 1044
+integer y = 1032
 integer width = 3237
-integer height = 1376
+integer height = 1388
 integer taborder = 210
 integer textsize = -8
 integer weight = 400
@@ -1548,7 +1548,7 @@ event destroy ( )
 integer x = 18
 integer y = 112
 integer width = 3200
-integer height = 1248
+integer height = 1260
 long backcolor = 67108864
 string text = "Disponibilidad"
 long tabtextcolor = 33554432
@@ -1624,7 +1624,7 @@ event destroy ( )
 integer x = 18
 integer y = 112
 integer width = 3200
-integer height = 1248
+integer height = 1260
 long backcolor = 67108864
 string text = "Citas Anteriores"
 long tabtextcolor = 33554432
@@ -1758,7 +1758,7 @@ type tp2_3 from userobject within tab_2
 integer x = 18
 integer y = 112
 integer width = 3200
-integer height = 1248
+integer height = 1260
 long backcolor = 67108864
 string text = "Citas No Asignada"
 long tabtextcolor = 33554432
@@ -2718,7 +2718,7 @@ type mc_1 from monthcalendar within w_asig_cita
 integer x = 18
 integer y = 224
 integer width = 1125
-integer height = 600
+integer height = 660
 integer taborder = 50
 integer textsize = -10
 integer weight = 400
@@ -2786,7 +2786,7 @@ choose case getcolumn()
 			tab_1.tp_1.dw_serv_cita.modify("cproced.dddw.name='dw_procgcli2'")
 			ls_filtro=i_dw_grupc.getitemstring(i_dw_grupc.getrow(),"codaadx")
 		else
-			Modify("codproced.dddw.name='dw_proc_gcita'")
+			Modify("codproced.dddw.name='dw_proc_gcita_all'")
 			tab_1.tp_1.dw_serv_cita.modify("cproced.dddw.name='dw_proc_gcita'")
 			if isnull(getitemstring(1,1)) then
 				ls_filtro=''
