@@ -38,7 +38,7 @@ dwobject g_dwo
 string g_nombre_abuscar,g_abuscar,retorna_busqueda
 string gs_key='Jaer Key19332000',gs_inv='Jorca2021'
 datawindow g_dw_xabuscar
-string aplicativo,lice,nom_regis,activacion,g_logo_agua,g_firma,g_nequipo
+string aplicativo,lice,nom_regis,activacion,gs_jsonsf,gs_filehc,g_nequipo,gs_apidocker
 boolean g_demo=false
 string g_vencimiento //para lo de lotes
 string g_aplicacion='conf_apdx',g_version='6.0.0.46'

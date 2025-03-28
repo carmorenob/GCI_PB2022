@@ -589,8 +589,9 @@ dw_clientes.settransobject(sqlca)
 dw_clientes.setfilter("upper(cliente)='"+upper(nom_regis)+"'")
 dw_clientes.filter()
 if dw_clientes.rowcount()>0 then
-	g_firma=dw_clientes.getitemstring(dw_clientes.getrow(),'firma')
-	g_logo_agua=dw_clientes.getitemstring(dw_clientes.getrow(),'logo')
+	gs_filehc=dw_clientes.getitemstring(dw_clientes.getrow(),'file_hc')
+	gs_jsonsf=dw_clientes.getitemstring(dw_clientes.getrow(),'jsonsf')
+	gs_apidocker=dw_clientes.getitemstring(dw_clientes.getrow(),'apidocker')
 	if g_version <> dw_clientes.getitemstring(dw_clientes.getrow(),g_aplicacion)  then 	
 		messagebox('ATENCION PIRATA','Versión NO AUTORIZADA para '+nom_regis)
 		disconnect;

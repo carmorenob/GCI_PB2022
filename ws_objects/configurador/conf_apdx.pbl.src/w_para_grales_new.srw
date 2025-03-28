@@ -703,6 +703,7 @@ string ls_enc='0'
 u_version uo_ver
 datawindowchild idw_almcext,idw_almcurg,idw_almhosp,idw_almcamb
 end variables
+
 on w_para_grales_new.create
 this.rb_1=create rb_1
 this.cb_7=create cb_7
@@ -6986,7 +6987,7 @@ string text = "none"
 boolean border = false
 boolean hscrollbar = true
 boolean vscrollbar = true
-string item[] = {"CONSULTORIO","APOYO DIAGNOSTICO","ESPECIALISTA","CONSULTA EXTERNA","CLINICA","HOSPITAL","ODONTOLOGIA","CONSULTORIO + APIDOCKER","APOYO DIAGNOSTICO + APIDOCKER","ESPECIALISTA + APIDOCKER","CONSULTA EXTERNA + APIDOCKER","CLINICA + APIDOCKER","HOSPITAL + APIDOCKER","ODONTOLOGIA + APIDOCKER"}
+string item[] = {"CONSULTORIO","APOYO DIAGNOSTICO","ESPECIALISTA","CONSULTA EXTERNA","CLINICA","HOSPITAL","ODONTOLOGIA"}
 borderstyle borderstyle = stylelowered!
 end type
 
