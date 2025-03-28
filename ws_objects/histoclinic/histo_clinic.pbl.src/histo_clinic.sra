@@ -38,14 +38,14 @@ Long edad_busca,g_tercerodesde
 Long ancho,alto
 String retorna_busqueda,retorna_des_busqueda, dir_insta,gs_pdf
 String CLUGAR,aplicativo,val_hasta,lice,nom_regis,activacion,g_motor,g_nequipo
-String g_nombre_abuscar,g_abuscar,atiendeod,gs_llaved
+String g_nombre_abuscar,g_abuscar,atiendeod,gs_llaved,gs_jsonsf
 string gs_key='Jaer Key19332000'
 string gs_inv='Jorca2021'
 // para el objeto de reporte los valores son : documento!,interno!,menu!,externo!
 boolean g_demo=false,g_formula=true
-string g_firma, g_logo_agua,tipo_pais,g_vencimiento //para lo de lotes
+string gs_filehc,tipo_pais,g_vencimiento //para lo de lotes
 string g_aplicacion='histo_clinic',g_version='6.0.0.125'
-string gs_oxigeno
+string gs_oxigeno,gs_apidocker
 date usu_fecha_ini, usu_fecha_fin
 uo_report i_rep_asis[8,15]
 uo_transaction gt_sqlca
