@@ -335,6 +335,7 @@ int ntomas
 transaction sqllab
 
 end variables
+
 forward prototypes
 public function string f_revisa_planes ()
 public function string f_valida_usuarios (string p_usu, string p_area)
@@ -2340,7 +2341,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-03-25"), Time("17:53:52.000000"))
+datetime value = DateTime(Date("2025-03-28"), Time("09:55:17.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -2362,7 +2363,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-03-25"), Time("17:53:52.000000"))
+datetime value = DateTime(Date("2025-03-28"), Time("09:55:17.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -4607,8 +4608,10 @@ end if
 setitem(1,"ambitoproced",idw_tingre.getitemstring(idw_tingre.getrow(),'claseproced'))
 if not isnull(ls_dx) or ls_dx<>'' then 
 	setitem(1,"diagprin", ls_dx)
+	if isnull(ls_fina) or ls_fina='' then
+		ls_fina='15'
+	end if
 	setitem(1,"finalidadproced",ls_fina)
-	setitem(1,"ambitoproced",ls_amb)	
 end if
 if update()=-1 then return -1
 

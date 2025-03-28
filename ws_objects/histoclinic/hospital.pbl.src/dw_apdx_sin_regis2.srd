@@ -51,7 +51,10 @@ FROM
 	AND (OSCuerpo.clugar = OSCpo_ADX.clugar) AND (OSCuerpo.Contador = OSCpo_ADX.Contador)) 
 	INNER JOIN lugar ON hospadmi.clugar = lugar.codlugar
 WHERE 
-	(((OSCuerpo.CodAADX)=:area) AND ((OSCuerpo.en_apdx)='0') AND ((OSCuerpo.estado)='1') 
+	(((OSCuerpo.CodAADX)=:area) 
+	AND ((OSCuerpo.en_apdx)='0') 
+	AND ((OSCuerpo.estado)='1') 
+	AND ((OSCAbeza.fecha) between :fechaI and :FechaF) 
 	AND ((hospadmi.Estado)='1' Or (hospadmi.Estado)='2'))
 GROUP BY 
 	hospadmi.NH, hospadmi.clugar, hospadmi.CodTIngre, hospadmi.TipoDoc, hospadmi.Documento, pacientes.Nombre1, 
@@ -59,7 +62,7 @@ GROUP BY
 	OSCuerpo.observaciones, OSCabeza.fecha, camas.CodSer, OSCuerpo.Contador, OSCuerpo.clugar, 
 	OSCuerpo.NSolicitud, OSCuerpo.Item, OSCpo_ADX.fecha_impreso, OSCpo_ADX.usu_imp,proced.cod_cups,lugar.descripcion
 HAVING 
-	(((hospadmi.CodTIngre)=:tingres) AND ((Count(OSCpo_ADX.Item))<oscuerpo.solicitada))" arguments=(("tingres", string),("area", string)) )
+	(((hospadmi.CodTIngre)=:tingres) AND ((Count(OSCpo_ADX.Item))<oscuerpo.solicitada))" arguments=(("tingres", string),("area", string),("FechaI", datetime),("FechaF", datetime)) )
 text(band=header alignment="2" text="Nh" border="0" color="33554432" x="9" y="8" height="64" width="329" html.valueishtml="0"  name=nh_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="2" text="Clugar" border="0" color="33554432" x="347" y="8" height="64" width="169" html.valueishtml="0"  name=clugar_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="2" text="Codtingre" border="0" color="33554432" x="526" y="8" height="64" width="251" html.valueishtml="0"  name=codtingre_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
@@ -126,4 +129,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 

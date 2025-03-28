@@ -39,7 +39,7 @@ end type
 end forward
 
 global type w_paci_sinapdx2 from window
-integer width = 3794
+integer width = 4064
 integer height = 1880
 boolean titlebar = true
 string title = "Pacientes con órdenes a atender en Apoyo Diagnóstico o con Resultados pendientes de Registrar"
@@ -71,10 +71,9 @@ end type
 global w_paci_sinapdx2 w_paci_sinapdx2
 
 type variables
-
+datetime isdt_ah,isdt_ah90d
 string i_decual,tipo_ingres=''
 end variables
-
 forward prototypes
 public subroutine filtrar ()
 public subroutine traer ()
@@ -91,8 +90,8 @@ dw_muestra.filter()
 dw_muestra.sort()
 end subroutine
 
-public subroutine traer ();dw_muestra.retrieve(w_apoyo_diag2.i_tipoing,w_apoyo_diag2.i_codarea)
-if dw_1.retrieve(w_apoyo_diag2.i_tipoing,w_apoyo_diag2.i_codarea)>0 then
+public subroutine traer ();dw_muestra.retrieve(w_apoyo_diag2.i_tipoing,w_apoyo_diag2.i_codarea,isdt_ah90d, isdt_ah)
+if dw_1.retrieve(w_apoyo_diag2.i_tipoing,w_apoyo_diag2.i_codarea,isdt_ah90d, isdt_ah)>0 then
 	long j,k,cual
 	for j=1 to dw_1.rowcount()
 		cual=dw_1.getitemnumber(j,'solicitada') - dw_1.getitemnumber(j,'llevados')
@@ -170,6 +169,9 @@ destroy(this.st_area)
 end on
 
 event open;i_decual=message.stringparm
+
+isdt_ah=datetime(today(),now())
+isdt_ah90d=datetime(relativedate(date(isdt_ah),-90),time(00,00,01))
 if i_decual='apoyo' then
 	select descripcion into :st_4.text from tipoingreso where codtingre=:w_apoyo_diag2.i_tipoing;
 	select descripciongc into :st_area.text from areaadx where codaadx =:w_apoyo_diag2.i_codarea;
@@ -180,6 +182,7 @@ else
 	dw_area.visible=true
 	dw_area.insertrow(1)
 end if
+
 end event
 
 type pb_2 from pb_report within w_paci_sinapdx2
@@ -215,8 +218,8 @@ end event
 
 type dw_1 from datawindow within w_paci_sinapdx2
 boolean visible = false
-integer x = 3003
-integer y = 188
+integer x = 3291
+integer y = 168
 integer width = 535
 integer height = 188
 integer taborder = 50
@@ -251,7 +254,7 @@ string powertiptext = "Refrescar"
 end type
 
 event clicked;if i_decual='apoyo' then
-	dw_muestra.retrieve(w_apoyo_diag2.i_tipoing,w_apoyo_diag2.i_codarea)
+	dw_muestra.retrieve(w_apoyo_diag2.i_tipoing,w_apoyo_diag2.i_codarea,isdt_ah90d, isdt_ah)
 else
 	dw_area.triggerevent(itemchanged!)
 end if
@@ -450,7 +453,7 @@ end type
 
 type st_3 from statictext within w_paci_sinapdx2
 integer x = 78
-integer width = 3607
+integer width = 3886
 integer height = 144
 integer textsize = -8
 integer weight = 400
@@ -504,7 +507,7 @@ end type
 type dw_muestra from datawindow within w_paci_sinapdx2
 integer x = 73
 integer y = 468
-integer width = 3589
+integer width = 3904
 integer height = 1156
 integer taborder = 50
 string title = "none"

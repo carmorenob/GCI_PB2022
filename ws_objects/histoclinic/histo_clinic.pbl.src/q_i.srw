@@ -223,7 +223,6 @@ end type
 
 type pb_1 from picturebutton within q_i
 string tag = "Evento"
-boolean visible = false
 integer x = 96
 integer y = 332
 integer width = 146

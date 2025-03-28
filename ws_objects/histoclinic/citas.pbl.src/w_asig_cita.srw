@@ -2782,12 +2782,12 @@ choose case getcolumn()
 		if tab_2.tp2_1.dw_consultxgcita.rowcount()=0 then dw_1.reset()
 
 		if not isnull(i_dw_grupc.getitemstring(i_dw_grupc.getrow(),"codaadx")) then
-			Modify("codproced.dddw.name='dw_procgcli2_all'")
+			Modify("codproced.dddw.name='dw_procgcli2'")
 			tab_1.tp_1.dw_serv_cita.modify("cproced.dddw.name='dw_procgcli2_all'")
 			ls_filtro=i_dw_grupc.getitemstring(i_dw_grupc.getrow(),"codaadx")
 		else
 			Modify("codproced.dddw.name='dw_proc_gcita'")
-			tab_1.tp_1.dw_serv_cita.modify("cproced.dddw.name='dw_proc_gcita'")
+			tab_1.tp_1.dw_serv_cita.modify("cproced.dddw.name='dw_proc_gcita_all'")
 			if isnull(getitemstring(1,1)) then
 				ls_filtro=''
 			else

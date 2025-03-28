@@ -73,8 +73,7 @@ end on
 event open;st_os = Message.PowerObjectParm
 
 isdt_ah=datetime(today(),now())
-isdt_ah90d=datetime(relativedate(date(isdt_ah),-90),time(00,00,09))
-
+isdt_ah90d=datetime(relativedate(date(isdt_ah),-60),time(00,00,09))
 
 dw_1.Retrieve(tipdoc,docu,st_os.grupo,isdt_ah90d,isdt_ah)
 
