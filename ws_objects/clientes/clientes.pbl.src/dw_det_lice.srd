@@ -11,7 +11,7 @@ table(column=(type=long update=yes updatewhereclause=yes key=yes name=numero dbn
  column=(type=datetime update=yes updatewhereclause=yes name=fecha_venta dbname="licencias.fecha_venta" )
  column=(type=char(1) update=yes updatewhereclause=yes name=tipo dbname="licencias.tipo" values="PRIMERA LICENCIA	0/AMPLIACION DE LICENCIAS	1/ACTUALIZACION	2/" )
  column=(type=long update=yes updatewhereclause=yes name=num_licencias dbname="licencias.num_licencias" initial="2" )
- column=(type=char(2) update=yes updatewhereclause=yes name=aplicativo dbname="licencias.aplicativo" initial="6" values="CONSULTORIO	1/APOYO DIAGNOSTICO	2/ESPECIALISTA	3/CONSULTA EXTERNA	4/CLINICA	5/HOSPITAL	6/ODONTOLOGIA	7/CONSULTORIO + APIDOCKER	8/APOYO DIAGNOSTICO + APIDOCKER	9/ESPECIALISTA + APIDOCKER	10/CONSULTA EXTERNA + APIDOCKER	11/CLINICA + APIDOCKER	12/HOSPITAL + APIDOCKER	13/ODONTOLOGIA + APIDOCKER	14/" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=aplicativo dbname="licencias.aplicativo" initial="6" values="CONSULTORIO	1/APOYO DIAGNOSTICO	2/ESPECIALISTA	3/CONSULTA EXTERNA	4/CLINICA	5/HOSPITAL	6/ODONTOLOGIA	7/" )
  column=(type=char(50) update=yes updatewhereclause=yes name=clave dbname="licencias.clave" )
  column=(type=real update=yes updatewhereclause=yes name=lic_cont dbname="licencias.lic_cont" initial="1" )
  column=(type=real update=yes updatewhereclause=yes name=lic_teso dbname="licencias.lic_teso" initial="1" )
@@ -99,4 +99,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=0 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 
