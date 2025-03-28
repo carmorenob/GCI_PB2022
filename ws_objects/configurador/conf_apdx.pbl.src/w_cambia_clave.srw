@@ -113,21 +113,7 @@ if w_para_grales_new.c_asis.checked then
 		case "HOSPITAL"
 			cual="6"
 		case "ODONTOLOGIA"
-			cual="7"
-		case "CONSULTORIO + APIDOCKER"
-			cual="8"
-		case "APOYO DIAGNOSTICO + APIDOCKER"
-			cual="9"
-		case "ESPECIALISTA + APIDOCKER"
-			cual="10"
-		case "CONSULTA EXTERNA + APIDOCKER"
-			cual="11"
-		case "CLINICA + APIDOCKER"
-			cual="12"
-		case "HOSPITAL + APIDOCKER"
-			cual="13"
-		case "ODONTOLOGIA + APIDOCKER"
-			cual="14"					
+			cual="7"				
 	end choose
 	l_aplicativo=cual
 	esta+=l_lice+l_aplicativo

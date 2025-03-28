@@ -1046,21 +1046,7 @@ if c_asis.checked then
 		case "HOSPITAL"
 			cual="6"
 		case "ODONTOLOGIA"
-			cual="7"
-		case "CONSULTORIO + APIDOCKER"
-			cual="8"
-		case "APOYO DIAGNOSTICO + APIDOCKER"
-			cual="9"
-		case "ESPECIALISTA + APIDOCKER"
-			cual="10"
-		case "CONSULTA EXTERNA + APIDOCKER"
-			cual="11"
-		case "CLINICA + APIDOCKER"
-			cual="12"
-		case "HOSPITAL + APIDOCKER"
-			cual="13"
-		case "ODONTOLOGIA + APIDOCKER"
-			cual="14"			
+			cual="7"	
 	end choose
 	l_aplicativo=cual
 	esta+=l_lice+l_aplicativo
@@ -7009,20 +6995,6 @@ choose case aplicac
 		cual="HOSPITAL"
 	case "7"
 		cual="ODONTOLOGIA"
-	case "8"
-		cual="CONSULTORIO + APIDOCKER"
-	case "9"
-		cual="APOYO DIAGNOSTICO + APIDOCKER"
-	case "10"
-		cual="ESPECIALISTA + APIDOCKER"
-	case "11"
-		cual="CONSULTA EXTERNA + APIDOCKER"
-	case "12"
-		cual="CLINICA + APIDOCKER"
-	case "13"
-		cual="HOSPITAL + APIDOCKER"
-	case "14"
-		cual="ODONTOLOGIA + APIDOCKER"		
 end choose
 this.text=cual
 end event
