@@ -262,6 +262,8 @@ type tab_3 from tab within tp_p
 end type
 type det from userobject within tab_3
 end type
+type pb_json from picturebutton within det
+end type
 type pb_diacc from picturebutton within det
 end type
 type pb_8 from picturebutton within det
@@ -277,6 +279,7 @@ end type
 type dw_det from datawindow within det
 end type
 type det from userobject within tab_3
+pb_json pb_json
 pb_diacc pb_diacc
 pb_8 pb_8
 pb_diac pb_diac
@@ -541,6 +544,7 @@ boolean ibn_paso=false
 uo_report i_rep
 DataWindowChild idw_fincon,idw_finproc,idw_causaex,idw_ambproc
 end variables
+
 forward prototypes
 public subroutine cuenta ()
 public function integer genera_forecat (long p_nrad, string p_clug_rad, datetime p_fecha_fin, boolean p_faltan)
@@ -5712,6 +5716,7 @@ string text = "Detalle"
 long tabtextcolor = 33554432
 string picturename = "deta_rad.ico"
 long picturemaskcolor = 536870912
+pb_json pb_json
 pb_diacc pb_diacc
 pb_8 pb_8
 pb_diac pb_diac
@@ -5722,6 +5727,7 @@ dw_det dw_det
 end type
 
 on det.create
+this.pb_json=create pb_json
 this.pb_diacc=create pb_diacc
 this.pb_8=create pb_8
 this.pb_diac=create pb_diac
@@ -5729,7 +5735,8 @@ this.pb_anula=create pb_anula
 this.pb_dian=create pb_dian
 this.pb_radvi=create pb_radvi
 this.dw_det=create dw_det
-this.Control[]={this.pb_diacc,&
+this.Control[]={this.pb_json,&
+this.pb_diacc,&
 this.pb_8,&
 this.pb_diac,&
 this.pb_anula,&
@@ -5739,6 +5746,7 @@ this.dw_det}
 end on
 
 on det.destroy
+destroy(this.pb_json)
 destroy(this.pb_diacc)
 destroy(this.pb_8)
 destroy(this.pb_diac)
@@ -5747,6 +5755,36 @@ destroy(this.pb_dian)
 destroy(this.pb_radvi)
 destroy(this.dw_det)
 end on
+
+type pb_json from picturebutton within det
+integer x = 2725
+integer y = 440
+integer width = 146
+integer height = 128
+integer taborder = 90
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+boolean originalsize = true
+string picturename = "json.gif"
+string disabledname = "d_json.gif"
+alignment htextalign = left!
+end type
+
+event clicked;nvo_fevrips luo_rips
+double ldb_nfac
+string ls_clu,ls_tip
+
+ldb_nfac=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'num_radicacion')
+ls_clu=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'clugar')
+ls_tip=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'tipo')
+luo_rips=create nvo_fevrips
+luo_rips.emite_json_jsonsf(ldb_nfac,ls_clu,ls_tip,'f','FV','D:\json'+'.json')
+destroy 	luo_rips
+end event
 
 type pb_diacc from picturebutton within det
 integer x = 2871

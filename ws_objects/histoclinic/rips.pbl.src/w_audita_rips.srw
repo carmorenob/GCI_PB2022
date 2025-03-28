@@ -383,16 +383,23 @@ if sqlca.sqlnrows=0 then
 	return
 end if
 
-if is_elec='2' then
-	tab_1.tp_2.pb_dian.visible=true
-	tab_1.tp_2.pb_dian.enabled=true
-	tab_1.tp_2.pb_email_dian.visible=true
-	tab_1.tp_2.pb_email_dian.enabled=true
-else
+if gs_jsonsf='1' then 
 	tab_1.tp_2.pb_dian.visible=false
 	tab_1.tp_2.pb_dian.enabled=false
 	tab_1.tp_2.pb_email_dian.visible=false
 	tab_1.tp_2.pb_email_dian.enabled=false
+else
+	if is_elec='2' then
+		tab_1.tp_2.pb_dian.visible=true
+		tab_1.tp_2.pb_dian.enabled=true
+		tab_1.tp_2.pb_email_dian.visible=true
+		tab_1.tp_2.pb_email_dian.enabled=true
+	else
+		tab_1.tp_2.pb_dian.visible=false
+		tab_1.tp_2.pb_dian.enabled=false
+		tab_1.tp_2.pb_email_dian.visible=false
+		tab_1.tp_2.pb_email_dian.enabled=false
+	end if
 end if
 end event
 
@@ -2132,6 +2139,8 @@ else
 end if
 dw_facturas.settransobject(sqlca)
 	
+	
+	
 if g_motor='access' then
 end if
 if g_motor='access' then
@@ -2876,7 +2885,7 @@ if l_soat='1'  and isnull(this.getitemnumber(fila,'folios')) then
 	return 1
 End If
 
-if this.getcolumnname()='envio_xml' then
+if this.getcolumnname()='envio_xml' and gs_jsonsf='0' then
 	date ldt_fechaa,ldt_fechaf
 	time ldt_horaa,ldt_horaf
 	long ll_days, ll_seconds, ll_result
@@ -2896,7 +2905,6 @@ if this.getcolumnname()='envio_xml' then
 		this.accepttext()		
 		return 1
 	end if
-
 end if
 
 if this.getcolumnname()='radicar' then

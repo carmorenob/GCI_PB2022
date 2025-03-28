@@ -10,7 +10,7 @@ table(column=(type=char(20) updatewhereclause=yes name=documento dbname="documen
  column=(type=char(2) updatewhereclause=yes name=clugar dbname="clugar" )
  column=(type=char(8190) updatewhereclause=yes name=tiponotas dbname="tiponotas" )
  column=(type=char(8190) updatewhereclause=yes name=numnota dbname="numnota" )
- column=(type=char(4) updatewhereclause=yes name=prefijo dbname="prefijo" )
+ column=(type=char(255) updatewhereclause=yes name=prefijo dbname="prefijo" )
  retrieve="SELECT 
 	 ips.documento, factcab.nfact, factcab.clugar,  Null AS tiponotas, Null AS numNota, documentos_autfact.prefijo
 FROM 
@@ -18,8 +18,18 @@ FROM
 	INNER JOIN CONTRATOS ON (factcab.CCONTRATO = CONTRATOS.CODCONTRATO) AND (factcab.CEMP = CONTRATOS.CODEMP)
 WHERE 
 	(((factcab.nfact)=:nf) AND ((factcab.clugar)=:lug) AND ((factcab.tipo)=:tipo) 
-	AND ((documentos_autfact.coddoc)='FV') AND ((CONTRATOS.CTCONTRA)='1'));
-" arguments=(("nf", number),("lug", string),("tipo", string)) )
+	AND ((documentos_autfact.coddoc)='FV') AND ((CONTRATOS.CTCONTRA)='1'))
+
+UNION ALL
+
+SELECT 
+	 ips.documento, factcab.nfact, factcab.clugar,  Null AS tiponotas, Null AS numNota, null as prefijo
+FROM 
+	((factcab left JOIN documentos_autfact ON factcab.c_aut = documentos_autfact.c_aut) INNER JOIN ips ON factcab.ips = ips.c_ips) 
+	INNER JOIN CONTRATOS ON (factcab.CCONTRATO = CONTRATOS.CODCONTRATO) AND (factcab.CEMP = CONTRATOS.CODEMP)
+WHERE 
+	(((factcab.nfact)=:nf) AND ((factcab.clugar)=:lug) AND ((factcab.tipo)=:tipo) 
+	AND  ((CONTRATOS.CTCONTRA)='1') AND ((documentos_autfact.coddoc) Is Null))" arguments=(("nf", number),("lug", string),("tipo", string)) )
 text(band=header alignment="2" text="Tiponotas" border="0" color="33554432" x="1751" y="4" height="52" width="384" html.valueishtml="0"  name=tiponotas_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="2" text="Numnota" border="0" color="33554432" x="2144" y="4" height="52" width="384" html.valueishtml="0"  name=numnota_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="0" text="Nfact" border="0" color="0" x="969" y="4" height="64" width="489" html.valueishtml="0"  name=nfact_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
