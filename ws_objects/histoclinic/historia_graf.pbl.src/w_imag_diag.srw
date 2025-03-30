@@ -507,7 +507,7 @@ choose case getitemstring(row,'indapdx')
 			setitem(row,'hijos',getitemnumber(row,'hijos') + dw_t1.rowcount())
 			for j=1 to dw_t1.rowcount()
 				temp=dw_t1.getitemstring(j,'cod_cups')+ ' - '+dw_t1.getitemstring(j,'descripcion')
-				cambia_dw(dw_temp2,'dw_imags_diags')
+				cambia_dw(dw_t1,'dw_imags_diags')
 				hijos=dw_temp2.retrieve(dw_t1.getitemstring(j,'coddoc'),dw_t1.getitemstring(j,'clugar_res'),dw_t1.getitemnumber(j,'nrepor'),dw_t1.getitemnumber(j,'item'))
 				sumar=1+event inserta(sumar,temp,1,getitemnumber(row,'fila'),hijos,'x',fecha,contador,clug,dw_t1.getitemnumber(j,'nrepor'),dw_t1.getitemnumber(j,'item'),dw_t1.getitemstring(j,'coddoc'),dw_t1.getitemstring(j,'clugar_res'))//apdx			
 				padre[1]=sumar -1
@@ -734,7 +734,12 @@ choose case getitemstring(getrow(),'indapdx')
 		dw_temp.retrieve(getitemnumber(getrow(),'contador'),getitemstring(getrow(),'clugar'))
 		mostrar('D')
 	case 'g' //
-		cambia_dw(dw_temp,'dw_servadx2_hg')
+		if g_motor='postgres' then
+			cambia_dw(dw_temp,'dw_servadx2_hg_postgres')
+		else
+			cambia_dw(dw_temp,'dw_servadx2_hg')
+		end if		
+		
 		dw_temp.retrieve(getitemnumber(getrow(),'contador'),getitemstring(getrow(),'clugar'),getitemnumber(getrow(),'llave3'))
 		mostrar('D')
 	case 'Q' //actos qx

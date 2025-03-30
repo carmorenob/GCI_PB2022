@@ -33,7 +33,7 @@ table(column=(type=char(15) updatewhereclause=yes name=codproced dbname="factcab
 	serviciosadx.cprocedeq, serviciosadx.Item, serviciosadx.clugar, serviciosadx.clugar_res, 
 	ingresoadx.Fecha AS fecha_sol, ResultadosCpo.FechaResul, 
 	profe.nombre1|| case when profe.nombre2  is null then ' ' else  '  '||profe.nombre2 end ||' '|| 
- 	profe.apellido1|| case when profe.apellido2 is null then ' ' else  '  '+profe.apellido2 end as desprof,
+ 	profe.apellido1|| case when profe.apellido2 is null then ' ' else  '  ' ||profe.apellido2 end as desprof,
 	OSCabeza.fecha as forden, FactCab.Fecha as ffact,serviciosadx.fecha_cierre,proced.cod_cups,proced.cod_version
 FROM 
 	((((ingresoadx INNER JOIN (((serviciosadx LEFT JOIN ResultadosCpo ON (serviciosadx.Item = ResultadosCpo.Item) AND 
@@ -79,4 +79,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=0 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 

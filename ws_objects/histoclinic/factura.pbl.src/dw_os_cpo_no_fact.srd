@@ -10,7 +10,7 @@ table(column=(type=number update=yes updatewhereclause=yes key=yes name=contador
  column=(type=long update=yes updatewhereclause=yes key=yes name=nsolicitud dbname="nsolicitud" )
  column=(type=long update=yes updatewhereclause=yes key=yes name=item dbname="item" )
  column=(type=datetime updatewhereclause=yes name=fecha dbname="fecha" )
- column=(type=long update=yes updatewhereclause=yes name=solicitada dbname="solicitada" )
+ column=(type=long update=yes updatewhereclause=yes name=solicitada dbname="solicitada" validation="long(gettext())>=entregada or long(gettext())=0" validationmsg="'Cantidad No Valida'" )
  column=(type=char(15) update=yes updatewhereclause=yes name=codproced dbname="codproced" )
  column=(type=char(15) update=yes updatewhereclause=yes name=c_medica dbname="c_medica" )
  column=(type=char(255) updatewhereclause=yes name=descripcion dbname="descripcion" )
