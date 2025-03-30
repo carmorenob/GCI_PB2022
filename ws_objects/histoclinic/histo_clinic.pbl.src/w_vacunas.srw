@@ -71,6 +71,7 @@ type variables
 string is_cod_vac, l_sex,l_ges,l_cod_cups
 datawindowchild idw,iprof,idw_finproc,idw_fincon1
 end variables
+
 forward prototypes
 public function long f_insert_servicio (string as_cups, long ad_contador, string as_lugar, string as_profe, datetime ad_fecha, long ad_nservicio, string as_cemp, string as_ccont, string as_modrel)
 end prototypes
@@ -857,6 +858,6 @@ else
 	rollback;
 end if
 pb_3.enabled=true
-
+dw_dosis.retrieve(histo,is_cod_vac)
 end event
 

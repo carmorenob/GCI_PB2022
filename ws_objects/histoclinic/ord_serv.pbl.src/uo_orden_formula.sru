@@ -163,7 +163,7 @@ type variables
 string i_codrep_formula,i_codrep_orden,i_coddiag,i_desdiag,i_codrips,is_202
 boolean repord_dialogo,repfor_dialogo,repord_vprelim,repfor_vprelim
 private long i_contador=-1,i_norden,i_nh,i_nqx,i_consec_qx,l_nsalida
-private string i_clug_his,i_profe,i_indapdx,i_clug_hadm,i_est_hadm,i_cemp,i_ccont,i_tingre,i_clug_qx,l_rips,l_temp_ord,i_esp
+private string i_clug_his,i_profe,i_indapdx,i_clug_hadm,i_est_hadm,i_cemp,i_ccont,i_tingre,i_clug_qx,l_rips,l_temp_ord,i_esp,is_tservicio
 private int cant_serv
 private datetime fec,l_fechaingreso
 private string is_path="c:\windows\temp\",cod_fina
@@ -605,8 +605,9 @@ end function
 
 public subroutine cambia_diags (string p_cdiag);i_coddiag=p_cdiag
 long j
-select desdiag,cod_rips into :i_desdiag,:i_codrips
+select desdiag,cod_rips,tservicio into :i_desdiag,:i_codrips,:is_tservicio
 from diags where codgeral=:i_coddiag;
+
 for j=1 to dw_oscab.rowcount()
 	dw_oscab.setitem(j,'diagnostico',i_desdiag)
 	dw_oscab.setitem(j,'cod_rips',i_codrips)
@@ -3315,7 +3316,7 @@ choose case i_tingre
 				next
 			end if
 		end if
-		if left(i_codrips,1)<>'R' and left(i_codrips,1)<>'W' and  left(i_codrips,1)<>'V' and left(i_codrips,1)<>'Z' then 
+		if is_tservicio<>'1' then 
 			dw_oscab.setitem(fila,'diagnostico',i_desdiag)
 			dw_oscab.setitem(fila,'cod_rips',i_codrips)
 			dw_oscab.setitem(fila,'codgeral',i_coddiag)				
@@ -3359,7 +3360,7 @@ choose case i_tingre
 				messagebox("Error leyendo Servicios",sqlca.sqlerrtext)
 				return -1
 			end if
-			select desdiag,cod_rips into :i_desdiag,:i_codrips
+			select desdiag,cod_rips,tservicio into :i_desdiag,:i_codrips,:is_tservicio
 			from diags where codgeral=:i_coddiag;
 
 			if cant_serv =0 and dw_oscab.dataobject<>'dw_oscabeza_sale_hosp'  then
@@ -3392,9 +3393,9 @@ choose case i_tingre
 				return -1
 			end if
 			select 
-				desdiag,cod_rips 
+				desdiag,cod_rips,tservicio 
 			into 
-				:i_desdiag,:i_codrips
+				:i_desdiag,:i_codrips,:is_tservicio
 			from 
 				diags 
 			where 
@@ -3414,7 +3415,7 @@ choose case i_tingre
 		end if
 		dw_oscab.setitem(fila,'cod_fina',cod_fina)
 
-		if left(i_codrips,1)<>'R' and left(i_codrips,1)<>'W' and  left(i_codrips,1)<>'V' and left(i_codrips,1)<>'Z' then 
+		if is_tservicio<>'1' then 
 			dw_oscab.setitem(fila,'diagnostico',i_desdiag)
 			dw_oscab.setitem(fila,'cod_rips',i_codrips)
 			dw_oscab.setitem(fila,'codgeral',i_coddiag)

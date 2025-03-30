@@ -3709,7 +3709,7 @@ if dw_factura.rowcount()=0 or dw_resumen.rowcount()=0 then return
 if tag='1' then
 	if f_permiso_boton(this,'FC')=0 then return -1
 end if
-if dw_factura.getitemnumber(1,'psdx')>0 then
+if dw_factura.getitemnumber(1,'psdx')>0 and  i_tipoingreso='1' then
 	messagebox("Atención","Hay procedimientos sin DX o Finalidad")
 	Return -1
 end if
