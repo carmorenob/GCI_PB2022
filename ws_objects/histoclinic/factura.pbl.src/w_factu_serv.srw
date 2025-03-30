@@ -858,6 +858,26 @@ end choose
 
 end event
 
+event clicked;//SELECT OSCuerpo.solicitada - OSCuerpo.entregada - OSCuerpo.devuelta,OSCuerpo.solicitada into :l_control,:l_soli
+//FROM OSCuerpo
+//WHERE (((OSCuerpo.Contador)=:l_con) AND ((OSCuerpo.clugar)=:l_lug) AND ((OSCuerpo.NSolicitud)=:solic) AND ((OSCuerpo.Item)=:existe));
+//if sqlca.sqlcode=-1 then
+//	messagebox("Error leyendo Oscuerpo para verificar control",sqlca.sqlerrtext)
+//	return 1
+//end if
+//if l_control <= 0 then
+//	messagebox("Leyendo Control",'Error ya entregado')
+//	dw_historial.triggerevent(rowfocuschanged!)
+//	return -1
+//end if
+//	
+//if l_soli<>getitemnumber(fila,"solicitada") then 
+//	messagebox("Cantidad",'Cantidad Modificada en la orden')
+//	dw_historial.triggerevent(rowfocuschanged!)
+//	return -1
+//end if
+end event
+
 type st_1 from statictext within w_factu_serv
 integer x = 32
 integer y = 188
