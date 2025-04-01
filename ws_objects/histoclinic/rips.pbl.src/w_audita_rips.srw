@@ -1805,7 +1805,7 @@ if is_elec='2' then
 		if dw_facturas.getitemstring(l_i,'estado_dian')='1' then continue
 		if dw_facturas.getitemstring(l_i,'file_name_fact')='0' then continue
 		
-		ldt_ff=datetime(dw_facturas.getitemdate(l_i,'fechat'))
+		ldt_ff=datetime(date(dw_facturas.getitemdatetime(l_i,'fechat')))
 		
 		
 		SELECT 

@@ -141,15 +141,15 @@ blob lblob_xml
 st_retorno_gral lst_ret 
 
 //// ABRE JSON
-as_ruta='C:\facturas\EV76613\'
-as_doc=as_ruta+'EV76613.json'
+as_ruta=as_ruta
+as_doc=as_ruta+as_doc
 
 ljg_json = Create JsonGenerator
 ljg_json.ImportFile(as_doc)
 ls_json = ljg_json.GetJsonString()
 
 ///ABRE XML
-as_doc=as_ruta+'ad08060103050002400027102.xml'
+//as_doc=as_ruta+"ad"+mid(as_filename,3)+'.xml'
 
 li_filenum = FileOpen(as_doc, StreamMode!, Read!, LockReadWrite!, Append!, EncodingANSI!)
 IF li_FileNum = -1 THEN 

@@ -262,7 +262,7 @@ type tab_3 from tab within tp_p
 end type
 type det from userobject within tab_3
 end type
-type pb_json from picturebutton within det
+type pb_json_sf from picturebutton within det
 end type
 type pb_diacc from picturebutton within det
 end type
@@ -279,7 +279,7 @@ end type
 type dw_det from datawindow within det
 end type
 type det from userobject within tab_3
-pb_json pb_json
+pb_json_sf pb_json_sf
 pb_diacc pb_diacc
 pb_8 pb_8
 pb_diac pb_diac
@@ -2621,6 +2621,13 @@ end if
 i_rep=create uo_report
 
 w_principal.ArrangeSheets ( layer!)
+if gs_jsonsf='1' then 
+	tab_2.tp2_1.tab_1.tp_p.tab_3.det.pb_json_sf.enabled=true
+	tab_2.tp2_1.tab_1.tp_p.tab_3.det.pb_json_sf.visible=true
+else
+	tab_2.tp2_1.tab_1.tp_p.tab_3.det.pb_json_sf.enabled=false
+	tab_2.tp2_1.tab_1.tp_p.tab_3.det.pb_json_sf.visible=false
+end if
 
 end event
 
@@ -5716,7 +5723,7 @@ string text = "Detalle"
 long tabtextcolor = 33554432
 string picturename = "deta_rad.ico"
 long picturemaskcolor = 536870912
-pb_json pb_json
+pb_json_sf pb_json_sf
 pb_diacc pb_diacc
 pb_8 pb_8
 pb_diac pb_diac
@@ -5727,7 +5734,7 @@ dw_det dw_det
 end type
 
 on det.create
-this.pb_json=create pb_json
+this.pb_json_sf=create pb_json_sf
 this.pb_diacc=create pb_diacc
 this.pb_8=create pb_8
 this.pb_diac=create pb_diac
@@ -5735,7 +5742,7 @@ this.pb_anula=create pb_anula
 this.pb_dian=create pb_dian
 this.pb_radvi=create pb_radvi
 this.dw_det=create dw_det
-this.Control[]={this.pb_json,&
+this.Control[]={this.pb_json_sf,&
 this.pb_diacc,&
 this.pb_8,&
 this.pb_diac,&
@@ -5746,7 +5753,7 @@ this.dw_det}
 end on
 
 on det.destroy
-destroy(this.pb_json)
+destroy(this.pb_json_sf)
 destroy(this.pb_diacc)
 destroy(this.pb_8)
 destroy(this.pb_diac)
@@ -5756,7 +5763,8 @@ destroy(this.pb_radvi)
 destroy(this.dw_det)
 end on
 
-type pb_json from picturebutton within det
+type pb_json_sf from picturebutton within det
+boolean visible = false
 integer x = 2725
 integer y = 440
 integer width = 146
@@ -5776,14 +5784,33 @@ end type
 
 event clicked;nvo_fevrips luo_rips
 double ldb_nfac
-string ls_clu,ls_tip
+string ls_clu,ls_tip,is_ruta_facturas
+
+
+SELECT cadena into :is_ruta_facturas
+FROM parametros_gen
+WHERE (((codigo_para)=55));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 55')
+	return
+end if
+
 
 ldb_nfac=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'num_radicacion')
 ls_clu=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'clugar')
 ls_tip=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'tipo')
+is_ruta_facturas=is_ruta_facturas+'\SF'+string(ldb_nfac)+'\'
+
+If not DirectoryExists ( is_ruta_facturas) Then
+	integer li_filenum
+	CreateDirectory ( is_ruta_facturas)
+	li_filenum = ChangeDirectory( is_ruta_facturas)
+end if
+
 luo_rips=create nvo_fevrips
-luo_rips.emite_json_jsonsf(ldb_nfac,ls_clu,ls_tip,'f','FV','D:\json'+'.json')
+luo_rips.emite_json_jsonsf(ldb_nfac,ls_clu,ls_tip,'f','FV',is_ruta_facturas)
 destroy 	luo_rips
+messagebox('','Proceso Finalizado')
 end event
 
 type pb_diacc from picturebutton within det

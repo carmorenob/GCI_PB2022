@@ -946,18 +946,6 @@ else
 	end if
 end if
 	
-ls_prefac=adw_factura.getitemstring(1,'prefijo')
-ls_numfact=string(adw_factura.getitemnumber(1,'nfact'))
-
-is_ruta_facturas=is_ruta_facturas+'\'+ls_prefac+ls_numfact+'\'
-
-
-If not DirectoryExists ( is_ruta_facturas) Then
-	integer li_filenum
-	CreateDirectory ( is_ruta_facturas)
-	li_filenum = ChangeDirectory( is_ruta_facturas)
-end if
-	
 ls_testp=adw_factura.getitemstring(1,'testp')
 is_ruta_firma=adw_factura.getitemstring(1,'ruta_certificado')
 is_clave_firma=f_descripta_new(adw_factura.getitemstring(1,'clave_certificado'),'1')
@@ -966,7 +954,7 @@ if isnull(is_ruta_firma) or  trim(is_ruta_firma)='' then
 	return lst_ret_dian
 end if
 
-//HUELLA
+//////////////////////// HUELLA
 if as_tipo_docu='f' or as_tipo_docu='r'  then 
 	ls_sfc= adw_factura.getitemstring(1,'software_id')+f_descripta_new(adw_factura.getitemstring(1,'pin'),'1')+adw_factura.getitemstring(1,'prefijo')+string(adw_factura.getitemnumber(1,'nfact'))
 else
@@ -984,7 +972,7 @@ end if
 ls_sfc_384=f_encripta_sha(ls_sfc,'SHA384')
 adw_factura.setitem(1,'huella',ls_sfc_384)
 
-///CUFE
+//////////////////////// CUFE
 if as_tipo_docu='f' or as_tipo_docu='r' then 
 	ls_small_cufe= adw_factura.getitemstring(1,'cufe')+f_descripta_new(adw_factura.getitemstring(1,'clave_tecnica'),'1')+adw_factura.getitemstring(1,'tipo_ambiente')
 end if
@@ -995,9 +983,6 @@ end if
 ls_sfc=f_encripta_sha(ls_small_cufe,'SHA384')
 adw_factura.setitem(1,'cufe',ls_sfc)
 
-//lst_ret_dian.as_cufe=ls_sfc
-
-
 lblb_sha384=Blob(f_encripta_sha(ls_small_cufe,'SHA384'), EncodingANSI!)
 lblb_md5 = lnv_CrypterObject.MD5(lblb_sha384)
 ls_small_cufex = lnv_code.hexencode(lblb_MD5)
@@ -1005,6 +990,8 @@ adw_factura.setitem(1,'small_cufe',ls_small_cufex)
 destroy Lnv_code
 destroy lnv_CrypterObject 
 
+
+//////////////////////// QR
 if isnull(adw_factura.getitemstring(1,'prefijo')) then
 	if as_tipo_docu='f' or as_tipo_docu='r' then 	
 		ls_data_qr ='NumFact: '+string(adw_factura.getitemnumber(1,'nfact'))+'~r~n'
@@ -1058,8 +1045,28 @@ lqr_code=create draw_qr_code
 ls_name=adw_factura.getitemstring(1,'prefijo')+string(adw_factura.getitemnumber(1,'nfact'))
 lqr_code.draw_msg(ls_data_qr,"",is_ruta_qr+'qr_'+ls_name+'.bmp')
 destroy lqr_code
-
 lst_ret_dian.as_qrcode=is_ruta_qr+'qr_'+ls_name+'.bmp"'
+
+
+//////////////////////// CARPETA
+ls_prefac=adw_factura.getitemstring(1,'prefijo')
+ls_numfact=string(adw_factura.getitemnumber(1,'nfact'))
+if as_tipo_docu='f' or as_tipo_docu='r'  then 
+	is_ruta_facturas=is_ruta_facturas+'\'+ls_prefac+ls_numfact+'\'
+else
+	if as_tipo_docu='a' or as_tipo_docu='c'  then 
+		is_ruta_facturas=is_ruta_facturas+'\NC'+ls_prefac+ls_numfact+string(as_nnota,'00')+'\'
+	else
+		is_ruta_facturas=is_ruta_facturas+'\ND'+ls_prefac+ls_numfact+string(as_nnota,'00')+'\'
+	end if
+end if
+
+If not DirectoryExists ( is_ruta_facturas) Then
+	integer li_filenum
+	CreateDirectory ( is_ruta_facturas)
+	li_filenum = ChangeDirectory( is_ruta_facturas)
+end if
+
 //////////////////////// VALIDAR CAMPOS OBLIGATORIOS
 if of_validar_campos(adw_factura)=-1 then
 	lst_ret_dian.as_estado="-2"
@@ -1301,19 +1308,19 @@ destroy loo_SbXmlSOAP
 destroy loo_SbXml
 destroy loo_Bd
 
-//////**************************RENOMBRA XML*****************
+////////////////////////  RENOMBRA XML*****************
 li_FileNum = FileMove (is_ruta_facturas+lst_ret_dian.as_filename+'.xml',is_ruta_facturas+lst_ret_dian.as_filename+'.xml1')
 li_FileNum = FileMove (is_ruta_facturas+lst_ret_dian.as_filename+'_test_ret.xml' ,is_ruta_facturas+lst_ret_dian.as_filename+'_test_ret.xml1')
 messagebox("Atención", "Factura firmada y envida con éxito !!")
 
-///********************GENERA JSON SOLO EVENTO***************
+////////////////////////  GENERA JSON SOLO EVENTO***************
 if (as_tipo_docu='f' and as_coddoc='FV')  then 
 	nvo_fevrips u_rips
 	u_rips=create nvo_fevrips
 	u_rips.emite_json_evento(al_nro_fact,as_clug_factura,as_tipofac,as_tipo_docu,as_coddoc,is_ruta_facturas+ls_prefac+ls_numfact+'.json')
 
-	/////********************APIDOCKER
-	if aplicativo>'7' then
+//////////////////////// APIDOCKER
+	if gs_apidocker='1' then
 		string ls_token, ls_tds,ls_docs,ls_pass,ls_ipsn
 	
 		SELECT 
@@ -1333,6 +1340,11 @@ if (as_tipo_docu='f' and as_coddoc='FV')  then
 		end if
 		ls_token=u_rips.sispro_login(ls_tipo_ambiente,ls_tds,ls_docs,ls_pass,ls_ipsn)
 		if ls_token<>'-1' then 
+			lst_ret_gral=u_rips.sispro_carga_fev_rips(ls_token,'1',is_ruta_facturas, ls_prefac+ls_numfact+'.json')
+			if lst_ret_gral.i_valor=-1 then 
+				lst_ret_dian.as_estado="1"
+				return lst_ret_dian
+			end if
 		end if
 	end if
 	destroy 	u_rips
