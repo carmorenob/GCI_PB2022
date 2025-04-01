@@ -168,14 +168,42 @@ end type
 
 event clicked;nvo_fevrips luo_rips
 double ldb_nfac
-string ls_clu,ls_tip
+string ls_clu,ls_tip,is_ruta_facturas,ls_prefijo
+
+
+SELECT cadena into :is_ruta_facturas
+FROM parametros_gen
+WHERE (((codigo_para)=55));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 55')
+	return
+end if
 
 ldb_nfac=dw_encuentra.getitemnumber(dw_encuentra.getrow(),'nfact')
 ls_clu=dw_encuentra.getitemstring(dw_encuentra.getrow(),'clugar')
 ls_tip=dw_encuentra.getitemstring(dw_encuentra.getrow(),'tipo')
+ls_prefijo=dw_encuentra.getitemstring(dw_encuentra.getrow(),'prefijo')
+
+if isnull(ls_prefijo) then 
+	is_ruta_facturas=is_ruta_facturas+string(ldb_nfac)+'\'
+else
+	is_ruta_facturas=is_ruta_facturas+ls_prefijo+string(ldb_nfac)+'\'
+end if
+
 luo_rips=create nvo_fevrips
-luo_rips.emite_json_evento(ldb_nfac,ls_clu,ls_tip,'f','FV','D:\json'+'.json')
+If not DirectoryExists ( is_ruta_facturas) Then
+	integer li_filenum
+	CreateDirectory ( is_ruta_facturas)
+	li_filenum = ChangeDirectory( is_ruta_facturas)
+end if
+
+if isnull(ls_prefijo) then 
+	luo_rips.emite_json_evento(ldb_nfac,ls_clu,ls_tip,'f','FV',is_ruta_facturas+string(ldb_nfac)+'.json')
+else
+	luo_rips.emite_json_evento(ldb_nfac,ls_clu,ls_tip,'f','FV',is_ruta_facturas+ls_prefijo+string(ldb_nfac)+'.json')
+end if
 destroy 	luo_rips
+messagebox('Atencíon','Prceso Finalizado')
 end event
 
 type pb_4 from picturebutton within w_busca_fact
@@ -455,7 +483,7 @@ dw_busca.accepttext()
 cuantas=dw_busca.rowcount()
 string comilla,Sql_text
 if rb_fc.checked then 
-	Sql_text="SELECT DISTINCT factcab.nfact, factcab.clugar, factcab.tipo,factcab.fecha,factcpo.tipodoc,factcpo.documento,pacientes.nombre1,pacientes.nombre2,pacientes.apellido1,pacientes.apellido2,factcab.vtproced,factcab.vtemp,factcab.vtcancelo,factcab.estado,factcab.codtingre,factcpo.nrcaj,factcpo.clugar_rec,factcab.nradica,empresa.desemp,case when factcpo.NFACT_REF is null then 'No' else 'Si' end as refa,factcab.estado_dian, factcab.file_name_fact, factcab.file_name_fact_anul,factcab.file_name_zip,factcab.file_name_zip_anul 	FROM ((factcab INNER JOIN factcpo ON (factcab.nfact = factcpo.nfact) AND (factcab.clugar = factcpo.clugar) AND (factcab.tipo = factcpo.tipo)) INNER JOIN pacientes ON (factcpo.tipodoc = pacientes.tipodoc) AND (factcpo.documento = pacientes.documento)) INNER JOIN empresa ON factcab.cemp = empresa.codemp	WHERE factcab.clugar='"+clugar+ "' and "
+	Sql_text="SELECT DISTINCT factcab.nfact, factcab.clugar, factcab.tipo,factcab.fecha,factcpo.tipodoc,factcpo.documento,pacientes.nombre1,pacientes.nombre2,pacientes.apellido1,pacientes.apellido2,factcab.vtproced,factcab.vtemp,factcab.vtcancelo,factcab.estado,factcab.codtingre,factcpo.nrcaj,factcpo.clugar_rec,factcab.nradica,empresa.desemp,case when factcpo.NFACT_REF is null then 'No' else 'Si' end as refa,factcab.estado_dian, factcab.file_name_fact, factcab.file_name_fact_anul,factcab.file_name_zip,factcab.file_name_zip_anul, documentos_autfact.prefijo, factcab.cuve 	FROM (((factcab INNER JOIN factcpo ON (factcab.nfact = factcpo.nfact) AND (factcab.clugar = factcpo.clugar) AND (factcab.tipo = factcpo.tipo)) INNER JOIN pacientes ON (factcpo.tipodoc = pacientes.tipodoc) AND (factcpo.documento = pacientes.documento)) INNER JOIN empresa ON factcab.cemp = empresa.codemp) LEFT JOIN documentos_autfact ON factcab.c_aut = documentos_autfact.c_aut 	WHERE factcab.clugar='"+clugar+ "' and "
 else
 	Sql_text="SELECT tesorecajcab.nrcaj, tesorecajcab.CLugar, tesorecajcab.Fecha, tesorecajcab.TipoDoc, tesorecajcab.Documento, pacientes.Nombre1, pacientes.Nombre2, pacientes.Apellido1, pacientes.Apellido2, tesorecajcab.Npagare, tesorecajcab.clugar_pag, tesorecajcab.Trecibo, tesorecajcpo.nfact, tesorecajcpo.clugar_fac, tesorecajcab.Estado FROM (pacientes INNER JOIN tesorecajcab ON (pacientes.Documento = tesorecajcab.Documento) AND (pacientes.TipoDoc = tesorecajcab.TipoDoc)) LEFT outer JOIN tesorecajcpo ON (tesorecajcab.CLugar = tesorecajcpo.clugar) AND (tesorecajcab.nrcaj = tesorecajcpo.nrcaj) where tesorecajcab.CLugar='"+clugar+"' and "
 end if	

@@ -1340,7 +1340,7 @@ if (as_tipo_docu='f' and as_coddoc='FV')  then
 		end if
 		ls_token=u_rips.sispro_login(ls_tipo_ambiente,ls_tds,ls_docs,ls_pass,ls_ipsn)
 		if ls_token<>'-1' then 
-			lst_ret_gral=u_rips.sispro_carga_fev_rips(ls_token,'1',is_ruta_facturas, ls_prefac+ls_numfact+'.json')
+			lst_ret_gral=u_rips.sispro_carga_fev_rips(ls_token,'1',is_ruta_facturas, ls_prefac+ls_numfact+'.json',lst_ret_dian.as_filename)
 			if lst_ret_gral.i_valor=-1 then 
 				lst_ret_dian.as_estado="1"
 				return lst_ret_dian

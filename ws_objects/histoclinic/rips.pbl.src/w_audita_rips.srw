@@ -107,6 +107,8 @@ drop_tipo drop_tipo
 end type
 type tp_2 from userobject within tab_1
 end type
+type pb_json from picturebutton within tp_2
+end type
 type pb_exp from picturebutton within tp_2
 end type
 type pb_email_dian from picturebutton within tp_2
@@ -210,6 +212,7 @@ end type
 type gb_8 from groupbox within tp_2
 end type
 type tp_2 from userobject within tab_1
+pb_json pb_json
 pb_exp pb_exp
 pb_email_dian pb_email_dian
 pb_1 pb_1
@@ -388,7 +391,9 @@ if gs_jsonsf='1' then
 	tab_1.tp_2.pb_dian.enabled=false
 	tab_1.tp_2.pb_email_dian.visible=false
 	tab_1.tp_2.pb_email_dian.enabled=false
+	tab_1.tp_2.pb_json.enabled=true
 else
+	tab_1.tp_2.pb_json.enabled=false
 	if is_elec='2' then
 		tab_1.tp_2.pb_dian.visible=true
 		tab_1.tp_2.pb_dian.enabled=true
@@ -1548,6 +1553,7 @@ long tabtextcolor = 33554432
 string picturename = "EditDataGrid!"
 long picturemaskcolor = 536870912
 string powertiptext = "Revisar y/o Aprobar Facturas a Enviar RIPS."
+pb_json pb_json
 pb_exp pb_exp
 pb_email_dian pb_email_dian
 pb_1 pb_1
@@ -1577,6 +1583,7 @@ gb_8 gb_8
 end type
 
 on tp_2.create
+this.pb_json=create pb_json
 this.pb_exp=create pb_exp
 this.pb_email_dian=create pb_email_dian
 this.pb_1=create pb_1
@@ -1603,7 +1610,8 @@ this.gb_10=create gb_10
 this.gb_7=create gb_7
 this.gb_6=create gb_6
 this.gb_8=create gb_8
-this.Control[]={this.pb_exp,&
+this.Control[]={this.pb_json,&
+this.pb_exp,&
 this.pb_email_dian,&
 this.pb_1,&
 this.pb_dian,&
@@ -1632,6 +1640,7 @@ this.gb_8}
 end on
 
 on tp_2.destroy
+destroy(this.pb_json)
 destroy(this.pb_exp)
 destroy(this.pb_email_dian)
 destroy(this.pb_1)
@@ -1659,6 +1668,25 @@ destroy(this.gb_7)
 destroy(this.gb_6)
 destroy(this.gb_8)
 end on
+
+type pb_json from picturebutton within tp_2
+integer x = 1294
+integer y = 856
+integer width = 146
+integer height = 128
+integer taborder = 81
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+boolean originalsize = true
+string picturename = "json.gif"
+string disabledname = "d_json.gif"
+alignment htextalign = left!
+string powertiptext = "Validación APIdocker"
+end type
 
 type pb_exp from picturebutton within tp_2
 integer x = 1947
@@ -1798,24 +1826,21 @@ if is_elec='2' then
 	u_elec=create nvo_factura_electronica
 
 	for l_i =1 to dw_facturas.rowcount()
-		
-
 		if dw_facturas.getitemstring(l_i,'tipo')= 'C'  then continue
 		if dw_facturas.getitemstring(l_i,'envio_xml')='0' then continue
 		if dw_facturas.getitemstring(l_i,'estado_dian')='1' then continue
 		if dw_facturas.getitemstring(l_i,'file_name_fact')='0' then continue
 		
-		ldt_ff=datetime(date(dw_facturas.getitemdatetime(l_i,'fechat')))
-		
-		
+		ldt_ff=datetime(date(dw_facturas.getitemdatetime(l_i,'fechat')),time(0,0,0))		
 		SELECT 
-			pm_versionfe_dian.cod_version
+			cod_version
 		INTO
 			:ls_fver
 		FROM 
 			pm_versionfe_dian
 		WHERE 
-			(((:ldt_ff)>=pm_versionfe_dian.valido_inicio And (:ldt_ff)<=pm_versionfe_dian.valido_hasta));
+			(((:ldt_ff) between valido_inicio And valido_hasta));
+		
 		if sqlca.sqlnrows=0 then
 			messagebox('Atencíon','No hay version Facturacion Electronica Linea 72')
 			return
@@ -1844,7 +1869,7 @@ if is_elec='2' then
 		
 		lst_lle=u_elec.sign_chilkat(dw_electronica,l_nfactura,ls_clugar,ls_tfac,0,'f','FV')
 		
-		if datetime(dw_facturas.getitemdate(l_i,'fechat'))>ldt_iniciafevs then
+		if datetime(dw_facturas.getitemdatetime(l_i,'fechat'))>ldt_iniciafevs then
 			if (dw_facturas.getitemnumber(l_i,'vtproced')<>dw_facturas.getitemnumber(l_i,'vtemp') ) and dw_empresa.getitemstring(1,"codemp")<>'0' then 
 				if g_motor='postgres' then
 					dw_electronica.dataobject="dw_factura_electronica_postgres_rc"
@@ -1857,8 +1882,10 @@ if is_elec='2' then
 			end if
 		end if
 		
+		dw_facturas.setitem(l_i,'cod_versionfe',ls_fver)		
 		update factcab set envio_xml='1' ,cod_versionfe=:ls_fver
 		where nfact=:l_nfactura and clugar=:ls_clugar and tipo=:ls_tfac;
+		
 		If SQLCA.SQLCode = -1 then
 			Rollback;
 			MessageBox("SQL error Factura xml_envia", 'Error actualizando')
@@ -1872,7 +1899,6 @@ if is_elec='2' then
 else
 	messagebox('','No hay parametro Habilitado')
 end if
-
 ////////ELECTRONICA	
 
 end event
@@ -2852,6 +2878,19 @@ nfact=this.getitemnumber(fila,"nfact")
 clug_fac=this.getitemstring(fila,"clugar")
 tipo_fac=this.getitemstring(fila,"tipo")
 tingres=this.getitemstring(fila,"codtingre")
+
+if this.getitemstring(fila,"cod_versionfe")>="1.9" then
+	tab_1.tp_2.pb_email_dian.visible=false
+	tab_1.tp_2.pb_email_dian.enabled=false
+	tab_1.tp_2.pb_json.enabled=true
+	tab_1.tp_2.pb_json.visible=true
+else
+	tab_1.tp_2.pb_email_dian.visible=true
+	tab_1.tp_2.pb_email_dian.enabled=true
+	tab_1.tp_2.pb_json.enabled=false
+	tab_1.tp_2.pb_json.visible=false
+end if
+
 tab_2.tp_c.dw_cons.retrieve(nfact,clug_fac,tipo_fac)
 tab_2.tp_p.dw_proc.retrieve(nfact,clug_fac,tipo_fac)
 tab_2.tp_m.dw_med.retrieve(nfact,clug_fac,tipo_fac)
@@ -2908,6 +2947,7 @@ if this.getcolumnname()='envio_xml' and gs_jsonsf='0' then
 end if
 
 if this.getcolumnname()='radicar' then
+	
 	if not isnull(this.getitemnumber(fila,'estado_revisa')) and this.gettext()='0' then
 		long nulo
 		setnull(nulo)

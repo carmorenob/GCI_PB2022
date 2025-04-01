@@ -18,13 +18,13 @@ end variables
 forward prototypes
 public function string sispro_login (string as_ambiente, string as_td, string as_doc, string as_pasw, string as_nit)
 public function st_retorno_gral sispro_carga_capita_ini (string as_token, string as_ambiente, string as_ruta, string as_doc)
-public function st_retorno_gral sispro_carga_fev_rips (string as_token, string as_ambiente, string as_ruta, string as_doc)
 public function st_retorno_gral sispro_carga_capita_mes (string as_token, string as_ambiente, string as_ruta, string as_doc)
 public function st_retorno_gral sispro_carga_capita_fin (string as_token, string as_ambiente, string as_ruta, string as_doc)
 public function st_retorno_gral sispro_carga_nccapita (string as_token, string as_ambiente, string as_ruta, string as_doc)
 public function st_ret_dian emite_json_capita (decimal al_nro_fact, string as_clug_fact, string as_tipo_fac, string as_tipo_docu, string as_coddoc, string as_ruta, string as_capita0)
 public function st_ret_dian emite_json_evento (decimal al_nro_fact, string as_clug_fact, string as_tipo_fac, string as_tipo_docu, string as_coddoc, string as_ruta)
 public function st_ret_dian emite_json_jsonsf (decimal al_nro_fact, string as_clug_fact, string as_tipo_fac, string as_tipo_docu, string as_coddoc, string as_ruta)
+public function st_retorno_gral sispro_carga_fev_rips (string as_token, string as_ambiente, string as_ruta, string as_doc, string as_filename)
 end prototypes
 
 public function string sispro_login (string as_ambiente, string as_td, string as_doc, string as_pasw, string as_nit);Integer li_rc
@@ -127,87 +127,6 @@ if li_statusCode<0 then
 end if
 
 destroy ljg_json
-destroy lo_client
-lst_ret.i_valor=1
-lst_ret.s_valor=ls_ReturnJson
-
-return lst_ret
-end function
-
-public function st_retorno_gral sispro_carga_fev_rips (string as_token, string as_ambiente, string as_ruta, string as_doc);Integer li_rc,li_filenum,li_StatusCode 
-String ls_ReturnJson,ls_json,ls_envio,ls_err, ls_url
-JsonGenerator ljg_json
-blob lblob_xml
-st_retorno_gral lst_ret 
-
-//// ABRE JSON
-as_ruta=as_ruta
-as_doc=as_ruta+as_doc
-
-ljg_json = Create JsonGenerator
-ljg_json.ImportFile(as_doc)
-ls_json = ljg_json.GetJsonString()
-
-///ABRE XML
-//as_doc=as_ruta+"ad"+mid(as_filename,3)+'.xml'
-
-li_filenum = FileOpen(as_doc, StreamMode!, Read!, LockReadWrite!, Append!, EncodingANSI!)
-IF li_FileNum = -1 THEN 
-	lst_ret.i_valor=-1
-	return lst_ret
-end if
-li_rc = FileReadEx(li_FileNum, lblob_xml)
-IF li_rc = -1 THEN 
-	lst_ret.i_valor=-2
-	return lst_ret
-end if
-FileClose(li_FileNum)
-
-
-///Sube Json leido
-jsonpackage lnv_json
-lnv_json = create jsonpackage
-lnv_json.setvalue("rips",ls_json)
-
-///Pasa xml a base64
-
-CoderObject lnv_CoderObject
-lnv_CoderObject = Create CoderObject
-lnv_json.setvalue("xmlFevFile", lnv_CoderObject.Base64Encode(lblob_xml), false)
-ls_envio=lnv_json.GetJsonString()
-
-
-httpClient lo_client
-lo_client = Create HttpClient
-lo_client.SetRequestHeader("Content-Type", "application/json;charset=UTF-8")
-lo_client.SetRequestHeader("Authorization",+'Bearer '+as_token)
-
-if as_ambiente='2' then
-	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarFevRips"
-else
-	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarFevRips"
-end if
-
-li_rc =lo_client.sendrequest('POST',ls_url, ls_envio, EncodingUTF8!)
-	
-li_StatusCode = lo_client.GetResponseStatusCode()
-ls_err = lo_client.GetResponseStatusText( )
-li_rc = lo_client.getresponsebody(ls_ReturnJson)
-
-if li_statusCode<0 then
-	if isnull(ls_err) then
-		ls_err='Error de API Minsaalud'
-	else
-		ls_err='Error de API Minsaalud'+ls_err
-	end if
-	messagebox("Atención"+string(li_StatusCode),ls_err)
-	
-	lst_ret.i_valor=-1
-	return lst_ret
-end if
-
-destroy ljg_json
-destroy lnv_json
 destroy lo_client
 lst_ret.i_valor=1
 lst_ret.s_valor=ls_ReturnJson
@@ -1802,6 +1721,85 @@ destroy lds_fact
 destroy lds_usu
 
 return lst_ret_dian
+end function
+
+public function st_retorno_gral sispro_carga_fev_rips (string as_token, string as_ambiente, string as_ruta, string as_doc, string as_filename);Integer li_rc,li_filenum,li_StatusCode 
+String ls_ReturnJson,ls_json,ls_envio,ls_err, ls_url
+JsonGenerator ljg_json
+blob lblob_xml
+st_retorno_gral lst_ret 
+
+//// ABRE JSON
+as_ruta=as_ruta
+as_doc=as_ruta+as_doc
+
+ljg_json = Create JsonGenerator
+ljg_json.ImportFile(as_doc)
+ls_json = ljg_json.GetJsonString()
+
+///ABRE XML
+as_doc=as_ruta+"ad"+mid(as_filename,3)+'.xml'
+
+li_filenum = FileOpen(as_doc, StreamMode!, Read!, LockReadWrite!, Append!, EncodingANSI!)
+IF li_FileNum = -1 THEN 
+	lst_ret.i_valor=-1
+	return lst_ret
+end if
+li_rc = FileReadEx(li_FileNum, lblob_xml)
+IF li_rc = -1 THEN 
+	lst_ret.i_valor=-2
+	return lst_ret
+end if
+FileClose(li_FileNum)
+
+///Sube Json leido
+jsonpackage lnv_json
+lnv_json = create jsonpackage
+lnv_json.setvalue("rips",ls_json)
+
+///Pasa xml a base64
+CoderObject lnv_CoderObject
+lnv_CoderObject = Create CoderObject
+lnv_json.setvalue("xmlFevFile", lnv_CoderObject.Base64Encode(lblob_xml), false)
+ls_envio=lnv_json.GetJsonString()
+
+
+httpClient lo_client
+lo_client = Create HttpClient
+lo_client.SetRequestHeader("Content-Type", "application/json;charset=UTF-8")
+lo_client.SetRequestHeader("Authorization",+'Bearer '+as_token)
+
+if as_ambiente='2' then
+	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarFevRips"
+else
+	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarFevRips"
+end if
+
+li_rc =lo_client.sendrequest('POST',ls_url, ls_envio, EncodingUTF8!)
+	
+li_StatusCode = lo_client.GetResponseStatusCode()
+ls_err = lo_client.GetResponseStatusText( )
+li_rc = lo_client.getresponsebody(ls_ReturnJson)
+
+if li_statusCode<0 then
+	if isnull(ls_err) then
+		ls_err='Error de API Minsaalud'
+	else
+		ls_err='Error de API Minsaalud'+ls_err
+	end if
+	messagebox("Atención"+string(li_StatusCode),ls_err)
+	
+	lst_ret.i_valor=-1
+	return lst_ret
+end if
+
+destroy ljg_json
+destroy lnv_json
+destroy lo_client
+lst_ret.i_valor=1
+lst_ret.s_valor=ls_ReturnJson
+
+return lst_ret
 end function
 
 on nvo_fevrips.create
