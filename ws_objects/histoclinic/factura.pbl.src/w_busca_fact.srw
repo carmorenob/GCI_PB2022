@@ -159,6 +159,7 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
+boolean enabled = false
 boolean originalsize = true
 string picturename = "json.gif"
 string disabledname = "d_json.gif"
@@ -166,7 +167,9 @@ alignment htextalign = left!
 string powertiptext = "Emite estructura Json"
 end type
 
-event clicked;nvo_fevrips luo_rips
+event clicked;if dw_encuentra.rowcount()<1 or dw_encuentra.getrow()<1 then return
+
+nvo_fevrips luo_rips
 double ldb_nfac
 string ls_clu,ls_tip,is_ruta_facturas,ls_prefijo
 

@@ -1182,7 +1182,7 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 				
 				ripse_json.AddItemnumber(li_fcon,"cantidadMedicamento",lds_rips.getitemnumber(li_ci,'cantidad'))
 				ripse_json.AddItemnumber(li_fcon,"diasTratamiento",1)
-				ripse_json.AddItemString(li_fcon,"tipoDocumentoIdentificacion",lds_rips.getitemstring(li_ci,'tipodoc'))
+				ripse_json.AddItemString(li_fcon,"tipoDocumentoIdentificacion",lds_rips.getitemstring(li_ci,'tdoc'))
 				ripse_json.AddItemString(li_fcon,"numDocumentoIdentificacion",lds_rips.getitemstring(li_ci,'documento'))
 				ripse_json.AddItemnumber(li_fcon,"vrUnitMedicamento",lds_rips.getitemnumber(li_ci,'vuni'))
 				ripse_json.AddItemnumber(li_fcon,"vrServicio",lds_rips.getitemnumber(li_ci,'vproced'))
