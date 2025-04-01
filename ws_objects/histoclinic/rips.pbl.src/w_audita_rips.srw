@@ -1688,6 +1688,84 @@ alignment htextalign = left!
 string powertiptext = "Validación APIdocker"
 end type
 
+event clicked;nvo_fevrips luo_rips
+double ldb_nfac,l_i
+string ls_clu,ls_tip,is_ruta_facturas,ls_prefijo,ls_tipo_ambiente='1',ls_filename
+st_retorno_gral lst_ret_gral
+
+l_i=dw_facturas.getrow()
+
+if dw_facturas.getitemstring(l_i,'envio_xml')='0' then return
+if dw_facturas.getitemstring(l_i,'estado_dian')<>'1' then return
+if dw_facturas.getitemstring(l_i,'file_name_fact')='' or isnull(dw_facturas.getitemstring(l_i,'file_name_fact')) then return
+
+SELECT cadena into :is_ruta_facturas
+FROM parametros_gen
+WHERE (((codigo_para)=55));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 55')
+	return
+end if
+
+ldb_nfac=dw_facturas.getitemnumber(l_i,'nfact')
+ls_clu=dw_facturas.getitemstring(l_i,'clugar')
+ls_tip=dw_facturas.getitemstring(l_i,'tipo')
+ls_prefijo=dw_facturas.getitemstring(l_i,'prefijo')
+ls_filename=dw_facturas.getitemstring(l_i,'file_name_fact')
+
+
+if messagebox("Atención",'Desea regenerar el json, ',question!,yesno!,2)=1 then 	
+	if isnull(ls_prefijo) then 
+		is_ruta_facturas=is_ruta_facturas+string(ldb_nfac)+'\'
+	else
+		is_ruta_facturas=is_ruta_facturas+ls_prefijo+string(ldb_nfac)+'\'
+	end if
+	
+	luo_rips=create nvo_fevrips
+	If not DirectoryExists ( is_ruta_facturas) Then
+		integer li_filenum
+		CreateDirectory ( is_ruta_facturas)
+		li_filenum = ChangeDirectory( is_ruta_facturas)
+	end if
+	
+	if isnull(ls_prefijo) then 
+		luo_rips.emite_json_evento(ldb_nfac,ls_clu,ls_tip,'f','FV',is_ruta_facturas+string(ldb_nfac)+'.json')
+	else
+		luo_rips.emite_json_evento(ldb_nfac,ls_clu,ls_tip,'f','FV',is_ruta_facturas+ls_prefijo+string(ldb_nfac)+'.json')
+	end if
+
+	
+	//////////////////////// APIDOCKER
+	if gs_apidocker='1' then
+		string ls_token, ls_tds,ls_docs,ls_pass,ls_ipsn
+	
+		SELECT 
+			usuarios.tipodoc, usuarios.documento, 
+			usuarios.clave_sispro, ips.documento
+		INTO
+			:ls_tds,:ls_docs,:ls_pass,:ls_ipsn
+		FROM 
+			usuarios, ips
+		WHERE (((usuarios.usuario)=:usuario));
+		if sqlca.sqlnrows=0 then
+			messagebox('Atencíon','No hay usuario sisipro')
+		end if
+		if isnull(ls_tds)  or isnull(ls_docs) or isnull(ls_pass) then
+			return
+		end if
+		ls_token=luo_rips.sispro_login(ls_tipo_ambiente,ls_tds,ls_docs,ls_pass,ls_ipsn)
+		if ls_token<>'-1' then 
+			lst_ret_gral=luo_rips.sispro_carga_fev_rips(ls_token,'1',is_ruta_facturas, ls_prefijo+string(ldb_nfac)+'.json',ls_filename)
+			if lst_ret_gral.i_valor=-1 then 
+				return 
+			end if
+		end if
+	end if
+	destroy luo_rips
+end if	
+messagebox('Atencíon','Prceso Finalizado')
+end event
+
 type pb_exp from picturebutton within tp_2
 integer x = 1947
 integer y = 228
@@ -2869,15 +2947,10 @@ st_dw.row=row
 openwithparm(w_funcion_dw,st_dw)
 end event
 
-event rowfocuschanged;if cbx_1.checked=false then return
-long fila,nfact
+event rowfocuschanged;long fila,nfact
 string clug_fac,tingres,tipo_fac
 fila=this.getrow()
 if fila<1 then return
-nfact=this.getitemnumber(fila,"nfact")
-clug_fac=this.getitemstring(fila,"clugar")
-tipo_fac=this.getitemstring(fila,"tipo")
-tingres=this.getitemstring(fila,"codtingre")
 
 if this.getitemstring(fila,"cod_versionfe")>="1.9" then
 	tab_1.tp_2.pb_email_dian.visible=false
@@ -2891,6 +2964,11 @@ else
 	tab_1.tp_2.pb_json.visible=false
 end if
 
+if cbx_1.checked=false then return
+nfact=this.getitemnumber(fila,"nfact")
+clug_fac=this.getitemstring(fila,"clugar")
+tipo_fac=this.getitemstring(fila,"tipo")
+tingres=this.getitemstring(fila,"codtingre")
 tab_2.tp_c.dw_cons.retrieve(nfact,clug_fac,tipo_fac)
 tab_2.tp_p.dw_proc.retrieve(nfact,clug_fac,tipo_fac)
 tab_2.tp_m.dw_med.retrieve(nfact,clug_fac,tipo_fac)

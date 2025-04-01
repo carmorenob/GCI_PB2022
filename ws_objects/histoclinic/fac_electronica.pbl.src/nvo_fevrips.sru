@@ -1783,9 +1783,9 @@ li_rc = lo_client.getresponsebody(ls_ReturnJson)
 
 if li_statusCode<0 then
 	if isnull(ls_err) then
-		ls_err='Error de API Minsaalud'
+		ls_err='Error de API Minsalud'
 	else
-		ls_err='Error de API Minsaalud'+ls_err
+		ls_err='Error de API Minsalud'+ls_err
 	end if
 	messagebox("Atención"+string(li_StatusCode),ls_err)
 	
