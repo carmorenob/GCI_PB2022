@@ -2679,7 +2679,7 @@ integer x = 6194
 integer y = 16
 integer width = 69
 integer height = 68
-integer taborder = 60
+integer taborder = 70
 string title = "none"
 string dataobject = "dw_act_getareo"
 boolean livescroll = true
@@ -2720,7 +2720,7 @@ integer x = 6373
 integer y = 24
 integer width = 69
 integer height = 68
-integer taborder = 50
+integer taborder = 60
 boolean enabled = false
 string title = "none"
 string dataobject = "dw_contratos_pa_rias"
@@ -2812,7 +2812,7 @@ integer x = 4366
 integer y = 40
 integer width = 1070
 integer height = 76
-integer taborder = 70
+integer taborder = 80
 boolean bringtotop = true
 string title = "none"
 string dataobject = "dw_tip_ingres_drop"
@@ -3002,6 +3002,7 @@ fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 long textcolor = 33554432
 long backcolor = 67108864
+boolean enabled = false
 string text = "Json"
 end type
 
@@ -3018,9 +3019,17 @@ fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 long textcolor = 33554432
 long backcolor = 67108864
+boolean enabled = false
 string text = "Txt"
 boolean checked = true
 end type
+
+event clicked;if rb_txt.checked then
+	rb_txt.checked=true
+else
+	rb_txt.checked=false
+end if
+end event
 
 type cbx_7 from checkbox within tp2_1
 integer x = 3607
@@ -5625,6 +5634,15 @@ if getitemstring(getrow(),'tipo')='F' then
 	else
 		tab_2.tp2_1.tab_1.tp_p.tab_3.nota.pb_insn.enabled=False
 	end if
+	if isnull(getitemstring(getrow(),'cod_versionfe'))  or getitemstring(getrow(),'cod_versionfe')>='1.9' then 
+		tab_2.tp2_1.rb_txt.checked=false	
+		tab_2.tp2_1.rb_json.checked=true		
+	else
+		tab_2.tp2_1.rb_txt.checked=true
+		tab_2.tp2_1.rb_json.checked=false		
+	end if
+	tab_2.tp2_1.rb_txt.enabled=false
+	tab_2.tp2_1.rb_json.enabled=false	
 else
 	tab_2.tp2_1.cbx_5.enabled=false
 	tab_2.tp2_1.cbx_5.checked=false
@@ -5645,13 +5663,9 @@ ls_tipo=getitemstring(getrow(),'tipo')
 tab_2.tp2_1.tab_1.tp_p.tab_3.det.dw_det.retrieve(ldb_nrad,ls_lug,ls_tipo)
 tab_2.tp2_1.tab_1.tp_p.tab_3.nota.dw_nc.retrieve(ldb_nrad,ls_lug,ls_tipo)
 tab_2.tp2_1.t1.tp2.dw_act_final.retrieve(ldb_nrad,ls_lug,ls_tipo)
-//tab_2.tp2_1.t1.fac.dw_fact.retrieve(ldb_nrad,ls_lug,ls_tipo)
-//tab_2.tp2_1.t1.tmod.dw_mod.retrieve(ldb_nrad,ls_lug,ls_tipo)
 
 select objeto into :ls_objetor from ripsradica where num_radicacion=:ldb_nrad and clugar=:ls_lug and tipo=:ls_tipo;
 
-
-//tab_2.tp2_1.tab_1.tp_p.mle_objetor.text=ls_objetor
 tab_2.tp2_1.t1.tp1.em_11.text=left(string(getitemdatetime(getrow(),'fecha_inicial')),10)
 tab_2.tp2_1.t1.tp1.em_21.text=left(string(getitemdatetime(getrow(),'fecha_final')),10)
 if getitemstring(getrow(),'en_destino')='1'  or getitemstring(getrow(),'tipo')='F' or tab_2.tp2_1.t1.fac.dw_fact.rowcount()=1 then
@@ -5765,8 +5779,8 @@ end on
 
 type pb_json_sf from picturebutton within det
 boolean visible = false
-integer x = 2725
-integer y = 440
+integer x = 2711
+integer y = 436
 integer width = 146
 integer height = 128
 integer taborder = 90
@@ -6102,15 +6116,42 @@ if tab_2.tp2_1.tab_1.tp_p.dw_radica.rowcount()>0 then
 			end choose
 		else
 			nvo_fevrips u_rips
-			string ls_nomarch
+			string ls_nomarch,is_ruta_facturas,ls_prefijo,ls_radcl,ls_tiporad
+			double ldb_nrad
 			
-			u_rips=create nvo_fevrips
-			if  isnull(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'prefijo')) then
-				ls_nomarch=tab_2.tp2_1.sle_dir.text+'\'+string(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"num_radicacion"))+'.json'
-			else
-				ls_nomarch=tab_2.tp2_1.sle_dir.text+'\'+tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'prefijo')+string(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"num_radicacion"))+'.json'
+			SELECT cadena into :is_ruta_facturas
+			FROM parametros_gen
+			WHERE (((codigo_para)=55));
+			if sqlca.sqlnrows=0 then
+				messagebox('Atencíon','No hay parametro 55')
+				return
 			end if
-			u_rips.emite_json_capita(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'num_radicacion'),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'clugar'),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'tipo'),'f','FV',ls_nomarch,'0')
+			
+			ls_prefijo=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'prefijo')
+			ldb_nrad=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"num_radicacion")
+			ls_radcl=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'clugar')
+			ls_tiporad=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'tipo')
+			if isnull(ls_prefijo) then 
+				is_ruta_facturas=is_ruta_facturas+string(ldb_nrad)+'\'
+			else
+				is_ruta_facturas=is_ruta_facturas+ls_prefijo+string(ldb_nrad)+'\'
+			end if
+		
+			
+			If not DirectoryExists ( is_ruta_facturas) Then
+				integer li_filenum
+				CreateDirectory ( is_ruta_facturas)
+				li_filenum = ChangeDirectory( is_ruta_facturas)
+			end if
+			
+						
+			u_rips=create nvo_fevrips
+			if  isnull(ls_prefijo) then
+				ls_nomarch=is_ruta_facturas+'\'+string(ldb_nrad)+'.json'
+			else
+				ls_nomarch=is_ruta_facturas+'\'+ls_prefijo+string(ldb_nrad)+'.json'
+			end if
+			u_rips.emite_json_capita(ldb_nrad,ls_radcl,ls_tiporad,'f','FV',ls_nomarch,'0')
 			destroy 	u_rips
 		end if
 		tab_2.tp2_1.t1.tp1.barra.position=0
@@ -8638,7 +8679,7 @@ integer x = 2373
 integer y = 40
 integer width = 1353
 integer height = 76
-integer taborder = 80
+integer taborder = 90
 boolean bringtotop = true
 string title = "none"
 string dataobject = "dw_combo_lugar"
