@@ -73,7 +73,7 @@ FROM
 	INNER JOIN procgclinico ON (proced.codproced = procgclinico.codproced) AND (gclinico.codgc = procgclinico.codgc)
 WHERE 
 	(((citasasig.TipoDoc)=:tipodoc) AND ((citasasig.Documento)=:docu) 
-	AND ((serciosturno.contador_os) Is Not Null))
+	AND  ((grupocita.codaadx) Is Not Null))
 GROUP BY 
 	citasasig.NCita, citasasig.CodGC, citasasig.clugar, serciosturno.Fecha, citasasig.Estado, profe.nombre1, profe.nombre2, profe.apellido1, 
 	profe.apellido2, sercioscita.cantidad, serciosturno.control, serciosturno.NFact, serciosturno.nrcaj, serciosturno.Consult, serciosturno.Prof, 
@@ -268,4 +268,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=2 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 
