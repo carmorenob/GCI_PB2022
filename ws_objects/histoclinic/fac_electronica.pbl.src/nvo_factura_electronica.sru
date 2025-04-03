@@ -2928,7 +2928,7 @@ ls_data_qr+='ValIva: '+string(adw_factura.getitemnumber(1,'vtiva') ,'###########
 ls_data_qr+='ValOtroIm: 0.00~r~n'
 ls_data_qr+='ValTolFac: '+string(adw_factura.getitemnumber(1,'vtemp') ,'##################.00')+'~r~n'
 ls_data_qr+='CUFE: '+adw_factura.getitemstring(1,'cufe')+'~r~n'
-ls_data_qr+='QRCode:https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey='+adw_factura.getitemstring(1,'cufe')
+ls_data_qr+='QRCode:https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey='+lower(adw_factura.getitemstring(1,'cufe'))
 
 draw_qr_code lqr_code
 lqr_code=create draw_qr_code
