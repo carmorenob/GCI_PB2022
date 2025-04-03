@@ -741,9 +741,9 @@ string clug_os
 for j=1 to anula.rowcount()
 	cont_os=anula.getitemnumber(j,'contador_os')
 	if not isnull(cont_os) then
-		clug_os=anula.getitemstring(1,'clugar_os')
-		nsoli_os=anula.getitemnumber(1,'nsolicitud_os')
-		item_os=anula.getitemnumber(1,'item_os')
+		clug_os=anula.getitemstring(j,'clugar_os')
+		nsoli_os=anula.getitemnumber(j,'nsolicitud_os')
+		item_os=anula.getitemnumber(j,'item_os')
 		update oscuerpo set cant_encita = cant_encita -1 
 		where contador=:cont_os and clugar=:clug_os and nsolicitud=:nsoli_os and item=:item_os;
 		if sqlca.sqlcode=-1 then
