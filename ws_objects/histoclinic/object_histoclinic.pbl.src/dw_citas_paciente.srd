@@ -36,16 +36,18 @@ table(column=(type=number updatewhereclause=yes key=yes name=ncita dbname="pm_ti
 	serciosturno.Prof,serciosturno.tipo_fac,proced.cod_cups,proced.cod_version, pm_tipo_cita.desp_tcita,
 	citasasig.cod_fina
 FROM 
-	(((citasasig INNER JOIN sercioscita ON (citasasig.clugar = sercioscita.clugar) AND (citasasig.NCita = sercioscita.NCita)) 
+	((((citasasig INNER JOIN sercioscita ON (citasasig.clugar = sercioscita.clugar) AND (citasasig.NCita = sercioscita.NCita)) 
 	INNER JOIN ((serciosturno INNER JOIN profe ON serciosturno.Prof = profe.CodProf) 
 	LEFT JOIN proced ON serciosturno.cproced = proced.CodProced) ON (sercioscita.clugar = serciosturno.clugar) 
 	AND (sercioscita.NCita = serciosturno.NCita) AND (sercioscita.NServicio = serciosturno.NServicio)) 
 	LEFT JOIN pm_tipo_cita ON citasasig.cod_tcita = pm_tipo_cita.cod_tcita) 
-	LEFT JOIN finconsulta ON citasasig.cod_fina = finconsulta.codfin
+	LEFT JOIN finconsulta ON citasasig.cod_fina = finconsulta.codfin) 
+	INNER JOIN grupocita ON citasasig.codgc = grupocita.codgc
 WHERE 
 	(((citasasig.TipoDoc)=:tipodoc) 
 	AND ((citasasig.Documento)=:docu)
-	AND ((serciosturno.contador_os) Is Null))
+	AND ((serciosturno.contador_os) Is Null)
+	AND  ((grupocita.codaadx) Is  Null))
 GROUP BY 
 	citasasig.NCita,citasasig.CodGC, citasasig.clugar, serciosturno.Fecha, citasasig.Estado, 
 	nombre1,nombre2,apellido1,apellido2, sercioscita.cantidad, 
@@ -72,7 +74,8 @@ FROM
 	INNER JOIN gclinico ON grupocita.codaadx = gclinico.codaadx) 
 	INNER JOIN procgclinico ON (proced.codproced = procgclinico.codproced) AND (gclinico.codgc = procgclinico.codgc)
 WHERE 
-	(((citasasig.TipoDoc)=:tipodoc) AND ((citasasig.Documento)=:docu) 
+	(((citasasig.TipoDoc)=:tipodoc) 
+	AND ((citasasig.Documento)=:docu) 
 	AND  ((grupocita.codaadx) Is Not Null))
 GROUP BY 
 	citasasig.NCita, citasasig.CodGC, citasasig.clugar, serciosturno.Fecha, citasasig.Estado, profe.nombre1, profe.nombre2, profe.apellido1, 
@@ -298,3 +301,4 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=2 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
+ 
