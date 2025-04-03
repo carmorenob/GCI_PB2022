@@ -5849,7 +5849,7 @@ end type
 event clicked;////////ELECTRONICA	
 if is_elec='2' then
 	double l_i,l_nfactura,num_radica
-	string ls_clugar,ls_tfac,clugar_rad,tipo_rad
+	string ls_clugar,ls_tfac,clugar_rad,tipo_rad,ls_vfe
 	nvo_factura_electronica u_eleccc
 	st_ret_dian    lst_lle
 		
@@ -5857,10 +5857,10 @@ if is_elec='2' then
 	num_radica=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'num_radicacion')
 	clugar_rad=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"clugar")
 	tipo_rad=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"tipo")
+	ls_vfe=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'cod_versionfe')	
 	if tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'estado_dian')<>'1' then return
 	if tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'file_name_fact')='' or isnull(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'file_name_fact')) then return
-	
-	if u_eleccc.of_enviar_new_correo(num_radica,clugar_rad,tipo_rad,0,'',tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'file_name_fact'),'C')=-1 then
+	if u_eleccc.of_enviar_new_correo(num_radica,clugar_rad,tipo_rad,0,'',tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'file_name_fact'),'C',ls_vfe)=-1 then
 		messagebox('','Proceso con errores')
 	else
 		messagebox('','Proceso Finalizado')
@@ -5954,7 +5954,7 @@ end type
 event clicked;////////ELECTRONICA	
 if is_elec='2' then
 	double l_i,l_nfactura,num_radica
-	string ls_clugar,ls_tfac,clugar_rad,tipo_rad
+	string ls_clugar,ls_tfac,clugar_rad,tipo_rad,ls_vfe
 	nvo_factura_electronica u_elecco
 	st_ret_dian  lst_lle
 		
@@ -5963,6 +5963,7 @@ if is_elec='2' then
 	num_radica=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'num_radicacion')
 	clugar_rad=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"clugar")
 	tipo_rad=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"tipo")
+	ls_vfe=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(l_i,'cod_versionfe')
 	tab_2.tp2_1.tab_1.tp_p.dw_facturas.settransobject(sqlca)
 	tab_2.tp2_1.tab_1.tp_p.dw_facturas.retrieve(num_radica,clugar_rad,tipo_rad)
 		
@@ -5982,7 +5983,7 @@ if is_elec='2' then
 		ls_clugar=tab_2.tp2_1.tab_1.tp_p.dw_facturas.getitemstring(l_i,'clugar')
 		ls_tfac=tab_2.tp2_1.tab_1.tp_p.dw_facturas.getitemstring(l_i,'tipo')
 		
-		u_elecco.of_enviar_new_correo(l_nfactura,ls_clugar,ls_tfac,0,'',tab_2.tp2_1.tab_1.tp_p.dw_facturas.getitemstring(l_i,'file_name_fact'),'F')
+		u_elecco.of_enviar_new_correo(l_nfactura,ls_clugar,ls_tfac,0,'',tab_2.tp2_1.tab_1.tp_p.dw_facturas.getitemstring(l_i,'file_name_fact'),'F',ls_vfe)
 		
 	next
 	destroy u_elecco
@@ -6358,7 +6359,7 @@ event clicked;////////ELECTRONICA
 if is_elec='2' then
 	double ldb_i,ldb_nfactura,ldb_numradica
 	int li_nnota
-	string ls_clugar,ls_tfac,ls_clugarrad,ls_tiporad,ls_tnota
+	string ls_clugar,ls_tfac,ls_clugarrad,ls_tiporad,ls_tnota,ls_vfen
 	nvo_factura_electronica u_eleccc
 	st_ret_dian    lst_lle
 		
@@ -6368,10 +6369,11 @@ if is_elec='2' then
 	ls_tiporad=dw_nc.getitemstring(dw_nc.getrow(),"tipo")
 	li_nnota=dw_nc.getitemnumber(dw_nc.getrow(),'nro_nota')
 	ls_tnota=dw_nc.getitemstring(dw_nc.getrow(),"tipo_nota")
+	ls_vfen=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'cod_versionfe')	
 	if dw_nc.getitemstring(dw_nc.getrow(),'estado_dian_nota')<>'1' then return
 	if dw_nc.getitemstring(dw_nc.getrow(),'file_name_nota')='' or isnull(dw_nc.getitemstring(dw_nc.getrow(),'file_name_nota')) then return
 	
-	u_eleccc.of_enviar_new_correo(ldb_numradica,ls_clugarrad,ls_tiporad,li_nnota,ls_tnota,dw_nc.getitemstring(dw_nc.getrow(),'file_name_nota'),'C')
+	u_eleccc.of_enviar_new_correo(ldb_numradica,ls_clugarrad,ls_tiporad,li_nnota,ls_tnota,dw_nc.getitemstring(dw_nc.getrow(),'file_name_nota'),'C',ls_vfen)
 	destroy u_eleccc
 	messagebox('','Proceso Finalizado')
 else

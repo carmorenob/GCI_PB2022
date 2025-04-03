@@ -32,11 +32,11 @@ public function st_ret_dian sign_chilkat (ref uo_datawindow adw_factura, decimal
 public function integer of_actu_estado_factura (decimal al_nfact, string as_clug_fact, string as_tipofac, integer as_nnota, string as_estado, string as_filename_fact, string as_filename_zip, string as_track_id, string as_tipo, string as_coddoc, string as_cufe)
 public function integer of_estado_factura_dian (decimal al_nfact, string as_clug_fact, string as_tipofac, integer as_nnota, string as_estado, string as_tipo, string as_coddoc)
 private function integer of_enviar_correo (ref datawindow ads_datos, decimal ad_nfact, string as_lug, string as_tipofac, integer as_nnota, string as_tipo, string as_docnm, string as_qrcode, string as_cufe, string as_small_cufe, string as_zipname, string as_filename, string as_xml_factura, string as_xml_retorno, ref nvo_generic_ole_object aoo_cert)
-public function integer of_enviar_new_correo (decimal adc_nro_factura, string as_clug_factura, string as_tipofac, integer as_nnota, string as_tnota, string as_filename, string as_origen)
 public subroutine of_files_names (ref uo_datawindow adw_factura, ref string as_filename, ref string as_zipname, ref decimal al_nro_fact_x_anyo, ref decimal al_nro_zip_x_anyo, ref boolean abn_actu_consec_fact, ref boolean abn_actu_consec_zip, string as_tipo_docu, string as_tipo_ambiente, integer ai_anyo, string as_coddoc, string as_lsdoc)
 public function integer of_estado_factura_email (decimal al_nfact, string as_clug_fact, string as_tipofac, integer as_nnota, string as_estado, string as_tipo, string as_coddoc)
 public function integer of_enviar_new_correo_fevs (decimal adc_nro_factura, string as_clug_factura, string as_tipofac, integer as_nnota, string as_tnota, string as_filename, string as_origen)
 public function st_ret_dian envio_sin_validacion19 (ref uo_datawindow adw_factura, decimal al_nro_fact, string as_clug_factura, string as_tipofac, integer as_nnota, string as_tipo_docu, string as_coddoc)
+public function integer of_enviar_new_correo (decimal adc_nro_factura, string as_clug_factura, string as_tipofac, integer as_nnota, string as_tnota, string as_filename, string as_origen, string as_vfe)
 end prototypes
 
 public function longlong hex_to_dec (string as_hexadecimal);string ls_binario
@@ -1334,7 +1334,7 @@ if (as_tipo_docu='f' and as_coddoc='FV')  then
 //////////////////////// APIDOCKER
 	if gs_apidocker='1' then
 		string ls_token, ls_tds,ls_docs,ls_pass,ls_ipsn
-	
+
 		SELECT 
 			usuarios.tipodoc, usuarios.documento, 
 			usuarios.clave_sispro, ips.documento
@@ -1963,319 +1963,6 @@ end if
 destroy loo_Mailman
 destroy loo_Email
 of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'1',as_tipo,as_docnm)
-return 1
-end function
-
-public function integer of_enviar_new_correo (decimal adc_nro_factura, string as_clug_factura, string as_tipofac, integer as_nnota, string as_tnota, string as_filename, string as_origen);uo_datastore ldw_factura,ldw_result
-
-uo_datastore 	lds_xml_attached
-
-string 		ls_cufe,				ls_small_cufe,				ls_xml_factura,				ls_xml_retorno
-string			ls_sfc,				ls_sfc_384,					ls_testp,						ls_small_cufex
-string			ls_asun,				ls_cpo,						ls_retc,						ls_retdes
-string 		ls_prefac,			ls_numfact
-blob 			lblb_sha384,		lblb_md5
-int 			li_rc , 				li_file,							li_status					
-
-nvo_generic_ole_object loo_Mailman , loo_Email , loo_Cert
-
-CrypterObject lnv_CrypterObject
-lnv_CrypterObject = Create CrypterObject
-Coderobject lnv_code
-Lnv_code = create coderobject
-
-ldw_factura=create uo_datastore
-lds_xml_attached=create uo_datastore
-
-if as_origen='C' then
-	if as_tnota='C' then 
-		if g_motor='postgres' then
-			ldw_factura.dataobject='asis_int_electronica_cap_ncre'
-		else
-			ldw_factura.dataobject='dw_factura_electronica_cap_sql' 
-		end if	
-	else
-		if as_tnota='D' then 
-			if g_motor='postgres' then
-				ldw_factura.dataobject='asis_int_electronica_cap_ndeb'
-			else
-				ldw_factura.dataobject='dw_factura_electronica_cap_sql' 
-			end if	
-		else	
-			if g_motor='postgres' then
-				ldw_factura.dataobject='asis_int_factura_ele_cap'
-			else
-				ldw_factura.dataobject='dw_factura_electronica_cap_sql' 
-			end if			
-		end if
-	end if
-else
-	if g_motor='postgres' then
-		ldw_factura.dataobject="dw_factura_electronica_postgres"
-	else
-		ldw_factura.dataobject="dw_factura_electronica"
-	end if
-end if
-
-ldw_factura.settransobject(sqlca)		
-
-if as_tnota='C' or  as_tnota='D' then 
-	if ldw_factura.retrieve(adc_nro_factura,as_clug_factura,as_tipofac,as_nnota)<0 then 
-		return -1
-	end if
-else
-	if ldw_factura.retrieve(adc_nro_factura,as_clug_factura,as_tipofac)<0 then 
-		return -1
-	end if
-end if
-
-SELECT cadena into :is_ruta_facturas
-FROM parametros_gen
-WHERE (((codigo_para)=55));
-if sqlca.sqlnrows=0 then
-	messagebox('Atencíon','No hay parametro 55')
-	return -1
-end if
-
-ls_testp=ldw_factura.getitemstring(1,'testp')
-is_ruta_firma=ldw_factura.getitemstring(1,'ruta_certificado')
-is_clave_firma=f_descripta_new(ldw_factura.getitemstring(1,'clave_certificado'),'1')
-if isnull(is_ruta_firma) or  trim(is_ruta_firma)='' then
-	return -1
-end if
-
-ls_prefac=ldw_factura.getitemstring(1,'prefijo')
-ls_numfact=string(ldw_factura.getitemnumber(1,'nfact'))
-
-is_ruta_facturas=is_ruta_facturas+'\'+ls_prefac+ls_numfact+'\'
-
-////////////////////  LEER CERTIFICADO
-if of_leer_certificado(loo_Cert)=-1 then
-	 return -1
-end if
-
-ls_sfc= ldw_factura.getitemstring(1,'software_id')+f_descripta_new(ldw_factura.getitemstring(1,'pin'),'1')+ldw_factura.getitemstring(1,'prefijo')+string(ldw_factura.getitemnumber(1,'nfact'))
-
-ls_sfc_384=f_encripta_sha(ls_sfc,'SHA384')
-ldw_factura.setitem(1,'huella',ls_sfc_384)
-
-///CUFE
-ls_small_cufe= ldw_factura.getitemstring(1,'cufe')+f_descripta_new(ldw_factura.getitemstring(1,'clave_tecnica'),'1')+ldw_factura.getitemstring(1,'tipo_ambiente')
-
-ls_sfc=f_encripta_sha(ls_small_cufe,'SHA384')
-ldw_factura.setitem(1,'cufe',ls_sfc)
-
-lblb_sha384=Blob(f_encripta_sha(ls_small_cufe,'SHA384'), EncodingANSI!)
-lblb_md5 = lnv_CrypterObject.MD5(lblb_sha384)
-ls_small_cufex = lnv_code.hexencode(lblb_MD5)
-ldw_factura.setitem(1,'small_cufe',ls_small_cufex)
-destroy Lnv_code
-destroy lnv_CrypterObject
-
-if as_origen='C' then
-	lds_xml_attached.dataobject='dw_attached_document_capita'
-else
-	lds_xml_attached.dataobject='dw_attached_document'
-end if
-lds_xml_attached.settransobject(sqlca)
-
-if lds_xml_attached.retrieve(adc_nro_factura,as_clug_factura,as_tipofac)<0 then
-	messagebox("Error en retrieve de lds_attached_doc: ",sqlca.sqlerrtext)
-	return -1
-end if
-lds_xml_attached.setitem(1,'cufe',ls_sfc)
-lds_xml_attached.setitem(1,'small_cufe',ls_small_cufex)
-
-li_file=fileOpen(is_ruta_facturas + as_filename+".xml1",TextMode!)
-li_rc=fileReadEx(li_file,ls_xml_factura)
-li_rc=fileclose(li_file)
-
-
-///////////////////////// REPONSE
-ldw_result=create uo_datastore
-ldw_result.dataobject='dw_retornos_dian'
-li_status=ldw_result.importFile(XML!,is_ruta_facturas+as_filename+'_test_ret.xml1')
-	
-if li_status<0 then
-	messagebox('Error importando Respuesta','No es posible importar el mensaje de respuesta de la DIAN:~r~n'+ is_ruta_facturas+'Status_ret.xml')
-	return -1
-end if
-		
-if ldw_result.getitemstring(ldw_result.rowcount(),'statuscode')='00' then 	
-	oleobject loo_Bd
-	loo_Bd = create oleobject
-	li_status= loo_Bd.ConnectToNewObject("Chilkat_9_5_0.BinData")
-	if li_status < 0 then
-		 destroy loo_Bd
-		 MessageBox("Error","Connecting to COM object failed")
-		 return -1
-	end if
-	li_status= loo_Bd.AppendEncoded(ldw_result.getitemstring(ldw_result.rowcount(),'xmlbase64'),"base64")
-	ls_xml_retorno = loo_Bd.GetString("utf-8")
-end if		
-lds_xml_attached.setItem(1,'xml_invoice',ls_xml_factura)
-lds_xml_attached.setItem(1,'xml_response',ls_xml_retorno)
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-loo_Mailman = create nvo_generic_ole_object
-li_rc = loo_Mailman.ConnectToNewObject("Chilkat_9_5_0.MailMan")
-if li_rc < 0 then
-    destroy loo_Mailman
-    MessageBox("Error","Connecting to COM object failed")
-    return -1
-end if
-
-if as_origen='C' then
-	select servidor, puerto, usuario, clave,autentica,conexion,usuario_adc
-	into :is_server_email,:ii_puerto_email,:is_cuenta_email,:is_clave_email,:is_ssl, :is_tls,:is_cuenta_email1
-	from documentos
-	where (((coddoc)='RV') and ((clugar)=:as_clug_factura));
-else
-	select servidor, puerto, usuario, clave,autentica,conexion,usuario_adc
-	into :is_server_email,:ii_puerto_email,:is_cuenta_email,:is_clave_email,:is_ssl, :is_tls,:is_cuenta_email1
-	from documentos
-	where (((coddoc)='FV') and ((clugar)=:as_clug_factura));
-end if
-
-if isnull(is_server_email) or isnull(is_cuenta_email)  or isnull(is_clave_email) then
-    MessageBox("Error","No hay servidor de documento configurado")
-    return -1
-end if
-
-if as_origen='C' then
-	is_nombre_lugar=ldw_factura.getitemstring(1,'ips_nombre')
-else
-	is_nombre_lugar=ldw_factura.getitemstring(1,'ips_descripcion')
-end if
-is_clave_email=f_descripta_new(is_clave_email,'1')
-loo_Mailman = create nvo_generic_ole_object
-li_rc = loo_Mailman.ConnectToNewObject("Chilkat_9_5_0.MailMan")
-if li_rc < 0 then
-    destroy loo_Mailman
-    MessageBox("Error","Connecting to COM object failed")
-    return -1
-end if
-
-// Set the SMTP server.
-loo_Mailman.SmtpHost = is_server_email// "smtp.gmail.com"
-
-loo_Mailman.SmtpUsername = is_cuenta_email//"mySmtpLogin"
-loo_Mailman.SmtpPassword = is_clave_email//"myPassword"
-loo_Mailman.SmtpPort = ii_puerto_email
-loo_Mailman.SmtpSsl = 1
-
-// Create a new email object
-loo_Email = create nvo_generic_ole_object
-li_rc = loo_Email.ConnectToNewObject("Chilkat_9_5_0.Email")
-
-ls_asun=ldw_factura.getitemstring(1,"documento")+';'+is_nombre_lugar+';'+ldw_factura.getitemstring(1,"prefijo")+string(ldw_factura.getitemnumber(1,"nfact"))+';'
-
-ls_asun+='01'
-
-ls_asun+=';'+is_nombre_lugar
-loo_Email.Subject = ls_asun
-
-
-ls_cpo="Señores:~r~n"+ldw_factura.getitemstring(1,"razon_social")+"~r~n"
-ls_cpo+="NIT/CC"+ldw_factura.getitemstring(1,"nit")+"~r~n~r~n"
-
-ls_cpo+="Les informamos ha recibido un documento de Factura Electronica de venta emitida por "+is_nombre_lugar
-
-ls_cpo+=" Numero de documento "+ldw_factura.getitemstring(1,"prefijo")+string(ldw_factura.getitemnumber(1,"nfact"))+"~r~n~r~n"
-
-ls_cpo+= "Fecha de Emisión "+string(ldw_factura.getitemdatetime(1,"fecha_factura"),'yyyy-mm-dd')+"~r~n~r~n"
-if ldw_factura.getitemnumber(1,'vtemp')<>0 then
-	ls_cpo+= "Valor "+string(ldw_factura.getitemnumber(1,'vtemp'),"##,##0.00")+"~r~n~r~n"
-else
-	if ldw_factura.getitemnumber(1,'vtproced')<>0 then
-		ls_cpo+= "Valor "+string(ldw_factura.getitemnumber(1,'vtproced'),"##,##0.00")+"~r~n~r~n"
-	end if
-end if
-
-
-ls_cpo+='-----------------------------------------------------------------------------------'+"~r~n~r~n"
-ls_cpo+='Este es un sistema automático de aviso, por favor no responda este mensaje'+"~r~n~r~n"
-ls_cpo+='-----------------------------------------------------------------------------------'+"~r~n~r~n"
-loo_Email.Body =ls_cpo
-
-loo_Email.From = is_nombre_lugar+" <"+is_cuenta_email+">"
-li_rc = loo_Email.AddTo(ldw_factura.getitemstring(1,"razon_social"),ldw_factura.getitemstring(1,"email_cliente"))
-if not isnull(is_cuenta_email1) then
-	li_rc = loo_Email.AddTo('Copia',is_cuenta_email1)
-end if
-
-nvo_generic_ole_object loo_SbXml
-
-IF of_firmar_xml_attached(lds_xml_attached,loo_Cert,loo_SbXml )=-1 then
-	 return -2
-end if
-loo_SbXml.WriteFile(is_ruta_facturas+"ad"+mid(as_filename,3)+'.xml','utf-8',0)
-
-nvo_generic_ole_object loo_zip
-int li_SaveExtraPath
-
-loo_Zip = create nvo_generic_ole_object
-li_rc = loo_Zip.ConnectToNewObject("Chilkat_9_5_0.Zip")
-if li_rc < 0 then
-    destroy loo_Zip
-    MessageBox("Error","Connecting to COM object failed Chilkat_9_5_0.Zip")
-    return -1
-end if
-
-li_rc = loo_Zip.NewZip(is_ruta_facturas+"ad"+mid(as_filename,3)+'.zip')
-
-if li_rc <> 1 then
-    messagebox("Error creando Zip",string( loo_Zip.LastErrorText ))
-    destroy loo_Zip
-    return -1
-end if
-
-li_SaveExtraPath = 0
-li_rc = loo_Zip.AppendOneFileOrDir(is_ruta_facturas+"ad"+mid(as_filename,3)+'.xml',li_SaveExtraPath)
-if li_rc <> 1 then
-    messagebox("Error adicionando Archivo AttachedDocument a Zip AD: ",string( loo_Zip.LastErrorText ))
-    destroy loo_Zip
-    return -1
-end if
-li_rc = loo_Zip.AppendOneFileOrDir(is_ruta_facturas+as_filename+'.pdf',li_SaveExtraPath)
-if li_rc <> 1 then
-    messagebox("Error adicionando PDF al archivo Zip AD: ",string( loo_Zip.LastErrorText ))
-    destroy loo_Zip
-    return -1
-end if
-
-li_rc = loo_Zip.WriteZipAndClose()
-if li_rc <> 1 then
-    messagebox("Error creando Zip",string( loo_Zip.LastErrorText ))
-    destroy loo_Zip
-    return -1
-end if
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-loo_Email.AddFileAttachment(is_ruta_facturas+"ad"+mid(as_filename,3)+'.zip')//is_ruta_facturas+as_zipname)
-if loo_Email.LastMethodSuccess <> 1 then
-	messagebox("Error adjuntando archivo of_enviar_correo",string( loo_Mailman.LastErrorText))
-    destroy loo_Mailman
-    destroy loo_Email
-    return -1
-end if
-
-li_rc = loo_Mailman.SendEmail(loo_Email)
-if li_rc <> 1 then
-    messagebox("Error Enviando Correo of_enviar_correo",string( loo_Mailman.LastErrorText))
-    destroy loo_Mailman
-    destroy loo_Email
-    return -1
-end if
-
-li_rc = loo_Mailman.CloseSmtpConnection()
-if li_rc <> 1 then
-    messagebox("Error cerrando conexion a correo", "Connection to SMTP server not closed cleanly.")
-end if
-
-destroy loo_Mailman
-destroy loo_Email
-destroy loo_Bd
-
 return 1
 end function
 
@@ -3175,6 +2862,341 @@ messagebox("Atención", "Factura firmada y envida con éxito !!")
 
 lst_ret_dian.as_estado="1"
 return lst_ret_dian
+end function
+
+public function integer of_enviar_new_correo (decimal adc_nro_factura, string as_clug_factura, string as_tipofac, integer as_nnota, string as_tnota, string as_filename, string as_origen, string as_vfe);uo_datastore ldw_factura,ldw_result
+
+uo_datastore 	lds_xml_attached
+
+string 		ls_cufe,				ls_small_cufe,				ls_xml_factura,				ls_xml_retorno
+string			ls_sfc,				ls_sfc_384,					ls_testp,						ls_small_cufex
+string			ls_asun,				ls_cpo,						ls_retc,						ls_retdes
+string 		ls_prefac,			ls_numfact,					ls_t
+blob 			lblb_sha384,		lblb_md5
+int 			li_rc , 				li_file,							li_status					
+
+nvo_generic_ole_object loo_Mailman , loo_Email , loo_Cert
+
+CrypterObject lnv_CrypterObject
+lnv_CrypterObject = Create CrypterObject
+Coderobject lnv_code
+Lnv_code = create coderobject
+
+ldw_factura=create uo_datastore
+
+lds_xml_attached=create uo_datastore
+
+if as_origen='C' then
+	if as_tnota='C' then 
+		if g_motor='postgres' then
+			ldw_factura.dataobject='asis_int_electronica_cap_ncre'
+		else
+			ldw_factura.dataobject='dw_factura_electronica_cap_sql' 
+		end if	
+	else
+		if as_tnota='D' then 
+			if g_motor='postgres' then
+				ldw_factura.dataobject='asis_int_electronica_cap_ndeb'
+			else
+				ldw_factura.dataobject='dw_factura_electronica_cap_sql' 
+			end if	
+		else	
+			if g_motor='postgres' then
+				if as_vfe>='1.9' then
+					ldw_factura.dataobject='dw_factura_electronica_postgres19'
+				else
+					ldw_factura.dataobject='asis_int_factura_ele_cap'
+				end if
+			else
+				ldw_factura.dataobject='dw_factura_electronica_cap_sql' 
+			end if			
+		end if
+	end if
+else
+	if g_motor='postgres' then
+		if as_vfe>='1.9' then
+			ldw_factura.dataobject="dw_factura_electronica_postgres19"
+		else
+			ldw_factura.dataobject="dw_factura_electronica_postgres"
+		end if
+	else
+		ldw_factura.dataobject="dw_factura_electronica"
+	end if
+end if
+
+ldw_factura.settransobject(sqlca)		
+
+if as_tnota='C' or  as_tnota='D' then 
+	if ldw_factura.retrieve(adc_nro_factura,as_clug_factura,as_tipofac,as_nnota)<0 then 
+		return -1
+	end if
+else
+	if ldw_factura.retrieve(adc_nro_factura,as_clug_factura,as_tipofac)<0 then 
+		return -1
+	end if
+end if
+
+if as_vfe>='1.9' and as_origen='F' then
+	if ldw_factura.getitemnumber(1,'vproced') - ldw_factura.getitemnumber(1,'vemp')<>0 then
+		ls_t=ldw_factura.Modify("DataWindow.Export.XML.UseTemplate = 'dian19' ")
+	else
+		ls_t=ldw_factura.Modify("DataWindow.Export.XML.UseTemplate = 'dian19src' ")
+	end if
+end if
+
+if as_vfe>='1.9' and as_origen='C' then
+	ls_t=ldw_factura.Modify("DataWindow.Export.XML.UseTemplate = 'dian19_cap' ")
+end if
+
+
+SELECT cadena into :is_ruta_facturas
+FROM parametros_gen
+WHERE (((codigo_para)=55));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 55')
+	return -1
+end if
+
+ls_testp=ldw_factura.getitemstring(1,'testp')
+is_ruta_firma=ldw_factura.getitemstring(1,'ruta_certificado')
+is_clave_firma=f_descripta_new(ldw_factura.getitemstring(1,'clave_certificado'),'1')
+if isnull(is_ruta_firma) or  trim(is_ruta_firma)='' then
+	return -1
+end if
+
+ls_prefac=ldw_factura.getitemstring(1,'prefijo')
+ls_numfact=string(ldw_factura.getitemnumber(1,'nfact'))
+
+is_ruta_facturas=is_ruta_facturas+'\'+ls_prefac+ls_numfact+'\'
+
+////////////////////  LEER CERTIFICADO
+if of_leer_certificado(loo_Cert)=-1 then
+	 return -1
+end if
+
+ls_sfc= ldw_factura.getitemstring(1,'software_id')+f_descripta_new(ldw_factura.getitemstring(1,'pin'),'1')+ldw_factura.getitemstring(1,'prefijo')+string(ldw_factura.getitemnumber(1,'nfact'))
+
+ls_sfc_384=f_encripta_sha(ls_sfc,'SHA384')
+ldw_factura.setitem(1,'huella',ls_sfc_384)
+
+///CUFE
+ls_small_cufe= ldw_factura.getitemstring(1,'cufe')+f_descripta_new(ldw_factura.getitemstring(1,'clave_tecnica'),'1')+ldw_factura.getitemstring(1,'tipo_ambiente')
+
+ls_sfc=f_encripta_sha(ls_small_cufe,'SHA384')
+ldw_factura.setitem(1,'cufe',ls_sfc)
+
+lblb_sha384=Blob(f_encripta_sha(ls_small_cufe,'SHA384'), EncodingANSI!)
+lblb_md5 = lnv_CrypterObject.MD5(lblb_sha384)
+ls_small_cufex = lnv_code.hexencode(lblb_MD5)
+ldw_factura.setitem(1,'small_cufe',lower(ls_small_cufex))
+destroy Lnv_code
+destroy lnv_CrypterObject
+
+if as_origen='C' then
+	lds_xml_attached.dataobject='dw_attached_document_capita'
+else
+	lds_xml_attached.dataobject='dw_attached_document'
+end if
+lds_xml_attached.settransobject(sqlca)
+
+if lds_xml_attached.retrieve(adc_nro_factura,as_clug_factura,as_tipofac)<0 then
+	messagebox("Error en retrieve de lds_attached_doc: ",sqlca.sqlerrtext)
+	return -1
+end if
+lds_xml_attached.setitem(1,'cufe',lower(ls_sfc))
+lds_xml_attached.setitem(1,'small_cufe',lower(ls_small_cufex))
+
+li_file=fileOpen(is_ruta_facturas + as_filename+".xml1",TextMode!)
+li_rc=fileReadEx(li_file,ls_xml_factura)
+li_rc=fileclose(li_file)
+
+
+///////////////////////// REPONSE
+ldw_result=create uo_datastore
+ldw_result.dataobject='dw_retornos_dian'
+li_status=ldw_result.importFile(XML!,is_ruta_facturas+as_filename+'_test_ret.xml1')
+	
+if li_status<0 then
+	messagebox('Error importando Respuesta','No es posible importar el mensaje de respuesta de la DIAN:~r~n'+ is_ruta_facturas+'Status_ret.xml')
+	return -1
+end if
+		
+if ldw_result.getitemstring(ldw_result.rowcount(),'statuscode')='00' then 	
+	oleobject loo_Bd
+	loo_Bd = create oleobject
+	li_status= loo_Bd.ConnectToNewObject("Chilkat_9_5_0.BinData")
+	if li_status < 0 then
+		 destroy loo_Bd
+		 MessageBox("Error","Connecting to COM object failed")
+		 return -1
+	end if
+	li_status= loo_Bd.AppendEncoded(ldw_result.getitemstring(ldw_result.rowcount(),'xmlbase64'),"base64")
+	ls_xml_retorno = loo_Bd.GetString("utf-8")
+end if		
+lds_xml_attached.setItem(1,'xml_invoice',ls_xml_factura)
+lds_xml_attached.setItem(1,'xml_response',ls_xml_retorno)
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+loo_Mailman = create nvo_generic_ole_object
+li_rc = loo_Mailman.ConnectToNewObject("Chilkat_9_5_0.MailMan")
+if li_rc < 0 then
+    destroy loo_Mailman
+    MessageBox("Error","Connecting to COM object failed")
+    return -1
+end if
+
+if as_origen='C' then
+	select servidor, puerto, usuario, clave,autentica,conexion,usuario_adc
+	into :is_server_email,:ii_puerto_email,:is_cuenta_email,:is_clave_email,:is_ssl, :is_tls,:is_cuenta_email1
+	from documentos
+	where (((coddoc)='RV') and ((clugar)=:as_clug_factura));
+else
+	select servidor, puerto, usuario, clave,autentica,conexion,usuario_adc
+	into :is_server_email,:ii_puerto_email,:is_cuenta_email,:is_clave_email,:is_ssl, :is_tls,:is_cuenta_email1
+	from documentos
+	where (((coddoc)='FV') and ((clugar)=:as_clug_factura));
+end if
+
+if isnull(is_server_email) or isnull(is_cuenta_email)  or isnull(is_clave_email) then
+    MessageBox("Error","No hay servidor de documento configurado")
+    return -1
+end if
+
+if as_origen='C' then
+	is_nombre_lugar=ldw_factura.getitemstring(1,'ips_nombre')
+else
+	is_nombre_lugar=ldw_factura.getitemstring(1,'ips_descripcion')
+end if
+is_clave_email=f_descripta_new(is_clave_email,'1')
+loo_Mailman = create nvo_generic_ole_object
+li_rc = loo_Mailman.ConnectToNewObject("Chilkat_9_5_0.MailMan")
+if li_rc < 0 then
+    destroy loo_Mailman
+    MessageBox("Error","Connecting to COM object failed")
+    return -1
+end if
+
+// Set the SMTP server.
+loo_Mailman.SmtpHost = is_server_email// "smtp.gmail.com"
+
+loo_Mailman.SmtpUsername = is_cuenta_email//"mySmtpLogin"
+loo_Mailman.SmtpPassword = is_clave_email//"myPassword"
+loo_Mailman.SmtpPort = ii_puerto_email
+loo_Mailman.SmtpSsl = 1
+
+// Create a new email object
+loo_Email = create nvo_generic_ole_object
+li_rc = loo_Email.ConnectToNewObject("Chilkat_9_5_0.Email")
+
+ls_asun=ldw_factura.getitemstring(1,"documento")+';'+is_nombre_lugar+';'+ldw_factura.getitemstring(1,"prefijo")+string(ldw_factura.getitemnumber(1,"nfact"))+';'
+
+ls_asun+='01'
+
+ls_asun+=';'+is_nombre_lugar
+loo_Email.Subject = ls_asun
+
+
+ls_cpo="Señores:~r~n"+ldw_factura.getitemstring(1,"razon_social")+"~r~n"
+ls_cpo+="NIT/CC"+ldw_factura.getitemstring(1,"nit")+"~r~n~r~n"
+
+ls_cpo+="Les informamos ha recibido un documento de Factura Electronica de venta emitida por "+is_nombre_lugar
+
+ls_cpo+=" Numero de documento "+ldw_factura.getitemstring(1,"prefijo")+string(ldw_factura.getitemnumber(1,"nfact"))+"~r~n~r~n"
+
+ls_cpo+= "Fecha de Emisión "+string(ldw_factura.getitemdatetime(1,"fecha_factura"),'yyyy-mm-dd')+"~r~n~r~n"
+if ldw_factura.getitemnumber(1,'vtemp')<>0 then
+	ls_cpo+= "Valor "+string(ldw_factura.getitemnumber(1,'vtemp'),"##,##0.00")+"~r~n~r~n"
+else
+	if ldw_factura.getitemnumber(1,'vtproced')<>0 then
+		ls_cpo+= "Valor "+string(ldw_factura.getitemnumber(1,'vtproced'),"##,##0.00")+"~r~n~r~n"
+	end if
+end if
+
+
+ls_cpo+='-----------------------------------------------------------------------------------'+"~r~n~r~n"
+ls_cpo+='Este es un sistema automático de aviso, por favor no responda este mensaje'+"~r~n~r~n"
+ls_cpo+='-----------------------------------------------------------------------------------'+"~r~n~r~n"
+loo_Email.Body =ls_cpo
+
+loo_Email.From = is_nombre_lugar+" <"+is_cuenta_email+">"
+li_rc = loo_Email.AddTo(ldw_factura.getitemstring(1,"razon_social"),ldw_factura.getitemstring(1,"email_cliente"))
+if not isnull(is_cuenta_email1) then
+	li_rc = loo_Email.AddTo('Copia',is_cuenta_email1)
+end if
+
+nvo_generic_ole_object loo_SbXml
+
+IF of_firmar_xml_attached(lds_xml_attached,loo_Cert,loo_SbXml )=-1 then
+	 return -2
+end if
+loo_SbXml.WriteFile(is_ruta_facturas+"ad"+mid(as_filename,3)+'.xml','utf-8',0)
+
+nvo_generic_ole_object loo_zip
+int li_SaveExtraPath
+
+loo_Zip = create nvo_generic_ole_object
+li_rc = loo_Zip.ConnectToNewObject("Chilkat_9_5_0.Zip")
+if li_rc < 0 then
+    destroy loo_Zip
+    MessageBox("Error","Connecting to COM object failed Chilkat_9_5_0.Zip")
+    return -1
+end if
+
+li_rc = loo_Zip.NewZip(is_ruta_facturas+"ad"+mid(as_filename,3)+'.zip')
+
+if li_rc <> 1 then
+    messagebox("Error creando Zip",string( loo_Zip.LastErrorText ))
+    destroy loo_Zip
+    return -1
+end if
+
+li_SaveExtraPath = 0
+li_rc = loo_Zip.AppendOneFileOrDir(is_ruta_facturas+"ad"+mid(as_filename,3)+'.xml',li_SaveExtraPath)
+if li_rc <> 1 then
+    messagebox("Error adicionando Archivo AttachedDocument a Zip AD: ",string( loo_Zip.LastErrorText ))
+    destroy loo_Zip
+    return -1
+end if
+li_rc = loo_Zip.AppendOneFileOrDir(is_ruta_facturas+as_filename+'.pdf',li_SaveExtraPath)
+if li_rc <> 1 then
+    messagebox("Error adicionando PDF al archivo Zip AD: ",string( loo_Zip.LastErrorText ))
+    destroy loo_Zip
+    return -1
+end if
+
+li_rc = loo_Zip.WriteZipAndClose()
+if li_rc <> 1 then
+    messagebox("Error creando Zip",string( loo_Zip.LastErrorText ))
+    destroy loo_Zip
+    return -1
+end if
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+loo_Email.AddFileAttachment(is_ruta_facturas+"ad"+mid(as_filename,3)+'.zip')//is_ruta_facturas+as_zipname)
+if loo_Email.LastMethodSuccess <> 1 then
+	messagebox("Error adjuntando archivo of_enviar_correo",string( loo_Mailman.LastErrorText))
+    destroy loo_Mailman
+    destroy loo_Email
+    return -1
+end if
+
+li_rc = loo_Mailman.SendEmail(loo_Email)
+if li_rc <> 1 then
+    messagebox("Error Enviando Correo of_enviar_correo",string( loo_Mailman.LastErrorText))
+    destroy loo_Mailman
+    destroy loo_Email
+    return -1
+end if
+
+li_rc = loo_Mailman.CloseSmtpConnection()
+if li_rc <> 1 then
+    messagebox("Error cerrando conexion a correo", "Connection to SMTP server not closed cleanly.")
+end if
+
+destroy loo_Mailman
+destroy loo_Email
+destroy loo_Bd
+
+return 1
 end function
 
 on nvo_factura_electronica.create

@@ -1807,7 +1807,7 @@ end type
 event clicked;////////ELECTRONICA	
 if is_elec='2' then
 	double l_i,l_nfactura
-	string ls_clugar,ls_tfac
+	string ls_clugar,ls_tfac,ls_vfe
 	nvo_factura_electronica u_elec
 	st_ret_dian    lst_lle
 	
@@ -1822,8 +1822,8 @@ if is_elec='2' then
 		l_nfactura=dw_facturas.getitemnumber(l_i,'nfact')
 		ls_clugar=dw_facturas.getitemstring(l_i,'clugar')
 		ls_tfac=dw_facturas.getitemstring(l_i,'tipo')
-		
-		u_elec.of_enviar_new_correo(l_nfactura,ls_clugar,ls_tfac,0,'',dw_facturas.getitemstring(l_i,'file_name_fact'),'F')
+		ls_vfe=dw_facturas.getitemstring(l_i,'cod_versionfe')
+		u_elec.of_enviar_new_correo(l_nfactura,ls_clugar,ls_tfac,0,'',dw_facturas.getitemstring(l_i,'file_name_fact'),'F',ls_vfe)
 		
 	next
 	destroy u_elec
@@ -2947,8 +2947,8 @@ fila=this.getrow()
 if fila<1 then return
 
 if this.getitemstring(fila,"cod_versionfe")>="1.9" then
-	tab_1.tp_2.pb_email_dian.visible=false
-	tab_1.tp_2.pb_email_dian.enabled=false
+	tab_1.tp_2.pb_email_dian.visible=true
+	tab_1.tp_2.pb_email_dian.enabled=true
 	tab_1.tp_2.pb_json.enabled=true
 	tab_1.tp_2.pb_json.visible=true
 else
