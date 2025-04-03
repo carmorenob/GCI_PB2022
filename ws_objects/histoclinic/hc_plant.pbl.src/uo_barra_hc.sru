@@ -302,6 +302,18 @@ else //de cons ext/odonto
 	ds.settransobject(sqlca)
 	lb_paso=false
 	if ds.retrieve(i_contador,i_clug)=0 then goto sale//los r_ son los reales de la BD
+	
+	if  not isnull(ds.getitemstring(1,'fin_consulta')) then 
+		dw_diags.setfilter(" finconsulta ='"+ds.getitemstring(1,'fin_consulta')+ "'")
+	else
+		dw_diags.setfilter('')
+	end if
+	dw_diags.filter()
+
+	
+	
+	
+	
 	if isnull(ds.getitemstring(1,'diagprin')) or ds.getitemstring(1,'diagprin')='' then
 		string ls_cods,ls_desd
 		
