@@ -78,7 +78,37 @@ GROUP BY
 	citasasig.NCita, citasasig.CodGC, citasasig.clugar, serciosturno.Fecha, citasasig.Estado, profe.nombre1, profe.nombre2, profe.apellido1, 
 	profe.apellido2, sercioscita.cantidad, serciosturno.control, serciosturno.NFact, serciosturno.nrcaj, serciosturno.Consult, serciosturno.Prof, 
 	serciosturno.tipo_fac, pm_tipo_cita.desp_tcita, citasasig.cod_fina, serciosturno.sec_cant, 
-	serciosturno.NCita, finconsulta.descripcion" update="citasasig" updatewhere=0 updatekeyinplace=no arguments=(("tipodoc", string),("docu", string))  sort="datetime(date(fecha),time(hora)) D ncita D estado D " )
+	serciosturno.NCita, finconsulta.descripcion
+
+UNION ALL
+
+SELECT 
+	citasasig.NCita,citasasig.CodGC, citasasig.clugar, serciosturno.Fecha, citasasig.Estado, 
+	nombre1,nombre2,apellido1,apellido2,sercioscita.cantidad, 
+	serciosturno.cproced, proced.Descripcion, serciosturno.control, 
+	Min(serciosturno.Hora) AS hora, serciosturno.NFact, serciosturno.nrcaj, serciosturno.Consult, 
+	serciosturno.Prof,serciosturno.tipo_fac,proced.cod_cups,proced.cod_version, pm_tipo_cita.desp_tcita,
+	citasasig.cod_fina
+FROM 
+	((((citasasig INNER JOIN sercioscita ON (citasasig.clugar = sercioscita.clugar) AND (citasasig.NCita = sercioscita.NCita)) 
+	INNER JOIN ((serciosturno INNER JOIN profe ON serciosturno.Prof = profe.CodProf) 
+	LEFT JOIN proced ON serciosturno.cproced = proced.CodProced) ON (sercioscita.clugar = serciosturno.clugar) 
+	AND (sercioscita.NCita = serciosturno.NCita) AND (sercioscita.NServicio = serciosturno.NServicio)) 
+	LEFT JOIN pm_tipo_cita ON citasasig.cod_tcita = pm_tipo_cita.cod_tcita) 
+	LEFT JOIN finconsulta ON citasasig.cod_fina = finconsulta.codfin) 
+	INNER JOIN grupocita ON citasasig.codgc = grupocita.codgc
+WHERE 
+	(((citasasig.TipoDoc)=:tipodoc) 
+	AND ((citasasig.Documento)=:docu)
+	AND ((serciosturno.contador_os) Is not Null)
+	AND ((grupocita.codaadx) Is Null)
+)
+GROUP BY 
+	citasasig.NCita,citasasig.CodGC, citasasig.clugar, serciosturno.Fecha, citasasig.Estado, 
+	nombre1,nombre2,apellido1,apellido2, sercioscita.cantidad, 
+	serciosturno.cproced, proced.Descripcion, serciosturno.control, serciosturno.NFact, serciosturno.nrcaj, serciosturno.sec_cant, serciosturno.NCita, 
+	serciosturno.Consult, serciosturno.Prof,serciosturno.tipo_fac,proced.cod_cups,proced.cod_version, pm_tipo_cita.desp_tcita,
+	finconsulta.descripcion,citasasig.cod_fina" update="citasasig" updatewhere=0 updatekeyinplace=no arguments=(("tipodoc", string),("docu", string))  sort="datetime(date(fecha),time(hora)) D ncita D estado D " )
 group(level=1 header.height=0 trailer.height=0 by=("month(fecha)" ) header.color="536870912" header.transparency="0" header.gradient.color="8421504" header.gradient.transparency="0" header.gradient.angle="0" header.brushmode="0" header.gradient.repetition.mode="0" header.gradient.repetition.count="0" header.gradient.repetition.length="100" header.gradient.focus="0" header.gradient.scale="100" header.gradient.spread="100" trailer.color="536870912" trailer.transparency="0" trailer.gradient.color="8421504" trailer.gradient.transparency="0" trailer.gradient.angle="0" trailer.brushmode="0" trailer.gradient.repetition.mode="0" trailer.gradient.repetition.count="0" trailer.gradient.repetition.length="100" trailer.gradient.focus="0" trailer.gradient.scale="100" trailer.gradient.spread="100" )
 text(band=header alignment="2" text="Ncita" border="0" color="0" x="78" y="4" height="52" width="283" html.valueishtml="0"  name=ncita_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="2" text="Lugar" border="0" color="0" x="750" y="4" height="52" width="677" html.valueishtml="0"  name=clugar_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
