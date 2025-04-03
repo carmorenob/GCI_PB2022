@@ -111,6 +111,7 @@ for k=1 to hasta
 		dw_rias.setitem(donde,"s_diagprin",i_cdiaging)
 		dw_rias.setitem(donde,"s_fin_consulta",i_fin_consulta)
 		dw_rias.setitem(donde,"s_tipodiagprin",i_tipodx)
+		dw_rias.setitem(donde,"cod_modrel",'01')
 	case '2'
 		dw_rias.setitem(donde,"s_diagprin_",cod_rips)
 		dw_rias.setitem(donde,"s_diagprin",i_cdiaging)
