@@ -982,7 +982,7 @@ else
 end if
 
 ls_sfc_384=f_encripta_sha(ls_sfc,'SHA384')
-adw_factura.setitem(1,'huella',ls_sfc_384)
+adw_factura.setitem(1,'huella',lower(ls_sfc_384))
 
 //////////////////////// CUFE
 if as_tipo_docu='f' or as_tipo_docu='r' then 
@@ -993,12 +993,12 @@ if as_tipo_docu='a' or as_tipo_docu='c' or as_tipo_docu='d' then
 end if
 
 ls_sfc=f_encripta_sha(ls_small_cufe,'SHA384')
-adw_factura.setitem(1,'cufe',ls_sfc)
+adw_factura.setitem(1,'cufe',lower(ls_sfc))
 
 lblb_sha384=Blob(f_encripta_sha(ls_small_cufe,'SHA384'), EncodingANSI!)
 lblb_md5 = lnv_CrypterObject.MD5(lblb_sha384)
 ls_small_cufex = lnv_code.hexencode(lblb_MD5)
-adw_factura.setitem(1,'small_cufe',ls_small_cufex)
+adw_factura.setitem(1,'small_cufe',lower(ls_small_cufex))
 destroy Lnv_code
 destroy lnv_CrypterObject 
 
@@ -1049,8 +1049,8 @@ ls_data_qr+='ValFac: '+string(adw_factura.getitemnumber(1,'vtemp') ,'###########
 ls_data_qr+='ValIva: '+string(adw_factura.getitemnumber(1,'vtiva') ,'##################.00')+'~r~n'
 ls_data_qr+='ValOtroIm: 0.00~r~n'
 ls_data_qr+='ValTolFac: '+string(adw_factura.getitemnumber(1,'vtemp') ,'##################.00')+'~r~n'
-ls_data_qr+='CUFE: '+adw_factura.getitemstring(1,'cufe')+'~r~n'
-ls_data_qr+='QRCode:https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey='+adw_factura.getitemstring(1,'cufe')
+ls_data_qr+='CUFE: '+lower(adw_factura.getitemstring(1,'cufe'))+'~r~n'
+ls_data_qr+='QRCode:https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey='+lower(adw_factura.getitemstring(1,'cufe'))
 
 draw_qr_code lqr_code
 lqr_code=create draw_qr_code
