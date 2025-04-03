@@ -303,8 +303,10 @@ else //de cons ext/odonto
 	lb_paso=false
 	if ds.retrieve(i_contador,i_clug)=0 then goto sale//los r_ son los reales de la BD
 	
-	if  not isnull(ds.getitemstring(1,'fin_consulta')) then 
-		dw_diags.setfilter(" finconsulta ='"+ds.getitemstring(1,'fin_consulta')+ "'")
+	if  not isnull(ds.getitemstring(1,'fin_consulta')) or ds.getitemstring(1,'fin_consulta')='' then 
+		if not isnull(dw_diags.getitemstring(1,'finconsulta')) then 
+			dw_diags.setfilter(" finconsulta ='"+ds.getitemstring(1,'fin_consulta')+ "'")
+		end if
 	else
 		dw_diags.setfilter('')
 	end if
