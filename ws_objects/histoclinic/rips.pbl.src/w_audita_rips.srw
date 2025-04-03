@@ -1713,57 +1713,51 @@ ls_tip=dw_facturas.getitemstring(l_i,'tipo')
 ls_prefijo=dw_facturas.getitemstring(l_i,'prefijo')
 ls_filename=dw_facturas.getitemstring(l_i,'file_name_fact')
 
+if isnull(ls_prefijo) then 
+	is_ruta_facturas=is_ruta_facturas+string(ldb_nfac)+'\'
+else
+	is_ruta_facturas=is_ruta_facturas+ls_prefijo+string(ldb_nfac)+'\'
+end if
+	
+luo_rips=create nvo_fevrips
+If not DirectoryExists ( is_ruta_facturas) Then
+	integer li_filenum
+	CreateDirectory ( is_ruta_facturas)
+	li_filenum = ChangeDirectory( is_ruta_facturas)
+end if
 
-if messagebox("Atención",'Desea regenerar el json, ',question!,yesno!,2)=1 then 	
-	if isnull(ls_prefijo) then 
-		is_ruta_facturas=is_ruta_facturas+string(ldb_nfac)+'\'
-	else
-		is_ruta_facturas=is_ruta_facturas+ls_prefijo+string(ldb_nfac)+'\'
-	end if
+if isnull(ls_prefijo) then 
+	luo_rips.emite_json_evento(ldb_nfac,ls_clu,ls_tip,'f','FV',is_ruta_facturas+string(ldb_nfac)+'.json')
+else
+	luo_rips.emite_json_evento(ldb_nfac,ls_clu,ls_tip,'f','FV',is_ruta_facturas+ls_prefijo+string(ldb_nfac)+'.json')
+end if
 	
-	luo_rips=create nvo_fevrips
-	If not DirectoryExists ( is_ruta_facturas) Then
-		integer li_filenum
-		CreateDirectory ( is_ruta_facturas)
-		li_filenum = ChangeDirectory( is_ruta_facturas)
-	end if
-	
-	if isnull(ls_prefijo) then 
-		luo_rips.emite_json_evento(ldb_nfac,ls_clu,ls_tip,'f','FV',is_ruta_facturas+string(ldb_nfac)+'.json')
-	else
-		luo_rips.emite_json_evento(ldb_nfac,ls_clu,ls_tip,'f','FV',is_ruta_facturas+ls_prefijo+string(ldb_nfac)+'.json')
-	end if
+//////////////////////// APIDOCKER
+if gs_apidocker='1' then
+	string ls_token, ls_tds,ls_docs,ls_pass,ls_ipsn
 
-	
-	//////////////////////// APIDOCKER
-	if gs_apidocker='1' then
-		string ls_token, ls_tds,ls_docs,ls_pass,ls_ipsn
-	
-		SELECT 
-			usuarios.tipodoc, usuarios.documento, 
-			usuarios.clave_sispro, ips.documento
-		INTO
-			:ls_tds,:ls_docs,:ls_pass,:ls_ipsn
-		FROM 
-			usuarios, ips
-		WHERE (((usuarios.usuario)=:usuario));
-		if sqlca.sqlnrows=0 then
-			messagebox('Atencíon','No hay usuario sisipro')
-		end if
-		if isnull(ls_tds)  or isnull(ls_docs) or isnull(ls_pass) then
-			return
-		end if
-		ls_token=luo_rips.sispro_login(ls_tipo_ambiente,ls_tds,ls_docs,ls_pass,ls_ipsn)
-		if ls_token<>'-1' then 
-			lst_ret_gral=luo_rips.sispro_carga_fev_rips(ls_token,'1',is_ruta_facturas, ls_prefijo+string(ldb_nfac)+'.json',ls_filename)
-			if lst_ret_gral.i_valor=-1 then 
-				return 
-			end if
+	SELECT 
+		usuarios.tipodoc, usuarios.documento, 
+		usuarios.clave_sispro, ips.documento
+	INTO
+		:ls_tds,:ls_docs,:ls_pass,:ls_ipsn
+	FROM 
+		usuarios, ips
+	WHERE (((usuarios.usuario)=:usuario));
+	if sqlca.sqlnrows=0 then
+		messagebox('Atencíon','No hay usuario sispro No se puede validar')
+		return
+	end if
+	ls_token=luo_rips.sispro_login(ls_tipo_ambiente,ls_tds,ls_docs,ls_pass,ls_ipsn)
+	if ls_token<>'-1' then 
+		lst_ret_gral=luo_rips.sispro_carga_fev_rips(ls_token,'1',is_ruta_facturas, ls_prefijo+string(ldb_nfac)+'.json',ls_filename)
+		if lst_ret_gral.i_valor=-1 then 
+			return 
 		end if
 	end if
-	destroy luo_rips
-end if	
-messagebox('Atencíon','Prceso Finalizado')
+end if
+destroy luo_rips
+messagebox('Atencíon','Proceso Finalizado')
 end event
 
 type pb_exp from picturebutton within tp_2
@@ -1909,7 +1903,7 @@ if is_elec='2' then
 		if dw_facturas.getitemstring(l_i,'estado_dian')='1' then continue
 		if dw_facturas.getitemstring(l_i,'file_name_fact')='0' then continue
 		
-		ldt_ff=datetime(date(dw_facturas.getitemdatetime(l_i,'fechat')),time(0,0,0))		
+		ldt_ff=dw_facturas.getitemdatetime(l_i,'fechat')
 		SELECT 
 			cod_version
 		INTO

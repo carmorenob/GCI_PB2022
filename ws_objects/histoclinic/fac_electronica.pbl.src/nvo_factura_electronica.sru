@@ -930,6 +930,18 @@ if as_tipo_docu='f' or as_tipo_docu='r'  then
 		lst_ret_dian.as_estado="-2"
 		return lst_ret_dian
 	end if
+	
+	if adw_factura.dataobject="dw_factura_electronica_postgres19" then	
+		if adw_factura.getitemnumber(1,'vproced') - adw_factura.getitemnumber(1,'vemp')<>0 then
+			if as_coddoc='RV' then
+				ls_t=adw_factura.Modify("DataWindow.Export.XML.UseTemplate = 'dian19_cap' ")
+			else
+				ls_t=adw_factura.Modify("DataWindow.Export.XML.UseTemplate = 'dian19' ")
+			end if
+		else
+			ls_t=adw_factura.Modify("DataWindow.Export.XML.UseTemplate = 'dian19src' ")
+		end if
+	end if
 else
 	if as_coddoc='RV' then 
 		if adw_factura.retrieve(al_nro_fact,as_clug_factura,as_tipofac,as_nnota)<=0 then 
@@ -2545,7 +2557,7 @@ li_rc=fileclose(li_file)
 ///////////////////////// REPONSE
 ldw_result=create uo_datastore
 ldw_result.dataobject='dw_retornos_dian'
-li_status=ldw_result.importFile(XML!,is_ruta_facturas+as_filename+'_test_ret.xml')
+li_status=ldw_result.importFile(XML!,is_ruta_facturas+as_filename+'_test_ret.xml1')
 	
 if li_status<0 then
 	messagebox('Error importando Respuesta','No es posible importar el mensaje de respuesta de la DIAN:~r~n'+ is_ruta_facturas+'Status_ret.xml')

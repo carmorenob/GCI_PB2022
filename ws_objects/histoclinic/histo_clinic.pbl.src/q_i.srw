@@ -260,8 +260,11 @@ if dw_1.retrieve(double(sle_f.text),sle_l.text,'F',0)>0 then
 	u_elec.of_enviar_new_correo_fevs(l_nfactura,ls_clugar,ls_tfac,0,'',ls_filename,'F')
 		
 	destroy u_elec
+	messagebox('','Proceso Finalizado')
+else
+	messagebox('','No se encontro factura')
 end if
-messagebox('','Proceso Finalizado')
+
 ////////ELECTRONICA
 end event
 
