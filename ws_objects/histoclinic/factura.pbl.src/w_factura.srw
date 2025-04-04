@@ -62,7 +62,7 @@ for k=1 to dw_resumen.rowcount()
 	select monto_hasta,acumulado into :hasta,:lleva from contratos 
 	where codemp =:cempres and codcontrato=:ccontrat;
 	if sqlca.sqlcode=-1 then
-		Messagebox("Error leyendo Contratos para actualizar Montos",sqlca.sqlerrtext)
+		Messagebox("Error leyendo Contratos para actualizar Montos linea 21",sqlca.sqlerrtext)
 		blanquea()
 		return -1
 	end if
@@ -76,7 +76,7 @@ for k=1 to dw_resumen.rowcount()
 		update contratos set acumulado=acumulado +:mas
 		where codemp =:cempres and codcontrato=:ccontrat; 		
 		if sqlca.sqlcode=-1 then
-			Messagebox("Error Actualizando los montos de Contratos",sqlca.sqlerrtext)
+			Messagebox("Error Actualizando los montos de Contratos linea 35",sqlca.sqlerrtext)
 			blanquea()
 			return -1
 		end if
@@ -321,7 +321,7 @@ for k=1 to dw_resumen.rowcount()
 		
 		update factcpo set nrcaj=:ist_nrecibo.ndoc , clugar_rec=:clugar where nfact=:ist_nfactura.ndoc and clugar=:clugar and tipo=:ctipo_fac;
 		if sqlca.sqlcode<>0 then
-			messagebox("Error actualizando Factcpo",sqlca.sqlerrtext)
+			messagebox("Error actualizando Factcpo linea 280",sqlca.sqlerrtext)
 			blanquea()
 			return -1
 		end if
@@ -351,7 +351,7 @@ if i_mueve_kardex='1' then
 		for k=1 to dw_lote_mov.rowcount()
 			fil_fact=dw_factura.find('numero='+string(dw_lote_mov.getitemnumber(k,'item')),1,dw_factura.rowcount())
 			if fil_fact=0 then
-				Messagebox('Error','No se puede hallar el numero de factura que se le asignó al producto: '+dw_lote_mov.getitemstring(k,'codarticulo'))
+				Messagebox('Error','No se puede hallar el numero de factura que se le asignó al producto linea 310: '+dw_lote_mov.getitemstring(k,'codarticulo'))
 				blanquea()
 				return -1
 			end if
@@ -381,7 +381,7 @@ for j=1 to dw_factura.rowcount()//I N T E R F A C E S
 		if isnull(nfr) then
 			update tesorecajcpo set nfact=:ist_nfactura.ndoc ,clugar_fac=:clugar,tipo_fac=:l_tf where nrcaj=:nre and clugar=:clug_rec and items=:ir;
 			if sqlca.sqlcode<>0 then 
-				Messagebox("Error en interfaz con recibos de caja",sqlca.sqlerrtext)
+				Messagebox("Error en interfaz con recibos de caja linea 340",sqlca.sqlerrtext)
 				blanquea()
 				return -1
 			end if
@@ -412,15 +412,24 @@ for j=1 to dw_factura.rowcount()//I N T E R F A C E S
 		update factcpo set contador=null,clugar_ser=null
 		where nitem=:nitem_fc and nfact=:k and tipo=:l_tf;
 		if sqlca.sqlcode=-1 then
-			messagebox("Error en la interfase con ordenes de Servicio contador",sqlca.sqlerrtext)
+			messagebox("Error en la interfase con ordenes de Servicio contador linea 371",sqlca.sqlerrtext)
 			blanquea()
 			return -1
 		end if
-////
-		update oscuerpo set nfact=:k , clugar_fact=:clugar,tipo_fact=:l_tf,nitem_fact=:nitem_fc,entregada=:l_cantidad
+////  aca verificar
+		//update oscuerpo set nfact=:k , clugar_fact=:clugar,tipo_fact=:l_tf,nitem_fact=:nitem_fc,entregada=:l_cantidad
+		update oscuerpo set entregada=entregada + :l_cantidad
 		where contador=:l_cont and clugar=:l_clug_his and nsolicitud =:l_norden and item=:l_nitem_ord;
 		if sqlca.sqlcode=-1 then
-			messagebox("Error en la interfase con ordenes de Servicio",sqlca.sqlerrtext)
+			messagebox("Error en la interfase con ordenes de Servicio linea 380",sqlca.sqlerrtext)
+			blanquea()
+			return -1
+		end if
+		
+		update factcpo set contador_os=:l_cont, clugar_os=:l_clug_his, nsolicitud_os =:l_norden, item_os=:l_nitem_ord
+		where nfact=:k and clugar=:clugar and tipo=:l_tf and nitem=:nitem_fc;
+		if sqlca.sqlcode=-1 then
+			messagebox("Error en la interfase con ordenes de Servicio linea 388",sqlca.sqlerrtext)
 			blanquea()
 			return -1
 		end if
@@ -449,7 +458,7 @@ for j=1 to dw_factura.rowcount()//I N T E R F A C E S
 				and ((serviciosadx.item = resultadoscpo.item) and (serviciosadx.nrepor = resultadoscpo.nrepor) and (serviciosadx.clugar_res = resultadoscpo.clugar) and (serviciosadx.coddoc = resultadoscpo.coddoc))
 				and ((resultadoscpo.nservicio = serviciosingreso.nservicio) and (resultadoscpo.clugar_ser = serviciosingreso.clugar) and (resultadoscpo.contador = serviciosingreso.contador)));
 			if sqlca.sqlcode=-1 then
-				messagebox("Error en la interfase con servociosadx",sqlca.sqlerrtext)
+				messagebox("Error en la interfase con servociosadx linea 417",sqlca.sqlerrtext)
 				blanquea()
 				return -1
 			end if
@@ -459,7 +468,7 @@ for j=1 to dw_factura.rowcount()//I N T E R F A C E S
 			where contador=:l_cont and nservicio=:l_nserv and clugar=:l_clug_his and nfactura is null;				
 		end if
 		if sqlca.sqlcode=-1 then
-			messagebox("Error en la interfase con serviciosingreso,intente nuevamente",sqlca.sqlerrtext)
+			messagebox("Error en la interfase con serviciosingreso,intente nuevamente linea 427",sqlca.sqlerrtext)
 			blanquea()
 			return -1
 		end if
@@ -474,7 +483,7 @@ for j=1 to dw_factura.rowcount()//I N T E R F A C E S
 		UPDATE VacunaDosis SET Realizado = '2', Nfact = :k, Clugar_Fac =:clugar, Item_fact =:nitem_fc,tipo_fac=:l_tf
 		WHERE (((VacunaDosis.contador)=:l_cont ) AND ((VacunaDosis.clugar_his)=:l_clug_his) AND ((VacunaDosis.nservicio)=:l_nserv)) and (VacunaDosis.Nfact Is Null);
 		if sqlca.sqlcode=-1 then
-			messagebox("Error en la interfase con Vacunadosis,intente nuevamente",sqlca.sqlerrtext)
+			messagebox("Error en la interfase con Vacunadosis,intente nuevamente linea 442",sqlca.sqlerrtext)
 			blanquea()
 			return -1
 		end if
@@ -505,7 +514,7 @@ for j=1 to dw_factura.rowcount()//I N T E R F A C E S
 			where serciosturno.ncita=:l_ncita and  serciosturno.clugar=:l_clug_cita and serciosturno.nservicio=:l_nserv_cit and serciosturno.nfact is null and serciosturno.nitem is null and serciosturno.sec_cant=:l_sec_can_cit;
 		end if
 		if sqlca.sqlcode<>0 then
-			messagebox("Error en la interfase con Servicios Turno,intente nuevamente",sqlca.sqlerrtext)
+			messagebox("Error en la interfase con Servicios Turno,intente nuevamente linea 473",sqlca.sqlerrtext)
 			blanquea()
 			return -1
 		end if
@@ -519,7 +528,7 @@ for j=1 to dw_factura.rowcount()//I N T E R F A C E S
 			and (citasasig.CLUGAR = serciosturno.CLUGAR) AND (citasasig.NCITA = serciosturno.NCITA)
 			and citasasig.codemp<>:cempres);
 		if sqlca.sqlcode<>0 then
-			messagebox("Error en la interfase con citasasig,intente nuevamente",sqlca.sqlerrtext)
+			messagebox("Error en la interfase con citasasig,intente nuevamente linea 487",sqlca.sqlerrtext)
 			blanquea()
 			return -1
 		end if
@@ -534,7 +543,7 @@ for j=1 to dw_factura.rowcount()//I N T E R F A C E S
 				UPDATE odontratacpo SET Nfact = :k , Clugar_Fac = :clugar, Item_fac =  :l , tipo_fac=:l_tf
 				WHERE (((odontratacpo.ntratamiento)=:ntrata) AND ((odontratacpo.clugar)=:clug_trat) AND ((odontratacpo.item)=:item_trat));
 				if sqlca.sqlcode<>0 then
-					messagebox("Error en la interfase con Odontotratamiento,intente nuevamente",sqlca.sqlerrtext)
+					messagebox("Error en la interfase con Odontotratamiento,intente nuevamente linea 502",sqlca.sqlerrtext)
 					blanquea()
 					return -1
 				end if
@@ -555,14 +564,14 @@ for j=1 to dw_factura.rowcount()//I N T E R F A C E S
 			update odontratacpo set nfact=:k,item_fac=:l,clugar_fac=:clugar, tipo_fac=:l_tf where 
 			ntratamiento=:ntrata and clugar=:clug_trat and item=:item_trat;
 			if sqlca.sqlcode<>0 then
-				messagebox("Error en la interfase con OdonTrataCpo,intente nuevamente",sqlca.sqlerrtext)
+				messagebox("Error en la interfase con OdonTrataCpo,intente nuevamente linea 523",sqlca.sqlerrtext)
 				blanquea()
 				return -1
 			end if
 			UPDATE SerciosTurno SET NFact = :k, clugar_fac =:clugar, NItem = :l ,tipo_fac=:l_tf
 			WHERE (((SerciosTurno.ntratamiento)=:ntrata) AND ((SerciosTurno.clugar_tto)=:clug_trat) AND ((SerciosTurno.item_tto)=:item_trat));
 			if sqlca.sqlcode<>0 then
-				messagebox("Error en la interfase con SerciosTurno Odontologia,intente nuevamente",sqlca.sqlerrtext)
+				messagebox("Error en la interfase con SerciosTurno Odontologia,intente nuevamente linea 530",sqlca.sqlerrtext)
 				blanquea()
 				return -1
 			end if
@@ -573,7 +582,7 @@ for j=1 to dw_factura.rowcount()//I N T E R F A C E S
 			update tesoabono set gastado=gastado + :val_abon where 
 			nabono=:nabo and clugar=:clug_abo;
 			if sqlca.sqlcode<>0 then
-				messagebox("Error en la interfase con TesoAbono,intente nuevamente",sqlca.sqlerrtext)
+				messagebox("Error en la interfase con TesoAbono,intente nuevamente linea 541",sqlca.sqlerrtext)
 				blanquea()
 				return -1
 			end if
@@ -625,7 +634,7 @@ if i_tipoingreso<>"1" then
 			ccont=dw_fact_cab.getitemstring(k,'ccontrato')
 			select ctcontra into :tcontra from contratos where codemp =:cemp and codcontrato=:ccont;
 			if sqlca.sqlcode=-1 then
-				messagebox("Error leyendo de Contratos",sqlca.sqlerrtext)
+				messagebox("Error leyendo de Contratos linea 593",sqlca.sqlerrtext)
 				blanquea()
 				return -1
 			end if
@@ -644,7 +653,7 @@ if i_tipoingreso<>"1" then
 		if ((f_scerr='0' or f_scerr='1')  and ls_estado='2') then
 			update hospadmi set estado='3',cod_activid=:c_acti where nh=:nh and clugar=:clug_adm;
 			if sqlca.sqlcode<>0 then
-				messagebox("Error actualizando estado de Admisión",sqlca.sqlerrtext)
+				messagebox("Error actualizando estado de Admisión linea 612",sqlca.sqlerrtext)
 				blanquea()
 				return -1
 			end if
@@ -685,7 +694,7 @@ for j=1 to dw_acum_soat.rowcount()
 		item++
 		insert into acumdeta (consecutivo,clugar,item,nfact,clugar_fac,tipo_fac,fechafact,valor) values (:cons_soat,:clug_soat,:item,:fac,:clug_fac,:l_tf,:fech,:vem);
 		if sqlca.sqlcode<>0 then
-			messagebox("Error insertando en AcumDeta",sqlca.sqlerrtext)
+			messagebox("Error insertando en AcumDeta linea 653",sqlca.sqlerrtext)
 			blanquea()
 			return -1
 		end if

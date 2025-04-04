@@ -108,7 +108,7 @@ SELECT Min(sum_mvto_cab.contabil) into :contabil_entre
 FROM sum_mvto_cab INNER JOIN sum_mvto_cpo ON (sum_mvto_cab.numdoc = sum_mvto_cpo.numdoc) AND (sum_mvto_cab.clugar = sum_mvto_cpo.clugar) AND (sum_mvto_cab.coddoc = sum_mvto_cpo.coddoc)
 WHERE (((sum_mvto_cpo.clug_fac)=:clug_fac) AND ((sum_mvto_cpo.nfact)=:nfact) AND ((sum_mvto_cpo.TIPO_FAC)=:tipo_fac));
 if sqlca.sqlcode=-1 then
-	messagebox("Error revisando sum_mvto_cab para ver si ya fue contabilizada",sqlca.sqlerrtext)
+	messagebox("Error revisando sum_mvto_cab para ver si ya fue contabilizada Linea 9",sqlca.sqlerrtext)
 	return -1
 end if
 
@@ -133,7 +133,7 @@ if tip_ingres<>"1" then
 	if dw_anula.update()=-1 then return -1
 	delete from factadm where nfact=:nfact and clugar=:clug_fac and tipo=:tipo_fac;
 	if sqlca.sqlcode<>0 then
-		messagebox("Error Borrando de tabla FactAdm",sqlca.sqlerrtext)
+		messagebox("Error Borrando de tabla FactAdm Linea 34",sqlca.sqlerrtext)
 		return -1
 	end if
 end if
@@ -159,12 +159,12 @@ select valor,consecutivo,clugar into :valor,:cons_soat,:clug_soat from acumdeta 
 if valor>0 then
 	update acumcab set valor=valor -:valor,estado='1' where consecutivo=:cons_soat and clugar=:clug_soat;
 	if sqlca.sqlcode<>0 then
-		messagebox("Error actualizando AcumCab",sqlca.sqlerrtext)
+		messagebox("Error actualizando AcumCab Linea 60",sqlca.sqlerrtext)
 		return -1
 	end if
 	update acumdeta set estado='1' where nfact=:nfact and clugar_fac=:clug_fac and tipo_fac=:tipo_fac;
 	if sqlca.sqlcode<>0 then
-		messagebox("Error actualizando AcumDeta",sqlca.sqlerrtext)
+		messagebox("Error actualizando AcumDeta Linea 65",sqlca.sqlerrtext)
 		return -1
 	end if
 end if
@@ -179,7 +179,7 @@ if cuantos>0 and tip_ingres='1' and borrar and (nfact_ref=0 OR isnull(nfact_ref)
 		end if
 		update serciosturno set contador=null, clugar_ser=null, nservicio_ingreso=null where nfact=:nfact and clugar_fac=:clug_fac;
 		if sqlca.sqlcode=-1 then 
-			messagebox("Error actualizando estado de Serciosturno",sqlca.sqlerrtext)
+			messagebox("Error actualizando estado de Serciosturno Linea 80",sqlca.sqlerrtext)
 			return -1
 		end if
 		long nnulo
@@ -200,12 +200,12 @@ if cuantos>0 and tip_ingres='1' and borrar and (nfact_ref=0 OR isnull(nfact_ref)
 		end if
 		update serviciosadx set estado='6' where nfact=:nfact and clugar_fac=:clug_fac and tipo_fac=:tipo_fac;
 		if sqlca.sqlcode=-1 then 
-			messagebox("Error Actualizando ServiciosAdx",sqlca.sqlerrtext)
+			messagebox("Error Actualizando ServiciosAdx  Linea 101",sqlca.sqlerrtext)
 			return -1
 		end if
 		delete from serving_insumo where nfactura=:nfact and clugar_fac=:clug_fac and tipo_fac=:tipo_fac;
 		if sqlca.sqlcode=-1 then 
-			messagebox("Error Borrando ServIng_Insumo",sqlca.sqlerrtext)
+			messagebox("Error Borrando ServIng_Insumo Linea 106",sqlca.sqlerrtext)
 			return -1
 		end if
 		//actualiza tratamiento para borrar servicios ingresp
@@ -213,7 +213,7 @@ if cuantos>0 and tip_ingres='1' and borrar and (nfact_ref=0 OR isnull(nfact_ref)
 		FROM serviciosingreso INNER JOIN odontratacpo as odontratacpo_1   ON (serviciosingreso.Nservicio = odontratacpo_1.nservicio) AND (serviciosingreso.CLugar = odontratacpo_1.clugar_his) AND (serviciosingreso.Contador = odontratacpo_1.contador) 
 		WHERE (((serviciosingreso.nfactura)=:nfact) AND ((serviciosingreso.clugar_fac)=:clug_fac) AND ((serviciosingreso.tipo_fac)=:tipo_fac));
 		if sqlca.sqlcode=-1 then 
-			messagebox("Error Actualizando Tratamiento logico desde borrar servicios",sqlca.sqlerrtext)
+			messagebox("Error Actualizando Tratamiento logico desde borrar servicios linea 114",sqlca.sqlerrtext)
 			return -1
 		end if
 		//actualiza vacunas para borrar servicios ingresp
@@ -221,14 +221,14 @@ if cuantos>0 and tip_ingres='1' and borrar and (nfact_ref=0 OR isnull(nfact_ref)
 		FROM ServiciosIngreso INNER JOIN VacunaDosis as VacunaDosis_1 ON (ServiciosIngreso.Nservicio = VacunaDosis_1.nservicio) AND (ServiciosIngreso.CLugar = VacunaDosis_1.clugar_his) AND (ServiciosIngreso.Contador = VacunaDosis_1.contador) 
 		WHERE (((serviciosingreso.nfactura)=:nfact) AND ((serviciosingreso.clugar_fac)=:clug_fac) AND ((serviciosingreso.tipo_fac)=:tipo_fac));
 		if sqlca.sqlcode=-1 then 
-			messagebox("Error Actualizando Vacunas desde borrar servicios",sqlca.sqlerrtext)
+			messagebox("Error Actualizando Vacunas desde borrar servicios Linea 122",sqlca.sqlerrtext)
 			return -1
 		end if
 		delete from serviciosingreso where nfactura=:nfact and clugar_fac=:clug_fac and tipo_fac=:tipo_fac;
 	else
 		update serving_insumo set nfactura = null,clugar_fac=null,tipo_fac=null,nitem_fac=null where nfactura=:nfact and clugar_fac=:clug_fac and tipo_fac=:tipo_fac;
 		if sqlca.sqlcode=-1 then 
-			messagebox("Error Actualizando ServIng_Insumo",sqlca.sqlerrtext)
+			messagebox("Error Actualizando ServIng_Insumo Linea 129",sqlca.sqlerrtext)
 			return -1
 		end if
 		if tip_ingres='1' then 
@@ -240,7 +240,7 @@ if cuantos>0 and tip_ingres='1' and borrar and (nfact_ref=0 OR isnull(nfact_ref)
 else
 	update serving_insumo set nfactura = null,clugar_fac=null,tipo_fac=null,nitem_fac=null where nfactura=:nfact and clugar_fac=:clug_fac and tipo_fac=:tipo_fac;
 	if sqlca.sqlcode=-1 then 
-		messagebox("Error Actualizando ServIng_Insumo",sqlca.sqlerrtext)
+		messagebox("Error Actualizando ServIng_Insumo Linea 141",sqlca.sqlerrtext)
 		return -1
 	end if
 	 if nfact_ref=0 OR isnull(nfact_ref) then 
@@ -252,7 +252,7 @@ else
 	end if
 end if
 if sqlca.sqlcode<>0 then 
-	messagebox("Error actualizando Servicios Ingreso",sqlca.sqlerrtext)
+	messagebox("Error actualizando Servicios Ingreso Linea 153",sqlca.sqlerrtext)
 	return -1
 end if
 //refacturar
@@ -268,21 +268,21 @@ if nfact_ref<>0 then
 		WHERE (((FACTCPO.NFACT)=:nfact ) AND ((FACTCPO.CLUGAR)=:clug_fac) AND ((FACTCPO.TIPO)=:tipo_fac));
 	end if
 	if sqlca.sqlcode<>0 then
-		messagebox("Error actualizando Refacturar Servicios Ingreso",sqlca.sqlerrtext)
+		messagebox("Error actualizando Refacturar Servicios Ingreso Linea 169",sqlca.sqlerrtext)
 		return -1
 	end if
 	
 	UPDATE RIPSRADICA_RESTA SET ESTADO = 'S'
 	WHERE (((RIPSRADICA_RESTA.NFACT)=:nfact_ref) AND ((RIPSRADICA_RESTA.CLUGAR_FACT)=:clug_ref) AND ((RIPSRADICA_RESTA.TIPO_FACT)=:tipo_ref));
 	if sqlca.sqlcode<>0 then
-		messagebox("Error actualizando ripsradica_resta",sqlca.sqlerrtext)
+		messagebox("Error actualizando ripsradica_resta Linea 176",sqlca.sqlerrtext)
 		return -1
 	end if
 end if
 ///
 update serciosturno set nfact=null , clugar_fac=null,tipo_fac=null,nitem=null where nfact=:nfact and clugar_fac=:clug_fac and tipo_fac=:tipo_fac;
 if sqlca.sqlcode<>0 then
-	messagebox("Error actualizando SerciosTurno",sqlca.sqlerrtext)
+	messagebox("Error actualizando SerciosTurno Linea 183",sqlca.sqlerrtext)
 	return -1
 end if
 update serviciosadx set nfact=null,clugar_fac=null ,tipo_fac=null, nitem=null, cemp=null,ccontrato=null, cplan=null where nfact=:nfact and clugar_fac=:clug_fac and tipo_fac=:tipo_fac;
@@ -290,21 +290,30 @@ if sqlca.sqlcode<>0 then
 	messagebox("Error actualizando Servicios ADX",sqlca.sqlerrtext)
 	return -1
 end if
-update oscuerpo set nfact=null,clugar_fact=null,tipo_fact=null,nitem_fact=null where nfact=:nfact and clugar_fact=:clug_fac and tipo_fact=:tipo_fac;
+
+UPDATE oscuerpo SET entregada = entregada - factcpo.cantidad
+from factcpo 
+WHERE 
+	(((factcpo.nfact)=:nfact) AND ((factcpo.clugar)=:clug_fac) AND ((factcpo.tipo)=:tipo_fac) 
+	AND ((oscuerpo.item = factcpo.item_os) AND (oscuerpo.nsolicitud = factcpo.nsolicitud_os) AND (oscuerpo.clugar = factcpo.clugar_os) 
+	AND (oscuerpo.contador = factcpo.contador_os) )	);
 if sqlca.sqlcode<>0 then
-	messagebox("Error actualizando oscuerpo",sqlca.sqlerrtext)
+	messagebox("Error actualizando oscuerpo Linea 196",sqlca.sqlerrtext)
 	return -1
 end if
+
+//update oscuerpo set nfact=null,clugar_fact=null,tipo_fact=null,nitem_fact=null where nfact=:nfact and clugar_fact=:clug_fac and tipo_fact=:tipo_fac;
+
 update odontratacpo set nfact=null,clugar_fac=null,tipo_fac=null,item_fac=null 
 where nfact=:nfact and clugar_fac=:clug_fac and tipo_fac=:tipo_fac ;
 if sqlca.sqlcode<>0 then
-	messagebox("Error actualizando OdontrataCpo",sqlca.sqlerrtext)
+	messagebox("Error actualizando OdontrataCpo Linea 208",sqlca.sqlerrtext)
 	return -1
 end if
 UPDATE VacunaDosis SET realizado = '1', Nfact = Null, Clugar_Fac = Null,tipo_fac=null, Item_fact = Null
 WHERE (((VacunaDosis.Nfact)=:nfact) AND ((VacunaDosis.Clugar_Fac)=:clug_fac) AND ((VacunaDosis.tipo_Fac)=:tipo_fac));
 if sqlca.sqlcode<>0 then
-	messagebox("Error actualizando Vacunadosis",sqlca.sqlerrtext)
+	messagebox("Error actualizando Vacunadosis Linea 214",sqlca.sqlerrtext)
 	return -1
 end if
 

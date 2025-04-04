@@ -613,7 +613,8 @@ for j=1 to dw_serv_nofactu.rowcount()
 			setnull(ls_cc)
 			setnull(cons_soat)
 			setnull(clug_soat)
-			cantidad=dw_serv_nofactu.getitemnumber(j,"solicitada")
+			//cantidad=dw_serv_nofactu.getitemnumber(j,"solicitada")
+			cantidad=dw_serv_nofactu.getitemnumber(j,"cant_factu")
 			setnull(emp)
 			setnull(cont)
 			setnull(ls_oxig)
@@ -858,24 +859,34 @@ end choose
 
 end event
 
-event clicked;//SELECT OSCuerpo.solicitada - OSCuerpo.entregada - OSCuerpo.devuelta,OSCuerpo.solicitada into :l_control,:l_soli
-//FROM OSCuerpo
-//WHERE (((OSCuerpo.Contador)=:l_con) AND ((OSCuerpo.clugar)=:l_lug) AND ((OSCuerpo.NSolicitud)=:solic) AND ((OSCuerpo.Item)=:existe));
-//if sqlca.sqlcode=-1 then
-//	messagebox("Error leyendo Oscuerpo para verificar control",sqlca.sqlerrtext)
-//	return 1
-//end if
-//if l_control <= 0 then
-//	messagebox("Leyendo Control",'Error ya entregado')
-//	dw_historial.triggerevent(rowfocuschanged!)
-//	return -1
-//end if
-//	
-//if l_soli<>getitemnumber(fila,"solicitada") then 
-//	messagebox("Cantidad",'Cantidad Modificada en la orden')
-//	dw_historial.triggerevent(rowfocuschanged!)
-//	return -1
-//end if
+event itemchanged;long ldb_con,ldb_solic,ldb_entreg,ldb_soli,ldb_item,ldb_control,ldb_solci
+string ls_lug
+
+if dw_serv_nofactu.dataobject="dw_os_cpo_no_fact" and getcolumnname()='cant_factu' then 
+	
+	ldb_con=dw_serv_nofactu.getitemnumber(getrow(),'contador')
+	ls_lug=dw_serv_nofactu.getitemstring(getrow(),'clugar')
+	ldb_solic=dw_serv_nofactu.getitemnumber(getrow(),'nsolicitud')
+	ldb_item=dw_serv_nofactu.getitemnumber(getrow(),'item')
+	
+	SELECT OSCuerpo.solicitada - OSCuerpo.entregada,OSCuerpo.solicitada into :ldb_control,:ldb_solci
+	FROM OSCuerpo
+	WHERE (((OSCuerpo.Contador)=:ldb_con) AND ((OSCuerpo.clugar)=:ls_lug) AND ((OSCuerpo.NSolicitud)=:ldb_solic) AND ((OSCuerpo.Item)=:ldb_item));
+	if sqlca.sqlcode=-1 then
+		messagebox("Error leyendo Oscuerpo para verificar control linea 13",sqlca.sqlerrtext)
+		return 1
+	end if
+	if ldb_control <= 0 then
+		messagebox("Leyendo Control",'Error ya entregado Linea 17')
+		dw_serv_nofactu.retrieve(tipdoc,docu)		
+		return -1
+	end if
+	if double(data)>ldb_control then 
+		messagebox("Atención",'Cantidad mayor a lo solicitado')
+		dw_serv_nofactu.retrieve(tipdoc,docu)		
+		return -1
+	end if
+end if
 end event
 
 type st_1 from statictext within w_factu_serv

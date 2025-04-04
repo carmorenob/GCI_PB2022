@@ -606,7 +606,7 @@ if not isnull(this.getitemstring(this.getrow(),"estado")) then return
 if dw_busca.dataobject="dw_xa_buscar_fact" then
 	w_principal.m_principal.m_3.m_3_10.m_3_10_4.m_3_10_4_1.enabled=true
 	w_principal.m_principal.m_3.m_3_10.m_3_10_4.m_3_10_4_2.enabled=false
-	If w_principal.m_principal <> im_main then w_principal.m_principal.m_3.m_3_10.m_3_10_4.PopMenu (parent.PointerX(), parent.PointerY())
+	If w_principal.m_principal <> im_main then 	w_principal.m_principal.m_3.m_3_10.m_3_10_4.PopMenu (parent.PointerX(), parent.PointerY())
 else
 	w_principal.m_principal.m_3.m_3_10.m_3_10_4.m_3_10_4_1.enabled=false
 	w_principal.m_principal.m_3.m_3_10.m_3_10_4.m_3_10_4_2.enabled=true

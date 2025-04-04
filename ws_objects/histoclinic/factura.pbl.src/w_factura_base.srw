@@ -3692,7 +3692,6 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 string pointer = "AppStarting!"
-string text = "          &g"
 boolean originalsize = true
 string picturename = "guardar.GIF"
 string disabledname = "d_guardar.GIF"
