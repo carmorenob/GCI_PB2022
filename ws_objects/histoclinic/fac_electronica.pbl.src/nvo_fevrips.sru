@@ -1311,7 +1311,7 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 	if lds_usu.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 		
 		///retrieves
-		lds_ripsc.dataobject='dw_json_consulta_cap'
+		lds_ripsc.dataobject='dw_json_consulta_sf'
 		lds_ripsc.settransobject(sqlca)
 		lds_ripsc.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)
 		

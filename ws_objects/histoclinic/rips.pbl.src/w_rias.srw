@@ -5820,6 +5820,7 @@ If not DirectoryExists ( is_ruta_facturas) Then
 	CreateDirectory ( is_ruta_facturas)
 	li_filenum = ChangeDirectory( is_ruta_facturas)
 end if
+is_ruta_facturas=is_ruta_facturas+'\SF'+string(ldb_nfac)+'.json'
 
 luo_rips=create nvo_fevrips
 luo_rips.emite_json_jsonsf(ldb_nfac,ls_clu,ls_tip,'f','FV',is_ruta_facturas)
