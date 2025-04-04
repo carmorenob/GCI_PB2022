@@ -881,7 +881,7 @@ end if
 setNull(nulo)
 for i =  1 to dw_tratacpo.RowCount()
 	if dw_tratacpo.GetItemNumber(i,'atender') = 1 and dw_tratacpo.GetItemString(i,'realizado') <> '2' then
-		lnserv=t1.ps.uo_s.f_insert_servicio(dw_tratacpo.GetItemString(i,'codproced'),	dw_trato.GetItemString(dw_trato.getrow(),'cemp'),dw_trato.GetItemString(dw_trato.getrow(),'ccontrato'),'',dw_tratacpo.GetItemnumber(i,'nfact'),dw_tratacpo.GetItemString(i,'clugar_fac'),dw_tratacpo.GetItemnumber(i,'item_fac'),nulo,'',nulo,nulo,'','','','',dw_tratacpo.GetItemString(i,'tipo'),dw_tratacpo.GetItemString(i,'autorizacion'),'0','') 
+		lnserv=t1.ps.uo_s.f_insert_servicio(dw_tratacpo.GetItemString(i,'codproced'),	dw_trato.GetItemString(dw_trato.getrow(),'cemp'),dw_trato.GetItemString(dw_trato.getrow(),'ccontrato'),'',dw_tratacpo.GetItemnumber(i,'nfact'),dw_tratacpo.GetItemString(i,'clugar_fac'),dw_tratacpo.GetItemnumber(i,'item_fac'),nulo,'',nulo,nulo,'','','','',dw_tratacpo.GetItemString(i,'tipo'),dw_tratacpo.GetItemString(i,'autorizacion'),'0','','') 
 		if lnserv=-1 then
 			rollback;
 			return -1

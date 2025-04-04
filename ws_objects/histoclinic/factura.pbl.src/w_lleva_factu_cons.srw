@@ -156,7 +156,7 @@ for j= 1 to dw_trae.rowcount()
 						dw_trae.getitemstring(j,"cproced"),&
 						dw_trae.getitemstring(j,"codmanual"),'','',dw_trae.getitemstring(j,"tipo_fac"),&
 						dw_trae.getitemstring(j,"autorizacion"),'0',&
-						dw_trae.getitemstring(j,"codalmacen"))	=-1 then
+						dw_trae.getitemstring(j,"codalmacen"),dw_trae.getitemstring(j,"finalidad"))	=-1 then
 						rollback;
 						return
 					end if
@@ -175,7 +175,7 @@ for j= 1 to dw_trae.rowcount()
 						dw_trae.getitemnumber(j,"nitem"), &
 						dw_trae.getitemstring(j,"cproced"),&
 						dw_trae.getitemstring(j,"cmanual"),'','','',&
-						dw_trae.getitemstring(j,"autorizacion"),'0',dw_trae.getitemstring(j,"codalmacen"))	=-1 then
+						dw_trae.getitemstring(j,"autorizacion"),'0',dw_trae.getitemstring(j,"codalmacen"),dw_trae.getitemstring(j,"finalidad"))	=-1 then
 						rollback;
 						return
 					end if
