@@ -217,7 +217,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-03-14"), Time("16:14:46.000000"))
+datetime value = DateTime(Date("2025-04-04"), Time("12:50:06.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -946,7 +946,8 @@ for i=1 to dw_sercios.rowcount()
 			idw_fincon.getitemstring(idw_fincon.getrow(),'codcc'),&
 			dw_sercios.getitemstring(i,'tipo_fac'),&
 			dw_sercios.getitemstring(i,'autorizacion'),'0',&
-			dw_citas.getitemstring(dw_citas.getrow(),'codalmacen'))
+			dw_citas.getitemstring(dw_citas.getrow(),'codalmacen'),&
+			dw_citas.getitemstring(dw_citas.getrow(),'cod_fina'))
 		if nserv=-1 then
 			rollback;
 			return

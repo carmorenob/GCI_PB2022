@@ -30,13 +30,14 @@ table(column=(type=char(255) updatewhereclause=yes name=tipodoc dbname="paciente
  column=(type=char(15) updatewhereclause=yes name=codalmacen dbname="finconsulta.codalmacen" )
  column=(type=char(5) updatewhereclause=yes name=codemp dbname="pacientes.codemp" )
  column=(type=char(10) updatewhereclause=yes name=ccontrato dbname="pacientes.ccontrato" )
+ column=(type=char(2) updatewhereclause=yes name=cod_fina dbname="pacientes.cod_fina" dbalias=".cod_fina" )
  retrieve="SELECT 
 	citasasig.TipoDoc, citasasig.Documento, pacientes.Historia, pacientes.Nombre1, 
 	pacientes.Nombre2, pacientes.Apellido1, pacientes.Apellido2, serciosturno.Contador, 
 	serciosturno.clugar_ser, citasasig.Estado, serciosturno.NCita, serciosturno.clugar, serciosturno.sec_cant, 
 	serciosturno.Hora AS hor, null as NServicio, Historial.odontologia,sercioscita.nturnos,0 as cual, 
 	finconsulta.descripcion as desfin,citasasig.cod_fina, pacientes.fnacimiento,pacientes.sexo, 
-	consulgcita.codalmacen,citasasig.codemp, citasasig.ccontrato
+	consulgcita.codalmacen,citasasig.codemp, citasasig.ccontrato,citasasig.cod_fina
 FROM 
 	(((((citasasig 
 	INNER JOIN sercioscita ON (citasasig.NCita = sercioscita.NCita) AND (citasasig.clugar = sercioscita.clugar)) 
@@ -57,7 +58,7 @@ GROUP BY
 	citasasig.Estado, serciosturno.NCita, serciosturno.clugar, serciosturno.sec_cant, 
 	Historial.odontologia,sercioscita.nturnos,serciosturno.Hora,
 	finconsulta.descripcion,citasasig.cod_fina, pacientes.fnacimiento,pacientes.sexo,
-	consulgcita.codalmacen,citasasig.codemp, citasasig.ccontrato
+	consulgcita.codalmacen,citasasig.codemp, citasasig.ccontrato,citasasig.cod_fina
 	
 UNION ALL
 
@@ -66,7 +67,7 @@ SELECT
 	pacientes.Apellido1, pacientes.Apellido2, serciosturno.Contador, serciosturno.clugar_ser, citasasig.Estado, 
 	serciosturno.NCita, serciosturno.clugar, serciosturno.sec_cant, serciosturno.Hora AS hor, null as NServicio, 
 	Historial.odontologia,sercioscita.nturnos,1,finconsulta.descripcion as desfin,citasasig.cod_fina, pacientes.fnacimiento,
-	pacientes.sexo, consulgcita.codalmacen,citasasig.codemp, citasasig.ccontrato
+	pacientes.sexo, consulgcita.codalmacen,citasasig.codemp, citasasig.ccontrato,citasasig.cod_fina
 FROM 
 	(((((citasasig 
 	INNER JOIN sercioscita ON (citasasig.NCita = sercioscita.NCita) AND (citasasig.clugar = sercioscita.clugar)) 

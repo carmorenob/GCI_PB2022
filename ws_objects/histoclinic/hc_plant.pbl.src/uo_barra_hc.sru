@@ -312,10 +312,6 @@ else //de cons ext/odonto
 	end if
 	dw_diags.filter()
 
-	
-	
-	
-	
 	if isnull(ds.getitemstring(1,'diagprin')) or ds.getitemstring(1,'diagprin')='' then
 		string ls_cods,ls_desd
 		

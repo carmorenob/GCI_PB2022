@@ -106,6 +106,7 @@ private boolean i_confirma_ge=true,i_cambio_insumo
 private st_fact st_f
 DataWindowChild idw_fincon,idw_finproc,idw_causaex,idw_ambproc
 end variables
+
 forward prototypes
 public subroutine cambia_emppac (datawindow dw)
 public function integer reset ()
@@ -115,9 +116,9 @@ public function long contador ()
 public subroutine reset_dw_costos (long fila)
 public function integer f_pregunta ()
 public function integer f_busca_emp_cont (string as_cemp, string as_ccont)
-public function long f_insert_servicio (string p_cups, string p_emp, string p_cont, string p_plan, long p_nfact, string p_clug_fac, long p_nitem_fac, long p_nrec, string p_clug_rec, long p_item_rec, long p_nitem_rec, string p_cproceq, string p_cmaneq, string p_coduf, string p_codcc, string p_tipo_fac, string p_autoriza, string p_pasa, string p_alm)
 public function long retrieve (long contador, string clugar_his, long ld_dif, string p_origen)
 public subroutine f_restringue (string p_resgt, string p_origen, long p_conta, string p_lug)
+public function long f_insert_servicio (string p_cups, string p_emp, string p_cont, string p_plan, long p_nfact, string p_clug_fac, long p_nitem_fac, long p_nrec, string p_clug_rec, long p_item_rec, long p_nitem_rec, string p_cproceq, string p_cmaneq, string p_coduf, string p_codcc, string p_tipo_fac, string p_autoriza, string p_pasa, string p_alm, string p_final)
 end prototypes
 
 event cambio_tto();//cuando atiende citas de un tto se dispara este evento
@@ -202,7 +203,79 @@ ll_fila=idw_emppac.find('codemp="'+as_cemp+'" and codcontrato="'+as_ccont+'"',1,
 return ll_fila
 end function
 
-public function long f_insert_servicio (string p_cups, string p_emp, string p_cont, string p_plan, long p_nfact, string p_clug_fac, long p_nitem_fac, long p_nrec, string p_clug_rec, long p_item_rec, long p_nitem_rec, string p_cproceq, string p_cmaneq, string p_coduf, string p_codcc, string p_tipo_fac, string p_autoriza, string p_pasa, string p_alm);//parametros:
+public function long retrieve (long contador, string clugar_his, long ld_dif, string p_origen);SELECT cadena into :ls_resgt
+FROM parametros_gen
+WHERE (((codigo_para)=68));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 68')
+	return -1
+end if
+
+i_contador=contador
+i_difp=ld_dif
+i_clugar_his=clugar_his
+ls_origen=p_origen
+dw_serv_ing.setredraw(false)
+dw_diags.setredraw(false)
+dw_diags.reset()
+dw_serv_ing.reset()
+dw_canasta.reset()
+dw_lote.reset()
+if isnull(i_contador) then return -1
+dw_serv_ing.retrieve(i_contador,i_clugar_his)
+dw_serv_ing.setredraw(true)
+dw_sum_cab.retrieve(i_contador,i_clugar_his)
+if dw_canasta.retrieve(i_contador,i_clugar_his)>0 then
+	dw_lote.retrieve(i_contador,i_clugar_his)
+	dw_mvto_cpo.retrieve(i_contador,i_clugar_his)
+end if
+if p_origen='T' then
+	sle_proced.enabled=false
+	cb_4.enabled=false
+	pb_kit.enabled=false
+else
+	if dw_serv_ing.rowcount()=0 then
+		sle_proced.enabled=true
+		cb_4.enabled=true
+		pb_kit.enabled=true
+	else
+		sle_proced.enabled=false
+		cb_4.enabled=false
+		pb_kit.enabled=false
+	end if
+end if
+return dw_serv_ing.rowcount()
+
+end function
+
+public subroutine f_restringue (string p_resgt, string p_origen, long p_conta, string p_lug);long l_cuan
+SELECT Count(hclin_registro.contador) into :l_cuan
+FROM hclin_registro
+WHERE (((hclin_registro.contador)=:p_conta) AND ((hclin_registro.clugar)=:p_lug));
+if sqlca.sqlcode=-1 then
+	messagebox("Error leyendo HclinrEgistro",sqlca.sqlerrtext)
+	return
+end if
+
+if p_resgt='1' or p_origen='T' or l_cuan>0  then
+	sle_proced.enabled=false
+	//cb_4.enabled=false
+	pb_kit.enabled=false
+	//pb_trae.enabled=false
+	//pb_traerec.enabled=false
+	//pb_citas.enabled=false
+else
+	sle_proced.enabled=true
+	//cb_4.enabled=true
+	pb_kit.enabled=true
+	pb_kit.enabled=false
+	//pb_trae.enabled=true
+	//pb_traerec.enabled=true
+	//pb_citas.enabled=true
+end if
+end subroutine
+
+public function long f_insert_servicio (string p_cups, string p_emp, string p_cont, string p_plan, long p_nfact, string p_clug_fac, long p_nitem_fac, long p_nrec, string p_clug_rec, long p_item_rec, long p_nitem_rec, string p_cproceq, string p_cmaneq, string p_coduf, string p_codcc, string p_tipo_fac, string p_autoriza, string p_pasa, string p_alm, string p_final);//parametros:
 //	cod_cups
 //	empresa
 //	contrato
@@ -222,6 +295,7 @@ public function long f_insert_servicio (string p_cups, string p_emp, string p_co
 //p_autoriza
 //p_pasa
 //p_alm
+//p_final
 if i_contador=-1 or trim(text)="" then return -1
 str_proc stp
 if p_pasa='1' then
@@ -294,19 +368,27 @@ dw_serv_ing.setitem(fila,"rips",stp.rips)
 if stp.rips='9' then dw_serv_ing.setitem(fila,"estria",'1')
 
 if stp.rips='1' then
-	SELECT 
-		codfin 
-	INTO
-		:ls_fin
-	FROM 
-		finconsulta
-	WHERE 
-		(((estado)='1') AND ((defec)='1'));
-	if sqlca.sqlnrows=0 then
-		messagebox('Atencíon','No hay finalidad por Defecto')
-		return -1
-	end if
+	if isnull(p_final) then
+		
+		SELECT 
+			codfin 
+		INTO
+			:ls_fin
+		FROM 
+			finconsulta
+		WHERE 
+			(((estado)='1') AND ((defec)='1'));
+		if sqlca.sqlnrows=0 then
+			messagebox('Atencíon','No hay finalidad por Defecto')
+			return -1
+		end if
 
+	else
+		ls_fin=p_final
+	end if
+	dw_serv_ing.setitem(fila,"fin_consulta",ls_fin)
+
+	
 	SELECT 
 		codcausaexter
 	into
@@ -320,7 +402,6 @@ if stp.rips='1' then
 		return -1
 	end if
 
-	dw_serv_ing.setitem(fila,"fin_consulta",ls_fin)
 	dw_serv_ing.setitem(fila,"causaexterna",ls_cext)
 end if
 
@@ -424,78 +505,6 @@ sle_proced.text=''
 return i_nservicio
 
 end function
-
-public function long retrieve (long contador, string clugar_his, long ld_dif, string p_origen);SELECT cadena into :ls_resgt
-FROM parametros_gen
-WHERE (((codigo_para)=68));
-if sqlca.sqlnrows=0 then
-	messagebox('Atencíon','No hay parametro 68')
-	return -1
-end if
-
-i_contador=contador
-i_difp=ld_dif
-i_clugar_his=clugar_his
-ls_origen=p_origen
-dw_serv_ing.setredraw(false)
-dw_diags.setredraw(false)
-dw_diags.reset()
-dw_serv_ing.reset()
-dw_canasta.reset()
-dw_lote.reset()
-if isnull(i_contador) then return -1
-dw_serv_ing.retrieve(i_contador,i_clugar_his)
-dw_serv_ing.setredraw(true)
-dw_sum_cab.retrieve(i_contador,i_clugar_his)
-if dw_canasta.retrieve(i_contador,i_clugar_his)>0 then
-	dw_lote.retrieve(i_contador,i_clugar_his)
-	dw_mvto_cpo.retrieve(i_contador,i_clugar_his)
-end if
-if p_origen='T' then
-	sle_proced.enabled=false
-	cb_4.enabled=false
-	pb_kit.enabled=false
-else
-	if dw_serv_ing.rowcount()=0 then
-		sle_proced.enabled=true
-		cb_4.enabled=true
-		pb_kit.enabled=true
-	else
-		sle_proced.enabled=false
-		cb_4.enabled=false
-		pb_kit.enabled=false
-	end if
-end if
-return dw_serv_ing.rowcount()
-
-end function
-
-public subroutine f_restringue (string p_resgt, string p_origen, long p_conta, string p_lug);long l_cuan
-SELECT Count(hclin_registro.contador) into :l_cuan
-FROM hclin_registro
-WHERE (((hclin_registro.contador)=:p_conta) AND ((hclin_registro.clugar)=:p_lug));
-if sqlca.sqlcode=-1 then
-	messagebox("Error leyendo HclinrEgistro",sqlca.sqlerrtext)
-	return
-end if
-
-if p_resgt='1' or p_origen='T' or l_cuan>0  then
-	sle_proced.enabled=false
-	//cb_4.enabled=false
-	pb_kit.enabled=false
-	//pb_trae.enabled=false
-	//pb_traerec.enabled=false
-	//pb_citas.enabled=false
-else
-	sle_proced.enabled=true
-	//cb_4.enabled=true
-	pb_kit.enabled=true
-	pb_kit.enabled=false
-	//pb_trae.enabled=true
-	//pb_traerec.enabled=true
-	//pb_citas.enabled=true
-end if
-end subroutine
 
 on uo_serv_ing.create
 this.dw_fin_proced=create dw_fin_proced
@@ -1309,7 +1318,7 @@ if i_difp>30 then
 	messagebox('Atencion','No se puede agregar servios a esta atención')
 	return
 end if
-nulo=f_insert_servicio (trim(text), snulo, snulo, snulo,nulo,snulo, nulo, nulo, snulo, nulo, nulo, snulo, snulo, snulo, snulo, snulo,snulo,'1',snulo)
+nulo=f_insert_servicio (trim(text), snulo, snulo, snulo,nulo,snulo, nulo, nulo, snulo, nulo, nulo, snulo, snulo, snulo, snulo, snulo,snulo,'1',snulo,snulo)
 if nulo=-1 then
 	rollback;
 	return -1
