@@ -186,6 +186,8 @@ boolean lb_paso
 uo_datastore ds
 ds=create uo_datastore
 
+dw_diags.setfilter('')
+dw_diags.filter()		
 dw_diags.retrieve(i_cplant,i_tingres)
 if pos('2347',i_tingres)>0 then
 	if i_ing='I' then
@@ -302,15 +304,21 @@ else //de cons ext/odonto
 	ds.settransobject(sqlca)
 	lb_paso=false
 	if ds.retrieve(i_contador,i_clug)=0 then goto sale//los r_ son los reales de la BD
-	
-	if  not isnull(ds.getitemstring(1,'fin_consulta')) or ds.getitemstring(1,'fin_consulta')='' then 
-		if not isnull(dw_diags.getitemstring(1,'finconsulta')) then 
-			dw_diags.setfilter(" finconsulta ='"+ds.getitemstring(1,'fin_consulta')+ "'")
+
+	if dw_diags.getitemstring(1,'tipo_memo')='D' then
+		if  not isnull(ds.getitemstring(1,'fin_consulta')) or ds.getitemstring(1,'fin_consulta')='' then 
+			if not isnull(dw_diags.getitemstring(1,'finconsulta')) then 
+				dw_diags.setfilter(" finconsulta ='"+ds.getitemstring(1,'fin_consulta')+ "'")
+			end if
+		else
+			dw_diags.setfilter('')
 		end if
+		dw_diags.filter()
 	else
 		dw_diags.setfilter('')
+		dw_diags.filter()		
 	end if
-	dw_diags.filter()
+
 
 	if isnull(ds.getitemstring(1,'diagprin')) or ds.getitemstring(1,'diagprin')='' then
 		string ls_cods,ls_desd

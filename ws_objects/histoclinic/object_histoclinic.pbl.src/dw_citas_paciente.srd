@@ -59,10 +59,10 @@ UNION ALL
 
 SELECT 
 	citasasig.NCita, citasasig.CodGC, citasasig.clugar, serciosturno.Fecha, citasasig.Estado, profe.nombre1, 
-	profe.nombre2, profe.apellido1, profe.apellido2, sercioscita.cantidad, null as codproced, 
-	null as Descripcion , serciosturno.control, Min(serciosturno.Hora) AS hora, 
-	serciosturno.NFact, serciosturno.nrcaj, serciosturno.Consult, serciosturno.Prof, serciosturno.tipo_fac, null as cod_cups, 
-	null as cod_version, pm_tipo_cita.desp_tcita, citasasig.cod_fina
+	profe.nombre2, profe.apellido1, profe.apellido2, sercioscita.cantidad, serciosturno.cproced, proced.Descripcion, 
+	serciosturno.control, Min(serciosturno.Hora) AS hora, 
+	serciosturno.NFact, serciosturno.nrcaj, serciosturno.Consult, serciosturno.Prof, serciosturno.tipo_fac, proced.cod_cups, 
+	proced.cod_version, pm_tipo_cita.desp_tcita, citasasig.cod_fina
 FROM 
 	((((((citasasig INNER JOIN sercioscita ON (citasasig.NCita = sercioscita.NCita) AND (citasasig.clugar = sercioscita.clugar)) 
 	INNER JOIN ((serciosturno INNER JOIN profe ON serciosturno.Prof = profe.CodProf) 
@@ -76,12 +76,17 @@ FROM
 WHERE 
 	(((citasasig.TipoDoc)=:tipodoc) 
 	AND ((citasasig.Documento)=:docu) 
-	AND  ((grupocita.codaadx) Is Not Null))
+	AND  ((grupocita.codaadx) Is Not Null)
+	AND ((serciosturno.nservicio)=(
+	SELECT Min(st.nservicio)
+	FROM citasasig AS ca INNER JOIN serciosturno AS st ON (ca.clugar = st.clugar) AND (ca.ncita = st.ncita)
+	WHERE (((ca.tipodoc)=:tipodoc) AND ((ca.documento)=:docu) and (ca.clugar = citasasig.clugar) AND (ca.ncita = citasasig.NCita))))
+	)
 GROUP BY 
 	citasasig.NCita, citasasig.CodGC, citasasig.clugar, serciosturno.Fecha, citasasig.Estado, profe.nombre1, profe.nombre2, profe.apellido1, 
 	profe.apellido2, sercioscita.cantidad, serciosturno.control, serciosturno.NFact, serciosturno.nrcaj, serciosturno.Consult, serciosturno.Prof, 
-	serciosturno.tipo_fac, pm_tipo_cita.desp_tcita, citasasig.cod_fina, serciosturno.sec_cant, 
-	serciosturno.NCita, finconsulta.descripcion
+	serciosturno.tipo_fac, pm_tipo_cita.desp_tcita, citasasig.cod_fina, serciosturno.sec_cant, serciosturno.cproced, proced.Descripcion,
+	serciosturno.NCita, finconsulta.descripcion,proced.cod_cups, proced.cod_version
 
 UNION ALL
 
@@ -112,7 +117,7 @@ GROUP BY
 	serciosturno.cproced, proced.Descripcion, serciosturno.control, serciosturno.NFact, serciosturno.nrcaj, serciosturno.sec_cant, serciosturno.NCita, 
 	serciosturno.Consult, serciosturno.Prof,serciosturno.tipo_fac,proced.cod_cups,proced.cod_version, pm_tipo_cita.desp_tcita,
 	finconsulta.descripcion,citasasig.cod_fina" update="citasasig" updatewhere=0 updatekeyinplace=no arguments=(("tipodoc", string),("docu", string))  sort="datetime(date(fecha),time(hora)) D ncita D estado D " )
-group(level=1 header.height=0 trailer.height=0 by=("month(fecha)" ) header.color="536870912" header.transparency="0" header.gradient.color="8421504" header.gradient.transparency="0" header.gradient.angle="0" header.brushmode="0" header.gradient.repetition.mode="0" header.gradient.repetition.count="0" header.gradient.repetition.length="100" header.gradient.focus="0" header.gradient.scale="100" header.gradient.spread="100" trailer.color="536870912" trailer.transparency="0" trailer.gradient.color="8421504" trailer.gradient.transparency="0" trailer.gradient.angle="0" trailer.brushmode="0" trailer.gradient.repetition.mode="0" trailer.gradient.repetition.count="0" trailer.gradient.repetition.length="100" trailer.gradient.focus="0" trailer.gradient.scale="100" trailer.gradient.spread="100" )
+group(level=1 header.height=0 trailer.height=0 by=("ncita" , "clugar" ) header.color="536870912" header.transparency="0" header.gradient.color="8421504" header.gradient.transparency="0" header.gradient.angle="0" header.brushmode="0" header.gradient.repetition.mode="0" header.gradient.repetition.count="0" header.gradient.repetition.length="100" header.gradient.focus="0" header.gradient.scale="100" header.gradient.spread="100" trailer.color="536870912" trailer.transparency="0" trailer.gradient.color="8421504" trailer.gradient.transparency="0" trailer.gradient.angle="0" trailer.brushmode="0" trailer.gradient.repetition.mode="0" trailer.gradient.repetition.count="0" trailer.gradient.repetition.length="100" trailer.gradient.focus="0" trailer.gradient.scale="100" trailer.gradient.spread="100" )
 text(band=header alignment="2" text="Ncita" border="0" color="0" x="78" y="4" height="52" width="283" html.valueishtml="0"  name=ncita_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="2" text="Lugar" border="0" color="0" x="750" y="4" height="52" width="677" html.valueishtml="0"  name=clugar_t visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="2" text="Fecha" border="0" color="0" x="1435" y="4" height="52" width="411" html.valueishtml="0"  name=obj_1101764 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
@@ -134,6 +139,7 @@ compute(band=header.1 alignment="2" expression="'PROG- '+sum( if( control ='1' o
 "border="0" color="0" x="1435" y="0" height="52" width="411" format="[General]" html.valueishtml="0"  name=compute_5 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 compute(band=header.1 alignment="2" expression="'ATEND- '+sum( if( control ='2',1,0) for group 1 )
 "border="0" color="0" x="2053" y="0" height="52" width="549" format="[GENERAL]" html.valueishtml="0"  name=compute_8 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=header.1 alignment="0" expression="if(cumulativeSum(  1  for group 1 )=1,1,0)"border="0" color="33554432" x="2610" y="28" height="64" width="1065" format="[GENERAL]" html.valueishtml="0"  name=controles visible="1"  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 compute(band=detail alignment="0" expression="''"border="0" color="0" x="9" y="128" height="52" width="59" format="[GENERAL]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 button(band=detail text="" filename="print.gif" enabled=yes action="0" border="0" color="0" x="0" y="0" height="60" width="78" vtextalign="0" htextalign="0"  name=b_1 visible="1~tif (currentrow()=getrow() , 1, 0 )"  font.face="Tahoma" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="67108864~tcase( control
 when '1' then if(isnull( nfact ) or isnull( nrcaj ) ,rgb(255,219,202),rgb(255,255,255))
@@ -144,7 +150,7 @@ when '5' then if(isnull( nfact ) or isnull( nrcaj ) ,rgb(204,255,204),rgb(255,25
 else rgb(220,220,220)
 )
 " background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
-column(band=detail id=1 alignment="2" tabsequence=10 border="0" color="0" x="78" y="4" height="52" width="283" format="[general]" html.valueishtml="0"  name=ncita pointer="" visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1 , 0 )"  background.mode="0" background.color="1090519039~tcase( control
+column(band=detail id=1 alignment="2" tabsequence=10 border="0" color="0" x="78" y="4" height="52" width="283" format="[general]" html.valueishtml="0"  name=ncita pointer="" visible="1~tif( controles =1,1,0)" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1 , 0 )"  background.mode="0" background.color="1090519039~tcase( control
 when '1' then if(isnull( nfact ) and isnull( nrcaj ) ,rgb(255,219,202),rgb(255,255,255))
 when '2' then  if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(255,254,177),rgb(211,227,235))
 when '3' then rgb(228,201,201)
@@ -162,24 +168,6 @@ when '5' then if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(204,255,204),rgb(226,
 else rgb(240,240,240)
 )
 " background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
-column(band=detail id=4 alignment="2" tabsequence=32766 border="0" color="0" x="1435" y="4" height="52" width="411" format="dd/mmm/yyyy" html.valueishtml="0"  name=fecha pointer="" visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="1090519039~tcase( control
-when '1' then if(isnull( nfact ) and isnull( nrcaj ) ,rgb(255,219,202),rgb(255,255,255))
-when '2' then  if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(255,254,177),rgb(211,227,235))
-when '3' then rgb(228,201,201)
-when '4' then rgb(240,240,240)
-when '5' then if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(204,255,204),rgb(226,239,226))
-else rgb(240,240,240)
-)
-" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
-column(band=detail id=14 alignment="2" tabsequence=32766 border="0" color="0" x="1856" y="4" height="52" width="187" format="h:mm" html.valueishtml="0"  name=hora visible="1" edit.limit=0 edit.case=any edit.format="hh:mm" edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="1090519039~tcase( control
-when '1' then if(isnull( nfact ) and isnull( nrcaj ) ,rgb(255,219,202),rgb(255,255,255))
-when '2' then  if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(255,254,177),rgb(211,227,235))
-when '3' then rgb(228,201,201)
-when '4' then rgb(240,240,240)
-when '5' then if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(204,255,204),rgb(226,239,226))
-else rgb(240,240,240)
-)
-" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 compute(band=detail alignment="2" expression="case ( control 
 when  '1' then 'Vigente'
 when '2' then 'Atendida'
@@ -187,7 +175,7 @@ when '3' then 'No asistió'
 when '4' then 'Trasladada'
 when '5' then 'Confirmada'
 else ~"Anulada~"
-)"border="0" color="0" x="3685" y="4" height="52" width="347" format="[GENERAL]" html.valueishtml="0"  name=esta visible="1"  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="1090519039~tcase( control
+)"border="0" color="0" x="3685" y="4" height="52" width="347" format="[GENERAL]" html.valueishtml="0"  name=esta visible="1~tif( controles =1,1,0)"  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="1090519039~tcase( control
 when '1' then if(isnull( nfact ) and isnull( nrcaj ) ,rgb(255,219,202),rgb(255,255,255))
 when '2' then  if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(255,254,177),rgb(211,227,235))
 when '3' then rgb(228,201,201)
@@ -223,33 +211,6 @@ when '5' then if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(204,255,204),rgb(226,
 else rgb(240,240,240)
 )
 " background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
-column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="2053" y="4" height="52" width="549" format="[general]" html.valueishtml="0"  name=codgc visible="1" dddw.name=dw_grupcita dddw.displaycolumn=descripcion dddw.datacolumn=codgc dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.autofill=no dddw.useasborder=no dddw.case=any  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0 )"  background.mode="0" background.color="1090519039~tcase( control
-when '1' then if(isnull( nfact ) and isnull( nrcaj ) ,rgb(255,219,202),rgb(255,255,255))
-when '2' then  if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(255,254,177),rgb(211,227,235))
-when '3' then rgb(228,201,201)
-when '4' then rgb(240,240,240)
-when '5' then if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(204,255,204),rgb(226,239,226))
-else rgb(240,240,240)
-)
-" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
-column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="750" y="4" height="52" width="677" format="[general]" html.valueishtml="0"  name=clugar visible="1" dddw.name=dw_lugar dddw.displaycolumn=descripcion dddw.datacolumn=codlugar dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.autofill=no dddw.useasborder=no dddw.case=any  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1 , 0 )"  background.mode="0" background.color="1090519039~tcase( control
-when '1' then if(isnull( nfact ) and isnull( nrcaj ) ,rgb(255,219,202),rgb(255,255,255))
-when '2' then  if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(255,254,177),rgb(211,227,235))
-when '3' then rgb(228,201,201)
-when '4' then rgb(240,240,240)
-when '5' then if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(204,255,204),rgb(226,239,226))
-else rgb(240,240,240)
-)
-" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
-compute(band=detail alignment="0" expression=" nombre1+if(isnull( nombre2 ),' ' ,' '+nombre2+' ' )+ apellido1+ if(isnull(apellido2),' ' ,' '+apellido2 )"border="0" color="0" x="2610" y="4" height="52" width="1065" format="[GENERAL]" html.valueishtml="0"  name=desprof visible="1"  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="0" background.color="1090519039~tcase( control
-when '1' then if(isnull( nfact ) and isnull( nrcaj ) ,rgb(255,219,202),rgb(255,255,255))
-when '2' then  if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(255,254,177),rgb(211,227,235))
-when '3' then rgb(228,201,201)
-when '4' then rgb(240,240,240)
-when '5' then if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(204,255,204),rgb(226,239,226))
-else rgb(240,240,240)
-)
-" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 column(band=detail id=19 alignment="2" tabsequence=32766 border="0" color="16711680" x="6999" y="4" height="52" width="91" format="[general]" html.valueishtml="0"  name=tipo_fac visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tcase( control
 when '1' then if(isnull( nfact ) and isnull( nrcaj ) ,rgb(255,219,202),rgb(255,255,255))
 when '2' then  if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(255,254,177),rgb(211,227,235))
@@ -268,7 +229,7 @@ when '5' then if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(204,255,204),rgb(226,
 else rgb(240,240,240)
 )
 " background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
-column(band=detail id=22 alignment="0" tabsequence=32766 border="0" color="0" x="370" y="4" height="52" width="370" format="[general]" html.valueishtml="0"  name=desp_tcita visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="1090519039~tcase( control
+column(band=detail id=23 alignment="0" tabsequence=30 border="0" color="0" x="6016" y="4" height="52" width="571" format="[general]" html.valueishtml="0" protect="0~tif(control ='1',0,1)"  name=cod_fina visible="1" dddw.name=dw_finconsulta dddw.displaycolumn=todo dddw.datacolumn=codfin dddw.percentwidth=300 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.autofill=no dddw.useasborder=yes dddw.case=any dddw.hscrollbar=yes dddw.vscrollbar=yes dddw.autoretrieve=no  font.face="Arial" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() ,1 , 0 )"  background.mode="0" background.color="16777215~tcase( control
 when '1' then if(isnull( nfact ) and isnull( nrcaj ) ,rgb(255,219,202),rgb(255,255,255))
 when '2' then  if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(255,254,177),rgb(211,227,235))
 when '3' then rgb(228,201,201)
@@ -277,7 +238,52 @@ when '5' then if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(204,255,204),rgb(226,
 else rgb(240,240,240)
 )
 " background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
-column(band=detail id=23 alignment="0" tabsequence=30 border="0" color="0" x="6016" y="4" height="52" width="571" format="[general]" html.valueishtml="0" protect="0~tif(control ='1',0,1)"  name=cod_fina visible="1" dddw.name=dw_finconsulta dddw.displaycolumn=todo dddw.datacolumn=codfin dddw.percentwidth=300 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.autofill=no dddw.useasborder=yes dddw.case=any dddw.hscrollbar=yes dddw.vscrollbar=yes dddw.autoretrieve=no  font.face="Arial" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() ,1 , 0 )"  background.mode="0" background.color="16777215~tcase( control
+column(band=detail id=22 alignment="0" tabsequence=32766 border="0" color="0" x="370" y="4" height="52" width="370" format="[general]" html.valueishtml="0"  name=desp_tcita visible="1~tif( controles =1,1,0)" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="1090519039~tcase( control
+when '1' then if(isnull( nfact ) and isnull( nrcaj ) ,rgb(255,219,202),rgb(255,255,255))
+when '2' then  if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(255,254,177),rgb(211,227,235))
+when '3' then rgb(228,201,201)
+when '4' then rgb(240,240,240)
+when '5' then if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(204,255,204),rgb(226,239,226))
+else rgb(240,240,240)
+)
+" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="750" y="4" height="52" width="677" format="[general]" html.valueishtml="0"  name=clugar visible="1~tif( controles =1,1,0)" dddw.name=dw_lugar dddw.displaycolumn=descripcion dddw.datacolumn=codlugar dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.autofill=no dddw.useasborder=no dddw.case=any  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1 , 0 )"  background.mode="0" background.color="1090519039~tcase( control
+when '1' then if(isnull( nfact ) and isnull( nrcaj ) ,rgb(255,219,202),rgb(255,255,255))
+when '2' then  if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(255,254,177),rgb(211,227,235))
+when '3' then rgb(228,201,201)
+when '4' then rgb(240,240,240)
+when '5' then if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(204,255,204),rgb(226,239,226))
+else rgb(240,240,240)
+)
+" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=4 alignment="2" tabsequence=32766 border="0" color="0" x="1435" y="4" height="52" width="411" format="dd/mmm/yyyy" html.valueishtml="0"  name=fecha pointer="" visible="1~tif( controles =1,1,0)" edit.limit=0 edit.case=any edit.autoselect=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="1090519039~tcase( control
+when '1' then if(isnull( nfact ) and isnull( nrcaj ) ,rgb(255,219,202),rgb(255,255,255))
+when '2' then  if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(255,254,177),rgb(211,227,235))
+when '3' then rgb(228,201,201)
+when '4' then rgb(240,240,240)
+when '5' then if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(204,255,204),rgb(226,239,226))
+else rgb(240,240,240)
+)
+" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=14 alignment="2" tabsequence=32766 border="0" color="0" x="1856" y="4" height="52" width="187" format="h:mm" html.valueishtml="0"  name=hora visible="1~tif( controles =1,1,0)" edit.limit=0 edit.case=any edit.format="hh:mm" edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0)"  background.mode="0" background.color="1090519039~tcase( control
+when '1' then if(isnull( nfact ) and isnull( nrcaj ) ,rgb(255,219,202),rgb(255,255,255))
+when '2' then  if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(255,254,177),rgb(211,227,235))
+when '3' then rgb(228,201,201)
+when '4' then rgb(240,240,240)
+when '5' then if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(204,255,204),rgb(226,239,226))
+else rgb(240,240,240)
+)
+" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="2053" y="4" height="52" width="549" format="[general]" html.valueishtml="0"  name=codgc visible="1~tif( controles =1,1,0)" dddw.name=dw_grupcita dddw.displaycolumn=descripcion dddw.datacolumn=codgc dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.autofill=no dddw.useasborder=no dddw.case=any  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif ( currentrow()=getrow() , 1, 0 )"  background.mode="0" background.color="1090519039~tcase( control
+when '1' then if(isnull( nfact ) and isnull( nrcaj ) ,rgb(255,219,202),rgb(255,255,255))
+when '2' then  if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(255,254,177),rgb(211,227,235))
+when '3' then rgb(228,201,201)
+when '4' then rgb(240,240,240)
+when '5' then if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(204,255,204),rgb(226,239,226))
+else rgb(240,240,240)
+)
+" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="0" expression=" nombre1+if(isnull( nombre2 ),' ' ,' '+nombre2+' ' )+ apellido1+ if(isnull(apellido2),' ' ,' '+apellido2 )"border="0" color="0" x="2610" y="4" height="52" width="1065" format="[GENERAL]" html.valueishtml="0"  name=desprof visible="1~tif( controles =1,1,0)"  font.face="Tahoma" font.height="-8" font.weight="400~tif ( currentrow()=getrow() , 700 , 400 )"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="0" background.color="1090519039~tcase( control
 when '1' then if(isnull( nfact ) and isnull( nrcaj ) ,rgb(255,219,202),rgb(255,255,255))
 when '2' then  if(isnull( nfact ) and  isnull( nrcaj ) ,rgb(255,254,177),rgb(211,227,235))
 when '3' then rgb(228,201,201)
@@ -301,4 +307,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=2 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 
