@@ -618,6 +618,11 @@ tab_2.tabpage_4.sle_passcert.text=f_descripta(getitemstring(row,'clave_certifica
 
 end event
 
+event itemchanged;dw_doc.setitem(dw_doc.getrow(),'usu_modif',usuario)
+dw_doc.setitem(dw_doc.getrow(),'fecha_modif',datetime(today(),now()))
+dw_doc.accepttext()
+end event
+
 type tabpage_3 from userobject within tab_2
 integer x = 18
 integer y = 112
@@ -677,7 +682,9 @@ event itemchanged;if getcolumnname()='clave_tecnica' or getcolumnname()='pin'  t
 	post event p_itemchanged(getcolumnname())
 end if
 
-
+dw_resol.setitem(dw_resol.getrow(),'usu_modif',usuario)
+dw_resol.setitem(dw_resol.getrow(),'fecha_modif',datetime(today(),now()))
+dw_resol.accepttext()
 end event
 
 event sqlpreview;string tipo
@@ -1523,6 +1530,8 @@ choose case dwo.name
 			tab_2.tabpage_2.dw_doc.setitem(j,'coddoc',i_cdoc)
 		next
 end choose
+dw_cab.setitem(dw_cab.getrow(),'usu_modif',usuario)
+dw_cab.setitem(dw_cab.getrow(),'fecha_modif',datetime(today(),now()))
 accepttext()
 i_cambio=true
 
