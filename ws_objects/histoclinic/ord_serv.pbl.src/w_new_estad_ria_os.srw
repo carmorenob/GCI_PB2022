@@ -118,7 +118,7 @@ long i_nh,i_norden
 datawindowchild idw_ufun,idw_cc,idw_espe
 DataWindowChild idw_fincon,idw_finproc,idw_causaex,idw_ambproc
 trae i_st
-string i_cambio='n',i_cdiaging,i_causaext,i_fin_consulta,i_tipodx,i_mueve_kardex
+string i_cambio='n',i_cdiaging,i_causaext,i_fin_consulta,i_tipodx,i_mueve_kardex,is_amb
 end variables
 
 on w_new_estad_ria_os.create
@@ -223,9 +223,18 @@ end on
 event open;sle_5.backcolor=rgb(255,255,200) //color crema para el mostrario de no obligatorio
 i_st=message.powerobjectparm
 long j,k,l_i
-select nh,clugar,estado,cemp,ccontrato,autoriza,causaexterna,diagingre,FIN_CONSULTA, TIPODIAGPRIN,codtingre
-into :i_nh ,:i_clug_hadm,:i_est_hadm,:i_cemp,:i_ccont,:i_nautoriza,:i_causaext,:i_cdiaging,:i_fin_consulta,:i_tipodx,:i_tingreso
-from hospadmi where contador=:i_st.numero and clugar_his=:i_st.lugar and codtingre=:i_st.tingres;
+select 
+	hospadmi.nh, hospadmi.clugar, hospadmi.estado, hospadmi.cemp, hospadmi.ccontrato, hospadmi.autoriza, hospadmi.causaexterna, 
+	hospadmi.diagingre, hospadmi.FIN_CONSULTA, hospadmi.TIPODIAGPRIN, hospadmi.codtingre, tipoingreso.claseproced
+into 
+	:i_nh ,:i_clug_hadm,:i_est_hadm,:i_cemp,:i_ccont,:i_nautoriza,:i_causaext,:i_cdiaging,:i_fin_consulta,:i_tipodx,:i_tingreso,:is_amb
+FROM 
+	hospadmi INNER JOIN tipoingreso ON hospadmi.codtingre = tipoingreso.codtingre
+where 
+	hospadmi.contador=:i_st.numero and hospadmi.clugar_his=:i_st.lugar and hospadmi.codtingre=:i_st.tingres;
+	
+if not isnull(i_st.dx_ord) then i_cdiaging=i_st.dx_ord
+	
 dw_inf.retrieve(i_nh,i_clug_hadm,i_tingreso)
 if i_fin_consulta='' then setnull( i_fin_consulta)
 if i_cdiaging<>'' then
@@ -771,12 +780,16 @@ for j=1 to dw_trae.rowcount()
 						dw_rias.setitem(donde,"s_diagprin_",st_cdiaging.text)
 						dw_rias.setitem(donde,"s_diagprin",i_cdiaging)
 						dw_rias.setitem(donde,"s_finalidadproced",finali)
+						dw_rias.setitem(donde,"s_ambitoproced",is_amb)
 					case '8'
 						dw_rias.setitem(donde,"s_causaexterna",i_causaext)	
 						dw_rias.setitem(donde,"s_diagprin_",st_cdiaging.text)
 						dw_rias.setitem(donde,"s_diagprin",i_cdiaging)
 					case '9'
+						dw_rias.setitem(donde,"s_diagprin_",st_cdiaging.text)
+						dw_rias.setitem(donde,"s_diagprin",i_cdiaging)
 						dw_rias.setitem(donde,"s_finalidadproced",finali)
+						dw_rias.setitem(donde,"s_ambitoproced",is_amb)						
 				end choose
 				setnull(cc)
 				uf=cc
@@ -804,15 +817,15 @@ for j=1 to dw_trae.rowcount()
 				dw_rias.setitem(donde,"cccosto",cc)
 				
 				dw_rias.setitem(donde,"tipo_orden",'H')
-				choose case i_st.tingres
-					case '2' 
-						ambito='3'
-					case '1'
-						ambito='1'
-					case '3','4','7'
-						ambito='2'
-				end choose
-				dw_rias.setitem(donde,"s_ambitoproced",ambito)
+//				choose case i_st.tingres
+//					case '2' 
+//						ambito='3'
+//					case '1'
+//						ambito='1'
+//					case '3','4','7'
+//						ambito='2'
+//				end choose
+//				dw_rias.setitem(donde,"s_ambitoproced",ambito)
 				dw_rias.setitem(donde,"cprof",i_st.profe)
 				if idw_espe.retrieve(i_st.profe)=1 then
 					dw_rias.setitem(donde,"s_codespecialidad",idw_espe.getitemstring(1,'cesp'))

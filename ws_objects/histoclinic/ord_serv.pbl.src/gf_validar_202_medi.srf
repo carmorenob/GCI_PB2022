@@ -56,16 +56,17 @@ lds_202.retrieve(as_tdoc,as_docu)
 
 
 if lds_202.rowcount()=0 then
-	INSERT INTO pacientes_ririas (tipodoc, documento, gestante, silis_ges, mintiment, hipotiroid, sinto_resp, consu_taba, lepra, obesidad, tacto_rect, 
-	acido_folo, resul_sanocul,enfer_mnta, cancer_cerv, agude_voi, agude_vod, fecha_peso, peso, fecha_tall, talla, fecha_ppar, riesg_gesta, resul_coloc, 
-	rtami_audneo, rtami_visneo, dpt5a, rtama_vale, asneumo, resul_hpc, ead_mg, ead_mfa, ead_aps, ead_mal, letz, tami_oxipe, fecha_parto, fecha_sparto, 
-	fecha_lacta, fecha_valoin, fecha_asantico, sumin_antico, fecha_santico, fecha_prenatal, resul_glice, fecha_cprenatal, sumin_afoli, 
-	sumin_sferro, sumin_ccalcio, fecha_aguvi, fecha_vale, fecha_trectal, fecha_toxi, fecha_colo, fecha_sanocul, fecha_cpsicol, 
-	fecha_tauid, sumin_fort, sumin_vitama, fecha_ldl, fecha_psa, fecha_prese, fecha_tavineo, fecha_salbucal, fecha_sumihie, fecha_hb, 
-	resul_hb, fecha_sifil, resul_sifil, fecha_vih, resul_vih, fecha_tsh, resul_tsh, tami_cut, fecha_tcut, resul_tcut, calm_cit, cips_cit, fecha_col, 
-	resul_ldl, fecha_bips, resul_bips, resul_hdl, fecha_mamo, resul_mamo, resul_trig, fecha_bmama, fecha_rbmama, resul_bmama, cop, 
-	fecha_hemo, resul_hemo, fecha_glice, fecha_creat, resul_creat, fecha_present, resul_psa, fecha_hpc, fecha_hdl, fecha_baci, resul_baci, 
-	resul_riescar,tto_sifiges, tto_sificog, resul_metb, fecha_trig, fecha_audita )
+	INSERT INTO pacientes_ririas (tipodoc, documento,"(14)gestante", "(15)silis_ges", "(16)mintiment", "(17)hipotiroid", "(18)sinto_resp", "(19)consu_taba", "(20)lepra", "(21)obesidad", "(22)tacto_rect", 
+	"(23)acido_folo", "(24)resul_sanocul", "(25)enfer_mnta", "(26)cancer_cerv", "(27)agude_voi", "(28)agude_vod", "(29)fecha_peso", "(30)peso", "(31)fecha_tall", "(32)talla", 
+	"(33)fecha_ppar", "(35)riesg_gesta", "(36)resul_coloc", "(37)rtami_audneo", "(38)rtami_visneo", "(39)dpt5a", "(40)rtama_vale", "(41)asneumo", "(42)resul_hpc", "(43)ead_mg", 
+	"(44)ead_mfa", "(45)ead_aps", "(46)ead_mal", "(47)letz", "(48)tami_oxipe", "(49)fecha_parto", "(50)fecha_sparto", "(51)fecha_lacta", "(52)fecha_valoin", "(53)fecha_asantico", 
+	"(54)sumin_antico", "(55)fecha_santico", "(56)fecha_prenatal", "(57)resul_glice", "(58)fecha_cprenatal", "(59)sumin_afoli", "(60)sumin_sferro", "(61)sumin_ccalcio", 
+	"(62)fecha_aguvi", "(63)fecha_vale", "(64)fecha_trectal", "(65)fecha_toxi", "(66)fecha_colo", "(67)fecha_sanocul", "(68)fecha_cpsicol", "(69)fecha_tauid", "(70)sumin_fort", 
+	"(71)sumin_vitama", "(72)fecha_ldl", "(73)fecha_psa", "(74)fecha_prese", "(75)fecha_tavineo", "(76)fecha_salbucal", "(77)fecha_sumihie", "(78)fecha_hb", "(79)resul_hb", 
+	"(80)fecha_sifil", "(81)resul_sifil", "(82)fecha_vih", "(83)resul_vih", "(84)fecha_tsh", "(85)resul_tsh", "(86)tami_cut", "(87)fecha_tcut", "(88)resul_tcut", "(89)calm_cit", "(90)cips_cit", 
+	"(91)fecha_col", "(92)resul_ldl", "(93)fecha_bips", "(94)resul_bips", "(95)resul_hdl", "(96)fecha_mamo", "(97)resul_mamo", "(98)resul_trig", "(99)fecha_bmama", "(100)fecha_rbmama", 
+	"(101)resul_bmama", "(102)cop", "(103)fecha_hemo", "(104)resul_hemo", "(105)fecha_glice", "(106)fecha_creat", "(107)resul_creat", "(108)fecha_present", "(109)resul_psa", 
+	"(110)fecha_hpc", "(111)fecha_hdl", "(112)fecha_baci", "(113)resul_baci", "(114)resul_riescar", "(115)tto_sifiges", "(116)tto_sificog", "(117)resul_metb", "(118)fecha_trig", fecha_audita)
 	VALUES (:as_tdoc, :as_docu,cast(:li_gestante as varchar),'0','21','0','21','98','21','21',:ls_trec,
 	'0','21','21','0',:ls_avojos,:ls_avojos,'1800-01-01','999','1800-01-01','999',:ls_fppart,'0','21',
 	'0','0','0','0','0','0','0','0','0','0','0','0','1845-01-01','1845-01-01',
@@ -114,12 +115,12 @@ if isnull(ls_cplan) then
 		else
 			ls_resul='0'
 		end if
-		update  pacientes_ririas set acido_folo=:ls_resul, fecha_audita=current_timestamp
+		update  pacientes_ririas set "(23)acido_folo"=:ls_resul, fecha_audita=current_timestamp
 		where tipodoc=:as_tdoc and documento=:as_docu;
 		if sqlca.sqlcode<0 then
 			ls_error=sqlca.sqlerrtext
 			rollback;
-			messagebox("gf_validar_202_medi - Error de SQL línea 108", "Error update en paciente_ririas: "+ls_error)
+			messagebox("gf_validar_202_medi - Error de SQL línea 114", "Error update en paciente_ririas: "+ls_error)
 			return -1
 		end if		
 		commit;
@@ -144,12 +145,12 @@ if isnull(ls_cplan) then
 				end if
 			end if
 		end if
-		update  pacientes_ririas set sumin_afoli=:ls_resul, fecha_audita=current_timestamp
+		update  pacientes_ririas set "(59)sumin_afoli"=:ls_resul, fecha_audita=current_timestamp
 		where tipodoc=:as_tdoc and documento=:as_docu;
 		if sqlca.sqlcode<0 then
 			ls_error=sqlca.sqlerrtext
 			rollback;
-			messagebox("gf_validar_202_medi - Error de SQL línea 138", "Error update en paciente_ririas: "+ls_error)
+			messagebox("gf_validar_202_medi - Error de SQL línea 144", "Error update en paciente_ririas: "+ls_error)
 			return -1
 		end if		
 		commit;
@@ -174,12 +175,12 @@ if isnull(ls_cplan) then
 				end if
 			end if
 		end if
-		update  pacientes_ririas set sumin_sferro=:ls_resul, fecha_audita=current_timestamp
+		update  pacientes_ririas set "(60)sumin_sferro"=:ls_resul, fecha_audita=current_timestamp
 		where tipodoc=:as_tdoc and documento=:as_docu;
 		if sqlca.sqlcode<0 then
 			ls_error=sqlca.sqlerrtext
 			rollback;
-			messagebox("gf_validar_202_medi - Error de SQL línea 168", "Error update en paciente_ririas: "+ls_error)
+			messagebox("gf_validar_202_medi - Error de SQL línea 174", "Error update en paciente_ririas: "+ls_error)
 			return -1
 		end if		
 		commit;
@@ -204,12 +205,12 @@ if isnull(ls_cplan) then
 				end if
 			end if
 		end if
-		update  pacientes_ririas set sumin_ccalcio=:ls_resul, fecha_audita=current_timestamp
+		update  pacientes_ririas set "(61)sumin_ccalcio"=:ls_resul, fecha_audita=current_timestamp
 		where tipodoc=:as_tdoc and documento=:as_docu;
 		if sqlca.sqlcode<0 then
 			ls_error=sqlca.sqlerrtext
 			rollback;
-			messagebox("gf_validar_202_medi - Error de SQL línea 198", "Error update en paciente_ririas: "+ls_error)
+			messagebox("gf_validar_202_medi - Error de SQL línea 204", "Error update en paciente_ririas: "+ls_error)
 			return -1
 		end if		
 		commit;
@@ -226,12 +227,12 @@ if isnull(ls_cplan) then
 				ls_resul='20'
 			end if
 		end if
-		update  pacientes_ririas set sumin_fort=:ls_resul, fecha_audita=current_timestamp
+		update  pacientes_ririas set "(70)sumin_fort"=:ls_resul, fecha_audita=current_timestamp
 		where tipodoc=:as_tdoc and documento=:as_docu;
 		if sqlca.sqlcode<0 then
 			ls_error=sqlca.sqlerrtext
 			rollback;
-			messagebox("gf_validar_202_medi - Error de SQL línea 220", "Error update en paciente_ririas: "+ls_error)
+			messagebox("gf_validar_202_medi - Error de SQL línea 226", "Error update en paciente_ririas: "+ls_error)
 			return -1
 		end if		
 		commit;
@@ -248,12 +249,12 @@ if isnull(ls_cplan) then
 				ls_resul='20'
 			end if
 		end if
-		update  pacientes_ririas set sumin_vitama=:ls_resul, fecha_audita=current_timestamp
+		update  pacientes_ririas set "(71)sumin_vitama"=:ls_resul, fecha_audita=current_timestamp
 		where tipodoc=:as_tdoc and documento=:as_docu;
 		if sqlca.sqlcode<0 then
 			ls_error=sqlca.sqlerrtext
 			rollback;
-			messagebox("gf_validar_202_medi - Error de SQL línea 242", "Error update en paciente_ririas: "+ls_error)
+			messagebox("gf_validar_202_medi - Error de SQL línea 248", "Error update en paciente_ririas: "+ls_error)
 			return -1
 		end if		
 		commit;
@@ -270,12 +271,12 @@ if isnull(ls_cplan) then
 				ls_resul='20'
 			end if
 		end if
-		update  pacientes_ririas set fecha_sumihie=:ls_resul, fecha_audita=current_timestamp
+		update  pacientes_ririas set "(77)fecha_sumihie"=:ls_resul, fecha_audita=current_timestamp
 		where tipodoc=:as_tdoc and documento=:as_docu;
 		if sqlca.sqlcode<0 then
 			ls_error=sqlca.sqlerrtext
 			rollback;
-			messagebox("gf_validar_202_medi - Error de SQL línea 264", "Error update en paciente_ririas: "+ls_error)
+			messagebox("gf_validar_202_medi - Error de SQL línea 270", "Error update en paciente_ririas: "+ls_error)
 			return -1
 		end if		
 		commit;
