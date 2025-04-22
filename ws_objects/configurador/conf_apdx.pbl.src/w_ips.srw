@@ -86,7 +86,7 @@ end forward
 
 global type w_ips from window
 integer width = 3328
-integer height = 1344
+integer height = 1592
 boolean titlebar = true
 string title = "Datos IPS"
 boolean controlmenu = true
@@ -125,8 +125,8 @@ destroy(this.tab_1)
 end on
 
 type pb_5 from picturebutton within w_ips
-integer x = 1641
-integer y = 1108
+integer x = 2254
+integer y = 1344
 integer width = 146
 integer height = 128
 integer taborder = 140
@@ -148,8 +148,8 @@ end event
 
 type pb_2 from picturebutton within w_ips
 string tag = "Refrescar"
-integer x = 1303
-integer y = 1108
+integer x = 1934
+integer y = 1348
 integer width = 146
 integer height = 128
 integer taborder = 130
@@ -171,8 +171,8 @@ end event
 
 type pb_1 from picturebutton within w_ips
 string tag = "Guardar"
-integer x = 1477
-integer y = 1108
+integer x = 2089
+integer y = 1344
 integer width = 146
 integer height = 128
 integer taborder = 130
@@ -238,7 +238,7 @@ type tab_1 from tab within w_ips
 integer x = 41
 integer y = 24
 integer width = 3232
-integer height = 1064
+integer height = 1312
 integer taborder = 10
 integer textsize = -8
 integer weight = 400
@@ -277,7 +277,7 @@ type tabpage_1 from userobject within tab_1
 integer x = 18
 integer y = 112
 integer width = 3195
-integer height = 936
+integer height = 1184
 long backcolor = 67108864
 string text = "Datos Básicos"
 long tabtextcolor = 33554432
@@ -298,8 +298,8 @@ end on
 type dw_1 from datawindow within tabpage_1
 integer x = 37
 integer y = 24
-integer width = 3163
-integer height = 912
+integer width = 3159
+integer height = 1152
 integer taborder = 20
 string dataobject = "dw_ips_new"
 boolean border = false
@@ -368,7 +368,7 @@ event destroy ( )
 integer x = 18
 integer y = 112
 integer width = 3195
-integer height = 936
+integer height = 1184
 boolean enabled = false
 long backcolor = 67108864
 string text = "Correos Electronicos"
