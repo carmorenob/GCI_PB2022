@@ -40,11 +40,12 @@ string gs_key='Jaer Key19332000',gs_inv='Jorca2021'
 datawindow g_dw_xabuscar
 string aplicativo,lice,nom_regis,activacion,gs_jsonsf,gs_filehc,g_nequipo,gs_apidocker
 boolean g_demo=false
-string g_vencimiento //para lo de lotes
+string g_vencimiento,gs_directorio //para lo de lotes
 string g_aplicacion='conf_apdx',g_version='6.0.0.46'
 uo_transaction gt_sqlca
 
 end variables
+
 global type conf_apdx from application
 string appname = "conf_apdx"
 string toolbarframetitle = "Barra de Herramientas"
@@ -65,8 +66,13 @@ string appicon = "gci_cfg.ico"
 string appruntimeversion = "22.0.0.1892"
 boolean manualsession = false
 boolean unsupportedapierror = false
+boolean ultrafast = false
 boolean bignoreservercertificate = false
 uint ignoreservercertificate = 0
+long webview2distribution = 0
+boolean webview2checkx86 = false
+boolean webview2checkx64 = false
+string webview2url = "https://developer.microsoft.com/en-us/microsoft-edge/webview2/"
 end type
 global conf_apdx conf_apdx
 
