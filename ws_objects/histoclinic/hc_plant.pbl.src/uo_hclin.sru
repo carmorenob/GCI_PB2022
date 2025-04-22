@@ -606,13 +606,13 @@ if lbn_si_datos then
 	end if
 
 	//// Validacion de 202
-	dw_new_det.setfilter("not isnull( varia_salud )")
+	dw_new_det.setfilter("((not isnull(varia_salud)) and  (ctrl_vsal=0)  and ( min_pri = prioridad ))")
 	dw_new_det.filter()
-	string ls_resul,ls_codpl
+	string ls_resul
 	
 	if is_202='1' then
 		for j=1 to dw_new_det.rowcount()	
-			
+		
 			choose case dw_new_det.getitemstring(j,'tipo')
 				case 'S', 'L' , 'T', 'Y','A' //:seleccion  //:lista  //:texto //:INSTRUMENTO
 					if isnull(dw_new_det.getitemstring(j,'equiv_202')) then
@@ -628,7 +628,7 @@ if lbn_si_datos then
 						ls_resul=string(dw_new_det.getitemnumber(j,'numero'))
 		
 				case 'F' ,'X'//:fecha
-					ls_resul=string(dw_new_det.getitemdatetime(j,'fecha_cap'),'yyy-mm-dd')
+					ls_resul=string(dw_new_det.getitemdatetime(j,'fecha_cap'),'yyyy-mm-dd')
 		
 				case 'H' //:tiempo
 						ls_resul=string(dw_new_det.getitemdatetime(j,'tiempo'),'hh:mm:ss')
@@ -751,6 +751,7 @@ dw_histo.resetupdate()
 dw_res_new.resetupdate()
 dw_procs_new.resetupdate()
 uo_1.dw_tri.resetupdate()
+dw_plants.resetupdate()
 i_cambia=false
 
 //se crearon estos clean_fields para no volver a hacer retrieve de todos los DWs
@@ -3763,7 +3764,8 @@ for j=1 to rowcount()
 	setitem(j,'tiempo',ll_null)
 	setitem(j,'sino',ls_null)
 next
-
+setsort('orden A ')
+sort()
 resetupdate()
 end event
 
