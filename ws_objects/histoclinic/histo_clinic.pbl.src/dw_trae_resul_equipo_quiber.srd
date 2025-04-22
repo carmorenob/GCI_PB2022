@@ -55,25 +55,25 @@ table(column=(type=char(64) updatewhereclause=yes name=ordenhis dbname="ingresoa
 	labresultados.comentarioexamen, labpacexingreso.servicio
 FROM 
 	((((int_labo.labpacexingreso AS labpacexingreso 
-	INNER JOIN int_labo.labresultados AS labresultados ON 
-	(labpacexingreso.documentopaciente = labresultados.documentopaciente) 
+	INNER JOIN int_labo.labresultados AS labresultados ON (labpacexingreso.sede = labresultados.sede) 
+	AND (labpacexingreso.ordenenterprise = labresultados.ordenenterprise) 
 	AND (labpacexingreso.ordenhis = labresultados.ordenhis) 
-	AND (labpacexingreso.ordenenterprise = labresultados.ordenenterprise)
-	AND (labpacexingreso.sede = labresultados.sede)) 
+	AND (labpacexingreso.documentopaciente = labresultados.documentopaciente)) 
 	INNER JOIN campopgc ON labresultados.codigoexamen = campopgc.cod_homolo) 
-	INNER JOIN proced ON (proced.cod_cups = labpacexingreso.codigoexamen) 
-	AND (campopgc.codproced = proced.codproced)) 
-	INNER JOIN pm_cups_version ON proced.cod_version = pm_cups_version.cod_version) 
-	INNER JOIN ingresoadx ON (labpacexingreso.tipodocumento = ingresoadx.tipodoc) 
+	INNER JOIN proced ON (campopgc.codproced = proced.codproced) AND (labpacexingreso.codigoexamen = proced.cod_cups)) 
+	INNER JOIN ingresoadx ON (labpacexingreso.sede = ingresoadx.clugar) 
 	AND (labpacexingreso.documentopaciente = ingresoadx.documento) 
-	AND (labpacexingreso.sede = ingresoadx.clugar)
-	AND (CAST(labpacexingreso.ordenhis AS DOUBLE PRECISION)  = ingresoadx.ningreso)
-WHERE
-	 (((labresultados.sede)=:sede) 
-	AND ((labresultados.fechavalida)>='2023/05/01' 
-	AND ((labpacexingreso.documentopaciente) Like '%') 
-	AND ((labresultados.estado)=3) 
-	AND ((pm_cups_version.valido_hasta)>=Ahora())));" arguments=(("sede", string))  sort="servicio D ordenhis A sede A codproced A consecampo A " )
+	AND (labpacexingreso.tipodocumento = ingresoadx.tipodoc)
+	AND (CAST(labpacexingreso.ordenhis AS DOUBLE PRECISION)  = ingresoadx.ningreso)) 
+	INNER JOIN serviciosadx ON (ingresoadx.ningreso = serviciosadx.ningreso) 
+	AND (ingresoadx.codaadx = serviciosadx.codaadx) AND (ingresoadx.clugar = serviciosadx.clugar) 
+	AND (proced.codproced = serviciosadx.codproced)
+WHERE 
+	(((labresultados.sede)=:sede) 
+	AND ((labresultados.fechavalida)>=:fi And (labresultados.fechavalida)<=:ff) 
+	AND ((labpacexingreso.documentopaciente) like '%') 
+	AND ((labresultados.estado)=3));
+" arguments=(("sede", string),("fi", datetime),("ff", datetime)) sort="servicio D ordenhis A sede A codproced A consecampo A " )
 text(band=header alignment="0" text="Ordenhis" border="0" color="33554432" x="9" y="8" height="64" width="375" html.valueishtml="0"  name=ordenhis_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="0" text="Sede" border="0" color="33554432" x="393" y="4" height="64" width="101" html.valueishtml="0"  name=sede_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
 text(band=header alignment="0" text="Codproced" border="0" color="33554432" x="503" y="4" height="64" width="398" html.valueishtml="0"  name=codproced_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
@@ -146,4 +146,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=2 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 

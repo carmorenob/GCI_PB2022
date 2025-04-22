@@ -58,13 +58,11 @@ type tab_1 from tab within w_apoyo_diag2
 end type
 type tp_1 from userobject within tab_1
 end type
-type st_7 from statictext within tp_1
+type ti_ff from statictext within tp_1
 end type
-type st_5 from statictext within tp_1
+type ti_fi from statictext within tp_1
 end type
-type dp_2 from datepicker within tp_1
-end type
-type dp_1 from datepicker within tp_1
+type ff_int from datepicker within tp_1
 end type
 type hpb_1 from hprogressbar within tp_1
 end type
@@ -112,11 +110,12 @@ type pb_print_reci from pb_report within tp_1
 end type
 type pb_print_factu from pb_report within tp_1
 end type
+type fi_int from datepicker within tp_1
+end type
 type tp_1 from userobject within tab_1
-st_7 st_7
-st_5 st_5
-dp_2 dp_2
-dp_1 dp_1
+ti_ff ti_ff
+ti_fi ti_fi
+ff_int ff_int
 hpb_1 hpb_1
 pb_9 pb_9
 pb_8 pb_8
@@ -140,6 +139,7 @@ cb_traerec cb_traerec
 pb_print pb_print
 pb_print_reci pb_print_reci
 pb_print_factu pb_print_factu
+fi_int fi_int
 end type
 type tp_4 from userobject within tab_1
 end type
@@ -280,7 +280,7 @@ end variables
 
 global type w_apoyo_diag2 from window
 integer width = 6245
-integer height = 2440
+integer height = 2560
 boolean titlebar = true
 string title = "Apoyo Diagnóstico"
 boolean controlmenu = true
@@ -324,7 +324,7 @@ global w_apoyo_diag2 w_apoyo_diag2
 
 type variables
 string i_tipoing,i_codarea,i_clughis,i_cluging,i_nautoriza,i_cod_doc
-string l_repositorios,i_alm,i_cdoc_cons='SC',i_emp,i_cont,int_cliente
+string l_repositorios,i_alm,i_cdoc_cons='SC',i_emp,i_cont,int_cliente,is_int
 boolean i_pideconf,i_print,i_cambio_insumo
 long i_fila,i_contador,i_ningreso,i_nserving,i_nservadx,i_muestra,i_itemcpo,i_nrepor
 string is_202
@@ -1010,6 +1010,9 @@ if tab_1.tp_2.tab_2.resul.dw_serving.retrieve(i_contador,i_clughis,i_nserving)=0
 	end if
 else
 	i_nserving=tab_1.tp_2.tab_2.resul.dw_serving.getitemnumber(1,"nservicio")
+	if isnull(tab_1.tp_2.tab_2.resul.dw_serving.getitemstring(1,"codrip_prin")) then 
+		tab_1.tp_2.tab_2.resul.dw_serving.setitem(1,"diagprin", 'Z01710-2')
+	end if
 end if
 if tab_1.tp_2.dw_rescpo.retrieve(tab_1.tp_1.dw_procs.getitemstring(fila,'coddoc'),tab_1.tp_1.dw_procs.getitemnumber(fila,'nrepor'),tab_1.tp_1.dw_procs.getitemnumber(fila,'item'),tab_1.tp_1.dw_procs.getitemstring(fila,'clugar'))=0 then
 	if tab_1.tp_2.dw_rescpo.event insertar(p_clugarrep,p_usuvalida,p_fecvalida,p_intfz)=-1 then
@@ -1175,9 +1178,8 @@ if isnull(l_repositorios) then
 	messagebox('Atencíon','No hay Repositorio para Almacenamiento')
 	return
 end if
-string ls_int
 
-SELECT cadena into :ls_int
+SELECT cadena into :is_int
 FROM parametros_gen
 WHERE (((codigo_para)=65));
 if sqlca.sqlnrows=0 then
@@ -1193,8 +1195,33 @@ if sqlca.sqlnrows=0 then
 	return
 end if
 
-if ls_int='1' or idw_area.getitemstring(idw_area.getrow(),'interfaz')='0' then
-	tab_1.tp_1.pb_8.visible=false
+string ls_perm
+SELECT cadena into :ls_perm
+FROM parametros_gen
+WHERE (((codigo_para)=82));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 82')
+	return -1
+end if
+if ls_perm='0' then 
+	tab_1.tp_1.pb_find.enabled=false
+	tab_1.tp_1.sle_1.enabled=false
+else
+	tab_1.tp_1.pb_find.enabled=true
+	tab_1.tp_1.sle_1.enabled=true
+end if
+
+if is_int='2' or idw_area.getitemstring(idw_area.getrow(),'interfaz')='0' then
+	tab_1.tp_1.pb_8.visible=true
+	tab_1.tp_1.pb_8.visible=true
+	tab_1.tp_1.fi_int.visible=true
+	tab_1.tp_1.ff_int.visible=true
+	tab_1.tp_1.ti_fi.visible=true
+	tab_1.tp_1.ti_ff.visible=true
+else
+	if is_int='1' or idw_area.getitemstring(idw_area.getrow(),'interfaz')='0' then
+		tab_1.tp_1.pb_8.visible=false
+	end if
 end if
 end event
 
@@ -1211,7 +1238,6 @@ For index=1 To ddlb_archivos.totalItems ( )
 Next
 return f_pregunta()
 disconnect using sqllab;
-
 end event
 
 event resize;tab_1.resize(newwidth - 50 , newheight - 770)
@@ -1221,12 +1247,12 @@ tab_1.tp_1.pb_cargar_res.y=tab_1.height -300
 tab_1.tp_1.cb_borra.y=tab_1.height -300
 tab_1.tp_1.pb_print.y=tab_1.height -300
 tab_1.tp_1.pb_8.y=tab_1.height -300
-tab_1.tp_1.st_5.y=tab_1.height -300
+tab_1.tp_1.ti_fi.y=tab_1.height -300
 tab_1.tp_1.hpb_1.y=tab_1.height -300
-tab_1.tp_1.st_5.y=tab_1.height -320
-tab_1.tp_1.dp_1.y=tab_1.height -320
-tab_1.tp_1.st_7.y=tab_1.height -220
-tab_1.tp_1.dp_2.y=tab_1.height -220
+tab_1.tp_1.ti_fi.y=tab_1.height -320
+tab_1.tp_1.fi_int.y=tab_1.height -320
+tab_1.tp_1.ti_ff.y=tab_1.height -220
+tab_1.tp_1.ff_int.y=tab_1.height -220
 
 tab_1.tp_2.tab_2.width=tab_1.width - 50
 tab_1.tp_2.tab_2.height=tab_1.height - 270
@@ -1252,7 +1278,7 @@ integer x = 3026
 integer y = 84
 integer width = 302
 integer height = 44
-integer taborder = 80
+integer taborder = 120
 string title = "none"
 string dataobject = "dw_profe_valida_interfaz_quimberlab"
 boolean livescroll = true
@@ -1265,7 +1291,7 @@ integer x = 3383
 integer y = 20
 integer width = 82
 integer height = 64
-integer taborder = 150
+integer taborder = 200
 string title = "none"
 string dataobject = "dw_lab_integra"
 boolean livescroll = true
@@ -1278,7 +1304,7 @@ integer x = 3090
 integer y = 16
 integer width = 215
 integer height = 56
-integer taborder = 60
+integer taborder = 90
 string title = "none"
 string dataobject = "dw_trae_resul_equipo"
 boolean livescroll = true
@@ -1291,7 +1317,7 @@ integer x = 1897
 integer y = 2316
 integer width = 480
 integer height = 56
-integer taborder = 50
+integer taborder = 70
 integer textsize = -10
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -1308,7 +1334,7 @@ integer x = 1449
 integer y = 2316
 integer width = 402
 integer height = 96
-integer taborder = 40
+integer taborder = 50
 string title = "none"
 string dataobject = "dw_profe_resultados"
 boolean resizable = true
@@ -1342,7 +1368,7 @@ integer x = 1449
 integer y = 64
 integer width = 279
 integer height = 52
-integer taborder = 110
+integer taborder = 160
 string title = "none"
 string dataobject = "dw_insum_cext"
 boolean hscrollbar = true
@@ -1365,7 +1391,7 @@ integer x = 2107
 integer y = 88
 integer width = 183
 integer height = 36
-integer taborder = 90
+integer taborder = 140
 string title = "none"
 string dataobject = "dw_sum_mvto_cab_insumos"
 boolean hscrollbar = true
@@ -1386,7 +1412,7 @@ integer x = 3680
 integer y = 16
 integer width = 96
 integer height = 80
-integer taborder = 50
+integer taborder = 80
 integer textsize = -10
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -1406,7 +1432,7 @@ type pb_buscar from picturebutton within w_apoyo_diag2
 integer x = 1271
 integer width = 146
 integer height = 128
-integer taborder = 60
+integer taborder = 100
 integer textsize = -10
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -1443,7 +1469,7 @@ end type
 
 type dw_area from datawindow within w_apoyo_diag2
 integer y = 16
-integer width = 1184
+integer width = 1202
 integer height = 76
 integer taborder = 10
 string title = "none"
@@ -1538,7 +1564,7 @@ integer x = 3488
 integer y = 392
 integer width = 146
 integer height = 128
-integer taborder = 140
+integer taborder = 190
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -1568,7 +1594,7 @@ integer x = 3488
 integer y = 516
 integer width = 146
 integer height = 128
-integer taborder = 150
+integer taborder = 210
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -1622,7 +1648,7 @@ integer x = 4645
 integer y = 16
 integer width = 315
 integer height = 76
-integer taborder = 40
+integer taborder = 60
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -1670,7 +1696,7 @@ integer x = 4238
 integer y = 16
 integer width = 384
 integer height = 76
-integer taborder = 30
+integer taborder = 40
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -1719,7 +1745,7 @@ integer x = 3488
 integer y = 264
 integer width = 146
 integer height = 128
-integer taborder = 120
+integer taborder = 170
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -1769,7 +1795,7 @@ integer x = 3488
 integer y = 136
 integer width = 146
 integer height = 128
-integer taborder = 100
+integer taborder = 150
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -1919,7 +1945,7 @@ integer x = 14
 integer y = 152
 integer width = 3401
 integer height = 512
-integer taborder = 80
+integer taborder = 130
 string title = "none"
 string dataobject = "dw_empacguarda"
 boolean hscrollbar = true
@@ -1957,7 +1983,7 @@ integer x = 3735
 integer y = 156
 integer width = 2395
 integer height = 456
-integer taborder = 160
+integer taborder = 220
 boolean bringtotop = true
 string title = "none"
 string dataobject = "dw_ingr_apdx"
@@ -2127,7 +2153,7 @@ event destroy ( )
 integer y = 676
 integer width = 6167
 integer height = 1636
-integer taborder = 170
+integer taborder = 230
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -2178,10 +2204,9 @@ long tabtextcolor = 33554432
 string picturename = "ap_dx.ico"
 long picturemaskcolor = 536870912
 string powertiptext = "Historial de procedimientos del Ingreso"
-st_7 st_7
-st_5 st_5
-dp_2 dp_2
-dp_1 dp_1
+ti_ff ti_ff
+ti_fi ti_fi
+ff_int ff_int
 hpb_1 hpb_1
 pb_9 pb_9
 pb_8 pb_8
@@ -2205,13 +2230,13 @@ cb_traerec cb_traerec
 pb_print pb_print
 pb_print_reci pb_print_reci
 pb_print_factu pb_print_factu
+fi_int fi_int
 end type
 
 on tp_1.create
-this.st_7=create st_7
-this.st_5=create st_5
-this.dp_2=create dp_2
-this.dp_1=create dp_1
+this.ti_ff=create ti_ff
+this.ti_fi=create ti_fi
+this.ff_int=create ff_int
 this.hpb_1=create hpb_1
 this.pb_9=create pb_9
 this.pb_8=create pb_8
@@ -2235,10 +2260,10 @@ this.cb_traerec=create cb_traerec
 this.pb_print=create pb_print
 this.pb_print_reci=create pb_print_reci
 this.pb_print_factu=create pb_print_factu
-this.Control[]={this.st_7,&
-this.st_5,&
-this.dp_2,&
-this.dp_1,&
+this.fi_int=create fi_int
+this.Control[]={this.ti_ff,&
+this.ti_fi,&
+this.ff_int,&
 this.hpb_1,&
 this.pb_9,&
 this.pb_8,&
@@ -2261,14 +2286,14 @@ this.cb_trae,&
 this.cb_traerec,&
 this.pb_print,&
 this.pb_print_reci,&
-this.pb_print_factu}
+this.pb_print_factu,&
+this.fi_int}
 end on
 
 on tp_1.destroy
-destroy(this.st_7)
-destroy(this.st_5)
-destroy(this.dp_2)
-destroy(this.dp_1)
+destroy(this.ti_ff)
+destroy(this.ti_fi)
+destroy(this.ff_int)
 destroy(this.hpb_1)
 destroy(this.pb_9)
 destroy(this.pb_8)
@@ -2292,48 +2317,49 @@ destroy(this.cb_traerec)
 destroy(this.pb_print)
 destroy(this.pb_print_reci)
 destroy(this.pb_print_factu)
+destroy(this.fi_int)
 end on
 
-type st_7 from statictext within tp_1
+type ti_ff from statictext within tp_1
 boolean visible = false
-integer x = 3333
-integer y = 1388
-integer width = 123
-integer height = 64
-integer textsize = -10
+integer x = 3127
+integer y = 1408
+integer width = 192
+integer height = 52
+integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "Arial"
+string facename = "Tahoma"
 long textcolor = 33554432
 long backcolor = 67108864
-string text = "FF"
+string text = "F_Final"
 boolean focusrectangle = false
 end type
 
-type st_5 from statictext within tp_1
+type ti_fi from statictext within tp_1
 boolean visible = false
-integer x = 3333
-integer y = 1300
-integer width = 146
+integer x = 3127
+integer y = 1296
+integer width = 192
 integer height = 64
-integer textsize = -10
+integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "Arial"
+string facename = "Tahoma"
 long textcolor = 33554432
 long backcolor = 67108864
-string text = "FI"
+string text = "F_Inicial"
 boolean focusrectangle = false
 end type
 
-type dp_2 from datepicker within tp_1
+type ff_int from datepicker within tp_1
 boolean visible = false
-integer x = 3538
-integer y = 1388
+integer x = 3323
+integer y = 1384
 integer width = 686
 integer height = 100
 integer taborder = 32
@@ -2341,30 +2367,8 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-03-28"), Time("09:55:17.000000"))
-integer textsize = -10
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-integer calendarfontweight = 400
-boolean todaysection = true
-boolean todaycircle = true
-end type
-
-type dp_1 from datepicker within tp_1
-boolean visible = false
-integer x = 3529
-integer y = 1284
-integer width = 686
-integer height = 100
-integer taborder = 100
-boolean border = true
-borderstyle borderstyle = stylelowered!
-date maxdate = Date("2999-12-31")
-date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-03-28"), Time("09:55:17.000000"))
-integer textsize = -10
+datetime value = DateTime(Date("2025-04-22"), Time("13:34:01.000000"))
+integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
@@ -2376,13 +2380,11 @@ end type
 
 type hpb_1 from hprogressbar within tp_1
 boolean visible = false
-integer x = 3982
+integer x = 4023
 integer y = 1360
-integer width = 2103
+integer width = 2062
 integer height = 68
-unsignedinteger maxposition = 100
-unsignedinteger position = 50
-integer setstep = 10
+boolean smoothscroll = true
 end type
 
 type pb_9 from pb_report within tp_1
@@ -2461,7 +2463,7 @@ end if
 end event
 
 type pb_8 from picturebutton within tp_1
-integer x = 3086
+integer x = 2939
 integer y = 1320
 integer width = 146
 integer height = 128
@@ -2478,17 +2480,22 @@ alignment htextalign = left!
 string powertiptext = "Trear Resultados desde Interfaz"
 end type
 
-event clicked;SELECT cadena into :int_cliente
+event clicked;n_log log_int
+FileDelete(gs_directorio+'int_quim.log')
+
+SELECT cadena into :int_cliente
 FROM parametros_gen
 WHERE (((codigo_para)=57));
 if sqlca.sqlnrows=0 then
-	messagebox('Atencíon','No hay parametro 57')
+	messagebox('Atencíon','No hay parametro 57 Linea 5')
 	return
 end if
 long l_t
+log_int = create n_log
+log_int.inicia('int_quim.log')
 
 if isnull(int_cliente) then
-	messagebox('Atencíon','No hay Indetificacion Cliente Interfaz')
+	messagebox('Atencíon','No hay Identificacion Cliente Interfaz Linea 11')
 	return
 end if
 
@@ -2533,28 +2540,33 @@ If upper(int_cliente)='QIMBERLAB' then
 	if dw_profe_valida.retrieve(CLUGAR)>0 then
 		l_t= 1
 		for l_t= 1 to dw_profe_valida.rowcount()
-			messagebox('Atencion Hay profesional validando datos sin correspondencia en Gci',dw_profe_valida.getitemstring(l_t,'usuariovalida'))
+			messagebox('Atencion',' Hay profesional validando datos sin correspondencia en Gci --'+dw_profe_valida.getitemstring(l_t,'usuariovalida'))
 		next
 		disconnect using sqllab;
 		return
 	end if
 end if
-w_principal.SetMicroHelp ( 'Termino Validacion de Profe')
+log_int.info('Termino Validacion de Profe')
+
 datetime fi,ff
 date fec
 
-fec=dp_1.datevalue 
-fi=datetime(date(fec),time('00:00'))
-fec =dp_2.datevalue 
-ff=datetime(date(fec),time('23:59'))
+if is_int='2' then
+	fec=fi_int.datevalue 
+	fi=datetime(date(fec),time('00:00'))
+	fec =ff_int.datevalue 
+	ff=datetime(date(fec),time('23:59'))
+else
+	fi=datetime(date('01/05/2023'),time('00:00'))
+	ff=datetime(today(),now())
+end if
+log_int.info("Inicia Cliclo")
+log_int.info("Parametros "+CLUGAR+'--'+string(fi)+'--'+string(ff))
+dw_trae.retrieve(CLUGAR,fi,ff)
+dw_lab.retrieve(CLUGAR,fi,ff)
 
-//dw_trae.retrieve(CLUGAR,fi,ff)
-dw_trae.retrieve(CLUGAR)
-w_principal.SetMicroHelp ( 'Termino Trae')
-
-//dw_lab.retrieve(CLUGAR,fi,ff)
-dw_lab.retrieve(CLUGAR)
-w_principal.SetMicroHelp ( 'Termino LAB')
+log_int.info("dw_trae.registros"+string(dw_trae.rowcount()))
+log_int.info("dw_lab.registros"+string(dw_lab.rowcount()))
 
 if dw_lab.rowcount()=0 then 
 	disconnect using sqllab;
@@ -2572,20 +2584,19 @@ if dw_trae.rowcount()>0 then
 	string cups,codproced,ordenhis,ls_sede,ls_profevalida
 
 	SetPointer(Hourglass!)
-//	dw_emp.SetRedraw(FALSE)
-//	dw_hist.SetRedraw(FALSE)
-//	dw_procs.SetRedraw(FALSE)
+	dw_emp.SetRedraw(FALSE)
+	dw_hist.SetRedraw(FALSE)
+	dw_procs.SetRedraw(FALSE)
 	tab_1.tp_1.hpb_1.visible=true
 
 	l_t= 1
 	dw_trae.SetRedraw(FALSE)
-	w_principal.SetMicroHelp ( 'Termino Lectura de '+string(dw_trae.RowCount()))
 	ll_ctos=dw_trae.RowCount()
 	do while l_t <=dw_trae.RowCount()
 		lb_paso=false
 		l_ks=0
 	
-		w_principal.SetMicroHelp ( 'Registro '+string(l_t) +' de '+string(ll_ctos))
+		log_int.info( 'Registro '+string(l_t) +' de '+string(dw_trae.RowCount()))
 		if l_t=1 or ningreso<>dw_trae.getitemnumber(l_t,'ningreso') then
 			ningreso=dw_trae.getitemnumber(l_t,'ningreso')
 			If upper(int_cliente)='CEDES' then 
@@ -2626,7 +2637,7 @@ if dw_trae.rowcount()>0 then
 				ls_profevalida=upper(dw_trae.getitemstring(l_t,'usuariovalida'))
 				ld_fechavalida=dw_trae.getitemdatetime(l_t,'fechavalida')
 			end if
-			
+
 			fila = tab_1.tp_1.dw_procs.Find("cod_cups='"+cups+"'" ,1,tab_1.tp_1.dw_procs.RowCount()) 
 			tab_1.tp_1.dw_procs.SetRow(fila)
 			
@@ -2653,8 +2664,10 @@ if dw_trae.rowcount()>0 then
 					tab_1.post selecttab(3)
 					dw_trae.setfilter("codproced='"+codproced+"' and ningreso="+string(ningreso))
 					dw_trae.filter()
+					
+					log_int.info('Paciente'+tipdoc+docu+' --->'+cups+"-->ningreso="+string(ningreso))
+		
 					for l_ks=1 to dw_trae.RowCount()
-						w_principal.SetMicroHelp ( 'Registro '+string(l_t+l_ks) +' de '+string(ll_ctos))
 						consec=dw_trae.getitemnumber(l_ks,'consecampo')
 						fila1=tab_1.tp_2.tab_2.resul.dw_res.Find("consecampo="+string(consec),1,tab_1.tp_2.tab_2.resul.dw_res.rowcount())
 						
@@ -2770,15 +2783,26 @@ if dw_trae.rowcount()>0 then
 							dw_lab.setitem(fila2,'estado',4)
 						end if
 					next
+					log_int.info( 'FinCiclo2 '+string(l_ks) +' de '+string(dw_trae.RowCount()))
 					dw_trae.setfilter("")
 					dw_trae.filter()
 					 if (tab_1.tp_1.dw_procs.getitemstring(fila,'estado')='1' or &
 						tab_1.tp_1.dw_procs.getitemstring(fila,'estado')='2' or &
 						tab_1.tp_1.dw_procs.getitemstring(fila,'estado')='5' ) then 
 						
-						tab_1.tp_2.tab_2.resul.pb_save_resul.event clicked()
-						tab_1.tp_2.tab_2.resul.pb_cerrar.event clicked()
-					
+
+						if tab_1.tp_2.tab_2.resul.pb_save_resul.event clicked()= -1 then 
+							l_t=l_t + l_ks - 1
+							continue
+						end if
+							
+						log_int.info( 'Guardo')
+						if tab_1.tp_2.tab_2.resul.pb_cerrar.event clicked() = -1 then 
+							l_t=l_t + l_ks - 1
+							continue
+						end if
+
+						log_int.info( 'Cerro')					
 					end if
 					if dw_lab.update(TRUE,FALSE) = -1 then
 						rollback;
@@ -2786,6 +2810,8 @@ if dw_trae.rowcount()>0 then
 					end if
 					
 					commit;
+					log_int.info( 'update y commit analitos')
+
 					l_t=l_t + l_ks - 1
 				else
 					l_t=l_t + 1
@@ -2802,6 +2828,7 @@ if dw_trae.rowcount()>0 then
 		rollback;
 	end if
 	commit;
+	log_int.info( 'update y commit final')
 else
 	 messagebox('Atención','No hay resultados para Cargar')
 end if
@@ -2809,11 +2836,11 @@ end if
 disconnect using sqllab;
 SetPointer(Arrow!)
 hpb_1.visible=false
-//dw_hist.SetRedraw(TRUE)
-//dw_procs.SetRedraw(TRUE)
-//dw_emp.SetRedraw(TRUE)
+dw_hist.SetRedraw(TRUE)
+dw_procs.SetRedraw(TRUE)
+dw_emp.SetRedraw(TRUE)
 tab_1.tp_1.hpb_1.visible=false
-
+log_int.info("Finaliza Ciclo")
 end event
 
 type st_4 from statictext within tp_1
@@ -3235,7 +3262,7 @@ end event
 
 type pb_cargar_res from picturebutton within tp_1
 event mousemove pbm_mousemove
-integer x = 2551
+integer x = 2437
 integer y = 1320
 integer width = 146
 integer height = 128
@@ -3289,7 +3316,7 @@ end event
 
 type cb_borra from picturebutton within tp_1
 event mousemove pbm_mousemove
-integer x = 2729
+integer x = 2615
 integer y = 1320
 integer width = 146
 integer height = 128
@@ -3485,7 +3512,7 @@ refres_lista()
 end event
 
 type pb_print from pb_report within tp_1
-integer x = 2907
+integer x = 2793
 integer y = 1320
 integer taborder = 12
 string picturename = "print2.gif"
@@ -3629,6 +3656,29 @@ par[4]=dw_procs.getitemstring(dw_procs.getrow(),"tipo_fac")
 imprimir(par,'','0')
 
 end event
+
+type fi_int from datepicker within tp_1
+boolean visible = false
+integer x = 3323
+integer y = 1276
+integer width = 686
+integer height = 100
+integer taborder = 100
+boolean bringtotop = true
+boolean border = true
+borderstyle borderstyle = stylelowered!
+date maxdate = Date("2999-12-31")
+date mindate = Date("2023-05-01")
+datetime value = DateTime(Date("2025-04-22"), Time("13:34:01.000000"))
+integer textsize = -8
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+integer calendarfontweight = 400
+boolean todaysection = true
+boolean todaycircle = true
+end type
 
 type tp_4 from userobject within tab_1
 boolean visible = false
@@ -4177,17 +4227,28 @@ event clicked;if dw_res.accepttext()=-1 then return
 if dw_res.rowcount()>0 then
 	if dw_res.getitemstring(1,'estado')='7' then return
 end if
-string revisa
-select ResultadosCab.Estado into :revisa from ResultadosCab
-WHERE ResultadosCab.CodDoc=:i_cod_doc and clugar=:i_cluging
-AND ResultadosCab.NRepor=:i_nrepor;
+string ls_revisa,ls_estadx
+SELECT
+	ResultadosCab.Estado 
+INTO
+	:ls_revisa,:ls_estadx
+FROM 
+	ResultadosCab INNER JOIN serviciosadx ON (ResultadosCab.ningreso = serviciosadx.ningreso) 
+	AND (ResultadosCab.clugar_indx = serviciosadx.clugar) AND (ResultadosCab.codaadx = serviciosadx.codaadx)
+WHERE 
+	((ResultadosCab.CodDoc=:i_cod_doc )
+	AND (ResultadosCab.clugar=:i_cluging)
+	AND (ResultadosCab.NRepor=:i_nrepor))
+GROUP BY 
+	ResultadosCab.estado;
+
 if not i_print then
-	if revisa='2' then
+	if ls_revisa='2' and  ls_estadx='7' then
 		messagebox("Atención","Estos resultados ya fueron impresos, por lo tanto no los puede modificar")
 		return -1
 	end if
 end if
-if revisa='3' then
+if ls_revisa='3' then
 	messagebox("Atención","Estos resultados están anulados, por lo tanto no los puede modificar")
 	return -1
 end if
@@ -4602,7 +4663,10 @@ else
 		if sqlca.sqlcode=-1 then
 			messagebox("Error en interface factcab",sqlca.sqlerrtext)
 			return -1
-		end if			
+		end if	
+		if isnull(ls_dx) or ls_dx='' then
+				ls_dx='Z01710-2'
+		end if		
 	end if
 end if
 setitem(1,"ambitoproced",idw_tingre.getitemstring(idw_tingre.getrow(),'claseproced'))
@@ -4610,6 +4674,10 @@ if not isnull(ls_dx) or ls_dx<>'' then
 	setitem(1,"diagprin", ls_dx)
 	if isnull(ls_fina) or ls_fina='' then
 		ls_fina='15'
+	else
+		select count(1) into :nitemfc from tipoproced where tipproce=:ls_fina and estado='1';
+		if nitemfc=0 then ls_fina='15'
+		setnull(nitemfc)
 	end if
 	setitem(1,"finalidadproced",ls_fina)
 end if
@@ -5409,7 +5477,7 @@ integer x = 663
 integer y = 72
 integer width = 155
 integer height = 68
-integer taborder = 70
+integer taborder = 110
 boolean bringtotop = true
 string title = "none"
 string dataobject = "dw_sum_mvto_cpo_costos"
@@ -5433,7 +5501,7 @@ integer x = 2926
 integer y = 16
 integer width = 82
 integer height = 48
-integer taborder = 130
+integer taborder = 180
 boolean bringtotop = true
 string title = "none"
 string dataobject = "dw_mov_lote_item"
