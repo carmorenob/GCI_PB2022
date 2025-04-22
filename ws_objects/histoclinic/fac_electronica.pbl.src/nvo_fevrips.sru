@@ -16,7 +16,6 @@ string is_ssl, is_tls
 end variables
 
 forward prototypes
-public function string sispro_login (string as_ambiente, string as_td, string as_doc, string as_pasw, string as_nit)
 public function st_retorno_gral sispro_carga_capita_ini (string as_token, string as_ambiente, string as_ruta, string as_doc)
 public function st_retorno_gral sispro_carga_capita_mes (string as_token, string as_ambiente, string as_ruta, string as_doc)
 public function st_retorno_gral sispro_carga_capita_fin (string as_token, string as_ambiente, string as_ruta, string as_doc)
@@ -24,47 +23,9 @@ public function st_retorno_gral sispro_carga_nccapita (string as_token, string a
 public function st_ret_dian emite_json_capita (decimal al_nro_fact, string as_clug_fact, string as_tipo_fac, string as_tipo_docu, string as_coddoc, string as_ruta, string as_capita0)
 public function st_ret_dian emite_json_evento (decimal al_nro_fact, string as_clug_fact, string as_tipo_fac, string as_tipo_docu, string as_coddoc, string as_ruta)
 public function st_ret_dian emite_json_jsonsf (decimal al_nro_fact, string as_clug_fact, string as_tipo_fac, string as_tipo_docu, string as_coddoc, string as_ruta)
-public function st_retorno_gral sispro_carga_fev_rips (string as_token, string as_ambiente, string as_ruta, string as_doc, string as_filename)
+public function string sispro_login (string as_ambiente, string as_td, string as_doc, string as_pasw, string as_nit, string as_url)
+public function st_retorno_gral sispro_carga_fev_rips (string as_token, string as_ambiente, string as_ruta, string as_doc, string as_filename, string as_url)
 end prototypes
-
-public function string sispro_login (string as_ambiente, string as_td, string as_doc, string as_pasw, string as_nit);Integer li_rc
-String ls_ReturnJson,ls_json,ls_token, ls_url
-
-HttpClient lo_client
-lo_client = Create HttpClient
-
-jsonpackage lnv_json
-lnv_json = create jsonpackage
-
-//POST /api/auth/LoginSISPRO { "persona": { "identificacion": { "tipo": "CC", "numero": "1234567890" } }, "clave": "secretpassword", "nit": "123456789" }
-lnv_json.setvalue("persona",'{"identificacion":{"tipo":"'+as_td+'","numero":"'+as_doc+'"}}')
-lnv_json.setvalue("clave",as_pasw,false)
-lnv_json.setvalue("nit",as_nit,false)
-
-ls_json=lnv_json.GetJsonString()
-
-lo_client.SetRequestHeader("Content-Type", "application/json;charset=UTF-8")
-
-if as_ambiente='2' then
-	ls_url="https://localhost:9443/api/Auth/LoginSISPRO"
-else
-	ls_url="https://localhost:9443/api/Auth/LoginSISPRO"
-end if
-	
-li_rc = lo_client.SendRequest("POST",ls_url , ls_json, EncodingUTF8!)
-
-if li_rc = 1 and lo_client.GetResponseStatusCode() = 200 then
- 	lo_client.GetResponseBody(ls_ReturnJson)
-	lnv_json.loadstring(ls_ReturnJson)
-	ls_token=lnv_json.GetValue("token")
-else
-	ls_token= '-1'	
-end if
-
-destroy lnv_json
-destroy lo_client
-return ls_token
-end function
 
 public function st_retorno_gral sispro_carga_capita_ini (string as_token, string as_ambiente, string as_ruta, string as_doc);Integer li_rc,li_filenum,li_StatusCode 
 String ls_ReturnJson,ls_json,ls_envio,ls_err, ls_url
@@ -364,7 +325,6 @@ JSONGenerator ripse_json
 integer li_root
 double ldb_cu,ldb_usu,ldb_serv,ldb_cin,ldb_ci,ldb_fusu,ldb_fcon
 string ls_json,ls_ltd,ls_jdoc,ls_jtf,ls_jlf
-
 
 lds_fact=create uo_datastore
 lds_usu=create uo_datastore
@@ -1723,7 +1683,46 @@ destroy lds_usu
 return lst_ret_dian
 end function
 
-public function st_retorno_gral sispro_carga_fev_rips (string as_token, string as_ambiente, string as_ruta, string as_doc, string as_filename);Integer li_rc,li_filenum,li_StatusCode 
+public function string sispro_login (string as_ambiente, string as_td, string as_doc, string as_pasw, string as_nit, string as_url);Integer li_rc
+String ls_ReturnJson,ls_json,ls_token, ls_url
+
+HttpClient lo_client
+lo_client = Create HttpClient
+
+jsonpackage lnv_json
+lnv_json = create jsonpackage
+
+//POST /api/auth/LoginSISPRO { "persona": { "identificacion": { "tipo": "CC", "numero": "1234567890" } }, "clave": "secretpassword", "nit": "123456789" }
+lnv_json.setvalue("persona",'{"identificacion":{"tipo":"'+as_td+'","numero":"'+as_doc+'"}}')
+lnv_json.setvalue("clave",as_pasw,false)
+lnv_json.setvalue("nit",as_nit,false)
+
+ls_json=lnv_json.GetJsonString()
+
+lo_client.SetRequestHeader("Content-Type", "application/json;charset=UTF-8")
+
+if as_ambiente='2' then
+	ls_url=as_url+"Auth/LoginSISPRO"
+else
+	ls_url=as_url+"Auth/LoginSISPRO"
+end if
+	
+li_rc = lo_client.SendRequest("POST",ls_url , ls_json, EncodingUTF8!)
+
+if li_rc = 1 and lo_client.GetResponseStatusCode() = 200 then
+ 	lo_client.GetResponseBody(ls_ReturnJson)
+	lnv_json.loadstring(ls_ReturnJson)
+	ls_token=lnv_json.GetValue("token")
+else
+	ls_token= '-1'	
+end if
+
+destroy lnv_json
+destroy lo_client
+return ls_token
+end function
+
+public function st_retorno_gral sispro_carga_fev_rips (string as_token, string as_ambiente, string as_ruta, string as_doc, string as_filename, string as_url);Integer li_rc,li_filenum,li_StatusCode 
 String ls_ReturnJson,ls_json,ls_envio,ls_err, ls_url
 JsonGenerator ljg_json
 blob lblob_xml
@@ -1770,9 +1769,9 @@ lo_client.SetRequestHeader("Content-Type", "application/json;charset=UTF-8")
 lo_client.SetRequestHeader("Authorization",+'Bearer '+as_token)
 
 if as_ambiente='2' then
-	ls_url="https://localhost:9443/api/PaquetesFevRips/CargarFevRips"
+	ls_url=as_url+"PaquetesFevRips/CargarFevRips"
 else
-	ls_url="https://localhost:11433/api/PaquetesFevRips/CargarFevRips"
+	ls_url=as_url+"PaquetesFevRips/CargarFevRips"
 end if
 
 li_rc =lo_client.sendrequest('POST',ls_url, ls_envio, EncodingUTF8!)

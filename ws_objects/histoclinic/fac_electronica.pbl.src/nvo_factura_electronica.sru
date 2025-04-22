@@ -1333,26 +1333,36 @@ if (as_tipo_docu='f' and as_coddoc='FV')  then
 
 //////////////////////// APIDOCKER
 	if gs_apidocker='1' then
-		string ls_token, ls_tds,ls_docs,ls_pass,ls_ipsn
+		string ls_token, ls_tds,ls_docs,ls_pass,ls_ipsn,ls_url,ls_tamb
 
 		SELECT 
 			usuarios.tipodoc, usuarios.documento, 
-			usuarios.clave_sispro, ips.documento
+			usuarios.clave_sispro, ips.documento,ips.url_apidocker,ips.tipo_ambiente
 		INTO
-			:ls_tds,:ls_docs,:ls_pass,:ls_ipsn
+			:ls_tds,:ls_docs,:ls_pass,:ls_ipsn,:ls_url,:ls_tamb
 		FROM 
 			usuarios, ips
 		WHERE (((usuarios.usuario)=:usuario));
 		if sqlca.sqlnrows=0 then
-			messagebox('Atencíon','No hay usuari sisipro')
+			messagebox('Atencíon','No hay usuario sispro asociado verificar')
 		end if
-		if isnull(ls_tds)  or isnull(ls_docs) or isnull(ls_pass) then
+
+		if isnull(ls_url)  then 
+			messagebox('Atencíon','No hay url sisipro configurada verificar en IPS')
+		end if
+		
+		if isnull(ls_tamb) then
+			messagebox('Atencíon','No hay Ambiente Sispro configurado verificar en IPS')
+		end if
+
+		if isnull(ls_tds)  or isnull(ls_docs) or isnull(ls_pass) or isnull(ls_url) or isnull(ls_tamb)  then
 			lst_ret_dian.as_estado="1"
 			return lst_ret_dian
 		end if
-		ls_token=u_rips.sispro_login(ls_tipo_ambiente,ls_tds,ls_docs,ls_pass,ls_ipsn)
+		
+		ls_token=u_rips.sispro_login(ls_tamb,ls_tds,ls_docs,ls_pass,ls_ipsn,ls_url)
 		if ls_token<>'-1' then 
-			lst_ret_gral=u_rips.sispro_carga_fev_rips(ls_token,'1',is_ruta_facturas, ls_prefac+ls_numfact+'.json',lst_ret_dian.as_filename)
+			lst_ret_gral=u_rips.sispro_carga_fev_rips(ls_token,'1',is_ruta_facturas, ls_prefac+ls_numfact+'.json',lst_ret_dian.as_filename,ls_url)
 			if lst_ret_gral.i_valor=-1 then 
 				lst_ret_dian.as_estado="1"
 				return lst_ret_dian
@@ -2437,7 +2447,6 @@ string 	ls_data_qr,				is_ruta_qr='c:\windows\temp\'
 string 	ls_sufijo_campo='',	ls_ojo,					ls_name,					ls_small_cufe,				ls_small_cufex,				ls_sfc,			ls_sfc_384,				ls_testp
 string 	ls_coddoc,				ls_retc,					ls_retdes,				ls_xml_ret,					ls_null,							ls_tipo,			ls_tipo_ambiente
 string 	ls_prefac,				ls_numfact,				ls_t
-
 
 st_ret_dian lst_ret_dian
 Blob 		lblb_data,				lblb_sha384,			lblb_md5
