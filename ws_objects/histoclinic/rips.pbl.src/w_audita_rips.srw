@@ -1734,13 +1734,13 @@ end if
 	
 //////////////////////// APIDOCKER
 if gs_apidocker='1' then
-	string ls_token, ls_tds,ls_docs,ls_pass,ls_ipsn
+	string ls_token, ls_tds,ls_docs,ls_pass,ls_ipsn,ls_url,ls_tamb
 
 	SELECT 
 		usuarios.tipodoc, usuarios.documento, 
-		usuarios.clave_sispro, ips.documento
+		usuarios.clave_sispro, ips.documento,ips.url_apidocker,ips.tipo_ambiente
 	INTO
-		:ls_tds,:ls_docs,:ls_pass,:ls_ipsn
+		:ls_tds,:ls_docs,:ls_pass,:ls_ipsn,:ls_url,:ls_tamb
 	FROM 
 		usuarios, ips
 	WHERE (((usuarios.usuario)=:usuario));
@@ -1748,9 +1748,9 @@ if gs_apidocker='1' then
 		messagebox('Atencíon','No hay usuario sispro No se puede validar')
 		return
 	end if
-	ls_token=luo_rips.sispro_login(ls_tipo_ambiente,ls_tds,ls_docs,ls_pass,ls_ipsn)
+	ls_token=luo_rips.sispro_login(ls_tamb,ls_tds,ls_docs,ls_pass,ls_ipsn,ls_url)
 	if ls_token<>'-1' then 
-		lst_ret_gral=luo_rips.sispro_carga_fev_rips(ls_token,'1',is_ruta_facturas, ls_prefijo+string(ldb_nfac)+'.json',ls_filename)
+		lst_ret_gral=luo_rips.sispro_carga_fev_rips(ls_token,'1',is_ruta_facturas, ls_prefijo+string(ldb_nfac)+'.json',ls_filename,ls_url)
 		if lst_ret_gral.i_valor=-1 then 
 			return 
 		end if

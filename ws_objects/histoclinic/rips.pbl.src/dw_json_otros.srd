@@ -89,7 +89,7 @@ FROM
 				then
 					'03'
 				else
-					'04'
+					'05'
 				end
 			end
 		end as VTMD,
@@ -151,7 +151,7 @@ FROM
 				then
 					'03'
 				else
-					'04'
+					'05'
 				end
 			end
 		end as VTMD,
@@ -393,4 +393,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=2 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 
