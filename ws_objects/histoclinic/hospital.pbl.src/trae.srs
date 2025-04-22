@@ -11,5 +11,6 @@ global type trae from structure
 	string		est_hadm
 	string		tipo_orden
 	string		proc_costos
+	string		dx_ord
 end type
 

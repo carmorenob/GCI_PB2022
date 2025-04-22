@@ -38,6 +38,9 @@ else
 		if li_gestante=0 then
 			li_gestante=2
 			ls_fppart='1845-01-01'
+		else
+			li_gestante=1
+			ls_fppart='1845-01-01'
 		end if
 	end if
 end if
@@ -59,17 +62,17 @@ end if
 
 if lds_202.rowcount()=0 then
 
-	INSERT INTO pacientes_ririas (tipodoc, documento, gestante, silis_ges, mintiment, hipotiroid, sinto_resp, consu_taba, lepra, obesidad, tacto_rect, 
-	acido_folo, resul_sanocul,enfer_mnta, cancer_cerv, agude_voi, agude_vod, fecha_peso, peso, fecha_tall, talla, fecha_ppar, riesg_gesta, resul_coloc, 
-	rtami_audneo, rtami_visneo, dpt5a, rtama_vale, asneumo, resul_hpc, ead_mg, ead_mfa, ead_aps, ead_mal, letz, tami_oxipe, fecha_parto, fecha_sparto, 
-	fecha_lacta, fecha_valoin, fecha_asantico, sumin_antico, fecha_santico, fecha_prenatal, resul_glice, fecha_cprenatal, sumin_afoli, 
-	sumin_sferro, sumin_ccalcio, fecha_aguvi, fecha_vale, fecha_trectal, fecha_toxi, fecha_colo, fecha_sanocul, fecha_cpsicol, 
-	fecha_tauid, sumin_fort, sumin_vitama, fecha_ldl, fecha_psa, fecha_prese, fecha_tavineo, fecha_salbucal, fecha_sumihie, fecha_hb, 
-	resul_hb, fecha_sifil, resul_sifil, fecha_vih, resul_vih, fecha_tsh, resul_tsh, tami_cut, fecha_tcut, resul_tcut, calm_cit, cips_cit, fecha_col, 
-	resul_ldl, fecha_bips, resul_bips, resul_hdl, fecha_mamo, resul_mamo, resul_trig, fecha_bmama, fecha_rbmama, resul_bmama, cop, 
-	
-	fecha_hemo, resul_hemo, fecha_glice, fecha_creat, resul_creat, fecha_present, resul_psa, fecha_hpc, fecha_hdl, fecha_baci, resul_baci, 
-	resul_riescar,tto_sifiges, tto_sificog, resul_metb, fecha_trig, fecha_audita )
+	INSERT INTO pacientes_ririas (tipodoc, documento,"(14)gestante", "(15)silis_ges", "(16)mintiment", "(17)hipotiroid", "(18)sinto_resp", "(19)consu_taba", "(20)lepra", "(21)obesidad", "(22)tacto_rect", 
+	"(23)acido_folo", "(24)resul_sanocul", "(25)enfer_mnta", "(26)cancer_cerv", "(27)agude_voi", "(28)agude_vod", "(29)fecha_peso", "(30)peso", "(31)fecha_tall", "(32)talla", 
+	"(33)fecha_ppar", "(35)riesg_gesta", "(36)resul_coloc", "(37)rtami_audneo", "(38)rtami_visneo", "(39)dpt5a", "(40)rtama_vale", "(41)asneumo", "(42)resul_hpc", "(43)ead_mg", 
+	"(44)ead_mfa", "(45)ead_aps", "(46)ead_mal", "(47)letz", "(48)tami_oxipe", "(49)fecha_parto", "(50)fecha_sparto", "(51)fecha_lacta", "(52)fecha_valoin", "(53)fecha_asantico", 
+	"(54)sumin_antico", "(55)fecha_santico", "(56)fecha_prenatal", "(57)resul_glice", "(58)fecha_cprenatal", "(59)sumin_afoli", "(60)sumin_sferro", "(61)sumin_ccalcio", 
+	"(62)fecha_aguvi", "(63)fecha_vale", "(64)fecha_trectal", "(65)fecha_toxi", "(66)fecha_colo", "(67)fecha_sanocul", "(68)fecha_cpsicol", "(69)fecha_tauid", "(70)sumin_fort", 
+	"(71)sumin_vitama", "(72)fecha_ldl", "(73)fecha_psa", "(74)fecha_prese", "(75)fecha_tavineo", "(76)fecha_salbucal", "(77)fecha_sumihie", "(78)fecha_hb", "(79)resul_hb", 
+	"(80)fecha_sifil", "(81)resul_sifil", "(82)fecha_vih", "(83)resul_vih", "(84)fecha_tsh", "(85)resul_tsh", "(86)tami_cut", "(87)fecha_tcut", "(88)resul_tcut", "(89)calm_cit", "(90)cips_cit", 
+	"(91)fecha_col", "(92)resul_ldl", "(93)fecha_bips", "(94)resul_bips", "(95)resul_hdl", "(96)fecha_mamo", "(97)resul_mamo", "(98)resul_trig", "(99)fecha_bmama", "(100)fecha_rbmama", 
+	"(101)resul_bmama", "(102)cop", "(103)fecha_hemo", "(104)resul_hemo", "(105)fecha_glice", "(106)fecha_creat", "(107)resul_creat", "(108)fecha_present", "(109)resul_psa", 
+	"(110)fecha_hpc", "(111)fecha_hdl", "(112)fecha_baci", "(113)resul_baci", "(114)resul_riescar", "(115)tto_sifiges", "(116)tto_sificog", "(117)resul_metb", "(118)fecha_trig", fecha_audita)
 	VALUES (:as_tdoc, :as_docu,cast(:li_gestante as varchar),'0','21','0','21','98','21','21',:ls_trec,
 	'0','21','21','0',:ls_avojos,:ls_avojos,'1800-01-01','999','1800-01-01','999',:ls_fppart,'0','21',
 	'0','0','0','0','0','0','0','0','0','0','0','0','1845-01-01','1845-01-01',
@@ -83,18 +86,18 @@ if lds_202.rowcount()=0 then
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_apdx - Error de SQL línea 57", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_apdx - Error de SQL línea 77", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if	
 	commit;
 end if
 
-update  pacientes_ririas set gestante=cast(:li_gestante as varchar), fecha_audita=current_timestamp
+update  pacientes_ririas set "(14)gestante"=cast(:li_gestante as varchar), fecha_audita=current_timestamp
 where tipodoc=:as_tdoc and documento=:as_docu;
 if sqlca.sqlcode<0 then
 	ls_error=sqlca.sqlerrtext
 	rollback;
-	messagebox("gf_validar_202_apdx - Error de SQL línea 57", "Error update en paciente_ririas: "+ls_error)
+	messagebox("gf_validar_202_apdx - Error de SQL línea 88", "Error update en paciente_ririas: "+ls_error)
 	return -1
 end if		
 commit;
@@ -121,12 +124,12 @@ if as_variable='24' then
 		end if
 	end if
 	
-	update  pacientes_ririas set fecha_sanocul=:ls_fresul, resul_sanocul=:ls_resul, fecha_audita=current_timestamp
+	update  pacientes_ririas set "(24)resul_sanocul"=:ls_fresul, "(67)fecha_sanocul"=:ls_fresul, fecha_audita=current_timestamp
 	where tipodoc=:as_tdoc and documento=:as_docu;
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_apdx - Error de SQL línea 89", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_apdx - Error de SQL línea 120", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -156,12 +159,12 @@ if as_variable='42' then
 		end if
 	end if
 		
-	update  pacientes_ririas set fecha_hpc=:ls_fresul, resul_hpc=:ls_resul, fecha_audita=current_timestamp
+	update  pacientes_ririas set "(42)resul_hpc"=:ls_resul, "(110)fecha_hpc"=:ls_fresul, fecha_audita=current_timestamp
 	where tipodoc=:as_tdoc and documento=:as_docu;
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_apdx - Error de SQL línea 124", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_apdx - Error de SQL línea 158", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -180,12 +183,12 @@ if as_variable='57' then
 		end if
 	end if
 	
-	update  pacientes_ririas set fecha_glice=:ls_fresul, resul_glice=:ls_resul, fecha_audita=current_timestamp
+	update  pacientes_ririas set "(57)resul_glice"=:ls_resul,"(105)fecha_glice"=:ls_fresul,  fecha_audita=current_timestamp
 	where tipodoc=:as_tdoc and documento=:as_docu;
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_apdx - Error de SQL línea 148", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_apdx - Error de SQL línea 182", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -206,15 +209,24 @@ if as_variable='79' then
 				ls_resul='0'
 				ls_fresul='1845-01-01'
 			end if
+		else
+			if ls_resul<>'0' and ls_resul<>'21'  and ls_resul<>'5' and  ls_resul<>'4' then
+				if pos(ls_resul,'NEG',1)>0 or pos(ls_resul,'NO REA',1)>0  or pos(ls_resul,'No Result',1)>0 then  
+					ls_resul='5'
+				end if
+				if pos(ls_resul,'POSI',1)>0 or pos(ls_resul,'REAC',1)>0  or pos(ls_resul,'No Result',1)>0 then  
+					ls_resul='4'
+				end if				
+			end if
 		end if
 	end if
 		
-	update  pacientes_ririas set fecha_hb=:ls_fresul, resul_hb=:ls_resul, fecha_audita=current_timestamp
+	update  pacientes_ririas set "(78)fecha_hb"=:ls_fresul, "(79)resul_hb"=:ls_resul, fecha_audita=current_timestamp
 	where tipodoc=:as_tdoc and documento=:as_docu;
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_apdx - Error de SQL línea 177", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_apdx - Error de SQL línea 211", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -238,12 +250,12 @@ if as_variable='81' then
 		end if
 	end if
 		
-	update  pacientes_ririas set fecha_sifil=:ls_fresul, resul_sifil=:ls_resul, fecha_audita=current_timestamp
+	update  pacientes_ririas set "(80)fecha_sifil"=:ls_fresul, "(81)resul_sifil"=:ls_resul, fecha_audita=current_timestamp
 	where tipodoc=:as_tdoc and documento=:as_docu;
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_apdx - Error de SQL línea 206", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_apdx - Error de SQL línea 240", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -267,12 +279,12 @@ if as_variable='83' then
 		end if
 	end if
 		
-	update  pacientes_ririas set fecha_vih=:ls_fresul, resul_vih=:ls_resul, fecha_audita=current_timestamp
+	update  pacientes_ririas set "(82)fecha_vih"=:ls_fresul, "(83)resul_vih"=:ls_resul, fecha_audita=current_timestamp
 	where tipodoc=:as_tdoc and documento=:as_docu;
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_apdx - Error de SQL línea 235", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_apdx - Error de SQL línea 269", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -291,12 +303,12 @@ if as_variable='85' then
 		end if
 	end if
 		
-	update  pacientes_ririas set fecha_tsh=:ls_fresul, resul_tsh=:ls_resul, fecha_audita=current_timestamp
+	update  pacientes_ririas set "(84)fecha_tsh"=:ls_fresul, "(85)resul_tsh"=:ls_resul, fecha_audita=current_timestamp
 	where tipodoc=:as_tdoc and documento=:as_docu;
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_apdx - Error de SQL línea 260", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_apdx - Error de SQL línea 293", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -311,18 +323,18 @@ if as_variable='92' then
 			ls_fresul='1845-01-01'
 		end if
 	else
-		if isnull(ls_fresul) then
+		if isnull(ls_fresul)  then
 			ls_resul='998'
 			ls_fresul='1800-01-01'
 		end if
 	end if
 		
-	update  pacientes_ririas set fecha_ldl=:ls_fresul, resul_ldl=:ls_resul, fecha_audita=current_timestamp
+	update  pacientes_ririas set "(72)fecha_ldl"=:ls_fresul,"(92)resul_ldl"=:ls_resul, fecha_audita=current_timestamp
 	where tipodoc=:as_tdoc and documento=:as_docu;
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_apdx - Error de SQL línea 285", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_apdx - Error de SQL línea 319", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -343,12 +355,12 @@ if as_variable='95' then
 		end if
 	end if
 		
-	update  pacientes_ririas set fecha_hdl=:ls_fresul, resul_hdl=:ls_resul, fecha_audita=current_timestamp
+	update  pacientes_ririas set "(111)fecha_hdl"=:ls_fresul,"(95)resul_hdl"=:ls_resul, fecha_audita=current_timestamp
 	where tipodoc=:as_tdoc and documento=:as_docu;
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_apdx - Error de SQL línea 311", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_apdx - Error de SQL línea 345", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -369,12 +381,12 @@ if as_variable='98' then
 		end if
 	end if
 		
-	update  pacientes_ririas set fecha_trig=:ls_fresul, resul_trig=:ls_resul, fecha_audita=current_timestamp
+	update  pacientes_ririas set "(118)fecha_trig"=:ls_fresul, "(98)resul_trig"=:ls_resul, fecha_audita=current_timestamp
 	where tipodoc=:as_tdoc and documento=:as_docu;
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_apdx - Error de SQL línea 337", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_apdx - Error de SQL línea 371", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -395,12 +407,12 @@ if as_variable='104' then
 		end if
 	end if
 		
-	update  pacientes_ririas set fecha_hemo=:ls_fresul, resul_hemo=:ls_resul, fecha_audita=current_timestamp
+	update  pacientes_ririas set "(104)resul_hemo"=:ls_fresul,"(103)fecha_hemo"=:ls_resul, fecha_audita=current_timestamp
 	where tipodoc=:as_tdoc and documento=:as_docu;
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_apdx - Error de SQL línea 363", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_apdx - Error de SQL línea 397", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -421,12 +433,12 @@ if as_variable='107' then
 		end if
 	end if
 	
-	update  pacientes_ririas set fecha_creat=:ls_fresul, resul_creat=:ls_resul, fecha_audita=current_timestamp
+	update  pacientes_ririas set "(106)fecha_creat"=:ls_fresul, "(107)resul_creat"=:ls_resul, fecha_audita=current_timestamp
 	where tipodoc=:as_tdoc and documento=:as_docu;
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_apdx - Error de SQL línea 389", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_apdx - Error de SQL línea 423", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -450,19 +462,19 @@ if as_variable='109' then
 		end if
 	end if
 	
-	update  pacientes_ririas set fecha_psa=:ls_fresul, resul_psa=:ls_resul, fecha_audita=current_timestamp
+	update  pacientes_ririas set "(73)fecha_psa"=:ls_fresul, "(109)resul_psa"=:ls_resul, fecha_audita=current_timestamp
 	where tipodoc=:as_tdoc and documento=:as_docu;
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_apdx - Error de SQL línea 415", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_apdx - Error de SQL línea 452", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
 	return 1
 end if
 
-//CUELLO UTERINO  PAREJA(86/87/88/89)
+//CUELLO UTERINO  PAREJA(86/87/88/89/90)
 if as_variable='86' then
 	ls_fresul=string(lds_202_result.getitemdatetime(1,'fecharesul'),'yyyy-mm-dd')
 	
@@ -712,6 +724,8 @@ if as_variable='86' then
 		end if
 	end if	
 	
+	if isnull(ls_ipsc) then ls_ipsc='0'	
+	
 	if isnull(ls_fresul) then 
 		ls_resul='0'
 		ls_fresul='1800-01-01'
@@ -720,12 +734,12 @@ if as_variable='86' then
 		ls_fresul='1845-01-01'
 	end if
 		
-	update  pacientes_ririas set tami_cut=:ls_tcut, fecha_tcut=:ls_fresul, resul_tcut=:ls_resul,calm_cit=:ls_calmues, cips_cit=:ls_ipsc , fecha_audita=current_timestamp
+	update  pacientes_ririas set "(86)tami_cut"=:ls_tcut, "(87)fecha_tcut"=:ls_fresul, "(88)resul_tcut"=:ls_resul,"(89)calm_cit"=:ls_calmues, "(90)cips_cit"=:ls_ipsc , fecha_audita=current_timestamp
 	where tipodoc=:as_tdoc and documento=:as_docu;
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_apdx - Error de SQL línea 486", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_apdx - Error de SQL línea 722", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
@@ -774,17 +788,16 @@ if as_variable='113' then
 		end if
 	end if
 
-	update  pacientes_ririas set fecha_baci=:ls_fresul, resul_baci=:ls_resul, fecha_audita=current_timestamp
+	update  pacientes_ririas set "(112)fecha_baci"=:ls_fresul, "(113)resul_baci"=:ls_resul, fecha_audita=current_timestamp
 	where tipodoc=:as_tdoc and documento=:as_docu;
 	if sqlca.sqlcode<0 then
 		ls_error=sqlca.sqlerrtext
 		rollback;
-		messagebox("gf_validar_202_apdx - Error de SQL línea 540", "Error update en paciente_ririas: "+ls_error)
+		messagebox("gf_validar_202_apdx - Error de SQL línea 776", "Error update en paciente_ririas: "+ls_error)
 		return -1
 	end if		
 	commit;
 	return 1
 end if
-
 end function
 
