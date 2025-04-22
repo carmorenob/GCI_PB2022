@@ -44,8 +44,8 @@ string gs_inv='Jorca2021'
 // para el objeto de reporte los valores son : documento!,interno!,menu!,externo!
 boolean g_demo=false,g_formula=true
 string gs_filehc,tipo_pais,g_vencimiento //para lo de lotes
-string g_aplicacion='histo_clinic',g_version='6.0.0.127'
-string gs_oxigeno,gs_apidocker
+string g_aplicacion='histo_clinic',g_version='6.0.0.128'
+string gs_oxigeno,gs_apidocker,gs_directorio
 date usu_fecha_ini, usu_fecha_fin
 uo_report i_rep_asis[8,15]
 uo_transaction gt_sqlca
@@ -71,8 +71,13 @@ string appicon = "gci_cli.ico"
 string appruntimeversion = "22.0.0.1892"
 boolean manualsession = false
 boolean unsupportedapierror = false
+boolean ultrafast = false
 boolean bignoreservercertificate = false
 uint ignoreservercertificate = 0
+long webview2distribution = 0
+boolean webview2checkx86 = false
+boolean webview2checkx64 = false
+string webview2url = "https://developer.microsoft.com/en-us/microsoft-edge/webview2/"
 end type
 global histo_clinic histo_clinic
 
