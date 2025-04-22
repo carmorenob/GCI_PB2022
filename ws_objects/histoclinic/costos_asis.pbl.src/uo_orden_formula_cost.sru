@@ -2272,6 +2272,7 @@ if ctos_pro>0  or ctos_med>0 then
 	trae st
 	st.numero=i_contador
 	st.lugar=i_clug_his
+	st.dx_ord=dw_oscab.getitemstring(dw_oscab.getrow(),"codgeral")
 	st.otro='carga'
 	st.dw_procs=tab_1.tp_1.dw_oscuerpo
 	st.dw_meds=tab_1.tp_2.dw_formula
@@ -2279,7 +2280,6 @@ if ctos_pro>0  or ctos_med>0 then
 	st.profe=dw_profe_atiende.getitemstring(1,1)
 	If ctos_pro>0  then
 		if tab_1.tp_1.dw_oscuerpo.getitemstring(tab_1.tp_1.dw_oscuerpo.getrow(),"agrupser")="10" then
-		//if dw_oscab.getitemstring(dw_oscab.getrow(),'tipo_orden')='B' then
 			openwithparm(w_banco_atiende,st)
 		else
 			openwithparm(w_new_estad_ria_os,st)
