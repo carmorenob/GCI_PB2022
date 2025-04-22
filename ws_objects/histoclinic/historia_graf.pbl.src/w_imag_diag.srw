@@ -4,15 +4,9 @@ global type w_imag_diag from window
 end type
 type uo_2 from uo_imag_diag within w_imag_diag
 end type
-type dw_t3 from datawindow within w_imag_diag
-end type
-type dw_t1 from datawindow within w_imag_diag
-end type
 type dw_barra from datawindow within w_imag_diag
 end type
 type dw_histo from datawindow within w_imag_diag
-end type
-type dw_temp2 from datawindow within w_imag_diag
 end type
 type tab_1 from tab within w_imag_diag
 end type
@@ -42,6 +36,12 @@ type uo_1 from uo_hclin within w_imag_diag
 end type
 type dw_temp from datawindow within w_imag_diag
 end type
+type dw_temp2 from datawindow within w_imag_diag
+end type
+type dw_t3 from datawindow within w_imag_diag
+end type
+type dw_t1 from datawindow within w_imag_diag
+end type
 end forward
 
 global type w_imag_diag from window
@@ -59,17 +59,17 @@ boolean center = true
 event vscroll pbm_vscroll
 event post_open ( )
 uo_2 uo_2
-dw_t3 dw_t3
-dw_t1 dw_t1
 dw_barra dw_barra
 dw_histo dw_histo
-dw_temp2 dw_temp2
 tab_1 tab_1
 st_vertical st_vertical
 rte_1 rte_1
 uo_odon uo_odon
 uo_1 uo_1
 dw_temp dw_temp
+dw_temp2 dw_temp2
+dw_t3 dw_t3
+dw_t1 dw_t1
 end type
 global w_imag_diag w_imag_diag
 
@@ -185,44 +185,44 @@ end subroutine
 
 on w_imag_diag.create
 this.uo_2=create uo_2
-this.dw_t3=create dw_t3
-this.dw_t1=create dw_t1
 this.dw_barra=create dw_barra
 this.dw_histo=create dw_histo
-this.dw_temp2=create dw_temp2
 this.tab_1=create tab_1
 this.st_vertical=create st_vertical
 this.rte_1=create rte_1
 this.uo_odon=create uo_odon
 this.uo_1=create uo_1
 this.dw_temp=create dw_temp
+this.dw_temp2=create dw_temp2
+this.dw_t3=create dw_t3
+this.dw_t1=create dw_t1
 this.Control[]={this.uo_2,&
-this.dw_t3,&
-this.dw_t1,&
 this.dw_barra,&
 this.dw_histo,&
-this.dw_temp2,&
 this.tab_1,&
 this.st_vertical,&
 this.rte_1,&
 this.uo_odon,&
 this.uo_1,&
-this.dw_temp}
+this.dw_temp,&
+this.dw_temp2,&
+this.dw_t3,&
+this.dw_t1}
 end on
 
 on w_imag_diag.destroy
 destroy(this.uo_2)
-destroy(this.dw_t3)
-destroy(this.dw_t1)
 destroy(this.dw_barra)
 destroy(this.dw_histo)
-destroy(this.dw_temp2)
 destroy(this.tab_1)
 destroy(this.st_vertical)
 destroy(this.rte_1)
 destroy(this.uo_odon)
 destroy(this.uo_1)
 destroy(this.dw_temp)
+destroy(this.dw_temp2)
+destroy(this.dw_t3)
+destroy(this.dw_t1)
 end on
 
 event resize;st_vertical.y=152
@@ -265,32 +265,6 @@ end type
 on uo_2.destroy
 call uo_imag_diag::destroy
 end on
-
-type dw_t3 from datawindow within w_imag_diag
-boolean visible = false
-integer x = 3246
-integer y = 832
-integer width = 123
-integer height = 112
-integer taborder = 90
-boolean enabled = false
-string title = "none"
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-type dw_t1 from datawindow within w_imag_diag
-boolean visible = false
-integer x = 3328
-integer y = 540
-integer width = 91
-integer height = 128
-integer taborder = 80
-boolean enabled = false
-string title = "none"
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
 
 type dw_barra from datawindow within w_imag_diag
 event mousemove pbm_dwnmousemove
@@ -507,7 +481,7 @@ choose case getitemstring(row,'indapdx')
 			setitem(row,'hijos',getitemnumber(row,'hijos') + dw_t1.rowcount())
 			for j=1 to dw_t1.rowcount()
 				temp=dw_t1.getitemstring(j,'cod_cups')+ ' - '+dw_t1.getitemstring(j,'descripcion')
-				cambia_dw(dw_t1,'dw_imags_diags')
+				cambia_dw(dw_temp2,'dw_imags_diags')
 				hijos=dw_temp2.retrieve(dw_t1.getitemstring(j,'coddoc'),dw_t1.getitemstring(j,'clugar_res'),dw_t1.getitemnumber(j,'nrepor'),dw_t1.getitemnumber(j,'item'))
 				sumar=1+event inserta(sumar,temp,1,getitemnumber(row,'fila'),hijos,'x',fecha,contador,clug,dw_t1.getitemnumber(j,'nrepor'),dw_t1.getitemnumber(j,'item'),dw_t1.getitemstring(j,'coddoc'),dw_t1.getitemstring(j,'clugar_res'))//apdx			
 				padre[1]=sumar -1
@@ -1035,19 +1009,6 @@ event rowfocuschanged;if currentrow<1 then return
 timer(0.5)
 end event
 
-type dw_temp2 from datawindow within w_imag_diag
-boolean visible = false
-integer x = 3291
-integer y = 408
-integer width = 123
-integer height = 76
-integer taborder = 70
-boolean enabled = false
-string title = "none"
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
 type tab_1 from tab within w_imag_diag
 boolean visible = false
 integer x = 3342
@@ -1296,4 +1257,46 @@ else
 end if
 dw_barra.event mousemove(0,0,1,dw_barra.object.datawindow)
 end event
+
+type dw_temp2 from datawindow within w_imag_diag
+boolean visible = false
+integer x = 3291
+integer y = 408
+integer width = 123
+integer height = 76
+integer taborder = 70
+boolean bringtotop = true
+boolean enabled = false
+string title = "none"
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+type dw_t3 from datawindow within w_imag_diag
+boolean visible = false
+integer x = 3246
+integer y = 832
+integer width = 123
+integer height = 112
+integer taborder = 90
+boolean bringtotop = true
+boolean enabled = false
+string title = "none"
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+type dw_t1 from datawindow within w_imag_diag
+boolean visible = false
+integer x = 3328
+integer y = 540
+integer width = 91
+integer height = 128
+integer taborder = 80
+boolean bringtotop = true
+boolean enabled = false
+string title = "none"
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
 
