@@ -761,9 +761,15 @@ if sqlca.sqlnrows=0 then
 	return 
 end if
 
+if ls_pro=32 then 
+	RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "DIRECTORIO", Regstring!, gs_directorio)
+end if
+if ls_pro=64 THEN //ambiente a 64 bits
+	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "DIRECTORIO", Regstring!, gs_directorio)
+end if
+
 g_ctrlv='0'
 closewithreturn(parent,'1')
-
 end event
 
 event getfocus;default=true

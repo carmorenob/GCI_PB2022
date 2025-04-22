@@ -14,6 +14,7 @@ String is_fileini = "conf.ini"
 Long il_arch_log
 String is_nivelactual
 end variables
+
 forward prototypes
 private function integer f_log_archivo (string as_mensaje)
 public subroutine fatal (string as_mensaje)
@@ -37,7 +38,7 @@ private function integer f_log_archivo (string as_mensaje);///******************
 //**************************************************************************************
 //*Modificaciones
 //*************************************************************************************/
-changedirectory("c:\tmp\")
+changedirectory(gs_directorio)
 il_arch_log = FileOpen(is_file, linemode!, Write!, shared!, append! )
 FileWriteEx(il_arch_log, string(datetime(today(),now()))+'  '+as_mensaje)
 FileClose ( il_arch_log )
@@ -166,11 +167,9 @@ end subroutine
 
 public function integer inicia (string p_nombre);IF Fileexists(is_fileini) THEN
 	is_nivelactual 	= ProfileString ( is_fileini, "Log", "Nivel", "Info")	
-//	is_file 			= ProfileString ( is_fileini, "File", "Name", "gci.log")
 	is_file 			= ProfileString ( is_fileini, "File", "Name", p_nombre)
 ELSE
 	is_nivelactual 	= "Info"
-//	is_file 			= "gci.log"
 	is_file				=p_nombre
 END IF
 return 1
