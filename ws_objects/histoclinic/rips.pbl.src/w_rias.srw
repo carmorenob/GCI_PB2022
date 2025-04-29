@@ -262,6 +262,8 @@ type tab_3 from tab within tp_p
 end type
 type det from userobject within tab_3
 end type
+type pb_9 from picturebutton within det
+end type
 type pb_json_sf from picturebutton within det
 end type
 type pb_diacc from picturebutton within det
@@ -279,6 +281,7 @@ end type
 type dw_det from datawindow within det
 end type
 type det from userobject within tab_3
+pb_9 pb_9
 pb_json_sf pb_json_sf
 pb_diacc pb_diacc
 pb_8 pb_8
@@ -5737,6 +5740,7 @@ string text = "Detalle"
 long tabtextcolor = 33554432
 string picturename = "deta_rad.ico"
 long picturemaskcolor = 536870912
+pb_9 pb_9
 pb_json_sf pb_json_sf
 pb_diacc pb_diacc
 pb_8 pb_8
@@ -5748,6 +5752,7 @@ dw_det dw_det
 end type
 
 on det.create
+this.pb_9=create pb_9
 this.pb_json_sf=create pb_json_sf
 this.pb_diacc=create pb_diacc
 this.pb_8=create pb_8
@@ -5756,7 +5761,8 @@ this.pb_anula=create pb_anula
 this.pb_dian=create pb_dian
 this.pb_radvi=create pb_radvi
 this.dw_det=create dw_det
-this.Control[]={this.pb_json_sf,&
+this.Control[]={this.pb_9,&
+this.pb_json_sf,&
 this.pb_diacc,&
 this.pb_8,&
 this.pb_diac,&
@@ -5767,6 +5773,7 @@ this.dw_det}
 end on
 
 on det.destroy
+destroy(this.pb_9)
 destroy(this.pb_json_sf)
 destroy(this.pb_diacc)
 destroy(this.pb_8)
@@ -5776,6 +5783,25 @@ destroy(this.pb_dian)
 destroy(this.pb_radvi)
 destroy(this.dw_det)
 end on
+
+type pb_9 from picturebutton within det
+integer x = 2889
+integer y = 436
+integer width = 146
+integer height = 128
+integer taborder = 100
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+string text = "none"
+boolean originalsize = true
+string picturename = "json.gif"
+string disabledname = "d_json.gif"
+alignment htextalign = left!
+end type
 
 type pb_json_sf from picturebutton within det
 boolean visible = false
@@ -6063,6 +6089,48 @@ End if
 
 facturas=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'num_radicacion')
 lst_lle=u_elec.sign_chilkat(dw_electronica,facturas,clugar,'F',0,'f','RV')
+
+//////////////////////// APIDOCKER
+if gs_apidocker='1' then
+	string ls_token, ls_tds,ls_docs,ls_pass,ls_ipsn,ls_url,ls_tamb
+	nvo_fevrips u_rips
+	u_rips=create nvo_fevrips
+	st_retorno_gral lst_ret_gral
+
+	SELECT 
+		usuarios.tipodoc, usuarios.documento, 
+		usuarios.clave_sispro, ips.documento,ips.url_apidocker,ips.tipo_ambiente
+	INTO
+		:ls_tds,:ls_docs,:ls_pass,:ls_ipsn,:ls_url,:ls_tamb
+	FROM 
+		usuarios, ips
+	WHERE (((usuarios.usuario)=:usuario));
+	if sqlca.sqlnrows=0 then
+		messagebox('Atencíon','No hay usuario sispro asociado verificar')
+	end if
+
+	if isnull(ls_url)  then 
+		messagebox('Atencíon','No hay url sisipro configurada verificar en IPS')
+	end if
+	
+	if isnull(ls_tamb) then
+		messagebox('Atencíon','No hay Ambiente Sispro configurado verificar en IPS')
+	end if
+
+	if isnull(ls_tds)  or isnull(ls_docs) or isnull(ls_pass) or isnull(ls_url) or isnull(ls_tamb)  then
+		return -1
+	end if
+		
+	ls_token=u_rips.sispro_login(ls_tamb,ls_tds,ls_docs,ls_pass,ls_ipsn,ls_url)
+	if ls_token<>'-1' then 
+		lst_ret_gral=u_rips.sispro_carga_capita_ini(ls_token,'2','','')
+		if lst_ret_gral.i_valor=-1 then 
+			rollback;
+		end if
+	end if
+	destroy u_rips
+end if
+
 destroy u_elec
 ////////ELECTRONICA	
 end event

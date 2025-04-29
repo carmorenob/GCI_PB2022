@@ -16,8 +16,6 @@ type dw_electronica from uo_datawindow within w_factura
 end type
 type cb_2 from commandbutton within w_factura
 end type
-type cb_1 from commandbutton within w_factura
-end type
 end forward
 
 global type w_factura from w_factura_base
@@ -32,7 +30,6 @@ dw_rela_abon dw_rela_abon
 dw_odo_cita dw_odo_cita
 dw_electronica dw_electronica
 cb_2 cb_2
-cb_1 cb_1
 end type
 global w_factura w_factura
 
@@ -340,6 +337,7 @@ for k=1 to dw_resumen.rowcount()
 	end if
 	////////ELECTRONICA		
 next //k=1 to dw_resumen.rowcount()
+
 dw_factura.setfilter("")
 dw_factura.filter()
 //////////////// mover kardex  ////////////////////////////////////////////////////////////////
@@ -726,16 +724,14 @@ end if
 if cbx_2.checked then
   	any parr[3]
 	for k=1 to dw_resumen.rowcount()	
-	//if dw_rec_caj_cab.rowcount()>0 then
-	if UpperBound(ldb_recibos)>0 then
-		if ldb_recibos[k]=0 then continue
-		parr[1]=ldb_recibos[k]
-		parr[2]=clugar
-		parr[3]='1'
-		pb_reci.imprimir(parr,'','0')
-		Messagebox("Recibo generado con éxito","Número de Recibo: "+string(ldb_recibos[k]))
-	end if
-	//end if
+		if UpperBound(ldb_recibos)>0 then
+			if ldb_recibos[k]=0 then continue
+			parr[1]=ldb_recibos[k]
+			parr[2]=clugar
+			parr[3]='1'
+			pb_reci.imprimir(parr,'','0')
+			Messagebox("Recibo generado con éxito","Número de Recibo: "+string(ldb_recibos[k]))
+		end if
 	next
 end if
 if dw_resumen.rowcount()=1 then
@@ -855,7 +851,6 @@ this.dw_rela_abon=create dw_rela_abon
 this.dw_odo_cita=create dw_odo_cita
 this.dw_electronica=create dw_electronica
 this.cb_2=create cb_2
-this.cb_1=create cb_1
 iCurrent=UpperBound(this.Control)
 this.Control[iCurrent+1]=this.dw_fact_subcpo
 this.Control[iCurrent+2]=this.dw_fact_cab
@@ -864,7 +859,6 @@ this.Control[iCurrent+4]=this.dw_rela_abon
 this.Control[iCurrent+5]=this.dw_odo_cita
 this.Control[iCurrent+6]=this.dw_electronica
 this.Control[iCurrent+7]=this.cb_2
-this.Control[iCurrent+8]=this.cb_1
 end on
 
 on w_factura.destroy
@@ -876,7 +870,6 @@ destroy(this.dw_rela_abon)
 destroy(this.dw_odo_cita)
 destroy(this.dw_electronica)
 destroy(this.cb_2)
-destroy(this.cb_1)
 end on
 
 type dw_dx from w_factura_base`dw_dx within w_factura
@@ -1410,30 +1403,5 @@ messagebox('', string(loo_JsonResponse.Emit()))
 destroy loo_Rest
 destroy loo_SbResponseBody
 destroy loo_JsonResponse
-end event
-
-type cb_1 from commandbutton within w_factura
-boolean visible = false
-integer x = 4786
-integer y = 392
-integer width = 279
-integer height = 80
-integer taborder = 180
-integer textsize = -8
-integer weight = 400
-fontcharset fontcharset = ansi!
-fontpitch fontpitch = variable!
-fontfamily fontfamily = swiss!
-string facename = "Arial"
-string text = "none"
-end type
-
-event clicked;////////ELECTRONICA	
-nvo_factura_electronica u_elec
-st_ret_dian    lst_lle
-
-u_elec=create nvo_factura_electronica
-lst_lle=u_elec.sign_chilkat(dw_electronica,9898,'07','F',0,'f','FV')
-////////ELECTRONICA	
 end event
 

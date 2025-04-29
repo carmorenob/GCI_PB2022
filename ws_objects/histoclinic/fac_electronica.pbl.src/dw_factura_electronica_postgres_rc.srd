@@ -233,13 +233,35 @@ table(column=(type=char(8190) updatewhereclause=yes name=cufe dbname="cufe" )
 				end
 			end
 		end as desc_prod
-FROM (((((((((((((((((((factcab INNER JOIN factcpo ON (factcab.tipo = factcpo.tipo) AND (factcab.clugar = factcpo.clugar) AND (factcab.nfact = factcpo.nfact)) INNER JOIN lugar ON factcab.clugar = lugar.codlugar) INNER JOIN ips ON factcab.ips = ips.c_ips) INNER JOIN empresa ON factcab.cemp = empresa.codemp) LEFT JOIN proced ON factcpo.proccups = proced.codproced) INNER JOIN ciudades ON (lugar.ciudad = ciudades.codciudad) AND (lugar.dpto = ciudades.cdepto)) INNER JOIN departamentos ON ciudades.cdepto = departamentos.coddepar) INNER JOIN pacientes ON (factcpo.documento = pacientes.documento) AND (factcpo.tipodoc = pacientes.tipodoc)) INNER JOIN emppac ON (factcpo.ccontrato = emppac.codcontrato) AND (factcpo.cemp = emppac.codemp) AND (factcpo.documento = emppac.documento) AND (factcpo.tipodoc = emppac.tipodoc)) INNER JOIN tipoidentificacion ON pacientes.tipodoc = tipoidentificacion.codtipoident) INNER JOIN contratos ON (factcpo.ccontrato = contratos.codcontrato) AND (factcpo.cemp = contratos.codemp)) LEFT JOIN pm_tipoidentificacion_fems ON tipoidentificacion.ti_fems = pm_tipoidentificacion_fems.codigo) LEFT JOIN pm_modalidapago_fems ON contratos.mp_fems = pm_modalidapago_fems.codigo) LEFT JOIN tiporegimen ON contratos.ctreg = tiporegimen.tipo) LEFT JOIN pm_planbene_fems ON tiporegimen.pl_fems = pm_planbene_fems.codigo) LEFT JOIN pm_umedida_dian AS pm_umedida_dian_1 ON proced.umd_dian = pm_umedida_dian_1.cumd) INNER JOIN (ciudades AS ciudades_1 INNER JOIN departamentos AS departamentos_1 ON ciudades_1.cdepto = departamentos_1.coddepar) ON (pacientes.cdepto = ciudades_1.cdepto) AND (pacientes.cciudad = ciudades_1.codciudad)) INNER JOIN tesorecajcpo ON (factcpo.tipo = tesorecajcpo.tipo_fac) AND (factcpo.clugar = tesorecajcpo.clugar_fac) AND (factcpo.nfact = tesorecajcpo.nfact)) INNER JOIN tesorecajcab ON (tesorecajcpo.clugar = tesorecajcab.clugar) AND (tesorecajcpo.nrcaj = tesorecajcab.nrcaj)) INNER JOIN ((documentos_autfact INNER JOIN documentos ON documentos_autfact.coddoc = documentos.coddoc) INNER JOIN documentos_gral ON documentos.coddoc = documentos_gral.coddoc) ON (tesorecajcab.clugar = documentos.clugar) AND (tesorecajcab.c_aut = documentos_autfact.c_aut)
+FROM 
+	(((((((((((((((((((factcab 
+	INNER JOIN factcpo ON (factcab.tipo = factcpo.tipo) AND (factcab.clugar = factcpo.clugar) AND (factcab.nfact = factcpo.nfact)) 
+	INNER JOIN lugar ON factcab.clugar = lugar.codlugar) 
+	INNER JOIN ips ON factcab.ips = ips.c_ips) 
+	INNER JOIN empresa ON factcab.cemp = empresa.codemp) 
+	LEFT JOIN proced ON factcpo.proccups = proced.codproced) 
+	INNER JOIN ciudades ON (lugar.ciudad = ciudades.codciudad) AND (lugar.dpto = ciudades.cdepto)) 
+	INNER JOIN departamentos ON ciudades.cdepto = departamentos.coddepar) 
+	INNER JOIN pacientes ON (factcpo.documento = pacientes.documento) AND (factcpo.tipodoc = pacientes.tipodoc)) 
+	INNER JOIN emppac ON (factcpo.ccontrato = emppac.codcontrato) AND (factcpo.cemp = emppac.codemp) 
+	AND (factcpo.documento = emppac.documento) AND (factcpo.tipodoc = emppac.tipodoc)) 
+	INNER JOIN tipoidentificacion ON pacientes.tipodoc = tipoidentificacion.codtipoident) 
+	INNER JOIN contratos ON (factcpo.ccontrato = contratos.codcontrato) AND (factcpo.cemp = contratos.codemp)) 
+	LEFT JOIN pm_tipoidentificacion_fems ON tipoidentificacion.ti_fems = pm_tipoidentificacion_fems.codigo) 
+	LEFT JOIN pm_modalidapago_fems ON contratos.mp_fems = pm_modalidapago_fems.codigo) 
+	LEFT JOIN tiporegimen ON contratos.ctreg = tiporegimen.tipo) 
+	LEFT JOIN pm_planbene_fems ON tiporegimen.pl_fems = pm_planbene_fems.codigo) 
+	LEFT JOIN pm_umedida_dian AS pm_umedida_dian_1 ON proced.umd_dian = pm_umedida_dian_1.cumd) 
+	INNER JOIN (ciudades AS ciudades_1 INNER JOIN departamentos AS departamentos_1 ON ciudades_1.cdepto = departamentos_1.coddepar) 
+	ON (pacientes.cdepto = ciudades_1.cdepto) AND (pacientes.cciudad = ciudades_1.codciudad)) 
+	INNER JOIN tesorecajcpo ON (factcpo.tipo = tesorecajcpo.tipo_fac) AND (factcpo.clugar = tesorecajcpo.clugar_fac) AND (factcpo.nfact = tesorecajcpo.nfact)) 
+	INNER JOIN tesorecajcab ON (tesorecajcpo.clugar = tesorecajcab.clugar) AND (tesorecajcpo.nrcaj = tesorecajcab.nrcaj)) 
+	INNER JOIN ((documentos_autfact INNER JOIN documentos ON documentos_autfact.coddoc = documentos.coddoc) 
+	INNER JOIN documentos_gral ON documentos.coddoc = documentos_gral.coddoc) ON (tesorecajcab.clugar = documentos.clugar) 
+	AND (tesorecajcab.c_aut = documentos_autfact.c_aut)
 WHERE
     ((factcab.estado is null ) and (factcpo.vproced<>0)and
-	(((factcab.nfact)=:nfact) and ((factcab.clugar)=:lugar) and ((factcab.tipo)=:tipo)  )
-	
-	
-	)
+	(((factcab.nfact)=:nfact) and ((factcab.clugar)=:lugar) and ((factcab.tipo)=:tipo)))
 GROUP BY
 	tesorecajcpo.nrcaj,tesorecajcpo.CLUGAR,factcab.TIPO,
 	tesorecajcab.fecha,tesorecajcab.hora,
@@ -530,4 +552,3 @@ export.xml(usetemplate="dian" headgroups="1" includewhitespace="0" metadatatype=
 import.xml()
 export.pdf(method=2 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 
