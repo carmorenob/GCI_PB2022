@@ -585,7 +585,11 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 					ripse_json.AddItemString(ldb_fcon,"codPrestador",lds_ripsh.getitemstring(ldb_ci,'c_supersalud'))
 					ripse_json.AddItemString(ldb_fcon,"viaIngresoServicioSalud",lds_ripsh.getitemstring(ldb_ci,'viaingreso'))					
 					ripse_json.AddItemString(ldb_fcon,"fechaInicioAtencion",string(datetime(date(lds_ripsh.getitemdatetime(ldb_ci,'fechaingreso')),time(lds_ripsh.getitemdatetime(ldb_ci,'horaingreso'))),'yyyy-mm-dd hh:mm'))
-					ripse_json.AddItemString(ldb_fcon,"numAutorizacion",lds_ripsh.getitemstring(ldb_ci,'autoriza'))										
+					if isnull(lds_ripsh.getitemstring(ldb_ci,'autoriza')) or lds_ripsh.getitemstring(ldb_ci,'autoriza')='' then
+						ripse_json.AddItemNull(ldb_fcon,"numAutorizacion")
+					else
+						ripse_json.AddItemString(ldb_fcon,"numAutorizacion",lds_ripsh.getitemstring(ldb_ci,'autoriza'))
+					end if
 					ripse_json.AddItemString(ldb_fcon,"causaMotivoAtencion",lds_ripsh.getitemstring(ldb_ci,'causaexterna'))
 					ripse_json.AddItemString(ldb_fcon,"codDiagnosticoPrincipal",lds_ripsh.getitemstring(ldb_ci,'cod_rips'))
 					ripse_json.AddItemString(ldb_fcon,"codDiagnosticoPrincipaIE",lds_ripsh.getitemstring(ldb_ci,'cod_rips_1'))
@@ -660,7 +664,12 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 					ripse_json.AddItemString(ldb_fcon,"numAutorizacion",lds_ripsme.getitemstring(ldb_ci,'autorizacion'))
 					ripse_json.AddItemString(ldb_fcon,"idMIPRES",lds_ripsme.getitemstring(ldb_ci,'idmipres'))
 					ripse_json.AddItemString(ldb_fcon,"fechaDispensAdmon",string(lds_ripsme.getitemdatetime(ldb_ci,'fecha'),'yyyy-mm-dd HH:mm'))
-					ripse_json.AddItemString(ldb_fcon,"codDiagnosticoPrincipal",lds_ripsme.getitemstring(ldb_ci,'dx1'))
+					if isnull(lds_ripsme.getitemstring(ldb_ci,'dx1')) or lds_ripsme.getitemstring(ldb_ci,'dx1')='' then
+						ripse_json.AddItemNull(ldb_fcon,"codDiagnosticoPrincipal")	
+					else
+						ripse_json.AddItemString(ldb_fcon,"codDiagnosticoPrincipal",lds_ripsme.getitemstring(ldb_ci,'dx1'))
+					end if
+					
 					if isnull(lds_ripsme.getitemstring(ldb_ci,'dxr1')) or lds_ripsme.getitemstring(ldb_ci,'dxr1')='' then
 						ripse_json.AddItemNull(ldb_fcon,"codDiagnosticoRelacionado")	
 					else
@@ -909,7 +918,6 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 			next
 		end if
 		
-
 		lds_rips.dataobject='dw_json_procedimiento'
 		lds_rips.settransobject(sqlca)
 		if lds_rips.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
@@ -976,7 +984,6 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 			next
 		end if	
 		
-
 		lds_rips.dataobject='dw_json_urgencia'
 		lds_rips.settransobject(sqlca)
 		li_ci=1
@@ -1017,7 +1024,6 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 			next
 		end if	
 		
-
 		lds_rips.dataobject='dw_json_hospitaliza'
 		lds_rips.settransobject(sqlca)
 		li_ci=1
@@ -1028,7 +1034,11 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 				ripse_json.AddItemString(li_fcon,"codPrestador",lds_rips.getitemstring(li_ci,'c_supersalud'))
 				ripse_json.AddItemString(li_fcon,"viaIngresoServicioSalud",lds_rips.getitemstring(li_ci,'viaingreso'))
 				ripse_json.AddItemString(li_fcon,"fechalnicioAtencion",string(datetime(date(lds_rips.getitemdatetime(li_ci,'fechaingreso')),time(lds_rips.getitemdatetime(li_ci,'horaingreso'))),'yyyy-mm-dd hh:mm'))
-				ripse_json.AddItemString(li_fcon,"numAutorizacion",lds_rips.getitemstring(li_ci,'autoriza'))	
+				if isnull(lds_rips.getitemstring(li_ci,'autoriza')) or lds_rips.getitemstring(li_ci,'autoriza')='' then
+					ripse_json.AddItemNull(li_fcon,"numAutorizacion")
+				else
+					ripse_json.AddItemString(li_fcon,"numAutorizacion",lds_rips.getitemstring(li_ci,'autoriza'))	
+				end if
 				ripse_json.AddItemString(li_fcon,"causaMotivoAtencion",lds_rips.getitemstring(li_ci,'causaexterna'))
 				ripse_json.AddItemString(li_fcon,"codDiagnosticoPrincipal",lds_rips.getitemstring(li_ci,'cod_rips'))
 				ripse_json.AddItemString(li_fcon,"codDiagnosticoPrincipaIE",lds_rips.getitemstring(li_ci,'cod_rips_1'))
@@ -1065,7 +1075,6 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 			next
 		end if		
 				
-
 		lds_rips.dataobject='dw_json_recienn'
 		lds_rips.settransobject(sqlca)
 		li_ci=1
@@ -1093,7 +1102,6 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 			next
 		end if
 		
-
 		lds_rips.dataobject='dw_json_medica'
 		lds_rips.settransobject(sqlca)
 		if lds_rips.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
@@ -1108,8 +1116,18 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 					ripse_json.AddItemString(li_fcon,"idMIPRES",lds_rips.getitemstring(li_ci,'idmipres'))
 				end if				
 				ripse_json.AddItemString(li_fcon,"fechaDispensAdmon",string(lds_rips.getitemdatetime(li_ci,'fecha'),'yyyy-mm-dd HH:mm'))
-				ripse_json.AddItemString(li_fcon,"codDiagnosticoPrincipal",lds_rips.getitemstring(li_ci,'dx1'))
-				ripse_json.AddItemString(li_fcon,"codDiagnosticoRelacionado",lds_rips.getitemstring(li_ci,'dxr1'))
+				if isnull(lds_rips.getitemstring(li_ci,'dx1')) or lds_rips.getitemstring(li_ci,'dx1')='' then
+					ripse_json.AddItemNull(li_fcon,"codDiagnosticoPrincipal")
+				else
+					ripse_json.AddItemString(li_fcon,"codDiagnosticoPrincipal",lds_rips.getitemstring(li_ci,'dx1'))
+				end if
+				
+				if isnull(lds_rips.getitemstring(li_ci,'dxr1')) or lds_rips.getitemstring(li_ci,'dxr1')='' then
+					ripse_json.AddItemNull(li_fcon,"codDiagnosticoRelacionado")
+				else
+					ripse_json.AddItemString(li_fcon,"codDiagnosticoRelacionado",lds_rips.getitemstring(li_ci,'dxr1'))
+				end if
+				
 				ripse_json.AddItemString(li_fcon,"tipoMedicamento",lds_rips.getitemstring(li_ci,'cod_tmedica'))
 				
 				if isnull(lds_rips.getitemstring(li_ci,'ium')) or lds_rips.getitemstring(li_ci,'ium')='' then
