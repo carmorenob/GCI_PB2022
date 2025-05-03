@@ -29,6 +29,22 @@ pb_newre pb_newre
 end type
 type tabpage_4 from userobject within tab_2
 end type
+type st_8 from statictext within tabpage_4
+end type
+type sle_tokens from singlelineedit within tabpage_4
+end type
+type sle_pasclie from singlelineedit within tabpage_4
+end type
+type sle_idclie from singlelineedit within tabpage_4
+end type
+type sle_token from singlelineedit within tabpage_4
+end type
+type st_7 from statictext within tabpage_4
+end type
+type st_6 from statictext within tabpage_4
+end type
+type st_5 from statictext within tabpage_4
+end type
 type pb_1 from picturebutton within tabpage_4
 end type
 type st_3 from statictext within tabpage_4
@@ -75,7 +91,21 @@ type gb_1 from groupbox within tabpage_4
 end type
 type gb_2 from groupbox within tabpage_4
 end type
+type gb_4 from groupbox within tabpage_4
+end type
+type st_4 from statictext within tabpage_4
+end type
+type sle_endpoint from singlelineedit within tabpage_4
+end type
 type tabpage_4 from userobject within tab_2
+st_8 st_8
+sle_tokens sle_tokens
+sle_pasclie sle_pasclie
+sle_idclie sle_idclie
+sle_token sle_token
+st_7 st_7
+st_6 st_6
+st_5 st_5
 pb_1 pb_1
 st_3 st_3
 sle_ruta sle_ruta
@@ -99,6 +129,9 @@ st_16 st_16
 gb_3 gb_3
 gb_1 gb_1
 gb_2 gb_2
+gb_4 gb_4
+st_4 st_4
+sle_endpoint sle_endpoint
 end type
 type tab_2 from tab within w_docus_new
 tabpage_2 tabpage_2
@@ -140,7 +173,7 @@ end forward
 global type w_docus_new from window
 string tag = "Modificó o creó un Documento. Desea guardar los cambios ?"
 integer width = 5801
-integer height = 2064
+integer height = 2244
 boolean titlebar = true
 string title = "Documentos"
 boolean controlmenu = true
@@ -157,10 +190,9 @@ global w_docus_new w_docus_new
 type variables
 datawindowchild hija,dw_ccosto
 string tipo_col,anterior,orden,i_modulo,i_cdoc,i_operacion
-boolean i_nuevo,i_cambio, lb_paso=false, lb_paso1=false 
+boolean i_nuevo,i_cambio, lb_paso=false, lb_paso1=false, lb_paso2=false , lb_paso3=false
 long i_fila
 end variables
-
 forward prototypes
 public subroutine reset_dws ()
 public function integer f_pregunta ()
@@ -207,6 +239,24 @@ end if
 if tab_2.tabpage_4.rb_nin.checked = True then
 	tab_2.tabpage_2.dw_doc.setitem(fila,'conexion','N')
 end if	
+
+tab_2.tabpage_2.dw_doc.setitem(fila,'endpoint',tab_2.tabpage_4.sle_endpoint.text)
+tab_2.tabpage_2.dw_doc.setitem(fila,'token',tab_2.tabpage_4.sle_token.text)
+
+if not isnull(tab_2.tabpage_4.sle_idclie.text) and len(tab_2.tabpage_4.sle_idclie.text)<>0 then
+	 if lb_paso2 then 
+		tab_2.tabpage_2.dw_doc.setitem(fila,'clientid',f_encripta_new(tab_2.tabpage_4.sle_idclie.text))
+		lb_paso2=false
+	end if
+end if
+
+if not isnull(tab_2.tabpage_4.sle_pasclie.text) and len(tab_2.tabpage_4.sle_pasclie.text)<>0 then
+	 if lb_paso3 then 
+		tab_2.tabpage_2.dw_doc.setitem(fila,'clientsecret',f_encripta_new(tab_2.tabpage_4.sle_pasclie.text))
+		lb_paso3=false
+	end if
+end if
+tab_2.tabpage_2.dw_doc.setitem(fila,'tokens',tab_2.tabpage_4.sle_tokens.text)
 
 if not isnull(tab_2.tabpage_4.sle_ruta.text) and len(tab_2.tabpage_4.sle_ruta.text) <>0 then 
 	tab_2.tabpage_2.dw_doc.setitem(fila,'ruta_certificado',tab_2.tabpage_4.sle_ruta.text)
@@ -325,8 +375,8 @@ event destroy ( )
 integer x = 18
 integer y = 940
 integer width = 5728
-integer height = 972
-integer taborder = 50
+integer height = 1192
+integer taborder = 20
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -363,7 +413,7 @@ event destroy ( )
 integer x = 18
 integer y = 112
 integer width = 5691
-integer height = 844
+integer height = 1064
 long backcolor = 67108864
 string text = "Documentos Lugar"
 long tabtextcolor = 33554432
@@ -440,7 +490,7 @@ type dw_doc from datawindow within tabpage_2
 integer x = 27
 integer y = 32
 integer width = 5435
-integer height = 800
+integer height = 1004
 integer taborder = 60
 string dataobject = "dw_doc_todo"
 boolean hscrollbar = true
@@ -556,6 +606,12 @@ CHOOSE CASE getitemstring(getrow(),'conexion')
 	 	tab_2.tabpage_4.rb_nin.checked = True
 	END CHOOSE	
 end if
+
+tab_2.tabpage_4.sle_endpoint.text=tab_2.tabpage_2.dw_doc.getitemstring(getrow(),'endpoint')
+tab_2.tabpage_4.sle_token.text=tab_2.tabpage_2.dw_doc.getitemstring(getrow(),'token')
+tab_2.tabpage_4.sle_idclie.text=tab_2.tabpage_2.dw_doc.getitemstring(getrow(),'clientid')
+tab_2.tabpage_4.sle_pasclie.text=tab_2.tabpage_2.dw_doc.getitemstring(getrow(),'clientsecret')
+tab_2.tabpage_4.sle_tokens.text=tab_2.tabpage_2.dw_doc.getitemstring(getrow(),'tokens')
 tab_2.tabpage_4.sle_ruta.text=tab_2.tabpage_2.dw_doc.getitemstring(getrow(),'ruta_certificado')
 tab_2.tabpage_4.sle_passcert.text=f_descripta(tab_2.tabpage_2.dw_doc.getitemstring(getrow(),'clave_certificado'))
 end event
@@ -627,7 +683,7 @@ type tabpage_3 from userobject within tab_2
 integer x = 18
 integer y = 112
 integer width = 5691
-integer height = 844
+integer height = 1064
 long backcolor = 67108864
 string text = "Resoluciones Facturación Autorizadas"
 long tabtextcolor = 33554432
@@ -654,7 +710,7 @@ event p_itemchanged ( string columna )
 integer x = 32
 integer y = 36
 integer width = 5454
-integer height = 760
+integer height = 1008
 integer taborder = 50
 string dataobject = "dw_documentos_x_lugar_nautoriza"
 boolean hscrollbar = true
@@ -762,12 +818,20 @@ type tabpage_4 from userobject within tab_2
 integer x = 18
 integer y = 112
 integer width = 5691
-integer height = 844
+integer height = 1064
 long backcolor = 67108864
 string text = "Configuración Factura Electronica "
 long tabtextcolor = 33554432
 string picturename = "qr.ico"
 long picturemaskcolor = 536870912
+st_8 st_8
+sle_tokens sle_tokens
+sle_pasclie sle_pasclie
+sle_idclie sle_idclie
+sle_token sle_token
+st_7 st_7
+st_6 st_6
+st_5 st_5
 pb_1 pb_1
 st_3 st_3
 sle_ruta sle_ruta
@@ -791,9 +855,20 @@ st_16 st_16
 gb_3 gb_3
 gb_1 gb_1
 gb_2 gb_2
+gb_4 gb_4
+st_4 st_4
+sle_endpoint sle_endpoint
 end type
 
 on tabpage_4.create
+this.st_8=create st_8
+this.sle_tokens=create sle_tokens
+this.sle_pasclie=create sle_pasclie
+this.sle_idclie=create sle_idclie
+this.sle_token=create sle_token
+this.st_7=create st_7
+this.st_6=create st_6
+this.st_5=create st_5
 this.pb_1=create pb_1
 this.st_3=create st_3
 this.sle_ruta=create sle_ruta
@@ -817,7 +892,18 @@ this.st_16=create st_16
 this.gb_3=create gb_3
 this.gb_1=create gb_1
 this.gb_2=create gb_2
-this.Control[]={this.pb_1,&
+this.gb_4=create gb_4
+this.st_4=create st_4
+this.sle_endpoint=create sle_endpoint
+this.Control[]={this.st_8,&
+this.sle_tokens,&
+this.sle_pasclie,&
+this.sle_idclie,&
+this.sle_token,&
+this.st_7,&
+this.st_6,&
+this.st_5,&
+this.pb_1,&
 this.st_3,&
 this.sle_ruta,&
 this.st_2,&
@@ -839,10 +925,21 @@ this.sle_server,&
 this.st_16,&
 this.gb_3,&
 this.gb_1,&
-this.gb_2}
+this.gb_2,&
+this.gb_4,&
+this.st_4,&
+this.sle_endpoint}
 end on
 
 on tabpage_4.destroy
+destroy(this.st_8)
+destroy(this.sle_tokens)
+destroy(this.sle_pasclie)
+destroy(this.sle_idclie)
+destroy(this.sle_token)
+destroy(this.st_7)
+destroy(this.st_6)
+destroy(this.st_5)
 destroy(this.pb_1)
 destroy(this.st_3)
 destroy(this.sle_ruta)
@@ -866,11 +963,150 @@ destroy(this.st_16)
 destroy(this.gb_3)
 destroy(this.gb_1)
 destroy(this.gb_2)
+destroy(this.gb_4)
+destroy(this.st_4)
+destroy(this.sle_endpoint)
 end on
 
+type st_8 from statictext within tabpage_4
+integer x = 2505
+integer y = 812
+integer width = 297
+integer height = 80
+integer textsize = -8
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 67108864
+string text = "Tokens"
+boolean focusrectangle = false
+end type
+
+type sle_tokens from singlelineedit within tabpage_4
+integer x = 2825
+integer y = 812
+integer width = 2062
+integer height = 80
+integer taborder = 160
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+borderstyle borderstyle = stylelowered!
+end type
+
+type sle_pasclie from singlelineedit within tabpage_4
+integer x = 2816
+integer y = 708
+integer width = 2075
+integer height = 92
+integer taborder = 60
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+boolean password = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event modified;lb_paso3=true
+end event
+
+type sle_idclie from singlelineedit within tabpage_4
+integer x = 361
+integer y = 912
+integer width = 2080
+integer height = 80
+integer taborder = 160
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+boolean password = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event modified;lb_paso2=true
+end event
+
+type sle_token from singlelineedit within tabpage_4
+integer x = 361
+integer y = 816
+integer width = 2080
+integer height = 80
+integer taborder = 150
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+borderstyle borderstyle = stylelowered!
+end type
+
+type st_7 from statictext within tabpage_4
+integer x = 2505
+integer y = 728
+integer width = 302
+integer height = 64
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 67108864
+string text = "Client_secret"
+boolean focusrectangle = false
+end type
+
+type st_6 from statictext within tabpage_4
+integer x = 82
+integer y = 924
+integer width = 238
+integer height = 80
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 67108864
+string text = "Client_id"
+boolean focusrectangle = false
+end type
+
+type st_5 from statictext within tabpage_4
+integer x = 82
+integer y = 832
+integer width = 402
+integer height = 80
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 67108864
+string text = "Token_url"
+boolean focusrectangle = false
+end type
+
 type pb_1 from picturebutton within tabpage_4
-integer x = 3735
-integer y = 92
+integer x = 4736
+integer y = 80
 integer width = 146
 integer height = 128
 integer taborder = 50
@@ -896,7 +1132,7 @@ end if
 end event
 
 type st_3 from statictext within tabpage_4
-integer x = 2048
+integer x = 2560
 integer y = 180
 integer width = 581
 integer height = 56
@@ -912,9 +1148,9 @@ boolean focusrectangle = false
 end type
 
 type sle_ruta from singlelineedit within tabpage_4
-integer x = 2043
+integer x = 2551
 integer y = 96
-integer width = 1650
+integer width = 2167
 integer height = 80
 integer taborder = 50
 integer textsize = -8
@@ -930,7 +1166,7 @@ event modified;lb_paso=true
 end event
 
 type st_2 from statictext within tabpage_4
-integer x = 2043
+integer x = 2551
 integer y = 416
 integer width = 1038
 integer height = 56
@@ -946,9 +1182,9 @@ boolean focusrectangle = false
 end type
 
 type sle_passcert from singlelineedit within tabpage_4
-integer x = 2043
+integer x = 2551
 integer y = 308
-integer width = 997
+integer width = 1655
 integer height = 80
 integer taborder = 50
 integer textsize = -8
@@ -965,9 +1201,9 @@ event modified;lb_paso=true
 end event
 
 type rb_tls from radiobutton within tabpage_4
-integer x = 809
-integer y = 688
-integer width = 343
+integer x = 1527
+integer y = 540
+integer width = 311
 integer height = 72
 boolean bringtotop = true
 integer textsize = -8
@@ -985,9 +1221,9 @@ event clicked;//sle_port.text = "587"
 end event
 
 type rb_ssl from radiobutton within tabpage_4
-integer x = 809
-integer y = 608
-integer width = 343
+integer x = 1157
+integer y = 544
+integer width = 293
 integer height = 72
 boolean bringtotop = true
 integer textsize = -8
@@ -1005,7 +1241,7 @@ end event
 
 type rb_nin from radiobutton within tabpage_4
 integer x = 809
-integer y = 544
+integer y = 540
 integer width = 343
 integer height = 72
 boolean bringtotop = true
@@ -1025,7 +1261,7 @@ end event
 
 type st_25 from statictext within tabpage_4
 integer x = 69
-integer y = 564
+integer y = 552
 integer width = 603
 integer height = 64
 integer textsize = -8
@@ -1041,7 +1277,7 @@ end type
 
 type cbx_smtpauth from checkbox within tabpage_4
 integer x = 73
-integer y = 464
+integer y = 452
 integer width = 946
 integer height = 80
 integer textsize = -8
@@ -1056,8 +1292,8 @@ end type
 
 type sle_password from singlelineedit within tabpage_4
 integer x = 512
-integer y = 368
-integer width = 846
+integer y = 360
+integer width = 1595
 integer height = 84
 integer taborder = 50
 integer textsize = -8
@@ -1075,7 +1311,7 @@ end event
 
 type st_19 from statictext within tabpage_4
 integer x = 73
-integer y = 368
+integer y = 360
 integer width = 352
 integer height = 64
 integer textsize = -8
@@ -1091,8 +1327,8 @@ end type
 
 type sle_userid from singlelineedit within tabpage_4
 integer x = 512
-integer y = 272
-integer width = 846
+integer y = 256
+integer width = 1595
 integer height = 84
 integer taborder = 40
 integer textsize = -8
@@ -1106,7 +1342,7 @@ end type
 
 type st_18 from statictext within tabpage_4
 integer x = 73
-integer y = 272
+integer y = 256
 integer width = 393
 integer height = 76
 integer textsize = -8
@@ -1122,7 +1358,7 @@ end type
 
 type sle_port from singlelineedit within tabpage_4
 integer x = 512
-integer y = 180
+integer y = 160
 integer width = 215
 integer height = 80
 integer taborder = 30
@@ -1137,7 +1373,7 @@ end type
 
 type st_17 from statictext within tabpage_4
 integer x = 73
-integer y = 184
+integer y = 164
 integer width = 366
 integer height = 64
 integer textsize = -8
@@ -1153,8 +1389,8 @@ end type
 
 type pb_3 from picturebutton within tabpage_4
 string tag = "Ajuste Office"
-integer x = 1563
-integer y = 224
+integer x = 2176
+integer y = 196
 integer width = 146
 integer height = 128
 integer taborder = 40
@@ -1174,14 +1410,19 @@ sle_userid.text = "myaddress@mydomain.com"
 sle_password.text = ""
 cbx_smtpauth.checked = True
 rb_tls.checked = True
+sle_endpoint.text = "https://accounts.google.com/o/oauth2/auth"
+sle_token.text = "https://oauth2.googleapis.com/token"
+sle_tokens.text = "qa_data/tokens/hotmail.json"
+
+
 sle_userid.SetFocus()
 
 end event
 
 type pb_4 from picturebutton within tabpage_4
 string tag = "Ajuste Gmail"
-integer x = 1563
-integer y = 84
+integer x = 2176
+integer y = 56
 integer width = 146
 integer height = 128
 integer taborder = 30
@@ -1201,14 +1442,17 @@ sle_userid.text = "myaddress@gmail.com"
 sle_password.text = ""
 cbx_smtpauth.checked = True
 rb_ssl.checked = True
+sle_endpoint.text = "https://accounts.google.com/o/oauth2/auth"
+sle_token.text = "https://oauth2.googleapis.com/token"
+sle_tokens.text = "qa_data/tokens/_gmailSmtp.json"
 sle_userid.SetFocus()
 
 end event
 
 type sle_server from singlelineedit within tabpage_4
 integer x = 512
-integer y = 84
-integer width = 846
+integer y = 64
+integer width = 1595
 integer height = 80
 integer taborder = 20
 integer textsize = -8
@@ -1222,7 +1466,7 @@ end type
 
 type st_16 from statictext within tabpage_4
 integer x = 73
-integer y = 84
+integer y = 64
 integer width = 384
 integer height = 80
 integer textsize = -8
@@ -1238,9 +1482,9 @@ end type
 
 type gb_3 from groupbox within tabpage_4
 integer x = 773
-integer y = 508
-integer width = 549
-integer height = 276
+integer y = 496
+integer width = 1106
+integer height = 132
 integer taborder = 130
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -1253,8 +1497,8 @@ end type
 
 type gb_1 from groupbox within tabpage_4
 integer x = 23
-integer width = 1888
-integer height = 824
+integer width = 2405
+integer height = 644
 integer taborder = 40
 integer textsize = -8
 integer weight = 700
@@ -1267,9 +1511,9 @@ string text = "Datos de la Cuenta"
 end type
 
 type gb_2 from groupbox within tabpage_4
-integer x = 1989
-integer width = 1925
-integer height = 812
+integer x = 2496
+integer width = 2437
+integer height = 612
 integer taborder = 60
 integer textsize = -8
 integer weight = 700
@@ -1281,12 +1525,64 @@ long backcolor = 67108864
 string text = "Datos del certificado"
 end type
 
+type gb_4 from groupbox within tabpage_4
+integer x = 37
+integer y = 664
+integer width = 4905
+integer height = 372
+integer taborder = 140
+integer textsize = -8
+integer weight = 700
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 67108864
+string text = "Datos Oauth 2.0"
+end type
+
+type st_4 from statictext within tabpage_4
+integer x = 82
+integer y = 732
+integer width = 265
+integer height = 76
+boolean bringtotop = true
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 67108864
+string text = "Auth_url"
+boolean focusrectangle = false
+end type
+
+type sle_endpoint from singlelineedit within tabpage_4
+integer x = 361
+integer y = 720
+integer width = 2075
+integer height = 80
+integer taborder = 140
+boolean bringtotop = true
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+borderstyle borderstyle = stylelowered!
+end type
+
 type tab_1 from tab within w_docus_new
 integer x = 27
 integer y = 24
 integer width = 5710
 integer height = 880
-integer taborder = 40
+integer taborder = 10
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
