@@ -118,7 +118,7 @@ public function integer f_pregunta ()
 public function integer f_busca_emp_cont (string as_cemp, string as_ccont)
 public function long retrieve (long contador, string clugar_his, long ld_dif, string p_origen)
 public subroutine f_restringue (string p_resgt, string p_origen, long p_conta, string p_lug)
-public function long f_insert_servicio (string p_cups, string p_emp, string p_cont, string p_plan, long p_nfact, string p_clug_fac, long p_nitem_fac, long p_nrec, string p_clug_rec, long p_item_rec, long p_nitem_rec, string p_cproceq, string p_cmaneq, string p_coduf, string p_codcc, string p_tipo_fac, string p_autoriza, string p_pasa, string p_alm, string p_final)
+public function long f_insert_servicio (string p_cups, string p_emp, string p_cont, string p_plan, long p_nfact, string p_clug_fac, long p_nitem_fac, long p_nrec, string p_clug_rec, long p_item_rec, long p_nitem_rec, string p_cproceq, string p_cmaneq, string p_coduf, string p_codcc, string p_tipo_fac, string p_autoriza, string p_pasa, string p_alm, string p_final, string p_amb)
 end prototypes
 
 event cambio_tto();//cuando atiende citas de un tto se dispara este evento
@@ -275,7 +275,7 @@ else
 end if
 end subroutine
 
-public function long f_insert_servicio (string p_cups, string p_emp, string p_cont, string p_plan, long p_nfact, string p_clug_fac, long p_nitem_fac, long p_nrec, string p_clug_rec, long p_item_rec, long p_nitem_rec, string p_cproceq, string p_cmaneq, string p_coduf, string p_codcc, string p_tipo_fac, string p_autoriza, string p_pasa, string p_alm, string p_final);//parametros:
+public function long f_insert_servicio (string p_cups, string p_emp, string p_cont, string p_plan, long p_nfact, string p_clug_fac, long p_nitem_fac, long p_nrec, string p_clug_rec, long p_item_rec, long p_nitem_rec, string p_cproceq, string p_cmaneq, string p_coduf, string p_codcc, string p_tipo_fac, string p_autoriza, string p_pasa, string p_alm, string p_final, string p_amb);//parametros:
 //	cod_cups
 //	empresa
 //	contrato
@@ -334,7 +334,7 @@ if p_emp ='' then SetNull(p_emp)
 if p_cont ='' then SetNull(p_cont)
 
 long fila , j
-string ls_fin,ls_cext
+string ls_fin,ls_cext,ls_amb
 ///// fin revisa a quien le van a cargar esto
 i_alm=p_alm
 
@@ -368,8 +368,7 @@ dw_serv_ing.setitem(fila,"rips",stp.rips)
 if stp.rips='9' then dw_serv_ing.setitem(fila,"estria",'1')
 
 if stp.rips='1' then
-	if isnull(p_final) then
-		
+	if isnull(p_final) or p_final='' then
 		SELECT 
 			codfin 
 		INTO
@@ -388,7 +387,6 @@ if stp.rips='1' then
 	end if
 	dw_serv_ing.setitem(fila,"fin_consulta",ls_fin)
 
-	
 	SELECT 
 		codcausaexter
 	into
@@ -403,12 +401,31 @@ if stp.rips='1' then
 	end if
 
 	dw_serv_ing.setitem(fila,"causaexterna",ls_cext)
+	
+	if isnull(p_amb) or p_amb='' then
+		SELECT 
+			codclapro
+		into
+			:ls_amb
+		FROM 
+			claseproced
+		WHERE 
+			(((estado)='1') AND ((defec)='1'));
+		if sqlca.sqlnrows=0 then
+			messagebox('Atencíon','No hay claseproced por Defecto')
+			return -1
+		end if
+	else
+		p_amb=ls_amb
+	end if
 end if
 
 dw_serv_ing.setitem(fila,"codespecialidad",i_espe)
 dw_serv_ing.setitem(fila,"cprof",i_profe)
 dw_serv_ing.setitem(fila,"persoatiende",i_atiende)
-dw_serv_ing.setitem(fila,"ambitoproced","1")
+
+dw_serv_ing.setitem(fila,"ambitoproced",p_amb)
+
 dw_serv_ing.setitem(fila,"clugar",i_clugar_his)
 dw_serv_ing.setitem(fila,"nfactura",p_nfact)
 dw_serv_ing.setitem(fila,"nitem_fac",p_nitem_fac)
@@ -1318,7 +1335,7 @@ if i_difp>30 then
 	messagebox('Atencion','No se puede agregar servios a esta atención')
 	return
 end if
-nulo=f_insert_servicio (trim(text), snulo, snulo, snulo,nulo,snulo, nulo, nulo, snulo, nulo, nulo, snulo, snulo, snulo, snulo, snulo,snulo,'1',snulo,snulo)
+nulo=f_insert_servicio (trim(text), snulo, snulo, snulo,nulo,snulo, nulo, nulo, snulo, nulo, nulo, snulo, snulo, snulo, snulo, snulo,snulo,'1',snulo,snulo,snulo)
 if nulo=-1 then
 	rollback;
 	return -1

@@ -392,7 +392,7 @@ lugar = dw_historial.GetItemString(dw_historial.GetRow(),'clugar')
 //tipo_fac=
 setNull(nulo)
 do while f > 0
-	servicio = t1.ps.uo_s.f_insert_servicio(dw_p.GetItemString(f,'proced'),'','','',nulo,'',nulo,nulo,'',nulo,nulo,'','','','','','','0','','')
+	servicio = t1.ps.uo_s.f_insert_servicio(dw_p.GetItemString(f,'proced'),'','','',nulo,'',nulo,nulo,'',nulo,nulo,'','','','','','','0','','','')
 	if servicio >= 1 then
 		valor = t1.p3.dw_a.Describe("Evaluate('max(numatencion)',0)")
 		t1.p3.dw_a.InsertRow(1)

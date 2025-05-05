@@ -947,7 +947,7 @@ for i=1 to dw_sercios.rowcount()
 			dw_sercios.getitemstring(i,'tipo_fac'),&
 			dw_sercios.getitemstring(i,'autorizacion'),'0',&
 			dw_citas.getitemstring(dw_citas.getrow(),'codalmacen'),&
-			dw_citas.getitemstring(dw_citas.getrow(),'cod_fina'))
+			dw_citas.getitemstring(dw_citas.getrow(),'cod_fina'),'')
 		if nserv=-1 then
 			rollback;
 			return
