@@ -18,7 +18,6 @@ end variables
 forward prototypes
 public function longlong hex_to_dec (string as_hexadecimal)
 public function string of_connecterror (integer ai_returncode)
-protected function integer of_desbloquear_chilkat ()
 public function integer of_zip (string as_zipname, string as_filename, string as_new_or_add)
 public function integer of_leer_certificado (ref nvo_generic_ole_object aoo_cert)
 public function integer of_validar_campos (uo_datawindow adw_factura)
@@ -37,6 +36,8 @@ public function integer of_estado_factura_email (decimal al_nfact, string as_clu
 public function integer of_enviar_new_correo_fevs (decimal adc_nro_factura, string as_clug_factura, string as_tipofac, integer as_nnota, string as_tnota, string as_filename, string as_origen)
 public function st_ret_dian envio_sin_validacion19 (ref uo_datawindow adw_factura, decimal al_nro_fact, string as_clug_factura, string as_tipofac, integer as_nnota, string as_tipo_docu, string as_coddoc)
 public function integer of_enviar_new_correo (decimal adc_nro_factura, string as_clug_factura, string as_tipofac, integer as_nnota, string as_tnota, string as_filename, string as_origen, string as_vfe)
+public function string of_token_oauth2 (string as_endpoint, string as_tokenendpoint, string as_clientid, string as_clientsecret, string as_tokens)
+public function integer of_desbloquear_chilkat ()
 end prototypes
 
 public function longlong hex_to_dec (string as_hexadecimal);string ls_binario
@@ -99,38 +100,6 @@ end choose
 
 Return ls_errmsg
 
-end function
-
-protected function integer of_desbloquear_chilkat ();nvo_generic_ole_object loo_Glob
-int li_rc , li_Success , li_Status
-
-loo_Glob = create nvo_generic_ole_object
-li_rc = loo_Glob.ConnectToNewObject("Chilkat_9_5_0.Global")
-if li_rc < 0 then
-    destroy loo_Glob
-    MessageBox("Error of_desbloquear_chilkat","Connecting to COM object failed: Chilkat_9_5_0.Global")
-    return -1
-end if
-li_Success = loo_Glob.UnlockBundle("HSPCRT.CB1032026_zzYKLAke9R37")
-if li_Success <> 1 then
-    messagebox("Error de desbloqueo de ChilKat_9.5.0", string(loo_Glob.LastErrorText))
-    destroy loo_Glob
-    return -1
-end if
-
-li_Status = loo_Glob.UnlockStatus
-if li_Status = 2 then
-  //  messagebox("Estado Desbloqueo", "Unlocked using purchased unlock code.")
-else
-  //   messagebox("Estado Desbloqueo", "Unlocked in trial mode.")
-end if
-
-// The LastErrorText can be examined in the success case to see if it was unlocked in
-// trial more, or with a purchased unlock code.
-//Write-Debug loo_Glob.LastErrorText
-
-destroy loo_Glob
-return 1
 end function
 
 public function integer of_zip (string as_zipname, string as_filename, string as_new_or_add);nvo_generic_ole_object loo_zip
@@ -1776,7 +1745,7 @@ end if
 
 ls_ojo=ads_datos.modify('qr_picture.filename="'+as_qrcode+'"')
 loo_Mailman = create nvo_generic_ole_object
-li_rc = loo_Mailman.ConnectToNewObject("Chilkat_9_5_0.MailMan")
+li_rc = loo_Mailman.ConnectToNewObject("Chilkat.MailMan")
 if li_rc < 0 then
     destroy loo_Mailman
     MessageBox("Error","Connecting to COM object failed")
@@ -1797,7 +1766,7 @@ end if
 is_nombre_lugar=ads_datos.getitemstring(1,'ips_nombre')
 is_clave_email=f_descripta_new(is_clave_email,'1')
 loo_Mailman = create nvo_generic_ole_object
-li_rc = loo_Mailman.ConnectToNewObject("Chilkat_9_5_0.MailMan")
+li_rc = loo_Mailman.ConnectToNewObject("Chilkat.MailMan")
 if li_rc < 0 then
     destroy loo_Mailman
     MessageBox("Error","Connecting to COM object failed")
@@ -3205,6 +3174,128 @@ destroy loo_Mailman
 destroy loo_Email
 destroy loo_Bd
 
+return 1
+end function
+
+public function string of_token_oauth2 (string as_endpoint, string as_tokenendpoint, string as_clientid, string as_clientsecret, string as_tokens);integer li_rc
+oleobject loo_Oauth2
+string ls_url,ls_token 
+integer li_Success
+integer li_NumMsWaited
+oleobject loo_SbJson
+
+loo_Oauth2 = create oleobject
+li_rc = loo_Oauth2.ConnectToNewObject("Chilkat.OAuth2")
+if li_rc < 0 then
+    destroy loo_Oauth2
+    MessageBox("Error","Connecting to COM object failed")
+    return '-1'
+end if
+
+loo_Oauth2.ListenPort = 55568
+
+loo_Oauth2.AuthorizationEndpoint =as_endpoint
+loo_Oauth2.TokenEndpoint =as_tokenendpoint
+
+
+loo_Oauth2.ClientId =  as_clientId
+loo_Oauth2.ClientSecret = as_clientsecret
+
+loo_Oauth2.Scope = "https://mail.google.com/"
+
+// Inicia Autrizacion
+ls_Url = loo_Oauth2.StartAuth()
+if loo_Oauth2.LastMethodSuccess <> 1 then
+ 	MessageBox("Error",string( loo_Oauth2.LastErrorText))
+    destroy loo_Oauth2
+    return '-1'
+end if
+
+// Launch the default browser on the system and navigate to the url.
+// The LaunchBrowser method was added in Chilkat v10.1.2.
+li_Success = loo_Oauth2.LaunchBrowser(ls_Url)
+if li_Success = 0 then
+  	MessageBox("Error",string(loo_Oauth2.LastErrorText))
+    destroy loo_Oauth2
+    return '-1'
+end if
+
+// Wait for the user to approve or deny authorization in the browser.
+li_NumMsWaited = 0
+do while (li_NumMsWaited < 90000) AND (loo_Oauth2.AuthFlowState < 3)
+    loo_Oauth2.SleepMs(100)
+    li_NumMsWaited = li_NumMsWaited + 100
+loop
+
+if loo_Oauth2.AuthFlowState < 3 then
+    loo_Oauth2.Cancel()
+    //Write-Debug "No response from the browser!"
+    destroy loo_Oauth2
+    return '-1'
+end if
+
+// Check AuthFlowState to determine if authorization was granted, denied, or failed:
+// 
+// 3: Success – OAuth2 flow completed, the background thread exited, and the successful response is in AccessTokenResponse.
+// 4: Access Denied – OAuth2 flow completed, the background thread exited, and the error response is in AccessTokenResponse.
+// 5: Failure – OAuth2 flow failed before completion, the background thread exited, and error details are in FailureInfo.
+
+if loo_Oauth2.AuthFlowState = 5 then
+	 MessageBox("Error", "OAuth2 failed to complete.")
+    destroy loo_Oauth2
+    return '-1'
+end if
+
+if loo_Oauth2.AuthFlowState = 4 then
+	MessageBox("Error","OAuth2 authorization was denied.")
+    destroy loo_Oauth2
+    return '-1'
+end if
+
+if loo_Oauth2.AuthFlowState <> 3 then
+	MessageBox("Error",string(loo_Oauth2.AuthFlowState))
+    destroy loo_Oauth2
+    return '-1'
+end if
+
+//  Recoge Token en Json
+loo_SbJson = create oleobject
+li_rc = loo_SbJson.ConnectToNewObject("Chilkat.StringBuilder")
+
+loo_SbJson.Append(loo_Oauth2.AccessTokenResponse)
+loo_SbJson.WriteFile(as_tokens,"utf-8",0)
+
+ls_token =  string(loo_Oauth2.AccessToken)
+
+destroy loo_Oauth2
+return ls_token 
+end function
+
+public function integer of_desbloquear_chilkat ();nvo_generic_ole_object loo_Glob
+int li_rc , li_Success , li_Status
+
+loo_Glob = create nvo_generic_ole_object
+li_rc = loo_Glob.ConnectToNewObject("Chilkat.Global")
+if li_rc < 0 then
+    destroy loo_Glob
+    MessageBox("Error of_desbloquear_chilkat","Connecting to COM object failed: Chilkat.Global")
+    return -1
+end if
+li_Success = loo_Glob.UnlockBundle("HSPCRT.CB1032026_zzYKLAke9R37")
+if li_Success <> 1 then
+    messagebox("Error de desbloqueo de Chilkat.Global", string(loo_Glob.LastErrorText))
+    destroy loo_Glob
+    return -1
+end if
+
+li_Status = loo_Glob.UnlockStatus
+if li_Status = 2 then
+  //  messagebox("Estado Desbloqueo", "Unlocked using purchased unlock code.")
+else
+  //   messagebox("Estado Desbloqueo", "Unlocked in trial mode.")
+end if
+
+destroy loo_Glob
 return 1
 end function
 
