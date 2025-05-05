@@ -5,10 +5,10 @@ COM:GCI Ltda.
 DES:Gestión Clínica Integrada
 CPY:2000-2026
 PRD:GCI Asistencial
-PVS:6,0,0,127
-PVN:6,0,0,127
-FVS:6,0,0,127
-FVN:6,0,0,127
+PVS:6,0,0,128
+PVN:6,0,0,128
+FVS:6,0,0,128
+FVN:6,0,0,128
 MAN:0,asInvoker,0
 PBD:histo_clinic.pbl,,1
 PBD:obj_comun.pbl,,1
@@ -363,6 +363,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\historia_graf.pbl,w_imag_diag,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,dw_combo_plants,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\costos_asis.pbl,f_guarda_insumos,f
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,n_log,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,w_val_norm,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_busca_med,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,w_busca_espe,w
@@ -374,6 +375,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\pyp_asis.pbl,w_tablero_erc
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hospital.pbl,dw_tab_atenciones_urgencias_obs,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\autoriza.pbl,dw_autoriza,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\fac_electronica.pbl,dw_mipres_prescripcion_nutri,d
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\rep_compuesto.pbl,asis_int_factura_ele_cap19,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_coloca_esp,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,f_abrerepor,f
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,w_instrumento_eclampsia,w
@@ -434,7 +436,6 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,d_calendar,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\salaqx.pbl,w_escoge_empresa_qx,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_ripsradica_nota,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\atu_conf.pbl,m_hcampos,m
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\rep_compuesto.pbl,asis_int_electronica_cap_ncre19,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,n_osversion,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_dwr_nested_service_parm,u
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\dw2xlsdemo_pb2019_2082.pbd,n_dwr_format,u

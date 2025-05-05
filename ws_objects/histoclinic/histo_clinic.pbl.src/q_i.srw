@@ -2,6 +2,12 @@
 forward
 global type q_i from window
 end type
+type cb_3 from commandbutton within q_i
+end type
+type wb_1 from webbrowser within q_i
+end type
+type cb_2 from commandbutton within q_i
+end type
 type pb_3 from picturebutton within q_i
 end type
 type pb_2 from picturebutton within q_i
@@ -45,6 +51,9 @@ windowtype windowtype = response!
 long backcolor = 67108864
 string icon = "AppIcon!"
 boolean center = true
+cb_3 cb_3
+wb_1 wb_1
+cb_2 cb_2
 pb_3 pb_3
 pb_2 pb_2
 dw_electronica_cap dw_electronica_cap
@@ -65,6 +74,9 @@ end type
 global q_i q_i
 
 on q_i.create
+this.cb_3=create cb_3
+this.wb_1=create wb_1
+this.cb_2=create cb_2
 this.pb_3=create pb_3
 this.pb_2=create pb_2
 this.dw_electronica_cap=create dw_electronica_cap
@@ -81,7 +93,10 @@ this.dw_2=create dw_2
 this.dw_1=create dw_1
 this.ads_datos=create ads_datos
 this.cb_1=create cb_1
-this.Control[]={this.pb_3,&
+this.Control[]={this.cb_3,&
+this.wb_1,&
+this.cb_2,&
+this.pb_3,&
 this.pb_2,&
 this.dw_electronica_cap,&
 this.dw_electronica,&
@@ -100,6 +115,9 @@ this.cb_1}
 end on
 
 on q_i.destroy
+destroy(this.cb_3)
+destroy(this.wb_1)
+destroy(this.cb_2)
 destroy(this.pb_3)
 destroy(this.pb_2)
 destroy(this.dw_electronica_cap)
@@ -117,6 +135,259 @@ destroy(this.dw_1)
 destroy(this.ads_datos)
 destroy(this.cb_1)
 end on
+
+type cb_3 from commandbutton within q_i
+integer x = 1403
+integer y = 548
+integer width = 402
+integer height = 112
+integer taborder = 135
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+string text = "none"
+end type
+
+event clicked;integer li_rc
+oleobject loo_Http
+oleobject loo_Cert
+integer li_Success
+integer li_NumSec
+string ls_AccessToken
+oleobject loo_Mailman
+oleobject loo_Email
+string is_ruta_firma='D:\certificado\gci-mail-458618-86f975b3dc24.p12'
+string is_clave_firma='notasecret'
+string ls_iss='gcimail@gci-mail-458618.iam.gserviceaccount.com'
+string ls_scope='https://mail.google.com/'
+string ls_oauth_sub='gcimail@gci-mail-458618.iam.gserviceaccount.com'
+
+
+//////
+nvo_generic_ole_object loo_Glob
+loo_Glob = create nvo_generic_ole_object
+li_rc = loo_Glob.ConnectToNewObject("Chilkat.Global")
+if li_rc < 0 then
+    destroy loo_Glob
+    MessageBox("Error of_desbloquear_chilkat","Connecting to COM object failed: Chilkat.Global")
+    return -1
+end if
+li_Success = loo_Glob.UnlockBundle("HSPCRT.CB1032026_zzYKLAke9R37")
+if li_Success <> 1 then
+    messagebox("Error de desbloqueo de Chilkat.Global", string(loo_Glob.LastErrorText))
+    destroy loo_Glob
+    return -1
+end if
+
+li_Success = loo_Glob.UnlockStatus
+if li_Success = 2 then
+  //  messagebox("Estado Desbloqueo", "Unlocked using purchased unlock code.")
+else
+  //   messagebox("Estado Desbloqueo", "Unlocked in trial mode.")
+end if
+
+destroy loo_Glob
+/////
+
+
+
+loo_Http = create oleobject
+li_rc = loo_Http.ConnectToNewObject("Chilkat.Http")
+if li_rc < 0 then
+    destroy loo_Http
+    MessageBox("Error","Connecting to COM object failed")
+    return
+end if
+
+loo_Cert = create oleobject
+li_rc = loo_Cert.ConnectToNewObject("Chilkat.Cert")
+
+li_Success = loo_Cert.LoadPfxFile( is_ruta_firma,is_clave_firma)
+if li_Success <> 1 then
+    messagebox('Error',string( loo_Cert.LastErrorText))
+    destroy loo_Http
+    destroy loo_Cert
+    return
+end if
+
+li_NumSec = 3600
+
+ls_AccessToken = loo_Http.G_SvcOauthAccessToken(ls_Iss,ls_Scope,ls_Oauth_sub,li_NumSec,loo_Cert)
+if loo_Http.LastMethodSuccess <> 1 then
+    messagebox('',string( loo_Http.LastErrorText))
+    destroy loo_Http
+    destroy loo_Cert
+    return
+end if
+
+
+
+oleobject loo_Json
+string ss
+
+
+loo_Mailman = create oleobject
+li_rc = loo_Mailman.ConnectToNewObject("Chilkat.MailMan")
+
+// Set the properties for the GMail SMTP server:
+loo_Mailman.SmtpHost = "smtp.gmail.com"
+loo_Mailman.SmtpPort = 587
+loo_Mailman.StartTLS = 1
+
+// The SMTP username should be the GMail address of the user's account that authorized your app to send email.
+loo_Mailman.SmtpUsername = "jaespram@gmail.com"
+loo_Mailman.OAuth2AccessToken = ls_AccessToken
+
+// Create a new email object
+loo_Email = create oleobject
+li_rc = loo_Email.ConnectToNewObject("Chilkat.Email")
+
+loo_Email.Subject = "This is a test"
+loo_Email.Body = "This is a test"
+loo_Email.From = "Chilkat <jespinr@hotmail.com>"
+loo_Email.AddTo("Chilkat Admin","jespinr@hotmail.com")
+// To add more recipients, call AddTo, AddCC, or AddBcc once per recipient.
+
+// Call SendEmail to connect to the SMTP server and send.
+// The connection (i.e. session) to the SMTP server remains
+// open so that subsequent SendEmail calls may use the
+// same connection.  
+li_Success = loo_Mailman.SendEmail(loo_Email)
+if li_Success <> 1 then
+	ss=string( loo_Mailman.LastErrorText)
+   messagebox('',string( loo_Mailman.LastErrorText))
+    destroy loo_Json
+    destroy loo_Mailman
+    destroy loo_Email
+    return
+end if
+
+// You may close the connection here.  If the connection is kept open, 
+// the next call to mailman.SendEmail will continue using the already-established connection
+// (and automatically re-connect if needed).
+li_Success = loo_Mailman.CloseSmtpConnection()
+if li_Success <> 1 then
+   // Write-Debug "Connection to SMTP server not closed cleanly."
+end if
+
+//Write-Debug "Email Sent via GMail with OAuth2 authentication."
+
+
+destroy loo_Json
+destroy loo_Mailman
+destroy loo_Email
+end event
+
+type wb_1 from webbrowser within q_i
+integer x = 1321
+integer y = 880
+integer width = 402
+integer height = 400
+end type
+
+type cb_2 from commandbutton within q_i
+integer x = 1047
+integer y = 276
+integer width = 402
+integer height = 112
+integer taborder = 170
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+string text = "token gmail"
+end type
+
+event clicked;integer li_rc
+oleobject loo_Oauth2
+string ls_Url,ls_AccessToken 
+integer li_Success
+integer li_NumMsWaited
+oleobject loo_SbJson
+string ls_enpoint,ls_tokene,ls_ClientId,ls_ClientSecret,ls_tokens
+
+
+
+ls_enpoint="https://accounts.google.com/o/oauth2/auth"
+ls_tokene="https://oauth2.googleapis.com/token"
+ls_ClientId="872934021868-6ta93e5tedno14u079m72obtb0hf1q9c.apps.googleusercontent.com"
+ls_ClientSecret="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"
+ls_tokens="qa_data/tokens/_gmailSmtp.json"
+
+nvo_factura_electronica u_elec
+
+u_elec=create nvo_factura_electronica
+
+
+////////////////////   DESBLOQUEAR LIBRERIAS DE CHILKAT
+IF u_elec.of_desbloquear_chilkat()=-1 then
+ return
+end if
+
+//// TOKEN
+ls_AccessToken=u_elec.of_token_OAuth2(ls_enpoint,ls_tokene,ls_ClientId,ls_ClientSecret,ls_tokens)
+
+
+oleobject loo_Mailman
+oleobject loo_Email
+oleobject loo_Json
+
+loo_Mailman = create oleobject
+li_rc = loo_Mailman.ConnectToNewObject("Chilkat.MailMan")
+
+// Set the properties for the GMail SMTP server:
+loo_Mailman.SmtpHost = "smtp.gmail.com"
+loo_Mailman.SmtpPort = 587
+loo_Mailman.StartTLS = 1
+
+// The SMTP username should be the GMail address of the user's account that authorized your app to send email.
+loo_Mailman.SmtpUsername = "jaespram@gmail.com"
+loo_Mailman.OAuth2AccessToken = ls_AccessToken
+
+// Create a new email object
+loo_Email = create oleobject
+li_rc = loo_Email.ConnectToNewObject("Chilkat.Email")
+
+loo_Email.Subject = "This is a test"
+loo_Email.Body = "This is a test"
+loo_Email.From = "Chilkat <jespinr@hotmail.com>"
+loo_Email.AddTo("Chilkat Admin","jespinr@hotmail.com")
+// To add more recipients, call AddTo, AddCC, or AddBcc once per recipient.
+
+// Call SendEmail to connect to the SMTP server and send.
+// The connection (i.e. session) to the SMTP server remains
+// open so that subsequent SendEmail calls may use the
+// same connection.  
+li_Success = loo_Mailman.SendEmail(loo_Email)
+if li_Success <> 1 then
+   // Write-Debug loo_Mailman.LastErrorText
+    destroy loo_Json
+    destroy loo_Mailman
+    destroy loo_Email
+    return
+end if
+
+// You may close the connection here.  If the connection is kept open, 
+// the next call to mailman.SendEmail will continue using the already-established connection
+// (and automatically re-connect if needed).
+li_Success = loo_Mailman.CloseSmtpConnection()
+if li_Success <> 1 then
+   // Write-Debug "Connection to SMTP server not closed cleanly."
+end if
+
+//Write-Debug "Email Sent via GMail with OAuth2 authentication."
+
+
+destroy loo_Json
+destroy loo_Mailman
+destroy loo_Email
+destroy  u_elec
+end event
 
 type pb_3 from picturebutton within q_i
 string tag = "NCcapita"
@@ -207,7 +478,7 @@ integer y = 556
 integer width = 521
 integer height = 388
 integer taborder = 10
-string dataobject = "asis_int_electronica_cap_ncre19"
+string dataobject = "asis_int_factura_ele_cap19"
 end type
 
 type dw_electronica from uo_datawindow within q_i

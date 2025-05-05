@@ -1705,804 +1705,787 @@ if p_faltan then
 	commit;
 end if// fin los que faltan (nuevos)
 
-if tab_2.tp2_1.rb_json.checked=true then return p_nradica
-
-////////////////////////////////de aqui pa'lla es como si fueran radicaciones pasadas
+////////////////////////////////inicio de aqui pa'lla es como si fueran radicaciones pasadas
 if dw_trae.rowcount()>=0 and (p_reserva='0' or p_reserva='1') then 
 	if p_dw_conts.getitemnumber(1,'forecat')=0 or isnull(p_dw_conts.getitemnumber(1,'forecat')) then //son los rips normales
-		for arch=1 to 7
-			choose case arch 
-				case 1
-					cual="Consulta"
-				case 2
-					cual="Procedimientos"
-				case 3
-					cual="Recien Nacido"
-				case 4
-					cual="Hospitalización"
-				case 5
-					cual="Medicamentos"
-				case 6
-					cual="Otros"
-				case 7
-					cual="Urgencias"
-			end choose
-			choose case cual
-				case "Consulta"  //archivo/empresa/contrato/fechas
-					dw_trae.dataobject="dr_rips_consulta_viejo"
-					dw_export.dataobject="dr_export_rips_consulta"
-					nom_arch="AC"
-				case "Procedimientos"
-					dw_trae.dataobject="dr_rips_procedimientos_viejo"
-					dw_export.dataobject="dr_export_rips_proc"
-					nom_arch="AP"
-				case "Urgencias"
-					dw_trae.dataobject="dr_rips_urg_viejo"
-					dw_export.dataobject="dr_export_rips_urg"
-					nom_arch="AU"
-				case "Hospitalización"
-					dw_trae.dataobject="dr_rips_hosp_viejo"
-					dw_export.dataobject="dr_export_rips_hosp"
-					nom_arch="AH"
-				case "Recien Nacido"
-					dw_trae.dataobject="dr_rips_rn_viejo"
-					dw_export.dataobject="dr_export_rips_rn"
-					nom_arch="AN"
-				case "Medicamentos"
-					dw_trae.dataobject="dr_rips_medica_viejo"
-					dw_export.dataobject="dr_export_rips_medica"
-					nom_arch="AM"
-				case "Otros"
-					dw_trae.dataobject="dr_rips_otros_viejo"
-					dw_export.dataobject="dr_export_rips_otros"
-					nom_arch="AT"
-			end choose
-			dw_trae.settransobject(sqlca)
-			w_principal.SetMicroHelp ( 'Leyendo Archivo '+cual )
-			dw_trae.reset()
-			if dw_trae.retrieve(p_nradica,p_clug_rad,p_por_lugar,cser,p_tipo_rad,is_capiv)<>-1 then
-				dw_export.reset()
-				if dw_trae.rowcount()=0 then
-					if p_decual='emp' then
-					//	if tab_2.tp2_1.rb_names.checked then messagebox("Atención","No hay registros de "+cual+" para generar con estas condiciones")
-					else//escribir en el log
-						log_txt='~t~t~t'+nom_arch+': 0 registros (OK)'
-						filewrite(i_numarc,log_txt)
-					end if
-					n_reg[arch]=dw_trae.rowcount()
-				else
-					filas=dw_trae.rowcount()
-					n_reg[arch]=filas
-					for j=1 to filas
-						i=dw_export.insertrow(0)
-						choose case cual
-							case "Consulta"  //archivo/empresa/contrato/fechas (Parémetros de Entrada del DataWindow)	
-								if is_concatena_fac="1" then
-									if p_dw_conts.getitemstring(1,'ctipo')='1' then  
-										if  p_por_lugar<>'1' then
-											 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+	
+		if tab_2.tp2_1.rb_json.checked=false then
+			/////INICIA 3374PRESTACION
+			for arch=1 to 7
+				choose case arch 
+					case 1
+						cual="Consulta"
+					case 2
+						cual="Procedimientos"
+					case 3
+						cual="Recien Nacido"
+					case 4
+						cual="Hospitalización"
+					case 5
+						cual="Medicamentos"
+					case 6
+						cual="Otros"
+					case 7
+						cual="Urgencias"
+				end choose
+				choose case cual
+					case "Consulta"  //archivo/empresa/contrato/fechas
+						dw_trae.dataobject="dr_rips_consulta_viejo"
+						dw_export.dataobject="dr_export_rips_consulta"
+						nom_arch="AC"
+					case "Procedimientos"
+						dw_trae.dataobject="dr_rips_procedimientos_viejo"
+						dw_export.dataobject="dr_export_rips_proc"
+						nom_arch="AP"
+					case "Urgencias"
+						dw_trae.dataobject="dr_rips_urg_viejo"
+						dw_export.dataobject="dr_export_rips_urg"
+						nom_arch="AU"
+					case "Hospitalización"
+						dw_trae.dataobject="dr_rips_hosp_viejo"
+						dw_export.dataobject="dr_export_rips_hosp"
+						nom_arch="AH"
+					case "Recien Nacido"
+						dw_trae.dataobject="dr_rips_rn_viejo"
+						dw_export.dataobject="dr_export_rips_rn"
+						nom_arch="AN"
+					case "Medicamentos"
+						dw_trae.dataobject="dr_rips_medica_viejo"
+						dw_export.dataobject="dr_export_rips_medica"
+						nom_arch="AM"
+					case "Otros"
+						dw_trae.dataobject="dr_rips_otros_viejo"
+						dw_export.dataobject="dr_export_rips_otros"
+						nom_arch="AT"
+				end choose
+				dw_trae.settransobject(sqlca)
+				w_principal.SetMicroHelp ( 'Leyendo Archivo '+cual )
+				dw_trae.reset()
+				if dw_trae.retrieve(p_nradica,p_clug_rad,p_por_lugar,cser,p_tipo_rad,is_capiv)<>-1 then
+					dw_export.reset()
+					if dw_trae.rowcount()=0 then
+						if p_decual='emp' then
+						//	if tab_2.tp2_1.rb_names.checked then messagebox("Atención","No hay registros de "+cual+" para generar con estas condiciones")
+						else//escribir en el log
+							log_txt='~t~t~t'+nom_arch+': 0 registros (OK)'
+							filewrite(i_numarc,log_txt)
+						end if
+						n_reg[arch]=dw_trae.rowcount()
+					else
+						filas=dw_trae.rowcount()
+						n_reg[arch]=filas
+						for j=1 to filas
+							i=dw_export.insertrow(0)
+							choose case cual
+								case "Consulta"  //archivo/empresa/contrato/fechas (Parémetros de Entrada del DataWindow)	
+									if is_concatena_fac="1" then
+										if p_dw_conts.getitemstring(1,'ctipo')='1' then  
+											if  p_por_lugar<>'1' then
+												 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												else
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												end if
 											else
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												else
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												end if
 											end if
 										else
 											 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(p_nradica,formato)) //factura
 											else
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												dw_export.setitem(i,1,string(p_nradica,formato))
+											end if
+											
+										end if
+									else
+										dw_export.setitem(i,1,string(dw_trae.getitemnumber(j,1))) //factura
+									end if
+									if l_deta='0' then
+										dw_export.setitem(i,2,dw_trae.getitemstring(j,'este_codigo')) //cod_ips
+									else
+										dw_export.setitem(i,2,dw_trae.getitemstring(j,'c_supersalud')) //cod_ips
+									end if
+									dw_export.setitem(i,3,dw_trae.getitemstring(j,3)) //tipo_doc
+									if isnull(dw_trae.getitemstring(j,22)) or dw_trae.getitemstring(j,22)='' then 
+										dw_export.setitem(i,4,dw_trae.getitemstring(j,4)) //documento
+									else
+										dw_export.setitem(i,4,dw_trae.getitemstring(j,22)+dw_trae.getitemstring(j,4)) //documento
+									end if
+									dw_export.setitem(i,5,string(dw_trae.getitemdatetime(j,5),"dd/mm/yyyy")) //fecha
+									dw_export.setitem(i,6,dw_trae.getitemstring(j,6)) //nro_autoriza
+									if p_cups then
+										dw_export.setitem(i,7,dw_trae.getitemstring(j,'cod_cups'))									
+									else
+										dw_export.setitem(i,7,dw_trae.getitemstring(j,7)) //cproced
+									end if
+									dw_export.setitem(i,8,dw_trae.getitemstring(j,8)) //finalidad consulta
+									dw_export.setitem(i,9,dw_trae.getitemstring(j,9)) //causa externa
+									dw_export.setitem(i,10,dw_trae.getitemstring(j,10)) //diag_prin
+									dw_export.setitem(i,11,dw_trae.getitemstring(j,11)) //diagrel1
+									dw_export.setitem(i,12,dw_trae.getitemstring(j,12)) //diagrel2
+									dw_export.setitem(i,13,dw_trae.getitemstring(j,13)) //diagrel3
+									dw_export.setitem(i,14,dw_trae.getitemstring(j,14)) //tipo_diag_prin
+									if is_rips_cd='0' then 
+										dw_export.setitem(i,15,string(dw_trae.getitemnumber(j,15),"#####0")) //vproced
+										dw_export.setitem(i,16,string(dw_trae.getitemnumber(j,"cuota_modera"),"#####0")) //cuota moder
+										dw_export.setitem(i,17,string(dw_trae.getitemnumber(j,16),"#####0")) //valor a pagar v_emp
+									else
+										dw_export.setitem(i,15,string(dw_trae.getitemnumber(j,15),"#####0.00")) //vproced
+										dw_export.setitem(i,16,string(dw_trae.getitemnumber(j,"cuota_modera"),"#####0.00")) //cuota moder
+										dw_export.setitem(i,17,string(dw_trae.getitemnumber(j,16),"#####0.00")) //valor a pagar v_emp
+									end if
+									
+								case "Procedimientos"
+									if is_concatena_fac="1" then
+										if p_dw_conts.getitemstring(1,'ctipo')='1' then  
+											if  p_por_lugar<>'1' then
+												 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												else
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												end if
+											else
+												 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												else
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												end if
+											end if
+										else
+											 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(p_nradica,formato)) //factura
+											else
+												dw_export.setitem(i,1,string(p_nradica,formato))
 											end if
 										end if
 									else
-										 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-											dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(p_nradica,formato)) //factura
+										dw_export.setitem(i,1,string(dw_trae.getitemnumber(j,1))) //factura
+									end if
+									if l_deta='0' then
+										dw_export.setitem(i,2,dw_trae.getitemstring(j,'este_codigo')) //cod_ips
+									else
+										dw_export.setitem(i,2,dw_trae.getitemstring(j,'c_supersalud')) //cod_ips
+									end if
+									dw_export.setitem(i,3,dw_trae.getitemstring(j,3)) //tipo_doc
+									if isnull(dw_trae.getitemstring(j,20)) or dw_trae.getitemstring(j,20)='' then 
+										dw_export.setitem(i,4,dw_trae.getitemstring(j,4)) //documento
+									else
+										dw_export.setitem(i,4,dw_trae.getitemstring(j,20)+dw_trae.getitemstring(j,4)) //documento
+									end if
+									dw_export.setitem(i,5,string(dw_trae.getitemdatetime(j,5),"dd/mm/yyyy")) //fecha
+									dw_export.setitem(i,6,dw_trae.getitemstring(j,6)) //nro_autoriza
+									if p_cups then
+										dw_export.setitem(i,7,dw_trae.getitemstring(j,'cod_cups'))
+									else
+										dw_export.setitem(i,7,dw_trae.getitemstring(j,7)) //cproced
+									end if
+									dw_export.setitem(i,8,dw_trae.getitemstring(j,8)) //ambito procedim
+									dw_export.setitem(i,9,dw_trae.getitemstring(j,9)) //finalidad procedim	
+									if dw_trae.getitemstring(j,'parto')='1' then 
+										dw_export.setitem(i,10,dw_trae.getitemstring(j,10)) //personal que atiende
+									else
+										dw_export.setitem(i,10,'') //personal que atiende
+									end if
+									dw_export.setitem(i,11,dw_trae.getitemstring(j,11)) //diagprin
+									dw_export.setitem(i,12,dw_trae.getitemstring(j,12)) //diagrel1
+									dw_export.setitem(i,13,dw_trae.getitemstring(j,13)) //diag complicación
+									dw_export.setitem(i,14,dw_trae.getitemstring(j,14)) //forma tipo acto quir
+									if is_rips_cd='0' then 
+										dw_export.setitem(i,15,string(dw_trae.getitemnumber(j,15),"#####0")) //vproced
+									else
+										dw_export.setitem(i,15,string(dw_trae.getitemnumber(j,15),"#####0.00")) //vproced
+									end if
+									
+								case "Urgencias"
+									if is_concatena_fac="1" then
+										if p_dw_conts.getitemstring(1,'ctipo')='1' then  
+											if  p_por_lugar<>'1' then
+												 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												 else
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												end if
+											else
+												 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												else
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												end if
+											end if
 										else
-											dw_export.setitem(i,1,string(p_nradica,formato))
+											 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(p_nradica,formato)) //factura
+											else
+												dw_export.setitem(i,1,string(p_nradica,formato))
+											end if										
 										end if
+									else
+										dw_export.setitem(i,1,string(dw_trae.getitemnumber(j,1))) //factura
+									end if
+									if l_deta='0' then
+										dw_export.setitem(i,2,dw_trae.getitemstring(j,'este_codigo')) //cod_ips
+									else
+										dw_export.setitem(i,2,dw_trae.getitemstring(j,'c_ips')) //cod_ips
+									end if
+									dw_export.setitem(i,3,dw_trae.getitemstring(j,3))
+									if isnull(dw_trae.getitemstring(j,32)) or dw_trae.getitemstring(j,32)='' then 
+										dw_export.setitem(i,4,dw_trae.getitemstring(j,4))
+									else
+										dw_export.setitem(i,4,dw_trae.getitemstring(j,32)+dw_trae.getitemstring(j,4))
+									end if
+									dw_export.setitem(i,5,string(dw_trae.getitemdatetime(j,5),"dd/mm/yyyy"))
+									dw_export.setitem(i,6,string(dw_trae.getitemdatetime(j,6),"HH:mm"))
+									dw_export.setitem(i,7,left(dw_trae.getitemstring(j,7),15))//autoriza
+									dw_export.setitem(i,8,dw_trae.getitemstring(j,8))//causaext
+									dw_export.setitem(i,9,dw_trae.getitemstring(j,25))//diagsal
+									dw_export.setitem(i,10,dw_trae.getitemstring(j,26))//drel1
+									dw_export.setitem(i,11,dw_trae.getitemstring(j,27))//drel2
+									dw_export.setitem(i,12,dw_trae.getitemstring(j,28))//drel3
+									dw_export.setitem(i,13,dw_trae.getitemstring(j,13))//destino
+									dw_export.setitem(i,14,dw_trae.getitemstring(j,14))//estado sal
+									dw_export.setitem(i,15,dw_trae.getitemstring(j,29))//causamuerte
+									dw_export.setitem(i,16,string(dw_trae.getitemdatetime(j,16),"dd/mm/yyyy"))
+									dw_export.setitem(i,17,string(dw_trae.getitemdatetime(j,17),"HH:mm"))
+									
+								case "Hospitalización"
+									if is_concatena_fac="1" then
+										 if p_dw_conts.getitemstring(1,'ctipo')='1' then  
+											if  p_por_lugar<>'1' then
+												 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura								
+												 else
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												end if
+											else
+												 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												else
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												end if
+											end if
+										else
+											 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(p_nradica,formato)) //factura
+											else
+												dw_export.setitem(i,1,string(p_nradica,formato))
+											end if
+										end if										
+									else
+										dw_export.setitem(i,1,string(dw_trae.getitemnumber(j,1))) //factura
+									end if
+									if l_deta='0' then
+										dw_export.setitem(i,2,dw_trae.getitemstring(j,'este_codigo')) //cod_ips
+									else
+										dw_export.setitem(i,2,dw_trae.getitemstring(j,'c_ips')) //cod_ips
+									end if
+									
+									dw_export.setitem(i,3,dw_trae.getitemstring(j,3))//tdoc
+									if isnull(dw_trae.getitemstring(j,36)) or dw_trae.getitemstring(j,36)='' then 
+										dw_export.setitem(i,4,dw_trae.getitemstring(j,4))//docu
+									else
+										dw_export.setitem(i,4,dw_trae.getitemstring(j,36)+dw_trae.getitemstring(j,4))//docu									
+									end if
+									dw_export.setitem(i,5,dw_trae.getitemstring(j,5))//via ing
+									dw_export.setitem(i,6,string(dw_trae.getitemdatetime(j,6),"dd/mm/yyyy"))
+									dw_export.setitem(i,7,string(dw_trae.getitemdatetime(j,7),"HH:mm"))
+									dw_export.setitem(i,8,left(dw_trae.getitemstring(j,8),15))//autoriza
+									dw_export.setitem(i,9,dw_trae.getitemstring(j,9))//causaext
+									dw_export.setitem(i,10,dw_trae.getitemstring(j,27))//diag prin ing
+									dw_export.setitem(i,11,dw_trae.getitemstring(j,28))//diag prin egre
+									dw_export.setitem(i,12,dw_trae.getitemstring(j,29))//diag rel1
+									dw_export.setitem(i,13,dw_trae.getitemstring(j,30))//diag rel2
+									dw_export.setitem(i,14,dw_trae.getitemstring(j,31))//diag rel3
+									dw_export.setitem(i,15,dw_trae.getitemstring(j,32))//diag compl
+									dw_export.setitem(i,16,dw_trae.getitemstring(j,16))//estado sal
+									dw_export.setitem(i,17,dw_trae.getitemstring(j,33))//diag muerte
+									dw_export.setitem(i,18,string(dw_trae.getitemdatetime(j,18),"dd/mm/yyyy"))
+									dw_export.setitem(i,19,string(dw_trae.getitemdatetime(j,19),"HH:mm"))
+									
+								case "Recien Nacido"
+									if is_concatena_fac="1" then
+										if p_dw_conts.getitemstring(1,'ctipo')='1' then  
+											if  p_por_lugar<>'1' then
+												 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												 else
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												end if
+											else
+												 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												else
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												end if
+											end if
+										else
+											 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(p_nradica,formato)) //factura
+											else
+												dw_export.setitem(i,1,string(p_nradica,formato))
+											end if
+										end if
+									else
+										dw_export.setitem(i,1,string(dw_trae.getitemnumber(j,1))) //factura
+									end if
+									if l_deta='0' then
+										dw_export.setitem(i,2,dw_trae.getitemstring(j,'este_codigo')) //cod_ips
+									else
+										dw_export.setitem(i,2,dw_trae.getitemstring(j,'c_supersalud')) //cod_ips
+									end if
+									dw_export.setitem(i,3,dw_trae.getitemstring(j,3))//tdoc
+									if isnull(dw_trae.getitemstring(j,19)) or dw_trae.getitemstring(j,19)='' then 								
+										dw_export.setitem(i,4,dw_trae.getitemstring(j,4))//docu
+									else
+										dw_export.setitem(i,4,dw_trae.getitemstring(j,19)+dw_trae.getitemstring(j,4))//docu									
+									end if
+									dw_export.setitem(i,5,string(dw_trae.getitemdatetime(j,5),"dd/mm/yyyy"))//fecha_nac
+									dw_export.setitem(i,6,string(dw_trae.getitemdatetime(j,5),"HH:mm"))//horanac
+									dw_export.setitem(i,7,string(dw_trae.getitemnumber(j,6)))//edad gesta
+									dw_export.setitem(i,8,dw_trae.getitemstring(j,7))//control prenatal
+									dw_export.setitem(i,9,dw_trae.getitemstring(j,8))//sexo
+									dw_export.setitem(i,10,string(dw_trae.getitemnumber(j,9)))//peso
+									dw_export.setitem(i,11,dw_trae.getitemstring(j,15))//diag rn
+									
+									dw_export.setitem(i,12,dw_trae.getitemstring(j,16))//diag muerte
+									if not isnull(dw_export.setitem(i,12,dw_trae.getitemstring(j,16))) then 
+										dw_export.setitem(i,13,string(dw_trae.getitemdatetime(j,12),"dd/mm/yyyy"))
+										dw_export.setitem(i,14,string(dw_trae.getitemdatetime(j,12),"HH:mm"))
+									end if
+									
+								case "Medicamentos"
+									if is_concatena_fac="1" then
+										if p_dw_conts.getitemstring(1,'ctipo')='1' then  
+											if  p_por_lugar<>'1' then
+												 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												 else
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												end if
+											else
+												 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												else
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												end if
+											end if
+										else
+											 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(p_nradica,formato)) //factura
+											else
+												dw_export.setitem(i,1,string(p_nradica,formato))
+											end if
+										end if
+									else
+										dw_export.setitem(i,1,string(dw_trae.getitemnumber(j,1))) //factura
+									end if
+									if l_deta='0' then
+										dw_export.setitem(i,2,dw_trae.getitemstring(j,'este_codigo')) //cod_ips
+									else
+										dw_export.setitem(i,2,dw_trae.getitemstring(j,'c_supersalud')) //cod_ips
+									end if
+									dw_export.setitem(i,'tdoc',dw_trae.getitemstring(j,3))//tdoc
+									if isnull(dw_trae.getitemstring(j,23)) or dw_trae.getitemstring(j,23)='' then 											
+										dw_export.setitem(i,'docu',dw_trae.getitemstring(j,4))//docu
+									else
+										dw_export.setitem(i,'docu', dw_trae.getitemstring(j,23)+dw_trae.getitemstring(j,4))//docu
+									end if
+									dw_export.setitem(i,'autoriza',left(dw_trae.getitemstring(j,5),15))//autoriza
+									dw_export.setitem(i,'c_medica',dw_trae.getitemstring(j,"codigo_unif"))//cmedica
+									dw_export.setitem(i,'nombre',left(dw_trae.getitemstring(j,8),30))//nombre med
+									dw_export.setitem(i,'tipo_med',dw_trae.getitemstring(j,7))//tipo med
+									dw_export.setitem(i,'forma_far',left(dw_trae.getitemstring(j,"formafarma"),20))//forma far
+									dw_export.setitem(i,'concentracion',left(dw_trae.getitemstring(j,"concentracion"),20))//concentra
+									dw_export.setitem(i,'u_medida',left(dw_trae.getitemstring(j,"unidadmed"),20))//umed
+									dw_export.setitem(i,'cantidad',string(dw_trae.getitemnumber(j,12)))//cant
+									if is_rips_cd='0' then 
+										dw_export.setitem(i,'vunit',string(dw_trae.getitemnumber(j,13),"#####0"))//vunit
+										dw_export.setitem(i,'vtotal',string(dw_trae.getitemnumber(j,14),"#####0"))//vtotal
+									else
+										dw_export.setitem(i,'vunit',string(dw_trae.getitemnumber(j,13),"#####0.00"))//vunit
+										dw_export.setitem(i,'vtotal',string(dw_trae.getitemnumber(j,14),"#####0.00"))//vtotal						
+									end if
+										
+								case "Otros"
+									if is_concatena_fac="1" then
+										if p_dw_conts.getitemstring(1,'ctipo')='1' then  
+											if  p_por_lugar<>'1' then
+												 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												 else
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												end if
+											else
+												 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												else
+													dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar")+string(dw_trae.getitemnumber(j,1),formato)) //factura
+												end if
+											end if
+										else
+											 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(p_nradica,formato)) //factura
+											else
+												dw_export.setitem(i,1,string(p_nradica,formato))
+											end if
+										end if																	
+									else
+										dw_export.setitem(i,1,string(dw_trae.getitemnumber(j,1))) //factura
+									end if
+									if l_deta='0' then
+										dw_export.setitem(i,2,dw_trae.getitemstring(j,'este_codigo')) //cod_ips
+									else
+										dw_export.setitem(i,2,dw_trae.getitemstring(j,'c_supersalud')) //cod_ips
+									end if
+									dw_export.setitem(i,3,dw_trae.getitemstring(j,3))//tdoc
+									if isnull(dw_trae.getitemstring(j,20)) or dw_trae.getitemstring(j,20)='' then 								
+										dw_export.setitem(i,4,dw_trae.getitemstring(j,4))//docu
+									else
+										dw_export.setitem(i,4, dw_trae.getitemstring(j,20)+dw_trae.getitemstring(j,4))//docu
+									end if
+									dw_export.setitem(i,5,left(dw_trae.getitemstring(j,5),15))//autoriza
+									dw_export.setitem(i,6,dw_trae.getitemstring(j,6))//tipo_serv
+									if p_cups then
+										if isnull(dw_trae.getitemstring(j,'c_medica')) then
+											dw_export.setitem(i,7,dw_trae.getitemstring(j,'cod_cups'))//codigo										
+										else
+											if p_at=1 then dw_export.setitem(i,7,dw_trae.getitemstring(j,'c_medica'))//c_medica									
+										end if
+									else
+										if isnull(dw_trae.getitemstring(j,'c_medica')) then
+											dw_export.setitem(i,7,dw_trae.getitemstring(j,7))//codigo
+										else
+											if p_at=1 then dw_export.setitem(i,7,dw_trae.getitemstring(j,'c_medica'))//c_medica
+										end if
+									end if
+									dw_export.setitem(i,8,left(dw_trae.getitemstring(j,8),60))//nombre
+									dw_export.setitem(i,9,string(dw_trae.getitemnumber(j,9)))//cantidad
+									if is_rips_cd='0' then 
+										dw_export.setitem(i,10,string(dw_trae.getitemnumber(j,10),"#####0"))//vuni
+										dw_export.setitem(i,11,string(dw_trae.getitemnumber(j,11),"#####0"))//vtotal
+									else
+										dw_export.setitem(i,10,string(dw_trae.getitemnumber(j,10),"#####0.00"))//vuni
+										dw_export.setitem(i,11,string(dw_trae.getitemnumber(j,11),"#####0.00"))//vtotal
 										
 									end if
-								else
-									dw_export.setitem(i,1,string(dw_trae.getitemnumber(j,1))) //factura
-								end if
-								if l_deta='0' then
-									dw_export.setitem(i,2,dw_trae.getitemstring(j,'este_codigo')) //cod_ips
-								else
-									dw_export.setitem(i,2,dw_trae.getitemstring(j,'c_supersalud')) //cod_ips
-								end if
-								dw_export.setitem(i,3,dw_trae.getitemstring(j,3)) //tipo_doc
-								if isnull(dw_trae.getitemstring(j,22)) or dw_trae.getitemstring(j,22)='' then 
-									dw_export.setitem(i,4,dw_trae.getitemstring(j,4)) //documento
-								else
-									dw_export.setitem(i,4,dw_trae.getitemstring(j,22)+dw_trae.getitemstring(j,4)) //documento
-								end if
-								dw_export.setitem(i,5,string(dw_trae.getitemdatetime(j,5),"dd/mm/yyyy")) //fecha
-								dw_export.setitem(i,6,dw_trae.getitemstring(j,6)) //nro_autoriza
-								if p_cups then
-									dw_export.setitem(i,7,dw_trae.getitemstring(j,'cod_cups'))									
-								else
-									dw_export.setitem(i,7,dw_trae.getitemstring(j,7)) //cproced
-								end if
-								dw_export.setitem(i,8,dw_trae.getitemstring(j,8)) //finalidad consulta
-								dw_export.setitem(i,9,dw_trae.getitemstring(j,9)) //causa externa
-								dw_export.setitem(i,10,dw_trae.getitemstring(j,10)) //diag_prin
-								dw_export.setitem(i,11,dw_trae.getitemstring(j,11)) //diagrel1
-								dw_export.setitem(i,12,dw_trae.getitemstring(j,12)) //diagrel2
-								dw_export.setitem(i,13,dw_trae.getitemstring(j,13)) //diagrel3
-								dw_export.setitem(i,14,dw_trae.getitemstring(j,14)) //tipo_diag_prin
-								if is_rips_cd='0' then 
-									dw_export.setitem(i,15,string(dw_trae.getitemnumber(j,15),"#####0")) //vproced
-									dw_export.setitem(i,16,string(dw_trae.getitemnumber(j,"cuota_modera"),"#####0")) //cuota moder
-									dw_export.setitem(i,17,string(dw_trae.getitemnumber(j,16),"#####0")) //valor a pagar v_emp
-								else
-									dw_export.setitem(i,15,string(dw_trae.getitemnumber(j,15),"#####0.00")) //vproced
-									dw_export.setitem(i,16,string(dw_trae.getitemnumber(j,"cuota_modera"),"#####0.00")) //cuota moder
-									dw_export.setitem(i,17,string(dw_trae.getitemnumber(j,16),"#####0.00")) //valor a pagar v_emp
-								end if
-								
-							case "Procedimientos"
-								if is_concatena_fac="1" then
-									if p_dw_conts.getitemstring(1,'ctipo')='1' then  
-										if  p_por_lugar<>'1' then
-											 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											else
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											end if
-										else
-											 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											else
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											end if
-										end if
-									else
-										 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-											dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(p_nradica,formato)) //factura
-										else
-											dw_export.setitem(i,1,string(p_nradica,formato))
-										end if
-									end if
-								else
-									dw_export.setitem(i,1,string(dw_trae.getitemnumber(j,1))) //factura
-								end if
-								if l_deta='0' then
-									dw_export.setitem(i,2,dw_trae.getitemstring(j,'este_codigo')) //cod_ips
-								else
-									dw_export.setitem(i,2,dw_trae.getitemstring(j,'c_supersalud')) //cod_ips
-								end if
-								dw_export.setitem(i,3,dw_trae.getitemstring(j,3)) //tipo_doc
-								if isnull(dw_trae.getitemstring(j,20)) or dw_trae.getitemstring(j,20)='' then 
-									dw_export.setitem(i,4,dw_trae.getitemstring(j,4)) //documento
-								else
-									dw_export.setitem(i,4,dw_trae.getitemstring(j,20)+dw_trae.getitemstring(j,4)) //documento
-								end if
-								dw_export.setitem(i,5,string(dw_trae.getitemdatetime(j,5),"dd/mm/yyyy")) //fecha
-								dw_export.setitem(i,6,dw_trae.getitemstring(j,6)) //nro_autoriza
-								if p_cups then
-									dw_export.setitem(i,7,dw_trae.getitemstring(j,'cod_cups'))
-								else
-									dw_export.setitem(i,7,dw_trae.getitemstring(j,7)) //cproced
-								end if
-								dw_export.setitem(i,8,dw_trae.getitemstring(j,8)) //ambito procedim
-								dw_export.setitem(i,9,dw_trae.getitemstring(j,9)) //finalidad procedim	
-								if dw_trae.getitemstring(j,'parto')='1' then 
-									dw_export.setitem(i,10,dw_trae.getitemstring(j,10)) //personal que atiende
-								else
-									dw_export.setitem(i,10,'') //personal que atiende
-								end if
-								dw_export.setitem(i,11,dw_trae.getitemstring(j,11)) //diagprin
-								dw_export.setitem(i,12,dw_trae.getitemstring(j,12)) //diagrel1
-								dw_export.setitem(i,13,dw_trae.getitemstring(j,13)) //diag complicación
-								dw_export.setitem(i,14,dw_trae.getitemstring(j,14)) //forma tipo acto quir
-								if is_rips_cd='0' then 
-									dw_export.setitem(i,15,string(dw_trae.getitemnumber(j,15),"#####0")) //vproced
-								else
-									dw_export.setitem(i,15,string(dw_trae.getitemnumber(j,15),"#####0.00")) //vproced
-								end if
-								
-							case "Urgencias"
-								if is_concatena_fac="1" then
-									if p_dw_conts.getitemstring(1,'ctipo')='1' then  
-										if  p_por_lugar<>'1' then
-											 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											 else
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											end if
-										else
-											 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											else
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											end if
-										end if
-									else
-										 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-											dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(p_nradica,formato)) //factura
-										else
-											dw_export.setitem(i,1,string(p_nradica,formato))
-										end if										
-									end if
-								else
-									dw_export.setitem(i,1,string(dw_trae.getitemnumber(j,1))) //factura
-								end if
-								if l_deta='0' then
-									dw_export.setitem(i,2,dw_trae.getitemstring(j,'este_codigo')) //cod_ips
-								else
-									dw_export.setitem(i,2,dw_trae.getitemstring(j,'c_ips')) //cod_ips
-								end if
-								dw_export.setitem(i,3,dw_trae.getitemstring(j,3))
-								if isnull(dw_trae.getitemstring(j,32)) or dw_trae.getitemstring(j,32)='' then 
-									dw_export.setitem(i,4,dw_trae.getitemstring(j,4))
-								else
-									dw_export.setitem(i,4,dw_trae.getitemstring(j,32)+dw_trae.getitemstring(j,4))
-								end if
-								dw_export.setitem(i,5,string(dw_trae.getitemdatetime(j,5),"dd/mm/yyyy"))
-								dw_export.setitem(i,6,string(dw_trae.getitemdatetime(j,6),"HH:mm"))
-								dw_export.setitem(i,7,left(dw_trae.getitemstring(j,7),15))//autoriza
-								dw_export.setitem(i,8,dw_trae.getitemstring(j,8))//causaext
-								dw_export.setitem(i,9,dw_trae.getitemstring(j,25))//diagsal
-								dw_export.setitem(i,10,dw_trae.getitemstring(j,26))//drel1
-								dw_export.setitem(i,11,dw_trae.getitemstring(j,27))//drel2
-								dw_export.setitem(i,12,dw_trae.getitemstring(j,28))//drel3
-								dw_export.setitem(i,13,dw_trae.getitemstring(j,13))//destino
-								dw_export.setitem(i,14,dw_trae.getitemstring(j,14))//estado sal
-								dw_export.setitem(i,15,dw_trae.getitemstring(j,29))//causamuerte
-								dw_export.setitem(i,16,string(dw_trae.getitemdatetime(j,16),"dd/mm/yyyy"))
-								dw_export.setitem(i,17,string(dw_trae.getitemdatetime(j,17),"HH:mm"))
-								
-							case "Hospitalización"
-								if is_concatena_fac="1" then
-									 if p_dw_conts.getitemstring(1,'ctipo')='1' then  
-										if  p_por_lugar<>'1' then
-											 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura								
-											 else
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											end if
-										else
-											 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											else
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											end if
-										end if
-									else
-										 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-											dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(p_nradica,formato)) //factura
-										else
-											dw_export.setitem(i,1,string(p_nradica,formato))
-										end if
-									end if										
-								else
-									dw_export.setitem(i,1,string(dw_trae.getitemnumber(j,1))) //factura
-								end if
-								if l_deta='0' then
-									dw_export.setitem(i,2,dw_trae.getitemstring(j,'este_codigo')) //cod_ips
-								else
-									dw_export.setitem(i,2,dw_trae.getitemstring(j,'c_ips')) //cod_ips
-								end if
-								
-								dw_export.setitem(i,3,dw_trae.getitemstring(j,3))//tdoc
-								if isnull(dw_trae.getitemstring(j,36)) or dw_trae.getitemstring(j,36)='' then 
-									dw_export.setitem(i,4,dw_trae.getitemstring(j,4))//docu
-								else
-									dw_export.setitem(i,4,dw_trae.getitemstring(j,36)+dw_trae.getitemstring(j,4))//docu									
-								end if
-								dw_export.setitem(i,5,dw_trae.getitemstring(j,5))//via ing
-								dw_export.setitem(i,6,string(dw_trae.getitemdatetime(j,6),"dd/mm/yyyy"))
-								dw_export.setitem(i,7,string(dw_trae.getitemdatetime(j,7),"HH:mm"))
-								dw_export.setitem(i,8,left(dw_trae.getitemstring(j,8),15))//autoriza
-								dw_export.setitem(i,9,dw_trae.getitemstring(j,9))//causaext
-								dw_export.setitem(i,10,dw_trae.getitemstring(j,27))//diag prin ing
-								dw_export.setitem(i,11,dw_trae.getitemstring(j,28))//diag prin egre
-								dw_export.setitem(i,12,dw_trae.getitemstring(j,29))//diag rel1
-								dw_export.setitem(i,13,dw_trae.getitemstring(j,30))//diag rel2
-								dw_export.setitem(i,14,dw_trae.getitemstring(j,31))//diag rel3
-								dw_export.setitem(i,15,dw_trae.getitemstring(j,32))//diag compl
-								dw_export.setitem(i,16,dw_trae.getitemstring(j,16))//estado sal
-								dw_export.setitem(i,17,dw_trae.getitemstring(j,33))//diag muerte
-								dw_export.setitem(i,18,string(dw_trae.getitemdatetime(j,18),"dd/mm/yyyy"))
-								dw_export.setitem(i,19,string(dw_trae.getitemdatetime(j,19),"HH:mm"))
-								
-							case "Recien Nacido"
-								if is_concatena_fac="1" then
-									if p_dw_conts.getitemstring(1,'ctipo')='1' then  
-										if  p_por_lugar<>'1' then
-											 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											 else
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											end if
-										else
-											 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											else
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											end if
-										end if
-									else
-										 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-											dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(p_nradica,formato)) //factura
-										else
-											dw_export.setitem(i,1,string(p_nradica,formato))
-										end if
-									end if
-								else
-									dw_export.setitem(i,1,string(dw_trae.getitemnumber(j,1))) //factura
-								end if
-								if l_deta='0' then
-									dw_export.setitem(i,2,dw_trae.getitemstring(j,'este_codigo')) //cod_ips
-								else
-									dw_export.setitem(i,2,dw_trae.getitemstring(j,'c_supersalud')) //cod_ips
-								end if
-								dw_export.setitem(i,3,dw_trae.getitemstring(j,3))//tdoc
-								if isnull(dw_trae.getitemstring(j,19)) or dw_trae.getitemstring(j,19)='' then 								
-									dw_export.setitem(i,4,dw_trae.getitemstring(j,4))//docu
-								else
-									dw_export.setitem(i,4,dw_trae.getitemstring(j,19)+dw_trae.getitemstring(j,4))//docu									
-								end if
-								dw_export.setitem(i,5,string(dw_trae.getitemdatetime(j,5),"dd/mm/yyyy"))//fecha_nac
-								dw_export.setitem(i,6,string(dw_trae.getitemdatetime(j,5),"HH:mm"))//horanac
-								dw_export.setitem(i,7,string(dw_trae.getitemnumber(j,6)))//edad gesta
-								dw_export.setitem(i,8,dw_trae.getitemstring(j,7))//control prenatal
-								dw_export.setitem(i,9,dw_trae.getitemstring(j,8))//sexo
-								dw_export.setitem(i,10,string(dw_trae.getitemnumber(j,9)))//peso
-								dw_export.setitem(i,11,dw_trae.getitemstring(j,15))//diag rn
-								
-								dw_export.setitem(i,12,dw_trae.getitemstring(j,16))//diag muerte
-								if not isnull(dw_export.setitem(i,12,dw_trae.getitemstring(j,16))) then 
-									dw_export.setitem(i,13,string(dw_trae.getitemdatetime(j,12),"dd/mm/yyyy"))
-									dw_export.setitem(i,14,string(dw_trae.getitemdatetime(j,12),"HH:mm"))
-								end if
-								
-							case "Medicamentos"
-								if is_concatena_fac="1" then
-									if p_dw_conts.getitemstring(1,'ctipo')='1' then  
-										if  p_por_lugar<>'1' then
-											 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											 else
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											end if
-										else
-											 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											else
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar_fac")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											end if
-										end if
-									else
-										 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-											dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(p_nradica,formato)) //factura
-										else
-											dw_export.setitem(i,1,string(p_nradica,formato))
-										end if
-									end if
-								else
-									dw_export.setitem(i,1,string(dw_trae.getitemnumber(j,1))) //factura
-								end if
-								if l_deta='0' then
-									dw_export.setitem(i,2,dw_trae.getitemstring(j,'este_codigo')) //cod_ips
-								else
-									dw_export.setitem(i,2,dw_trae.getitemstring(j,'c_supersalud')) //cod_ips
-								end if
-								dw_export.setitem(i,'tdoc',dw_trae.getitemstring(j,3))//tdoc
-								if isnull(dw_trae.getitemstring(j,23)) or dw_trae.getitemstring(j,23)='' then 											
-									dw_export.setitem(i,'docu',dw_trae.getitemstring(j,4))//docu
-								else
-									dw_export.setitem(i,'docu', dw_trae.getitemstring(j,23)+dw_trae.getitemstring(j,4))//docu
-								end if
-								dw_export.setitem(i,'autoriza',left(dw_trae.getitemstring(j,5),15))//autoriza
-								dw_export.setitem(i,'c_medica',dw_trae.getitemstring(j,"codigo_unif"))//cmedica
-								dw_export.setitem(i,'nombre',left(dw_trae.getitemstring(j,8),30))//nombre med
-								dw_export.setitem(i,'tipo_med',dw_trae.getitemstring(j,7))//tipo med
-								dw_export.setitem(i,'forma_far',left(dw_trae.getitemstring(j,"formafarma"),20))//forma far
-								dw_export.setitem(i,'concentracion',left(dw_trae.getitemstring(j,"concentracion"),20))//concentra
-								dw_export.setitem(i,'u_medida',left(dw_trae.getitemstring(j,"unidadmed"),20))//umed
-								dw_export.setitem(i,'cantidad',string(dw_trae.getitemnumber(j,12)))//cant
-								if is_rips_cd='0' then 
-									dw_export.setitem(i,'vunit',string(dw_trae.getitemnumber(j,13),"#####0"))//vunit
-									dw_export.setitem(i,'vtotal',string(dw_trae.getitemnumber(j,14),"#####0"))//vtotal
-								else
-									dw_export.setitem(i,'vunit',string(dw_trae.getitemnumber(j,13),"#####0.00"))//vunit
-									dw_export.setitem(i,'vtotal',string(dw_trae.getitemnumber(j,14),"#####0.00"))//vtotal						
-								end if
-									
-							case "Otros"
-								if is_concatena_fac="1" then
-									if p_dw_conts.getitemstring(1,'ctipo')='1' then  
-										if  p_por_lugar<>'1' then
-											 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											 else
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											end if
-										else
-											 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											else
-												dw_export.setitem(i,1,dw_trae.getitemstring(j,"clugar")+string(dw_trae.getitemnumber(j,1),formato)) //factura
-											end if
-										end if
-									else
-										 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-											dw_export.setitem(i,1,dw_trae.getitemstring(j,"prefijo")+string(p_nradica,formato)) //factura
-										else
-											dw_export.setitem(i,1,string(p_nradica,formato))
-										end if
-									end if																	
-								else
-									dw_export.setitem(i,1,string(dw_trae.getitemnumber(j,1))) //factura
-								end if
-								if l_deta='0' then
-									dw_export.setitem(i,2,dw_trae.getitemstring(j,'este_codigo')) //cod_ips
-								else
-									dw_export.setitem(i,2,dw_trae.getitemstring(j,'c_supersalud')) //cod_ips
-								end if
-								dw_export.setitem(i,3,dw_trae.getitemstring(j,3))//tdoc
-								if isnull(dw_trae.getitemstring(j,20)) or dw_trae.getitemstring(j,20)='' then 								
-									dw_export.setitem(i,4,dw_trae.getitemstring(j,4))//docu
-								else
-									dw_export.setitem(i,4, dw_trae.getitemstring(j,20)+dw_trae.getitemstring(j,4))//docu
-								end if
-								dw_export.setitem(i,5,left(dw_trae.getitemstring(j,5),15))//autoriza
-								dw_export.setitem(i,6,dw_trae.getitemstring(j,6))//tipo_serv
-								if p_cups then
-									if isnull(dw_trae.getitemstring(j,'c_medica')) then
-										dw_export.setitem(i,7,dw_trae.getitemstring(j,'cod_cups'))//codigo										
-									else
-										if p_at=1 then dw_export.setitem(i,7,dw_trae.getitemstring(j,'c_medica'))//c_medica									
-									end if
-								else
-									if isnull(dw_trae.getitemstring(j,'c_medica')) then
-										dw_export.setitem(i,7,dw_trae.getitemstring(j,7))//codigo
-									else
-										if p_at=1 then dw_export.setitem(i,7,dw_trae.getitemstring(j,'c_medica'))//c_medica
-									end if
-								end if
-								dw_export.setitem(i,8,left(dw_trae.getitemstring(j,8),60))//nombre
-								dw_export.setitem(i,9,string(dw_trae.getitemnumber(j,9)))//cantidad
-								if is_rips_cd='0' then 
-									dw_export.setitem(i,10,string(dw_trae.getitemnumber(j,10),"#####0"))//vuni
-									dw_export.setitem(i,11,string(dw_trae.getitemnumber(j,11),"#####0"))//vtotal
-								else
-									dw_export.setitem(i,10,string(dw_trae.getitemnumber(j,10),"#####0.00"))//vuni
-									dw_export.setitem(i,11,string(dw_trae.getitemnumber(j,11),"#####0.00"))//vtotal
-									
-								end if
-						end choose
-						w_principal.SetMicroHelp ( 'Copiando '+cual+'(reg. '+string(j)+' de '+string(filas)+')' )
-						if p_decual='emp' then tab_2.tp2_1.t1.tp1.barra.position= 25 + Int((j * 75)/filas)
-					next
-					//nom_arch+=right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
-					nom_arch+=right(fill('0',6)+string(p_nradica),6)
-					docname=nom_arch
-					w_principal.SetMicroHelp ( 'Exportando Archivo '+cual )
-					if p_decual='emp' then
-//						if tab_2.tp2_1.rb_names.checked then//preguntar una a uno
-//							//docname es el largo y nom_arc el solo archivito
-//							if GetFileSaveName("Archivo de "+cual+" ("+nom_arch+")",docname, nom_arch, "txt", "Archivos de Texto (*.txt),*.txt" )<>1 then
-//								if p_faltan then messagebox("Atención",'De todas formas fue generada la radicación Nro: '+string(p_nradica))
-//								return 0
-//							end if
-//						else//mandarlos todos al directorio
+							end choose
+							w_principal.SetMicroHelp ( 'Copiando '+cual+'(reg. '+string(j)+' de '+string(filas)+')' )
+							if p_decual='emp' then tab_2.tp2_1.t1.tp1.barra.position= 25 + Int((j * 75)/filas)
+						next
+						//nom_arch+=right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
+						nom_arch+=right(fill('0',6)+string(p_nradica),6)
+						docname=nom_arch
+						w_principal.SetMicroHelp ( 'Exportando Archivo '+cual )
+						if p_decual='emp' then
 							docname=tab_2.tp2_1.sle_dir.text+'\'+nom_arch+'.txt'
 							nom_arch+='.txt'
-	//					end if
-					else //de lote
-						docname=tab_2.tp2_2.sle_sale.text+'\'+nom_arch+'.txt'
-						nom_arch+='.txt'
+						else //de lote
+							docname=tab_2.tp2_2.sle_sale.text+'\'+nom_arch+'.txt'
+							nom_arch+='.txt'
+						end if
+						if dw_export.saveas(docname,CSV!,false)=-1 then
+							if p_decual='emp' then 
+								Messagebox("Error guardando archivo "+cual,"No se puede guardar el archivo, revise el espacio o el estado del disco")
+							else
+								log_txt="Error guardando archivo "+cual+" .No se puede guardar el archivo, revise el espacio o el estado del disco. El proceso continua"
+								filewrite(i_numarc,log_txt)
+							end if
+						else
+							w_principal.SetMicroHelp ( 'Quitando espacio a '+cual )
+							f_quita_espacio_rips(docname)
+							if p_decual='lote' then//escribir enm el log
+								log_txt='~t~t~t'+nom_arch+' :'+string(dw_export.rowcount())+' Registro(s) (OK)'
+								filewrite(i_numarc,log_txt)
+							end if
+						end if
+						realn[arch]=mid(nom_arch,1,len(nom_arch) -4)
+						tab_2.tp2_1.t1.tp1.barra.position=0
 					end if
-					if dw_export.saveas(docname,CSV!,false)=-1 then
-						if p_decual='emp' then 
-							Messagebox("Error guardando archivo "+cual,"No se puede guardar el archivo, revise el espacio o el estado del disco")
-						else
-							log_txt="Error guardando archivo "+cual+" .No se puede guardar el archivo, revise el espacio o el estado del disco. El proceso continua"
-							filewrite(i_numarc,log_txt)
-						end if
+				end if
+			next
+			///// FIN 3374PRESTACION
+			
+			////// INCIO 3374 CONTROL AF
+			w_principal.SetMicroHelp ( 'Leyendo AF' )
+			dw_trae.dataobject="dr_rips_af_transacc_viejo"
+			dw_trae.settransobject(sqlca)
+			dw_trae.reset()
+			dw_trae.retrieve(p_nradica,p_clug_rad,p_por_lugar,p_tipo_rad)
+			dw_export.dataobject="dr_export_rips_af_transac"
+			filas=dw_trae.rowcount()
+			dec comis
+			for j=1 to filas
+				i=dw_export.insertrow(0)
+				If  p_por_lugar='0' then
+					dw_export.setitem(i,'c_ips',dw_trae.getitemstring(j,"este_codigo"))				
+					dw_export.setitem(i,'nombre_ips',left(dw_trae.getitemstring(j,"ips_nombre"),60))
+					dw_export.setitem(i,'tipodoc_ips',dw_trae.getitemstring(j,"td_ips"))
+					if tab_2.tp2_1.cbx_6.checked then 
+						dw_export.setitem(i,'iden_ips',dw_trae.getitemstring(j,"doc_ips")/*+'-'+dw_trae.getitemstring(j,"ips_dv")*/)
 					else
-						w_principal.SetMicroHelp ( 'Quitando espacio a '+cual )
-						f_quita_espacio_rips(docname)
-						if p_decual='lote' then//escribir enm el log
-							log_txt='~t~t~t'+nom_arch+' :'+string(dw_export.rowcount())+' Registro(s) (OK)'
-							filewrite(i_numarc,log_txt)
-						end if
+						dw_export.setitem(i,'iden_ips',dw_trae.getitemstring(j,"doc_ips"))
 					end if
-					realn[arch]=mid(nom_arch,1,len(nom_arch) -4)
-					tab_2.tp2_1.t1.tp1.barra.position=0
-				end if
-			end if
-		next
-		////// 2
-		w_principal.SetMicroHelp ( 'Leyendo AF' )
-		dw_trae.dataobject="dr_rips_af_transacc_viejo"
-		dw_trae.settransobject(sqlca)
-		dw_trae.reset()
-		dw_trae.retrieve(p_nradica,p_clug_rad,p_por_lugar,p_tipo_rad)
-		dw_export.dataobject="dr_export_rips_af_transac"
-		filas=dw_trae.rowcount()
-		dec comis
-		for j=1 to filas
-			i=dw_export.insertrow(0)
-			If  p_por_lugar='0' then
-				dw_export.setitem(i,'c_ips',dw_trae.getitemstring(j,"este_codigo"))				
-				dw_export.setitem(i,'nombre_ips',left(dw_trae.getitemstring(j,"ips_nombre"),60))
-				dw_export.setitem(i,'tipodoc_ips',dw_trae.getitemstring(j,"td_ips"))
-				if tab_2.tp2_1.cbx_6.checked then 
-					dw_export.setitem(i,'iden_ips',dw_trae.getitemstring(j,"doc_ips")/*+'-'+dw_trae.getitemstring(j,"ips_dv")*/)
 				else
-					dw_export.setitem(i,'iden_ips',dw_trae.getitemstring(j,"doc_ips"))
+					dw_export.setitem(i,'c_ips',dw_trae.getitemstring(j,"csuper_ips"))	
+					dw_export.setitem(i,'nombre_ips',left(dw_trae.getitemstring(j,"ips_lugar"),60))
+					dw_export.setitem(i,'tipodoc_ips',dw_trae.getitemstring(j,"tipo_doc"))
+					if tab_2.tp2_1.cbx_6.checked then 
+						dw_export.setitem(i,'iden_ips',dw_trae.getitemstring(j,"documento")/*+'-'+dw_trae.getitemstring(j,"l_dv")*/)
+					else
+						dw_export.setitem(i,'iden_ips',dw_trae.getitemstring(j,"documento"))
+					end if
 				end if
-			else
-				dw_export.setitem(i,'c_ips',dw_trae.getitemstring(j,"csuper_ips"))	
-				dw_export.setitem(i,'nombre_ips',left(dw_trae.getitemstring(j,"ips_lugar"),60))
-				dw_export.setitem(i,'tipodoc_ips',dw_trae.getitemstring(j,"tipo_doc"))
-				if tab_2.tp2_1.cbx_6.checked then 
-					dw_export.setitem(i,'iden_ips',dw_trae.getitemstring(j,"documento")/*+'-'+dw_trae.getitemstring(j,"l_dv")*/)
-				else
-					dw_export.setitem(i,'iden_ips',dw_trae.getitemstring(j,"documento"))
-				end if
-			end if
-
-			if is_concatena_fac="1" then
-			    if p_dw_conts.getitemstring(1,'ctipo')='1' then  
-					if  p_por_lugar<>'1' then
-						 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-							dw_export.setitem(i,'factura',dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,"nfact"),formato)) //factura
+	
+				if is_concatena_fac="1" then
+					 if p_dw_conts.getitemstring(1,'ctipo')='1' then  
+						if  p_por_lugar<>'1' then
+							 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+								dw_export.setitem(i,'factura',dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,"nfact"),formato)) //factura
+							else
+								dw_export.setitem(i,'factura',dw_trae.getitemstring(j,"clugar")+string(dw_trae.getitemnumber(j,"nfact"),formato)) //factura
+							end if
 						else
-							dw_export.setitem(i,'factura',dw_trae.getitemstring(j,"clugar")+string(dw_trae.getitemnumber(j,"nfact"),formato)) //factura
-						end if
+							 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
+								dw_export.setitem(i,'factura',dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,"nfact"),formato)) //factura
+							else
+								dw_export.setitem(i,'factura',dw_trae.getitemstring(j,"clugar")+string(dw_trae.getitemnumber(j,"nfact"),formato)) //factura
+							end if
+						end if				
 					else
 						 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-							dw_export.setitem(i,'factura',dw_trae.getitemstring(j,"prefijo")+string(dw_trae.getitemnumber(j,"nfact"),formato)) //factura
+							dw_export.setitem(i,'factura',dw_trae.getitemstring(j,"prefijo")+string(p_nradica,formato)) //factura
 						else
-							dw_export.setitem(i,'factura',dw_trae.getitemstring(j,"clugar")+string(dw_trae.getitemnumber(j,"nfact"),formato)) //factura
+							dw_export.setitem(i,'factura',string(p_nradica,formato))
 						end if
 					end if				
 				else
-					 if not isnull(dw_trae.getitemstring(j,"prefijo")) then 
-						dw_export.setitem(i,'factura',dw_trae.getitemstring(j,"prefijo")+string(p_nradica,formato)) //factura
+					dw_export.setitem(i,'factura',string(dw_trae.getitemnumber(j,"nfact"))) //factura
+				end if
+				dw_export.setitem(i,'fecha_fact',string(dw_trae.getitemdatetime(j,"fecha"),"dd/mm/yyyy"))
+				dw_export.setitem(i,'fecha_inicio',string(fecha_ini,'dd/mm/yyyy'))
+				dw_export.setitem(i,8,string(fecha_fin,'dd/mm/yyyy'))
+				dw_export.setitem(i,'cod_ars',dw_trae.getitemstring(j,"codsuper"))
+				dw_export.setitem(i,10,left(dw_trae.getitemstring(j,"desemp"),30))
+				dw_export.setitem(i,11,dw_trae.getitemstring(j,"nro_contrato"))
+				dw_export.setitem(i,12,dw_trae.getitemstring(j,"plan"))
+				dw_export.setitem(i,13,dw_trae.getitemstring(j,"npoliza"))
+				if is_rips_cd='0' then 
+					if dw_trae.getitemnumber(j,"vtpaciente")<>0 and dw_trae.getitemnumber(j,"vtcopago")=0 then
+						dw_export.setitem(i,14,string(dw_trae.getitemnumber(j,"vtpaciente"),"#####0"))
 					else
-						dw_export.setitem(i,'factura',string(p_nradica,formato))
+						dw_export.setitem(i,14,string(dw_trae.getitemnumber(j,"vtcopago"),"#####0"))
 					end if
-				end if				
-			else
-				dw_export.setitem(i,'factura',string(dw_trae.getitemnumber(j,"nfact"))) //factura
-			end if
-			dw_export.setitem(i,'fecha_fact',string(dw_trae.getitemdatetime(j,"fecha"),"dd/mm/yyyy"))
-			dw_export.setitem(i,'fecha_inicio',string(fecha_ini,'dd/mm/yyyy'))
-			dw_export.setitem(i,8,string(fecha_fin,'dd/mm/yyyy'))
-			dw_export.setitem(i,'cod_ars',dw_trae.getitemstring(j,"codsuper"))
-			dw_export.setitem(i,10,left(dw_trae.getitemstring(j,"desemp"),30))
-			dw_export.setitem(i,11,dw_trae.getitemstring(j,"nro_contrato"))
-			dw_export.setitem(i,12,dw_trae.getitemstring(j,"plan"))
-			dw_export.setitem(i,13,dw_trae.getitemstring(j,"npoliza"))
-			if is_rips_cd='0' then 
-				if dw_trae.getitemnumber(j,"vtpaciente")<>0 and dw_trae.getitemnumber(j,"vtcopago")=0 then
-					dw_export.setitem(i,14,string(dw_trae.getitemnumber(j,"vtpaciente"),"#####0"))
+					comis=dw_trae.getitemnumber(j,"vtcomision") 
+					if isnull(comis) then comis=0
+					dw_export.setitem(i,15,string(comis,"#####0"))
+					dw_export.setitem(i,16,string(dw_trae.getitemnumber(j,"vtdescuentos"),"#####0"))		
+					dw_export.setitem(i,17,string(dw_trae.getitemnumber(j,"vtemp"),"#####0"))		
 				else
-					dw_export.setitem(i,14,string(dw_trae.getitemnumber(j,"vtcopago"),"#####0"))
+					if dw_trae.getitemnumber(j,"vtpaciente")<>0 and dw_trae.getitemnumber(j,"vtcopago")=0 then
+						dw_export.setitem(i,14,string(dw_trae.getitemnumber(j,"vtpaciente"),"#####0.00"))
+					else
+						dw_export.setitem(i,14,string(dw_trae.getitemnumber(j,"vtcopago"),"#####0.00"))
+					end if
+					comis=dw_trae.getitemnumber(j,"vtcomision") 
+					if isnull(comis) then comis=0
+					dw_export.setitem(i,15,string(comis,"#####0.00"))
+					dw_export.setitem(i,16,string(dw_trae.getitemnumber(j,"vtdescuentos"),"#####0.00"))		
+					dw_export.setitem(i,17,string(dw_trae.getitemnumber(j,"vtemp"),"#####0.00"))		
 				end if
-				comis=dw_trae.getitemnumber(j,"vtcomision") 
-				if isnull(comis) then comis=0
-				dw_export.setitem(i,15,string(comis,"#####0"))
-				dw_export.setitem(i,16,string(dw_trae.getitemnumber(j,"vtdescuentos"),"#####0"))		
-				dw_export.setitem(i,17,string(dw_trae.getitemnumber(j,"vtemp"),"#####0"))		
-			else
-				if dw_trae.getitemnumber(j,"vtpaciente")<>0 and dw_trae.getitemnumber(j,"vtcopago")=0 then
-					dw_export.setitem(i,14,string(dw_trae.getitemnumber(j,"vtpaciente"),"#####0.00"))
-				else
-					dw_export.setitem(i,14,string(dw_trae.getitemnumber(j,"vtcopago"),"#####0.00"))
-				end if
-				comis=dw_trae.getitemnumber(j,"vtcomision") 
-				if isnull(comis) then comis=0
-				dw_export.setitem(i,15,string(comis,"#####0.00"))
-				dw_export.setitem(i,16,string(dw_trae.getitemnumber(j,"vtdescuentos"),"#####0.00"))		
-				dw_export.setitem(i,17,string(dw_trae.getitemnumber(j,"vtemp"),"#####0.00"))		
-			end if
-			w_principal.SetMicroHelp ( 'Copiando AF reg. '+string(j)+' de '+string(filas) )
-		next
-		num_af=dw_export.rowcount()
-		//nom_arch="AF"+right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
-		nom_arch="AF"+right(fill('0',6)+string(p_nradica),6)
-		docname=nom_arch
-		if dw_export.rowcount()>0 then
-			w_principal.SetMicroHelp ( 'Exportando AF' )
-			if p_decual='emp' then
-//				if tab_2.tp2_1.rb_names.checked then//preguntar una a uno
-//					//docname es el largo y nom_arc el solo archivito
-//					if GetFileSaveName("Archivo de Transacciones ("+nom_arch+")",docname, nom_arch, "txt", "Archivos de Texto (*.txt),*.txt" )<>1 then 
-//						if p_faltan then messagebox("Atención",'Aún así se generó la radicación Nro:'+string(p_nradica))
-//						return 0
-//					end if
-//				else//mandarlos todos al directorio
-					docname=tab_2.tp2_1.sle_dir.text+'\'+nom_arch+'.txt'
-					nom_arch+='.txt'
-		//		end if
-			else
-				docname=tab_2.tp2_2.sle_sale.text+'\'+nom_arch+'.txt'
-				nom_arch+='.txt'
-			end if
-			if dw_export.saveas(docname,CSV!,false)=-1 then
+				w_principal.SetMicroHelp ( 'Copiando AF reg. '+string(j)+' de '+string(filas) )
+			next
+			
+			num_af=dw_export.rowcount()
+			//nom_arch="AF"+right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
+			nom_arch="AF"+right(fill('0',6)+string(p_nradica),6)
+			docname=nom_arch
+			if dw_export.rowcount()>0 then
+				w_principal.SetMicroHelp ( 'Exportando AF' )
 				if p_decual='emp' then
-					if p_faltan then
-						Messagebox("Error guardando archivo de Transacciones","No se puede guardar el archivo, revise el espacio o el estado del disco.~r~nLa radicación se generará aún así.")
-					else
-						Messagebox("Error guardando archivo de Transacciones","No se puede guardar el archivo, revise el espacio o el estado del disco.")
-					end if
-				else
-					log_txt="Error guardando archivo de Transacciones revise el espacio o el estado del disco.La radicación se generará aún así."
-					filewrite(i_numarc,log_txt)
-				end if	
-				tab_2.tp2_1.t1.tp1.barra.position=0
-			else
-				f_quita_espacio_rips(docname)
-				if p_decual='lote' then
-					log_txt='~t~t~tAF'+string(p_nradica)+'.txt :'+string(dw_export.rowcount())+' Registro(s) (OK)'
-					filewrite(i_numarc,log_txt)
-				end if
-			end if
-			realn[8]=mid(nom_arch,1,len(nom_arch) -4)
-		end if
-		///// 2
-		///// 3
-
-		dw_trae.dataobject="dr_rips_us_usuarios"
-		dw_export.dataobject="dr_export_rips_us"
-		w_principal.SetMicroHelp ( 'Leyendo US' )
-		dw_trae.settransobject(sqlca)
-		dw_trae.reset()
-		dw_trae.retrieve(p_nradica,fecha_fin,p_clug_rad,p_tipo_rad)
-		//nom_arch="US"+right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
-		nom_arch="US"+right(fill('0',6)+string(p_nradica),6)
-		docname=nom_arch
-		dw_export.reset()
-		filas=dw_trae.rowcount()
-		for j=1 to filas
-			i=dw_export.insertrow(0)
-			dw_export.setitem(i,'cod_ars',dw_trae.getitemstring(j,"codsuper"))
-			dw_export.setitem(i,'tipo_doc',dw_trae.getitemstring(j,"tipodoc"))
-			if isnull(dw_trae.getitemstring(j,'pais')) or dw_trae.getitemstring(j,'pais')='' then 	
-				dw_export.setitem(i,'doc',RightTrim(LeftTrim(dw_trae.getitemstring(j,"documento"))))
-			else
-				dw_export.setitem(i,'doc',dw_trae.getitemstring(j,'pais')+RightTrim(LeftTrim(dw_trae.getitemstring(j,"documento"))	))
-			end if
-			dw_export.setitem(i,'tip_usu',dw_trae.getitemstring(j,"tu"))
-			dw_export.setitem(i,'apellido1',RightTrim(LeftTrim(dw_trae.getitemstring(j,"apellido1"))))
-			dw_export.setitem(i,'apellido2',RightTrim(LeftTrim(dw_trae.getitemstring(j,"apellido2"))))
-			dw_export.setitem(i,'nombre1',RightTrim(LeftTrim(dw_trae.getitemstring(j,"nombre1"))))
-			dw_export.setitem(i,'nombre2',RightTrim(LeftTrim(dw_trae.getitemstring(j,"nombre2"))))
-			dw_export.setitem(i,'edad',string(dw_trae.getitemnumber(j,"edad")))
-			dw_export.setitem(i,'umed_edad',dw_trae.getitemstring(j,"u_med"))
-			dw_export.setitem(i,'sexo',dw_trae.getitemstring(j,"sexo"))
-			dw_export.setitem(i,'departa',dw_trae.getitemstring(j,"cdepto"))
-			dw_export.setitem(i,'municip',dw_trae.getitemstring(j,"cciudad"))
-			dw_export.setitem(i,'zona_r',dw_trae.getitemstring(j,"zonar"))
-			w_principal.SetMicroHelp ( 'Copiando US reg. '+string(j) + ' de '+string(filas))
-		next
-		num_us=dw_export.rowcount()
-		if dw_export.rowcount()>0 then
-			w_principal.SetMicroHelp ( 'Exportando US' )
-			if p_decual='emp' then
-//				if tab_2.tp2_1.rb_names.checked then//preguntar una a uno
-//					//docname es el largo y nom_arc el solo archivito
-//					if GetFileSaveName("Archivo de Usuarios ("+nom_arch+")",docname, nom_arch, "txt", "Archivos de Texto (*.txt),*.txt" )<>1 then
-//						if p_faltan then messagebox("Atención",'Aún así se generó la radicación Nro:'+string(p_nradica))
-//						return 0
-//					end if
-//				else//mandarlos todos al directorio
 					docname=tab_2.tp2_1.sle_dir.text+'\'+nom_arch+'.txt'
 					nom_arch+='.txt'
-	//			end if
-			else
-				docname=tab_2.tp2_2.sle_sale.text+'\'+nom_arch+'.txt'
-				nom_arch+='.txt'
-			end if
-			if dw_export.saveas(docname,CSV!,false)=-1 then
-				if p_decual='emp' then 
-					if p_faltan then
-						Messagebox("Error guardando archivo de usuarios","No se puede guardar el archivo, revise el espacio o el estado del disco.~r~nLa radiciación generará aún así.")
-					else
-						Messagebox("Error guardando archivo de usuarios","No se puede guardar el archivo, revise el espacio o el estado del disco.")
-					end if
 				else
-					log_txt="Error guardando archivo de usuarios revise el espacio o el estado del disco.La radicación se generará aún así."
-					filewrite(i_numarc,log_txt)
+					docname=tab_2.tp2_2.sle_sale.text+'\'+nom_arch+'.txt'
+					nom_arch+='.txt'
 				end if
-			else
-				f_quita_espacio_rips(docname)
-				if p_decual='lote' then
-					log_txt='~t~t~tUS'+string(p_nradica)+'.txt :'+string(dw_export.rowcount())+' Registro(s) (OK)'
-					filewrite(i_numarc,log_txt)
+				if dw_export.saveas(docname,CSV!,false)=-1 then
+					if p_decual='emp' then
+						if p_faltan then
+							Messagebox("Error guardando archivo de Transacciones","No se puede guardar el archivo, revise el espacio o el estado del disco.~r~nLa radicación se generará aún así.")
+						else
+							Messagebox("Error guardando archivo de Transacciones","No se puede guardar el archivo, revise el espacio o el estado del disco.")
+						end if
+					else
+						log_txt="Error guardando archivo de Transacciones revise el espacio o el estado del disco.La radicación se generará aún así."
+						filewrite(i_numarc,log_txt)
+					end if	
+					tab_2.tp2_1.t1.tp1.barra.position=0
+				else
+					f_quita_espacio_rips(docname)
+					if p_decual='lote' then
+						log_txt='~t~t~tAF'+string(p_nradica)+'.txt :'+string(dw_export.rowcount())+' Registro(s) (OK)'
+						filewrite(i_numarc,log_txt)
+					end if
 				end if
+				realn[8]=mid(nom_arch,1,len(nom_arch) -4)
 			end if
-			realn[10]=mid(nom_arch,1,len(nom_arch) -4)
-		end if
-		
-		dw_export.dataobject="dr_export_rips_ac"
-		dw_export.reset()
-		string fecha_rad
-		w_principal.SetMicroHelp ( 'Copiando CT' )
-		if p_faltan then 
-			fecha_rad=string(today(),"dd/mm/yyyy")
-		else
-			fecha_rad=string(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemdatetime(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"fecha_radica"),"dd/mm/yyyy")
-		end if
-		if rb_7.checked then 
-			select c_supersalud into :cips from ips where c_ips='01'; //ahi solo puede estar este código
-		else
-			select c_supersalud into :cips from lugar where codlugar=:clug; //ahi solo puede estar este código
-		end if
-		if num_ad>0 then
-			dw_export.insertrow(1)
-			dw_export.setitem(1,1,cips)
-			dw_export.setitem(1,2,fecha_rad)
-			dw_export.setitem(1,3,realn[9]) //ad
-			dw_export.setitem(1,4,string(num_ad))
-		end if
-		if num_af>0 then
-			dw_export.insertrow(1)
-			dw_export.setitem(1,1,cips)
-			dw_export.setitem(1,2,fecha_rad)
-			dw_export.setitem(1,3,realn[8]) //af
-			dw_export.setitem(1,4,string(num_af))
-		end if
-		if num_us>0 then
-			dw_export.insertrow(1)
-			dw_export.setitem(1,1,cips)
-			dw_export.setitem(1,2,fecha_rad)
-			dw_export.setitem(1,3,realn[10])//us
-			dw_export.setitem(1,4,string(num_us))
-		end if
-		for j=1 to 7
-			if n_reg[j]>0 then
+			/////  FIN 3374 CONTROL AF
+			
+			///// INCIO 3374 CONTROL US
+			dw_trae.dataobject="dr_rips_us_usuarios"
+			dw_export.dataobject="dr_export_rips_us"
+			w_principal.SetMicroHelp ( 'Leyendo US' )
+			dw_trae.settransobject(sqlca)
+			dw_trae.reset()
+			dw_trae.retrieve(p_nradica,fecha_fin,p_clug_rad,p_tipo_rad)
+			//nom_arch="US"+right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
+			nom_arch="US"+right(fill('0',6)+string(p_nradica),6)
+			docname=nom_arch
+			dw_export.reset()
+			filas=dw_trae.rowcount()
+			for j=1 to filas
 				i=dw_export.insertrow(0)
-				dw_export.setitem(i,1,cips)
-				dw_export.setitem(i,2,fecha_rad)
-				dw_export.setitem(i,3,realn[j])
-				dw_export.setitem(i,4,string(n_reg[j]))
-			end if
-		next
-		w_principal.SetMicroHelp ( 'Exportando CT' )
-		//nom_arch="CT"+right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
-		nom_arch="CT"+right(fill('0',6)+string(p_nradica),6)
-		docname=nom_arch
-		if dw_export.rowcount()>0 then
-			if p_decual='emp' then
-				docname=tab_2.tp2_1.sle_dir.text+'\'+nom_arch+'.txt'
-				nom_arch+='.txt'
-			else
-				docname=tab_2.tp2_2.sle_sale.text+'\'+nom_arch+'.txt'
-				nom_arch+='.txt'
-			end if
-			if dw_export.saveas(docname,CSV!,false)=-1 then
+				dw_export.setitem(i,'cod_ars',dw_trae.getitemstring(j,"codsuper"))
+				dw_export.setitem(i,'tipo_doc',dw_trae.getitemstring(j,"tipodoc"))
+				if isnull(dw_trae.getitemstring(j,'pais')) or dw_trae.getitemstring(j,'pais')='' then 	
+					dw_export.setitem(i,'doc',RightTrim(LeftTrim(dw_trae.getitemstring(j,"documento"))))
+				else
+					dw_export.setitem(i,'doc',dw_trae.getitemstring(j,'pais')+RightTrim(LeftTrim(dw_trae.getitemstring(j,"documento"))	))
+				end if
+				dw_export.setitem(i,'tip_usu',dw_trae.getitemstring(j,"tu"))
+				dw_export.setitem(i,'apellido1',RightTrim(LeftTrim(dw_trae.getitemstring(j,"apellido1"))))
+				dw_export.setitem(i,'apellido2',RightTrim(LeftTrim(dw_trae.getitemstring(j,"apellido2"))))
+				dw_export.setitem(i,'nombre1',RightTrim(LeftTrim(dw_trae.getitemstring(j,"nombre1"))))
+				dw_export.setitem(i,'nombre2',RightTrim(LeftTrim(dw_trae.getitemstring(j,"nombre2"))))
+				dw_export.setitem(i,'edad',string(dw_trae.getitemnumber(j,"edad")))
+				dw_export.setitem(i,'umed_edad',dw_trae.getitemstring(j,"u_med"))
+				dw_export.setitem(i,'sexo',dw_trae.getitemstring(j,"sexo"))
+				dw_export.setitem(i,'departa',dw_trae.getitemstring(j,"cdepto"))
+				dw_export.setitem(i,'municip',dw_trae.getitemstring(j,"cciudad"))
+				dw_export.setitem(i,'zona_r',dw_trae.getitemstring(j,"zonar"))
+				w_principal.SetMicroHelp ( 'Copiando US reg. '+string(j) + ' de '+string(filas))
+			next
+			num_us=dw_export.rowcount()
+			if dw_export.rowcount()>0 then
+				w_principal.SetMicroHelp ( 'Exportando US' )
 				if p_decual='emp' then
-					if p_faltan then
-						Messagebox("Error guardando archivo","No se puede guardar el archivo, revise el espacio o el estado del disco.~r~nLa radicación fue genarada aún así.")
+					docname=tab_2.tp2_1.sle_dir.text+'\'+nom_arch+'.txt'
+					nom_arch+='.txt'
+				else
+					docname=tab_2.tp2_2.sle_sale.text+'\'+nom_arch+'.txt'
+					nom_arch+='.txt'
+				end if
+				if dw_export.saveas(docname,CSV!,false)=-1 then
+					if p_decual='emp' then 
+						if p_faltan then
+							Messagebox("Error guardando archivo de usuarios","No se puede guardar el archivo, revise el espacio o el estado del disco.~r~nLa radiciación generará aún así.")
+						else
+							Messagebox("Error guardando archivo de usuarios","No se puede guardar el archivo, revise el espacio o el estado del disco.")
+						end if
 					else
-						Messagebox("Error guardando archivo","No se puede guardar el archivo, revise el espacio o el estado del disco.")
+						log_txt="Error guardando archivo de usuarios revise el espacio o el estado del disco.La radicación se generará aún así."
+						filewrite(i_numarc,log_txt)
 					end if
 				else
-					log_txt="Error guardando archivo de Control revise el espacio o el estado del disco.La radicación se generará aún así."
-					filewrite(i_numarc,log_txt)
+					f_quita_espacio_rips(docname)
+					if p_decual='lote' then
+						log_txt='~t~t~tUS'+string(p_nradica)+'.txt :'+string(dw_export.rowcount())+' Registro(s) (OK)'
+						filewrite(i_numarc,log_txt)
+					end if
 				end if
+				realn[10]=mid(nom_arch,1,len(nom_arch) -4)
+			end if
+			/// FIN 3374 CONTROL US
+			
+			/// INICIO 3374 CONTROL CT
+			dw_export.dataobject="dr_export_rips_ac"
+			dw_export.reset()
+			string fecha_rad
+			w_principal.SetMicroHelp ( 'Copiando CT' )
+			if p_faltan then 
+				fecha_rad=string(today(),"dd/mm/yyyy")
 			else
-				f_quita_espacio_rips(docname)
-				if p_decual='lote' then
-					log_txt='~t~t~tCT'+string(p_nradica)+'.txt :'+string(dw_export.rowcount())+' Registro(s) (OK)'
-					filewrite(i_numarc,log_txt)
+				fecha_rad=string(tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemdatetime(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"fecha_radica"),"dd/mm/yyyy")
+			end if
+			if rb_7.checked then 
+				select c_supersalud into :cips from ips where c_ips='01'; //ahi solo puede estar este código
+			else
+				select c_supersalud into :cips from lugar where codlugar=:clug; //ahi solo puede estar este código
+			end if
+			if num_ad>0 then
+				dw_export.insertrow(1)
+				dw_export.setitem(1,1,cips)
+				dw_export.setitem(1,2,fecha_rad)
+				dw_export.setitem(1,3,realn[9]) //ad
+				dw_export.setitem(1,4,string(num_ad))
+			end if
+			if num_af>0 then
+				dw_export.insertrow(1)
+				dw_export.setitem(1,1,cips)
+				dw_export.setitem(1,2,fecha_rad)
+				dw_export.setitem(1,3,realn[8]) //af
+				dw_export.setitem(1,4,string(num_af))
+			end if
+			if num_us>0 then
+				dw_export.insertrow(1)
+				dw_export.setitem(1,1,cips)
+				dw_export.setitem(1,2,fecha_rad)
+				dw_export.setitem(1,3,realn[10])//us
+				dw_export.setitem(1,4,string(num_us))
+			end if
+			for j=1 to 7
+				if n_reg[j]>0 then
+					i=dw_export.insertrow(0)
+					dw_export.setitem(i,1,cips)
+					dw_export.setitem(i,2,fecha_rad)
+					dw_export.setitem(i,3,realn[j])
+					dw_export.setitem(i,4,string(n_reg[j]))
+				end if
+			next
+			w_principal.SetMicroHelp ( 'Exportando CT' )
+			//nom_arch="CT"+right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad
+			nom_arch="CT"+right(fill('0',6)+string(p_nradica),6)
+			docname=nom_arch
+			if dw_export.rowcount()>0 then
+				if p_decual='emp' then
+					docname=tab_2.tp2_1.sle_dir.text+'\'+nom_arch+'.txt'
+					nom_arch+='.txt'
+				else
+					docname=tab_2.tp2_2.sle_sale.text+'\'+nom_arch+'.txt'
+					nom_arch+='.txt'
+				end if
+				if dw_export.saveas(docname,CSV!,false)=-1 then
+					if p_decual='emp' then
+						if p_faltan then
+							Messagebox("Error guardando archivo","No se puede guardar el archivo, revise el espacio o el estado del disco.~r~nLa radicación fue genarada aún así.")
+						else
+							Messagebox("Error guardando archivo","No se puede guardar el archivo, revise el espacio o el estado del disco.")
+						end if
+					else
+						log_txt="Error guardando archivo de Control revise el espacio o el estado del disco.La radicación se generará aún así."
+						filewrite(i_numarc,log_txt)
+					end if
+				else
+					f_quita_espacio_rips(docname)
+					if p_decual='lote' then
+						log_txt='~t~t~tCT'+string(p_nradica)+'.txt :'+string(dw_export.rowcount())+' Registro(s) (OK)'
+						filewrite(i_numarc,log_txt)
+					end if
 				end if
 			end if
+			if p_decual='lote' and p_nradica>0  then
+				log_txt='NRO RADICACIÓN: '+right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad+'~r~n'
+				filewrite(i_numarc,log_txt)
+			end if
+			//// FIN 3374 CONTROL CT
+		else //son los de forecat
+			//genera_forecat(p_nradica,p_clug_rad,fecha_fin,p_faltan)
+			genera_furips(p_nradica,p_clug_rad,fecha_radica,p_faltan,p_tipo_rad)
 		end if
-		if p_decual='lote' and p_nradica>0  then
-			log_txt='NRO RADICACIÓN: '+right(fill('0',6)+string(p_nradica),6)+'_'+p_tipo_rad+'~r~n'
-			filewrite(i_numarc,log_txt)
-		end if
-		////// 1
-	else //son los de forecat
-		//genera_forecat(p_nradica,p_clug_rad,fecha_fin,p_faltan)
-		genera_furips(p_nradica,p_clug_rad,fecha_radica,p_faltan,p_tipo_rad)
-	end if
+	end if ////JSON
 	w_principal.SetMicroHelp ( 'Gestión Clínica Integrada' )
 	if p_reserva='1' and p_nradica<>0 then
 		tot_evento=round(p_dw_conts.getitemdecimal(1,'t_evento'),l_dec_fact)
@@ -2528,7 +2511,8 @@ if dw_trae.rowcount()>=0 and (p_reserva='0' or p_reserva='1') then
 else
 	messagebox("Atención",'No hay registros para generar')
 	return 0
-end if
+end if 
+////////////////////////////////fin de aqui pa'lla es como si fueran radicaciones pasadas
 return p_nradica
 end function
 
@@ -5787,6 +5771,7 @@ destroy(this.dw_det)
 end on
 
 type pb_9 from picturebutton within det
+boolean visible = false
 integer x = 2889
 integer y = 436
 integer width = 146
@@ -5798,7 +5783,7 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
-string text = "none"
+boolean enabled = false
 boolean originalsize = true
 string picturename = "json.gif"
 string disabledname = "d_json.gif"
@@ -6072,7 +6057,9 @@ end type
 
 event clicked;nvo_factura_electronica u_elec
 st_ret_dian    lst_lle
-double facturas
+double ldb_facturas
+datetime ldt_ff
+string ls_fver
 
 
 u_elec=create nvo_factura_electronica
@@ -6089,8 +6076,34 @@ if tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radi
 	return
 End if
 
-facturas=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'num_radicacion')
-lst_lle=u_elec.sign_chilkat(dw_electronica,facturas,clugar,'F',0,'f','RV')
+ldt_ff=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemdatetime(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'fecha_radica')
+SELECT 
+	cod_version
+INTO
+	:ls_fver
+FROM 
+	pm_versionfe_dian
+WHERE 
+	(((:ldt_ff) between valido_inicio And valido_hasta));
+		
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay version Facturacion Electronica Linea 31')
+	return
+end if
+				
+ldb_facturas=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'num_radicacion')
+lst_lle=u_elec.sign_chilkat(dw_electronica,ldb_facturas,clugar,'F',0,'f','RV')
+
+update ripsrdica set cod_versionfe=:ls_fver
+where num_radicacion=:ldb_facturas and clugar=:clugar and tipo='F';
+If SQLCA.SQLCode = -1 then
+	Rollback;
+	MessageBox("SQL error Factura xml_envia", 'Error actualizando')
+	Return -1
+Else
+	commit;
+end If		
+
 
 //////////////////////// APIDOCKER
 if gs_apidocker='1' then
