@@ -1705,6 +1705,8 @@ if p_faltan then
 	commit;
 end if// fin los que faltan (nuevos)
 
+if tab_2.tp2_1.rb_json.checked=true then return p_nradica
+
 ////////////////////////////////de aqui pa'lla es como si fueran radicaciones pasadas
 if dw_trae.rowcount()>=0 and (p_reserva='0' or p_reserva='1') then 
 	if p_dw_conts.getitemnumber(1,'forecat')=0 or isnull(p_dw_conts.getitemnumber(1,'forecat')) then //son los rips normales
@@ -6185,6 +6187,15 @@ if tab_2.tp2_1.tab_1.tp_p.dw_radica.rowcount()>0 then
 					messagebox("Atención",'Archivos generados con éxito')
 			end choose
 		else
+			if tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"reserva")='1' then
+				nrad=f_rips(true,tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"num_radicacion"),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"clugar"),tab_2.tp2_1.tab_1.tp_p.tab_3.det.dw_det,'emp',tab_2.tp2_1.rb_4.checked,-1,tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"por_lugar"),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"reserva"),tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),"tipo"))
+			end if
+			
+			if nrad=-1  or nrad=-10 then
+				rollback;
+				return
+			end if
+			
 			nvo_fevrips u_rips
 			string ls_nomarch,is_ruta_facturas,ls_prefijo,ls_radcl,ls_tiporad
 			double ldb_nrad
@@ -6206,8 +6217,7 @@ if tab_2.tp2_1.tab_1.tp_p.dw_radica.rowcount()>0 then
 			else
 				is_ruta_facturas=is_ruta_facturas+ls_prefijo+string(ldb_nrad)+'\'
 			end if
-		
-			
+							
 			If not DirectoryExists ( is_ruta_facturas) Then
 				integer li_filenum
 				CreateDirectory ( is_ruta_facturas)
@@ -6223,8 +6233,8 @@ if tab_2.tp2_1.tab_1.tp_p.dw_radica.rowcount()>0 then
 			end if
 			u_rips.emite_json_capita(ldb_nrad,ls_radcl,ls_tiporad,'f','FV',ls_nomarch,'0')
 			destroy 	u_rips
+			tab_2.tp2_1.t1.tp1.barra.position=0
 		end if
-		tab_2.tp2_1.t1.tp1.barra.position=0
 	end if
 end if
 tab_2.tp2_1.tab_1.tp_p.dw_radica.retrieve(CLUGAR)
