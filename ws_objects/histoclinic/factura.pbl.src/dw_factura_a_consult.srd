@@ -38,12 +38,13 @@ table(column=(type=char(3) updatewhereclause=yes name=tipodoc dbname="ACUMDETA.T
  column=(type=char(4) updatewhereclause=yes name=cod_version dbname="ACUMDETA.cod_version" )
  column=(type=char(15) updatewhereclause=yes name=codalmacen dbname="ACUMDETA.codalmacen" )
  column=(type=char(2) updatewhereclause=yes name=finalidad dbname="ACUMDETA.finalidad" dbalias=".finalidad" )
+  column=(type=char(2) updatewhereclause=yes name=modar dbname="ACUMDETA.modar" dbalias=".modar" )
  retrieve="SELECT 
  	factcpo.TipoDoc, factcpo.Documento, pacientes.Nombre1, pacientes.Nombre2, pacientes.Apellido1, pacientes.Apellido2, factcab.NFact, 
 	factcab.clugar, factcab.Fecha, factcab.Hora, empresa.DesEmp, factcpo.cantidad-Count(ServiciosIngreso.nfactura) AS cantidad, factcpo.Cantidad AS cant_factu, 
 	factcpo.proccups, proced.Descripcion, 0 AS esco, factcpo.NItem, tesorecajcpo.nrcaj, tesorecajcpo.clugar AS clugar_rec, factcpo.autorizacion, factcpo.CEmp, 
 	factcpo.CContrato, factcpo.Cplan, factcpo.CProced, factcpo.CodManual, proced.odonconsul, ACUMDETA.CONSECUTIVO, ACUMDETA.CLUGAR, factcab.TIPO as tipo_fac,
-	proced.cod_cups,proced.cod_version, consulgcita.codalmacen,factcab.finalidad
+	proced.cod_cups,proced.cod_version, consulgcita.codalmacen,factcab.finalidad,factcab.modar
 FROM 
 	(((((((((factcab 
 	INNER JOIN empresa ON factcab.CEMP = empresa.CODEMP) 
@@ -62,7 +63,7 @@ GROUP BY
 	factcpo.TipoDoc, factcpo.Documento, pacientes.Nombre1, pacientes.Nombre2, pacientes.Apellido1, pacientes.Apellido2, factcab.NFact, factcab.clugar, 
 	factcab.Fecha, factcab.Hora, empresa.DesEmp, factcpo.Cantidad, factcpo.proccups, proced.Descripcion, factcpo.NItem, tesorecajcpo.nrcaj, 
 	tesorecajcpo.clugar, factcpo.autorizacion, factcpo.CEmp, factcpo.CContrato, factcpo.Cplan, factcpo.CProced, factcpo.CodManual, proced.odonconsul,
-	 ACUMDETA.CONSECUTIVO, ACUMDETA.CLUGAR, factcab.TIPO,proced.cod_cups,proced.cod_version, consulgcita.codalmacen
+	 ACUMDETA.CONSECUTIVO, ACUMDETA.CLUGAR, factcab.TIPO,proced.cod_cups,proced.cod_version, consulgcita.codalmacen,factcab.finalidad,factcab.modar
 HAVING 
 	(((factcpo.TipoDoc)=:tipodoc) AND ((factcpo.Documento)=:docu) AND ((factcpo.cantidad-Count(ServiciosIngreso.nfactura))>0))
 ORDER BY 
