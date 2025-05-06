@@ -106,10 +106,12 @@ public function integer of_zip (string as_zipname, string as_filename, string as
 int li_rc , li_success , li_SaveExtraPath
 
 loo_Zip = create nvo_generic_ole_object
-li_rc = loo_Zip.ConnectToNewObject("Chilkat_9_5_0.Zip")
+//li_rc = loo_Zip.ConnectToNewObject("Chilkat_9_5_0.Zip")
+li_rc = loo_Zip.ConnectToNewObject("Chilkat.Zip")
+
 if li_rc < 0 then
     destroy loo_Zip
-    MessageBox("Error","Connecting to COM object failed Chilkat_9_5_0.Zip")
+    MessageBox("Error","Connecting to COM object failed Chilkat.Zip")
     return -1
 end if
 
@@ -124,10 +126,6 @@ if li_Success <> 1 then
     return -1
 end if
 
-// In this example, the file we wish to zip is /temp/abc123/HelloWorld123.txt
-
-// Add a reference to a single file by calling AppendOneFileOrDir
-// Note: You may use either forward or backward slashes.
 li_SaveExtraPath = 0
 li_Success = loo_Zip.AppendOneFileOrDir(as_filename,li_SaveExtraPath)
 if li_Success <> 1 then
@@ -149,10 +147,11 @@ end function
 public function integer of_leer_certificado (ref nvo_generic_ole_object aoo_cert);int li_rc,li_Success
 
 aoo_cert = create nvo_generic_ole_object
-li_rc = aoo_Cert.ConnectToNewObject("Chilkat_9_5_0.Cert")
+//li_rc = aoo_Cert.ConnectToNewObject("Chilkat_9_5_0.Cert")
+li_rc = aoo_Cert.ConnectToNewObject("Chilkat.Cert")
 if li_rc < 0 then
     destroy aoo_cert
-    MessageBox("Error","Connecting to COM object failed Chilkat_9_5_0.Cert")
+    MessageBox("Error","Connecting to COM object failed Chilkat.Cert")
     return -1
 end if
 
@@ -210,7 +209,8 @@ smallcufe_formated=mid(  small_cunex , 1, 8 )+'-'+mid(  small_cunex , 9, 4 )+'-'
 
 ///////////////////////////////////////////////////////////////
 aoo_sbXML = create nvo_generic_ole_object
-li_rc = aoo_sbXML.ConnectToNewObject("Chilkat_9_5_0.StringBuilder")
+//li_rc = aoo_sbXML.ConnectToNewObject("Chilkat_9_5_0.StringBuilder")
+li_rc = aoo_sbXML.ConnectToNewObject("Chilkat.StringBuilder")
 ls_xml=string(adw_factura.describe('DataWindow.Data.XML'))
 li_Success = aoo_SbXml.SetString(ls_xml)
 if li_Success <> 1 then
@@ -221,12 +221,14 @@ if li_Success <> 1 then
 end if
 
 loo_GenFact = create nvo_generic_ole_object
-li_rc = loo_GenFact.ConnectToNewObject("Chilkat_9_5_0.XmlDSigGen")
+//li_rc = loo_GenFact.ConnectToNewObject("Chilkat_9_5_0.XmlDSigGen")
+li_rc = loo_GenFact.ConnectToNewObject("Chilkat.XmlDSigGen")
+
 if li_rc < 0 then
 	destroy loo_GenFact
 	destroy aoo_SbXml
 	destroy aoo_cert
-    MessageBox("Error OleObject of_firmar_xml","Connecting to COM object failed Chilkat_9_5_0.XmlDSigGen")
+    MessageBox("Error OleObject of_firmar_xml","Connecting to COM object failed Chilkat.XmlDSigGen")
     return -1
 end if
 
@@ -248,7 +250,8 @@ loo_GenFact.SignedInfoDigestMethod = "sha256"
 
 
 loo_Xml = create nvo_generic_ole_object
-li_rc = loo_Xml.ConnectToNewObject("Chilkat_9_5_0.Xml")
+//li_rc = loo_Xml.ConnectToNewObject("Chilkat_9_5_0.Xml")
+li_rc = loo_Xml.ConnectToNewObject("Chilkat.Xml")
 if li_rc < 0 then
 	destroy loo_GenFact
 	destroy aoo_SbXml
@@ -292,13 +295,10 @@ string ls_KeyInfoId,ls_SignedPropsId
 
 ls_KeyInfoId = "xmldsig-"+smallcufe_formated+"-keyinfo"
 loo_GenFact.KeyInfoId = ls_KeyInfoId
-//r4 loo_GenFact.AddSameDocRef(ls_KeyInfoId,"sha256","EXCL_C14N","","")
 loo_GenFact.AddSameDocRef(ls_KeyInfoId,"sha256","","","")
-//loo_Gen.SetRefIdAttr(ls_KeyInfoId,"ReferenceKeyInfo")
 
 // Add a Reference to the SignedProperties.
 ls_SignedPropsId = "xmldsig-"+smallcufe_formated+"-signedprops"
-//r5 loo_GenFact.AddObjectRef(ls_SignedPropsId,"sha256","EXCL_C14N","","http://uri.etsi.org/01903#SignedProperties")
 loo_GenFact.AddObjectRef(ls_SignedPropsId,"sha256","","","http://uri.etsi.org/01903#SignedProperties")
 
 // When the Signature is generated, the Reference to the SignedProperties will look like this:
@@ -338,8 +338,8 @@ end if
 
 // Verify the signatures we just produced...
 loo_Verifier = create nvo_generic_ole_object
-li_rc = loo_Verifier.ConnectToNewObject("Chilkat_9_5_0.XmlDSig")
-
+//li_rc = loo_Verifier.ConnectToNewObject("Chilkat_9_5_0.XmlDSig")
+li_rc = loo_Verifier.ConnectToNewObject("Chilkat.XmlDSig")
 
 li_Success = loo_Verifier.LoadSignatureSb(aoo_SbXml)
 if li_Success <> 1 then
@@ -422,7 +422,8 @@ nvo_generic_ole_object loo_Gen , loo_XmlCustomKeyInfo ,  loo_Verifier ,loo_XmlTo
 li_Success = 1
 // Create the XML to be signed...
 loo_XmlToSign = create nvo_generic_ole_object
-li_rc = loo_XmlToSign.ConnectToNewObject("Chilkat_9_5_0.Xml")
+//li_rc = loo_XmlToSign.ConnectToNewObject("Chilkat_9_5_0.Xml")
+li_rc = loo_XmlToSign.ConnectToNewObject("Chilkat.Xml")
 if li_rc < 0 then
     destroy loo_XmlToSign
     MessageBox("Error of_soap_xml_firmado","Connecting to COM object failed Chilkat_9_5_0.Xml")
@@ -481,10 +482,11 @@ if ai_metodo=1 or ai_metodo=3 then
 		string ls_B64
 		
 		loo_ZipData = create nvo_generic_ole_object
-		li_rc = loo_ZipData.ConnectToNewObject("Chilkat_9_5_0.BinData")
+		//li_rc = loo_ZipData.ConnectToNewObject("Chilkat_9_5_0.BinData")
+		li_rc = loo_ZipData.ConnectToNewObject("Chilkat.BinData")
 		if li_rc < 0 then
 			 destroy loo_ZipData
-			 MessageBox("Error","Connecting to COM object failed")
+			 MessageBox("Error linea 79","Connecting to COM object failed")
 			 return -1
 		end if
 		
@@ -513,7 +515,8 @@ if ai_metodo=1 or ai_metodo=3 then
 end if
 
 loo_Gen = create nvo_generic_ole_object
-li_rc = loo_Gen.ConnectToNewObject("Chilkat_9_5_0.XmlDSigGen")
+//li_rc = loo_Gen.ConnectToNewObject("Chilkat_9_5_0.XmlDSigGen")
+li_rc = loo_Gen.ConnectToNewObject("Chilkat.XmlDSigGen")
 
 loo_Gen.SigLocation = "soap:Envelope|soap:Header|wsse:Security"
 loo_Gen.SigLocationMod = 0
@@ -532,7 +535,8 @@ loo_Gen.KeyInfoType = "Custom"
 
 // Create the custom KeyInfo XML..
 loo_XmlCustomKeyInfo = create nvo_generic_ole_object
-li_rc = loo_XmlCustomKeyInfo.ConnectToNewObject("Chilkat_9_5_0.Xml")
+//li_rc = loo_XmlCustomKeyInfo.ConnectToNewObject("Chilkat_9_5_0.Xml")
+li_rc = loo_XmlCustomKeyInfo.ConnectToNewObject("Chilkat.Xml")
 
 loo_XmlCustomKeyInfo.Tag = "wsse:SecurityTokenReference"
 loo_XmlCustomKeyInfo.AddAttribute("wsu:Id","STR-F25839120CBA3ECDAD68754D0443A667636FDA68")
@@ -545,7 +549,8 @@ loo_Gen.CustomKeyInfoXml = loo_XmlCustomKeyInfo.GetXml()
 // Load XML to be signed...
 
 aoo_SbXmlSOAP = create nvo_generic_ole_object
-li_rc = aoo_SbXmlSOAP.ConnectToNewObject("Chilkat_9_5_0.StringBuilder")
+//li_rc = aoo_SbXmlSOAP.ConnectToNewObject("Chilkat_9_5_0.StringBuilder")
+li_rc = aoo_SbXmlSOAP.ConnectToNewObject("Chilkat.StringBuilder")
 
 loo_XmlToSign.GetXmlSb(aoo_SbXmlSOAP)
 
@@ -576,7 +581,8 @@ end if
 // ----------------------------------------
 // Verify the signatures we just produced...
 loo_Verifier = create nvo_generic_ole_object
-li_rc = loo_Verifier.ConnectToNewObject("Chilkat_9_5_0.XmlDSig")
+//li_rc = loo_Verifier.ConnectToNewObject("Chilkat_9_5_0.XmlDSig")
+li_rc = loo_Verifier.ConnectToNewObject("Chilkat.XmlDSig")
 
 li_Success = loo_Verifier.LoadSignatureSb(aoo_SbXmlSOAP)
 if li_Success <> 1 then
@@ -694,7 +700,8 @@ smallcufe_formated=mid(  small_cunex , 1, 8 )+'-'+mid(  small_cunex , 9, 4 )+'-'
 
 ///////////////////////////////////////////////////////////////
 aoo_sbXML = create nvo_generic_ole_object
-li_rc = aoo_sbXML.ConnectToNewObject("Chilkat_9_5_0.StringBuilder")
+//li_rc = aoo_sbXML.ConnectToNewObject("Chilkat_9_5_0.StringBuilder")
+li_rc = aoo_sbXML.ConnectToNewObject("Chilkat.StringBuilder")
 ls_xml=string(ads_attached_plantilla.describe('DataWindow.Data.XML'))
 li_Success = aoo_SbXml.SetString(ls_xml)
 if li_Success <> 1 then
@@ -705,12 +712,13 @@ if li_Success <> 1 then
 end if
 
 loo_GenFact = create nvo_generic_ole_object
-li_rc = loo_GenFact.ConnectToNewObject("Chilkat_9_5_0.XmlDSigGen")
+//li_rc = loo_GenFact.ConnectToNewObject("Chilkat_9_5_0.XmlDSigGen")
+li_rc = loo_GenFact.ConnectToNewObject("Chilkat.XmlDSigGen")
 if li_rc < 0 then
 	destroy loo_GenFact
 	destroy aoo_SbXml
 	destroy aoo_cert
-    MessageBox("Error OleObject of_firmar_xml","Connecting to COM object failed Chilkat_9_5_0.XmlDSigGen")
+    MessageBox("Error OleObject of_firmar_xml","Connecting to COM object failed Chilkat.XmlDSigGen")
     return -1
 end if
 
@@ -727,13 +735,14 @@ loo_GenFact.SigNamespacePrefix = "ds"
 loo_GenFact.SignedInfoDigestMethod = "sha256"
 
 loo_Xml = create nvo_generic_ole_object
-li_rc = loo_Xml.ConnectToNewObject("Chilkat_9_5_0.Xml")
+//li_rc = loo_Xml.ConnectToNewObject("Chilkat_9_5_0.Xml")
+li_rc = loo_Xml.ConnectToNewObject("Chilkat.Xml")
 if li_rc < 0 then
 	destroy loo_GenFact
 	destroy aoo_SbXml
 	destroy aoo_cert
 	destroy loo_Xml
-    MessageBox("Error OleObject of_firmar_xml","Connecting to COM object failed Chilkat_9_5_0.Xml")
+    MessageBox("Error OleObject of_firmar_xml","Connecting to COM object failed Chilkat.Xml")
     return -1
 end if
 
@@ -818,7 +827,8 @@ end if
 
 // Verify the signatures we just produced...
 loo_Verifier = create nvo_generic_ole_object
-li_rc = loo_Verifier.ConnectToNewObject("Chilkat_9_5_0.XmlDSig")
+//li_rc = loo_Verifier.ConnectToNewObject("Chilkat_9_5_0.XmlDSig")
+li_rc = loo_Verifier.ConnectToNewObject("Chilkat.XmlDSig")
 
 
 li_Success = loo_Verifier.LoadSignatureSb(aoo_SbXml)
@@ -1784,7 +1794,8 @@ loo_Mailman.SmtpSsl = 1
 
 // Create a new email object
 loo_Email = create nvo_generic_ole_object
-li_rc = loo_Email.ConnectToNewObject("Chilkat_9_5_0.Email")
+//li_rc = loo_Email.ConnectToNewObject("Chilkat_9_5_0.Email")
+li_rc = loo_Email.ConnectToNewObject("Chilkat.Email")
 
 ls_asun=ads_datos.getitemstring(1,"ips_nit")+';'+is_nombre_lugar+';'+ads_datos.getitemstring(1,"ls_numfact")+';'
 if as_tipo='f' then
@@ -1876,10 +1887,11 @@ nvo_generic_ole_object loo_zip
 int li_SaveExtraPath
 
 loo_Zip = create nvo_generic_ole_object
-li_rc = loo_Zip.ConnectToNewObject("Chilkat_9_5_0.Zip")
+//li_rc = loo_Zip.ConnectToNewObject("Chilkat_9_5_0.Zip")
+li_rc = loo_Zip.ConnectToNewObject("Chilkat.Zip")
 if li_rc < 0 then
     destroy loo_Zip
-    MessageBox("Error","Connecting to COM object failed Chilkat_9_5_0.Zip")
+    MessageBox("Error","Connecting to COM object failed Chilkat.Zip")
 	of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'6',as_tipo,as_docnm)	 
     return -1
 end if
@@ -2233,7 +2245,8 @@ end if
 if ldw_result.getitemstring(ldw_result.rowcount(),'statuscode')='00' then 	
 	oleobject loo_Bd
 	loo_Bd = create oleobject
-	li_status= loo_Bd.ConnectToNewObject("Chilkat_9_5_0.BinData")
+	//li_status= loo_Bd.ConnectToNewObject("Chilkat_9_5_0.BinData")
+	li_status= loo_Bd.ConnectToNewObject("Chilkat.BinData")
 	if li_status < 0 then
 		 destroy loo_Bd
 		 MessageBox("Error","Connecting to COM object failed")
@@ -2244,94 +2257,7 @@ if ldw_result.getitemstring(ldw_result.rowcount(),'statuscode')='00' then
 end if		
 lds_xml_attached.setItem(1,'xml_invoice',ls_xml_factura)
 lds_xml_attached.setItem(1,'xml_response',ls_xml_retorno)
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//loo_Mailman = create nvo_generic_ole_object
-//li_rc = loo_Mailman.ConnectToNewObject("Chilkat_9_5_0.MailMan")
-//if li_rc < 0 then
-//    destroy loo_Mailman
-//    MessageBox("Error","Connecting to COM object failed")
-//    return -1
-//end if
-//
-//if as_origen='C' then
-//	select servidor, puerto, usuario, clave,autentica,conexion,usuario_adc
-//	into :is_server_email,:ii_puerto_email,:is_cuenta_email,:is_clave_email,:is_ssl, :is_tls,:is_cuenta_email1
-//	from documentos
-//	where (((coddoc)='RV') and ((clugar)=:as_clug_factura));
-//else
-//	select servidor, puerto, usuario, clave,autentica,conexion,usuario_adc
-//	into :is_server_email,:ii_puerto_email,:is_cuenta_email,:is_clave_email,:is_ssl, :is_tls,:is_cuenta_email1
-//	from documentos
-//	where (((coddoc)='FV') and ((clugar)=:as_clug_factura));
-//end if
-//
-//if isnull(is_server_email) or isnull(is_cuenta_email)  or isnull(is_clave_email) then
-//    MessageBox("Error","No hay servidor de documento configurado")
-//    return -1
-//end if
-//
-//if as_origen='C' then
-//	is_nombre_lugar=ldw_factura.getitemstring(1,'ips_nombre')
-//else
-//	is_nombre_lugar=ldw_factura.getitemstring(1,'ips_descripcion')
-//end if
-//is_clave_email=f_descripta_new(is_clave_email,'1')
-//loo_Mailman = create nvo_generic_ole_object
-//li_rc = loo_Mailman.ConnectToNewObject("Chilkat_9_5_0.MailMan")
-//if li_rc < 0 then
-//    destroy loo_Mailman
-//    MessageBox("Error","Connecting to COM object failed")
-//    return -1
-//end if
-//
-//// Set the SMTP server.
-//loo_Mailman.SmtpHost = is_server_email// "smtp.gmail.com"
-//
-//loo_Mailman.SmtpUsername = is_cuenta_email//"mySmtpLogin"
-//loo_Mailman.SmtpPassword = is_clave_email//"myPassword"
-//loo_Mailman.SmtpPort = ii_puerto_email
-//loo_Mailman.SmtpSsl = 1
-//
-//// Create a new email object
-//loo_Email = create nvo_generic_ole_object
-//li_rc = loo_Email.ConnectToNewObject("Chilkat_9_5_0.Email")
-//
-//ls_asun=ldw_factura.getitemstring(1,"documento")+';'+is_nombre_lugar+';'+ldw_factura.getitemstring(1,"prefijo")+string(ldw_factura.getitemnumber(1,"nfact"))+';'
-//
-//ls_asun+='01'
-//
-//ls_asun+=';'+is_nombre_lugar
-//loo_Email.Subject = ls_asun
-//
-//
-//ls_cpo="Señores:~r~n"+ldw_factura.getitemstring(1,"razon_social")+"~r~n"
-//ls_cpo+="NIT/CC"+ldw_factura.getitemstring(1,"nit")+"~r~n~r~n"
-//
-//ls_cpo+="Les informamos ha recibido un documento de Factura Electronica de venta emitida por "+is_nombre_lugar
-//
-//ls_cpo+=" Numero de documento "+ldw_factura.getitemstring(1,"prefijo")+string(ldw_factura.getitemnumber(1,"nfact"))+"~r~n~r~n"
-//
-//ls_cpo+= "Fecha de Emisión "+string(ldw_factura.getitemdatetime(1,"fecha_factura"),'yyyy-mm-dd')+"~r~n~r~n"
-//if ldw_factura.getitemnumber(1,'vtemp')<>0 then
-//	ls_cpo+= "Valor "+string(ldw_factura.getitemnumber(1,'vtemp'),"##,##0.00")+"~r~n~r~n"
-//else
-//	if ldw_factura.getitemnumber(1,'vtproced')<>0 then
-//		ls_cpo+= "Valor "+string(ldw_factura.getitemnumber(1,'vtproced'),"##,##0.00")+"~r~n~r~n"
-//	end if
-//end if
-//
-//
-//ls_cpo+='-----------------------------------------------------------------------------------'+"~r~n~r~n"
-//ls_cpo+='Este es un sistema automático de aviso, por favor no responda este mensaje'+"~r~n~r~n"
-//ls_cpo+='-----------------------------------------------------------------------------------'+"~r~n~r~n"
-//loo_Email.Body =ls_cpo
-//
-//loo_Email.From = is_nombre_lugar+" <"+is_cuenta_email+">"
-//li_rc = loo_Email.AddTo(ldw_factura.getitemstring(1,"razon_social"),ldw_factura.getitemstring(1,"email_cliente"))
-//if not isnull(is_cuenta_email1) then
-//	li_rc = loo_Email.AddTo('Copia',is_cuenta_email1)
-//end if
-//
+
 
 nvo_generic_ole_object loo_SbXml
 
@@ -2340,67 +2266,6 @@ IF of_firmar_xml_attached(lds_xml_attached,loo_Cert,loo_SbXml )=-1 then
 end if
 loo_SbXml.WriteFile(is_ruta_facturas+"ad"+mid(as_filename,3)+'.xml','utf-8',0)
 
-//nvo_generic_ole_object loo_zip
-//int li_SaveExtraPath
-//
-//loo_Zip = create nvo_generic_ole_object
-//li_rc = loo_Zip.ConnectToNewObject("Chilkat_9_5_0.Zip")
-//if li_rc < 0 then
-//    destroy loo_Zip
-//    MessageBox("Error","Connecting to COM object failed Chilkat_9_5_0.Zip")
-//    return -1
-//end if
-//
-//li_rc = loo_Zip.NewZip(is_ruta_facturas+"ad"+mid(as_filename,3)+'.zip')
-//
-//if li_rc <> 1 then
-//    messagebox("Error creando Zip",string( loo_Zip.LastErrorText ))
-//    destroy loo_Zip
-//    return -1
-//end if
-
-//li_SaveExtraPath = 0
-//li_rc = loo_Zip.AppendOneFileOrDir(is_ruta_facturas+"ad"+mid(as_filename,3)+'.xml',li_SaveExtraPath)
-//if li_rc <> 1 then
-//    messagebox("Error adicionando Archivo AttachedDocument a Zip AD: ",string( loo_Zip.LastErrorText ))
-//    destroy loo_Zip
-//    return -1
-//end if
-//li_rc = loo_Zip.AppendOneFileOrDir(is_ruta_facturas+as_filename+'.pdf',li_SaveExtraPath)
-//if li_rc <> 1 then
-//    messagebox("Error adicionando PDF al archivo Zip AD: ",string( loo_Zip.LastErrorText ))
-//    destroy loo_Zip
-//    return -1
-//end if
-//
-//li_rc = loo_Zip.WriteZipAndClose()
-//if li_rc <> 1 then
-//    messagebox("Error creando Zip",string( loo_Zip.LastErrorText ))
-//    destroy loo_Zip
-//    return -1
-//end if
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//loo_Email.AddFileAttachment(is_ruta_facturas+"ad"+mid(as_filename,3)+'.zip')//is_ruta_facturas+as_zipname)
-//if loo_Email.LastMethodSuccess <> 1 then
-//	messagebox("Error adjuntando archivo of_enviar_correo",string( loo_Mailman.LastErrorText))
-//    destroy loo_Mailman
-//    destroy loo_Email
-//    return -1
-//end if
-//
-//li_rc = loo_Mailman.SendEmail(loo_Email)
-//if li_rc <> 1 then
-//    messagebox("Error Enviando Correo of_enviar_correo",string( loo_Mailman.LastErrorText))
-//    destroy loo_Mailman
-//    destroy loo_Email
-//    return -1
-//end if
-//
-//li_rc = loo_Mailman.CloseSmtpConnection()
-//if li_rc <> 1 then
-//    messagebox("Error cerrando conexion a correo", "Connection to SMTP server not closed cleanly.")
-//end if
 
 destroy loo_Mailman
 destroy loo_Email
@@ -3002,7 +2867,8 @@ end if
 if ldw_result.getitemstring(ldw_result.rowcount(),'statuscode')='00' then 	
 	oleobject loo_Bd
 	loo_Bd = create oleobject
-	li_status= loo_Bd.ConnectToNewObject("Chilkat_9_5_0.BinData")
+	//li_status= loo_Bd.ConnectToNewObject("Chilkat_9_5_0.BinData")
+	li_status= loo_Bd.ConnectToNewObject("Chilkat.BinData")
 	if li_status < 0 then
 		 destroy loo_Bd
 		 MessageBox("Error","Connecting to COM object failed")
@@ -3046,7 +2912,8 @@ else
 end if
 is_clave_email=f_descripta_new(is_clave_email,'1')
 loo_Mailman = create nvo_generic_ole_object
-li_rc = loo_Mailman.ConnectToNewObject("Chilkat_9_5_0.MailMan")
+//li_rc = loo_Mailman.ConnectToNewObject("Chilkat_9_5_0.MailMan")
+li_rc = loo_Mailman.ConnectToNewObject("Chilkat.MailMan")
 if li_rc < 0 then
     destroy loo_Mailman
     MessageBox("Error","Connecting to COM object failed")
@@ -3063,7 +2930,8 @@ loo_Mailman.SmtpSsl = 1
 
 // Create a new email object
 loo_Email = create nvo_generic_ole_object
-li_rc = loo_Email.ConnectToNewObject("Chilkat_9_5_0.Email")
+//li_rc = loo_Email.ConnectToNewObject("Chilkat_9_5_0.Email")
+li_rc = loo_Email.ConnectToNewObject("Chilkat.Email")
 
 ls_asun=ldw_factura.getitemstring(1,"documento")+';'+is_nombre_lugar+';'+ldw_factura.getitemstring(1,"prefijo")+string(ldw_factura.getitemnumber(1,"nfact"))+';'
 
@@ -3112,10 +2980,11 @@ nvo_generic_ole_object loo_zip
 int li_SaveExtraPath
 
 loo_Zip = create nvo_generic_ole_object
-li_rc = loo_Zip.ConnectToNewObject("Chilkat_9_5_0.Zip")
+//li_rc = loo_Zip.ConnectToNewObject("Chilkat_9_5_0.Zip")
+li_rc = loo_Zip.ConnectToNewObject("Chilkat.Zip")
 if li_rc < 0 then
     destroy loo_Zip
-    MessageBox("Error","Connecting to COM object failed Chilkat_9_5_0.Zip")
+    MessageBox("Error","Connecting to COM object failed Chilkat.Zip")
     return -1
 end if
 
