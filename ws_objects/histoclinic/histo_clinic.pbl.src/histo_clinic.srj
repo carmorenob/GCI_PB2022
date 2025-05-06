@@ -785,9 +785,9 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,w_copiar_urg,
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,dw_instrum_finnish,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\hc_plant.pbl,w_instrumento_hc_minimental,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\histo_clinic.pbl,dw_graficas_campo,d
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_error_ds,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_result_poly,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,uo_param,u
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_error_ds,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_plant_rtf_borrar,w
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\enfermeria.pbl,dw_liq_reg,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\ord_serv.pbl,w_new_estad_ria_os,w
@@ -1019,8 +1019,8 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\pyp_asis.pbl,dw_tab_erc_to
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\autoriza.pbl,dw_solicitudes,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\rips.pbl,dw_audita_regimen,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,w_refactura,w
-OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_error,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_export,w
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_error,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,dw_rips_os,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\object_histoclinic.pbl,dw_xa_buscar_apdx,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\factura.pbl,dw_busca_articulo,d

@@ -111,7 +111,7 @@ li_rc = loo_Zip.ConnectToNewObject("Chilkat.Zip")
 
 if li_rc < 0 then
     destroy loo_Zip
-    MessageBox("Error","Connecting to COM object failed Chilkat.Zip")
+    MessageBox("ErrorChilkat.Zip ","Linea 10 of_zip ")
     return -1
 end if
 
@@ -151,7 +151,7 @@ aoo_cert = create nvo_generic_ole_object
 li_rc = aoo_Cert.ConnectToNewObject("Chilkat.Cert")
 if li_rc < 0 then
     destroy aoo_cert
-    MessageBox("Error","Connecting to COM object failed Chilkat.Cert")
+    MessageBox("Error Chilkat.Cert","Linea 8 of_leer_certificado")
     return -1
 end if
 
@@ -164,7 +164,7 @@ end if
 
 li_Success = aoo_cert.LoadPfxFile(is_ruta_firma,is_clave_firma)
 if li_Success <> 1 then
-     messagebox("Error leyendo certificado", string( aoo_cert.LastErrorText))
+     messagebox("Error Linea 21 of_leer_certificado", string( aoo_cert.LastErrorText))
 	is_clave_firma=''
 	destroy aoo_cert
     return -1
@@ -172,7 +172,7 @@ end if
 
 li_Success=aoo_cert.Expired
 If li_Success = 1 Then
-    messagebox("Error certificado expirado", string( aoo_cert.LastErrorText))
+    messagebox("Error Linea 29 of_leer_certificado", string( aoo_cert.LastErrorText))
 	is_clave_firma=''
 	destroy aoo_cert
    return -1
@@ -214,7 +214,7 @@ li_rc = aoo_sbXML.ConnectToNewObject("Chilkat.StringBuilder")
 ls_xml=string(adw_factura.describe('DataWindow.Data.XML'))
 li_Success = aoo_SbXml.SetString(ls_xml)
 if li_Success <> 1 then
-    Messagebox("Error OleObject of_firmar_xml", "Error convirtiendo Datawindow a XML")
+    Messagebox("Error Linea 17 of_firmar_xml", "Error convirtiendo Datawindow a XML")
     destroy aoo_SbXml
 	destroy aoo_cert
     return -1
@@ -228,7 +228,7 @@ if li_rc < 0 then
 	destroy loo_GenFact
 	destroy aoo_SbXml
 	destroy aoo_cert
-    MessageBox("Error OleObject of_firmar_xml","Connecting to COM object failed Chilkat.XmlDSigGen")
+    MessageBox("Error Linea 31 of_firmar_xml","Connecting to COM object failed Chilkat.XmlDSigGen")
     return -1
 end if
 
@@ -257,7 +257,7 @@ if li_rc < 0 then
 	destroy aoo_SbXml
 	destroy aoo_cert
 	destroy loo_Xml
-    MessageBox("Error OleObject of_firmar_xml","Connecting to COM object failed Chilkat_9_5_0.Xml")
+    MessageBox("Error Linea 60 of_firmar_xml","Connecting to COM object failed Chilkat.Xml")
     return -1
 end if
 
@@ -312,7 +312,7 @@ loo_GenFact.KeyInfoType = "X509Data"
 loo_GenFact.X509Type = "Certificate"
 li_Success = loo_GenFact.SetX509Cert(aoo_Cert,1)
 if li_Success = 0 then
-    messagebox("Error poniendo el certificado", loo_GenFact.LastErrorText)
+    messagebox("Error Linea 115 of_firmar_xml", loo_GenFact.LastErrorText)
     destroy loo_GenFact
 	destroy aoo_SbXml
 	destroy aoo_cert
@@ -426,7 +426,7 @@ loo_XmlToSign = create nvo_generic_ole_object
 li_rc = loo_XmlToSign.ConnectToNewObject("Chilkat.Xml")
 if li_rc < 0 then
     destroy loo_XmlToSign
-    MessageBox("Error of_soap_xml_firmado","Connecting to COM object failed Chilkat_9_5_0.Xml")
+    MessageBox("Error Linea 19 of_soap_xml_firmado","Connecting to COM object failed Chilkat.Xml")
     return -1
 end if
 
@@ -486,7 +486,7 @@ if ai_metodo=1 or ai_metodo=3 then
 		li_rc = loo_ZipData.ConnectToNewObject("Chilkat.BinData")
 		if li_rc < 0 then
 			 destroy loo_ZipData
-			 MessageBox("Error linea 79","Connecting to COM object failed")
+			 MessageBox("Error Linea 79 of_soap_xml_firmado","Connecting to COM object failed")
 			 return -1
 		end if
 		
@@ -562,7 +562,7 @@ loo_Gen.Behaviors = "IndentedSignature"
 // Sign the XML...
 li_Success = loo_Gen.CreateXmlDSigSb(aoo_SbXmlSOAP)
 if li_Success <> 1 then
-    messagebox("Estado Desbloqueo", loo_Gen.LastErrorText)
+    messagebox("Error Linea 155 of_soap_xml_firmado", loo_Gen.LastErrorText)
     destroy loo_XmlToSign
     destroy loo_Gen
     destroy aoo_Cert
@@ -570,13 +570,6 @@ if li_Success <> 1 then
     destroy aoo_SbXmlSOAP
     return -1
 end if
-
-// -----------------------------------------------
-
-// Save the signed XML to a file.
-//li_Success = loo_SbXml.WriteFile("d:\signedXml.xml","utf-8",0)
-
-// messagebox("Resultado",string( loo_SbXml.GetAsString()))
 
 // ----------------------------------------
 // Verify the signatures we just produced...
@@ -602,7 +595,7 @@ do while li_VerifyIdx < li_NumSigs
     loo_Verifier.Selector = li_VerifyIdx
     li_Verified = loo_Verifier.VerifySignature(1)
     if li_Verified <> 1 then
-		messagebox("Verificacion de firma (ciclo)", loo_Verifier.LastErrorText)
+		messagebox("Error Linea 188 of_soap_xml_firmado", loo_Verifier.LastErrorText)
 		destroy loo_XmlToSign
 		destroy loo_Gen
 		destroy aoo_Cert
@@ -705,7 +698,7 @@ li_rc = aoo_sbXML.ConnectToNewObject("Chilkat.StringBuilder")
 ls_xml=string(ads_attached_plantilla.describe('DataWindow.Data.XML'))
 li_Success = aoo_SbXml.SetString(ls_xml)
 if li_Success <> 1 then
-    Messagebox("Error OleObject of_firmar_xml", "Error convirtiendo Datawindow a XML")
+    Messagebox("Error Linea 17 of_firmar_xml_attached", "Error convirtiendo Datawindow a XML")
     destroy aoo_SbXml
 	destroy aoo_cert
     return -1
@@ -718,7 +711,7 @@ if li_rc < 0 then
 	destroy loo_GenFact
 	destroy aoo_SbXml
 	destroy aoo_cert
-    MessageBox("Error OleObject of_firmar_xml","Connecting to COM object failed Chilkat.XmlDSigGen")
+    MessageBox("Error Linea 30 of_firmar_xml_attached","Connecting to COM object failed Chilkat.XmlDSigGen")
     return -1
 end if
 
@@ -742,7 +735,7 @@ if li_rc < 0 then
 	destroy aoo_SbXml
 	destroy aoo_cert
 	destroy loo_Xml
-    MessageBox("Error OleObject of_firmar_xml","Connecting to COM object failed Chilkat.Xml")
+    MessageBox("Error Linea 54 of_firmar_xml_attached","Connecting to COM object failed Chilkat.Xml")
     return -1
 end if
 
@@ -762,43 +755,26 @@ loo_Xml.UpdateChildContent("xades:SignedProperties|xades:SignedSignatureProperti
 loo_Xml.UpdateChildContent("xades:SignedProperties|xades:SignedSignatureProperties|xades:SignerRole|xades:ClaimedRoles|xades:ClaimedRole","third party")
 
 loo_GenFact.AddObject("",loo_Xml.GetXml(),"","")
-// Add our 1st eference, which is to the root element of the XML document being signed.
-//r3 loo_GenFact.AddSameDocRef("","sha256","EXCL_C14N","","")
 loo_GenFact.AddSameDocRef("","sha256","","","")
 loo_GenFact.SetRefIdAttr("","xmldsig-"+smallcufe_formated+"-ref0")
 
 // We'll want a KeyInfo that will look like this:
 
-//          <ds:Reference Id="ReferenceKeyInfo" URI="#KeyInfoId-Signature-d1cbfe99-fd8e-4e0f-b0b7-fc5bfe2f1dd0">
-//             <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
-//             <ds:DigestValue>hbYK/DyNGpK4HtUQV8xsljxbrTJY4AS0SYOa1oW/FQw=</ds:DigestValue>
-//          </ds:Reference>
-
 string ls_KeyInfoId,ls_SignedPropsId
 
 ls_KeyInfoId = "xmldsig-"+smallcufe_formated+"-keyinfo"
 loo_GenFact.KeyInfoId = ls_KeyInfoId
-//r4 loo_GenFact.AddSameDocRef(ls_KeyInfoId,"sha256","EXCL_C14N","","")
 loo_GenFact.AddSameDocRef(ls_KeyInfoId,"sha256","","","")
-//loo_Gen.SetRefIdAttr(ls_KeyInfoId,"ReferenceKeyInfo")
 
 // Add a Reference to the SignedProperties.
 ls_SignedPropsId = "xmldsig-"+smallcufe_formated+"-signedprops"
-//r5 loo_GenFact.AddObjectRef(ls_SignedPropsId,"sha256","EXCL_C14N","","http://uri.etsi.org/01903#SignedProperties")
 loo_GenFact.AddObjectRef(ls_SignedPropsId,"sha256","","","http://uri.etsi.org/01903#SignedProperties")
-
-// When the Signature is generated, the Reference to the SignedProperties will look like this:
-
-//          <ds:Reference Type="http://uri.etsi.org/01903#SignedProperties" URI="#SignedProperties-Signature-d1cbfe99-fd8e-4e0f-b0b7-fc5bfe2f1dd0">
-//             <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
-//             <ds:DigestValue>GLOA1AWNZhJM9NlK515TJmCE+/EKHlrIQJkkyTPPL4E=</ds:DigestValue>
-//          </ds:Reference>
 
 loo_GenFact.KeyInfoType = "X509Data"
 loo_GenFact.X509Type = "Certificate"
 li_Success = loo_GenFact.SetX509Cert(aoo_Cert,1)
 if li_Success = 0 then
-    messagebox("Error poniendo el certificado", loo_GenFact.LastErrorText)
+    messagebox("Error Linea 93 of_firmar_xml_attached", string(loo_GenFact.LastErrorText))
     destroy loo_GenFact
 	destroy aoo_SbXml
 	destroy aoo_cert
@@ -814,10 +790,8 @@ loo_GenFact.Behaviors = "CompactSignedXml"
 
 li_Success = loo_GenFact.CreateXmlDSigSb(aoo_SbXml)
 
-string jaer
-jaer=string( loo_GenFact.LastErrorText )
 if li_Success = 0 then
-	messagebox("Error firmando la factura" ,string( loo_GenFact.LastErrorText ))
+	messagebox("Error Linea 110 of_firmar_xml_attached" ,string( loo_GenFact.LastErrorText ))
 	destroy loo_GenFact
 	destroy aoo_SbXml
 	destroy aoo_cert
@@ -833,7 +807,7 @@ li_rc = loo_Verifier.ConnectToNewObject("Chilkat.XmlDSig")
 
 li_Success = loo_Verifier.LoadSignatureSb(aoo_SbXml)
 if li_Success <> 1 then
-	messagebox("Verificacion de firma",loo_Verifier.LastErrorText)
+	messagebox("Error Linea 126 of_firmar_xml_attached",string(loo_Verifier.LastErrorText))
 	destroy aoo_Cert
 	destroy loo_Verifier
 	return -1
@@ -846,7 +820,7 @@ do while li_VerifyIdx < li_NumSigs
     loo_Verifier.Selector = li_VerifyIdx
     li_Verified = loo_Verifier.VerifySignature(1)
     if li_Verified <> 1 then
-		messagebox("Verificacion de firma (ciclo)", loo_Verifier.LastErrorText)
+		messagebox("Error Linea 139 of_firmar_xml_attached", loo_Verifier.LastErrorText)
 		destroy aoo_Cert
 		destroy loo_Verifier
 		return -1
@@ -905,7 +879,7 @@ end if
 
 if as_tipo_docu='f' or as_tipo_docu='r'  then 
 	if adw_factura.retrieve(al_nro_fact,as_clug_factura,as_tipofac)<=0 then 
-		messagebox('Atencíon','No se pueden recuperar datos')
+		messagebox('Atencíon','sign_chilkat Linea 48 No se pueden recuperar datos')
 		lst_ret_dian.as_estado="-2"
 		return lst_ret_dian
 	end if
@@ -924,13 +898,13 @@ if as_tipo_docu='f' or as_tipo_docu='r'  then
 else
 	if as_coddoc='RV' then 
 		if adw_factura.retrieve(al_nro_fact,as_clug_factura,as_tipofac,as_nnota)<=0 then 
-			messagebox('Atencíon','No se pueden recuperar datos')
+			messagebox('Atencíon','sign_chilkat Linea 67 No se pueden recuperar datos')
 			lst_ret_dian.as_estado="-2"
 			return lst_ret_dian
 		end if	
 	else
 		if adw_factura.retrieve(al_nro_fact,as_clug_factura,as_tipofac)<=0 then 
-			messagebox('Atencíon','No se pueden recuperar datos')
+			messagebox('Atencíon','sign_chilkat Linea 73 No se pueden recuperar datos')
 			lst_ret_dian.as_estado="-2"
 			return lst_ret_dian
 		end if
@@ -1068,12 +1042,12 @@ end if
 ////////////////////   DESBLOQUEAR LIBRERIAS DE CHILKAT
 IF of_desbloquear_chilkat()=-1 then
 	lst_ret_dian.as_estado="-2"
-	 return lst_ret_dian
+	return lst_ret_dian
 end if
 ////////////////////  LEER CERTIFICADO
 if of_leer_certificado(loo_Cert)=-1 then
 	lst_ret_dian.as_estado="-2"
-	 return lst_ret_dian
+	return lst_ret_dian
 end if
 
 ls_tipo_ambiente=adw_factura.getitemstring(1,'tipo_ambiente')
@@ -1137,7 +1111,7 @@ if isnull(adw_factura.getitemstring(1,'estado_dian'+ls_sufijo_campo)) or adw_fac
 	//guarda XML firmado en la ruta de la variable
 	li_status=loo_SbXml.WriteFile(is_ruta_facturas+lst_ret_dian.as_filename+'.xml','utf-8',0)	
 	if li_status<0 then
-		messagebox("Error función sing_chilkat","Error exportando el XML en: "+is_ruta_facturas+lst_ret_dian.as_filename+'.xml')
+		messagebox("Error función sign_chilkat Linea 280","Error exportando el XML en: "+is_ruta_facturas+lst_ret_dian.as_filename+'.xml')
 		lst_ret_dian.as_estado="-2"
 		return lst_ret_dian
 	end if
@@ -1165,7 +1139,7 @@ if isnull(adw_factura.getitemstring(1,'estado_dian'+ls_sufijo_campo)) or adw_fac
 		li_status=lds_result.importFile(XML!,is_ruta_facturas+lst_ret_dian.as_filename+'_test_ret.xml')
 		
 		if li_status<0 then
-			messagebox('Error importando Respuesta','No es posible importar el mensaje de respuesta de la DIAN:~r~n'+is_ruta_facturas+lst_ret_dian.as_filename+'_test_ret.xml')
+			messagebox('Error sign_chilkat Linea 308','No es posible importar el mensaje de respuesta de la DIAN:~r~n'+is_ruta_facturas+lst_ret_dian.as_filename+'_test_ret.xml')
 			lst_ret_dian.as_estado="-2"
 			return lst_ret_dian
 		end if
@@ -1217,10 +1191,11 @@ if isnull(adw_factura.getitemstring(1,'estado_dian'+ls_sufijo_campo)) or adw_fac
 
 			oleobject loo_Bd
 			loo_Bd = create oleobject
-			li_status= loo_Bd.ConnectToNewObject("Chilkat_9_5_0.BinData")
+			//li_status= loo_Bd.ConnectToNewObject("Chilkat_9_5_0.BinData")
+			li_status= loo_Bd.ConnectToNewObject("Chilkat.BinData")
 			if li_status < 0 then
 				 destroy loo_Bd
-				 MessageBox("Error","Connecting to COM object failed")
+				 MessageBox("Error sign_chilkat Linea 364","Connecting to COM object failed")
 				lst_ret_dian.as_estado="-2"
 				return lst_ret_dian
 			end if
@@ -1261,7 +1236,7 @@ elseif adw_factura.getitemstring(1,'estado_dian'+ls_sufijo_campo)='0' then //ya 
 	li_status=lds_result.importFile(XML!, is_ruta_facturas+lst_ret_dian.as_filename+'_zipStatus_ret.xml' )
 	
 	if li_status<0 then
-		messagebox('Error importando Respuesta','No es posible importar el mensaje de respuesta de la DIAN:~r~n'+ is_ruta_facturas+lst_ret_dian.as_filename+'_zipStatus_ret.xml')
+		messagebox('Error sign_chilkat Linea 405','No es posible importar el mensaje de respuesta de la DIAN:~r~n'+ is_ruta_facturas+lst_ret_dian.as_filename+'_zipStatus_ret.xml')
 		lst_ret_dian.as_estado="-2"
 		return lst_ret_dian
 	end if
@@ -1779,7 +1754,7 @@ loo_Mailman = create nvo_generic_ole_object
 li_rc = loo_Mailman.ConnectToNewObject("Chilkat.MailMan")
 if li_rc < 0 then
     destroy loo_Mailman
-    MessageBox("Error","Connecting to COM object failed")
+    MessageBox("Error of_enviar_correo linea 82","Connecting to COM object failed")
 	of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'B',as_tipo,as_docnm)
     return -1
 end if
@@ -1841,7 +1816,7 @@ end if
 //guardar factura como pdf y adicionarla al .zip
 li_rc=ads_datos.saveas(is_ruta_facturas+as_filename+".pdf",PDF!,false)
 if li_rc<0 then
-	messagebox("Error Enviando Correo of_enviar_correo","No se pudo exportar la factura como PDF!!!")
+	messagebox("Error Error of_enviar_correo linea 144","No se pudo exportar la factura como PDF!!!")
 	of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'A',as_tipo,as_docnm)
     destroy loo_Mailman
     destroy loo_Email
@@ -1863,7 +1838,7 @@ else
 end if
 lds_attached_doc.settransobject(sqlca)
 if lds_attached_doc.retrieve(ad_nfact,as_lug,as_tipofac)<0 then
-	messagebox("Error en retrieve de lds_attached_doc: ",sqlca.sqlerrtext)
+	messagebox("Error of_enviar_correo linea 166 ",sqlca.sqlerrtext)
     destroy loo_Mailman
     destroy loo_Email
 	of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'8',as_tipo,as_docnm)	 
@@ -1891,7 +1866,7 @@ loo_Zip = create nvo_generic_ole_object
 li_rc = loo_Zip.ConnectToNewObject("Chilkat.Zip")
 if li_rc < 0 then
     destroy loo_Zip
-    MessageBox("Error","Connecting to COM object failed Chilkat.Zip")
+    MessageBox("Error of_enviar_correo linea 194","Connecting to COM object failed Chilkat.Zip")
 	of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'6',as_tipo,as_docnm)	 
     return -1
 end if
@@ -1908,7 +1883,7 @@ end if
 li_SaveExtraPath = 0
 li_Success = loo_Zip.AppendOneFileOrDir(is_ruta_facturas+"ad"+mid(as_filename,3)+'.xml',li_SaveExtraPath)
 if li_Success <> 1 then
-    messagebox("Error adicionando Archivo AttachedDocument a Zip AD: ",string( loo_Zip.LastErrorText ))
+    messagebox("Error of_enviar_correo linea 211: ",string( loo_Zip.LastErrorText ))
 	of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'4',as_tipo,as_docnm)	 
     destroy loo_Zip
     return -1
@@ -1922,7 +1897,7 @@ end if
 
 li_Success = loo_Zip.WriteZipAndClose()
 if li_Success <> 1 then
-    messagebox("Error creando Zip",string( loo_Zip.LastErrorText ))
+    messagebox("Error of_enviar_correo linea 225",string( loo_Zip.LastErrorText ))
     destroy loo_Zip
     return -1
 end if
@@ -1930,7 +1905,7 @@ end if
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 loo_Email.AddFileAttachment(is_ruta_facturas+"ad"+mid(as_filename,3)+'.zip')//is_ruta_facturas+as_zipname)
 if loo_Email.LastMethodSuccess <> 1 then
-	messagebox("Error adjuntando archivo of_enviar_correo",string( loo_Mailman.LastErrorText))
+	messagebox("Error of_enviar_correo linea 233",string( loo_Mailman.LastErrorText))
 	of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'3',as_tipo,as_docnm)
     destroy loo_Mailman
     destroy loo_Email
@@ -1939,7 +1914,7 @@ end if
 
 li_Success = loo_Mailman.SendEmail(loo_Email)
 if li_Success <> 1 then
-    messagebox("Error Enviando Correo of_enviar_correo",string( loo_Mailman.LastErrorText))
+    messagebox("Error of_enviar_correo linea 242",string( loo_Mailman.LastErrorText))
 	of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'2',as_tipo,as_docnm)
     destroy loo_Mailman
     destroy loo_Email
@@ -1948,7 +1923,7 @@ end if
 
 li_Success = loo_Mailman.CloseSmtpConnection()
 if li_Success <> 1 then
-    messagebox("Error cerrando conexion a correo", "Connection to SMTP server not closed cleanly.")
+    messagebox("Error of_enviar_correo linea 251", "Connection to SMTP server not closed cleanly.")
 end if
 
 destroy loo_Mailman
@@ -2238,7 +2213,7 @@ ldw_result.dataobject='dw_retornos_dian'
 li_status=ldw_result.importFile(XML!,is_ruta_facturas+as_filename+'_test_ret.xml1')
 	
 if li_status<0 then
-	messagebox('Error importando Respuesta','No es posible importar el mensaje de respuesta de la DIAN:~r~n'+ is_ruta_facturas+'Status_ret.xml')
+	messagebox('Error of_enviar_new_correo_fevs linea 132','No es posible importar el mensaje de respuesta de la DIAN:~r~n'+ is_ruta_facturas+'Status_ret.xml')
 	return -1
 end if
 		
@@ -2249,7 +2224,7 @@ if ldw_result.getitemstring(ldw_result.rowcount(),'statuscode')='00' then
 	li_status= loo_Bd.ConnectToNewObject("Chilkat.BinData")
 	if li_status < 0 then
 		 destroy loo_Bd
-		 MessageBox("Error","Connecting to COM object failed")
+		 MessageBox("Error of_enviar_new_correo_fevs linea 143","Connecting to COM object failed")
 		 return -1
 	end if
 	li_status= loo_Bd.AppendEncoded(ldw_result.getitemstring(ldw_result.rowcount(),'xmlbase64'),"base64")
@@ -2545,7 +2520,7 @@ if isnull(adw_factura.getitemstring(1,'estado_dian'+ls_sufijo_campo)) or adw_fac
 	//guarda XML firmado en la ruta de la variable
 	li_status=loo_SbXml.WriteFile(is_ruta_facturas+lst_ret_dian.as_filename+'.xml','utf-8',0)	
 	if li_status<0 then
-		messagebox("Error función sing_chilkat","Error exportando el XML en: "+is_ruta_facturas+lst_ret_dian.as_filename+'.xml')
+		messagebox("Error envio_sin_validacion19 linea 272","Error exportando el XML en: "+is_ruta_facturas+lst_ret_dian.as_filename+'.xml')
 		lst_ret_dian.as_estado="-2"
 		return lst_ret_dian
 	end if
@@ -2573,7 +2548,7 @@ if isnull(adw_factura.getitemstring(1,'estado_dian'+ls_sufijo_campo)) or adw_fac
 		li_status=lds_result.importFile(XML!,is_ruta_facturas+lst_ret_dian.as_filename+'_test_ret.xml')
 		
 		if li_status<0 then
-			messagebox('Error importando Respuesta','No es posible importar el mensaje de respuesta de la DIAN:~r~n'+is_ruta_facturas+lst_ret_dian.as_filename+'_test_ret.xml')
+			messagebox('Error envio_sin_validacion19 linea 300','No es posible importar el mensaje de respuesta de la DIAN:~r~n'+is_ruta_facturas+lst_ret_dian.as_filename+'_test_ret.xml')
 			lst_ret_dian.as_estado="-2"
 			return lst_ret_dian
 		end if
@@ -2860,7 +2835,7 @@ ldw_result.dataobject='dw_retornos_dian'
 li_status=ldw_result.importFile(XML!,is_ruta_facturas+as_filename+'_test_ret.xml1')
 	
 if li_status<0 then
-	messagebox('Error importando Respuesta','No es posible importar el mensaje de respuesta de la DIAN:~r~n'+ is_ruta_facturas+'Status_ret.xml')
+	messagebox('Error of_enviar_new_correo linea 154','No es posible importar el mensaje de respuesta de la DIAN:~r~n'+ is_ruta_facturas+'Status_ret.xml')
 	return -1
 end if
 		
@@ -2871,7 +2846,7 @@ if ldw_result.getitemstring(ldw_result.rowcount(),'statuscode')='00' then
 	li_status= loo_Bd.ConnectToNewObject("Chilkat.BinData")
 	if li_status < 0 then
 		 destroy loo_Bd
-		 MessageBox("Error","Connecting to COM object failed")
+		 MessageBox("Error of_enviar_new_correo linea 165","Connecting to COM object failed")
 		 return -1
 	end if
 	li_status= loo_Bd.AppendEncoded(ldw_result.getitemstring(ldw_result.rowcount(),'xmlbase64'),"base64")
@@ -2881,10 +2856,11 @@ lds_xml_attached.setItem(1,'xml_invoice',ls_xml_factura)
 lds_xml_attached.setItem(1,'xml_response',ls_xml_retorno)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 loo_Mailman = create nvo_generic_ole_object
-li_rc = loo_Mailman.ConnectToNewObject("Chilkat_9_5_0.MailMan")
+//li_rc = loo_Mailman.ConnectToNewObject("Chilkat_9_5_0.MailMan")
+li_rc = loo_Mailman.ConnectToNewObject("Chilkat.MailMan")
 if li_rc < 0 then
     destroy loo_Mailman
-    MessageBox("Error","Connecting to COM object failed")
+    MessageBox("Error of_enviar_new_correo linea 178","Connecting to COM object failed")
     return -1
 end if
 
@@ -2901,7 +2877,7 @@ else
 end if
 
 if isnull(is_server_email) or isnull(is_cuenta_email)  or isnull(is_clave_email) then
-    MessageBox("Error","No hay servidor de documento configurado")
+    MessageBox("Error of_enviar_new_correo linea 196","No hay servidor de documento configurado")
     return -1
 end if
 
@@ -2916,7 +2892,7 @@ loo_Mailman = create nvo_generic_ole_object
 li_rc = loo_Mailman.ConnectToNewObject("Chilkat.MailMan")
 if li_rc < 0 then
     destroy loo_Mailman
-    MessageBox("Error","Connecting to COM object failed")
+    MessageBox("Error of_enviar_new_correo linea 211","Connecting to COM object failed")
     return -1
 end if
 
@@ -2984,7 +2960,7 @@ loo_Zip = create nvo_generic_ole_object
 li_rc = loo_Zip.ConnectToNewObject("Chilkat.Zip")
 if li_rc < 0 then
     destroy loo_Zip
-    MessageBox("Error","Connecting to COM object failed Chilkat.Zip")
+    MessageBox("Error of_enviar_new_correo linea 279","Connecting to COM object failed Chilkat.Zip")
     return -1
 end if
 
@@ -2999,20 +2975,20 @@ end if
 li_SaveExtraPath = 0
 li_rc = loo_Zip.AppendOneFileOrDir(is_ruta_facturas+"ad"+mid(as_filename,3)+'.xml',li_SaveExtraPath)
 if li_rc <> 1 then
-    messagebox("Error adicionando Archivo AttachedDocument a Zip AD: ",string( loo_Zip.LastErrorText ))
+    messagebox("Error of_enviar_new_correo linea 294: ",string( loo_Zip.LastErrorText ))
     destroy loo_Zip
     return -1
 end if
 li_rc = loo_Zip.AppendOneFileOrDir(is_ruta_facturas+as_filename+'.pdf',li_SaveExtraPath)
 if li_rc <> 1 then
-    messagebox("Error adicionando PDF al archivo Zip AD: ",string( loo_Zip.LastErrorText ))
+    messagebox("Error of_enviar_new_correo linea 300 ",string( loo_Zip.LastErrorText ))
     destroy loo_Zip
     return -1
 end if
 
 li_rc = loo_Zip.WriteZipAndClose()
 if li_rc <> 1 then
-    messagebox("Error creando Zip",string( loo_Zip.LastErrorText ))
+    messagebox("Error of_enviar_new_correo linea 307",string( loo_Zip.LastErrorText ))
     destroy loo_Zip
     return -1
 end if
@@ -3020,7 +2996,7 @@ end if
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 loo_Email.AddFileAttachment(is_ruta_facturas+"ad"+mid(as_filename,3)+'.zip')//is_ruta_facturas+as_zipname)
 if loo_Email.LastMethodSuccess <> 1 then
-	messagebox("Error adjuntando archivo of_enviar_correo",string( loo_Mailman.LastErrorText))
+	messagebox("Error of_enviar_new_correo linea 315",string( loo_Mailman.LastErrorText))
     destroy loo_Mailman
     destroy loo_Email
     return -1
@@ -3028,7 +3004,7 @@ end if
 
 li_rc = loo_Mailman.SendEmail(loo_Email)
 if li_rc <> 1 then
-    messagebox("Error Enviando Correo of_enviar_correo",string( loo_Mailman.LastErrorText))
+    messagebox("Error of_enviar_new_correo linea 323",string( loo_Mailman.LastErrorText))
     destroy loo_Mailman
     destroy loo_Email
     return -1
@@ -3036,7 +3012,7 @@ end if
 
 li_rc = loo_Mailman.CloseSmtpConnection()
 if li_rc <> 1 then
-    messagebox("Error cerrando conexion a correo", "Connection to SMTP server not closed cleanly.")
+    messagebox("Error of_enviar_new_correo linea 331", "Connection to SMTP server not closed cleanly.")
 end if
 
 destroy loo_Mailman
@@ -3057,7 +3033,7 @@ loo_Oauth2 = create oleobject
 li_rc = loo_Oauth2.ConnectToNewObject("Chilkat.OAuth2")
 if li_rc < 0 then
     destroy loo_Oauth2
-    MessageBox("Error","Connecting to COM object failed")
+    MessageBox("Error of_token_oauth2 linea 12","Connecting to COM object failed")
     return '-1'
 end if
 
@@ -3075,7 +3051,7 @@ loo_Oauth2.Scope = "https://mail.google.com/"
 // Inicia Autrizacion
 ls_Url = loo_Oauth2.StartAuth()
 if loo_Oauth2.LastMethodSuccess <> 1 then
- 	MessageBox("Error",string( loo_Oauth2.LastErrorText))
+ 	MessageBox("Error of_token_oauth2 linea 30",string( loo_Oauth2.LastErrorText))
     destroy loo_Oauth2
     return '-1'
 end if
@@ -3084,7 +3060,7 @@ end if
 // The LaunchBrowser method was added in Chilkat v10.1.2.
 li_Success = loo_Oauth2.LaunchBrowser(ls_Url)
 if li_Success = 0 then
-  	MessageBox("Error",string(loo_Oauth2.LastErrorText))
+  	MessageBox("Error of_token_oauth2 linea 39",string(loo_Oauth2.LastErrorText))
     destroy loo_Oauth2
     return '-1'
 end if
@@ -3098,7 +3074,7 @@ loop
 
 if loo_Oauth2.AuthFlowState < 3 then
     loo_Oauth2.Cancel()
-    //Write-Debug "No response from the browser!"
+ 	MessageBox("Error of_token_oauth2 linea 54",'No responde browser')
     destroy loo_Oauth2
     return '-1'
 end if
@@ -3110,19 +3086,19 @@ end if
 // 5: Failure – OAuth2 flow failed before completion, the background thread exited, and error details are in FailureInfo.
 
 if loo_Oauth2.AuthFlowState = 5 then
-	 MessageBox("Error", "OAuth2 failed to complete.")
+	 MessageBox("Error of_token_oauth2 linea 65", "OAuth2 failed to complete.")
     destroy loo_Oauth2
     return '-1'
 end if
 
 if loo_Oauth2.AuthFlowState = 4 then
-	MessageBox("Error","OAuth2 authorization was denied.")
+	MessageBox("Error of_token_oauth2 linea 71","OAuth2 authorization was denied.")
     destroy loo_Oauth2
     return '-1'
 end if
 
 if loo_Oauth2.AuthFlowState <> 3 then
-	MessageBox("Error",string(loo_Oauth2.AuthFlowState))
+	MessageBox("Error of_token_oauth2 linea 77",string(loo_Oauth2.AuthFlowState))
     destroy loo_Oauth2
     return '-1'
 end if
@@ -3147,12 +3123,12 @@ loo_Glob = create nvo_generic_ole_object
 li_rc = loo_Glob.ConnectToNewObject("Chilkat.Global")
 if li_rc < 0 then
     destroy loo_Glob
-    MessageBox("Error of_desbloquear_chilkat","Connecting to COM object failed: Chilkat.Global")
+    MessageBox("Error of_desbloquear_chilkat linea 8","Connecting to COM object failed: Chilkat.Global")
     return -1
 end if
 li_Success = loo_Glob.UnlockBundle("HSPCRT.CB1032026_zzYKLAke9R37")
 if li_Success <> 1 then
-    messagebox("Error de desbloqueo de Chilkat.Global", string(loo_Glob.LastErrorText))
+    messagebox("Error of_desbloquear_chilkat linea 13", string(loo_Glob.LastErrorText))
     destroy loo_Glob
     return -1
 end if
