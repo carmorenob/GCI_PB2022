@@ -32,6 +32,8 @@ table(column=(type=number updatewhereclause=yes name=nfact dbname="empresa.nfact
  column=(type=char(30) updatewhereclause=yes name=file_name_zip_anul dbname="empresa.file_name_zip_anul" )
  column=(type=char(4) updatewhereclause=yes name=prefijo dbname="empresa.prefijo" )
  column=(type=char(200) updatewhereclause=yes name=cuve dbname="empresa.cuve" )
+ column=(type=char(1) updatewhereclause=yes name=envio_xml dbname="empresa.envio_xml" dbalias=".envio_xml" )
+ column=(type=char(4) updatewhereclause=yes name=cod_versionfe dbname="empresa.cod_versionfe" dbalias=".cod_versionfe" )
  retrieve="SELECT DISTINCT 
 	factcab.nfact, factcab.clugar, factcab.tipo,   
 	factcab.fecha,factcpo.tipodoc,factcpo.documento,   
@@ -42,7 +44,7 @@ table(column=(type=number updatewhereclause=yes name=nfact dbname="empresa.nfact
 	empresa.desemp,case when factcpo.NFACT_REF is null then 'No' else 'Si' end as refa,
 	factcab.estado_dian, factcab.file_name_fact, factcab.file_name_fact_anul,
 	factcab.file_name_zip,factcab.file_name_zip_anul, 
-	documentos_autfact.prefijo, factcab.cuve
+	documentos_autfact.prefijo, factcab.cuve,factcab.envio_xml, factcab.cod_versionfe
 FROM 
 	(((factcab 
 	INNER JOIN factcpo ON (factcab.nfact = factcpo.nfact) AND (factcab.clugar = factcpo.clugar) AND (factcab.tipo = factcpo.tipo)) 
@@ -108,4 +110,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=0 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 

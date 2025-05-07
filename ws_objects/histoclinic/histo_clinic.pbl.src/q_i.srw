@@ -2,6 +2,8 @@
 forward
 global type q_i from window
 end type
+type cb_6 from commandbutton within q_i
+end type
 type cb_3 from commandbutton within q_i
 end type
 type wb_1 from webbrowser within q_i
@@ -51,6 +53,7 @@ windowtype windowtype = response!
 long backcolor = 67108864
 string icon = "AppIcon!"
 boolean center = true
+cb_6 cb_6
 cb_3 cb_3
 wb_1 wb_1
 cb_2 cb_2
@@ -74,6 +77,7 @@ end type
 global q_i q_i
 
 on q_i.create
+this.cb_6=create cb_6
 this.cb_3=create cb_3
 this.wb_1=create wb_1
 this.cb_2=create cb_2
@@ -93,7 +97,8 @@ this.dw_2=create dw_2
 this.dw_1=create dw_1
 this.ads_datos=create ads_datos
 this.cb_1=create cb_1
-this.Control[]={this.cb_3,&
+this.Control[]={this.cb_6,&
+this.cb_3,&
 this.wb_1,&
 this.cb_2,&
 this.pb_3,&
@@ -115,6 +120,7 @@ this.cb_1}
 end on
 
 on q_i.destroy
+destroy(this.cb_6)
 destroy(this.cb_3)
 destroy(this.wb_1)
 destroy(this.cb_2)
@@ -136,6 +142,84 @@ destroy(this.ads_datos)
 destroy(this.cb_1)
 end on
 
+type cb_6 from commandbutton within q_i
+integer x = 942
+integer y = 852
+integer width = 402
+integer height = 112
+integer taborder = 40
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+string text = "none"
+end type
+
+event clicked;string ls_url = 'https://oauth2.googleapis.com/token'
+string ls_clientid = '72934021868-6ta93e5tedno14u079m72obtb0hf1q9c.apps.googleusercontent.com' // here I replaced whith my real client id here
+string ls_clientsecret = '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' // here I replaced whith my real client secret here
+string ls_scope = 'https://mail.google.com/' //to get a 'device list'; this for get the token 'CamDistributorTenant'
+string ls_auth = ''
+string ls_base64 = ''
+string ls_body = ''
+integer li_rc
+string ls_token
+
+RestClient lo_restclient
+CoderObject lo_coderobject
+
+lo_coderobject = create CoderObject
+lo_restclient =  create RestClient
+
+ls_auth = ls_clientid + ':' + ls_clientsecret
+ls_base64 = lo_coderobject.Base64Encode(Blob(ls_auth, EncodingUTF8!))
+
+// Set the authorization and content headers
+lo_restclient.SetRequestHeader('Authorization', 'Basic ' + ls_base64)
+lo_restclient.SetRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+
+// Create the body
+ls_body = 'grant_type=client_credentials' 
+ls_body += '&client_id=' + ls_clientid
+ls_body += '&scope=' + ls_scope
+
+// Get the token with GetJWTToken (this returns the full json of the response which needs to be parsed to get the token)
+li_rc = lo_restclient.GetJWTToken(ls_url, ls_body, ls_token)
+
+string ls_JWTToken
+JsonPackage ljpk_JWTINF
+ljpk_JWTINF = Create JsonPackage
+ljpk_JWTINF.Loadstring( ls_token )
+If ljpk_JWTINF.ContainsKey( "access_token" ) Then
+    ls_JWTToken = ljpk_JWTINF.GetValueString( "access_token" )
+End If
+
+//--- endpoint 
+ls_url = 'https://dryrcmapi-ec1.srv.ygles.com/v1/devices/'
+ls_base64 = lo_coderobject.base64encode( blob(ls_JWTToken, EncodingUTF8!))   //ok x encode
+
+//other attempts
+//lo_restclient.SetRequestHeaders("Content-Type:application/x-www-form-urlencoded;charset=UTF-8;~r~nAuthorization:Bearer " + ls_base64)
+//lo_restclient.SetRequestHeaders("Content-Type:application/x-www-form-urlencoded;charset=UTF-8;~r~nAuthorization:Bearer " + ls_JWTToken)
+//lo_restclient.SetRequestHeaders("Authorization:Bearer " + ls_base64)
+//lo_restclient.SetRequestHeaders("Authorization:Bearer " + ls_JWTToken)
+//lo_restclient.SetRequestHeader('Authorization', 'Bearer ' + ls_base64, true)
+
+lo_restclient.SetRequestHeader('Authorization', 'Bearer ' + ls_JWTToken, true)
+
+string ls_response
+lo_restclient.SendGetRequest(ls_url, ls_response)
+
+string ls_msg 
+ls_msg = "Status Code: " + String(lo_restclient.GetResponseStatusCode()) + '~r~n' + &
+            "Status Text: " + String(lo_restclient.GetResponseStatusText()) + '~r~n' + &
+            "Response Body: " + ls_response
+
+return lo_restclient.GetResponseStatusCode()
+end event
+
 type cb_3 from commandbutton within q_i
 integer x = 1403
 integer y = 548
@@ -151,22 +235,9 @@ string facename = "Tahoma"
 string text = "none"
 end type
 
-event clicked;integer li_rc
-oleobject loo_Http
-oleobject loo_Cert
-integer li_Success
-integer li_NumSec
-string ls_AccessToken
-oleobject loo_Mailman
-oleobject loo_Email
-string is_ruta_firma='D:\certificado\gci-mail-458618-86f975b3dc24.p12'
-string is_clave_firma='notasecret'
-string ls_iss='gcimail@gci-mail-458618.iam.gserviceaccount.com'
-string ls_scope='https://mail.google.com/'
-string ls_oauth_sub='gcimail@gci-mail-458618.iam.gserviceaccount.com'
+event clicked;integer li_rc,li_Success
 
-
-//////
+////// DESBLOQUEA
 nvo_generic_ole_object loo_Glob
 loo_Glob = create nvo_generic_ole_object
 li_rc = loo_Glob.ConnectToNewObject("Chilkat.Global")
@@ -183,17 +254,25 @@ if li_Success <> 1 then
 end if
 
 li_Success = loo_Glob.UnlockStatus
-if li_Success = 2 then
-  //  messagebox("Estado Desbloqueo", "Unlocked using purchased unlock code.")
-else
-  //   messagebox("Estado Desbloqueo", "Unlocked in trial mode.")
-end if
-
 destroy loo_Glob
 /////
 
 
+oleobject loo_Http
+oleobject loo_Cert
 
+integer li_NumSec=30
+string ls_AccessToken
+oleobject loo_Mailman
+oleobject loo_Email
+string is_ruta_firma='D:\certificado\gci-mail-458618-86f975b3dc24.p12'
+string is_clave_firma='notasecret'
+string ls_iss='gcimail@gci-mail-458618.iam.gserviceaccount.com'
+string ls_scope='https://mail.google.com/'
+string ls_oauth_sub='gcimail@gci-mail-458618.iam.gserviceaccount.com'
+
+
+////HTT
 loo_Http = create oleobject
 li_rc = loo_Http.ConnectToNewObject("Chilkat.Http")
 if li_rc < 0 then
@@ -202,44 +281,101 @@ if li_rc < 0 then
     return
 end if
 
+
+string ss
+///CERTD
 loo_Cert = create oleobject
 li_rc = loo_Cert.ConnectToNewObject("Chilkat.Cert")
 
 li_Success = loo_Cert.LoadPfxFile( is_ruta_firma,is_clave_firma)
 if li_Success <> 1 then
+	ss=string( loo_Cert.LastErrorText)
     messagebox('Error',string( loo_Cert.LastErrorText))
     destroy loo_Http
     destroy loo_Cert
     return
 end if
 
-li_NumSec = 3600
-
+/////
 ls_AccessToken = loo_Http.G_SvcOauthAccessToken(ls_Iss,ls_Scope,ls_Oauth_sub,li_NumSec,loo_Cert)
 if loo_Http.LastMethodSuccess <> 1 then
-    messagebox('',string( loo_Http.LastErrorText))
+	ss=string( string( loo_Http.LastErrorText))
+  //  messagebox('',string( loo_Http.LastErrorText))
     destroy loo_Http
     destroy loo_Cert
     return
 end if
+/////
+
+//SmtpClient lnv_SmtpClient
+//lsc_mail = Create SmtpClient
+//
+//
+////Sets the email message
+//lnv_SmtpClient.Message.SetSender(ls_iss,"Tester001")
+//lnv_SmtpClient.Message.AddRecipient("jaespram@gmail.com")
+//lnv_SmtpClient.Message.Subject = "SMTPClient Test Message"
+//lnv_SmtpClient.Message.TextBody = "SMTPClient example message body"
+//
+////Sets the email-sender information        
+//lnv_SmtpClient.Host = "ssmtp.gmail.com"
+//lnv_SmtpClient.Port = 587
+//lnv_SmtpClient.EnableTLS = True
+//lnv_SmtpClient.Username = ls_iss
+//
+////Model Authentication
+//lnv_SmtpClient.XOAuth2AccessToken =ls_AccessToken
+//
+////Sends the email
+//li_rc = lnv_SmtpClient.Send()
+//
+//IF li_rc = 1 THEN
+//                Messagebox('SMTPClient','Mail sent successfully')
+//ELSE
+//                Messagebox('SMTPClient' ,'Email sending failed. Return ' + String(li_rc) + '.', StopSign!)
+//END IF
+//
+//DESTROY lnv_SmtpClient
 
 
 
-oleobject loo_Json
-string ss
-
-
-loo_Mailman = create oleobject
+/*loo_Mailman = create oleobject
 li_rc = loo_Mailman.ConnectToNewObject("Chilkat.MailMan")
-
 // Set the properties for the GMail SMTP server:
 loo_Mailman.SmtpHost = "smtp.gmail.com"
 loo_Mailman.SmtpPort = 587
 loo_Mailman.StartTLS = 1
-
-// The SMTP username should be the GMail address of the user's account that authorized your app to send email.
+//loo_Mailman.SmtpUsername = "gcimail@gci-mail-458618.iam.gserviceaccount.com"
 loo_Mailman.SmtpUsername = "jaespram@gmail.com"
+
 loo_Mailman.OAuth2AccessToken = ls_AccessToken
+
+
+
+
+
+
+
+//string ls_500
+//int li_j
+//for li_j=1 to len(ls_AccessToken)
+//	ls_500=ls_500+mid(ls_AccessToken,1,495)+"~r~n"
+//	//li_j=495
+//	ls_AccessToken=mid(ls_AccessToken,496,len(ls_AccessToken))
+//next
+//ls_AccessToken=ls_500
+
+Blob lblb_data
+String ls_Base64Str
+
+lblb_data = Blob(ls_AccessToken, EncodingANSI!)
+
+CoderObject lnv_CoderObject
+lnv_CoderObject = Create CoderObject
+
+ls_Base64Str = lnv_CoderObject.Base64Encode(lblb_data)
+
+
 
 // Create a new email object
 loo_Email = create oleobject
@@ -247,19 +383,15 @@ li_rc = loo_Email.ConnectToNewObject("Chilkat.Email")
 
 loo_Email.Subject = "This is a test"
 loo_Email.Body = "This is a test"
-loo_Email.From = "Chilkat <jespinr@hotmail.com>"
-loo_Email.AddTo("Chilkat Admin","jespinr@hotmail.com")
-// To add more recipients, call AddTo, AddCC, or AddBcc once per recipient.
+loo_Email.From = "jeffer espinosa<gcimail@gci-mail-458618.iam.gserviceaccount.com>"
+li_Success = loo_Email.AddTo("Chilkat Admin","jespinr@hotmail.com")
 
-// Call SendEmail to connect to the SMTP server and send.
-// The connection (i.e. session) to the SMTP server remains
-// open so that subsequent SendEmail calls may use the
-// same connection.  
+  
 li_Success = loo_Mailman.SendEmail(loo_Email)
 if li_Success <> 1 then
-	ss=string( loo_Mailman.LastErrorText)
-   messagebox('',string( loo_Mailman.LastErrorText))
-    destroy loo_Json
+	 	ss=string( string(loo_Mailman.LastErrorText))
+    destroy loo_Http
+    destroy loo_Cert
     destroy loo_Mailman
     destroy loo_Email
     return
@@ -270,13 +402,14 @@ end if
 // (and automatically re-connect if needed).
 li_Success = loo_Mailman.CloseSmtpConnection()
 if li_Success <> 1 then
-   // Write-Debug "Connection to SMTP server not closed cleanly."
+  //  Write-Debug "Connection to SMTP server not closed cleanly."
 end if
 
-//Write-Debug "Email Sent via GMail with OAuth2 authentication."
+//Write-Debug "Email Sent via GMail using an OAuth2 Service Account Key."
+*/
 
-
-destroy loo_Json
+destroy loo_Http
+destroy loo_Cert
 destroy loo_Mailman
 destroy loo_Email
 end event

@@ -2,6 +2,8 @@
 forward
 global type w_busca_fact from window
 end type
+type pb_email_dian from picturebutton within w_busca_fact
+end type
 type pb_json from picturebutton within w_busca_fact
 end type
 type pb_4 from picturebutton within w_busca_fact
@@ -47,6 +49,7 @@ string icon = "Question!"
 string pointer = "Arrow!"
 boolean clientedge = true
 boolean center = true
+pb_email_dian pb_email_dian
 pb_json pb_json
 pb_4 pb_4
 st_2 st_2
@@ -71,6 +74,7 @@ uo_report i_rep
 end variables
 
 on w_busca_fact.create
+this.pb_email_dian=create pb_email_dian
 this.pb_json=create pb_json
 this.pb_4=create pb_4
 this.st_2=create st_2
@@ -85,7 +89,8 @@ this.st_1=create st_1
 this.dw_encuentra=create dw_encuentra
 this.dw_busca=create dw_busca
 this.gb_1=create gb_1
-this.Control[]={this.pb_json,&
+this.Control[]={this.pb_email_dian,&
+this.pb_json,&
 this.pb_4,&
 this.st_2,&
 this.cbx_cita,&
@@ -102,6 +107,7 @@ this.gb_1}
 end on
 
 on w_busca_fact.destroy
+destroy(this.pb_email_dian)
 destroy(this.pb_json)
 destroy(this.pb_4)
 destroy(this.st_2)
@@ -147,9 +153,65 @@ event resize;//st_1.x=(newwidth - st_1.width)/2
 //pb_3.y=pb_4.y
 end event
 
+type pb_email_dian from picturebutton within w_busca_fact
+integer x = 1710
+integer y = 1604
+integer width = 146
+integer height = 128
+integer taborder = 110
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+boolean enabled = false
+boolean originalsize = true
+string picturename = "dian_zip.gif"
+string disabledname = "d_dian_zip.gif"
+alignment htextalign = left!
+string powertiptext = "Contenedor DIAN"
+end type
+
+event clicked;////////ELECTRONICA	
+string ls_elec
+
+SELECT cadena into :ls_elec
+FROM parametros_gen
+WHERE (((codigo_para)=66));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 66')
+	return
+end if
+
+if ls_elec='2' then
+	double l_i,ldb_nfac
+	string ls_clugar,ls_tfac,ls_vfe
+	nvo_factura_electronica u_elec
+	st_ret_dian    lst_lle
+	
+
+	if dw_encuentra.getitemstring(dw_encuentra.getrow(),'envio_xml')='0' then return
+	if dw_encuentra.getitemstring(dw_encuentra.getrow(),'estado_dian')<>'1' then return
+	if dw_encuentra.getitemstring(dw_encuentra.getrow(),'file_name_fact')='' or isnull(dw_encuentra.getitemstring(dw_encuentra.getrow(),'file_name_fact')) then return
+
+	u_elec=create nvo_factura_electronica
+	ldb_nfac=dw_encuentra.getitemnumber(dw_encuentra.getrow(),'nfact')
+	ls_clugar=dw_encuentra.getitemstring(dw_encuentra.getrow(),'clugar')
+	ls_tfac=dw_encuentra.getitemstring(dw_encuentra.getrow(),'tipo')
+	ls_vfe=dw_encuentra.getitemstring(dw_encuentra.getrow(),'cod_versionfe')
+	u_elec.of_enviar_new_correo(ldb_nfac,ls_clugar,ls_tfac,0,'',dw_encuentra.getitemstring(dw_encuentra.getrow(),'file_name_fact'),'F',ls_vfe)	
+	destroy u_elec
+	messagebox('','Proceso Finalizado')
+else
+	messagebox('','No hay parametro Habilitado')
+end if
+////////ELECTRONICA	
+end event
+
 type pb_json from picturebutton within w_busca_fact
-integer x = 1865
-integer y = 1608
+integer x = 1847
+integer y = 1604
 integer width = 146
 integer height = 128
 integer taborder = 100
@@ -211,7 +273,7 @@ end event
 
 type pb_4 from picturebutton within w_busca_fact
 integer x = 2030
-integer y = 1608
+integer y = 1604
 integer width = 146
 integer height = 128
 integer taborder = 80
@@ -390,7 +452,7 @@ end event
 type pb_3 from picturebutton within w_busca_fact
 event mousemove pbm_mousemove
 integer x = 2331
-integer y = 1608
+integer y = 1604
 integer width = 146
 integer height = 128
 integer taborder = 60
@@ -438,7 +500,7 @@ end event
 type pb_1 from picturebutton within w_busca_fact
 event mousemove pbm_mousemove
 integer x = 2181
-integer y = 1608
+integer y = 1604
 integer width = 146
 integer height = 128
 integer taborder = 80
@@ -594,8 +656,27 @@ if  rb_fc.checked then
 	else
 		pb_json.enabled=false
 	end if
+
+	if dw_encuentra.getitemstring(dw_encuentra.getrow(),'envio_xml')='0' then 
+		pb_email_dian.enabled=false
+	else
+		pb_email_dian.enabled=true
+	end if
+	
+	if dw_encuentra.getitemstring(dw_encuentra.getrow(),'estado_dian')<>'1' then 
+		pb_email_dian.enabled=false
+	else
+		pb_email_dian.enabled=true
+	end if		
+		
+	if dw_encuentra.getitemstring(dw_encuentra.getrow(),'file_name_fact')='' or isnull(dw_encuentra.getitemstring(dw_encuentra.getrow(),'file_name_fact')) then 
+		pb_email_dian.enabled=false
+	else
+		pb_email_dian.enabled=true
+	end if		
 else
 	pb_json.enabled=false
+	pb_email_dian.enabled=false
 end if
 end event
 

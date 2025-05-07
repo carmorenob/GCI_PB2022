@@ -11,7 +11,7 @@ string retorna
 nvo_generic_ole_object loo_Mailman , loo_Email
 
 loo_Mailman = create nvo_generic_ole_object
-li_rc = loo_Mailman.ConnectToNewObject("Chilkat_9_5_0.MailMan")
+li_rc = loo_Mailman.ConnectToNewObject("Chilkat.MailMan")
 if li_rc < 0 then
     destroy loo_Mailman
     MessageBox("Error","Connecting to COM object failed")
@@ -30,7 +30,7 @@ if not isnull(p_servidor)  then
 
 // Create a new email object	
 	loo_Email = create nvo_generic_ole_object
-	li_rc = loo_Email.ConnectToNewObject("Chilkat_9_5_0.Email")
+	li_rc = loo_Email.ConnectToNewObject("Chilkat.Email")
 	
 	loo_Email.Subject = p_asunto
 	loo_Email.Body = p_cuerpo
