@@ -190,8 +190,6 @@ if ls_elec='2' then
 	nvo_factura_electronica u_elec
 	st_ret_dian    lst_lle
 	
-
-	if dw_encuentra.getitemstring(dw_encuentra.getrow(),'envio_xml')='0' then return
 	if dw_encuentra.getitemstring(dw_encuentra.getrow(),'estado_dian')<>'1' then return
 	if dw_encuentra.getitemstring(dw_encuentra.getrow(),'file_name_fact')='' or isnull(dw_encuentra.getitemstring(dw_encuentra.getrow(),'file_name_fact')) then return
 
@@ -548,7 +546,7 @@ dw_busca.accepttext()
 cuantas=dw_busca.rowcount()
 string comilla,Sql_text
 if rb_fc.checked then 
-	Sql_text="SELECT DISTINCT factcab.nfact, factcab.clugar, factcab.tipo,factcab.fecha,factcpo.tipodoc,factcpo.documento,pacientes.nombre1,pacientes.nombre2,pacientes.apellido1,pacientes.apellido2,factcab.vtproced,factcab.vtemp,factcab.vtcancelo,factcab.estado,factcab.codtingre,factcpo.nrcaj,factcpo.clugar_rec,factcab.nradica,empresa.desemp,case when factcpo.NFACT_REF is null then 'No' else 'Si' end as refa,factcab.estado_dian, factcab.file_name_fact, factcab.file_name_fact_anul,factcab.file_name_zip,factcab.file_name_zip_anul, documentos_autfact.prefijo, factcab.cuve 	FROM (((factcab INNER JOIN factcpo ON (factcab.nfact = factcpo.nfact) AND (factcab.clugar = factcpo.clugar) AND (factcab.tipo = factcpo.tipo)) INNER JOIN pacientes ON (factcpo.tipodoc = pacientes.tipodoc) AND (factcpo.documento = pacientes.documento)) INNER JOIN empresa ON factcab.cemp = empresa.codemp) LEFT JOIN documentos_autfact ON factcab.c_aut = documentos_autfact.c_aut 	WHERE factcab.clugar='"+clugar+ "' and "
+	Sql_text="SELECT DISTINCT factcab.nfact, factcab.clugar, factcab.tipo,factcab.fecha,factcpo.tipodoc,factcpo.documento,pacientes.nombre1,pacientes.nombre2,pacientes.apellido1,pacientes.apellido2,factcab.vtproced,factcab.vtemp,factcab.vtcancelo,factcab.estado,factcab.codtingre,factcpo.nrcaj,factcpo.clugar_rec,factcab.nradica,empresa.desemp,case when factcpo.NFACT_REF is null then 'No' else 'Si' end as refa,factcab.estado_dian, factcab.file_name_fact, factcab.file_name_fact_anul,factcab.file_name_zip,factcab.file_name_zip_anul, documentos_autfact.prefijo, factcab.cuve ,factcab.envio_xml, factcab.cod_versionfe	FROM (((factcab INNER JOIN factcpo ON (factcab.nfact = factcpo.nfact) AND (factcab.clugar = factcpo.clugar) AND (factcab.tipo = factcpo.tipo)) INNER JOIN pacientes ON (factcpo.tipodoc = pacientes.tipodoc) AND (factcpo.documento = pacientes.documento)) INNER JOIN empresa ON factcab.cemp = empresa.codemp) LEFT JOIN documentos_autfact ON factcab.c_aut = documentos_autfact.c_aut 	WHERE factcab.clugar='"+clugar+ "' and "
 else
 	Sql_text="SELECT tesorecajcab.nrcaj, tesorecajcab.CLugar, tesorecajcab.Fecha, tesorecajcab.TipoDoc, tesorecajcab.Documento, pacientes.Nombre1, pacientes.Nombre2, pacientes.Apellido1, pacientes.Apellido2, tesorecajcab.Npagare, tesorecajcab.clugar_pag, tesorecajcab.Trecibo, tesorecajcpo.nfact, tesorecajcpo.clugar_fac, tesorecajcab.Estado FROM (pacientes INNER JOIN tesorecajcab ON (pacientes.Documento = tesorecajcab.Documento) AND (pacientes.TipoDoc = tesorecajcab.TipoDoc)) LEFT outer JOIN tesorecajcpo ON (tesorecajcab.CLugar = tesorecajcpo.clugar) AND (tesorecajcab.nrcaj = tesorecajcpo.nrcaj) where tesorecajcab.CLugar='"+clugar+"' and "
 end if	

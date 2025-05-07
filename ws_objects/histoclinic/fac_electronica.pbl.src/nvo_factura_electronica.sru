@@ -722,9 +722,6 @@ loo_GenFact.SigLocation = "AttachedDocument|ext:UBLExtensions|ext:UBLExtension|e
 loo_GenFact.SigLocationMod = 0
 loo_GenFact.SigId = "xmldsig-"+smallcufe_formated
 loo_GenFact.SigNamespacePrefix = "ds"
-//https://www.chilkatsoft.com/refdoc/xChilkatXmlDSigGenRef.html#prop20
-//loo_GenFact.SignedInfoCanonAlg = "C14N"
-//https://www.chilkatsoft.com/refdoc/xChilkatXmlDSigGenRef.html#prop21
 loo_GenFact.SignedInfoDigestMethod = "sha256"
 
 loo_Xml = create nvo_generic_ole_object
@@ -791,6 +788,8 @@ loo_GenFact.Behaviors = "CompactSignedXml"
 li_Success = loo_GenFact.CreateXmlDSigSb(aoo_SbXml)
 
 if li_Success = 0 then
+	string ss
+	ss=string( loo_GenFact.LastErrorText )
 	messagebox("Error Linea 110 of_firmar_xml_attached" ,string( loo_GenFact.LastErrorText ))
 	destroy loo_GenFact
 	destroy aoo_SbXml
@@ -1783,8 +1782,14 @@ ls_asun+=';'+is_nombre_lugar
 loo_Email.Subject = ls_asun
 
 
-ls_cpo="Señores:~r~n"+ads_datos.getitemstring(1,"razon_social")+"~r~n"
+//if isnull(ads_datos.getitemstring(1,"razon_social")) then
+//	ls_cpo="Señores:~r~n"+ads_datos.getitemstring(1,"razon_pagador")+"~r~n"
+//else
+	ls_cpo="Señores:~r~n"+ads_datos.getitemstring(1,"razon_social")+"~r~n"
+//end if
 ls_cpo+="NIT/CC"+ads_datos.getitemstring(1,"ls_nit")+"~r~n~r~n"
+
+
 if as_tipo='f' then
 	ls_cpo+="Les informamos ha recibido un documento de Factura Electronica de venta emitida por "+is_nombre_lugar
 end if
@@ -2787,6 +2792,12 @@ ls_numfact=string(ldw_factura.getitemnumber(1,'nfact'))
 
 is_ruta_facturas=is_ruta_facturas+'\'+ls_prefac+ls_numfact+'\'
 
+////////////////////   DESBLOQUEAR LIBRERIAS DE CHILKAT
+IF of_desbloquear_chilkat()=-1 then
+	return -1
+end if
+
+
 ////////////////////  LEER CERTIFICADO
 if of_leer_certificado(loo_Cert)=-1 then
 	 return -1
@@ -2916,8 +2927,12 @@ ls_asun+='01'
 ls_asun+=';'+is_nombre_lugar
 loo_Email.Subject = ls_asun
 
+if isnull(ldw_factura.getitemstring(1,"razon_social")) then
+	ls_cpo="Señores:~r~n"+ldw_factura.getitemstring(1,"razon_pagador")+"~r~n"
+else
+	ls_cpo="Señores:~r~n"+ldw_factura.getitemstring(1,"razon_social")+"~r~n"
+end if
 
-ls_cpo="Señores:~r~n"+ldw_factura.getitemstring(1,"razon_social")+"~r~n"
 ls_cpo+="NIT/CC"+ldw_factura.getitemstring(1,"nit")+"~r~n~r~n"
 
 ls_cpo+="Les informamos ha recibido un documento de Factura Electronica de venta emitida por "+is_nombre_lugar
@@ -2940,7 +2955,11 @@ ls_cpo+='-----------------------------------------------------------------------
 loo_Email.Body =ls_cpo
 
 loo_Email.From = is_nombre_lugar+" <"+is_cuenta_email+">"
-li_rc = loo_Email.AddTo(ldw_factura.getitemstring(1,"razon_social"),ldw_factura.getitemstring(1,"email_cliente"))
+if isnull(ldw_factura.getitemstring(1,"razon_social")) then
+	li_rc = loo_Email.AddTo(ldw_factura.getitemstring(1,"razon_pagador"),ldw_factura.getitemstring(1,"email_cliente"))
+else
+	li_rc = loo_Email.AddTo(ldw_factura.getitemstring(1,"razon_social"),ldw_factura.getitemstring(1,"email_cliente"))
+end if
 if not isnull(is_cuenta_email1) then
 	li_rc = loo_Email.AddTo('Copia',is_cuenta_email1)
 end if
