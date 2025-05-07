@@ -3010,12 +3010,12 @@ if this.getcolumnname()='envio_xml' and gs_jsonsf='0' then
 	ll_seconds = SecondsAfter (ldt_horaf, ldt_horaa )
 
 	ll_result =( ll_days *  24 * 60 * 60)+ ll_seconds
-	if ll_result >= 18000 then
-		messagebox('Atención','La fecha de generación de la factura sobrepasa la fecha de envio a DIAN en mas de 5 horas, debe anular la factura')	
-		this.setitem(fila,'envio_xml',0)
-		this.accepttext()		
-		return 1
-	end if
+//	if ll_result >= 18000 then
+//		messagebox('Atención','La fecha de generación de la factura sobrepasa la fecha de envio a DIAN en mas de 5 horas, debe anular la factura')	
+//		this.setitem(fila,'envio_xml',0)
+//		this.accepttext()		
+//		return 1
+//	end if
 end if
 
 if this.getcolumnname()='radicar' then
