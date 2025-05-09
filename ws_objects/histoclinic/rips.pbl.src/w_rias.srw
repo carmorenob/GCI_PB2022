@@ -509,12 +509,13 @@ end type
 end forward
 
 global type w_rias from window
-integer width = 6299
+integer width = 6373
 integer height = 2612
 boolean titlebar = true
 string title = "Generador de RIPS"
 boolean controlmenu = true
 boolean maxbox = true
+boolean vscrollbar = true
 boolean resizable = true
 windowtype windowtype = child!
 windowstate windowstate = maximized!

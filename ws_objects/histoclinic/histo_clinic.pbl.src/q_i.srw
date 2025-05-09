@@ -918,13 +918,31 @@ if ls_token<>'-1' then
 //
 
 	jsonpackage lnv_json
-	string ls_ResultadosValidacion
+	string ls_ResultadosValidacion,ls_cuve,ls_rs
+	datetime ldt_frad
+	boolean lbo_rstate
 	lnv_json=create jsonpackage
 	
 	lnv_json.loadstring( lst_ret_gral.s_valor)
 	ls_err = lnv_json.LoadString(lst_ret_gral.s_valor)
-	lnv_json.SaveToFile('C:\facturas\EV133925\log.json')	
+	ls_rs='C:\facturas\EV133925\RtdosDoker_EV133925_'+string(today(),'ddmmyyyy')+string(now(),'hhmmss')+'.txt'
+	lnv_json.SaveToFile(ls_rs)	
 	if Len(ls_err) = 0 then
+		lbo_rstate = lnv_json.GetValueBoolean("ResultState")
+		ls_cuve = lnv_json.GetValue("CodigoUnicoValidacion")	
+		if lbo_rstate  and pos(ls_cuve,'RECHAZADO')=0 then
+			ldt_frad= lnv_json.GetValueDateTime("FechaRadicacion")
+				
+			update factcab set cuve=ls_cuve, fecha_cuve=
+			where nfact=133925 and clugar='62' and tipo='F';
+			If SQLCA.SQLCode = -1 then
+				Rollback;
+				MessageBox("SQL error Factura xml_envia", 'Error actualizando linea 98 json')
+				Return -1
+			Else
+				commit;
+			end If						
+		end if	
 		ls_ResultadosValidacion =  lnv_json.GetValue("ResultadosValidacion")
 		li_rc=dw_3.ImportJson(ls_ResultadosValidacion ,ls_err)
 	end if		

@@ -255,12 +255,14 @@ end type
 end forward
 
 global type w_audita_rips from window
-integer width = 7026
-integer height = 2416
+integer width = 7099
+integer height = 2480
 boolean titlebar = true
 string title = "Auditoría y Acumulados de RIPS no Radicados"
 boolean controlmenu = true
 boolean maxbox = true
+boolean hscrollbar = true
+boolean vscrollbar = true
 boolean resizable = true
 windowtype windowtype = child!
 long backcolor = 67108864
@@ -1734,8 +1736,12 @@ end if
 	
 //////////////////////// APIDOCKER
 if gs_apidocker='1' then
-	string ls_token, ls_tds,ls_docs,ls_pass,ls_ipsn,ls_url,ls_tamb
-
+	string ls_token, ls_tds,ls_docs,ls_pass,ls_ipsn,ls_url,ls_tamb,ls_err
+	jsonpackage lnv_json
+	string ls_ResultadosValidacion,ls_cuve,ls_rs
+	datetime ldt_frad
+	boolean lbo_rstate
+		
 	SELECT 
 		usuarios.tipodoc, usuarios.documento, 
 		usuarios.clave_sispro, ips.documento,ips.url_apidocker,ips.tipo_ambiente
@@ -1743,18 +1749,52 @@ if gs_apidocker='1' then
 		:ls_tds,:ls_docs,:ls_pass,:ls_ipsn,:ls_url,:ls_tamb
 	FROM 
 		usuarios, ips
-	WHERE (((usuarios.usuario)=:usuario));
+	WHERE (((usuarios.usuario)=:usuario));		
 	if sqlca.sqlnrows=0 then
 		messagebox('Atencíon','No hay usuario sispro No se puede validar')
 		return
 	end if
 	ls_token=luo_rips.sispro_login(ls_tamb,ls_tds,ls_docs,ls_pass,ls_ipsn,ls_url)
 	if ls_token<>'-1' then 
-		lst_ret_gral=luo_rips.sispro_carga_fev_rips(ls_token,'1',is_ruta_facturas, ls_prefijo+string(ldb_nfac)+'.json',ls_filename,ls_url)
+		if isnull(ls_prefijo) then			
+			lst_ret_gral=luo_rips.sispro_carga_fev_rips(ls_token,ls_tamb,is_ruta_facturas, string(ldb_nfac)+'.json',ls_filename,ls_url)
+		else
+			lst_ret_gral=luo_rips.sispro_carga_fev_rips(ls_token,ls_tamb,is_ruta_facturas, ls_prefijo+string(ldb_nfac)+'.json',ls_filename,ls_url)
+		end if
+
 		if lst_ret_gral.i_valor=-1 then 
 			return 
 		end if
-	end if
+
+
+		lnv_json=create jsonpackage
+		lnv_json.loadstring( lst_ret_gral.s_valor)
+		ls_err = lnv_json.LoadString(lst_ret_gral.s_valor)
+		if isnull(ls_prefijo) then			
+			ls_rs=is_ruta_facturas+'RtdosDoker_'+string(ldb_nfac)+string(today(),'ddmmyyyy')+string(now(),'hhmmss')+'.txt'
+		else
+			ls_rs=is_ruta_facturas+'RtdosDoker_'+ls_prefijo+string(ldb_nfac)+string(today(),'ddmmyyyy')+string(now(),'hhmmss')+'.txt'
+		end if
+	
+		lnv_json.SaveToFile(ls_rs)	
+		if Len(ls_err) = 0 then
+			lbo_rstate = lnv_json.GetValueBoolean("ResultState")
+			ls_cuve = lnv_json.GetValue("CodigoUnicoValidacion")
+			if lbo_rstate  and pos(ls_cuve,'RECHAZADO')=0 then
+				ldt_frad= lnv_json.GetValueDateTime("FechaRadicacion")
+				
+				update factcab set cuve=:ls_cuve, fecha_cuve=:ldt_frad
+				where nfact=:ldb_nfac and clugar=:ls_clu and tipo=:ls_tip;
+				If SQLCA.SQLCode = -1 then
+					Rollback;
+					MessageBox("SQL error Factura xml_envia", 'Error actualizando linea 98 json')
+					Return -1
+				Else
+					commit;
+				end If						
+			end if	
+		end if
+	end if //token
 end if
 destroy luo_rips
 messagebox('Atencíon','Proceso Finalizado')
@@ -2946,14 +2986,22 @@ string clug_fac,tingres,tipo_fac
 fila=this.getrow()
 if fila<1 then return
 
+if this.getitemstring(fila,'estado_dian')='1' then 
+	tab_1.tp_2.pb_dian.visible=false
+	tab_1.tp_2.pb_dian.enabled=false
+	tab_1.tp_2.pb_email_dian.visible=false
+	tab_1.tp_2.pb_email_dian.enabled=false
+else
+	tab_1.tp_2.pb_dian.visible=true
+	tab_1.tp_2.pb_dian.enabled=true
+	tab_1.tp_2.pb_email_dian.visible=false
+	tab_1.tp_2.pb_email_dian.enabled=false
+end if
+
 if this.getitemstring(fila,"cod_versionfe")>="1.9" then
-	tab_1.tp_2.pb_email_dian.visible=true
-	tab_1.tp_2.pb_email_dian.enabled=true
 	tab_1.tp_2.pb_json.enabled=true
 	tab_1.tp_2.pb_json.visible=true
 else
-	tab_1.tp_2.pb_email_dian.visible=true
-	tab_1.tp_2.pb_email_dian.enabled=true
 	tab_1.tp_2.pb_json.enabled=false
 	tab_1.tp_2.pb_json.visible=false
 end if

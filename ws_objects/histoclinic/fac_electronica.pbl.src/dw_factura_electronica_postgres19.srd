@@ -262,7 +262,7 @@ FROM
 	left JOIN tesorecajcpo ON (factcab.tipo = tesorecajcpo.tipo_fac) AND (factcab.clugar = tesorecajcpo.clugar_fac) AND (factcab.nfact = tesorecajcpo.nfact)) 
 	left JOIN tesorecajcab ON (tesorecajcpo.clugar = tesorecajcab.clugar) AND (tesorecajcpo.nrcaj = tesorecajcab.nrcaj)) 
 	left JOIN documentos_autfact AS documentos_autfact_1 ON tesorecajcab.c_aut = documentos_autfact_1.c_aut) 
-	INNER JOIN 
+	left JOIN 
 	( 
 		SELECT factcab.nfact,factcab.clugar,factcab.tipo, Min(hospadmi.fechaingreso) AS finiciop
 		FROM (factcab INNER JOIN factadm ON (factcab.tipo = factadm.tipo) AND (factcab.clugar = factadm.clugar) AND (factcab.nfact = factadm.nfact)) INNER JOIN hospadmi ON (factadm.codtingre = hospadmi.codtingre) AND (factadm.clugar_ingre = hospadmi.clugar) AND (factadm.nh = hospadmi.nh)
@@ -820,4 +820,3 @@ export.xml(usetemplate="dian19" headgroups="1" includewhitespace="0" metadatatyp
 import.xml()
 export.pdf(method=2 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 
