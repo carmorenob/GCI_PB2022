@@ -5635,8 +5635,13 @@ if getitemstring(getrow(),'tipo')='F' then
 else
 	tab_2.tp2_1.cbx_5.enabled=false
 	tab_2.tp2_1.cbx_5.checked=false
-	tab_2.tp2_1.rb_txt.enabled=true
-	tab_2.tp2_1.rb_json.enabled=false
+	if isnull(getitemstring(getrow(),'cod_versionfe'))  or getitemstring(getrow(),'cod_versionfe')>='1.9' then 
+		tab_2.tp2_1.rb_txt.checked=false	
+		tab_2.tp2_1.rb_json.checked=true		
+	else
+		tab_2.tp2_1.rb_txt.checked=true
+		tab_2.tp2_1.rb_json.checked=false		
+	end if
 	is_capiv='0'
 	tab_2.tp2_1.tab_1.tp_p.tab_3.det.pb_dian.enabled=false
 	tab_2.tp2_1.tab_1.tp_p.tab_3.det.pb_diac.enabled=true
@@ -6244,7 +6249,13 @@ if tab_2.tp2_1.tab_1.tp_p.dw_radica.rowcount()>0 then
 			else
 				ls_nomarch=is_ruta_facturas+'\'+ls_prefijo+string(ldb_nrad)+'.json'
 			end if
-			u_rips.emite_json_capita(ldb_nrad,ls_radcl,ls_tiporad,'f','FV',ls_nomarch,'0')
+			if ls_tiporad='F' then
+				u_rips.emite_json_capita(ldb_nrad,ls_radcl,ls_tiporad,'f','FV',ls_nomarch,'0')
+			end if
+			
+			if ls_tiporad='R' and  gs_jsonsf='1' then 
+				u_rips.emite_json_jsonsf(ldb_nrad,ls_radcl,ls_tiporad,'f','FV',is_ruta_facturas)
+			end if
 			destroy 	u_rips
 			tab_2.tp2_1.t1.tp1.barra.position=0
 		end if
