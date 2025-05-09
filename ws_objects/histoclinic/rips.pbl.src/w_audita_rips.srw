@@ -2998,24 +2998,15 @@ End If
 
 if this.getcolumnname()='envio_xml' and gs_jsonsf='0' then
 	date ldt_fechaa,ldt_fechaf
-	time ldt_horaa,ldt_horaf
-	long ll_days, ll_seconds, ll_result
 	
  	ldt_fechaa=today()
-	ldt_horaa=now()
 	ldt_fechaf=this.getitemdate(fila,'fecha')
-	ldt_horaf=time(this.getitemdatetime(fila,'horas'))
-
-	ll_days = DaysAfter(ldt_fechaf, ldt_fechaa )
-	ll_seconds = SecondsAfter (ldt_horaf, ldt_horaa )
-
-	ll_result =( ll_days *  24 * 60 * 60)+ ll_seconds
-//	if ll_result >= 18000 then
-//		messagebox('Atención','La fecha de generación de la factura sobrepasa la fecha de envio a DIAN en mas de 5 horas, debe anular la factura')	
-//		this.setitem(fila,'envio_xml',0)
-//		this.accepttext()		
-//		return 1
-//	end if
+	if date(ldt_fechaf)<> date(ldt_fechaa) then
+		messagebox('Atención','La fecha de generación de la factura es diferente a la fecha de firma de la factura, debe anular la factura')	
+		this.setitem(fila,'envio_xml',0)
+		this.accepttext()		
+		return 1
+	end if
 end if
 
 if this.getcolumnname()='radicar' then
