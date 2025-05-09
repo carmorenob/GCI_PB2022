@@ -891,10 +891,10 @@ end if
 ls_pass=f_descripta_new(ls_pass,'1')
 ls_token=u_rips.sispro_login(ls_tamb,ls_tds,ls_docs,ls_pass,ls_ipsn,ls_url)
 if ls_token<>'-1' then 
-//	lst_ret_gral=u_rips.sispro_carga_fev_rips(ls_token,'2','','')
-//	if lst_ret_gral.i_valor=-1 then 
-//		rollback;
-//	end if
+	lst_ret_gral=u_rips.sispro_carga_fev_rips(ls_token,ls_tamb,'C:\facturas\EV133925\','EV133925.json','ad08060103050002500028513',ls_url)
+	if lst_ret_gral.i_valor=-1 then 
+		rollback;
+	end if
 //	lst_ret_gral=u_rips.sispro_carga_capita_ini(ls_token,'2','','')
 //	if lst_ret_gral.i_valor=-1 then 
 //		rollback;
@@ -911,11 +911,11 @@ if ls_token<>'-1' then
 //	end if
 //
 
-	lst_ret_gral=u_rips.sispro_carga_nccapita(ls_token,'2','','')
-	if lst_ret_gral.i_valor=-1 then 
-		rollback;
-	end if
-
+//	lst_ret_gral=u_rips.sispro_carga_nccapita(ls_token,'2','','')
+//	if lst_ret_gral.i_valor=-1 then 
+//		rollback;
+//	end if
+//
 
 	jsonpackage lnv_json
 	string ls_ResultadosValidacion
@@ -923,6 +923,7 @@ if ls_token<>'-1' then
 	
 	lnv_json.loadstring( lst_ret_gral.s_valor)
 	ls_err = lnv_json.LoadString(lst_ret_gral.s_valor)
+	lnv_json.SaveToFile('C:\facturas\EV133925\log.json')	
 	if Len(ls_err) = 0 then
 		ls_ResultadosValidacion =  lnv_json.GetValue("ResultadosValidacion")
 		li_rc=dw_3.ImportJson(ls_ResultadosValidacion ,ls_err)

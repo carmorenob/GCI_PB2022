@@ -1767,6 +1767,9 @@ IF li_FileNum = -1 THEN
 	return lst_ret
 end if
 li_rc = FileReadEx(li_FileNum, lblob_xml)
+
+string ss
+ss=string(lblob_xml)
 IF li_rc = -1 THEN 
 	lst_ret.i_valor=-2
 	return lst_ret

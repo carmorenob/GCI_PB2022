@@ -328,10 +328,47 @@ for k=1 to dw_resumen.rowcount()
 	ls_tipos_fac[K]=ctipo_fac
 	
 	////////ELECTRONICA	
-	if (ctipo_fac='F' and ls_elec='1') or (ctipo_fac='F'  and cempres='0' and (ls_elec='1' or ls_elec='2')) then 
+	if /*(ctipo_fac='F' and ls_elec='1') or*/ (ctipo_fac='F'  and cempres='0' and (ls_elec='1' or ls_elec='2')) then 
 		nvo_factura_electronica u_elec
 		st_ret_dian    lst_lle
-	
+		string ls_fver
+		datetime ldt_iniciafevs,ldt_ff
+		
+		SELECT fecha into :ldt_iniciafevs
+		FROM parametros_gen
+		WHERE (((codigo_para)=79));
+		if sqlca.sqlnrows=0 then
+			messagebox('Atencíon','No hay parametro 79')
+			return -1
+		end if
+
+		ldt_ff=datetime(today())
+		SELECT cod_version INTO :ls_fver
+		FROM pm_versionfe_dian
+		WHERE 
+			(((:ldt_ff) between valido_inicio And valido_hasta));
+		
+		if sqlca.sqlnrows=0 then
+			messagebox('Atencíon','No hay version Facturacion Electronica Linea 306')
+			return -1
+		end if
+				
+		if ldt_ff>ldt_iniciafevs then
+			if g_motor='postgres' then
+				dw_electronica.dataobject="dw_factura_electronica_postgres19"
+			else
+				dw_electronica.dataobject="dw_factura_electronica"
+			end if
+		else
+			if g_motor='postgres' then
+				dw_electronica.dataobject="dw_factura_electronica_postgres"
+			else
+				dw_electronica.dataobject="dw_factura_electronica"
+			end if
+			
+		end if
+		dw_electronica.settransobject(sqlca)		
+
 		u_elec=create nvo_factura_electronica
 		lst_lle=u_elec.sign_chilkat(dw_electronica,ist_nfactura.ndoc,clugar,ctipo_fac,0,'f','FV')
 	end if
