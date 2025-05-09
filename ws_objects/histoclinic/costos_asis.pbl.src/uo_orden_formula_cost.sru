@@ -888,9 +888,13 @@ choose case i_tingre
 			medicamentos.c_medica, medicamentos.medicamento, medicamentos.rips, medicamentos.pos, 
 			medicamentos.via, medicamentos.concentracion, medicamentos.max_dosis_dia, medumedida.unidadmed, 
 			medumedida_1.unidadmed,medicamentos.peso,medicamentos.volumen,medicamentos.oxi
-		INTO :codproc, :desproc ,:rips,:pos,:via,:l_conce,:l_dosis_dia,:ump,:umv,:peso,:volu,:oxi
-		FROM (medicamentos left join medumedida on medicamentos.cum_pes = medumedida.codumeddca) left join medumedida as medumedida_1 on medicamentos.cum_vol = medumedida_1.codumeddca
-		WHERE c_medica= :p_codigo and medicamentos.estado='1';
+		INTO 
+			:codproc, :desproc ,:rips,:pos,:via,:l_conce,:l_dosis_dia,:ump,:umv,:peso,:volu,:oxi
+		FROM 
+			(medicamentos left join medumedida on medicamentos.cum_pes = medumedida.codumeddca) 
+			left join medumedida as medumedida_1 on medicamentos.cum_vol = medumedida_1.codumeddca
+		WHERE 
+			c_medica= :p_codigo and medicamentos.estado='1';
 		if isnull(codproc) or codproc="" then 
 			messagebox("Atención","Medicamento no existe o no está activo")
 			return -1
@@ -947,9 +951,14 @@ choose case i_tingre
 				tab_1.tp_2.dw_formula.setitem(fila,"frecuen",sle_otros.text)
 			else
 				tab_1.tp_2.dw_formula.setitem(fila,"frecuen",sle_otros.text)
-				SELECT desc_frec into:sle_otros.text
-				FROM pm_frecuencia_medica
-				WHERE (((estado)='1') AND ((cod_frec)=:sle_otros.text));
+				SELECT 
+					desc_frec 
+				into
+					:sle_otros.text
+				FROM 
+					pm_frecuencia_medica
+				WHERE 
+					(((estado)='1') AND ((cod_frec)=:sle_otros.text));
 				if SQLCA.SQLCode = 100 then
 					MessageBox('Error','El frecuencia no existe')
 					Return -1
@@ -973,16 +982,16 @@ choose case i_tingre
 			
 			///Agrega para controlar formulacion
 			if rips='6' and g_formula = true  and oxi<>'1' then 
-				if  isnull(sle_otros.text) or sle_otros.text='' then 
+				//if  isnull(sle_otros.text) or sle_otros.text='' then 
 					openwithparm(w_formulacion,tab_1.tp_2.dw_formula)
-				else
+				//else
 					string l_des
 					if not isnull(via) then
 						SELECT descripcion into :l_des FROM formula_via where formula_via.codigo=:via;
 						texto_np='  ADMINISTRACION Via: '+l_des+' Dosificación: ' +sle_otros.tag+' Frecuencia: '+sle_otros.text
 					end if
 					if isnull(texto_np) then texto_np=' '
-				end if
+				//end if
 			end if
 			
 			///Agrega para controlar formulacion oxigeno

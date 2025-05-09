@@ -63,6 +63,13 @@ mle_1.text=dw_formula.getitemstring(dw_formula.getrow(),'medicamento')
 st_um.text=dw_formula.getitemstring(dw_formula.getrow(),'um')
 l_cantk=dw_formula.getitemnumber(dw_formula.getrow(),'cantk')
 l_cant=dw_formula.getitemnumber(dw_formula.getrow(),'solicitada')
+
+ls_nfrec=dw_formula.getitemstring(dw_formula.getrow(),"frecuen")
+setnull(l_cant)
+l_cant=i_dw_frec.find("cod_frec ='"+ls_nfrec+"'",1,i_dw_frec.rowcount())
+ls_nfrec=i_dw_frec.getitemstring(l_cant,'desc_frec')
+frecuencia.setitem(1,1,dw_formula.getitemstring(dw_formula.getrow(),'frecuen'))
+ 
 cantidades.text=string( l_cantk*l_cant)
 if isnull(cantidades.text) then cantidades.text='1'
 ls_via=dw_formula.getitemstring(dw_formula.getrow(),'via')
@@ -370,12 +377,10 @@ if isnull(ls_via) or ls_via='' then
 	messagebox('Atención','La Vía de administración es obligatoria')
 	return 2
 end if	
-	
-dw_formula.setitem(dw_formula.getrow(),"via",ls_via)
-
 
 int dos
-
+	
+dw_formula.setitem(dw_formula.getrow(),"via",ls_via)
 dw_formula.setitem(dw_formula.getrow(),"administracion",dosis.text+' '+st_um.text)
 dw_formula.setitem(dw_formula.getrow(),"frecuen",ls_frec)
 dos=integer(dosis.text)
