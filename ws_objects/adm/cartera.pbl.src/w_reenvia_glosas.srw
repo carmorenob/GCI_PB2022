@@ -140,7 +140,7 @@ end type
 end forward
 
 global type w_reenvia_glosas from window
-integer width = 5659
+integer width = 5605
 integer height = 2088
 boolean titlebar = true
 string title = "Cartera - Reenvio de Objeciones"
@@ -497,9 +497,9 @@ end event
 
 type dw_electronica from uo_datawindow within w_reenvia_glosas
 boolean visible = false
-integer x = 5435
+integer x = 5221
 integer y = 668
-integer width = 183
+integer width = 110
 integer height = 96
 integer taborder = 50
 boolean enabled = false
@@ -564,7 +564,7 @@ for ldb_i =1 to tab_1.tp_1.dw_facts.rowcount()
 	ls_tnota=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'tipo_nota')
 	ldb_nnto=tab_1.tp_1.dw_facts.getitemnumber(ldb_i ,'nro_nota')	
 	
-	u_elec.of_enviar_new_correo(ldb_nfactura,ls_clugar,ls_tfac,ldb_nnto,'c',tab_1.tp_1.dw_facts.getitemstring(ldb_i,'file_name_fact_nota'),'F')
+	u_elec.of_enviar_new_correo(ldb_nfactura,ls_clugar,ls_tfac,ldb_nnto,'c',tab_1.tp_1.dw_facts.getitemstring(ldb_i,'file_name_fact_nota'),'F','pilas')
 	
 next
 destroy u_elec
@@ -593,31 +593,151 @@ string powertiptext = "Envio Nota Dian"
 end type
 
 event clicked;//////////ELECTRONICA	
-double ldb_i,ldb_nfactura,ldb_nnto
-string ls_clugar,ls_tfac,ls_tnota
+double ldb_i,ldb_nfac,ldb_nnto
+string ls_clugar,ls_tfac,ls_tnota,ls_version
 nvo_factura_electronica u_elec
 st_ret_dian    lst_lle
-	
+
+//nvo_fevrips luo_rips
+//string ls_clu,ls_tip,is_ruta_facturas,ls_prefijo,ls_tipo_ambiente='1',ls_filename
+//st_retorno_gral lst_ret_gral
+//
+//	
 u_elec=create nvo_factura_electronica
 
+/// DIRECTORIO DE FACTURAS
+//SELECT cadena into :is_ruta_facturas
+//FROM parametros_gen
+//WHERE (((codigo_para)=55));
+//if sqlca.sqlnrows=0 then
+//	messagebox('Atencíon','No hay parametro 55')
+//	return
+//end if
+
+
 for ldb_i =1 to tab_1.tp_1.dw_facts.rowcount()
+	ls_version=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'cod_versionfe')
+	
+	
 	if g_motor='postgres' then
-		dw_electronica.dataobject="dw_factura_electronica_postgres_ncdre.srd"
+		if ls_version='1.8' then
+			dw_electronica.dataobject="dw_factura_electronica_postgres_ncdre"
+		else
+			dw_electronica.dataobject="dw_factura_electronica_postgres_ncdre19"
+		end if
 	else
-		//dw_electronica.dataobject="dw_factura_electronica"
+//		if ls_version='1.8' then
+//			dw_electronica.dataobject="dw_factura_electronica_postgres_ncdre"
+//		else
+//			dw_electronica.dataobject="dw_factura_electronica_postgres_ncdre"
+//		end if
 	end if
 	dw_electronica.settransobject(sqlca)		
 
 	if tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'estado_dian_nota')='1' then continue
 	if tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'file_name_fact_nota')='0' then continue
 	
-	ldb_nfactura=tab_1.tp_1.dw_facts.getitemnumber(ldb_i ,'nfact')
+	ldb_nfac=tab_1.tp_1.dw_facts.getitemnumber(ldb_i ,'nfact')
 	ls_clugar=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'clugar')
 	ls_tfac=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'tipo_fact')
 	ls_tnota=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'tipo_nota')
 	ldb_nnto=tab_1.tp_1.dw_facts.getitemnumber(ldb_i ,'nro_nota')
+//	ls_prefijo=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'prefijo')
+
 	
-	lst_lle=u_elec.sign_chilkat(dw_electronica,ldb_nfactura,ls_clugar,ls_tfac,ldb_nnto,'c','FV')
+	lst_lle=u_elec.sign_chilkat(dw_electronica,ldb_nfac,ls_clugar,ls_tfac,ldb_nnto,'c','FV')
+	
+//	ls_filename=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'file_name_nota')
+//	
+//	/////////////////////// JSON
+//	if tab_1.tp_1.dw_facts.getitemstring(ldb_i, 'estado_dian')<>'1' then continue
+//	if (ls_filename='' or isnull(ls_filename)) then continue
+//
+//
+//	if isnull(ls_prefijo) then 
+//		is_ruta_facturas=is_ruta_facturas+'NC'+string(ldb_nfac)+string(ldb_nnto,'00')+'\'
+//	else
+//		is_ruta_facturas=is_ruta_facturas+'NC'+ls_prefijo+string(ldb_nfac)+string(ldb_nnto,'00')+'\'
+//	end if
+//	
+//	luo_rips=create nvo_fevrips
+//	If not DirectoryExists ( is_ruta_facturas) Then
+//		integer li_filenum
+//		CreateDirectory ( is_ruta_facturas)
+//		li_filenum = ChangeDirectory( is_ruta_facturas)
+//	end if
+//	
+//	if isnull(ls_prefijo) then 
+//		luo_rips.emite_json_eventoNC(ldb_nfac,ls_clu,ls_tip,ldb_nnto,'f','FV',is_ruta_facturas+'NC'+string(ldb_nfac)+string(ldb_nnto,'00')+'.json')
+//	else
+//		luo_rips.emite_json_eventoNC(ldb_nfac,ls_clu,ls_tip,ldb_nnto,'f','FV',is_ruta_facturas+'NC'+ls_prefijo+string(ldb_nfac)+string(ldb_nnto,'00')+'.json')
+//	end if
+//	
+//	//////////////////////// APIDOCKER
+//	if gs_apidocker='1' then
+//		string ls_token, ls_tds,ls_docs,ls_pass,ls_ipsn,ls_url,ls_tamb,ls_err
+//		jsonpackage lnv_json
+//		string ls_ResultadosValidacion,ls_cuve,ls_rs
+//		datetime ldt_frad
+//		boolean lbo_rstate
+//			
+//		SELECT 
+//			usuarios.tipodoc, usuarios.documento, 
+//			usuarios.clave_sispro, ips.documento,ips.url_apidocker,ips.tipo_ambiente
+//		INTO
+//			:ls_tds,:ls_docs,:ls_pass,:ls_ipsn,:ls_url,:ls_tamb
+//		FROM 
+//			usuarios, ips
+//		WHERE (((usuarios.usuario)=:usuario));		
+//		if sqlca.sqlnrows=0 then
+//			messagebox('Atencíon','No hay usuario sispro No se puede validar')
+//			return
+//		end if
+//		ls_token=luo_rips.sispro_login(ls_tamb,ls_tds,ls_docs,ls_pass,ls_ipsn,ls_url)
+//		if ls_token<>'-1' then 
+//			if isnull(ls_prefijo) then			
+//				lst_ret_gral=luo_rips.sispro_carga_fev_rips(ls_token,ls_tamb,is_ruta_facturas, string(ldb_nfac)+'.json',ls_filename,ls_url)
+//			else
+//				lst_ret_gral=luo_rips.sispro_carga_fev_rips(ls_token,ls_tamb,is_ruta_facturas, ls_prefijo+string(ldb_nfac)+'.json',ls_filename,ls_url)
+//			end if
+//	
+//			if lst_ret_gral.i_valor=-1 then 
+//				return 
+//			end if
+//	
+//	
+//			lnv_json=create jsonpackage
+//			lnv_json.loadstring( lst_ret_gral.s_valor)
+//			ls_err = lnv_json.LoadString(lst_ret_gral.s_valor)
+//			if isnull(ls_prefijo) then			
+//				ls_rs=is_ruta_facturas+'RtdosDoker_'+'NC'+string(ldb_nfac)+string(ldb_nnto,'00')+string(today(),'ddmmyyyy')+string(now(),'hhmmss')+'.txt'
+//			else
+//				ls_rs=is_ruta_facturas+'RtdosDoker_'+'NC'+ls_prefijo+string(ldb_nfac)+string(ldb_nnto,'00')+string(today(),'ddmmyyyy')+string(now(),'hhmmss')+'.txt'
+//			end if
+//		
+//			lnv_json.SaveToFile(ls_rs)	
+//			if Len(ls_err) = 0 then
+//				lbo_rstate = lnv_json.GetValueBoolean("ResultState")
+//				ls_cuve = lnv_json.GetValue("CodigoUnicoValidacion")
+//				if lbo_rstate  and pos(ls_cuve,'RECHAZADO')=0 then
+//					ldt_frad= lnv_json.GetValueDateTime("FechaRadicacion")
+//					
+//					update factcab set cuve=:ls_cuve, fecha_cuve=:ldt_frad
+//					where nfact=:ldb_nfac and clugar=:ls_clu and tipo=:ls_tip;
+//					If SQLCA.SQLCode = -1 then
+//						Rollback;
+//						MessageBox("SQL error Factura xml_envia", 'Error actualizando linea 98 json')
+//						Return -1
+//					Else
+//						commit;
+//					end If						
+//				end if	
+//			end if
+//		end if //token
+//	end if
+//	destroy luo_rips
+//	messagebox('Atencíon','Proceso Finalizado')
+	////////////////////
 next
 destroy u_elec
 messagebox('','Proceso Finalizado')
@@ -865,7 +985,7 @@ end type
 type gb_2 from groupbox within w_reenvia_glosas
 integer x = 5202
 integer y = 12
-integer width = 407
+integer width = 366
 integer height = 644
 integer taborder = 40
 integer textsize = -8
@@ -882,7 +1002,7 @@ end type
 type tab_1 from tab within w_reenvia_glosas
 integer x = 32
 integer y = 668
-integer width = 5431
+integer width = 5531
 integer height = 1308
 integer taborder = 30
 integer textsize = -8
@@ -921,7 +1041,7 @@ end on
 type tp_1 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 5394
+integer width = 5495
 integer height = 1180
 long backcolor = 67108864
 string text = "Facturas"
@@ -1268,7 +1388,7 @@ end event
 
 type dw_facts from datawindow within tp_1
 integer y = 20
-integer width = 5362
+integer width = 5472
 integer height = 480
 integer taborder = 30
 string title = "none"
@@ -1345,7 +1465,7 @@ end event
 type tp_2 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 5394
+integer width = 5495
 integer height = 1180
 long backcolor = 67108864
 string text = "Procedimientos"
@@ -1642,7 +1762,7 @@ end type
 type dw_procs from datawindow within tp_2
 event p_itemchanged ( )
 integer y = 160
-integer width = 5353
+integer width = 5463
 integer height = 444
 integer taborder = 40
 string title = "none"
@@ -1715,7 +1835,7 @@ end type
 type tp_3 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 5394
+integer width = 5495
 integer height = 1180
 long backcolor = 67108864
 string text = "Items. del proc."
