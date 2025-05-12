@@ -1,4 +1,4 @@
-﻿$PBExportHeader$dw_factura_electronica_postgres_ncdre.srd
+﻿$PBExportHeader$dw_factura_electronica_postgres_ncdre19.srd
 release 22;
 datawindow(units=0 timer_interval=0 color=1073741824 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" row.resize=1 grid.lines=0 )
 header(height=80 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
@@ -6,46 +6,46 @@ summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gra
 footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 detail(height=92 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
 table(column=(type=char(8190) updatewhereclause=yes name=cufe dbname="cufe" )
- column=(type=char(200) updatewhereclause=yes name=cufe_previo dbname="car_glosa_cab.cufe_previo" )
+ column=(type=char(200) updatewhereclause=yes name=cufe_previo dbname="cufe_previo" )
  column=(type=char(8190) updatewhereclause=yes name=small_cufe dbname="small_cufe" )
- column=(type=char(20) updatewhereclause=yes name=dian dbname="car_glosa_cab.dian" )
- column=(type=datetime updatewhereclause=yes name=f_ini dbname="car_glosa_cab.f_ini" )
- column=(type=datetime updatewhereclause=yes name=f_fin dbname="car_glosa_cab.f_fin" )
- column=(type=number updatewhereclause=yes name=n_ini dbname="car_glosa_cab.n_ini" )
- column=(type=number updatewhereclause=yes name=n_fin dbname="car_glosa_cab.n_fin" )
- column=(type=char(4) updatewhereclause=yes name=prefijo dbname="car_glosa_cab.prefijo" )
- column=(type=decimal(0) updatewhereclause=yes name=provider_id dbname="car_glosa_cab.provider_id" )
- column=(type=decimal(0) updatewhereclause=yes name=dv_provider dbname="car_glosa_cab.dv_provider" )
- column=(type=char(100) updatewhereclause=yes name=software_id dbname="car_glosa_cab.software_id" )
- column=(type=char(200) updatewhereclause=yes name=clave_tecnica dbname="car_glosa_cab.clave_tecnica" )
- column=(type=char(50) updatewhereclause=yes name=testp dbname="car_glosa_cab.testp" )
- column=(type=char(50) updatewhereclause=yes name=pin dbname="car_glosa_cab.pin" )
+ column=(type=char(20) updatewhereclause=yes name=dian dbname="dian" )
+ column=(type=datetime updatewhereclause=yes name=f_ini dbname="f_ini" )
+ column=(type=datetime updatewhereclause=yes name=f_fin dbname="f_fin" )
+ column=(type=number updatewhereclause=yes name=n_ini dbname="n_ini" )
+ column=(type=number updatewhereclause=yes name=n_fin dbname="n_fin" )
+ column=(type=char(4) updatewhereclause=yes name=prefijo dbname="prefijo" )
+ column=(type=decimal(0) updatewhereclause=yes name=provider_id dbname="provider_id" )
+ column=(type=decimal(0) updatewhereclause=yes name=dv_provider dbname="dv_provider" )
+ column=(type=char(100) updatewhereclause=yes name=software_id dbname="software_id" )
+ column=(type=char(200) updatewhereclause=yes name=clave_tecnica dbname="clave_tecnica" )
+ column=(type=char(50) updatewhereclause=yes name=testp dbname="testp" )
+ column=(type=char(50) updatewhereclause=yes name=pin dbname="pin" )
  column=(type=char(8190) updatewhereclause=yes name=huella dbname="huella" )
  column=(type=char(8190) updatewhereclause=no name=id_nota dbname="id_nota" )
- column=(type=char(1) updatewhereclause=yes name=tipo_ambiente dbname="car_glosa_cab.tipo_ambiente" )
- column=(type=number updatewhereclause=yes name=nfact dbname="car_glosa_cab.nfact" )
- column=(type=char(100) updatewhereclause=yes name=ips_descripcion dbname="car_glosa_cab.ips_descripcion" )
- column=(type=char(50) updatewhereclause=yes name=direccion dbname="car_glosa_cab.direccion" )
- column=(type=char(50) updatewhereclause=yes name=telefono dbname="car_glosa_cab.telefono" )
- column=(type=char(2) updatewhereclause=yes name=tipo_doc dbname="car_glosa_cab.tipo_doc" )
- column=(type=char(20) updatewhereclause=yes name=documento dbname="car_glosa_cab.documento" )
- column=(type=char(1) updatewhereclause=yes name=ipsdv dbname="car_glosa_cab.ipsdv" )
- column=(type=char(3) updatewhereclause=yes name=tipodoc dbname="car_glosa_cab.tipodoc" )
- column=(type=char(13) updatewhereclause=yes name=nit dbname="car_glosa_cab.nit" )
- column=(type=char(1) updatewhereclause=yes name=dverificacion dbname="car_glosa_cab.dverificacion" )
- column=(type=char(200) updatewhereclause=yes name=correo dbname="car_glosa_cab.correo" )
- column=(type=char(1) updatewhereclause=yes name=persona dbname="car_glosa_cab.persona" )
- column=(type=char(20) updatewhereclause=yes name=nombre1 dbname="car_glosa_cab.nombre1" )
- column=(type=char(20) updatewhereclause=yes name=nombre2 dbname="car_glosa_cab.nombre2" )
- column=(type=char(20) updatewhereclause=yes name=apellido1 dbname="car_glosa_cab.apellido1" )
- column=(type=char(20) updatewhereclause=yes name=apellido2 dbname="car_glosa_cab.apellido2" )
- column=(type=char(250) updatewhereclause=yes name=razon_social dbname="car_glosa_cab.razon_social" )
- column=(type=char(35) updatewhereclause=yes name=direccion_cliente dbname="car_glosa_cab.direccion_cliente" )
- column=(type=char(15) updatewhereclause=yes name=telefono_cliente dbname="car_glosa_cab.telefono_cliente" )
- column=(type=datetime updatewhereclause=yes name=fecha_factura dbname="car_glosa_cab.fecha_factura" )
- column=(type=datetime updatewhereclause=yes name=hora_factura dbname="car_glosa_cab.hora_factura" )
- column=(type=char(255) updatewhereclause=yes name=cd_prod dbname="car_glosa_cab.cd_prod" )
- column=(type=char(255) updatewhereclause=yes name=ds_prod dbname="car_glosa_cab.ds_prod" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_ambiente dbname="tipo_ambiente" )
+ column=(type=number updatewhereclause=yes name=nfact dbname="nfact" )
+ column=(type=char(100) updatewhereclause=yes name=ips_descripcion dbname="ips_descripcion" )
+ column=(type=char(50) updatewhereclause=yes name=direccion dbname="direccion" )
+ column=(type=char(50) updatewhereclause=yes name=telefono dbname="telefono" )
+ column=(type=char(2) updatewhereclause=yes name=tipo_doc dbname="tipo_doc" )
+ column=(type=char(20) updatewhereclause=yes name=documento dbname="documento" )
+ column=(type=char(1) updatewhereclause=yes name=ipsdv dbname="ipsdv" )
+ column=(type=char(3) updatewhereclause=yes name=tipodoc dbname="tipodoc" )
+ column=(type=char(13) updatewhereclause=yes name=nit dbname="nit" )
+ column=(type=char(1) updatewhereclause=yes name=dverificacion dbname="dverificacion" )
+ column=(type=char(200) updatewhereclause=yes name=correo dbname="correo" )
+ column=(type=char(1) updatewhereclause=yes name=persona dbname="persona" )
+ column=(type=char(20) updatewhereclause=yes name=nombre1 dbname="nombre1" )
+ column=(type=char(20) updatewhereclause=yes name=nombre2 dbname="nombre2" )
+ column=(type=char(20) updatewhereclause=yes name=apellido1 dbname="apellido1" )
+ column=(type=char(20) updatewhereclause=yes name=apellido2 dbname="apellido2" )
+ column=(type=char(250) updatewhereclause=yes name=razon_social dbname="razon_social" )
+ column=(type=char(35) updatewhereclause=yes name=direccion_cliente dbname="direccion_cliente" )
+ column=(type=char(15) updatewhereclause=yes name=telefono_cliente dbname="telefono_cliente" )
+ column=(type=datetime updatewhereclause=yes name=fecha_factura dbname="fecha_factura" )
+ column=(type=datetime updatewhereclause=yes name=hora_factura dbname="hora_factura" )
+ column=(type=char(255) updatewhereclause=yes name=cd_prod dbname="cd_prod" )
+ column=(type=char(255) updatewhereclause=yes name=ds_prod dbname="ds_prod" )
  column=(type=number updatewhereclause=yes name=cantidad dbname="cantidad" )
  column=(type=decimal(6) updatewhereclause=yes name=vproced dbname="vproced" )
  column=(type=decimal(6) updatewhereclause=yes name=vemp dbname="vemp" )
@@ -56,86 +56,88 @@ table(column=(type=char(8190) updatewhereclause=yes name=cufe dbname="cufe" )
  column=(type=decimal(6) updatewhereclause=yes name=iva_cm dbname="iva_cm" )
  column=(type=decimal(6) updatewhereclause=yes name=iva_cr dbname="iva_cr" )
  column=(type=decimal(6) updatewhereclause=yes name=iva_cp dbname="iva_cp" )
- column=(type=decimal(2) updatewhereclause=yes name=vtproced dbname="car_glosa_cab.vtproced" )
- column=(type=decimal(2) updatewhereclause=yes name=vtemp dbname="car_glosa_cab.vtemp" )
- column=(type=decimal(2) updatewhereclause=yes name=vtdescuentos dbname="car_glosa_cab.vtdescuentos" )
- column=(type=decimal(2) updatewhereclause=yes name=vtcopago dbname="car_glosa_cab.vtcopago" )
- column=(type=decimal(2) updatewhereclause=yes name=vtcmod dbname="car_glosa_cab.vtcmod" )
- column=(type=decimal(2) updatewhereclause=yes name=vtcrec dbname="car_glosa_cab.vtcrec" )
- column=(type=decimal(2) updatewhereclause=yes name=vtpaciente dbname="car_glosa_cab.vtpaciente" )
- column=(type=decimal(2) updatewhereclause=yes name=vtiva dbname="car_glosa_cab.vtiva" )
- column=(type=char(200) updatewhereclause=yes name=correo dbname="car_glosa_cab.correo" )
- column=(type=char(2) updatewhereclause=yes name=cod_depto dbname="car_glosa_cab.cod_depto" )
- column=(type=char(5) updatewhereclause=yes name=cod_ciudad dbname="car_glosa_cab.cod_ciudad" )
- column=(type=char(50) updatewhereclause=yes name=depto_facturador dbname="car_glosa_cab.depto_facturador" )
- column=(type=char(50) updatewhereclause=yes name=ciudad_facturador dbname="car_glosa_cab.ciudad_facturador" )
- column=(type=char(2) updatewhereclause=yes name=regimen_fiscal dbname="car_glosa_cab.regimen_fiscal" )
- column=(type=char(10) updatewhereclause=yes name=responsabilidad_fiscal dbname="car_glosa_cab.responsabilidad_fiscal" )
- column=(type=char(2) updatewhereclause=yes name=id_depto_cliente dbname="car_glosa_cab.id_depto_cliente" )
- column=(type=char(5) updatewhereclause=yes name=id_ciudad_cliente dbname="car_glosa_cab.id_ciudad_cliente" )
- column=(type=char(50) updatewhereclause=yes name=depto_cliente dbname="car_glosa_cab.depto_cliente" )
- column=(type=char(50) updatewhereclause=yes name=ciudad_cliente dbname="car_glosa_cab.ciudad_cliente" )
- column=(type=char(10) updatewhereclause=yes name=codigo_postal dbname="car_glosa_cab.codigo_postal" )
- column=(type=char(10) updatewhereclause=yes name=codigo_postal_cliente dbname="car_glosa_cab.codigo_postal_cliente" )
- column=(type=char(30) updatewhereclause=yes name=nombre_responsable dbname="car_glosa_cab.nombre_responsable" )
- column=(type=char(10) updatewhereclause=yes name=obligacion dbname="car_glosa_cab.obligacion" )
- column=(type=char(2) updatewhereclause=yes name=respon_iva dbname="car_glosa_cab.respon_iva" )
- column=(type=char(30) updatewhereclause=yes name=contacto dbname="car_glosa_cab.contacto" )
+ column=(type=decimal(2) updatewhereclause=yes name=vtproced dbname="vtproced" )
+ column=(type=decimal(2) updatewhereclause=yes name=vtemp dbname="vtemp" )
+ column=(type=decimal(2) updatewhereclause=yes name=vtdescuentos dbname="vtdescuentos" )
+ column=(type=decimal(2) updatewhereclause=yes name=vtcopago dbname="vtcopago" )
+ column=(type=decimal(2) updatewhereclause=yes name=vtcmod dbname="vtcmod" )
+ column=(type=decimal(2) updatewhereclause=yes name=vtcrec dbname="vtcrec" )
+ column=(type=decimal(2) updatewhereclause=yes name=vtpaciente dbname="vtpaciente" )
+ column=(type=decimal(2) updatewhereclause=yes name=vtiva dbname="vtiva" )
+ column=(type=char(200) updatewhereclause=yes name=correo dbname="correo" )
+ column=(type=char(2) updatewhereclause=yes name=cod_depto dbname="cod_depto" )
+ column=(type=char(5) updatewhereclause=yes name=cod_ciudad dbname="cod_ciudad" )
+ column=(type=char(50) updatewhereclause=yes name=depto_facturador dbname="depto_facturador" )
+ column=(type=char(50) updatewhereclause=yes name=ciudad_facturador dbname="ciudad_facturador" )
+ column=(type=char(2) updatewhereclause=yes name=regimen_fiscal dbname="regimen_fiscal" )
+ column=(type=char(10) updatewhereclause=yes name=responsabilidad_fiscal dbname="responsabilidad_fiscal" )
+ column=(type=char(2) updatewhereclause=yes name=id_depto_cliente dbname="id_depto_cliente" )
+ column=(type=char(5) updatewhereclause=yes name=id_ciudad_cliente dbname="id_ciudad_cliente" )
+ column=(type=char(50) updatewhereclause=yes name=depto_cliente dbname="depto_cliente" )
+ column=(type=char(50) updatewhereclause=yes name=ciudad_cliente dbname="ciudad_cliente" )
+ column=(type=char(10) updatewhereclause=yes name=codigo_postal dbname="codigo_postal" )
+ column=(type=char(10) updatewhereclause=yes name=codigo_postal_cliente dbname="codigo_postal_cliente" )
+ column=(type=char(30) updatewhereclause=yes name=nombre_responsable dbname="nombre_responsable" )
+ column=(type=char(10) updatewhereclause=yes name=obligacion dbname="obligacion" )
+ column=(type=char(2) updatewhereclause=yes name=respon_iva dbname="respon_iva" )
+ column=(type=char(30) updatewhereclause=yes name=contacto dbname="contacto" )
  column=(type=long updatewhereclause=yes name=percent_iva dbname="percent_iva" )
  column=(type=char(8190) updatewhereclause=yes name=nd_med_conce dbname="nd_med_conce" )
- column=(type=char(4) updatewhereclause=yes name=cumd dbname="car_glosa_cab.cumd" )
- column=(type=char(255) updatewhereclause=yes name=nom_umd dbname="car_glosa_cab.nom_umd" )
- column=(type=char(150) updatewhereclause=yes name=observaciones dbname="car_glosa_cab.observaciones" )
- column=(type=char(200) updatewhereclause=yes name=email_cliente dbname="car_glosa_cab.email_cliente" )
+ column=(type=char(4) updatewhereclause=yes name=cumd dbname="cumd" )
+ column=(type=char(255) updatewhereclause=yes name=nom_umd dbname="nom_umd" )
+ column=(type=char(150) updatewhereclause=yes name=observaciones dbname="observaciones" )
+ column=(type=char(200) updatewhereclause=yes name=email_cliente dbname="email_cliente" )
  column=(type=char(8190) updatewhereclause=yes name=estado dbname="estado" )
  column=(type=char(8190) updatewhereclause=yes name=singnig_time dbname="singnig_time" )
  column=(type=char(8190) updatewhereclause=yes name=issuername dbname="issuername" )
  column=(type=char(8190) updatewhereclause=yes name=serialnumber dbname="serialnumber" )
  column=(type=char(8190) updatewhereclause=yes name=cert_digest dbname="cert_digest" )
- column=(type=char(2) updatewhereclause=yes name=estado_dian dbname="car_glosa_cab.estado_dian" )
- column=(type=char(30) updatewhereclause=yes name=file_name_fact dbname="car_glosa_cab.file_name_fact" )
- column=(type=char(30) updatewhereclause=yes name=file_name_zip dbname="car_glosa_cab.file_name_zip" )
- column=(type=char(50) updatewhereclause=yes name=track_id dbname="car_glosa_cab.track_id" )
- column=(type=char(2) updatewhereclause=yes name=clugar dbname="car_glosa_cab.clugar" )
- column=(type=char(1) updatewhereclause=yes name=tipo dbname="car_glosa_cab.tipo" )
- column=(type=char(12) updatewhereclause=yes name=c_supersalud dbname="car_glosa_cab.c_supersalud" )
- column=(type=char(3) updatewhereclause=yes name=tdpac dbname="car_glosa_cab.tdpac" )
- column=(type=char(30) updatewhereclause=yes name=ti dbname="car_glosa_cab.ti" )
- column=(type=char(15) updatewhereclause=yes name=documentopac dbname="car_glosa_cab.documentopac" )
- column=(type=char(60) updatewhereclause=yes name=a1pac dbname="car_glosa_cab.a1pac" )
- column=(type=char(60) updatewhereclause=yes name=a2pac dbname="car_glosa_cab.a2pac" )
- column=(type=char(60) updatewhereclause=yes name=n1pac dbname="car_glosa_cab.n1pac" )
- column=(type=char(60) updatewhereclause=yes name=n2pac dbname="car_glosa_cab.n2pac" )
- column=(type=char(1) updatewhereclause=yes name=codta dbname="car_glosa_cab.codta" )
- column=(type=char(4) updatewhereclause=yes name=mp_fems dbname="car_glosa_cab.mp_fems" )
- column=(type=char(50) updatewhereclause=yes name=mpnm_fems dbname="car_glosa_cab.mpnm_fems" )
- column=(type=char(4) updatewhereclause=yes name=pl_fems dbname="car_glosa_cab.pl_fems" )
- column=(type=char(100) updatewhereclause=yes name=plnm_fems dbname="car_glosa_cab.plnm_fems" )
- column=(type=char(30) updatewhereclause=yes name=autorizacion dbname="car_glosa_cab.autorizacion" )
+ column=(type=char(2) updatewhereclause=yes name=estado_dian dbname="estado_dian" )
+ column=(type=char(30) updatewhereclause=yes name=file_name_fact dbname="file_name_fact" )
+ column=(type=char(30) updatewhereclause=yes name=file_name_zip dbname="file_name_zip" )
+ column=(type=char(50) updatewhereclause=yes name=track_id dbname="track_id" )
+ column=(type=char(2) updatewhereclause=yes name=clugar dbname="clugar" )
+ column=(type=char(1) updatewhereclause=yes name=tipo dbname="tipo" )
+ column=(type=char(12) updatewhereclause=yes name=c_supersalud dbname="c_supersalud" )
+ column=(type=char(3) updatewhereclause=yes name=tdpac dbname="tdpac" )
+ column=(type=char(30) updatewhereclause=yes name=ti dbname="ti" )
+ column=(type=char(15) updatewhereclause=yes name=documentopac dbname="documentopac" )
+ column=(type=char(60) updatewhereclause=yes name=a1pac dbname="a1pac" )
+ column=(type=char(60) updatewhereclause=yes name=a2pac dbname="a2pac" )
+ column=(type=char(60) updatewhereclause=yes name=n1pac dbname="n1pac" )
+ column=(type=char(60) updatewhereclause=yes name=n2pac dbname="n2pac" )
+ column=(type=char(1) updatewhereclause=yes name=codta dbname="codta" )
+ column=(type=char(4) updatewhereclause=yes name=mp_fems dbname="mp_fems" )
+ column=(type=char(50) updatewhereclause=yes name=mpnm_fems dbname="mpnm_fems" )
+ column=(type=char(4) updatewhereclause=yes name=pl_fems dbname="pl_fems" )
+ column=(type=char(100) updatewhereclause=yes name=plnm_fems dbname="plnm_fems" )
+ column=(type=char(30) updatewhereclause=yes name=autorizacion dbname="autorizacion" )
  column=(type=char(8190) updatewhereclause=yes name=mipres dbname="mipres" )
  column=(type=char(8190) updatewhereclause=yes name=idmipres dbname="idmipres" )
- column=(type=char(20) updatewhereclause=yes name=nro_contrato dbname="car_glosa_cab.nro_contrato" )
+ column=(type=char(20) updatewhereclause=yes name=nro_contrato dbname="nro_contrato" )
  column=(type=char(8190) updatewhereclause=yes name=poliza dbname="poliza" )
- column=(type=char(30) updatewhereclause=yes name=nom1_rpl dbname="car_glosa_cab.nom1_rpl" )
- column=(type=char(30) updatewhereclause=yes name=nom2_rpl dbname="car_glosa_cab.nom2_rpl" )
- column=(type=char(30) updatewhereclause=yes name=ape1_rpl dbname="car_glosa_cab.ape1_rpl" )
- column=(type=char(30) updatewhereclause=yes name=ape2_rpl dbname="car_glosa_cab.ape2_rpl" )
- column=(type=char(255) updatewhereclause=yes name=ruta_certificado dbname="car_glosa_cab.ruta_certificado" )
- column=(type=char(50) updatewhereclause=yes name=clave_certificado dbname="car_glosa_cab.clave_certificado" )
- column=(type=char(4) updatewhereclause=yes name=cod_tipousuario dbname="cod_tipousuario" )
- column=(type=char(50) updatewhereclause=yes name=nom_tipousuario dbname="nom_tipousuario" )
- column=(type=char(4) updatewhereclause=yes name=cumdp dbname="car_glosa_cab.cumdp" )
- column=(type=char(255) updatewhereclause=yes name=nom_umdp dbname="car_glosa_cab.nom_umdp" )
+ column=(type=char(30) updatewhereclause=yes name=nom1_rpl dbname="nom1_rpl" )
+ column=(type=char(30) updatewhereclause=yes name=nom2_rpl dbname="nom2_rpl" )
+ column=(type=char(30) updatewhereclause=yes name=ape1_rpl dbname="ape1_rpl" )
+ column=(type=char(30) updatewhereclause=yes name=ape2_rpl dbname="ape2_rpl" )
+ column=(type=char(255) updatewhereclause=yes name=ruta_certificado dbname="ruta_certificado" )
+ column=(type=char(50) updatewhereclause=yes name=clave_certificado dbname="clave_certificado" )
+ column=(type=char(2) updatewhereclause=yes name=cod_tipousuario dbname="cod_tipousuario" )
+ column=(type=char(100) updatewhereclause=yes name=nom_tipousuario dbname="nom_tipousuario" )
+ column=(type=char(4) updatewhereclause=yes name=cumdp dbname="cumdp" )
+ column=(type=char(255) updatewhereclause=yes name=nom_umdp dbname="nom_umdp" )
  column=(type=long updatewhereclause=yes name=nro_nota_cred dbname="nro_nota_cred" )
- column=(type=char(2) updatewhereclause=yes name=estado_dian_anul dbname="car_glosa_cab.estado_dian_anul" )
- column=(type=char(30) updatewhereclause=yes name=file_name_fact_anul dbname="car_glosa_cab.file_name_fact_anul" )
- column=(type=char(30) updatewhereclause=yes name=file_name_zip_anul dbname="car_glosa_cab.file_name_zip_anul" )
- column=(type=char(50) updatewhereclause=yes name=track_id_anul dbname="car_glosa_cab.track_id_anul" )
- column=(type=datetime updatewhereclause=yes name=fecha_nota dbname="car_glosa_cab.fecha_nota" )
+ column=(type=char(2) updatewhereclause=yes name=estado_dian_anul dbname="estado_dian_anul" )
+ column=(type=char(30) updatewhereclause=yes name=file_name_fact_anul dbname="file_name_fact_anul" )
+ column=(type=char(30) updatewhereclause=yes name=file_name_zip_anul dbname="file_name_zip_anul" )
+ column=(type=char(50) updatewhereclause=yes name=track_id_anul dbname="track_id_anul" )
+ column=(type=datetime updatewhereclause=yes name=fecha_nota dbname="fecha_nota" )
  column=(type=char(8190) updatewhereclause=yes name=motivo_anula dbname="motivo_anula" )
- column=(type=decimal(2) updatewhereclause=yes name=valor_nota dbname="car_glosa_cab.valor_nota" )
+ column=(type=decimal(2) updatewhereclause=yes name=valor_nota dbname="valor_nota" )
  column=(type=decimal(6) updatewhereclause=yes name=valor_aceptado dbname="valor_aceptado" )
- column=(type=number updatewhereclause=yes name=valor_aceptadocab dbname="car_glosa_cab.valor_aceptadocab" )
+ column=(type=number updatewhereclause=yes name=valor_aceptadocab dbname="valor_aceptadocab" )
+ column=(type=datetime updatewhereclause=yes name=finiciop dbname="finiciop" )
+ column=(type=char(8190) updatewhereclause=no name=prepaidid dbname="prepaidid" )
  retrieve="SELECT 
 	'NC' ||documentos_autfact.prefijo ||
 	ltrim(to_char(factcab.nfact,'99999999999'))|| 
@@ -219,9 +221,32 @@ table(column=(type=char(8190) updatewhereclause=yes name=cufe dbname="cufe" )
 	factcab_notas.fecha_nota,
 	'' as motivo_anula, factcab_notas.valor_nota,
 	Sum(car_glosa_subcpo.valor_aceptado) AS valor_aceptado,
-	car_glosa_cab.valor_aceptado as valor_aceptadocab
+	car_glosa_cab.valor_aceptado as valor_aceptadocab,
+
+	fatcab_StartDate.finiciop,
+	case when 
+			factcpo.vcopago<>0
+		then
+			'02'
+		else
+			 case when 
+				factcpo.vcm<>0
+			then
+				'01'
+			else
+				case when 
+					factcpo.vpart<>0
+				then
+					'03'
+				else
+					'05'
+				end
+			end
+		end as prepaidid
+
+
 FROM 
-	(((((((((((((((((((((((((((((factcab 
+	((((((((((((((((((((((((((((((factcab 
 	inner join factcpo on (factcab.tipo = factcpo.tipo) and (factcab.clugar = factcpo.clugar) and (factcab.nfact = factcpo.nfact)) 
 	inner join documentos_autfact on factcab.c_aut = documentos_autfact.c_aut) 
 	inner join lugar on factcab.clugar = lugar.codlugar) 
@@ -255,7 +280,22 @@ FROM
 	AND (factcpo.nfact = car_glosa_subcpo.nfact)) 
 	INNER JOIN car_glosa_cab ON (car_glosa_subcpo.num_glosa = car_glosa_cab.num_glosa) 
 	AND (car_glosa_subcpo.clugar = car_glosa_cab.clugar) 
-	AND (car_glosa_subcpo.coddoc = car_glosa_cab.coddoc)
+	AND (car_glosa_subcpo.coddoc = car_glosa_cab.coddoc)) 
+	left JOIN 
+	( 
+		SELECT factcab.nfact,factcab.clugar,factcab.tipo, Min(hospadmi.fechaingreso) AS finiciop
+		FROM (factcab INNER JOIN factadm ON (factcab.tipo = factadm.tipo) AND (factcab.clugar = factadm.clugar) AND (factcab.nfact = factadm.nfact)) INNER JOIN hospadmi ON (factadm.codtingre = hospadmi.codtingre) AND (factadm.clugar_ingre = hospadmi.clugar) AND (factadm.nh = hospadmi.nh)
+		WHERE (((factcab.nfact)=:nfact) AND ((factcab.clugar)=:lugar) AND ((factcab.tipo)=:tipo))
+		GROUP BY factcab.nfact,factcab.clugar,factcab.tipo
+		
+		UNION ALL
+		
+		SELECT factcab.nfact,factcab.clugar,factcab.tipo, Min(serviciosingreso.fecha) AS finiciop
+		FROM serviciosingreso INNER JOIN factcab ON (serviciosingreso.tipo_fac = factcab.tipo) AND (serviciosingreso.clugar_fac = factcab.clugar) AND (serviciosingreso.nfactura = factcab.nfact)
+		WHERE (((factcab.nfact)=:nfact) AND ((factcab.clugar)=:lugar) AND ((factcab.tipo)=:tipo) AND ((factcab.codtingre)='1'))
+		GROUP BY factcab.nfact,factcab.clugar,factcab.tipo
+ 	) as fatcab_StartDate ON (factcab.tipo = fatcab_StartDate.tipo) AND (factcab.clugar = fatcab_StartDate.clugar) AND (factcab.nfact = fatcab_StartDate.nfact)
+
 WHERE
 	(((terceros_direccion.ctdir)='D01') 
 	AND (factcab.estado Is Null) 
@@ -301,7 +341,26 @@ GROUP BY
 	pm_umedida_dian_1.cumd , pm_umedida_dian_1.nom_umd,
 	factcab.file_name_fact_anul, factcab.file_name_zip_anul, factcab.track_id_anul, 
 	factcab.estado_dian_anul,factcab_notas.fecha_nota,factcab_notas.nro_nota,
-	factcab_notas.valor_nota,car_glosa_cab.valor_aceptado ,pacientes.tu
+	factcab_notas.valor_nota,car_glosa_cab.valor_aceptado,pacientes.tu, fatcab_StartDate.finiciop,
+	case when 
+			factcpo.vcopago<>0
+		then
+			'02'
+		else
+			 case when 
+				factcpo.vcm<>0
+			then
+				'01'
+			else
+				case when 
+					factcpo.vpart<>0
+				then
+					'03'
+				else
+					'05'
+				end
+			end
+		end
 HAVING
      (((factcab.nfact)=:nfact) and ((factcab.clugar)=:lugar) and ((factcab.tipo)=:tipo) AND ((factcab_notas.nro_nota)=:nota) )
 
@@ -570,14 +629,18 @@ column(band=detail id=127 alignment="0" tabsequence=32766 border="0" color="3355
 column(band=detail id=129 alignment="0" tabsequence=32766 border="0" color="33554432" x="171310" y="0" height="64" width="2126" format="[general]" html.valueishtml="0"  name=valor_nota visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 column(band=detail id=130 alignment="0" tabsequence=32766 border="0" color="33554432" x="173449" y="0" height="64" width="2126" format="[general]" html.valueishtml="0"  name=valor_aceptado visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
 column(band=detail id=131 alignment="0" tabsequence=32766 border="0" color="33554432" x="175589" y="0" height="64" width="2126" format="[general]" html.valueishtml="0"  name=valor_aceptadocab visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=132 alignment="0" tabsequence=0 border="0" color="33554432" x="177728" y="0" height="64" width="2126" html.valueishtml="0"  name=finiciop visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="0" text="Finiciop" border="0" color="33554432" x="177723" y="4" height="64" width="2130" html.valueishtml="0"  name=finiciop_t visible="1"  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
+column(band=detail id=133 alignment="0" tabsequence=0 border="0" color="33554432" x="179867" y="0" height="64" width="6574" html.valueishtml="0"  name=prepaidid visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="0" text="Prepaidid" border="0" color="33554432" x="179863" y="4" height="64" width="6578" html.valueishtml="0"  name=prepaidid_t visible="1"  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" background.transparency="0" background.gradient.color="0" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="0" background.gradient.focus="0" background.gradient.scale="0" background.gradient.spread="0" tooltip.backcolor="0" tooltip.delay.initial="0" tooltip.delay.visible="0" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="0" tooltip.transparency="0" transparency="0" )
 htmltable(border="1" )
 htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
 xhtmlgen() cssgen(sessionspecific="0" )
 xmlgen(inline="0" )
 xsltgen()
 jsgen()
-export.xml(usetemplate="dian" headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0  template=(comment="Factura electronica de la DIAN" encoding="UTF-8" name="dian" xml="<?xml version=~"1.0~" encoding=~"UTF-16LE~" standalone=~"no~"?><CreditNote xmlns=~"urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2~" xmlns:cac=~"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2~" xmlns:cbc=~"urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2~" xmlns:ds=~"http://www.w3.org/2000/09/xmldsig#~" xmlns:ext=~"urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2~" xmlns:sts=~"http://www.dian.gov.co/contratos/facturaelectronica/v1/Structures~" xmlns:xades=~"http://uri.etsi.org/01903/v1.3.2#~" xmlns:xades141=~"http://uri.etsi.org/01903/v1.4.1#~" xmlns:xsi=~"http://www.w3.org/2001/XMLSchema-instance~" xsi:schemaLocation=~"urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2    http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-CreditNote-2.1.xsd~"><ext:UBLExtensions><ext:UBLExtension><ext:ExtensionContent><sts:DianExtensions><sts:InvoiceSource><cbc:IdentificationCode listAgencyID=~"6~" listAgencyName=~"United Nations Economic Commission for Europe~" listSchemeURI=~"urn:oasis:names:specification:ubl:codelist:gc:CountryIdentificationCode-2.1~">CO</cbc:IdentificationCode></sts:InvoiceSource><sts:SoftwareProvider><sts:ProviderID schemeAgencyID=~"195~" schemeAgencyName=~"CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)~" schemeID=~"~~t dv_provider +''~" schemeName=~"31~">provider_id+&apos;&apos;</sts:ProviderID><sts:SoftwareID schemeAgencyID=~"195~" schemeAgencyName=~"CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)~"> software_id +&apos;&apos;</sts:SoftwareID></sts:SoftwareProvider><sts:SoftwareSecurityCode schemeAgencyID=~"195~" schemeAgencyName=~"CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)~">huella+&apos;&apos;</sts:SoftwareSecurityCode><sts:AuthorizationProvider><sts:AuthorizationProviderID schemeAgencyID=~"195~" schemeAgencyName=~"CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)~" schemeID=~"4~" schemeName=~"31~">800197268</sts:AuthorizationProviderID></sts:AuthorizationProvider><sts:QRCode>&quot;https://catalogovpfe.dian.gov.co/document/searchqr?documentkey=&quot;+ cufe </sts:QRCode></sts:DianExtensions></ext:ExtensionContent></ext:UBLExtension><ext:UBLExtension><ext:ExtensionContent/></ext:UBLExtension></ext:UBLExtensions><cbc:UBLVersionID>&apos;UBL 2.1&apos;</cbc:UBLVersionID><cbc:CustomizationID>20</cbc:CustomizationID><cbc:ProfileID>&apos;DIAN 2.1: Nota Crédito de Factura Electrónica de Venta&apos;</cbc:ProfileID><cbc:ProfileExecutionID> tipo_ambiente +&apos;&apos;</cbc:ProfileExecutionID><cbc:ID>id_nota+&apos;&apos;</cbc:ID><cbc:UUID schemeID=~"~~t tipo_ambiente +''~" schemeName=~"CUDE-SHA384~">cufe+&apos;&apos;</cbc:UUID><cbc:IssueDate>string(  fecha_nota  ,&apos;yyyy-mm-dd&apos;)</cbc:IssueDate><cbc:IssueTime>string(  fecha_nota   , &apos;HH:mm:ss&apos;)+&apos;-05:00&apos;</cbc:IssueTime><cbc:CreditNoteTypeCode>&apos;91&apos;</cbc:CreditNoteTypeCode><cbc:Note> id_nota </cbc:Note><cbc:DocumentCurrencyCode>COP</cbc:DocumentCurrencyCode><cbc:LineCountNumeric>rowcount()</cbc:LineCountNumeric><cac:DiscrepancyResponse><cbc:ReferenceID> prefijo + nfact</cbc:ReferenceID><cbc:ResponseCode>2</cbc:ResponseCode><cbc:Description>Motivo_anula +&apos;&apos;</cbc:Description></cac:DiscrepancyResponse><cac:BillingReference><cac:InvoiceDocumentReference><cbc:ID>prefijo+nfact</cbc:ID><cbc:UUID schemeName=~"CUFE-SHA384~">cufe_previo+&apos;&apos;</cbc:UUID><cbc:IssueDate>string( fecha_factura , &apos;yyyy-mm-dd&apos;)</cbc:IssueDate></cac:InvoiceDocumentReference></cac:BillingReference><cac:AccountingSupplierParty><cbc:AdditionalAccountID>if ( persona=&apos;N&apos; , 2  , 1 )</cbc:AdditionalAccountID><cac:Party><cac:PartyName><cbc:Name> ips_descripcion +&apos;&apos;</cbc:Name></cac:PartyName><cac:PhysicalLocation><cac:Address><cbc:ID> cod_depto + cod_ciudad </cbc:ID><cbc:CityName> ciudad_facturador +&apos;, &apos;+ depto_facturador </cbc:CityName><cbc:PostalZone>codigo_postal+&apos;&apos;</cbc:PostalZone><cbc:CountrySubentity> depto_facturador +&apos;&apos;</cbc:CountrySubentity><cbc:CountrySubentityCode> cod_depto +&apos;&apos;</cbc:CountrySubentityCode><cac:AddressLine><cbc:Line>direccion+&apos;&apos;</cbc:Line></cac:AddressLine><cac:Country><cbc:IdentificationCode>CO</cbc:IdentificationCode><cbc:Name languageID=~"es~">Colombia</cbc:Name></cac:Country></cac:Address></cac:PhysicalLocation><cac:PartyTaxScheme><cbc:RegistrationName> ips_descripcion +&apos;&apos;</cbc:RegistrationName><cbc:CompanyID schemeAgencyID=~"195~" schemeAgencyName=~"CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)~" schemeID=~"~~t ipsdv +''~" schemeName=~"31~">documento+&apos;&apos;</cbc:CompanyID><cbc:TaxLevelCode listName=~"~~t regimen_fiscal ~"> responsabilidad_fiscal +&apos;&apos;</cbc:TaxLevelCode><cac:RegistrationAddress><cbc:ID>cod_depto+cod_ciudad</cbc:ID><cbc:CityName> ciudad_facturador +&apos;, &apos;+ depto_facturador </cbc:CityName><cbc:PostalZone>codigo_postal+&apos;&apos;</cbc:PostalZone><cbc:CountrySubentity>depto_facturador+&apos;&apos;</cbc:CountrySubentity><cbc:CountrySubentityCode>cod_depto+&apos;&apos;</cbc:CountrySubentityCode><cac:AddressLine><cbc:Line>direccion+&apos;&apos;</cbc:Line></cac:AddressLine><cac:Country><cbc:IdentificationCode>CO</cbc:IdentificationCode><cbc:Name languageID=~"es~">Colombia</cbc:Name></cac:Country></cac:RegistrationAddress><cac:TaxScheme><cbc:ID>&apos;01&apos;</cbc:ID><cbc:Name>IVA</cbc:Name></cac:TaxScheme></cac:PartyTaxScheme><cac:PartyLegalEntity><cbc:RegistrationName> ips_descripcion +&apos;&apos;</cbc:RegistrationName><cbc:CompanyID schemeAgencyID=~"195~" schemeAgencyName=~"CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)~" schemeID=~"~~t ipsdv +''~" schemeName=~"31~">documento+&apos;&apos;</cbc:CompanyID><cac:CorporateRegistrationScheme><cbc:ID>&apos;NC&apos;+prefijo+&apos;&apos;</cbc:ID></cac:CorporateRegistrationScheme></cac:PartyLegalEntity><cac:Contact><cbc:Name> if ( isnull(   nom1_rpl  ) , &apos;&apos; , nom1_rpl  ) + if ( isnull(  nom2_rpl  ) , &apos;&apos; , &apos; &apos;+ nom2_rpl  ) + if ( isnull( ape1_rpl  ) , &apos;&apos; , &apos; &apos;+ ape1_rpl  ) + if ( isnull(  ape2_rpl  ) , &apos;&apos; , &apos; &apos;+   ape2_rpl  ) </cbc:Name><cbc:Telephone>telefono+&apos;&apos;</cbc:Telephone><cbc:ElectronicMail> correo +&apos;&apos;</cbc:ElectronicMail></cac:Contact></cac:Party></cac:AccountingSupplierParty><cac:AccountingCustomerParty><cbc:AdditionalAccountID schemeAgencyID=~"195~">if (persona=&apos;J&apos;, 1 , 2)</cbc:AdditionalAccountID><cac:Party><cac:PartyIdentification><cbc:ID schemeAgencyID=~"195~" schemeAgencyName=~"CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)~" schemeID=~"~~t dverificacion +''~" schemeName=~"31~">nit +&apos;&apos;</cbc:ID></cac:PartyIdentification><cac:PartyName><cbc:Name>if ( isnull(  razon_social ) , &apos;&apos; , razon_social ) + if ( isnull(   nombre1 ) , &apos;&apos; ,  nombre1 ) + if ( isnull(   nombre2 ) , &apos;&apos; , &apos; &apos;+ nombre2 ) + if ( isnull(   apellido1 ) , &apos;&apos; , &apos; &apos;+ apellido1 ) + if ( isnull(   apellido2 ) , &apos;&apos; , &apos; &apos;+  apellido2 ) </cbc:Name></cac:PartyName><cac:PhysicalLocation><cac:Address><cbc:ID> id_depto_cliente + id_ciudad_cliente </cbc:ID><cbc:CityName> ciudad_cliente +&apos;, &apos;+ depto_cliente </cbc:CityName><cbc:PostalZone> codigo_postal_cliente +&apos;&apos;</cbc:PostalZone><cbc:CountrySubentity> depto_cliente +&apos;&apos;</cbc:CountrySubentity><cbc:CountrySubentityCode> id_depto_cliente +&apos;&apos;</cbc:CountrySubentityCode><cac:AddressLine><cbc:Line>direccion_cliente+&apos;&apos;</cbc:Line></cac:AddressLine><cac:Country><cbc:IdentificationCode>CO</cbc:IdentificationCode><cbc:Name languageID=~"es~">Colombia</cbc:Name></cac:Country></cac:Address></cac:PhysicalLocation><cac:PartyTaxScheme><cbc:RegistrationName>if ( isnull(  razon_social ) , &apos;&apos; , razon_social ) + if ( isnull(   nombre1 ) , &apos;&apos; ,  nombre1 ) + if ( isnull(   nombre2 ) , &apos;&apos; , &apos; &apos;+ nombre2 ) + if ( isnull(   apellido1 ) , &apos;&apos; , &apos; &apos;+ apellido1 ) + if ( isnull(   apellido2 ) , &apos;&apos; , &apos; &apos;+  apellido2 ) </cbc:RegistrationName><cbc:CompanyID schemeAgencyID=~"195~" schemeAgencyName=~"CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)~" schemeID=~"~~tdverificacion +''~" schemeName=~"31~">nit +&apos;&apos;</cbc:CompanyID><cbc:TaxLevelCode listName=~"~~t respon_iva +''~"> obligacion +&apos;&apos;</cbc:TaxLevelCode><cac:RegistrationAddress><cbc:ID> id_depto_cliente + id_ciudad_cliente </cbc:ID><cbc:CityName> ciudad_cliente +&apos;, &apos;+ depto_cliente </cbc:CityName><cbc:PostalZone> codigo_postal_cliente +&apos;&apos;</cbc:PostalZone><cbc:CountrySubentity>depto_cliente+&apos;&apos;</cbc:CountrySubentity><cbc:CountrySubentityCode>id_depto_cliente+&apos;&apos;</cbc:CountrySubentityCode><cac:AddressLine><cbc:Line> direccion_cliente +&apos;&apos;</cbc:Line></cac:AddressLine><cac:Country><cbc:IdentificationCode>CO</cbc:IdentificationCode><cbc:Name languageID=~"es~">Colombia</cbc:Name></cac:Country></cac:RegistrationAddress><cac:TaxScheme><cbc:ID>&apos;01&apos;</cbc:ID><cbc:Name>IVA</cbc:Name></cac:TaxScheme></cac:PartyTaxScheme><cac:PartyLegalEntity><cbc:RegistrationName>if ( isnull(  razon_social ) , &apos;&apos; , razon_social ) + if ( isnull(   nombre1 ) , &apos;&apos; ,  nombre1 ) + if ( isnull(   nombre2 ) , &apos;&apos; , &apos; &apos;+ nombre2 ) + if ( isnull(   apellido1 ) , &apos;&apos; , &apos; &apos;+ apellido1 ) + if ( isnull(   apellido2 ) , &apos;&apos; , &apos; &apos;+  apellido2 ) </cbc:RegistrationName><cbc:CompanyID schemeAgencyID=~"195~" schemeAgencyName=~"CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)~" schemeID=~"~~t dverificacion +''~" schemeName=~"31~">nit +&apos;&apos;</cbc:CompanyID><cac:CorporateRegistrationScheme><cbc:Name>if ( isnull(  razon_social ) , &apos;&apos; , razon_social ) + if ( isnull(   nombre1 ) , &apos;&apos; ,  nombre1 ) + if ( isnull(   nombre2 ) , &apos;&apos; , &apos; &apos;+ nombre2 ) + if ( isnull(   apellido1 ) , &apos;&apos; , &apos; &apos;+ apellido1 ) + if ( isnull(   apellido2 ) , &apos;&apos; , &apos; &apos;+  apellido2 ) </cbc:Name></cac:CorporateRegistrationScheme></cac:PartyLegalEntity><cac:Contact><cbc:Name>if ( not isnull(razon_social) ,  nombre_responsable , wordcap(nombre1) + &apos; &apos;+ wordcap(apellido1))</cbc:Name><cbc:Telephone> telefono_cliente +&apos;&apos;</cbc:Telephone><cbc:ElectronicMail>email_cliente+&apos;&apos;</cbc:ElectronicMail></cac:Contact></cac:Party></cac:AccountingCustomerParty><cac:PaymentMeans><cbc:ID>2</cbc:ID><cbc:PaymentMeansCode>3</cbc:PaymentMeansCode><cbc:PaymentDueDate>string( relativedate( fecha_factura , 30 ) , &apos;yyyy-mm-dd&apos; )</cbc:PaymentDueDate></cac:PaymentMeans><cac:PaymentExchangeRate><cbc:SourceCurrencyCode>COP</cbc:SourceCurrencyCode><cbc:SourceCurrencyBaseRate>&apos;1.00&apos;</cbc:SourceCurrencyBaseRate><cbc:TargetCurrencyCode>COP</cbc:TargetCurrencyCode><cbc:TargetCurrencyBaseRate>&apos;1.00&apos;</cbc:TargetCurrencyBaseRate><cbc:CalculationRate>&apos;1.00&apos;</cbc:CalculationRate><cbc:Date>string ( fecha_factura , &apos;yyyy-mm-dd&apos; )</cbc:Date></cac:PaymentExchangeRate><cac:TaxTotal><cbc:TaxAmount currencyID=~"COP~">&apos;0.00&apos;</cbc:TaxAmount><cac:TaxSubtotal><cbc:TaxableAmount currencyID=~"COP~">STRING ( vtemp -  valor_aceptadocab, &apos;##########.00&apos; )</cbc:TaxableAmount><cbc:TaxAmount currencyID=~"COP~">&apos;0.00&apos;</cbc:TaxAmount><cac:TaxCategory><cbc:Percent>&apos;0.00&apos;</cbc:Percent><cac:TaxScheme><cbc:ID>&apos;01&apos;</cbc:ID><cbc:Name>IVA</cbc:Name></cac:TaxScheme></cac:TaxCategory></cac:TaxSubtotal></cac:TaxTotal><cac:LegalMonetaryTotal><cbc:LineExtensionAmount currencyID=~"COP~">STRING ( vtemp -  valor_aceptadocab  , &apos;##########.00&apos; )</cbc:LineExtensionAmount><cbc:TaxExclusiveAmount currencyID=~"COP~">STRING ( vtemp -  valor_aceptadocab , &apos;##########.00&apos; )</cbc:TaxExclusiveAmount><cbc:TaxInclusiveAmount currencyID=~"COP~">STRING ( vtemp -  valor_aceptadocab , &apos;##########.00&apos; )</cbc:TaxInclusiveAmount><cbc:AllowanceTotalAmount currencyID=~"COP~">&apos;0.00&apos;</cbc:AllowanceTotalAmount><cbc:PayableRoundingAmount currencyID=~"COP~">&apos;0.00&apos;</cbc:PayableRoundingAmount><cbc:PayableAmount currencyID=~"COP~">STRING ( vtemp -  valor_aceptadocab , &apos;##########.00&apos; )</cbc:PayableAmount></cac:LegalMonetaryTotal><cac:CreditNoteLine __pbband=~"detail~"><cbc:ID>getrow()</cbc:ID><cbc:CreditedQuantity unitCode=~"~~tif(isnull(cumd), cumdp ,cumd)~">string ( cantidad , &apos;###########.00&apos; )</cbc:CreditedQuantity><cbc:LineExtensionAmount currencyID=~"COP~">string (  vemp -  valor_aceptado   , &apos;###########.00&apos; )</cbc:LineExtensionAmount><cac:TaxTotal><cbc:TaxAmount currencyID=~"COP~">&apos;0.00&apos;</cbc:TaxAmount><cac:TaxSubtotal><cbc:TaxableAmount currencyID=~"COP~">string (  vemp -   valor_aceptado   , &apos;###########.00&apos; )</cbc:TaxableAmount><cbc:TaxAmount currencyID=~"COP~">&apos;0.00&apos;</cbc:TaxAmount><cac:TaxCategory><cbc:Percent>&apos;0.00&apos;</cbc:Percent><cac:TaxScheme><cbc:ID>&apos;01&apos;</cbc:ID><cbc:Name>&apos;IVA&apos;</cbc:Name></cac:TaxScheme></cac:TaxCategory></cac:TaxSubtotal></cac:TaxTotal><cac:Item><cbc:Description>ds_prod</cbc:Description><cac:StandardItemIdentification><cbc:ID schemeAgencyID=~"~" schemeID=~"999~" schemeName=~"Estándar de adopción del contribuyente~">cd_prod</cbc:ID></cac:StandardItemIdentification><cac:AdditionalItemProperty><cbc:Name>Unidad de Medida</cbc:Name><cbc:Value>if(isnull(cumd), cumdp ,cumd)</cbc:Value></cac:AdditionalItemProperty></cac:Item><cac:Price><cbc:PriceAmount currencyID=~"COP~">string (  vemp -  valor_aceptado  , &apos;###########.00&apos; )</cbc:PriceAmount><cbc:BaseQuantity unitCode=~"~~tif(isnull(cumd), cumdp ,cumd)~">string ( cantidad , &apos;############.00&apos; )</cbc:BaseQuantity></cac:Price></cac:CreditNoteLine></CreditNote>"))
-import.xml()
+export.xml(usetemplate="ncdian19" headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0  template=(comment="Factura electronica de la DIAN" encoding="UTF-8" name="ncdian19" xml="<?xml version=~"1.0~" encoding=~"UTF-16LE~" standalone=~"no~"?><CreditNote xmlns=~"urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2~" xmlns:cac=~"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2~" xmlns:cbc=~"urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2~" xmlns:ds=~"http://www.w3.org/2000/09/xmldsig#~" xmlns:ext=~"urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2~" xmlns:sts=~"urn:dian:gov:co:facturaelectronica:Structures-2-1~" xmlns:xades=~"http://uri.etsi.org/01903/v1.3.2#~" xmlns:xades141=~"http://uri.etsi.org/01903/v1.4.1#~" xmlns:xsi=~"http://www.w3.org/2001/XMLSchema-instance~" xsi:schemaLocation=~"urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2    http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-CreditNote-2.1.xsd~"><ext:UBLExtensions><ext:UBLExtension><ext:ExtensionContent><CustomTagGeneral><Name>Responsable</Name><Value>url www.minsalud.gov.co</Value><Name>Tipo, identificador:año del acto administrativo</Name><Value>Resolución 2275:2023</Value></CustomTagGeneral><Interoperabilidad><Group schemeName=~"Sector Salud~"><Collection schemeName=~"Usuario~"><AdditionalInformation><Name>CODIGO_PRESTADOR</Name><Value>left( c_supersalud ,10)</Value></AdditionalInformation><AdditionalInformation><Name>MODALIDAD_PAGO</Name><Value schemeID=~"~~t mp_fems ~" schemeName=~"salud_modalidad_pago.gc~">mpnm_fems </Value></AdditionalInformation><AdditionalInformation><Name>COBERTURA_PLAN_BENEFICIOS</Name><Value schemeID=~"~~t pl_fems ~" schemeName=~"salud_cobertura.gc~"> plnm_fems </Value></AdditionalInformation><AdditionalInformation><Name>NUMERO_CONTRATO</Name><Value> nro_contrato </Value></AdditionalInformation><AdditionalInformation><Name><NUMERO_POLIZA/></Name><Value> poliza </Value></AdditionalInformation></Collection></Group></Interoperabilidad></ext:ExtensionContent></ext:UBLExtension><ext:UBLExtension><ext:ExtensionContent><sts:DianExtensions><sts:InvoiceSource><cbc:IdentificationCode listAgencyID=~"6~" listAgencyName=~"United Nations Economic Commission for Europe~" listSchemeURI=~"urn:oasis:names:specification:ubl:codelist:gc:CountryIdentificationCode-2.1~">CO</cbc:IdentificationCode></sts:InvoiceSource><sts:SoftwareProvider><sts:ProviderID schemeAgencyID=~"195~" schemeAgencyName=~"CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)~" schemeID=~"~~t dv_provider +''~" schemeName=~"31~">provider_id+&apos;&apos;</sts:ProviderID><sts:SoftwareID schemeAgencyID=~"195~" schemeAgencyName=~"CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)~"> software_id +&apos;&apos;</sts:SoftwareID></sts:SoftwareProvider><sts:SoftwareSecurityCode schemeAgencyID=~"195~" schemeAgencyName=~"CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)~">huella+&apos;&apos;</sts:SoftwareSecurityCode><sts:AuthorizationProvider><sts:AuthorizationProviderID schemeAgencyID=~"195~" schemeAgencyName=~"CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)~" schemeID=~"4~" schemeName=~"31~">800197268</sts:AuthorizationProviderID></sts:AuthorizationProvider><sts:QRCode>&quot;https://catalogovpfe.dian.gov.co/document/searchqr?documentkey=&quot;+ cufe </sts:QRCode></sts:DianExtensions></ext:ExtensionContent></ext:UBLExtension><ext:UBLExtension><ext:ExtensionContent/></ext:UBLExtension></ext:UBLExtensions><cbc:UBLVersionID>&apos;UBL 2.1&apos;</cbc:UBLVersionID><cbc:CustomizationID>20</cbc:CustomizationID><cbc:ProfileID>&apos;DIAN 2.1: Nota Crédito de Factura Electrónica de Venta&apos;</cbc:ProfileID><cbc:ProfileExecutionID> tipo_ambiente +&apos;&apos;</cbc:ProfileExecutionID><cbc:ID>id_nota+&apos;&apos;</cbc:ID><cbc:UUID schemeID=~"~~t tipo_ambiente +''~" schemeName=~"CUDE-SHA384~">cufe+&apos;&apos;</cbc:UUID><cbc:IssueDate>string(  fecha_nota  ,&apos;yyyy-mm-dd&apos;)</cbc:IssueDate><cbc:IssueTime>string(  fecha_nota   , &apos;HH:mm:ss&apos;)+&apos;-05:00&apos;</cbc:IssueTime><cbc:CreditNoteTypeCode>&apos;91&apos;</cbc:CreditNoteTypeCode><cbc:Note> id_nota </cbc:Note><cbc:DocumentCurrencyCode>COP</cbc:DocumentCurrencyCode><cbc:LineCountNumeric>rowcount()</cbc:LineCountNumeric><cac:InvoicePeriod><cbc:StartDate>string( finiciop  , &apos;yyyy-mm-dd&apos; )</cbc:StartDate><cbc:StartTime>string(  finiciop   , &apos;HH:mm:ss&apos;)+&apos;-05:00&apos;</cbc:StartTime><cbc:EndDate>string( fecha_factura  , &apos;yyyy-mm-dd&apos; )</cbc:EndDate><cbc:EndTime>string(  hora_factura   , &apos;HH:mm:ss&apos;)+&apos;-05:00&apos;</cbc:EndTime></cac:InvoicePeriod><cac:DiscrepancyResponse><cbc:ReferenceID> prefijo + nfact</cbc:ReferenceID><cbc:ResponseCode>2</cbc:ResponseCode><cbc:Description>Motivo_anula +&apos;&apos;</cbc:Description></cac:DiscrepancyResponse><cac:BillingReference><cac:InvoiceDocumentReference><cbc:ID>prefijo+nfact</cbc:ID><cbc:UUID schemeName=~"CUFE-SHA384~">cufe_previo+&apos;&apos;</cbc:UUID><cbc:IssueDate>string( fecha_factura , &apos;yyyy-mm-dd&apos;)</cbc:IssueDate></cac:InvoiceDocumentReference></cac:BillingReference><cac:AccountingSupplierParty><cbc:AdditionalAccountID>if ( persona=&apos;N&apos; , 2  , 1 )</cbc:AdditionalAccountID><cac:Party><cac:PartyName><cbc:Name> ips_descripcion +&apos;&apos;</cbc:Name></cac:PartyName><cac:PhysicalLocation><cac:Address><cbc:ID> cod_depto + cod_ciudad </cbc:ID><cbc:CityName> ciudad_facturador +&apos;, &apos;+ depto_facturador </cbc:CityName><cbc:PostalZone>codigo_postal+&apos;&apos;</cbc:PostalZone><cbc:CountrySubentity> depto_facturador +&apos;&apos;</cbc:CountrySubentity><cbc:CountrySubentityCode> cod_depto +&apos;&apos;</cbc:CountrySubentityCode><cac:AddressLine><cbc:Line>direccion+&apos;&apos;</cbc:Line></cac:AddressLine><cac:Country><cbc:IdentificationCode>CO</cbc:IdentificationCode><cbc:Name languageID=~"es~">Colombia</cbc:Name></cac:Country></cac:Address></cac:PhysicalLocation><cac:PartyTaxScheme><cbc:RegistrationName> ips_descripcion +&apos;&apos;</cbc:RegistrationName><cbc:CompanyID schemeAgencyID=~"195~" schemeAgencyName=~"CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)~" schemeID=~"~~t ipsdv +''~" schemeName=~"31~">documento+&apos;&apos;</cbc:CompanyID><cbc:TaxLevelCode listName=~"~~t regimen_fiscal ~"> responsabilidad_fiscal +&apos;&apos;</cbc:TaxLevelCode><cac:RegistrationAddress><cbc:ID>cod_depto+cod_ciudad</cbc:ID><cbc:CityName> ciudad_facturador +&apos;, &apos;+ depto_facturador </cbc:CityName><cbc:PostalZone>codigo_postal+&apos;&apos;</cbc:PostalZone><cbc:CountrySubentity>depto_facturador+&apos;&apos;</cbc:CountrySubentity><cbc:CountrySubentityCode>cod_depto+&apos;&apos;</cbc:CountrySubentityCode><cac:AddressLine><cbc:Line>direccion+&apos;&apos;</cbc:Line></cac:AddressLine><cac:Country><cbc:IdentificationCode>CO</cbc:IdentificationCode><cbc:Name languageID=~"es~">Colombia</cbc:Name></cac:Country></cac:RegistrationAddress><cac:TaxScheme><cbc:ID>&apos;01&apos;</cbc:ID><cbc:Name>IVA</cbc:Name></cac:TaxScheme></cac:PartyTaxScheme><cac:PartyLegalEntity><cbc:RegistrationName> ips_descripcion +&apos;&apos;</cbc:RegistrationName><cbc:CompanyID schemeAgencyID=~"195~" schemeAgencyName=~"CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)~" schemeID=~"~~t ipsdv +''~" schemeName=~"31~">documento+&apos;&apos;</cbc:CompanyID><cac:CorporateRegistrationScheme><cbc:ID>&apos;NC&apos;+prefijo+&apos;&apos;</cbc:ID></cac:CorporateRegistrationScheme></cac:PartyLegalEntity><cac:Contact><cbc:Name> if ( isnull(   nom1_rpl  ) , &apos;&apos; , nom1_rpl  ) + if ( isnull(  nom2_rpl  ) , &apos;&apos; , &apos; &apos;+ nom2_rpl  ) + if ( isnull( ape1_rpl  ) , &apos;&apos; , &apos; &apos;+ ape1_rpl  ) + if ( isnull(  ape2_rpl  ) , &apos;&apos; , &apos; &apos;+   ape2_rpl  ) </cbc:Name><cbc:Telephone>telefono+&apos;&apos;</cbc:Telephone><cbc:ElectronicMail> correo +&apos;&apos;</cbc:ElectronicMail></cac:Contact></cac:Party></cac:AccountingSupplierParty><cac:AccountingCustomerParty><cbc:AdditionalAccountID schemeAgencyID=~"195~">if (persona=&apos;J&apos;, 1 , 2)</cbc:AdditionalAccountID><cac:Party><cac:PartyIdentification><cbc:ID schemeAgencyID=~"195~" schemeAgencyName=~"CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)~" schemeID=~"~~t dverificacion +''~" schemeName=~"31~">nit +&apos;&apos;</cbc:ID></cac:PartyIdentification><cac:PartyName><cbc:Name>if ( isnull(  razon_social ) , &apos;&apos; , razon_social ) + if ( isnull(   nombre1 ) , &apos;&apos; ,  nombre1 ) + if ( isnull(   nombre2 ) , &apos;&apos; , &apos; &apos;+ nombre2 ) + if ( isnull(   apellido1 ) , &apos;&apos; , &apos; &apos;+ apellido1 ) + if ( isnull(   apellido2 ) , &apos;&apos; , &apos; &apos;+  apellido2 ) </cbc:Name></cac:PartyName><cac:PhysicalLocation><cac:Address><cbc:ID> id_depto_cliente + id_ciudad_cliente </cbc:ID><cbc:CityName> ciudad_cliente +&apos;, &apos;+ depto_cliente </cbc:CityName><cbc:PostalZone> codigo_postal_cliente +&apos;&apos;</cbc:PostalZone><cbc:CountrySubentity> depto_cliente +&apos;&apos;</cbc:CountrySubentity><cbc:CountrySubentityCode> id_depto_cliente +&apos;&apos;</cbc:CountrySubentityCode><cac:AddressLine><cbc:Line>direccion_cliente+&apos;&apos;</cbc:Line></cac:AddressLine><cac:Country><cbc:IdentificationCode>CO</cbc:IdentificationCode><cbc:Name languageID=~"es~">Colombia</cbc:Name></cac:Country></cac:Address></cac:PhysicalLocation><cac:PartyTaxScheme><cbc:RegistrationName>if ( isnull(  razon_social ) , &apos;&apos; , razon_social ) + if ( isnull(   nombre1 ) , &apos;&apos; ,  nombre1 ) + if ( isnull(   nombre2 ) , &apos;&apos; , &apos; &apos;+ nombre2 ) + if ( isnull(   apellido1 ) , &apos;&apos; , &apos; &apos;+ apellido1 ) + if ( isnull(   apellido2 ) , &apos;&apos; , &apos; &apos;+  apellido2 ) </cbc:RegistrationName><cbc:CompanyID schemeAgencyID=~"195~" schemeAgencyName=~"CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)~" schemeID=~"~~tdverificacion +''~" schemeName=~"31~">nit +&apos;&apos;</cbc:CompanyID><cbc:TaxLevelCode listName=~"~~t respon_iva +''~"> obligacion +&apos;&apos;</cbc:TaxLevelCode><cac:RegistrationAddress><cbc:ID> id_depto_cliente + id_ciudad_cliente </cbc:ID><cbc:CityName> ciudad_cliente +&apos;, &apos;+ depto_cliente </cbc:CityName><cbc:PostalZone> codigo_postal_cliente +&apos;&apos;</cbc:PostalZone><cbc:CountrySubentity>depto_cliente+&apos;&apos;</cbc:CountrySubentity><cbc:CountrySubentityCode>id_depto_cliente+&apos;&apos;</cbc:CountrySubentityCode><cac:AddressLine><cbc:Line> direccion_cliente +&apos;&apos;</cbc:Line></cac:AddressLine><cac:Country><cbc:IdentificationCode>CO</cbc:IdentificationCode><cbc:Name languageID=~"es~">Colombia</cbc:Name></cac:Country></cac:RegistrationAddress><cac:TaxScheme><cbc:ID>&apos;01&apos;</cbc:ID><cbc:Name>IVA</cbc:Name></cac:TaxScheme></cac:PartyTaxScheme><cac:PartyLegalEntity><cbc:RegistrationName>if ( isnull(  razon_social ) , &apos;&apos; , razon_social ) + if ( isnull(   nombre1 ) , &apos;&apos; ,  nombre1 ) + if ( isnull(   nombre2 ) , &apos;&apos; , &apos; &apos;+ nombre2 ) + if ( isnull(   apellido1 ) , &apos;&apos; , &apos; &apos;+ apellido1 ) + if ( isnull(   apellido2 ) , &apos;&apos; , &apos; &apos;+  apellido2 ) </cbc:RegistrationName><cbc:CompanyID schemeAgencyID=~"195~" schemeAgencyName=~"CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)~" schemeID=~"~~t dverificacion +''~" schemeName=~"31~">nit +&apos;&apos;</cbc:CompanyID><cac:CorporateRegistrationScheme><cbc:Name>if ( isnull(  razon_social ) , &apos;&apos; , razon_social ) + if ( isnull(   nombre1 ) , &apos;&apos; ,  nombre1 ) + if ( isnull(   nombre2 ) , &apos;&apos; , &apos; &apos;+ nombre2 ) + if ( isnull(   apellido1 ) , &apos;&apos; , &apos; &apos;+ apellido1 ) + if ( isnull(   apellido2 ) , &apos;&apos; , &apos; &apos;+  apellido2 ) </cbc:Name></cac:CorporateRegistrationScheme></cac:PartyLegalEntity><cac:Contact><cbc:Name>if ( not isnull(razon_social) ,  nombre_responsable , wordcap(nombre1) + &apos; &apos;+ wordcap(apellido1))</cbc:Name><cbc:Telephone> telefono_cliente +&apos;&apos;</cbc:Telephone><cbc:ElectronicMail>email_cliente+&apos;&apos;</cbc:ElectronicMail></cac:Contact></cac:Party></cac:AccountingCustomerParty><cac:PaymentMeans><cbc:ID>2</cbc:ID><cbc:PaymentMeansCode>3</cbc:PaymentMeansCode><cbc:PaymentDueDate>string( relativedate( fecha_factura , 30 ) , &apos;yyyy-mm-dd&apos; )</cbc:PaymentDueDate></cac:PaymentMeans><cac:PaymentExchangeRate><cbc:SourceCurrencyCode>COP</cbc:SourceCurrencyCode><cbc:SourceCurrencyBaseRate>&apos;1.00&apos;</cbc:SourceCurrencyBaseRate><cbc:TargetCurrencyCode>COP</cbc:TargetCurrencyCode><cbc:TargetCurrencyBaseRate>&apos;1.00&apos;</cbc:TargetCurrencyBaseRate><cbc:CalculationRate>&apos;1.00&apos;</cbc:CalculationRate><cbc:Date>string ( fecha_factura , &apos;yyyy-mm-dd&apos; )</cbc:Date></cac:PaymentExchangeRate><cac:TaxTotal><cbc:TaxAmount currencyID=~"COP~">&apos;0.00&apos;</cbc:TaxAmount><cac:TaxSubtotal><cbc:TaxableAmount currencyID=~"COP~">STRING ( vtemp -  valor_aceptadocab, &apos;##########.00&apos; )</cbc:TaxableAmount><cbc:TaxAmount currencyID=~"COP~">&apos;0.00&apos;</cbc:TaxAmount><cac:TaxCategory><cbc:Percent>&apos;0.00&apos;</cbc:Percent><cac:TaxScheme><cbc:ID>&apos;01&apos;</cbc:ID><cbc:Name>IVA</cbc:Name></cac:TaxScheme></cac:TaxCategory></cac:TaxSubtotal></cac:TaxTotal><cac:LegalMonetaryTotal><cbc:LineExtensionAmount currencyID=~"COP~">STRING ( vtemp -  valor_aceptadocab  , &apos;##########.00&apos; )</cbc:LineExtensionAmount><cbc:TaxExclusiveAmount currencyID=~"COP~">STRING ( vtemp -  valor_aceptadocab , &apos;##########.00&apos; )</cbc:TaxExclusiveAmount><cbc:TaxInclusiveAmount currencyID=~"COP~">STRING ( vtemp -  valor_aceptadocab , &apos;##########.00&apos; )</cbc:TaxInclusiveAmount><cbc:AllowanceTotalAmount currencyID=~"COP~">&apos;0.00&apos;</cbc:AllowanceTotalAmount><cbc:PayableRoundingAmount currencyID=~"COP~">&apos;0.00&apos;</cbc:PayableRoundingAmount><cbc:PayableAmount currencyID=~"COP~">STRING ( vtemp -  valor_aceptadocab , &apos;##########.00&apos; )</cbc:PayableAmount></cac:LegalMonetaryTotal><cac:CreditNoteLine __pbband=~"detail~"><cbc:ID>getrow()</cbc:ID><cbc:CreditedQuantity unitCode=~"~~tif(isnull(cumd), cumdp ,cumd)~">string ( cantidad , &apos;###########.00&apos; )</cbc:CreditedQuantity><cbc:LineExtensionAmount currencyID=~"COP~">string (  vemp -  valor_aceptado   , &apos;###########.00&apos; )</cbc:LineExtensionAmount><cac:TaxTotal><cbc:TaxAmount currencyID=~"COP~">&apos;0.00&apos;</cbc:TaxAmount><cac:TaxSubtotal><cbc:TaxableAmount currencyID=~"COP~">string (  vemp -   valor_aceptado   , &apos;###########.00&apos; )</cbc:TaxableAmount><cbc:TaxAmount currencyID=~"COP~">&apos;0.00&apos;</cbc:TaxAmount><cac:TaxCategory><cbc:Percent>&apos;0.00&apos;</cbc:Percent><cac:TaxScheme><cbc:ID>&apos;01&apos;</cbc:ID><cbc:Name>&apos;IVA&apos;</cbc:Name></cac:TaxScheme></cac:TaxCategory></cac:TaxSubtotal></cac:TaxTotal><cac:Item><cbc:Description>ds_prod</cbc:Description><cac:StandardItemIdentification><cbc:ID schemeAgencyID=~"~" schemeID=~"999~" schemeName=~"Estándar de adopción del contribuyente~">cd_prod</cbc:ID></cac:StandardItemIdentification><cac:AdditionalItemProperty><cbc:Name>Unidad de Medida</cbc:Name><cbc:Value>if(isnull(cumd), cumdp ,cumd)</cbc:Value></cac:AdditionalItemProperty></cac:Item><cac:Price><cbc:PriceAmount currencyID=~"COP~">string (  vemp -  valor_aceptado  , &apos;###########.00&apos; )</cbc:PriceAmount><cbc:BaseQuantity unitCode=~"~~tif(isnull(cumd), cumdp ,cumd)~">string ( cantidad , &apos;############.00&apos; )</cbc:BaseQuantity></cac:Price></cac:CreditNoteLine></CreditNote>"))
+import.xml(usetemplate="ncdian19" )
 export.pdf(method=0 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
  
