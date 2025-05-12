@@ -26,6 +26,9 @@ public function st_ret_dian emite_json_jsonsf (decimal al_nro_fact, string as_cl
 public function string sispro_login (string as_ambiente, string as_td, string as_doc, string as_pasw, string as_nit, string as_url)
 public function st_retorno_gral sispro_carga_fev_rips (string as_token, string as_ambiente, string as_ruta, string as_doc, string as_filename, string as_url)
 public function st_ret_dian emite_json_eventonc (decimal al_nro_fact, string as_clug_fact, string as_tipo_fac, double adb_item, string as_tipo_docu, string as_coddoc, string as_ruta)
+public function st_retorno_gral sispro_cargarnc (string as_token, string as_ambiente, string as_ruta, string as_doc, string as_filename, string as_url)
+public function st_retorno_gral sispro_cargarnctotal (string as_token, string as_ambiente, string as_ruta, string as_doc, string as_filename, string as_url)
+public function st_retorno_gral sispro_cargarnotaajuste (string as_token, string as_ambiente, string as_ruta, string as_doc, string as_filename, string as_url)
 end prototypes
 
 public function st_retorno_gral sispro_carga_capita_ini (string as_token, string as_ambiente, string as_ruta, string as_doc);Integer li_rc,li_filenum,li_StatusCode 
@@ -1840,7 +1843,7 @@ string ls_json
 lds_fact=create uo_datastore
 lds_rips=create uo_datastore
 
-lds_fact.dataobject='dw_json_transaccion'
+lds_fact.dataobject='dw_json_transaccion_nc'
 lds_fact.settransobject(sqlca)
 ///FACTURA
 if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
@@ -1856,12 +1859,11 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 		ripse_json.AddItemString(li_root,"numNota",'NC'+lds_fact.getitemstring(1,'prefijo')+string(lds_fact.getitemnumber(1,'nfact'))+string(adb_item,'00') )
 	end if
 	
-
 	ripse_json.AddItemString(li_root,"NC")
 	li_usu = ripse_json.AddItemArray(li_root,"usuarios")	
 	li_fusu = ripse_json.AddItemObject(li_usu)
 
-	lds_rips.dataobject='dw_json_usuario'
+	lds_rips.dataobject='dw_json_usuario_nc'
 	lds_rips.settransobject(sqlca)
 	//USUARIO
 	if lds_rips.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
@@ -1887,7 +1889,7 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 		
 		li_serv = ripse_json.AddItemObject(li_fusu, "servicios")
 
-		lds_rips.dataobject='dw_json_consulta'
+		lds_rips.dataobject='dw_json_consulta_nc'
 		lds_rips.settransobject(sqlca)
 		if lds_rips.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 			li_con= ripse_json.AddItemArray(li_serv,"consultas")
@@ -1950,7 +1952,7 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 			next
 		end if
 		
-		lds_rips.dataobject='dw_json_procedimiento'
+		lds_rips.dataobject='dw_json_procedimiento_nc'
 		lds_rips.settransobject(sqlca)
 		if lds_rips.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 			li_con= ripse_json.AddItemArray(li_serv,"procedimientos")
@@ -2286,6 +2288,244 @@ destroy ripse_json
 destroy lds_fact
 
 return lst_ret_dian
+end function
+
+public function st_retorno_gral sispro_cargarnc (string as_token, string as_ambiente, string as_ruta, string as_doc, string as_filename, string as_url);Integer li_rc,li_filenum,li_StatusCode 
+String ls_ReturnJson,ls_json,ls_envio,ls_err, ls_url
+JsonGenerator ljg_json
+blob lblob_xml
+st_retorno_gral lst_ret 
+
+//// ABRE JSON
+as_ruta=as_ruta
+as_doc=as_ruta+as_doc
+
+ljg_json = Create JsonGenerator
+ljg_json.ImportFile(as_doc)
+ls_json = ljg_json.GetJsonString()
+
+///ABRE XML
+as_doc=as_ruta+"ad"+mid(as_filename,3)+'.xml'
+
+li_filenum = FileOpen(as_doc, StreamMode!, Read!, LockReadWrite!, Append!, EncodingANSI!)
+IF li_FileNum = -1 THEN 
+	lst_ret.i_valor=-1
+	return lst_ret
+end if
+li_rc = FileReadEx(li_FileNum, lblob_xml)
+
+IF li_rc = -1 THEN 
+	FileClose(li_FileNum)
+	lst_ret.i_valor=-2
+	return lst_ret
+end if
+FileClose(li_FileNum)
+
+///Sube Json leido
+jsonpackage lnv_json
+lnv_json = create jsonpackage
+lnv_json.setvalue("rips",ls_json)
+
+///Pasa xml a base64
+CoderObject lnv_CoderObject
+lnv_CoderObject = Create CoderObject
+lnv_json.setvalue("xmlFevFile", lnv_CoderObject.Base64Encode(lblob_xml), false)
+ls_envio=lnv_json.GetJsonString()
+
+
+httpClient lo_client
+lo_client = Create HttpClient
+lo_client.SetRequestHeader("Content-Type", "application/json;charset=UTF-8")
+lo_client.SetRequestHeader("Authorization",+'Bearer '+as_token)
+
+if as_ambiente='2' then
+	ls_url=as_url+"PaquetesFevRips/CargarNC"
+else
+	ls_url=as_url+"PaquetesFevRips/CargarNC"
+end if
+
+li_rc =lo_client.sendrequest('POST',ls_url, ls_envio, EncodingUTF8!)
+	
+li_StatusCode = lo_client.GetResponseStatusCode()
+ls_err = lo_client.GetResponseStatusText( )
+li_rc = lo_client.getresponsebody(ls_ReturnJson)
+
+if li_statusCode<0 then
+	if isnull(ls_err) then
+		ls_err='Error de API Minsalud'
+	else
+		ls_err='Error de API Minsalud'+ls_err
+	end if
+	messagebox("Atención"+string(li_StatusCode),ls_err)
+	
+	lst_ret.i_valor=-1
+	return lst_ret
+end if
+
+destroy ljg_json
+destroy lnv_json
+destroy lo_client
+lst_ret.i_valor=1
+lst_ret.s_valor=ls_ReturnJson
+
+return lst_ret
+end function
+
+public function st_retorno_gral sispro_cargarnctotal (string as_token, string as_ambiente, string as_ruta, string as_doc, string as_filename, string as_url);Integer li_rc,li_filenum,li_StatusCode 
+String ls_ReturnJson,ls_json,ls_envio,ls_err, ls_url
+JsonGenerator ljg_json
+blob lblob_xml
+st_retorno_gral lst_ret 
+
+///ABRE XML
+as_doc=as_ruta+"ad"+mid(as_filename,3)+'.xml'
+
+li_filenum = FileOpen(as_doc, StreamMode!, Read!, LockReadWrite!, Append!, EncodingANSI!)
+IF li_FileNum = -1 THEN 
+	lst_ret.i_valor=-1
+	return lst_ret
+end if
+li_rc = FileReadEx(li_FileNum, lblob_xml)
+
+IF li_rc = -1 THEN 
+	FileClose(li_FileNum)
+	lst_ret.i_valor=-2
+	return lst_ret
+end if
+FileClose(li_FileNum)
+
+jsonpackage lnv_json
+lnv_json = create jsonpackage
+
+///Pasa xml a base64
+CoderObject lnv_CoderObject
+lnv_CoderObject = Create CoderObject
+lnv_json.setvalue("xmlFevFile", lnv_CoderObject.Base64Encode(lblob_xml), false)
+ls_envio=lnv_json.GetJsonString()
+
+ljg_json=create JSONGenerator
+li_rc = ljg_json.CreateJsonObject()
+ljg_json.AddItemNull(li_rc ,"rips")
+ljg_json.AddItemString(li_rc ,"xmlFevFile",lnv_CoderObject.Base64Encode(lblob_xml))
+ls_envio=ljg_json.GetJsonString()
+
+httpClient lo_client
+lo_client = Create HttpClient
+lo_client.SetRequestHeader("Content-Type", "application/json;charset=UTF-8")
+lo_client.SetRequestHeader("Authorization",+'Bearer '+as_token)
+
+if as_ambiente='2' then
+	ls_url=as_url+"PaquetesFevRips/CargarNCTotal"
+else
+	ls_url=as_url+"PaquetesFevRips/CargarNCTotal"
+end if
+
+li_rc =lo_client.sendrequest('POST',ls_url, ls_envio, EncodingUTF8!)
+	
+li_StatusCode = lo_client.GetResponseStatusCode()
+ls_err = lo_client.GetResponseStatusText( )
+li_rc = lo_client.getresponsebody(ls_ReturnJson)
+
+if li_statusCode<0 then
+	if isnull(ls_err) then
+		ls_err='Error de API Minsalud'
+	else
+		ls_err='Error de API Minsalud'+ls_err
+	end if
+	messagebox("Atención"+string(li_StatusCode),ls_err)
+	
+	lst_ret.i_valor=-1
+	return lst_ret
+end if
+
+destroy ljg_json
+destroy lnv_json
+destroy lo_client
+lst_ret.i_valor=1
+lst_ret.s_valor=ls_ReturnJson
+
+return lst_ret
+end function
+
+public function st_retorno_gral sispro_cargarnotaajuste (string as_token, string as_ambiente, string as_ruta, string as_doc, string as_filename, string as_url);Integer li_rc,li_filenum,li_StatusCode 
+String ls_ReturnJson,ls_json,ls_envio,ls_err, ls_url
+JsonGenerator ljg_json
+blob lblob_xml
+st_retorno_gral lst_ret 
+
+//// ABRE JSON
+as_ruta=as_ruta
+as_doc=as_ruta+as_doc
+
+ljg_json = Create JsonGenerator
+ljg_json.ImportFile(as_doc)
+ls_json = ljg_json.GetJsonString()
+
+///ABRE XML
+as_doc=as_ruta+"ad"+mid(as_filename,3)+'.xml'
+
+li_filenum = FileOpen(as_doc, StreamMode!, Read!, LockReadWrite!, Append!, EncodingANSI!)
+IF li_FileNum = -1 THEN 
+	lst_ret.i_valor=-1
+	return lst_ret
+end if
+li_rc = FileReadEx(li_FileNum, lblob_xml)
+
+IF li_rc = -1 THEN 
+	FileClose(li_FileNum)
+	lst_ret.i_valor=-2
+	return lst_ret
+end if
+FileClose(li_FileNum)
+
+///Sube Json leido
+jsonpackage lnv_json
+lnv_json = create jsonpackage
+lnv_json.setvalue("rips",ls_json)
+
+///Pasa xml a base64
+CoderObject lnv_CoderObject
+lnv_CoderObject = Create CoderObject
+lnv_json.setvalue("xmlFevFile", lnv_CoderObject.Base64Encode(lblob_xml), false)
+ls_envio=lnv_json.GetJsonString()
+
+
+httpClient lo_client
+lo_client = Create HttpClient
+lo_client.SetRequestHeader("Content-Type", "application/json;charset=UTF-8")
+lo_client.SetRequestHeader("Authorization",+'Bearer '+as_token)
+
+if as_ambiente='2' then
+	ls_url=as_url+"PaquetesFevRips/CargarNotaAjuste"
+else
+	ls_url=as_url+"PaquetesFevRips/CargarNotaAjuste"
+end if
+
+li_rc =lo_client.sendrequest('POST',ls_url, ls_envio, EncodingUTF8!)
+	
+li_StatusCode = lo_client.GetResponseStatusCode()
+ls_err = lo_client.GetResponseStatusText( )
+li_rc = lo_client.getresponsebody(ls_ReturnJson)
+
+if li_statusCode<0 then
+	if isnull(ls_err) then
+		ls_err='Error de API Minsalud'
+	else
+		ls_err='Error de API Minsalud'+ls_err
+	end if
+	messagebox("Atención"+string(li_StatusCode),ls_err)
+	
+	lst_ret.i_valor=-1
+	return lst_ret
+end if
+
+destroy ljg_json
+destroy lnv_json
+destroy lo_client
+lst_ret.i_valor=1
+lst_ret.s_valor=ls_ReturnJson
+
+return lst_ret
 end function
 
 on nvo_fevrips.create
