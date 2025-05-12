@@ -594,25 +594,25 @@ end type
 
 event clicked;//////////ELECTRONICA	
 double ldb_i,ldb_nfac,ldb_nnto
-string ls_clugar,ls_tfac,ls_tnota,ls_version
+string ls_clu,ls_tip,ls_tnota,ls_version
 nvo_factura_electronica u_elec
 st_ret_dian    lst_lle
 
-//nvo_fevrips luo_rips
-//string ls_clu,ls_tip,is_ruta_facturas,ls_prefijo,ls_tipo_ambiente='1',ls_filename
+nvo_fevrips luo_rips
+string is_ruta_facturas,ls_prefijo,ls_tipo_ambiente='1',ls_filename
 //st_retorno_gral lst_ret_gral
 //
 //	
 u_elec=create nvo_factura_electronica
 
 /// DIRECTORIO DE FACTURAS
-//SELECT cadena into :is_ruta_facturas
-//FROM parametros_gen
-//WHERE (((codigo_para)=55));
-//if sqlca.sqlnrows=0 then
-//	messagebox('Atencíon','No hay parametro 55')
-//	return
-//end if
+SELECT cadena into :is_ruta_facturas
+FROM parametros_gen
+WHERE (((codigo_para)=55));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 55')
+	return
+end if
 
 
 for ldb_i =1 to tab_1.tp_1.dw_facts.rowcount()
@@ -634,18 +634,19 @@ for ldb_i =1 to tab_1.tp_1.dw_facts.rowcount()
 	end if
 	dw_electronica.settransobject(sqlca)		
 
-	if tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'estado_dian_nota')='1' then continue
-	if tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'file_name_fact_nota')='0' then continue
+	//if tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'estado_dian_nota')='1' then continue
+	//if tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'file_name_nota')='0' then continue
 	
 	ldb_nfac=tab_1.tp_1.dw_facts.getitemnumber(ldb_i ,'nfact')
-	ls_clugar=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'clugar')
-	ls_tfac=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'tipo_fact')
+	ls_clu=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'clugar_fact')
+	ls_tip=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'tipo_fact')
 	ls_tnota=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'tipo_nota')
 	ldb_nnto=tab_1.tp_1.dw_facts.getitemnumber(ldb_i ,'nro_nota')
-//	ls_prefijo=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'prefijo')
+	ldb_nnto=1
+	ls_prefijo=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'prefijo')
 
 	
-	lst_lle=u_elec.sign_chilkat(dw_electronica,ldb_nfac,ls_clugar,ls_tfac,ldb_nnto,'c','FV')
+//	lst_lle=u_elec.sign_chilkat(dw_electronica,ldb_nfac,ls_clugar,ls_tfac,ldb_nnto,'c','FV')
 	
 //	ls_filename=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'file_name_nota')
 //	
@@ -654,24 +655,24 @@ for ldb_i =1 to tab_1.tp_1.dw_facts.rowcount()
 //	if (ls_filename='' or isnull(ls_filename)) then continue
 //
 //
-//	if isnull(ls_prefijo) then 
-//		is_ruta_facturas=is_ruta_facturas+'NC'+string(ldb_nfac)+string(ldb_nnto,'00')+'\'
-//	else
-//		is_ruta_facturas=is_ruta_facturas+'NC'+ls_prefijo+string(ldb_nfac)+string(ldb_nnto,'00')+'\'
-//	end if
+	if isnull(ls_prefijo) then 
+		is_ruta_facturas=is_ruta_facturas+'NC'+string(ldb_nfac)+string(ldb_nnto,'00')+'\'
+	else
+		is_ruta_facturas=is_ruta_facturas+'NC'+ls_prefijo+string(ldb_nfac)+string(ldb_nnto,'00')+'\'
+	end if
+//	55416
+	luo_rips=create nvo_fevrips
+	If not DirectoryExists ( is_ruta_facturas) Then
+		integer li_filenum
+		CreateDirectory ( is_ruta_facturas)
+		li_filenum = ChangeDirectory( is_ruta_facturas)
+	end if
 //	
-//	luo_rips=create nvo_fevrips
-//	If not DirectoryExists ( is_ruta_facturas) Then
-//		integer li_filenum
-//		CreateDirectory ( is_ruta_facturas)
-//		li_filenum = ChangeDirectory( is_ruta_facturas)
-//	end if
-//	
-//	if isnull(ls_prefijo) then 
-//		luo_rips.emite_json_eventoNC(ldb_nfac,ls_clu,ls_tip,ldb_nnto,'f','FV',is_ruta_facturas+'NC'+string(ldb_nfac)+string(ldb_nnto,'00')+'.json')
-//	else
-//		luo_rips.emite_json_eventoNC(ldb_nfac,ls_clu,ls_tip,ldb_nnto,'f','FV',is_ruta_facturas+'NC'+ls_prefijo+string(ldb_nfac)+string(ldb_nnto,'00')+'.json')
-//	end if
+	if isnull(ls_prefijo) then 
+		luo_rips.emite_json_eventoNC(ldb_nfac,ls_clu,ls_tip,ldb_nnto,'f','FV',is_ruta_facturas+'NC'+string(ldb_nfac)+string(ldb_nnto,'00')+'.json')
+	else
+		luo_rips.emite_json_eventoNC(ldb_nfac,ls_clu,ls_tip,ldb_nnto,'f','FV',is_ruta_facturas+'NC'+ls_prefijo+string(ldb_nfac)+string(ldb_nnto,'00')+'.json')
+	end if
 //	
 //	//////////////////////// APIDOCKER
 //	if gs_apidocker='1' then
@@ -735,7 +736,7 @@ for ldb_i =1 to tab_1.tp_1.dw_facts.rowcount()
 //			end if
 //		end if //token
 //	end if
-//	destroy luo_rips
+	destroy luo_rips
 //	messagebox('Atencíon','Proceso Finalizado')
 	////////////////////
 next
