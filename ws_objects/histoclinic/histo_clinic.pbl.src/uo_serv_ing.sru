@@ -402,29 +402,30 @@ if stp.rips='1' then
 
 	dw_serv_ing.setitem(fila,"causaexterna",ls_cext)
 	
-	if isnull(p_amb) or p_amb='' then
-		SELECT 
-			codclapro
-		into
-			:ls_amb
-		FROM 
-			claseproced
-		WHERE 
-			(((estado)='1') AND ((defec)='1'));
-		if sqlca.sqlnrows=0 then
-			messagebox('Atencíon','No hay claseproced por Defecto')
-			return -1
-		end if
-	else
-		p_amb=ls_amb
+
+end if
+if isnull(p_amb) or p_amb='' then
+	SELECT 
+		codclapro
+	into
+		:ls_amb
+	FROM 
+		claseproced
+	WHERE 
+		(((estado)='1') AND ((defec)='1'));
+	if sqlca.sqlnrows=0 then
+		messagebox('Atencíon','No hay claseproced por Defecto')
+		return -1
 	end if
+else
+	ls_amb=p_amb
 end if
 
 dw_serv_ing.setitem(fila,"codespecialidad",i_espe)
 dw_serv_ing.setitem(fila,"cprof",i_profe)
 dw_serv_ing.setitem(fila,"persoatiende",i_atiende)
 
-dw_serv_ing.setitem(fila,"ambitoproced",p_amb)
+dw_serv_ing.setitem(fila,"ambitoproced",ls_amb)
 
 dw_serv_ing.setitem(fila,"clugar",i_clugar_his)
 dw_serv_ing.setitem(fila,"nfactura",p_nfact)

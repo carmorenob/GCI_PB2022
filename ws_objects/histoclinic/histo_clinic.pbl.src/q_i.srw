@@ -157,67 +157,21 @@ string facename = "Tahoma"
 string text = "none"
 end type
 
-event clicked;string ls_url = 'https://oauth2.googleapis.com/token'
-string ls_clientid = '72934021868-6ta93e5tedno14u079m72obtb0hf1q9c.apps.googleusercontent.com' // here I replaced whith my real client id here
-string ls_clientsecret = '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' // here I replaced whith my real client secret here
-string ls_scope = 'https://mail.google.com/' //to get a 'device list'; this for get the token 'CamDistributorTenant'
-string ls_auth = ''
-string ls_base64 = ''
-string ls_body = ''
-integer li_rc
-string ls_token
+event clicked;string pedazo, ls="2025-05-12T16:18:41.0409202+00:00"
+date ld_fehca
+time lt_time
+datetime jaer
+int posi
 
-RestClient lo_restclient
-CoderObject lo_coderobject
+posi=pos(ls,'T')
 
-lo_coderobject = create CoderObject
-lo_restclient =  create RestClient
+pedazo=mid(ls,1,posi  - 1)
+ld_fehca=date(pedazo)
 
-ls_auth = ls_clientid + ':' + ls_clientsecret
-ls_base64 = lo_coderobject.Base64Encode(Blob(ls_auth, EncodingUTF8!))
+pedazo=mid(ls,posi + 1,8)
+lt_time=time(pedazo)
 
-// Set the authorization and content headers
-lo_restclient.SetRequestHeader('Authorization', 'Basic ' + ls_base64)
-lo_restclient.SetRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-
-// Create the body
-ls_body = 'grant_type=client_credentials' 
-ls_body += '&client_id=' + ls_clientid
-ls_body += '&scope=' + ls_scope
-
-// Get the token with GetJWTToken (this returns the full json of the response which needs to be parsed to get the token)
-li_rc = lo_restclient.GetJWTToken(ls_url, ls_body, ls_token)
-
-string ls_JWTToken
-JsonPackage ljpk_JWTINF
-ljpk_JWTINF = Create JsonPackage
-ljpk_JWTINF.Loadstring( ls_token )
-If ljpk_JWTINF.ContainsKey( "access_token" ) Then
-    ls_JWTToken = ljpk_JWTINF.GetValueString( "access_token" )
-End If
-
-//--- endpoint 
-ls_url = 'https://dryrcmapi-ec1.srv.ygles.com/v1/devices/'
-ls_base64 = lo_coderobject.base64encode( blob(ls_JWTToken, EncodingUTF8!))   //ok x encode
-
-//other attempts
-//lo_restclient.SetRequestHeaders("Content-Type:application/x-www-form-urlencoded;charset=UTF-8;~r~nAuthorization:Bearer " + ls_base64)
-//lo_restclient.SetRequestHeaders("Content-Type:application/x-www-form-urlencoded;charset=UTF-8;~r~nAuthorization:Bearer " + ls_JWTToken)
-//lo_restclient.SetRequestHeaders("Authorization:Bearer " + ls_base64)
-//lo_restclient.SetRequestHeaders("Authorization:Bearer " + ls_JWTToken)
-//lo_restclient.SetRequestHeader('Authorization', 'Bearer ' + ls_base64, true)
-
-lo_restclient.SetRequestHeader('Authorization', 'Bearer ' + ls_JWTToken, true)
-
-string ls_response
-lo_restclient.SendGetRequest(ls_url, ls_response)
-
-string ls_msg 
-ls_msg = "Status Code: " + String(lo_restclient.GetResponseStatusCode()) + '~r~n' + &
-            "Status Text: " + String(lo_restclient.GetResponseStatusText()) + '~r~n' + &
-            "Response Body: " + ls_response
-
-return lo_restclient.GetResponseStatusCode()
+jaer=datetime(ld_fehca,lt_time)
 end event
 
 type cb_3 from commandbutton within q_i
@@ -891,7 +845,7 @@ end if
 ls_pass=f_descripta_new(ls_pass,'1')
 ls_token=u_rips.sispro_login(ls_tamb,ls_tds,ls_docs,ls_pass,ls_ipsn,ls_url)
 if ls_token<>'-1' then 
-	lst_ret_gral=u_rips.sispro_carga_fev_rips(ls_token,ls_tamb,'C:\facturas\EV133925\','EV133925.json','ad08060103050002500028513',ls_url)
+	lst_ret_gral=u_rips.sispro_carga_fev_rips(ls_token,ls_tamb,'C:\facturas\EV134747\','EV134747.json','ad08060103050002500029241',ls_url)
 	if lst_ret_gral.i_valor=-1 then 
 		rollback;
 	end if
@@ -918,23 +872,27 @@ if ls_token<>'-1' then
 //
 
 	jsonpackage lnv_json
-	string ls_ResultadosValidacion,ls_cuve,ls_rs
+	string ls_ResultadosValidacion,ls_cuve,ls_rs,ls_fecha
 	datetime ldt_frad
+	int li_posi
 	boolean lbo_rstate
+
 	lnv_json=create jsonpackage
 	
 	lnv_json.loadstring( lst_ret_gral.s_valor)
 	ls_err = lnv_json.LoadString(lst_ret_gral.s_valor)
-	ls_rs='C:\facturas\EV133925\RtdosDoker_EV133925_'+string(today(),'ddmmyyyy')+string(now(),'hhmmss')+'.txt'
-	lnv_json.SaveToFile(ls_rs)	
+	ls_rs='C:\facturas\EV134747\RtdosDoker_EV133925_'+string(today(),'ddmmyyyy')+string(now(),'hhmmss')+'.txt'
 	if Len(ls_err) = 0 then
+		lnv_json.SaveToFile(ls_rs)			
 		lbo_rstate = lnv_json.GetValueBoolean("ResultState")
 		ls_cuve = lnv_json.GetValue("CodigoUnicoValidacion")	
 		if lbo_rstate  and pos(ls_cuve,'RECHAZADO')=0 then
-			ldt_frad= lnv_json.GetValueDateTime("FechaRadicacion")
+			ls_fecha= lnv_json.GetValue("FechaRadicacion")
+			li_posi=pos(ls_fecha,'T')
+			ldt_frad=datetime(date(mid(ls_fecha,1,li_posi - 1)),time(mid(ls_fecha,li_posi + 1,8)))
 				
 			update factcab set cuve=ls_cuve, fecha_cuve=
-			where nfact=133925 and clugar='62' and tipo='F';
+			where nfact=135126 and clugar='03' and tipo='F';
 			If SQLCA.SQLCode = -1 then
 				Rollback;
 				MessageBox("SQL error Factura xml_envia", 'Error actualizando linea 98 json')
