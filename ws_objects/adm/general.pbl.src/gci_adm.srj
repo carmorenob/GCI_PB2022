@@ -5,10 +5,10 @@ COM:GCI Ltda.
 DES:GCI Administrativo
 CPY:2000-2025
 PRD:GCI Administrativo
-PVS:5,0,0,83
-PVN:5,0,0,83
-FVS:5,0,0,83
-FVN:5,0,0,83
+PVS:5,0,0,84
+PVN:5,0,0,84
+FVS:5,0,0,84
+FVN:5,0,0,84
 MAN:0,asInvoker,0
 PBD:afijos.pbl,,1
 PBD:cartera.pbl,,1
@@ -422,6 +422,7 @@ OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\nomina.pbl,dw_empnom,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\sumconfig.pbl,dw_ext_ufunc,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,st_dws_revisa,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\cartera.pbl,w_replica_resp,w
+OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\fac_electronica.pbl,dw_facturacab_notas,d
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\adm\evaluacion.pbl,m_hcampos,m
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,st_med,s
 OBJ:D:\gci\fuentes\PB_2022_new\GCI_PB2022\histoclinic\obj_comun.pbl,w_center,w
