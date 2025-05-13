@@ -190,7 +190,7 @@ end if
 end event
 
 type pb_cancel from picturebutton within w_cierra_glosas
-integer x = 1989
+integer x = 1728
 integer y = 976
 integer width = 146
 integer height = 128
@@ -219,7 +219,7 @@ close(parent)
 end event
 
 type pb_ok from picturebutton within w_cierra_glosas
-integer x = 1810
+integer x = 1550
 integer y = 976
 integer width = 146
 integer height = 128
@@ -308,14 +308,10 @@ for li_j=1 to dw_1.rowcount()
 				ds.deleterow(1)
 			loop
 			if ds.update()=-1 then return
-			
-		/*	ncobro=i_st.dw_cab.getitemnumber(i_st.dw_cab.getrow(),'num_glosa')
-			clug=i_st.dw_cab.getitemstring(i_st.dw_cab.getrow(),'clugar')*/
-			
+
 			INSERT INTO CAR_COBRO_TOT ( clugar, coddoc, num_cobro, cartipo, valor )
 			SELECT CAR_COBRO_CPO.clugar, CAR_COBRO_CPO.coddoc, CAR_COBRO_CPO.num_cobro, CAR_COBRO_CPO.cartipo, Sum(CAR_COBRO_CPO.valor) AS SumaDevalor
 			FROM v_ctas_glosas INNER JOIN (car_tipo INNER JOIN CAR_COBRO_CPO ON car_tipo.cartipo = CAR_COBRO_CPO.cartipo) ON (v_ctas_glosas.num_cobro = CAR_COBRO_CPO.num_cobro) AND (v_ctas_glosas.coddoc_cob = CAR_COBRO_CPO.coddoc) AND (v_ctas_glosas.clugar_cob = CAR_COBRO_CPO.clugar)
-			//WHERE (((v_ctas_glosas.CodDoc)='GL') AND ((v_ctas_glosas.clugar)=:clug) AND ((v_ctas_glosas.NUM_GLOSA)=:ncobro) AND ((car_tipo.codtipo)='3') AND ((car_tipo.operacion)=-1)) and CAR_COBRO_CPO.estado is null
 			WHERE (((v_ctas_glosas.CodDoc)='GL') AND ((v_ctas_glosas.clugar)=:clug_glos) AND ((v_ctas_glosas.NUM_GLOSA)=:n_glos) AND ((car_tipo.codtipo)='3') AND ((car_tipo.operacion)=-1)) and CAR_COBRO_CPO.estado is null
 			GROUP BY CAR_COBRO_CPO.clugar, CAR_COBRO_CPO.coddoc, CAR_COBRO_CPO.num_cobro, CAR_COBRO_CPO.cartipo;
 			if sqlca.sqlcode=-1 then

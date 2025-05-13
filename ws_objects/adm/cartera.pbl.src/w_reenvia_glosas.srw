@@ -32,6 +32,8 @@ type tab_1 from tab within w_reenvia_glosas
 end type
 type tp_1 from userobject within tab_1
 end type
+type dw_nts from datawindow within tp_1
+end type
 type mle_resp1 from multilineedit within tp_1
 end type
 type pb_1 from picturebutton within tp_1
@@ -49,6 +51,7 @@ end type
 type dw_facts from datawindow within tp_1
 end type
 type tp_1 from userobject within tab_1
+dw_nts dw_nts
 mle_resp1 mle_resp1
 pb_1 pb_1
 pb_add pb_add
@@ -594,7 +597,8 @@ end type
 
 event clicked;//////////ELECTRONICA	
 double ldb_i,ldb_nfac,ldb_nnto
-string ls_clu,ls_tip,ls_tnota,ls_version
+string ls_clu,ls_tip,ls_tnota,ls_version,ls_err
+datetime ldt_f_envio
 nvo_factura_electronica u_elec
 st_ret_dian    lst_lle
 
@@ -605,20 +609,30 @@ string is_ruta_facturas,ls_prefijo,ls_tipo_ambiente='1',ls_filename
 //	
 u_elec=create nvo_factura_electronica
 
-/// DIRECTORIO DE FACTURAS
-SELECT cadena into :is_ruta_facturas
-FROM parametros_gen
-WHERE (((codigo_para)=55));
-if sqlca.sqlnrows=0 then
-	messagebox('Atencíon','No hay parametro 55')
-	return
-end if
-
-
 for ldb_i =1 to tab_1.tp_1.dw_facts.rowcount()
+	////SACA DATOS
 	ls_version=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'cod_versionfe')
+	ldb_nfac=tab_1.tp_1.dw_facts.getitemnumber(ldb_i ,'nfact')
+	ls_clu=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'clugar_fact')
+	ls_tip=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'tipo_fact')
+	ldt_f_envio=tab_1.tp_1.dw_facts.getitemdatetime(ldb_i ,'fecha_envia')
+	ls_tnota='C'
+	if tab_1.tp_1.dw_nts.retrieve(ldb_nfac,ls_clu,ls_tip)> 0 then
+		ldb_nnto=tab_1.tp_1.dw_nts.getitemnumber(1,'maxi') + 1
+	else
+		ldb_nnto=1
+	end if
 	
-	
+	INSERT INTO factcab_notas(nfact, clugar, tipo, tipo_nota, nro_nota,  fecha_nota, cod_usuario, valor_nota, contabil)
+	VALUES (:ldb_nfac,:ls_clu,:ls_tip,:ls_tnota, :ldb_nnto,ldt_f_envio ,:usuario,0, 'C');
+	if sqlca.sqlcode=-1 then
+		ls_err=sqlca.sqlerrtext
+		rollback;
+		messagebox('Error insertando factcab_notas linea 34 ',ls_err)
+		return
+	end if	
+	commit;
+
 	if g_motor='postgres' then
 		if ls_version='1.8' then
 			dw_electronica.dataobject="dw_factura_electronica_postgres_ncdre"
@@ -634,108 +648,11 @@ for ldb_i =1 to tab_1.tp_1.dw_facts.rowcount()
 	end if
 	dw_electronica.settransobject(sqlca)		
 
-	//if tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'estado_dian_nota')='1' then continue
-	//if tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'file_name_nota')='0' then continue
+	if tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'estado_dian_nota')='1' then continue
+	if tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'file_name_nota')='0' then continue
 	
-	ldb_nfac=tab_1.tp_1.dw_facts.getitemnumber(ldb_i ,'nfact')
-	ls_clu=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'clugar_fact')
-	ls_tip=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'tipo_fact')
-	ls_tnota=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'tipo_nota')
-	ldb_nnto=tab_1.tp_1.dw_facts.getitemnumber(ldb_i ,'nro_nota')
-	ldb_nnto=1
-	ls_prefijo=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'prefijo')
+	lst_lle=u_elec.sign_chilkat(dw_electronica,ldb_nfac,ls_clu,ls_tip,ldb_nnto,'c','FV')
 
-	
-//	lst_lle=u_elec.sign_chilkat(dw_electronica,ldb_nfac,ls_clugar,ls_tfac,ldb_nnto,'c','FV')
-	
-//	ls_filename=tab_1.tp_1.dw_facts.getitemstring(ldb_i ,'file_name_nota')
-//	
-//	/////////////////////// JSON
-//	if tab_1.tp_1.dw_facts.getitemstring(ldb_i, 'estado_dian')<>'1' then continue
-//	if (ls_filename='' or isnull(ls_filename)) then continue
-//
-//
-	if isnull(ls_prefijo) then 
-		is_ruta_facturas=is_ruta_facturas+'NC'+string(ldb_nfac)+string(ldb_nnto,'00')+'\'
-	else
-		is_ruta_facturas=is_ruta_facturas+'NC'+ls_prefijo+string(ldb_nfac)+string(ldb_nnto,'00')+'\'
-	end if
-//	55416
-	luo_rips=create nvo_fevrips
-	If not DirectoryExists ( is_ruta_facturas) Then
-		integer li_filenum
-		CreateDirectory ( is_ruta_facturas)
-		li_filenum = ChangeDirectory( is_ruta_facturas)
-	end if
-//	
-	if isnull(ls_prefijo) then 
-		luo_rips.emite_json_eventoNC(ldb_nfac,ls_clu,ls_tip,ldb_nnto,'f','FV',is_ruta_facturas+'NC'+string(ldb_nfac)+string(ldb_nnto,'00')+'.json')
-	else
-		luo_rips.emite_json_eventoNC(ldb_nfac,ls_clu,ls_tip,ldb_nnto,'f','FV',is_ruta_facturas+'NC'+ls_prefijo+string(ldb_nfac)+string(ldb_nnto,'00')+'.json')
-	end if
-//	
-//	//////////////////////// APIDOCKER
-//	if gs_apidocker='1' then
-//		string ls_token, ls_tds,ls_docs,ls_pass,ls_ipsn,ls_url,ls_tamb,ls_err
-//		jsonpackage lnv_json
-//		string ls_ResultadosValidacion,ls_cuve,ls_rs
-//		datetime ldt_frad
-//		boolean lbo_rstate
-//			
-//		SELECT 
-//			usuarios.tipodoc, usuarios.documento, 
-//			usuarios.clave_sispro, ips.documento,ips.url_apidocker,ips.tipo_ambiente
-//		INTO
-//			:ls_tds,:ls_docs,:ls_pass,:ls_ipsn,:ls_url,:ls_tamb
-//		FROM 
-//			usuarios, ips
-//		WHERE (((usuarios.usuario)=:usuario));		
-//		if sqlca.sqlnrows=0 then
-//			messagebox('Atencíon','No hay usuario sispro No se puede validar')
-//			return
-//		end if
-//		ls_token=luo_rips.sispro_login(ls_tamb,ls_tds,ls_docs,ls_pass,ls_ipsn,ls_url)
-//		if ls_token<>'-1' then 
-//			if isnull(ls_prefijo) then			
-//				lst_ret_gral=luo_rips.sispro_carga_fev_rips(ls_token,ls_tamb,is_ruta_facturas, string(ldb_nfac)+'.json',ls_filename,ls_url)
-//			else
-//				lst_ret_gral=luo_rips.sispro_carga_fev_rips(ls_token,ls_tamb,is_ruta_facturas, ls_prefijo+string(ldb_nfac)+'.json',ls_filename,ls_url)
-//			end if
-//	
-//			if lst_ret_gral.i_valor=-1 then 
-//				return 
-//			end if
-//	
-//	
-//			lnv_json=create jsonpackage
-//			lnv_json.loadstring( lst_ret_gral.s_valor)
-//			ls_err = lnv_json.LoadString(lst_ret_gral.s_valor)
-//			if isnull(ls_prefijo) then			
-//				ls_rs=is_ruta_facturas+'RtdosDoker_'+'NC'+string(ldb_nfac)+string(ldb_nnto,'00')+string(today(),'ddmmyyyy')+string(now(),'hhmmss')+'.txt'
-//			else
-//				ls_rs=is_ruta_facturas+'RtdosDoker_'+'NC'+ls_prefijo+string(ldb_nfac)+string(ldb_nnto,'00')+string(today(),'ddmmyyyy')+string(now(),'hhmmss')+'.txt'
-//			end if
-//		
-//			lnv_json.SaveToFile(ls_rs)	
-//			if Len(ls_err) = 0 then
-//				lbo_rstate = lnv_json.GetValueBoolean("ResultState")
-//				ls_cuve = lnv_json.GetValue("CodigoUnicoValidacion")
-//				if lbo_rstate  and pos(ls_cuve,'RECHAZADO')=0 then
-//					ldt_frad= lnv_json.GetValueDateTime("FechaRadicacion")
-//					
-//					update factcab set cuve=:ls_cuve, fecha_cuve=:ldt_frad
-//					where nfact=:ldb_nfac and clugar=:ls_clu and tipo=:ls_tip;
-//					If SQLCA.SQLCode = -1 then
-//						Rollback;
-//						MessageBox("SQL error Factura xml_envia", 'Error actualizando linea 98 json')
-//						Return -1
-//					Else
-//						commit;
-//					end If						
-//				end if	
-//			end if
-//		end if //token
-//	end if
 	destroy luo_rips
 //	messagebox('Atencíon','Proceso Finalizado')
 	////////////////////
@@ -1050,6 +967,7 @@ long tabtextcolor = 33554432
 string picturename = "qr.ico"
 long picturemaskcolor = 536870912
 string powertiptext = "Facuras de la Objeción por usuario"
+dw_nts dw_nts
 mle_resp1 mle_resp1
 pb_1 pb_1
 pb_add pb_add
@@ -1061,6 +979,7 @@ dw_facts dw_facts
 end type
 
 on tp_1.create
+this.dw_nts=create dw_nts
 this.mle_resp1=create mle_resp1
 this.pb_1=create pb_1
 this.pb_add=create pb_add
@@ -1069,7 +988,8 @@ this.st_3=create st_3
 this.st_2=create st_2
 this.dw_resp=create dw_resp
 this.dw_facts=create dw_facts
-this.Control[]={this.mle_resp1,&
+this.Control[]={this.dw_nts,&
+this.mle_resp1,&
 this.pb_1,&
 this.pb_add,&
 this.pb_cerrar,&
@@ -1080,6 +1000,7 @@ this.dw_facts}
 end on
 
 on tp_1.destroy
+destroy(this.dw_nts)
 destroy(this.mle_resp1)
 destroy(this.pb_1)
 destroy(this.pb_add)
@@ -1089,6 +1010,22 @@ destroy(this.st_2)
 destroy(this.dw_resp)
 destroy(this.dw_facts)
 end on
+
+type dw_nts from datawindow within tp_1
+integer x = 3986
+integer y = 632
+integer width = 1431
+integer height = 400
+integer taborder = 70
+string title = "none"
+string dataobject = "dw_facturacab_notas"
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event constructor;settransobject(sqlca)
+
+end event
 
 type mle_resp1 from multilineedit within tp_1
 integer x = 1879
