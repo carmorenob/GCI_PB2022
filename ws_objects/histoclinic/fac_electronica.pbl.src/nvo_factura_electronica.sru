@@ -3180,13 +3180,14 @@ if ((as_tipo_docu='a'or as_tipo_docu='c' or as_tipo_docu='f') and as_coddoc='FV'
 	end if
 
 	//*********** NOTAS *************
-	if (as_tipo_docu='a'or as_tipo_docu='c') then 
-		if isnull(ls_prefac) or ls_prefac='' then 
-			u_rips.emite_json_eventoNC(al_nro_fact,as_clug_factura,as_tipofac,adb_nnota,'f','FV',is_ruta_facturas+'NC'+string(al_nro_fact)+string(adb_nnota,'00')+'.json')
-		else
-			u_rips.emite_json_eventoNC(al_nro_fact,as_clug_factura,as_tipofac,adb_nnota,'f','FV',is_ruta_facturas+'NC'+ls_prefac+string(al_nro_fact)+string(adb_nnota,'00')+'.json')
+	if (as_tipo_docu='a'or as_tipo_docu='c') then
+		if as_tipo_docu='c' then
+			if isnull(ls_prefac) or ls_prefac='' then 
+				u_rips.emite_json_eventoNC(al_nro_fact,as_clug_factura,as_tipofac,adb_nnota,'f','FV',is_ruta_facturas+'NC'+string(al_nro_fact)+string(adb_nnota,'00')+'.json')
+			else
+				u_rips.emite_json_eventoNC(al_nro_fact,as_clug_factura,as_tipofac,adb_nnota,'f','FV',is_ruta_facturas+'NC'+ls_prefac+string(al_nro_fact)+string(adb_nnota,'00')+'.json')
+			end if	
 		end if
-		
 	end if
 
 	//************** APIDOCKER
