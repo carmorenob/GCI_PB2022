@@ -154,8 +154,8 @@ event resize;//st_1.x=(newwidth - st_1.width)/2
 end event
 
 type pb_email_dian from picturebutton within w_busca_fact
-integer x = 1710
-integer y = 1604
+integer x = 1687
+integer y = 1608
 integer width = 146
 integer height = 128
 integer taborder = 110

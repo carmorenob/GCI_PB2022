@@ -988,7 +988,7 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 			next
 		end if	
 		
-		lds_rips.dataobject='dw_json_urgencia'
+		lds_rips.dataobject='dw_json_urgencias'
 		lds_rips.settransobject(sqlca)
 		li_ci=1
 		if lds_rips.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
