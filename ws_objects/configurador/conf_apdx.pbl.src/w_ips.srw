@@ -122,7 +122,7 @@ end forward
 
 global type w_ips from window
 integer width = 3328
-integer height = 1644
+integer height = 1840
 boolean titlebar = true
 string title = "Datos IPS"
 boolean controlmenu = true
@@ -142,6 +142,7 @@ type variables
 datawindowchild docus,dwc_postal,dwc_tiporet
 boolean lb_paso=false, lb_paso1=false, lb_paso2=false
 end variables
+
 on w_ips.create
 this.pb_5=create pb_5
 this.pb_2=create pb_2
@@ -161,8 +162,8 @@ destroy(this.tab_1)
 end on
 
 type pb_5 from picturebutton within w_ips
-integer x = 1650
-integer y = 1396
+integer x = 1737
+integer y = 1596
 integer width = 146
 integer height = 128
 integer taborder = 140
@@ -184,8 +185,8 @@ end event
 
 type pb_2 from picturebutton within w_ips
 string tag = "Refrescar"
-integer x = 1330
-integer y = 1400
+integer x = 1417
+integer y = 1600
 integer width = 146
 integer height = 128
 integer taborder = 130
@@ -207,8 +208,8 @@ end event
 
 type pb_1 from picturebutton within w_ips
 string tag = "Guardar"
-integer x = 1486
-integer y = 1396
+integer x = 1573
+integer y = 1596
 integer width = 146
 integer height = 128
 integer taborder = 130
@@ -294,7 +295,7 @@ type tab_1 from tab within w_ips
 integer x = 41
 integer y = 24
 integer width = 3232
-integer height = 1348
+integer height = 1552
 integer taborder = 10
 integer textsize = -8
 integer weight = 400
@@ -331,7 +332,7 @@ type tabpage_1 from userobject within tab_1
 integer x = 18
 integer y = 112
 integer width = 3195
-integer height = 1220
+integer height = 1424
 long backcolor = 67108864
 string text = "Datos Básicos"
 long tabtextcolor = 33554432
@@ -353,7 +354,7 @@ type dw_1 from datawindow within tabpage_1
 integer x = 37
 integer y = 44
 integer width = 3159
-integer height = 1152
+integer height = 1376
 integer taborder = 20
 string dataobject = "dw_ips_new"
 boolean border = false
@@ -422,7 +423,7 @@ event destroy ( )
 integer x = 18
 integer y = 112
 integer width = 3195
-integer height = 1220
+integer height = 1424
 boolean enabled = false
 long backcolor = 67108864
 string text = "Correos Electronicos"
@@ -573,7 +574,7 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
-borderstyle borderstyle = StyleLowered!
+borderstyle borderstyle = stylelowered!
 end type
 
 type sle_pasclie from singlelineedit within tabpage_2
@@ -590,7 +591,7 @@ fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 long textcolor = 33554432
 boolean password = true
-borderstyle borderstyle = StyleLowered!
+borderstyle borderstyle = stylelowered!
 end type
 
 event modified;lb_paso2=true
