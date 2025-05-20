@@ -830,6 +830,7 @@ else
 	pb_fenvio.enabled=false
 	pb_anul.enabled=false	
 end if
+
 if getitemnumber(getrow(),'valor_aceptado')>0 then
 	pb_diann.enabled=true
 	pb_connota.enabled=true
@@ -1012,11 +1013,13 @@ destroy(this.dw_facts)
 end on
 
 type dw_nts from datawindow within tp_1
+boolean visible = false
 integer x = 3986
 integer y = 632
 integer width = 1431
 integer height = 400
 integer taborder = 70
+boolean enabled = false
 string title = "none"
 string dataobject = "dw_facturacab_notas"
 boolean livescroll = true
