@@ -186,6 +186,81 @@ FROM
 		AND ((contratos.ctcontra)='1') AND ((factcab.c_aut) Is Not Null))
 
 	UNION ALL
+
+	SELECT 
+		Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
+		hospadmi.fechaingreso,
+		null AS codigo_uni, 
+		proced.descripcion , 
+		factcpo.Cantidad, 
+		factcpo.vproced/factcpo.cantidad AS vuni, 
+		factcpo.VProced, factcpo.NItem, factcab.Fecha, factcab.clugar AS clugar_fac, ips.c_supersalud AS csuper_ips, 
+		proced.cod_cups, factcpo.tipo AS tipo_fac, DOCUMENTOS_AUTFACT.PREFIJO, '' as cum_espe, factcab.NFact,
+		profe.tdoc, profe.documento, 
+		case when 
+			factcpo.vcopago<>0
+		then
+			'02'
+		else
+			 case when 
+				factcpo.vcm<>0
+			then
+				'01'
+			else
+				case when 
+					factcpo.vpart<>0
+				then
+					'03'
+				else
+					'05'
+				end
+			end
+		end as VTMD,
+			
+		factcpo.vcopago+factcpo.vcm+factcpo.vpart+factcpo.vcr as vpm,
+		'' as ium,  agrupservicios.rips as tipoos,
+		tesorecajcpo.nrcaj, documentos_autfact_1.prefijo as pref_rc,
+		factcpo.c_medica
+	FROM 
+		(((((((((((((((factcab 
+		INNER JOIN factcpo ON (factcab.clugar = factcpo.clugar) 
+		AND (factcab.NFact = factcpo.NFact) AND (factcab.TIPO = factcpo.TIPO)) 
+		INNER JOIN Lugar ON factcab.clugar = Lugar.codlugar) 
+		INNER JOIN ips ON factcab.ips = ips.c_ips) INNER JOIN contratos ON (factcab.ccontrato = contratos.codcontrato) 
+		AND (factcab.cemp = contratos.codemp)) 
+		INNER JOIN PACIENTES ON (factcpo.DOCUMENTO = PACIENTES.DOCUMENTO) AND (factcpo.TIPODOC = PACIENTES.TIPODOC)) 
+		INNER JOIN TIPOIDENTIFICACION ON PACIENTES.TIPODOC = TIPOIDENTIFICACION.CODTIPOIDENT) 
+		INNER JOIN DOCUMENTOS_AUTFACT ON factcab.C_AUT = DOCUMENTOS_AUTFACT.C_AUT) 
+		INNER JOIN agrupservicios ON factcpo.codconcepto = agrupservicios.codconcepto) 
+		INNER JOIN proced ON factcpo.proccups = proced.codproced) 
+		LEFT JOIN tesorecajcpo ON (factcab.nfact = tesorecajcpo.nfact) AND (factcab.clugar = tesorecajcpo.clugar_fac) 
+		AND (factcab.tipo = tesorecajcpo.tipo_fac)) 
+		LEFT JOIN tesorecajcab ON (tesorecajcpo.nrcaj = tesorecajcab.nrcaj) AND (tesorecajcpo.clugar = tesorecajcab.clugar)) 
+		LEFT JOIN documentos_autfact AS documentos_autfact_1 ON tesorecajcab.c_aut = documentos_autfact_1.c_aut) 
+		INNER JOIN factadm ON (factcab.tipo = factadm.tipo) AND (factcab.clugar = factadm.clugar) 
+		AND (factcab.nfact = factadm.nfact)) 
+		INNER JOIN hospadmi ON (factcpo.tingre = hospadmi.codtingre) AND (factadm.codtingre = hospadmi.codtingre) 
+		AND (factadm.clugar_ingre = hospadmi.clugar) AND (factadm.nh = hospadmi.nh)) 
+		INNER JOIN hosprespon ON (hospadmi.codtingre = hosprespon.codtingre) 
+		AND (hospadmi.clugar = hosprespon.clugar) AND (hospadmi.nh = hosprespon.nh)) 
+		INNER JOIN profe ON hosprespon.codprof = profe.codprof
+	WHERE 
+		(((DOCUMENTOS_AUTFACT.coddoc)='FV') 
+		AND ((DOCUMENTOS_AUTFACT.clugar)='01') 
+		AND ((factcpo.RIA)='7') 
+		AND ((factcab.NFact)=:nfact) 
+		AND ((factcab.clugar)=:clug) 
+		AND ((factcab.tipo)=:tipo) 
+		AND ((contratos.ctcontra)='1') 
+		AND ((factcab.c_aut) Is Not Null) 
+		AND ((factcpo.contador) Is Null)
+		AND ((hosprespon.nitem)=(
+			SELECT Min(hpr.nitem) AS MínDenitem
+			FROM hosprespon AS hpr
+			WHERE (((hpr.nh)=hospadmi.nh) AND ((hpr.clugar)=hospadmi.clugar) AND ((hpr.codtingre)=hospadmi.codtingre)))))
+
+
+	UNION ALL
 		
 	SELECT 
 		Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
@@ -393,3 +468,4 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=2 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
+ 

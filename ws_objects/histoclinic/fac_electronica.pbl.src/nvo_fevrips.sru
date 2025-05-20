@@ -559,6 +559,8 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 					ripse_json.AddItemString(ldb_fcon,"fechaInicioAtencion",string(datetime(date(lds_ripsu.getitemdatetime(ldb_ci,'fechaingreso')),time(lds_ripsu.getitemdatetime(ldb_ci,'horaingreso'))),'yyyy-mm-dd hh:mm'))
 					ripse_json.AddItemString(ldb_fcon,"causaMotivoAtencion",lds_ripsu.getitemstring(ldb_ci,'causaexterna'))
 					ripse_json.AddItemString(ldb_fcon,"codDiagnosticoPrincipal",lds_ripsu.getitemstring(ldb_ci,'cod_rips'))
+					ripse_json.AddItemString(ldb_fcon,"codDiagnosticoPrincipalE",lds_ripsu.getitemstring(ldb_ci,'cod_rips_1'))
+					
 					if isnull(lds_ripsu.getitemstring(ldb_ci,'cod_rips_2')) then
 						ripse_json.AddItemNull(ldb_fcon,"codDiagnosticoRelacionadoE1")
 					else
@@ -574,6 +576,16 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 					else
 						ripse_json.AddItemString(ldb_fcon,"codDiagnosticoRelacionadoE3",lds_ripsu.getitemstring(ldb_ci,'cod_rips_4'))
 					end if
+					
+					ripse_json.AddItemString(ldb_fcon,"condicionDestinoUsuarioEgreso",lds_ripsu.getitemstring(ldb_ci,'conductaurg'))
+				
+					if isnull(lds_ripsu.getitemstring(ldb_ci,'cod_rips_5')) then
+						ripse_json.AddItemNull(ldb_fcon,"codDiagnosticoCausaMuerte")
+					else
+						ripse_json.AddItemString(ldb_fcon,"codDiagnosticoCausaMuerte",lds_ripsu.getitemstring(ldb_ci,'cod_rips_5'))
+					end if
+					
+					
 					ripse_json.AddItemString(ldb_fcon,"fechaEgreso",string(datetime(date(lds_ripsu.getitemdatetime(ldb_ci,'fechaegreso')),time(lds_ripsu.getitemdatetime(ldb_ci,'horaegreso'))),'yyyy-mm-dd hh:mm'))
 					ripse_json.AddItemString(ldb_fcon,"consecutivo",string( ldb_ci))			
 				next
@@ -596,7 +608,7 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 					end if
 					ripse_json.AddItemString(ldb_fcon,"causaMotivoAtencion",lds_ripsh.getitemstring(ldb_ci,'causaexterna'))
 					ripse_json.AddItemString(ldb_fcon,"codDiagnosticoPrincipal",lds_ripsh.getitemstring(ldb_ci,'cod_rips'))
-					ripse_json.AddItemString(ldb_fcon,"codDiagnosticoPrincipaIE",lds_ripsh.getitemstring(ldb_ci,'cod_rips_1'))
+					ripse_json.AddItemString(ldb_fcon,"codDiagnosticoPrincipalE",lds_ripsh.getitemstring(ldb_ci,'cod_rips_1'))
 					if isnull(lds_ripsh.getitemstring(ldb_ci,'cod_rips_2')) then
 						ripse_json.AddItemNull(ldb_fcon,"codDiagnosticoRelacionadoE1")
 					else
@@ -1018,7 +1030,7 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 				ripse_json.AddItemString(li_fcon,"fechaInicioAtencion",string(datetime(date(lds_rips.getitemdatetime(li_ci,'fechaingreso')),time(lds_rips.getitemdatetime(li_ci,'horaingreso'))),'yyyy-mm-dd hh:mm'))
 				ripse_json.AddItemString(li_fcon,"causaMotivoAtencion",lds_rips.getitemstring(li_ci,'causaexterna'))
 				ripse_json.AddItemString(li_fcon,"codDiagnosticoPrincipal",lds_rips.getitemstring(li_ci,'cod_rips'))
-				ripse_json.AddItemString(li_fcon,"codDiagnosticoPrincipaIE",lds_rips.getitemstring(li_ci,'cod_rips_1'))
+				ripse_json.AddItemString(li_fcon,"codDiagnosticoPrincipalE",lds_rips.getitemstring(li_ci,'cod_rips_1'))
 				if isnull(lds_rips.getitemstring(li_ci,'cod_rips_2')) then
 					ripse_json.AddItemNull(li_fcon,"codDiagnosticoRelacionadoE1")
 				else
@@ -1056,7 +1068,7 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 				li_fcon = ripse_json.AddItemObject(li_con)
 				ripse_json.AddItemString(li_fcon,"codPrestador",lds_rips.getitemstring(li_ci,'c_supersalud'))
 				ripse_json.AddItemString(li_fcon,"viaIngresoServicioSalud",lds_rips.getitemstring(li_ci,'viaingreso'))
-				ripse_json.AddItemString(li_fcon,"fechalnicioAtencion",string(datetime(date(lds_rips.getitemdatetime(li_ci,'fechaingreso')),time(lds_rips.getitemdatetime(li_ci,'horaingreso'))),'yyyy-mm-dd hh:mm'))
+				ripse_json.AddItemString(li_fcon,"fechaInicioAtencion",string(datetime(date(lds_rips.getitemdatetime(li_ci,'fechaingreso')),time(lds_rips.getitemdatetime(li_ci,'horaingreso'))),'yyyy-mm-dd hh:mm'))
 				if isnull(lds_rips.getitemstring(li_ci,'autoriza')) or lds_rips.getitemstring(li_ci,'autoriza')='' then
 					ripse_json.AddItemNull(li_fcon,"numAutorizacion")
 				else
@@ -1064,7 +1076,7 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 				end if
 				ripse_json.AddItemString(li_fcon,"causaMotivoAtencion",lds_rips.getitemstring(li_ci,'causaexterna'))
 				ripse_json.AddItemString(li_fcon,"codDiagnosticoPrincipal",lds_rips.getitemstring(li_ci,'cod_rips'))
-				ripse_json.AddItemString(li_fcon,"codDiagnosticoPrincipaIE",lds_rips.getitemstring(li_ci,'cod_rips_1'))
+				ripse_json.AddItemString(li_fcon,"codDiagnosticoPrincipalE",lds_rips.getitemstring(li_ci,'cod_rips_1'))
 				if isnull(lds_rips.getitemstring(li_ci,'cod_rips_2')) then
 					ripse_json.AddItemNull(li_fcon,"codDiagnosticoRelacionadoE1")
 				else
@@ -2060,7 +2072,7 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 				ripse_json.AddItemString(li_fcon,"fechaInicioAtencion",string(datetime(date(lds_rips.getitemdatetime(li_ci,'fechaingreso')),time(lds_rips.getitemdatetime(li_ci,'horaingreso'))),'yyyy-mm-dd hh:mm'))
 				ripse_json.AddItemString(li_fcon,"causaMotivoAtencion",lds_rips.getitemstring(li_ci,'causaexterna'))
 				ripse_json.AddItemString(li_fcon,"codDiagnosticoPrincipal",lds_rips.getitemstring(li_ci,'cod_rips'))
-				ripse_json.AddItemString(li_fcon,"codDiagnosticoPrincipaIE",lds_rips.getitemstring(li_ci,'cod_rips_1'))
+				ripse_json.AddItemString(li_fcon,"codDiagnosticoPrincipalE",lds_rips.getitemstring(li_ci,'cod_rips_1'))
 				if isnull(lds_rips.getitemstring(li_ci,'cod_rips_2')) then
 					ripse_json.AddItemNull(li_fcon,"codDiagnosticoRelacionadoE1")
 				else
@@ -2098,7 +2110,7 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 				li_fcon = ripse_json.AddItemObject(li_con)
 				ripse_json.AddItemString(li_fcon,"codPrestador",lds_rips.getitemstring(li_ci,'c_supersalud'))
 				ripse_json.AddItemString(li_fcon,"viaIngresoServicioSalud",lds_rips.getitemstring(li_ci,'viaingreso'))
-				ripse_json.AddItemString(li_fcon,"fechalnicioAtencion",string(datetime(date(lds_rips.getitemdatetime(li_ci,'fechaingreso')),time(lds_rips.getitemdatetime(li_ci,'horaingreso'))),'yyyy-mm-dd hh:mm'))
+				ripse_json.AddItemString(li_fcon,"fechaInicioAtencion",string(datetime(date(lds_rips.getitemdatetime(li_ci,'fechaingreso')),time(lds_rips.getitemdatetime(li_ci,'horaingreso'))),'yyyy-mm-dd hh:mm'))
 				if isnull(lds_rips.getitemstring(li_ci,'autoriza')) or lds_rips.getitemstring(li_ci,'autoriza')='' then
 					ripse_json.AddItemNull(li_fcon,"numAutorizacion")
 				else
@@ -2106,7 +2118,7 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 				end if
 				ripse_json.AddItemString(li_fcon,"causaMotivoAtencion",lds_rips.getitemstring(li_ci,'causaexterna'))
 				ripse_json.AddItemString(li_fcon,"codDiagnosticoPrincipal",lds_rips.getitemstring(li_ci,'cod_rips'))
-				ripse_json.AddItemString(li_fcon,"codDiagnosticoPrincipaIE",lds_rips.getitemstring(li_ci,'cod_rips_1'))
+				ripse_json.AddItemString(li_fcon,"codDiagnosticoPrincipalE",lds_rips.getitemstring(li_ci,'cod_rips_1'))
 				if isnull(lds_rips.getitemstring(li_ci,'cod_rips_2')) then
 					ripse_json.AddItemNull(li_fcon,"codDiagnosticoRelacionadoE1")
 				else

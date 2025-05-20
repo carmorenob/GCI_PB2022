@@ -3858,7 +3858,7 @@ for j=1 to rowcount
 			else
 				if getitemstring(j,'eco')='4' then
 					if date(fechas)<>date('01/01/1900') then 
-						setitem(j,"fecha_cap",fechas)
+						setitem(j,"fecha_cap",fp_part)
 					end if
 				else
 					setitem(j,"fecha_cap",getitemdatetime(j,'moda6'))
