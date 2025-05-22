@@ -164,13 +164,13 @@ sle_6 sle_6
 end type
 type fac from userobject within t1
 end type
-type pb_7 from picturebutton within fac
-end type
 type dw_fact from datawindow within fac
 end type
+type pb_7 from picturebutton within fac
+end type
 type fac from userobject within t1
-pb_7 pb_7
 dw_fact dw_fact
+pb_7 pb_7
 end type
 type tmod from userobject within t1
 end type
@@ -4563,28 +4563,60 @@ string text = "Facturas Asociadas"
 long tabtextcolor = 33554432
 string picturename = "rips_3.ico"
 long picturemaskcolor = 536870912
-pb_7 pb_7
 dw_fact dw_fact
+pb_7 pb_7
 end type
 
 on fac.create
-this.pb_7=create pb_7
 this.dw_fact=create dw_fact
-this.Control[]={this.pb_7,&
-this.dw_fact}
+this.pb_7=create pb_7
+this.Control[]={this.dw_fact,&
+this.pb_7}
 end on
 
 on fac.destroy
-destroy(this.pb_7)
 destroy(this.dw_fact)
+destroy(this.pb_7)
 end on
 
+type dw_fact from datawindow within fac
+integer x = 46
+integer y = 28
+integer width = 5883
+integer height = 1128
+integer taborder = 140
+boolean enabled = false
+string title = "none"
+string dataobject = "dw_facturas_radica_deselec"
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event constructor;settransobject(sqlca)
+end event
+
+event itemchanged;long fila
+fila=this.getrow()
+if fila<1 then return
+if this.getcolumnname()='radicar' then
+	if not isnull(this.getitemnumber(fila,'estado_revisa')) and this.gettext()='0' then
+		long nulo
+		setnull(nulo)
+		if messagebox("Atención",'Esta factura ya se había revisado, desa cambiar su estado?',question!,yesno!,2)=2 then return 1
+		this.accepttext()
+	end if
+end if
+this.accepttext()
+
+end event
+
 type pb_7 from picturebutton within fac
-integer x = 6309
-integer y = 12
+integer x = 5952
+integer y = 28
 integer width = 146
 integer height = 128
 integer taborder = 41
+boolean bringtotop = true
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
@@ -4665,37 +4697,6 @@ if tab_2.tp2_1.t1.tmod.dw_mod.update()=-1 then
 	return
 end if
 commit;
-end event
-
-type dw_fact from datawindow within fac
-integer x = 46
-integer y = 28
-integer width = 6007
-integer height = 1160
-integer taborder = 140
-boolean enabled = false
-string title = "none"
-string dataobject = "dw_facturas_radica_deselec"
-boolean livescroll = true
-borderstyle borderstyle = stylelowered!
-end type
-
-event constructor;settransobject(sqlca)
-end event
-
-event itemchanged;long fila
-fila=this.getrow()
-if fila<1 then return
-if this.getcolumnname()='radicar' then
-	if not isnull(this.getitemnumber(fila,'estado_revisa')) and this.gettext()='0' then
-		long nulo
-		setnull(nulo)
-		if messagebox("Atención",'Esta factura ya se había revisado, desa cambiar su estado?',question!,yesno!,2)=2 then return 1
-		this.accepttext()
-	end if
-end if
-this.accepttext()
-
 end event
 
 type tmod from userobject within t1
@@ -5664,9 +5665,9 @@ tab_2.tp2_1.t1.tp1.em_11.text=left(string(getitemdatetime(getrow(),'fecha_inicia
 tab_2.tp2_1.t1.tp1.em_21.text=left(string(getitemdatetime(getrow(),'fecha_final')),10)
 if getitemstring(getrow(),'en_destino')='1'  or getitemstring(getrow(),'tipo')='F' or tab_2.tp2_1.t1.fac.dw_fact.rowcount()=1 then
 	tab_2.tp2_1.t1.fac.enabled=true
-	tab_2.tp2_1.t1.fac.dw_fact.enabled=false
-	tab_2.tp2_1.t1.tmod.enabled=false
-	tab_2.tp2_1.t1.tmod.dw_mod.enabled=false
+	tab_2.tp2_1.t1.fac.dw_fact.enabled=true
+	tab_2.tp2_1.t1.tmod.enabled=true
+	tab_2.tp2_1.t1.tmod.dw_mod.enabled=true
 else
 	tab_2.tp2_1.t1.fac.enabled=true
 	tab_2.tp2_1.t1.fac.dw_fact.enabled=true
@@ -5777,7 +5778,7 @@ end on
 
 type pb_9 from picturebutton within det
 boolean visible = false
-integer x = 2889
+integer x = 2871
 integer y = 436
 integer width = 146
 integer height = 128
