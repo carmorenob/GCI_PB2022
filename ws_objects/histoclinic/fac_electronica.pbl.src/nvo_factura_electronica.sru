@@ -3132,11 +3132,13 @@ li_FileNum = FileMove (is_ruta_facturas+lst_ret_dian.as_filename+'_test_ret.xml'
 messagebox("Atención", "Factura firmada y envida con éxito !!")
 
 
+
 //********************** APIDOCKER TOKEN **********************
+nvo_fevrips u_rips
+u_rips=create nvo_fevrips
+
 if gs_apidocker='1' then
 	string ls_token, ls_tds,ls_docs,ls_pass,ls_ipsn,ls_url,ls_tamb
-	nvo_fevrips u_rips
-	u_rips=create nvo_fevrips
 
 	SELECT 
 		usuarios.tipodoc, usuarios.documento, 

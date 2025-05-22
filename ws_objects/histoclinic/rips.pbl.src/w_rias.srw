@@ -3153,9 +3153,6 @@ ls_tipo=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw
 
 If newindex=2 then
 	tab_2.tp2_1.t1.fac.dw_fact.retrieve(ldb_nrad,ls_lug,ls_tipo)
-end if
-
-If newindex=2 then
 	tab_2.tp2_1.t1.tmod.dw_mod.retrieve(ldb_nrad,ls_lug,ls_tipo)
 end if
 end event
@@ -5615,6 +5612,7 @@ if getitemstring(getrow(),'tipo')='F' then
 	tab_2.tp2_1.rb_txt.enabled=true
 	tab_2.tp2_1.rb_json.enabled=true	
 	is_capiv='1'
+	tab_2.tp2_1.t1.fac.text='Consecutivos Asociadas'
 	tab_2.tp2_1.tab_1.tp_p.tab_3.det.pb_dian.enabled=true
 	tab_2.tp2_1.tab_1.tp_p.tab_3.det.pb_diac.enabled=false
 	tab_2.tp2_1.tab_1.tp_p.tab_3.det.pb_diacc.enabled=true
@@ -5634,6 +5632,7 @@ if getitemstring(getrow(),'tipo')='F' then
 	tab_2.tp2_1.rb_txt.enabled=false
 	tab_2.tp2_1.rb_json.enabled=false	
 else
+	tab_2.tp2_1.t1.fac.text='Facturas Asociadas'
 	tab_2.tp2_1.cbx_5.enabled=false
 	tab_2.tp2_1.cbx_5.checked=false
 	if isnull(getitemstring(getrow(),'cod_versionfe'))  or getitemstring(getrow(),'cod_versionfe')>='1.9' then 
@@ -5664,7 +5663,7 @@ select objeto into :ls_objetor from ripsradica where num_radicacion=:ldb_nrad an
 tab_2.tp2_1.t1.tp1.em_11.text=left(string(getitemdatetime(getrow(),'fecha_inicial')),10)
 tab_2.tp2_1.t1.tp1.em_21.text=left(string(getitemdatetime(getrow(),'fecha_final')),10)
 if getitemstring(getrow(),'en_destino')='1'  or getitemstring(getrow(),'tipo')='F' or tab_2.tp2_1.t1.fac.dw_fact.rowcount()=1 then
-	tab_2.tp2_1.t1.fac.enabled=false
+	tab_2.tp2_1.t1.fac.enabled=true
 	tab_2.tp2_1.t1.fac.dw_fact.enabled=false
 	tab_2.tp2_1.t1.tmod.enabled=false
 	tab_2.tp2_1.t1.tmod.dw_mod.enabled=false
