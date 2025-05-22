@@ -587,7 +587,7 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 					
 					
 					ripse_json.AddItemString(ldb_fcon,"fechaEgreso",string(datetime(date(lds_ripsu.getitemdatetime(ldb_ci,'fechaegreso')),time(lds_ripsu.getitemdatetime(ldb_ci,'horaegreso'))),'yyyy-mm-dd hh:mm'))
-					ripse_json.AddItemString(ldb_fcon,"consecutivo",string( ldb_ci))			
+					ripse_json.AddItemnumber(ldb_fcon,"consecutivo",ldb_ci)
 				next
 			end if
 			
@@ -638,7 +638,7 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 						ripse_json.AddItemString(ldb_fcon,"codDiagnosticoCausaMuerte",lds_ripsh.getitemstring(ldb_ci,'cod_rips_5'))
 					end if
 					ripse_json.AddItemString(ldb_fcon,"fechaEgreso",string(datetime(date(lds_ripsh.getitemdatetime(ldb_ci,'fechaegreso')),time(lds_ripsh.getitemdatetime(ldb_ci,'horaegreso'))),'yyyy-mm-dd hh:mm'))
-					ripse_json.AddItemString(ldb_fcon,"consecutivo",string(ldb_ci))			
+					ripse_json.AddItemnumber(ldb_fcon,"consecutivo",ldb_ci)
 				next
 			end if
 				
@@ -664,8 +664,8 @@ if lds_fact.retrieve(al_nro_fact,as_clug_fact,as_tipo_fac)>0 then
 						ripse_json.AddItemString(ldb_fcon,"fecha Egreso",string(lds_ripsrc.getitemdatetime(ldb_ci,'fechareg'),'yyyy-mm-dd hh:mm'))
 					else
 						ripse_json.AddItemString(ldb_fcon,"fecha Egreso",string(lds_ripsrc.getitemdatetime(ldb_ci,'fechamuertern'),'yyyy-mm-dd hh:mm'))
-					end if		
-					ripse_json.AddItemString(ldb_fcon,"consecutivo",string( ldb_ci))		
+					end if	
+					ripse_json.AddItemnumber(ldb_fcon,"consecutivo",ldb_ci)	
 				next
 			end if
 			

@@ -2855,7 +2855,7 @@ if as_tipo_docu='f' or as_tipo_docu='r'  then
 		is_ruta_facturas=is_ruta_facturas+'\'+ls_numfact+'\'
 	else
 		ls_api=is_ruta_facturas+'\'+ls_prefac+ls_numfact+'\RtdosDoker_'+ls_prefac+ls_numfact+string(today(),'ddmmyyyy')+string(now(),'hhmmss')+'.txt'
-		is_ruta_facturas=is_ruta_facturas+'\RtdosDoker'+ls_prefac+ls_numfact+'\'		
+		is_ruta_facturas=is_ruta_facturas+'\'+ls_prefac+ls_numfact+'\'		
 	end if
 else
 	if as_tipo_docu='a' or as_tipo_docu='c'  then 
@@ -3165,7 +3165,7 @@ if gs_apidocker='1' then
 		
 	ls_token=u_rips.sispro_login(ls_tamb,ls_tds,ls_docs,ls_pass,ls_ipsn,ls_url)
 end if
-
+//********************** APIDOCKER TOKEN **********************
 
 //**********************  GENERA JSON EVENTO ***************
 if ((as_tipo_docu='a'or as_tipo_docu='c' or as_tipo_docu='f') and as_coddoc='FV')  then 
@@ -3178,7 +3178,7 @@ if ((as_tipo_docu='a'or as_tipo_docu='c' or as_tipo_docu='f') and as_coddoc='FV'
 			u_rips.emite_json_evento(al_nro_fact,as_clug_factura,as_tipofac,as_tipo_docu,as_coddoc,is_ruta_facturas+ls_prefac+ls_numfact+'.json')
 		end if
 	end if
-
+	
 	//*********** NOTAS *************
 	if (as_tipo_docu='a'or as_tipo_docu='c') then
 		if as_tipo_docu='c' then
@@ -3189,8 +3189,8 @@ if ((as_tipo_docu='a'or as_tipo_docu='c' or as_tipo_docu='f') and as_coddoc='FV'
 			end if	
 		end if
 	end if
-
-	//************** APIDOCKER
+	
+	//************** APIDOCKER EVENTO
 	if gs_apidocker='1' then
 		//***** EVENTO ********
 		if ls_token<>'-1'  and as_tipo_docu='f' then
@@ -3199,9 +3199,8 @@ if ((as_tipo_docu='a'or as_tipo_docu='c' or as_tipo_docu='f') and as_coddoc='FV'
 			else
 				lst_ret_gral=u_rips.sispro_carga_fev_rips(ls_token,'1',is_ruta_facturas, ls_prefac+ls_numfact+'.json',lst_ret_dian.as_filename,ls_url)
 			end if
-
 		end if
-		
+	
 		//***** NOTAS CREDITO********
 		if ls_token<>'-1'  and as_tipo_docu='c' then 
 			if isnull(ls_prefac) then 
@@ -3219,7 +3218,7 @@ if ((as_tipo_docu='a'or as_tipo_docu='c' or as_tipo_docu='f') and as_coddoc='FV'
 				lst_ret_gral=u_rips.sispro_cargarnctotal(ls_token,'1',is_ruta_facturas, ls_prefac+ls_numfact+'.json',lst_ret_dian.as_filename,ls_url)
 			end if
 		end if
-
+	
 		if lst_ret_gral.i_valor=-1 then 				
 			lst_ret_dian.as_estado="1"
 			destroy 	u_rips
@@ -3231,7 +3230,7 @@ if ((as_tipo_docu='a'or as_tipo_docu='c' or as_tipo_docu='f') and as_coddoc='FV'
 		datetime ldt_frad
 		int li_posi
 		boolean lbo_rstate
-	
+		
 		lnv_json=create jsonpackage
 		lnv_json.loadstring( lst_ret_gral.s_valor)
 		ls_err = lnv_json.LoadString(lst_ret_gral.s_valor)
@@ -3254,15 +3253,15 @@ if ((as_tipo_docu='a'or as_tipo_docu='c' or as_tipo_docu='f') and as_coddoc='FV'
 					update factcab set cuve_anul=:ls_cuve, fecha_cuve_anul=:ldt_frad
 					where nfact=:al_nro_fact and clugar=:as_clug_factura and tipo=as_tipofac;
 				end if
-				
+					
 				if as_tipo_docu='c' then
 					update factcab_notas set cuve=:ls_cuve, fecha_cuve=:ldt_frad
 					where nfact=:al_nro_fact and clugar=:as_clug_factura and tipo=as_tipofac and tipo_nota='C' and nro_nota=:adb_nnota;					
 				end if
-					
+						
 				If SQLCA.SQLCode = -1 then
 					Rollback;
-					MessageBox("SQL error sign_chilkat", 'Error actualizando linea 595')
+					MessageBox("SQL error sign_chilkat", 'Error actualizando linea 597')
 					lst_ret_dian.as_estado="-1"
 					return lst_ret_dian
 				Else
@@ -3277,6 +3276,7 @@ if ((as_tipo_docu='a'or as_tipo_docu='c' or as_tipo_docu='f') and as_coddoc='FV'
 end if
 //**********************  FIN GENERA JSON EVENTO ***************
 destroy u_rips
+
 lst_ret_dian.as_estado="1"
 return lst_ret_dian
 end function

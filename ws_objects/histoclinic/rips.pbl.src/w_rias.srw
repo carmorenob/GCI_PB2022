@@ -6100,11 +6100,11 @@ end if
 ldb_facturas=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'num_radicacion')
 lst_lle=u_elec.sign_chilkat(dw_electronica,ldb_facturas,clugar,'F',0,'f','RV')
 
-update ripsrdica set cod_versionfe=:ls_fver
+update ripsradica set cod_versionfe=:ls_fver
 where num_radicacion=:ldb_facturas and clugar=:clugar and tipo='F';
 If SQLCA.SQLCode = -1 then
 	Rollback;
-	MessageBox("SQL error Factura xml_envia", 'Error actualizando')
+	MessageBox("SQL error Factura xml_envia", 'Error actualizando Linea 44 pb_dian')
 	Return -1
 Else
 	commit;
