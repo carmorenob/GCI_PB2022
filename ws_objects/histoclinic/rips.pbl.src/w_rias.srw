@@ -1568,7 +1568,7 @@ return l_doc
 end function
 
 public function long f_rips (boolean p_faltan, long p_nradica, string p_clug_rad, datawindow p_dw_conts, string p_decual, boolean p_cups, long p_cero, string p_por_lugar, string p_reserva, string p_tipo_rad);string cual,param,nom_arch,emp,docname,realn[12],formato,log_txt ,cips,tipo_rad,l_cont,l_deta
-string ls_objeto
+string ls_objeto,ls_fver
 long j,i,filas,arch,num_af,num_ad,num_us,n_reg[7],factus,p_at=0
 st_nradica num_radica
 
@@ -1595,6 +1595,19 @@ if p_decual='emp' then
 		fecha_ini=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemdatetime(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'fecha_inicial')
 		fecha_fin=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemdatetime(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'fecha_final')
 		fecha_radica=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemdatetime(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'fecha_radica')
+		SELECT 
+			cod_version
+		INTO
+			:ls_fver
+		FROM 
+			pm_versionfe_dian
+		WHERE 
+			(((:fecha_radica) between valido_inicio And valido_hasta));
+				
+		if sqlca.sqlnrows=0 then
+			messagebox('Atencíon','No hay version Facturacion Electronica Linea 31')
+			return -1
+		end if
 	end if
 else
 	fecha_ini=datetime(date(tab_2.tp2_2.em_3.text))
@@ -1657,11 +1670,11 @@ if p_faltan then
 		tot_capita=round(p_dw_conts.getitemdecimal(1,'t_capita'),l_dec_fact)
 		is_objeto=tab_2.tp2_1.tab_1.tp_1.mle_objeto.text
 		If clug='%' then
-			INSERT INTO ripsradica ( num_radicacion,clugar,tipo, cemp , fecha_radica, fecha_inicial, fecha_final ,usuario,valor_capita,valor_evento,nro_factu,por_lugar,reserva,c_aut,lugar_s,objeto,valor_ncr,valor_ndb) 
-			values (:num_radica.ndoc,:clugar,:tipo_rad,:emp,:fecha_radica,:fecha_ini,:fecha_fin,:usuario,:tot_capita,:tot_evento,:factus,:p_por_lugar,:p_reserva,:num_radica.c_aut,null,:is_objeto,0,0);
+			INSERT INTO ripsradica ( num_radicacion,clugar,tipo, cemp , fecha_radica, fecha_inicial, fecha_final ,usuario,valor_capita,valor_evento,nro_factu,por_lugar,reserva,c_aut,lugar_s,objeto,valor_ncr,valor_ndb,cod_versionfe) 
+			values (:num_radica.ndoc,:clugar,:tipo_rad,:emp,:fecha_radica,:fecha_ini,:fecha_fin,:usuario,:tot_capita,:tot_evento,:factus,:p_por_lugar,:p_reserva,:num_radica.c_aut,null,:is_objeto,0,0,:ls_fver);
 		else
-			INSERT INTO ripsradica ( num_radicacion,clugar,tipo, cemp , fecha_radica, fecha_inicial, fecha_final ,usuario,valor_capita,valor_evento,nro_factu,por_lugar,reserva,c_aut,lugar_s,objeto,valor_ncr,valor_ndb) 
-			values (:num_radica.ndoc,:clugar,:tipo_rad,:emp,:fecha_radica,:fecha_ini,:fecha_fin,:usuario,:tot_capita,:tot_evento,:factus,:p_por_lugar,:p_reserva,:num_radica.c_aut,:clug,:is_objeto,0,0);
+			INSERT INTO ripsradica ( num_radicacion,clugar,tipo, cemp , fecha_radica, fecha_inicial, fecha_final ,usuario,valor_capita,valor_evento,nro_factu,por_lugar,reserva,c_aut,lugar_s,objeto,valor_ncr,valor_ndb,cod_versionfe) 
+			values (:num_radica.ndoc,:clugar,:tipo_rad,:emp,:fecha_radica,:fecha_ini,:fecha_fin,:usuario,:tot_capita,:tot_evento,:factus,:p_por_lugar,:p_reserva,:num_radica.c_aut,:clug,:is_objeto,0,0,:ls_fver);
 		end if
 		
 		if sqlca.sqlcode=-1 then
@@ -1689,10 +1702,24 @@ if p_faltan then
 	if p_reserva='1' and p_nradica=0 then return num_radica.ndoc
 
 	w_principal.SetMicroHelp ( 'Actualizando Factcab '+string(dw_trae.rowcount())+' regs.' )
+	string ls_vers
+	
+	
+	if isnull(ls_fver) then
+		ls_fver=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'cod_versionfe')
+	end if
 	for j=1 to dw_trae.rowcount()
-		dw_trae.setitem(j,'nradica',num_radica.ndoc)
-		dw_trae.setitem(j,'clugar_rad',clugar)
-		dw_trae.setitem(j,'tipo_rad',tipo_rad)
+		if ls_fver>='1.9' then
+			if dw_trae.getitemdatetime(j,'fat') >=fecha_ini and dw_trae.getitemdatetime(j,'fat') <=fecha_fin then
+				dw_trae.setitem(j,'nradica',num_radica.ndoc)
+				dw_trae.setitem(j,'clugar_rad',clugar)
+				dw_trae.setitem(j,'tipo_rad',tipo_rad)
+			end if
+		else
+			dw_trae.setitem(j,'nradica',num_radica.ndoc)
+			dw_trae.setitem(j,'clugar_rad',clugar)
+			dw_trae.setitem(j,'tipo_rad',tipo_rad)
+		end if
 	next
 	w_principal.SetMicroHelp ( 'Guardando en Factcab' )
 	if dw_trae.update()=-1 then return -1
@@ -6081,34 +6108,9 @@ if tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radi
 	messagebox('Atención','Ya fue envia a Dian')
 	return
 End if
-
-ldt_ff=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemdatetime(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'fecha_radica')
-SELECT 
-	cod_version
-INTO
-	:ls_fver
-FROM 
-	pm_versionfe_dian
-WHERE 
-	(((:ldt_ff) between valido_inicio And valido_hasta));
-		
-if sqlca.sqlnrows=0 then
-	messagebox('Atencíon','No hay version Facturacion Electronica Linea 31')
-	return
-end if
 				
 ldb_facturas=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemnumber(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'num_radicacion')
 lst_lle=u_elec.sign_chilkat(dw_electronica,ldb_facturas,clugar,'F',0,'f','RV')
-
-update ripsradica set cod_versionfe=:ls_fver
-where num_radicacion=:ldb_facturas and clugar=:clugar and tipo='F';
-If SQLCA.SQLCode = -1 then
-	Rollback;
-	MessageBox("SQL error Factura xml_envia", 'Error actualizando Linea 44 pb_dian')
-	Return -1
-Else
-	commit;
-end If		
 
 
 //////////////////////// APIDOCKER
@@ -6263,10 +6265,6 @@ if tab_2.tp2_1.tab_1.tp_p.dw_radica.rowcount()>0 then
 	end if
 end if
 tab_2.tp2_1.tab_1.tp_p.dw_radica.retrieve(CLUGAR)
-
-
-
-
 end event
 
 type dw_det from datawindow within det
