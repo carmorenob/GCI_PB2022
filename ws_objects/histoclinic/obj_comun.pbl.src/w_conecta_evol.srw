@@ -33,7 +33,7 @@ end forward
 global type w_conecta_evol from window
 integer x = 302
 integer y = 300
-integer width = 1573
+integer width = 1413
 integer height = 1364
 windowtype windowtype = response!
 long backcolor = 67108864
@@ -187,7 +187,7 @@ closewithreturn(this,st_p)
 end event
 
 type dw_usuario from datawindow within w_conecta_evol
-integer x = 370
+integer x = 293
 integer y = 468
 integer width = 809
 integer height = 76
@@ -231,7 +231,7 @@ end event
 type dw_1 from datawindow within w_conecta_evol
 integer x = 55
 integer y = 804
-integer width = 1426
+integer width = 1271
 integer height = 352
 integer taborder = 50
 string title = "none"
@@ -379,7 +379,7 @@ boolean focusrectangle = false
 end type
 
 type p_1 from picture within w_conecta_evol
-integer x = 370
+integer x = 293
 integer y = 84
 integer width = 805
 integer height = 328
@@ -388,7 +388,7 @@ boolean focusrectangle = false
 end type
 
 type pb_cancel from picturebutton within w_conecta_evol
-integer x = 809
+integer x = 763
 integer y = 1184
 integer width = 146
 integer height = 128
@@ -417,7 +417,7 @@ closewithreturn(parent,i_cancel)
 end event
 
 type pb_aceptar from picturebutton within w_conecta_evol
-integer x = 599
+integer x = 553
 integer y = 1184
 integer width = 146
 integer height = 128
@@ -485,7 +485,7 @@ close(parent)
 end event
 
 type sle_passwd from singlelineedit within w_conecta_evol
-integer x = 375
+integer x = 297
 integer y = 556
 integer width = 800
 integer height = 96
@@ -510,7 +510,7 @@ end type
 type gb_1 from groupbox within w_conecta_evol
 integer x = 59
 integer y = 20
-integer width = 1426
+integer width = 1275
 integer height = 696
 string dragicon = "none!"
 integer textsize = -7

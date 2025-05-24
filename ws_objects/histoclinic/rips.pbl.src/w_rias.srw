@@ -5696,10 +5696,10 @@ if getitemstring(getrow(),'en_destino')='1'  or getitemstring(getrow(),'tipo')='
 	tab_2.tp2_1.t1.tmod.enabled=true
 	tab_2.tp2_1.t1.tmod.dw_mod.enabled=true
 else
-	tab_2.tp2_1.t1.fac.enabled=true
-	tab_2.tp2_1.t1.fac.dw_fact.enabled=true
-	tab_2.tp2_1.t1.tmod.enabled=true
-	tab_2.tp2_1.t1.tmod.dw_mod.enabled=true	
+	tab_2.tp2_1.t1.fac.enabled=false
+	tab_2.tp2_1.t1.fac.dw_fact.enabled=false
+	tab_2.tp2_1.t1.tmod.enabled=false
+	tab_2.tp2_1.t1.tmod.dw_mod.enabled=false
 end if
 
 end event

@@ -12,5 +12,6 @@ global type trae from structure
 	string		tipo_orden
 	string		proc_costos
 	string		dx_ord
+	datetime		fecha_ord
 end type
 

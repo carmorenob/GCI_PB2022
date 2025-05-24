@@ -391,8 +391,6 @@ dw_rias.getchild('desesp',idw_espe)
 idw_espe.settransobject(sqlca)
 
 
-
-
 if dw_rias.rowcount()>0 then idw_espe.retrieve(dw_rias.getitemstring(1,'cprof'))
 choose case i_st.tingres
 	case '2'
@@ -1430,7 +1428,7 @@ event itemchanged;accepttext()
 string cod,col,este='',nulo
 long colum,i,veri
 st_return_diags st
-
+datetime ldt_actual
 
 setnull(nulo)
 colum=getcolumn()
@@ -1480,6 +1478,13 @@ choose case colum
 		end if
 		
 end choose
+
+ldt_actual=datetime(today(),now())
+if col='s_fecha' and  (i_st.fecha_ord< datetime(data) or  datetime(data)> ldt_actual) then
+	setitem(getrow(),"s_fecha",ldt_actual)
+	return 1
+end if
+
 if col='s_diagprin_' or col='s_diagrel1_' or col='s_diagrel2_' or col='s_diagrel3_' or col='s_diagcompli' then
 	if data<>"" then
 		st=f_check_diag(data,w_principal.dw_1.getitemstring(1,"sexo"),w_principal.dw_1.getitemnumber(1,"dias"),este,'0',this.getitemstring(row,'rips'),'0')

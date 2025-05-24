@@ -1664,6 +1664,7 @@ st.dw_procs=tab_1.tp_1.dw_oscuerpo
 st.dw_meds=tab_1.tp_2.dw_formula
 st.tingres=i_tingre
 st.profe=dw_profe_atiende.getitemstring(1,1)
+st.fecha_ord=dw_oscab.getitemdatetime(dw_oscab.getrow(),"fecha")
 st.tipo_orden=dw_oscab.getitemstring(dw_oscab.getrow(),'tipo_orden')
 openwithparm(w_new_estad_ria_os,st)
 if message.stringparm='Y' then 
@@ -2286,6 +2287,7 @@ if ctos_pro>0  or ctos_med>0 then
 	st.dw_procs=tab_1.tp_1.dw_oscuerpo
 	st.dw_meds=tab_1.tp_2.dw_formula
 	st.tingres=i_tingre
+	st.fecha_ord=dw_oscab.getitemdatetime(dw_oscab.getrow(),"fecha")
 	st.profe=dw_profe_atiende.getitemstring(1,1)
 	If ctos_pro>0  then
 		if tab_1.tp_1.dw_oscuerpo.getitemstring(tab_1.tp_1.dw_oscuerpo.getrow(),"agrupser")="10" then

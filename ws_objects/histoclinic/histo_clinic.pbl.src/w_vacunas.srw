@@ -671,14 +671,22 @@ if getcolumnname()='atender' then
 end if
 
 if getcolumnname()='fechavac' or getcolumnname()='proxdosis' then
-	for lj=row to dw_dosis.rowcount()
-		interv=dw_dosis.getitemnumber(lj,'intervalo')
-		ldt_cuando=datetime(relativedate(DATE(DATA),interv))
-		dw_dosis.setitem(lj,"intervalo",interv)		
-		if (lj +1) <=dw_dosis.rowcount() then
-			dw_dosis.setitem(lj+1,"proxdosis",ldt_cuando)
-		end if
-	next
+	ldt_cuando=datetime(today(),now())
+	interv=dw_dosis.getitemnumber(row,'intervalo')
+	if getcolumnname()='fechavac' and  (datetime(data)< datetime(relativedate(date(ldt_cuando),-interv)) or  datetime(data)> ldt_cuando) then
+		setitem(getrow(),"fechavac",today())
+		return 2
+	else
+		setnull(ldt_cuando)
+		for lj=row to dw_dosis.rowcount()
+			interv=dw_dosis.getitemnumber(lj,'intervalo')
+			ldt_cuando=datetime(relativedate(date(data),interv))
+			dw_dosis.setitem(lj,"intervalo",interv)		
+			if (lj +1) <=dw_dosis.rowcount() then
+				dw_dosis.setitem(lj+1,"proxdosis",ldt_cuando)
+			end if
+		next
+	end if
 end if
 
 if getcolumnname()='gestante' then
@@ -780,7 +788,6 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Arial"
-boolean originalsize = true
 string picturename = "llevar.gif"
 string disabledname = "d_llevar.gif"
 alignment htextalign = left!
