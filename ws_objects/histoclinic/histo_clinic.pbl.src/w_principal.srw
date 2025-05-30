@@ -346,6 +346,7 @@ if g_profe<>'' then
 	else
 		dw_profe.setitem(1,2,espe.getitemstring(1,'cesp'))
 	end if
+
 	dw_odprofe.setitem(1,'codprof',g_profe)
 	odespe.retrieve(g_profe)
 	if odespe.rowcount()=0 then 
@@ -1482,6 +1483,8 @@ end event
 event constructor;settransobject(sqlca)
 getchild('cesp',espe)
 espe.settransobject(sqlca)
+dw_profe.retrieve(clugar)
+dw_odprofe.retrieve(clugar)	
 insertrow(1)
 
 

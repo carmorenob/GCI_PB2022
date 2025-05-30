@@ -217,7 +217,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-04-04"), Time("12:50:06.000000"))
+datetime value = DateTime(Date("2025-05-29"), Time("15:52:15.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -415,6 +415,7 @@ event constructor;settransobject(sqlca)
 end event
 
 type st_2 from statictext within w_citas_asig
+boolean visible = false
 integer x = 2455
 integer y = 12
 integer width = 759
@@ -432,6 +433,7 @@ boolean focusrectangle = false
 end type
 
 type dw_otro_profe from datawindow within w_citas_asig
+boolean visible = false
 integer x = 3209
 integer width = 1527
 integer height = 84

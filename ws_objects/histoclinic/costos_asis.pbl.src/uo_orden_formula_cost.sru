@@ -201,7 +201,7 @@ boolean repord_dialogo , repfor_dialogo , repord_vprelim , repfor_vprelim , i_ob
 private long i_contador=-1 , i_norden , i_nh , i_nqx , i_consec_qx
 private string i_clug_his , i_profe , i_indapdx , i_clug_hadm , i_est_hadm , i_cemp , i_ccont , i_tingre , i_clug_qx,i_alm,i_cdoc_cons='SC', s_esp
 private string l_evo,l_usu,l_tpu, ori,profesi,l_enfe,ls_aordarea
-datawindowchild idw_procs , idw_genericos , idw_insumo, idw_finproc,idw_profe
+datawindowchild idw_procs , idw_genericos , idw_insumo, idw_finproc,idw_profe,idw_profeat
 end variables
 forward prototypes
 public function integer reset ()
@@ -1840,6 +1840,10 @@ end type
 
 event constructor;reset()
 settransobject(sqlca)
+dw_profe_atiende.retrieve(clugar)
+getchild('codprof',idw_profeat)
+idw_profeat.settransobject(sqlca)
+idw_profeat.retrieve(clugar)
 modify('codprof.accelerator="l"')
 insertrow(1)
 f_titulos_dw_st(this,'ATOS',st_5)
@@ -1972,18 +1976,20 @@ integer height = 80
 integer taborder = 20
 boolean bringtotop = true
 string title = "none"
-string dataobject = "dw_combo_profexlugar"
+string dataobject = "dw_combo_profe"
 boolean border = false
 boolean livescroll = true
 end type
 
 event constructor;reset()
 settransobject(sqlca)
+dw_profe.retrieve(clugar)
 getchild('codprof',idw_profe)
 idw_profe.settransobject( sqlca)
 modify('codprof.accelerator="q"')
-//modify('codprof.width=631')
 idw_profe.retrieve(clugar)
+idw_profe.setfilter("evoluciona ='1'")
+idw_profe.filter()
 insertrow(1)
 
 end event

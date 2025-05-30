@@ -71,10 +71,9 @@ global w_nuevo_proc_qx w_nuevo_proc_qx
 
 type variables
 string nautoriza,proccups,rips,cod_concep,req_aut,proced,manual,confirma_ge,l_sex_pa
-datawindowchild i_dw_espe,idw_anes
+datawindowchild i_dw_espe,idw_tanes,idw_anes,idw_esp,idw_auxqx,idw_circula,idw_instru
 st_hosposd st
 end variables
-
 forward prototypes
 public subroutine filtrar ()
 end prototypes
@@ -184,8 +183,6 @@ if isvalid(st) then //viene desde la interfaz con hosposd
 	x_sql= dw_busca.Object.DataWindow.Table.Select
 	x_sql=x_sql+'  and (serviciosman.'+w_new_sala_qx.l_sql
 	dw_busca.Object.DataWindow.Table.Select =x_sql
-	string jaer
-	jaer=dw_2.getitemstring(1,1)
 	if dw_busca.retrieve(dw_2.getitemstring(1,1),st.cproc,l_sex_pa)=1 then dw_busca.triggerevent(doubleclicked!)
 	st_1.visible=false
 	sle_proced.visible=false
@@ -802,8 +799,29 @@ end event
 
 event constructor;this.settransobject(sqlca)
 this.getchild("cesp",i_dw_espe)
-this.getchild('tipoanestecia',idw_anes)
+this.getchild('tipoanestecia',idw_tanes)
+idw_tanes.settransobject(sqlca)
+
+this.getchild("especialista",idw_esp)
+idw_esp.settransobject(sqlca)
+idw_esp.retrieve(clugar)
+
+this.getchild("anestesiologo",idw_esp)
 idw_anes.settransobject(sqlca)
+idw_anes.retrieve(clugar)
+
+this.getchild("auxiliarqx",idw_auxqx)
+idw_auxqx.settransobject(sqlca)
+idw_auxqx.retrieve(clugar)
+
+this.getchild("circulante",idw_circula)
+idw_circula.settransobject(sqlca)
+idw_circula.retrieve(clugar)
+
+this.getchild("instrumenta",idw_instru)
+idw_instru.settransobject(sqlca)
+idw_instru.retrieve(clugar)
+
 i_dw_espe.settransobject(sqlca)
 i_dw_espe.insertrow(1)
 end event
