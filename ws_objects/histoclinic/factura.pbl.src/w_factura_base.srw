@@ -221,6 +221,7 @@ string i_mueve_kardex,i_alm_cext,i_alm_hosp,i_alm_urg,i_alm_amb //todas son para
 string i_anterior,i_pideprof,i_tipo_prof ,i_profe,i_profe_ord ,i_orden
 st_x_ordenext st_ord_ext
 end variables
+
 forward prototypes
 public subroutine totales ()
 public function real f_topes (string campo, string empre, string cont, string est)
@@ -2321,6 +2322,7 @@ WHERE
 	AND ((oscabeza.estado)<>'3')
 	AND ((oscuerpo.c_medica)=:p_medica)
 	AND ((oscuerpo.codproced) is null)
+	AND ((oscuerpo.nfact) is null)
 	AND ((oscabeza.tipo_orden) In ('N','R','S')) 
 	AND ((oscabeza.fecha) Between :dt_ah90d and :dt_ah));
 if sqlca.sqlnrows=0 or li_sihay=0 then
@@ -2338,6 +2340,7 @@ if sqlca.sqlnrows=0 or li_sihay=0 then
 		AND ((historial.documento)=:p_doc) 
 		AND ((oscabeza.estado)<>'3')
 		AND ((oscuerpo.c_medica) is null)
+		AND ((oscuerpo.nfact) is null)		
 		AND ((oscuerpo.codproced) = :p_codigo)
 		AND ((oscabeza.tipo_orden) In ('N','R','S')) 
 		AND ((oscabeza.fecha) Between :dt_ah90d and :dt_ah));

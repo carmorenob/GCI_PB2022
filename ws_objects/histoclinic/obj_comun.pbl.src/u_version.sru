@@ -22,7 +22,7 @@ TriggerEvent( this, "destructor" )
 call super::destroy
 end on
 
-event constructor;i_version_asis='6.0.0.130'
+event constructor;i_version_asis='6.0.0.131'
 i_version_adm='5.0.0.84'
 i_vers_conf='6.0.0.49'
 i_vers_grep='2.0.0.3'
