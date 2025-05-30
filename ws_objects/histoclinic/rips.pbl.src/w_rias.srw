@@ -5663,13 +5663,13 @@ else
 	tab_2.tp2_1.t1.fac.text='Facturas Asociadas'
 	tab_2.tp2_1.cbx_5.enabled=false
 	tab_2.tp2_1.cbx_5.checked=false
-	if isnull(getitemstring(getrow(),'cod_versionfe'))  or getitemstring(getrow(),'cod_versionfe')>='1.9' then 
-		tab_2.tp2_1.rb_txt.checked=false	
-		tab_2.tp2_1.rb_json.checked=true		
-	else
+//	if isnull(getitemstring(getrow(),'cod_versionfe'))  or getitemstring(getrow(),'cod_versionfe')>='1.9' then 
+//		tab_2.tp2_1.rb_txt.checked=false	
+//		tab_2.tp2_1.rb_json.checked=true		
+//	else
 		tab_2.tp2_1.rb_txt.checked=true
 		tab_2.tp2_1.rb_json.checked=false		
-	end if
+//	end if
 	is_capiv='0'
 	tab_2.tp2_1.tab_1.tp_p.tab_3.det.pb_dian.enabled=false
 	tab_2.tp2_1.tab_1.tp_p.tab_3.det.pb_diac.enabled=true
