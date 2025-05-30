@@ -41,7 +41,7 @@ datawindow g_dw_xabuscar
 string aplicativo,lice,nom_regis,activacion,gs_jsonsf,gs_filehc,g_nequipo,gs_apidocker
 boolean g_demo=false
 string g_vencimiento,gs_directorio //para lo de lotes
-string g_aplicacion='conf_apdx',g_version='6.0.0.48'
+string g_aplicacion='conf_apdx',g_version='6.0.0.49'
 uo_transaction gt_sqlca
 
 end variables
