@@ -550,6 +550,8 @@ type m_4_1_5 from menu within m_4_1
 end type
 type m_especilidaddeprofesional from menu within m_4_1
 end type
+type m_lugarprofesional from menu within m_4_1
+end type
 type m_4_1_7 from menu within m_4_1
 end type
 type m_4_1 from menucascade within m_4
@@ -563,6 +565,7 @@ m_4_1_3 m_4_1_3
 m_4_1_4 m_4_1_4
 m_4_1_5 m_4_1_5
 m_especilidaddeprofesional m_especilidaddeprofesional
+m_lugarprofesional m_lugarprofesional
 m_4_1_7 m_4_1_7
 end type
 type m_4_2 from menu within m_4
@@ -7492,6 +7495,7 @@ m_4_1_3 m_4_1_3
 m_4_1_4 m_4_1_4
 m_4_1_5 m_4_1_5
 m_especilidaddeprofesional m_especilidaddeprofesional
+m_lugarprofesional m_lugarprofesional
 m_4_1_7 m_4_1_7
 event create ( )
 event destroy ( )
@@ -7531,6 +7535,7 @@ this.m_4_1_3=create m_4_1_3
 this.m_4_1_4=create m_4_1_4
 this.m_4_1_5=create m_4_1_5
 this.m_especilidaddeprofesional=create m_especilidaddeprofesional
+this.m_lugarprofesional=create m_lugarprofesional
 this.m_4_1_7=create m_4_1_7
 this.Item[UpperBound(this.Item)+1]=this.m_tipousuario
 this.Item[UpperBound(this.Item)+1]=this.m_estratos
@@ -7542,6 +7547,7 @@ this.Item[UpperBound(this.Item)+1]=this.m_4_1_3
 this.Item[UpperBound(this.Item)+1]=this.m_4_1_4
 this.Item[UpperBound(this.Item)+1]=this.m_4_1_5
 this.Item[UpperBound(this.Item)+1]=this.m_especilidaddeprofesional
+this.Item[UpperBound(this.Item)+1]=this.m_lugarprofesional
 this.Item[UpperBound(this.Item)+1]=this.m_4_1_7
 end on
 
@@ -7557,6 +7563,7 @@ destroy(this.m_4_1_3)
 destroy(this.m_4_1_4)
 destroy(this.m_4_1_5)
 destroy(this.m_especilidaddeprofesional)
+destroy(this.m_lugarprofesional)
 destroy(this.m_4_1_7)
 end on
 
@@ -7966,6 +7973,42 @@ end on
 event clicked;mf_abre_tablas2("Especialidades de Profesionales",'dw_profe_combo','dw_espe_profe')
 
 end event
+
+type m_lugarprofesional from menu within m_4_1
+end type
+
+on m_lugarprofesional.create
+call super::create
+this.tag = "Citas Lugar Profesional"
+this.text = "Lugar Profesional"
+this.microhelp = "Lugar Profesional"
+this.toolbaritemdownname = "espe_pro.ico"
+this.toolbaritemtext = "Lugar Profesional"
+this.menuimage = "espe_pro.ico"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menutitles = true
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_lugarprofesional.destroy
+call super::destroy
+end on
 
 type m_4_1_7 from menu within m_4_1
 event create ( )
