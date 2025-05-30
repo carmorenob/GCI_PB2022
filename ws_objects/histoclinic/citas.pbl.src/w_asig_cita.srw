@@ -182,7 +182,7 @@ global w_asig_cita w_asig_cita
 
 type variables
 long i_dura,i_cuantos,i_fila_prof,i_fila_ant,i_col_ant
-int l_cita 
+int ii_cita ,ii_diasorden
 datawindowchild i_dw_grupc,i_dw_proc_gcita,idw_lugar,idw_fincon,idw_finconpac
 datetime i_desde,i_hasta
 string i_profes,i_esp,i_consul,i_clug,ls_tipo,is_pdf
@@ -540,7 +540,7 @@ end if
 //////////////////fin interface con orden de servicio y odontologia
 
 ///recuerda citas
-if l_cita=1 and not isnull(w_principal.dw_1.getitemstring(1,"email")) then
+if ii_cita=1 and not isnull(w_principal.dw_1.getitemstring(1,"email")) then
 	string em
 	em=w_principal.dw_1.getitemstring(1,"email")
 	f_recuerda_cita(ncita,i_clug,'G',em,rte_1,true,'')
@@ -793,7 +793,7 @@ if activos=0 then
 	end if
 end if
 ///recuerda citas
-if l_cita=1 and  not isnull(w_principal.dw_1.getitemstring(1,"email")) then
+if ii_cita=1 and  not isnull(w_principal.dw_1.getitemstring(1,"email")) then
 	string em
 	em=w_principal.dw_1.getitemstring(1,"email")
 	f_recuerda_cita(ncita,i_clug,'A',em,rte_1,true,'')
@@ -832,12 +832,20 @@ else
 	if dw_escog_profe.rowcount()=0 then dw_escog_profe.insertrow(1)
 end if
 
-SELECT entero into :l_cita
+SELECT entero into :ii_cita
 FROM parametros_gen
 WHERE (((codigo_para)=36));
 if sqlca.sqlnrows=0 then
 	messagebox('Atencíon','No hay parametro 36')
 end if
+
+SELECT entero into :ii_diasorden
+FROM parametros_gen
+WHERE (((codigo_para)=83));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 83')
+end if
+
 //i_dw_grupc.retrieve()
 tab_2.tp2_2.dw_citas_ante.retrieve(tipdoc,docu)
 tab_2.tp2_3.dw_citas_no_asig.retrieve(tipdoc,docu)
@@ -1262,6 +1270,8 @@ st_citas_os st_os
 st_os.grupo = dw_escog_profe.GetItemString(dw_escog_profe.GetRow(),'codgc')
 st_os.dw_os = tab_1.tp_1.dw_serv_cita
 st_os.dw_sercios = tab_1.tp_2.dw_serv_turno
+st_os.dias_orden=ii_diasorden
+
 openwithparm(w_citas_os,st_os)
 
 if tab_1.tp_1.dw_serv_cita.rowcount()>0 then 

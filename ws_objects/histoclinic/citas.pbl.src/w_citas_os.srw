@@ -40,7 +40,7 @@ global w_citas_os w_citas_os
 
 type variables
 st_citas_os st_os
-datetime isdt_ah,isdt_ah90d
+datetime idt_ah,idt_ah90d
 end variables
 
 on w_citas_os.create
@@ -72,10 +72,11 @@ end on
 
 event open;st_os = Message.PowerObjectParm
 
-isdt_ah=datetime(today(),now())
-isdt_ah90d=datetime(relativedate(date(isdt_ah),-60),time(00,00,09))
+idt_ah=datetime(today(),now())
+idt_ah90d=datetime(relativedate(date(idt_ah),- st_os.dias_orden),time(00,00,09))
 
-dw_1.Retrieve(tipdoc,docu,st_os.grupo,isdt_ah90d,isdt_ah)
+dw_1.Retrieve(tipdoc,docu,st_os.grupo,idt_ah90d,idt_ah)
+
 
 end event
 
@@ -116,7 +117,7 @@ end type
 
 event clicked;dw_1.dataobject="dw_citas_os_hu"
 dw_1.settransobject(sqlca)
-dw_1.retrieve(tipdoc,docu,st_os.grupo,isdt_ah90d,isdt_ah)
+dw_1.retrieve(tipdoc,docu,st_os.grupo,idt_ah90d,idt_ah)
 st_1.text="El Paciente tiene los siguientes servicios de ordenes de servicio de Hospitalización/Urgencias sin Asignar, marque los que desea asignar y presione aceptar."
 end event
 
@@ -138,7 +139,7 @@ end type
 
 event clicked;dw_1.dataobject="dw_citas_tto_odonto"
 dw_1.settransobject(sqlca)
-dw_1.retrieve(tipdoc,docu,st_os.grupo,isdt_ah90d,isdt_ah)
+dw_1.retrieve(tipdoc,docu,st_os.grupo,idt_ah90d,idt_ah)
 st_1.text="El Paciente tiene los siguientes servicios de tratamientos Odontológicos sin Asignar, marque los que desea asignar y presione aceptar."
 end event
 
@@ -161,7 +162,7 @@ end type
 
 event clicked;dw_1.dataobject="dw_citas_os"
 dw_1.settransobject(sqlca)
-dw_1.retrieve(tipdoc,docu,st_os.grupo,isdt_ah90d,isdt_ah)
+dw_1.retrieve(tipdoc,docu,st_os.grupo,idt_ah90d,idt_ah)
 st_1.text="El Paciente tiene los siguientes servicios de ordenes de servicio de Consulta Externa sin Asignar, marque los que desea asignar y presione aceptar."
 end event
 

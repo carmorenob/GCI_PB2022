@@ -211,7 +211,7 @@ global w_factura_base w_factura_base
 type variables
 string i_tipoingreso,i_ventana,i_cdoc
 string i_confirma_ge,ls_elec
-int i_comprobo,i_dec_fact
+int i_comprobo,i_dec_fact,ii_diasorden
 long xant,yant
 long i_nrecibo
 st_nfact ist_nfactura,ist_nrecibo
@@ -221,7 +221,6 @@ string i_mueve_kardex,i_alm_cext,i_alm_hosp,i_alm_urg,i_alm_amb //todas son para
 string i_anterior,i_pideprof,i_tipo_prof ,i_profe,i_profe_ord ,i_orden
 st_x_ordenext st_ord_ext
 end variables
-
 forward prototypes
 public subroutine totales ()
 public function real f_topes (string campo, string empre, string cont, string est)
@@ -247,6 +246,7 @@ public function integer f_cambiar_cant (long p_fila, decimal p_cant, string p_de
 public subroutine f_cc (boolean esmedica, string almacen, string p_cups, ref string p_uf, ref string p_cc, string p_tipoing, string p_versi)
 public function integer f_lee_de_tarifas (long p_fila, string p_cproc_man, ref string p_cups, ref decimal p_valor, ref decimal p_por_iva, ref string p_rips, ref string p_cod_concep, ref string p_versi)
 public function integer lf_cargar_a (string p_codigo, string p_desproc, long p_cantidad, string p_tipo, string p_tipoing, string p_autoriza, string p_cemp, string p_cont, long p_cons_soat, string p_clug_soat, string p_tdoc, string p_docu, long p_edad, string p_sexo, string p_codta, string p_estrato, string p_uf, string p_cc, string p_desde, integer p_facturar, long p_contador, string p_clug_his, long p_nserv, string p_prof_cir, string p_espe_cir, string p_via, integer p_acto, string p_tipo_cir, long p_ncita, string p_clug_cita, long p_nserv_cita, long p_sec_cant_cita, long p_nreci, string p_clug_rec, integer p_item_rec, long p_ntrat, string p_clug_trat, integer p_item_trat, string p_aneste, string p_cod_auxqx, long p_nro_insumo, long p_norden, long p_nitem_ord, string p_articulo, string p_tipo_fac, double p_nfact_ref, string p_clugar_ref, string p_tipo_fac_ref, integer p_item_ref, string p_facscerrar, string p_siras, string p_oxig, string p_dx, string p_finc, string p_ambp)
+public function integer f_existe_orden (string p_tdoc, string p_doc, string p_codigo, string p_medica)
 end prototypes
 
 public subroutine totales ();if dw_factura.rowcount()=0 then
@@ -1626,7 +1626,8 @@ string des_cont,autoriza,tip,conf,otro_cod,iva,l_cproc_man,l_manual,l_plan,l_cod
 string l_grupo,l_que_paga,soat_l_v,l_v,l_autoriza,l_versi
 boolean yapaso,esmedica,segresp=false,volio=false
 dec l_valor,l_por_iva,l_copagofijo,l_cuotarfija,l_cuotamfija,por_iva_crm
-int l_tipo_proc
+int l_tipo_proc,li_sihay
+
 st_escoge_equiv st_art
 str_proc stp
 
@@ -1645,10 +1646,14 @@ soat_l_v=p_clug_soat
 choose case p_tipo
 	case 'C'//cups
 		l_tipo_proc=1
+		if i_tipoingreso='1' and f_existe_orden(tipdoc,docu,p_codigo,'')= -1 then return -1			
+		
 	case 'M'
 		l_tipo_proc=3
 		esmedica=true
 		l_cproc_man=p_codigo
+		if i_tipoingreso='1' and f_existe_orden(tipdoc,docu,'',p_codigo)= -1 then return -1
+		
 		if isnull(p_articulo) then
 			st_art.proccups=p_codigo
 			st_art.desproc=p_desproc
@@ -1662,21 +1667,25 @@ choose case p_tipo
 			return -1
 		elseif l_tipo_proc=5 then 
 			p_codigo=p_articulo
+			if i_tipoingreso='1' and f_existe_orden(tipdoc,docu,p_codigo,'')= -1 then return -1		
 		elseif l_tipo_proc=3 then
 			esmedica=true
 			l_cproc_man=p_codigo
 			//articulos a mirar
+			if i_tipoingreso='1' and f_existe_orden(tipdoc,docu,'',p_codigo)= -1 then return -1			
 			st_art.proccups=p_codigo
 			st_art.desproc=p_desproc
 			st_art.manual=i_alm_cext
 			openwithparm(w_escoge_articulo,st_art)
 			p_articulo=message.stringparm
 		elseif l_tipo_proc=2 then
-			l_cproc_man=p_codigo
+			if i_tipoingreso='1' and f_existe_orden(tipdoc,docu,p_codigo,'')= -1 then return -1
+			l_cproc_man=p_codigo		
 			p_codigo=''
 			elseif l_tipo_proc=4 then
 			esmedica=true
 			l_tipo_proc=3
+			if i_tipoingreso='1' and f_existe_orden(tipdoc,docu,'',p_codigo)= -1 then return -1	
 			l_cproc_man=p_codigo
 			p_codigo=p_articulo
 			p_articulo=l_cproc_man
@@ -1751,6 +1760,7 @@ DO // pa poder revisar en todos los responsables
 				end if
 				l_tiposerv="G"
 				goto cubierto2
+				
 			case 1,5 //tiene que ser cups
 				stp=f_busca_cups(p_codigo,p_sexo,p_edad,'0')
 				if isnull(stp.descripcion) then 
@@ -2288,6 +2298,62 @@ bb:
 return 1
 end function
 
+public function integer f_existe_orden (string p_tdoc, string p_doc, string p_codigo, string p_medica);/// se utiliza en el codigo de sle_proc.modified es para saber de que tipo es lo que se digitó
+datetime dt_ah,dt_ah90d
+int li_sihay
+
+dt_ah=datetime(today(),now())
+dt_ah90d=datetime(relativedate(date(dt_ah),- ii_diasorden),time(00,00,09))
+
+		
+SELECT 
+	count(*) 
+into 
+	:li_sihay
+FROM 
+	(historial 
+	INNER JOIN oscabeza ON (historial.clugar = oscabeza.clugar) AND (historial.contador = oscabeza.contador)) 
+	INNER JOIN oscuerpo ON (oscabeza.nsolicitud = oscuerpo.nsolicitud) AND (oscabeza.clugar = oscuerpo.clugar) 
+	AND (oscabeza.contador = oscuerpo.contador)
+WHERE 
+	(((historial.tipodoc)=:p_tdoc) 
+	AND ((historial.documento)=:p_doc) 
+	AND ((oscabeza.estado)<>'3')
+	AND ((oscuerpo.c_medica)=:p_medica)
+	AND ((oscuerpo.codproced) is null)
+	AND ((oscabeza.tipo_orden) In ('N','R','S')) 
+	AND ((oscabeza.fecha) Between :dt_ah90d and :dt_ah));
+if sqlca.sqlnrows=0 or li_sihay=0 then
+	SELECT 
+		count(*) 
+	into 
+		:li_sihay
+	FROM 
+		(historial 
+		INNER JOIN oscabeza ON (historial.clugar = oscabeza.clugar) AND (historial.contador = oscabeza.contador)) 
+		INNER JOIN oscuerpo ON (oscabeza.nsolicitud = oscuerpo.nsolicitud) AND (oscabeza.clugar = oscuerpo.clugar) 
+		AND (oscabeza.contador = oscuerpo.contador)
+	WHERE 
+		(((historial.tipodoc)=:p_tdoc) 
+		AND ((historial.documento)=:p_doc) 
+		AND ((oscabeza.estado)<>'3')
+		AND ((oscuerpo.c_medica) is null)
+		AND ((oscuerpo.codproced) = :p_codigo)
+		AND ((oscabeza.tipo_orden) In ('N','R','S')) 
+		AND ((oscabeza.fecha) Between :dt_ah90d and :dt_ah));
+	if sqlca.sqlnrows=0 or li_sihay=0  then
+		return 0
+	end if
+end if
+	
+if li_sihay>0 then
+	messagebox("Error","Este producto esta en ordenes servicios, halar desde orden")
+	return -1
+end if		
+
+
+end function
+
 on w_factura_base.create
 this.dw_dx=create dw_dx
 this.pb_dx=create pb_dx
@@ -2514,6 +2580,14 @@ FROM parametros_gen
 WHERE (((codigo_para)=66));
 if sqlca.sqlnrows=0 then
 	messagebox('Atencíon','No hay parametro 66')
+	return
+end if
+
+SELECT entero into :ii_diasorden
+FROM parametros_gen
+WHERE (((codigo_para)=84));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 84')
 	return
 end if
 
@@ -3107,7 +3181,12 @@ ret=lf_cargar_a(text,'',1,'','1',sle_autoriza.text,emp,cont,0, &
   '',0,'','','',0,'',0,'',0,&
   0,0,'',0,0,'',0,'','!',0,0,0,'',tfac,0,'','',0,'',sle_siras.text,ls_coxig,'','','')
 text=''
+
+
 return ret
+
+
+
 end event
 
 type gb_5 from groupbox within w_factura_base

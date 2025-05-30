@@ -201,9 +201,8 @@ boolean repord_dialogo , repfor_dialogo , repord_vprelim , repfor_vprelim , i_ob
 private long i_contador=-1 , i_norden , i_nh , i_nqx , i_consec_qx
 private string i_clug_his , i_profe , i_indapdx , i_clug_hadm , i_est_hadm , i_cemp , i_ccont , i_tingre , i_clug_qx,i_alm,i_cdoc_cons='SC', s_esp
 private string l_evo,l_usu,l_tpu, ori,profesi,l_enfe,ls_aordarea
-datawindowchild idw_procs , idw_genericos , idw_insumo, idw_finproc
+datawindowchild idw_procs , idw_genericos , idw_insumo, idw_finproc,idw_profe
 end variables
-
 forward prototypes
 public function integer reset ()
 public function long insert_proc (string p_codigo, integer p_cant)
@@ -1969,19 +1968,22 @@ type dw_profe from datawindow within uo_orden_formula_cost
 integer x = 3365
 integer y = 68
 integer width = 1545
-integer height = 84
+integer height = 80
 integer taborder = 20
 boolean bringtotop = true
 string title = "none"
-string dataobject = "dw_combo_profe"
+string dataobject = "dw_combo_profexlugar"
 boolean border = false
 boolean livescroll = true
 end type
 
 event constructor;reset()
 settransobject(sqlca)
+getchild('codprof',idw_profe)
+idw_profe.settransobject( sqlca)
 modify('codprof.accelerator="q"')
 //modify('codprof.width=631')
+idw_profe.retrieve(clugar)
 insertrow(1)
 
 end event

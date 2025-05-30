@@ -3,5 +3,6 @@ global type st_citas_os from structure
 	string		grupo
 	datawindow		dw_os
 	datawindow		dw_sercios
+	integer		dias_orden
 end type
 
