@@ -2049,7 +2049,9 @@ tab_1.tp_2.dw_serv_turno.setredraw(false)
 tab_1.tp_2.dw_serv_turno.setfilter('isnull(fecha) and nservicio='+string(getitemnumber(getrow(),"nservicio")))
 tab_1.tp_2.dw_serv_turno.filter()
 tab_1.tp_2.dw_serv_turno.sort()
-sec_cant=tab_1.tp_2.dw_serv_turno.getitemnumber(1,'sec_cant')
+if tab_1.tp_2.dw_serv_turno.rowcount()>0 then
+	sec_cant=tab_1.tp_2.dw_serv_turno.getitemnumber(1,'sec_cant')
+end if
 tab_1.tp_2.dw_serv_turno.setfilter('')
 tab_1.tp_2.dw_serv_turno.filter()
 tab_1.tp_2.dw_serv_turno.sort()
