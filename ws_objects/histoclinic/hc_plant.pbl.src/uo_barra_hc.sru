@@ -81,13 +81,12 @@ string i_clug,i_cplant,i_ing,i_tipo_plant,i_tingres,i_cemp,i_ccont,i_tipo_memo,i
 string i_antecedente,i_alergia,i_codant,i_tipoa,is_cext
 //richtextedit i_rte
 multilineedit i_mle
-datawindowchild idw_tipodiag,idw_profe,idw_desturg,idw_finalidad,idw_causaext,idw_fincon,idw_modrea,idw_finproc,idw_ambproc
+datawindowchild idw_tipodiag,idw_profe,idw_desturg,idw_finalidad,idw_causaext,idw_fincon,idw_modrea,idw_finproc,idw_ambproc,idw_lprof
 
 singlelineedit i_st
 datawindow idw_results,idw_dats,idw_memos, idw_frm
 uo_hclin i_uo_padre
 end variables
-
 forward prototypes
 public subroutine retrieve (integer p_item)
 public function integer f_enlaza_ordenes (string p_codigo, string p_tipo, string p_agrupserv)
@@ -187,7 +186,10 @@ uo_datastore ds
 ds=create uo_datastore
 
 dw_diags.setfilter('')
-dw_diags.filter()		
+dw_diags.filter()
+
+//profe
+
 dw_diags.retrieve(i_cplant,i_tingres)
 if pos('2347',i_tingres)>0 then
 	if i_ing='I' then
@@ -1754,6 +1756,7 @@ idw_causaext.retrieve('1')
 idw_fincon.retrieve('1')
 idw_finproc.retrieve('1')
 idw_ambproc.retrieve('1')
+idw_profe.retrieve(clugar)
 
 string ls_sex
 int li_dias
