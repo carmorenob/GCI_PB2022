@@ -60,6 +60,7 @@ string i_emp_e,i_cont_e,i_reconf_emp,i_tipo_fac
 boolean lb_hay=true
 
 end variables
+
 forward prototypes
 public function integer f_busca_emp (ref string p_emp, ref string p_cont, ref string p_codta)
 end prototypes
