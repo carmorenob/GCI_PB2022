@@ -1631,6 +1631,7 @@ if i_tipoingreso='1' and dw_factura.rowcount()=0 then
 	if message.stringparm='!' then
 		return -1
 	end if
+	
 end if
 if p_autoriza='' then setnull(p_autoriza)
 if isnull(p_autoriza) and not isnull(sle_autoriza.text) then
@@ -1705,14 +1706,17 @@ soat_l_v=p_clug_soat
 choose case p_tipo
 	case 'C'//cups
 		l_tipo_proc=1
-		if i_tipoingreso='1' and p_desde='M' and p_desde='M' and f_existe_orden(tipdoc,docu,p_codigo,'')= -1 then return -1			
-		
+		if i_tipoingreso='1' and p_desde='M' then
+			if f_existe_orden(tipdoc,docu,p_codigo,'')= -1 then return -1
+		end if
+
 	case 'M'
 		l_tipo_proc=3
 		esmedica=true
 		l_cproc_man=p_codigo
-		if i_tipoingreso='1' and p_desde='M' and f_existe_orden(tipdoc,docu,'',p_codigo)= -1 then return -1
-		
+		if i_tipoingreso='1' and p_desde='M' then 
+			if f_existe_orden(tipdoc,docu,'',p_codigo)= -1 then return -1		
+		end if
 		if isnull(p_articulo) then
 			st_art.proccups=p_codigo
 			st_art.desproc=p_desproc
@@ -1726,25 +1730,33 @@ choose case p_tipo
 			return -1
 		elseif l_tipo_proc=5 then 
 			p_codigo=p_articulo
-			if i_tipoingreso='1' and p_desde='M' and f_existe_orden(tipdoc,docu,p_codigo,'')= -1 then return -1		
+			if i_tipoingreso='1' and p_desde='M' then
+				if f_existe_orden(tipdoc,docu,p_codigo,'')= -1 then return -1
+			end if
 		elseif l_tipo_proc=3 then
 			esmedica=true
 			l_cproc_man=p_codigo
 			//articulos a mirar
-			if i_tipoingreso='1' and p_desde='M' and f_existe_orden(tipdoc,docu,'',p_codigo)= -1 then return -1			
+			if i_tipoingreso='1' and p_desde='M' then
+				if f_existe_orden(tipdoc,docu,'',p_codigo)= -1 then return -1			
+			end if
 			st_art.proccups=p_codigo
 			st_art.desproc=p_desproc
 			st_art.manual=i_alm_cext
 			openwithparm(w_escoge_articulo,st_art)
 			p_articulo=message.stringparm
 		elseif l_tipo_proc=2 then
-			if i_tipoingreso='1' and p_desde='M' and f_existe_orden(tipdoc,docu,p_codigo,'')= -1 then return -1
+			if i_tipoingreso='1' and p_desde='M' then 
+				if f_existe_orden(tipdoc,docu,p_codigo,'')= -1 then return -1
+			end if
 			l_cproc_man=p_codigo		
 			p_codigo=''
 			elseif l_tipo_proc=4 then
 			esmedica=true
 			l_tipo_proc=3
-			if i_tipoingreso='1' and p_desde='M' and f_existe_orden(tipdoc,docu,'',p_codigo)= -1 then return -1	
+			if i_tipoingreso='1' and p_desde='M' then
+				if f_existe_orden(tipdoc,docu,'',p_codigo)= -1 then return -1	
+			end if
 			l_cproc_man=p_codigo
 			p_codigo=p_articulo
 			p_articulo=l_cproc_man
