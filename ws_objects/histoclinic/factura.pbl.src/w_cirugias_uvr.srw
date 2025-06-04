@@ -33,7 +33,7 @@ end type
 end forward
 
 global type w_cirugias_uvr from window
-integer width = 3241
+integer width = 3849
 integer height = 1336
 boolean titlebar = true
 string title = "Liquidación de Grupos Quirúrgicos por UVR"
@@ -194,6 +194,7 @@ if sqlca.sqlnrows=0 then
 	messagebox('Atencíon','No hay parametro 35')
 	return -1
 end if
+dw_profe.retrieve(clugar)
 
 st_c=message.powerobjectparm
 dw_via.setfocus()
@@ -343,7 +344,7 @@ end type
 type dw_profe from datawindow within w_cirugias_uvr
 integer x = 1079
 integer y = 124
-integer width = 2057
+integer width = 2670
 integer height = 76
 integer taborder = 50
 string dragicon = "none!"
@@ -562,7 +563,7 @@ end event
 type st_descrip from statictext within w_cirugias_uvr
 integer x = 32
 integer y = 268
-integer width = 2249
+integer width = 3003
 integer height = 72
 integer textsize = -8
 integer weight = 400
@@ -578,8 +579,8 @@ boolean focusrectangle = false
 end type
 
 type st_puntos from statictext within w_cirugias_uvr
-integer x = 2491
-integer y = 268
+integer x = 3109
+integer y = 272
 integer width = 626
 integer height = 72
 integer textsize = -8
@@ -598,7 +599,7 @@ end type
 type dw_liqgrupo from datawindow within w_cirugias_uvr
 integer x = 32
 integer y = 348
-integer width = 3086
+integer width = 3735
 integer height = 696
 integer taborder = 60
 string title = "none"

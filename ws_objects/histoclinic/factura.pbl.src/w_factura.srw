@@ -445,7 +445,7 @@ for j=1 to dw_factura.rowcount()//I N T E R F A C E S
 		l_cantidad=dw_factura.getitemnumber(j,"cantidad")
 		k=dw_factura.getitemnumber(j,"factu")
 		update factcpo set contador=null,clugar_ser=null
-		where nitem=:nitem_fc and nfact=:k and tipo=:l_tf;
+		where nitem=:nitem_fc and nfact=:k and tipo=:l_tf  and clugar=:l_clug_his;
 		if sqlca.sqlcode=-1 then
 			messagebox("Error en la interfase con ordenes de Servicio contador linea 371",sqlca.sqlerrtext)
 			blanquea()
@@ -453,10 +453,10 @@ for j=1 to dw_factura.rowcount()//I N T E R F A C E S
 		end if
 ////  aca verificar
 		//update oscuerpo set nfact=:k , clugar_fact=:clugar,tipo_fact=:l_tf,nitem_fact=:nitem_fc,entregada=:l_cantidad
-		update oscuerpo set entregada=entregada + :l_cantidad
+		update oscuerpo set entregada=case when entregada is null then 0 else entregada end + :l_cantidad
 		where contador=:l_cont and clugar=:l_clug_his and nsolicitud =:l_norden and item=:l_nitem_ord;
 		if sqlca.sqlcode=-1 then
-			messagebox("Error en la interfase con ordenes de Servicio linea 380",sqlca.sqlerrtext)
+			messagebox("Error en la interfase con ordenes de Servicio linea 418",sqlca.sqlerrtext)
 			blanquea()
 			return -1
 		end if
@@ -464,7 +464,7 @@ for j=1 to dw_factura.rowcount()//I N T E R F A C E S
 		update factcpo set contador_os=:l_cont, clugar_os=:l_clug_his, nsolicitud_os =:l_norden, item_os=:l_nitem_ord
 		where nfact=:k and clugar=:clugar and tipo=:l_tf and nitem=:nitem_fc;
 		if sqlca.sqlcode=-1 then
-			messagebox("Error en la interfase con ordenes de Servicio linea 388",sqlca.sqlerrtext)
+			messagebox("Error en la interfase con ordenes de Servicio linea 326",sqlca.sqlerrtext)
 			blanquea()
 			return -1
 		end if

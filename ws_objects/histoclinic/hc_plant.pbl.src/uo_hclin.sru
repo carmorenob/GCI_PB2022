@@ -203,13 +203,12 @@ long i_nh,i_nactoqx
 datawindow i_dw_oscab
 blob imags[],objs[],imags1[]
 
-datawindowchild idw_finconp,idw_finprocp,idw_causaexp,idw_ambprocp, idw_finconm,idw_finprocm,idw_causaexm,idw_ambprocm
+datawindowchild idw_finconp,idw_finprocp,idw_causaexp,idw_ambprocp, idw_finconm,idw_finprocm,idw_causaexm,idw_ambprocm,idw_profam
 datawindowchild idw_finconold,idw_finprocold,idw_causaexold,idw_ambprocold
 int i_nro_imags,i_actual_image,i_nobjs[],i_control
 //i_ing_sal:(I:ingreso , S:salida)
 uo_datastore  ids_hijos_histo
 end variables
-
 forward prototypes
 public subroutine mover (long xpos)
 public subroutine mover2 (long xpos)
@@ -3713,17 +3712,24 @@ end type
 event constructor;settransobject(sqlca)
 getchild('s_fin_consulta',idw_finconm)
 idw_finconm.settransobject(sqlca)
+idw_finconm.retrieve('1')
+
 getchild('s_finalidadproced',idw_finprocm)
 idw_finprocm.settransobject(SQLCA)
+idw_finprocm.retrieve('1')
+
 getchild('s_causaexterna',idw_causaexm)
 idw_causaexm.settransobject(sqlca)
+idw_causaexm.retrieve('1')
+
 getchild('s_ambitoproced',idw_ambprocm)
 idw_ambprocm.settransobject(sqlca)
-
-idw_finconm.retrieve('1')
-idw_finprocm.retrieve('1')
-idw_causaexm.retrieve('1')
 idw_ambprocm.retrieve('1')
+
+getchild('cprof',idw_profam)
+idw_profam.settransobject(sqlca)
+idw_profam.retrieve(clugar)
+
 end event
 
 type dw_new_det from datawindow within uo_hclin

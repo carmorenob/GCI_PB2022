@@ -196,10 +196,9 @@ global w_admision w_admision
 type variables
 string tipo_ingres,clugar_ing,i_varios_ingre,l_aut,l_autc
 boolean guardo=true
-DataWindowChild pab, Hab,Camas,idw_tiping,idw_precibe,idw_destino,idw_viaing,idw_causaex
+DataWindowChild pab, Hab,Camas,idw_tiping,idw_precibe,idw_destino,idw_viaing,idw_causaex,idw_profesal
 String Pabellon, Habitacion, Cdemp, Ctemp,cama,continua
 end variables
-
 forward prototypes
 public function integer rn (long nh, string clug_hadm)
 public function integer guardar ()
@@ -1570,10 +1569,13 @@ end type
 event constructor;settransobject(sqlca)
 getchild('viaingreso',idw_viaing)
 idw_viaing.settransobject(sqlca)
+
 getchild('prof_recibe',idw_precibe)
 idw_precibe.settransobject(sqlca)
+idw_precibe.retrieve(clugar)
 idw_precibe.setfilter("cirujano ='1' or  anestesia ='1' or  odontologo ='1' or  mgeneral ='1'")
 idw_precibe.filter()
+
 getchild('causaexterna',idw_causaex)
 idw_causaex.settransobject(sqlca)
 
@@ -2786,6 +2788,11 @@ end type
 event constructor;settransobject(sqlca)
 getchild('conductaurg',idw_destino)
 idw_destino.settransobject(sqlca)
+
+getchild('cprof',idw_profesal)
+idw_profesal.settransobject(sqlca)
+idw_profesal.retrieve(clugar)
+
 end event
 
 event itemchanged;string colum,nulo

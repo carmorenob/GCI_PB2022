@@ -111,10 +111,9 @@ global w_hospitaliz w_hospitaliz
 
 type variables
 string tipo_ingres,orden,anterior
-datawindowchild dw_pabe
+datawindowchild dw_pabe,idw_profe
 
 end variables
-
 forward prototypes
 public subroutine filtrar ()
 end prototypes
@@ -1013,6 +1012,11 @@ datawindowchild dw_lista
 getchild('codtingre',dw_lista)
 dw_lista.setfilter('codtingre <>"1"')
 insertrow(1)
+
+dw_profe.getchild('codprof',idw_profe)
+idw_profe.settransobject(sqlca)
+idw_profe.retrieve(clugar)
+
 
 
 end event

@@ -704,6 +704,7 @@ end event
 
 event constructor;getchild('profe',iprof)
 iprof.settransobject(sqlca)
+iprof.retrieve(clugar)
 iprof.setfilter("vacunador='1'")
 iprof.filter()
 getchild('fin_consulta',idw_finproc)

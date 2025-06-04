@@ -207,7 +207,7 @@ end if
 dw_usuario.settransobject(sqlca)
 dw_usuario.GetChild('codprof',dwc_p)
 dwc_p.SetTransObject(SQLCA)
-if dwc_p.Retrieve() = 0 then
+if dwc_p.Retrieve(clugar) = 0 then
 	dwc_p.InsertRow(0)
 	MessageBox('Atención','No hay profesionales de enfermería')
 End if

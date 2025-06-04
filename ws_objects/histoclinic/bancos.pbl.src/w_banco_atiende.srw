@@ -133,7 +133,7 @@ long i_nh,i_norden
 datawindowchild idw_ufun,idw_cc,idw_espe
 trae i_st
 string i_cambio='n',i_cdiaging,i_causaext
-DataWindowChild idw_fincon,idw_finproc,idw_causaex,idw_ambproc
+DataWindowChild idw_fincon,idw_finproc,idw_causaex,idw_ambproc,idw_profa
 end variables
 on w_banco_atiende.create
 this.tab_1=create tab_1
@@ -237,17 +237,24 @@ idw_espe.settransobject(sqlca)
 
 tab_1.tp_2.dw_rias.getchild('s_fin_consulta',idw_fincon)
 idw_fincon.settransobject(sqlca)
+idw_fincon.retrieve('1')
+
 tab_1.tp_2.dw_rias.getchild('s_finalidadproced',idw_finproc)
 idw_finproc.settransobject(SQLCA)
+idw_finproc.retrieve('1')
+
 tab_1.tp_2.dw_rias.getchild('s_causaexterna',idw_causaex)
 idw_causaex.settransobject(sqlca)
+idw_causaex.retrieve('1')
+
 tab_1.tp_2.dw_rias.getchild('s_ambitoproced',idw_ambproc)
 idw_ambproc.settransobject(sqlca)
-
-idw_fincon.retrieve('1')
-idw_finproc.retrieve('1')
-idw_causaex.retrieve('1')
 idw_ambproc.retrieve('1')
+
+tab_1.tp_2.dw_rias.getchild('cprof',idw_profa)
+idw_profa.settransobject(sqlca)
+idw_profa.retrieve(clugar)
+
 
 if tab_1.tp_2.dw_rias.rowcount()>0 then idw_espe.retrieve(tab_1.tp_2.dw_rias.getitemstring(1,'cprof'))
 choose case i_st.tingres

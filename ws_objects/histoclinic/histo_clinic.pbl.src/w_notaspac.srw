@@ -53,7 +53,7 @@ end type
 end forward
 
 global type w_notaspac from window
-integer width = 4251
+integer width = 4503
 integer height = 2144
 boolean titlebar = true
 string title = "Notas del paciente"
@@ -86,8 +86,8 @@ date l_fec
 st_notas st_cl
 boolean i_cambia_rte
 string ordenar[10]
+DataWindowChild idw_profea
 end variables
-
 forward prototypes
 public function integer f_grabarpyp ()
 end prototypes
@@ -400,7 +400,7 @@ end type
 type t1 from tab within w_notaspac
 integer x = 32
 integer y = 720
-integer width = 4151
+integer width = 4430
 integer height = 1296
 integer taborder = 30
 integer textsize = -8
@@ -432,7 +432,7 @@ end on
 type p1 from userobject within t1
 integer x = 18
 integer y = 112
-integer width = 4114
+integer width = 4393
 integer height = 1168
 long backcolor = 67108864
 string text = "Solicitud"
@@ -454,7 +454,7 @@ end on
 type mle_1 from multilineedit within p1
 integer x = 27
 integer y = 28
-integer width = 4055
+integer width = 4338
 integer height = 1100
 integer taborder = 40
 integer textsize = -8
@@ -469,7 +469,7 @@ end type
 type p2 from userobject within t1
 integer x = 18
 integer y = 112
-integer width = 4114
+integer width = 4393
 integer height = 1168
 long backcolor = 67108864
 string text = "Gestion"
@@ -735,7 +735,7 @@ end type
 type gb_1 from groupbox within w_notaspac
 integer x = 1184
 integer y = 24
-integer width = 2994
+integer width = 3259
 integer height = 676
 integer taborder = 30
 integer textsize = -8
@@ -752,7 +752,7 @@ end type
 type dw_1 from datawindow within w_notaspac
 integer x = 1221
 integer y = 128
-integer width = 2903
+integer width = 3104
 integer height = 400
 integer taborder = 10
 boolean bringtotop = true
@@ -763,7 +763,9 @@ borderstyle borderstyle = stylelowered!
 end type
 
 event constructor;SetTransObject(SQLCA)
-
+getchild('codprof',idw_profea)
+idw_profea.settransobject(sqlca)
+idw_profea.retrieve(clugar)
 end event
 
 event rowfocuschanged;t1.p1.mle_1.text=''

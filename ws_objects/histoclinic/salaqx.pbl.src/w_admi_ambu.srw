@@ -74,8 +74,8 @@ string tipo_ingres,clugar_ing
 boolean guardo=true
 String  Cdemp, Ctemp,continua
 long i_nh=-1
+DataWindowChild idw_precibe,idw_causaex,idw_viaing
 end variables
-
 on w_admi_ambu.create
 this.cbx_res=create cbx_res
 this.dw_his_acu=create dw_his_acu
@@ -431,6 +431,19 @@ boolean border = false
 end type
 
 event constructor;this.settransobject(sqlca)
+
+getchild('viaingreso',idw_viaing)
+idw_viaing.settransobject(sqlca)
+
+getchild('prof_recibe',idw_precibe)
+idw_precibe.settransobject(sqlca)
+idw_precibe.retrieve(clugar)
+idw_precibe.setfilter("cirujano ='1' or  anestesia ='1' or  odontologo ='1' or  mgeneral ='1'")
+idw_precibe.filter()
+
+getchild('causaexterna',idw_causaex)
+idw_causaex.settransobject(sqlca)
+
 end event
 
 event doubleclicked;if this.getcolumnname()<>"cod_rips" then return

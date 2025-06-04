@@ -139,7 +139,7 @@ global w_estad_ria_os_cos w_estad_ria_os_cos
 type variables
 string sexo_paci,i_ccalm,i_ufalm,i_est_hadm,i_clug_hadm,i_cemp,i_ccont,i_nautoriza
 long i_nh,i_norden,i_nserv_cos
-datawindowchild idw_ufun,idw_cc,idw_espe
+datawindowchild idw_ufun,idw_cc,idw_espe,idw_profea
 trae i_st
 string i_cambio='n',i_cdiaging,i_causaext
 DataWindowChild idw_fincon,idw_finproc,idw_causaex,idw_ambproc
@@ -1603,17 +1603,23 @@ end event
 event constructor;settransobject(sqlca)
 getchild('s_fin_consulta',idw_fincon)
 idw_fincon.settransobject(sqlca)
+idw_fincon.retrieve('1')
+
 getchild('s_finalidadproced',idw_finproc)
 idw_finproc.settransobject(SQLCA)
+idw_finproc.retrieve('1')
+
 getchild('s_causaexterna',idw_causaex)
 idw_causaex.settransobject(sqlca)
+idw_causaex.retrieve('1')
+
 getchild('s_ambitoproced',idw_ambproc)
 idw_ambproc.settransobject(sqlca)
-
-idw_fincon.retrieve('1')
-idw_finproc.retrieve('1')
-idw_causaex.retrieve('1')
 idw_ambproc.retrieve('1')
+
+getchild('cprof',idw_profea)
+idw_profea.settransobject(sqlca)
+idw_profea.retrieve(clugar)
 end event
 
 event dberror;return f_dw_error(sqldbcode,sqlsyntax,sqlerrtext,classname())

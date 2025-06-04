@@ -87,6 +87,7 @@ singlelineedit i_st
 datawindow idw_results,idw_dats,idw_memos, idw_frm
 uo_hclin i_uo_padre
 end variables
+
 forward prototypes
 public subroutine retrieve (integer p_item)
 public function integer f_enlaza_ordenes (string p_codigo, string p_tipo, string p_agrupserv)
@@ -1734,29 +1735,36 @@ end event
 event constructor;settransobject(sqlca)
 getchild('tipo_diag',idw_tipodiag)
 idw_tipodiag.settransobject(sqlca)
+
 getchild('profe',idw_profe)
 idw_profe.settransobject(sqlca)
+idw_profe.retrieve(clugar)
+
 getchild('dest_urg',idw_desturg)
 idw_desturg.settransobject(sqlca)
+
 getchild('finalidad',idw_finalidad)
 idw_finalidad.settransobject(sqlca)
+idw_finalidad.retrieve('1')
+
 getchild('causaext',idw_causaext)
 idw_causaext.settransobject(sqlca)
+idw_causaext.retrieve('1')
+
 getchild('finconsulta',idw_fincon)
 idw_fincon.settransobject(sqlca)
+idw_fincon.retrieve('1')
+
 getchild('cod_modrel',idw_modrea)
 idw_modrea.settransobject(sqlca)
+
 getchild('finalida_proc',idw_finproc)
 idw_finproc.settransobject(SQLCA)
+idw_finproc.retrieve('1')
+
 getchild('ambito_proc',idw_ambproc)
 idw_ambproc.settransobject(sqlca)
-
-idw_finalidad.retrieve('1')
-idw_causaext.retrieve('1')
-idw_fincon.retrieve('1')
-idw_finproc.retrieve('1')
 idw_ambproc.retrieve('1')
-idw_profe.retrieve(clugar)
 
 string ls_sex
 int li_dias

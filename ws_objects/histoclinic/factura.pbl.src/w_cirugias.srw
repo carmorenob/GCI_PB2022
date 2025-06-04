@@ -31,7 +31,7 @@ end type
 end forward
 
 global type w_cirugias from window
-integer width = 3218
+integer width = 3808
 integer height = 1384
 boolean titlebar = true
 string title = "Liquidación de Grupos Quirúrgicos"
@@ -197,6 +197,7 @@ real pormanual
 string mod_qx, ojo
 dw_via.settransobject(sqlca)
 dw_profe.settransobject(sqlca)
+dw_profe.retrieve(clugar)
 dw_profe.getchild('cesp',espe)
 espe.settransobject(sqlca)
 espe.insertrow(1)
@@ -224,6 +225,8 @@ choose case st_c.tiposerv
 		dw_liqgrupo.retrieve(st_c.codproc,st_c.manual)
 		this.title= "Liquidación de Paquetes"
 end choose
+
+
 if st_c.nuevo_edita="edita" then
 	st_descrip.text=st_c.dw_factura.getitemstring(st_c.dw_factura.getrow(),"descripcion")
 else
@@ -386,7 +389,7 @@ end type
 type dw_profe from datawindow within w_cirugias
 integer x = 1079
 integer y = 124
-integer width = 2066
+integer width = 2665
 integer height = 76
 integer taborder = 50
 string dragicon = "none!"
@@ -564,7 +567,7 @@ end event
 type st_descrip from statictext within w_cirugias
 integer x = 14
 integer y = 268
-integer width = 3090
+integer width = 3694
 integer height = 72
 integer textsize = -8
 integer weight = 400
@@ -639,7 +642,7 @@ end type
 type dw_liqgrupo from datawindow within w_cirugias
 integer x = 32
 integer y = 348
-integer width = 3086
+integer width = 3689
 integer height = 696
 integer taborder = 60
 string title = "none"

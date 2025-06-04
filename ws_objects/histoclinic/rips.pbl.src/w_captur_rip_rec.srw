@@ -244,7 +244,7 @@ global w_captur_rip_rec w_captur_rip_rec
 type variables
 int xant,yant
 string sexo_paci,orden,anterior,ord,ant
-datawindowchild dw_contrato,gc_regimen,idw_finconr,idw_finprocr,idw_causaexr,idw_ambprocr
+datawindowchild dw_contrato,gc_regimen,idw_finconr,idw_finprocr,idw_causaexr,idw_ambprocr,idw_profeacr
 end variables
 on w_captur_rip_rec.create
 this.tab_1=create tab_1
@@ -369,18 +369,23 @@ end on
 event open;dw_rias.settransobject(sqlca)
 dw_rias.getchild('s_fin_consulta',idw_finconr)
 idw_finconr.settransobject(sqlca)
+idw_finconr.retrieve('1')
+
 dw_rias.getchild('s_finalidadproced',idw_finprocr)
 idw_finprocr.settransobject(SQLCA)
+idw_finprocr.retrieve('1')
+
 dw_rias.getchild('s_causaexterna',idw_causaexr)
 idw_causaexr.settransobject(sqlca)
+idw_causaexr.retrieve('1')
+
 dw_rias.getchild('s_ambitoproced',idw_ambprocr)
 idw_ambprocr.settransobject(sqlca)
-
-idw_finconr.retrieve('1')
-idw_finprocr.retrieve('1')
-idw_causaexr.retrieve('1')
 idw_ambprocr.retrieve('1')
 
+dw_rias.getchild('cprof',idw_profeacr)
+idw_profeacr.settransobject(sqlca)
+idw_profeacr.retrieve(clugar)
 end event
 
 type tab_1 from tab within w_captur_rip_rec
