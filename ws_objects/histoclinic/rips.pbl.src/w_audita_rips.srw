@@ -282,7 +282,7 @@ datawindowchild dw_contrato,idw_emp,gc_regimen
 long xant,yant,maxi
 string anterior,orden,l_soat,l_sql,is_elec
 datetime ldt_iniciafevs
-DataWindowChild idw_fincon,idw_finproc,idw_causaex,idw_ambproc
+DataWindowChild idw_fincon,idw_finproc,idw_causaex,idw_ambproc,idw_profea
 end variables
 
 forward prototypes
@@ -664,21 +664,35 @@ choose case cual
 		dw_ria.settransobject(sqlca)
 		dw_ria.getchild('s_fin_consulta',idw_fincon)
 		idw_fincon.settransobject(sqlca)
+		
 		dw_ria.getchild('s_causaexterna',idw_causaex)
 		idw_causaex.settransobject(sqlca)
+		
+		dw_ria.getchild('cprof',idw_profea)
+		idw_profea.settransobject(sqlca)
+
 		pb_guardar.enabled=true
+		
 	case "Procedimientos"
 		param="AP"
 		dw_ria.dataobject="dw_audita_rips_c_p"
 		dw_ria.settransobject(sqlca)
+		
 		dw_ria.getchild('s_fin_consulta',idw_fincon)
 		idw_fincon.settransobject(sqlca)
+		
 		dw_ria.getchild('s_finalidadproced',idw_finproc)
 		idw_finproc.settransobject(SQLCA)
+		
 		dw_ria.getchild('s_causaexterna',idw_causaex)
 		idw_causaex.settransobject(sqlca)
+		
 		dw_ria.getchild('s_ambitoproced',idw_ambproc)
-		idw_ambproc.settransobject(sqlca)		
+		idw_ambproc.settransobject(sqlca)
+		
+		dw_ria.getchild('cprof',idw_profea)
+		idw_profea.settransobject(sqlca)
+		
 		pb_guardar.enabled=true
 	case "Urgencias"
 		dw_ria.dataobject="dw_audita_rips_urg"
@@ -702,6 +716,9 @@ choose case cual
 		dw_ria.dataobject="dw_audita_rips_medica"
 		dw_ria.settransobject(sqlca)
 		dw_ria.retrieve(datetime(date(em_11.text)),datetime(date(em_21.text)),clugar)
+		dw_ria.getchild('cprof',idw_profea)
+		idw_profea.settransobject(sqlca)
+		
 		pb_guardar.enabled=false
 		return
 	case "Otros Servicios"
@@ -716,7 +733,13 @@ if  cual="Consulta" or cual="Procedimientos" then
 	idw_finproc.retrieve('1')
 	idw_causaex.retrieve('1')
 	idw_ambproc.retrieve('1')
+	idw_profea.retrieve('%')
 end if
+
+if  cual="Medicamentos" or cual="Otros Servicios" then
+	idw_profea.retrieve('%')
+end if
+
 dw_ria.retrieve(param,datetime(date(em_11.text)),datetime(date(em_21.text)),clugar)
 end event
 
@@ -2482,12 +2505,15 @@ end type
 event constructor;this.settransobject(sqlca)
 getchild('s_fin_consulta',idw_fincon)
 idw_fincon.settransobject(sqlca)
+idw_fincon.retrieve('%')
+
 getchild('s_causaexterna',idw_causaex)
 idw_causaex.settransobject(sqlca)
-
-idw_fincon.retrieve('%')
 idw_causaex.retrieve('%')
 
+getchild('cprof',idw_profea)
+idw_profea.settransobject(sqlca)
+idw_profea.retrieve('%')
 
 end event
 
@@ -2663,11 +2689,16 @@ end type
 event constructor;this.settransobject(sqlca)
 getchild('s_finalidadproced',idw_finproc)
 idw_finproc.settransobject(SQLCA)
+idw_finproc.retrieve('%')
+
 getchild('s_ambitoproced',idw_ambproc)
 idw_ambproc.settransobject(sqlca)
-
-idw_finproc.retrieve('%')
 idw_ambproc.retrieve('%')
+
+getchild('cprof',idw_profea)
+idw_profea.settransobject(sqlca)
+idw_profea.retrieve('%')
+
 end event
 
 event updatestart;long i , filas
@@ -2835,6 +2866,10 @@ borderstyle borderstyle = stylelowered!
 end type
 
 event constructor;this.settransobject(sqlca)
+getchild('cprof',idw_profea)
+idw_profea.settransobject(sqlca)
+idw_profea.retrieve('%')
+
 end event
 
 type tp_o from userobject within tab_2
@@ -2876,6 +2911,10 @@ borderstyle borderstyle = stylelowered!
 end type
 
 event constructor;this.settransobject(sqlca)
+getchild('cprof',idw_profea)
+idw_profea.settransobject(sqlca)
+idw_profea.retrieve('%')
+
 end event
 
 type tp_u from userobject within tab_2
