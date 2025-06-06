@@ -217,11 +217,10 @@ long i_nrecibo
 st_nfact ist_nfactura,ist_nrecibo
 boolean i_otro_resp,i_reviso_multiples=false,i_tiene_base
 transaction sqlba
-string i_mueve_kardex,i_alm_cext,i_alm_hosp,i_alm_urg,i_alm_amb //todas son para mover kardex
-string i_anterior,i_pideprof,i_tipo_prof ,i_profe,i_profe_ord ,i_orden
+string is_mueve_kardex,is_alm_cext,is_alm_hosp,is_alm_urg,is_alm_amb //todas son para mover kardex
+string is_anterior,is_pideprof,is_tipo_prof ,is_profe,is_profe_ord ,is_orden, is_ord_ins
 st_x_ordenext st_ord_ext
 end variables
-
 forward prototypes
 public subroutine totales ()
 public function real f_topes (string campo, string empre, string cont, string est)
@@ -680,7 +679,7 @@ dec valorprom,valor
 int ano,mes
 
 fecha=datetime(today(),now())
-select clugar_entre,cod_doc_entre into :lug_doc,:cdoc from sumalmacen where codalmacen=:i_alm_cext;
+select clugar_entre,cod_doc_entre into :lug_doc,:cdoc from sumalmacen where codalmacen=:is_alm_cext;
 if sqlca.sqlcode=-1 then
 	messagebox("Error leyendo documento de almacen",sqlca.sqlerrtext)
 	return -1
@@ -693,7 +692,7 @@ for j=1 to dw_lote_mov.rowcount()//se crea una cabeza por cada factura (recibo d
 		lleva++
 		cabezas[lleva]=ndoc
 		insert into sum_mvto_cab (coddoc,clugar,numdoc,fecha,codalmacen,estado,usuario) 
-		values (:cdoc,:clugar,:ndoc,:fecha,:i_alm_cext,'1',:usuario);
+		values (:cdoc,:clugar,:ndoc,:fecha,:is_alm_cext,'1',:usuario);
 		if sqlca.sqlcode=-1 then
 			messagebox("Error Insertando en sum_mvto_cab",sqlca.sqlerrtext)
 			return -1
@@ -718,7 +717,7 @@ for k=1 to lleva
 		t_fac=dw_lote_mov.getitemstring(j,'tipo_fc')
 		
 		select costoprom into :valorprom from sum_kardex 
-		where codalmacen=:i_alm_cext and codarticulo=:articulo;
+		where codalmacen=:is_alm_cext and codarticulo=:articulo;
 		if sqlca.sqlcode=-1 then
 			messagebox("Error leyendo costo promedio",sqlca.sqlerrtext)
 			return -1
@@ -747,7 +746,7 @@ for j=1 to dw_lote_mov.rowcount()
 	ndoc=dw_lote_mov.getitemnumber(j,'numdoc')
 	itemref=dw_lote_mov.getitemnumber(j,'item')
 	update sum_kardex set saldoactual = saldoactual - :cantidad 
-	where codalmacen=:i_alm_cext and codarticulo=:articulo and saldoactual>= :cantidad;
+	where codalmacen=:is_alm_cext and codarticulo=:articulo and saldoactual>= :cantidad;
 	if sqlca.sqlcode=-1 then
 		messagebox("Error actualizando sum_kardex",sqlca.sqlerrtext)
 		return -1
@@ -794,7 +793,7 @@ for j=1 to dw_lote_mov.rowcount()
 	//
 	setnull(item)
 	select max(item) into :item from sum_kardex_mov 
-	where CODALMACEN=:i_alm_cext and CODARTI=:articulo and ANO=:ano and MES=:mes;
+	where CODALMACEN=:is_alm_cext and CODARTI=:articulo and ANO=:ano and MES=:mes;
 	if sqlca.sqlcode=-1 then
 		messagebox("Error leyendo item de sum_kardex_mov",sqlca.sqlerrtext)
 		return -1
@@ -804,7 +803,7 @@ for j=1 to dw_lote_mov.rowcount()
 	if isnull(item) then item =0
 	item ++
 	INSERT INTO sum_kardex_mov ( CODALMACEN, CODARTI, ANO, MES, ITEM, FECHA, USUARIO, CODDOCREF, CLUGARREF, NUMDOCREF, ITEMREF, ENTRADACANT, SALIDACANT, VALORUNIT, COS_PROM_ANT ) values
-	(:i_alm_cext,:articulo,:ano,:mes,:item,:fecha,:usuario,:cdoc,:lug_doc,:ndoc,:itemref,0,:cantidad,:valorprom,:valorprom);
+	(:is_alm_cext,:articulo,:ano,:mes,:item,:fecha,:usuario,:cdoc,:lug_doc,:ndoc,:itemref,0,:cantidad,:valorprom,:valorprom);
 	if sqlca.sqlcode=-1 then
 		messagebox("Error insertando en sum_kardex_mov",sqlca.sqlerrtext)
 		return -1
@@ -1221,7 +1220,7 @@ string tipoing
 dw_factura.setredraw(false)
 tipoing=dw_factura.getitemstring(p_fila,'tingres')
 if dw_factura.getitemstring(p_fila,"es_medica")='1' then//si es medica debe mover kardex si está configurado
-	if i_mueve_kardex='1' then
+	if is_mueve_kardex='1' then
 		if tipoing='1' then
 			if not isnull(dw_factura.getitemnumber(p_fila,"nrcaj"))  then
 				if p_desde<>'S' and p_desde<>'G' then
@@ -1231,7 +1230,7 @@ if dw_factura.getitemstring(p_fila,"es_medica")='1' then//si es medica debe move
 			elseif p_desde='M' then
 				long existe
 				string articulo
-				articulo=f_check_kardex(dw_factura.getitemstring(p_fila,'cproc'),i_alm_cext,p_cant,dw_lote_mov,dw_factura.getitemnumber(p_fila,'numero'),i_cdoc,dw_factura.getitemstring(p_fila,'articulo'))
+				articulo=f_check_kardex(dw_factura.getitemstring(p_fila,'cproc'),is_alm_cext,p_cant,dw_lote_mov,dw_factura.getitemnumber(p_fila,'numero'),i_cdoc,dw_factura.getitemstring(p_fila,'articulo'))
 				if articulo="!" then
 					messagebox("Atención","No hay existencias de este producto en Bodega")
 					return -1
@@ -1713,6 +1712,11 @@ choose case p_tipo
 	case 'M'
 		l_tipo_proc=3
 		esmedica=true
+		
+		 if i_tipoingreso='1' and  is_ord_ins='0' and (p_desde='M' or p_desde='' or isnull(p_desde)) then 
+			messagebox("Atención","No se pueden adicionar Medicamentos/Insumos por malla debe halar desde orden")
+			return -1
+		end if
 		l_cproc_man=p_codigo
 		if i_tipoingreso='1' and p_desde='M' then 
 			if f_existe_orden(tipdoc,docu,'',p_codigo)= -1 then return -1		
@@ -1720,7 +1724,7 @@ choose case p_tipo
 		if isnull(p_articulo) then
 			st_art.proccups=p_codigo
 			st_art.desproc=p_desproc
-			st_art.manual=i_alm_cext
+			st_art.manual=is_alm_cext
 			openwithparm(w_escoge_articulo,st_art)
 			p_articulo=message.stringparm
 		end if
@@ -1737,12 +1741,16 @@ choose case p_tipo
 			esmedica=true
 			l_cproc_man=p_codigo
 			//articulos a mirar
+			 if i_tipoingreso='1' and  is_ord_ins='0' and (p_desde='M' or p_desde='' or isnull(p_desde)) then 
+				messagebox("Atención","No se pueden adicionar Medicamentos/Insumos por malla debe halar desde orden")
+				return -1
+			end if			
 			if i_tipoingreso='1' and p_desde='M' then
 				if f_existe_orden(tipdoc,docu,'',p_codigo)= -1 then return -1			
 			end if
 			st_art.proccups=p_codigo
 			st_art.desproc=p_desproc
-			st_art.manual=i_alm_cext
+			st_art.manual=is_alm_cext
 			openwithparm(w_escoge_articulo,st_art)
 			p_articulo=message.stringparm
 		elseif l_tipo_proc=2 then
@@ -2181,13 +2189,13 @@ end if
 //////////////////////// C E N T R O    D E    C O S T O S
 choose case p_tipoing
 	case '1'
-		f_cc(esmedica,i_alm_cext,p_codigo,p_uf,p_cc,p_tipoing,l_versi) 
+		f_cc(esmedica,is_alm_cext,p_codigo,p_uf,p_cc,p_tipoing,l_versi) 
 	case '2'//urg
-		f_cc(esmedica,i_alm_urg,p_codigo,p_uf,p_cc,p_tipoing,l_versi) 
+		f_cc(esmedica,is_alm_urg,p_codigo,p_uf,p_cc,p_tipoing,l_versi) 
 	case '3'//hosp
-		f_cc(esmedica,i_alm_hosp,p_codigo,p_uf,p_cc,p_tipoing,l_versi) 
+		f_cc(esmedica,is_alm_hosp,p_codigo,p_uf,p_cc,p_tipoing,l_versi) 
 	case '4'
-		f_cc(esmedica,i_alm_amb,p_codigo,p_uf,p_cc,p_tipoing,l_versi) 
+		f_cc(esmedica,is_alm_amb,p_codigo,p_uf,p_cc,p_tipoing,l_versi) 
 end choose
 ////////////////////// fin C E N T R O    D E    C O S T O S
 string temp
@@ -2342,11 +2350,11 @@ dw_factura.setcolumn("cantidad")
 
  /////// Aca lo de suministros
 if esmedica then
-		if i_mueve_kardex='1' then
+		if is_mueve_kardex='1' then
 		if p_tipoing='1' then
 			if isnull(p_nreci) and isnull(dw_factura.getitemnumber(donde,'nro_insumo')) then
 				string articulo
-				articulo=f_check_kardex(p_codigo,i_alm_cext,dw_factura.getitemnumber(donde,'cantidad'),dw_lote_mov,donde,i_cdoc,p_articulo)
+				articulo=f_check_kardex(p_codigo,is_alm_cext,dw_factura.getitemnumber(donde,'cantidad'),dw_lote_mov,donde,i_cdoc,p_articulo)
 				if articulo="!" then
 					messagebox("Atención","No hay existencias de este producto en Bodega")
 					dw_factura.deleterow(donde)
@@ -2573,12 +2581,12 @@ end if
 timer(5)
 string temp
 if ls_pro=32 THEN
-	RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "MUEVE_KARDEX", Regstring!, i_mueve_kardex)
-	RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "PIDEPROF", Regstring!, i_pideprof)
+	RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "MUEVE_KARDEX", Regstring!, is_mueve_kardex)
+	RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\", "PIDEPROF", Regstring!, is_pideprof)
 end if
 if ls_pro=64 THEN
-	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "MUEVE_KARDEX", Regstring!, i_mueve_kardex)
-	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "PIDEPROF", Regstring!, i_pideprof)
+	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "MUEVE_KARDEX", Regstring!, is_mueve_kardex)
+	RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\", "PIDEPROF", Regstring!, is_pideprof)
 end if
 //RegistryGet ("HKEY_LOCAL_MACHINE\software\GCI", "dec_fact", Regstring!, temp)
 
@@ -2606,25 +2614,33 @@ if sqlca.sqlnrows=0 then
 	return
 end if
 
+SELECT cadena into :is_ord_ins
+FROM parametros_gen
+WHERE (((codigo_para)=85));
+if sqlca.sqlnrows=0 then
+	messagebox('Atencíon','No hay parametro 85')
+	return
+end if
+
 //i_dec_fact=integer(temp)
-i_profe=''
-i_tipo_prof=''
-i_profe_ord=''
-if i_mueve_kardex='1' then
+is_profe=''
+is_tipo_prof=''
+is_profe_ord=''
+if is_mueve_kardex='1' then
 	if ls_pro=32 THEN	
-		RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\SUMINISTROS\", "ALM_CEXT", Regstring!, i_alm_cext )
-		RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\SUMINISTROS\", "ALM_URG", Regstring!, i_alm_urg )
-		RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\SUMINISTROS\", "ALM_HOSP", Regstring!, i_alm_hosp )
-		RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\SUMINISTROS\", "ALM_AMB", Regstring!, i_alm_amb )
+		RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\SUMINISTROS\", "ALM_CEXT", Regstring!, is_alm_cext )
+		RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\SUMINISTROS\", "ALM_URG", Regstring!, is_alm_urg )
+		RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\SUMINISTROS\", "ALM_HOSP", Regstring!, is_alm_hosp )
+		RegistryGet ("HKEY_LOCAL_MACHINE\SOFTWARE\GCI\SUMINISTROS\", "ALM_AMB", Regstring!, is_alm_amb )
 	end if
 	if ls_pro=64 THEN	
-		RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\SUMINISTROS\", "ALM_CEXT", Regstring!, i_alm_cext )
-		RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\SUMINISTROS\", "ALM_URG", Regstring!, i_alm_urg )
-		RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\SUMINISTROS\", "ALM_HOSP", Regstring!, i_alm_hosp )
-		RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\SUMINISTROS\", "ALM_AMB", Regstring!, i_alm_amb )
+		RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\SUMINISTROS\", "ALM_CEXT", Regstring!, is_alm_cext )
+		RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\SUMINISTROS\", "ALM_URG", Regstring!, is_alm_urg )
+		RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\SUMINISTROS\", "ALM_HOSP", Regstring!, is_alm_hosp )
+		RegistryGet ("HKEY_CURRENT_USER\SOFTWARE\GCI\SUMINISTROS\", "ALM_AMB", Regstring!, is_alm_amb )
 	end if
 	
-	if i_alm_cext='' or i_alm_urg='' or i_alm_hosp='' or i_alm_amb='' then
+	if is_alm_cext='' or is_alm_urg='' or is_alm_hosp='' or is_alm_amb='' then
 		messagebox("Atención","Esta máquina se encuentra configurada para manejar Kardex pero no tiene los códigos de los almacenes para esto") 
 		close(this)
 		return
@@ -4321,21 +4337,21 @@ end if
 end event
 
 event clicked;if dwo.type = "text" then 
-	string cual,ojo,ss
+	string cual
 	cual=dwo.name
 	cual=mid(cual,1,len(cual) - 2)
-	if i_anterior=cual then
-		if i_orden="A" then
-			i_orden="D"
+	if is_anterior=cual then
+		if is_orden="A" then
+			is_orden="D"
 		else
-			i_orden="A"
+			is_orden="A"
 		end if
 	else
-		i_orden="A"
+		is_orden="A"
 	end if
-	this.setsort(cual+" "+i_orden)
+	this.setsort(cual+" "+is_orden)
 	this.sort()
-	i_anterior=cual
+	is_anterior=cual
 end if
 end event
 
