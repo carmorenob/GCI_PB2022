@@ -119,6 +119,7 @@ int xant,yant
 string sexo_paci,orden,anterior,ord,ant,is_cext
 datawindowchild dw_contrato,idw_finconr,idw_finprocr,idw_causaexr,idw_ambprocr,idw_profeacr
 end variables
+
 on w_captur_rip_fac.create
 this.pb_1=create pb_1
 this.st_fact=create st_fact
@@ -597,8 +598,8 @@ for j= 1 to dw_trae.rowcount()
 			dw_rias.setitem(donde,"s_cantidad",1)
 			if not isnull(dw_trae.getitemstring(j,"prof")) then
 				dw_rias.setitem(donde,"cprof",dw_trae.getitemstring(j,"prof"))
-			elseif w_factura.i_profe<>'' then
-				dw_rias.setitem(donde,"cprof",w_factura.i_profe)
+			elseif w_factura.is_profe<>'' then
+				dw_rias.setitem(donde,"cprof",w_factura.is_profe)
 			end if
 			dw_rias.setitem(donde,"nfactura",nfact)
 			dw_rias.setitem(donde,"nautoriza",dw_trae.getitemstring(j,"autorizacion"))

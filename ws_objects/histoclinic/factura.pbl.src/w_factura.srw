@@ -378,7 +378,7 @@ next //k=1 to dw_resumen.rowcount()
 dw_factura.setfilter("")
 dw_factura.filter()
 //////////////// mover kardex  ////////////////////////////////////////////////////////////////
-if i_mueve_kardex='1' then
+if is_mueve_kardex='1' then
 	if i_tipoingreso='1' then
 		dw_lote_mov.setfilter('')
 		dw_lote_mov.filter()
@@ -806,9 +806,9 @@ pb_calcula.visible=false
 pb_calcula.enabled=false
 pb_paci.enabled=true
 pb_emp.enabled=true
-setnull(i_profe)
-i_tipo_prof=''
-setnull(i_profe_ord)
+setnull(is_profe)
+is_tipo_prof=''
+setnull(is_profe_ord)
 if w_principal.dw_1.getitemstring(1,1)<>tipdoc or w_principal.dw_1.getitemstring(1,2)<>docu then 
 	w_principal.dw_1.setcolumn(2)
 	w_principal.dw_1.triggerevent(itemchanged!)

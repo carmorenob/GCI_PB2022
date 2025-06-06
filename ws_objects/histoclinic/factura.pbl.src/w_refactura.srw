@@ -59,10 +59,10 @@ public function long factura ();long j,donde,k,l,facturas[],npagare,nitem_fc,act
 string ya_recibo,proeq,manu,pla,cempres,ccontrat,tipo_fac[]
 ya_recibo="no"
 if f_catastrofe()=-1 then return -1
-if i_tipoingreso='1' and i_pideprof='1' and (i_profe='' or i_tipo_prof<>'2') then
+if i_tipoingreso='1' and is_pideprof='1' and (is_profe='' or is_tipo_prof<>'2') then
 	openwithparm(w_escog_profe,'fac')
-	i_profe=message.stringparm
-	if i_profe='' or isnull(i_profe) then return -1
+	is_profe=message.stringparm
+	if is_profe='' or isnull(is_profe) then return -1
 end if
 long nh,factus
 string clug_adm,ctipo_fac
@@ -102,10 +102,10 @@ for k=1 to dw_resumen.rowcount()
 	dw_fact_cab.setitem(1,"numeropoliza",sle_poliza.text)
 	dw_fact_cab.setitem(1,"cemp",cempres)
 	dw_fact_cab.setitem(1,"ccontrato",ccontrat)
-	if isnull(i_profe) or i_profe='' then setnull(i_profe)	
-	dw_fact_cab.setitem(1,"codprof",i_profe)
-	if isnull(i_profe_ord) or i_profe_ord='' then setnull(i_profe_ord)
-	dw_fact_cab.setitem(1,"cprof_ordena",i_profe_ord)
+	if isnull(is_profe) or is_profe='' then setnull(is_profe)	
+	dw_fact_cab.setitem(1,"codprof",is_profe)
+	if isnull(is_profe_ord) or is_profe_ord='' then setnull(is_profe_ord)
+	dw_fact_cab.setitem(1,"cprof_ordena",is_profe_ord)
 	dw_fact_cab.setitem(1,"vtiva",dw_resumen.getitemdecimal(k,"vtiva"))
 	dw_fact_cab.setitem(1,"vtcopago",dw_resumen.getitemnumber(k,"vtcop"))
 	dw_fact_cab.setitem(1,"vtcrec",dw_resumen.getitemnumber(k,"vtcr"))
@@ -537,9 +537,9 @@ pb_calcula.visible=false
 pb_calcula.enabled=false
 pb_paci.enabled=true
 pb_emp.enabled=true
-i_profe=''
-i_tipo_prof=''
-i_profe_ord=''
+is_profe=''
+is_tipo_prof=''
+is_profe_ord=''
 if w_principal.dw_1.getitemstring(1,1)<>tipdoc or w_principal.dw_1.getitemstring(1,2)<>docu then 
 	w_principal.dw_1.setcolumn(2)
 	w_principal.dw_1.triggerevent(itemchanged!)
@@ -617,7 +617,7 @@ if dw_admis.retrieve(i_dw.getitemnumber(i_dw.getrow(),'nfact'),i_dw.getitemstrin
 	i_tipoingreso=dw_admis.getitemstring(1,'codtingre')
 	dw_tip_ingres.setitem(1,1,i_tipoingreso)
 end if
-i_mueve_kardex='0'
+is_mueve_kardex='0'
 end event
 
 type dw_dx from w_factura_base`dw_dx within w_refactura

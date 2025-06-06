@@ -46,10 +46,10 @@ end subroutine
 public function long factura ();long j,donde,k,l,nitem_rec,npagare,recibos[]
 string ya_recibo,naut,clugar_fac,mens_err
 ya_recibo="no"
-if i_pideprof='1' and (i_profe='' or i_tipo_prof<>'2') then
+if is_pideprof='1' and (is_profe='' or is_tipo_prof<>'2') then
 	openwithparm(w_escog_profe,'rec')
-	i_profe=message.stringparm
-	if i_profe='' or isnull(i_profe) then return -1
+	is_profe=message.stringparm
+	if is_profe='' or isnull(is_profe) then return -1
 end if
 setnull(ist_nfactura.ndoc)
 setnull(ist_nfactura.c_aut)
@@ -114,8 +114,8 @@ for k=1 to dw_resumen.rowcount()
 		dw_rec_caj_cab.setitem(1,"tpago",0) //t saldo es lo da por pagares
 		dw_rec_caj_cab.setitem(1,"fpago",dw_forma_pago.getitemstring(1,1))
 	end if
-	dw_rec_caj_cab.setitem(1,"codprof",i_profe)
-	dw_rec_caj_cab.setitem(1,"cprof_ordena",i_profe_ord)
+	dw_rec_caj_cab.setitem(1,"codprof",is_profe)
+	dw_rec_caj_cab.setitem(1,"cprof_ordena",is_profe_ord)
 	if dw_rec_caj_cab.rowcount()=1 and ya_recibo='no' then
 		i_nrecibo=f_trae_ndoc(i_cdoc,clugar,'Recibo de Caja')
 		if i_nrecibo=-1 then
@@ -196,7 +196,7 @@ next
 dw_factura.setfilter("")
 dw_factura.filter()
 //////////////// mover kardex  ////////////////////////////////////////////////////////////////
-if i_mueve_kardex='1' then
+if is_mueve_kardex='1' then
 	dw_lote_mov.setfilter('')
 	dw_lote_mov.filter()
 	long fil_fact
@@ -299,8 +299,8 @@ pb_pagares.enabled=false
 pb_calcula.visible=false
 pb_calcula.enabled=false
 pb_paci.enabled=true
-i_profe=''
-i_profe_ord=''
+is_profe=''
+is_profe_ord=''
 if w_principal.dw_1.getitemstring(1,1)<>tipdoc or w_principal.dw_1.getitemstring(1,2)<>docu then 
 	w_principal.dw_1.setcolumn(2)
 	w_principal.dw_1.triggerevent(itemchanged!)

@@ -369,8 +369,8 @@ for col=1 to tab_1.tp_1.dw_serv_cita.rowcount()
 	  0,0,'',0,0,'',0,'','!',0,0,0,'',tipo_cont,0,'','',0,'0','','','','','')
 		
 next
-w_factura.i_tipo_prof=tab_2.tp2_1.dw_consultxgcita.getitemstring(tab_2.tp2_1.dw_consultxgcita.getrow(),'persoatiende')
-w_factura.i_profe=i_profes
+w_factura.is_tipo_prof=tab_2.tp2_1.dw_consultxgcita.getitemstring(tab_2.tp2_1.dw_consultxgcita.getrow(),'persoatiende')
+w_factura.is_profe=i_profes
 return 1
 end function
 
@@ -617,8 +617,8 @@ for col=1 to tab_1.tp_1.dw_serv_cita.rowcount()
 	  0,0,'',0,0,'',0,'','!',0,0,0,'',tipo_fac,0,'','',0,'0','','','','','')
 		
 next
-w_rec_caja.i_tipo_prof=tab_2.tp2_1.dw_consultxgcita.getitemstring(tab_2.tp2_1.dw_consultxgcita.getrow(),'persoatiende')
-w_rec_caja.i_profe=i_profes
+w_rec_caja.is_tipo_prof=tab_2.tp2_1.dw_consultxgcita.getitemstring(tab_2.tp2_1.dw_consultxgcita.getrow(),'persoatiende')
+w_rec_caja.is_profe=i_profes
 return 1
 end function
 
