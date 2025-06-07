@@ -328,7 +328,7 @@ for k=1 to dw_resumen.rowcount()
 	ls_tipos_fac[K]=ctipo_fac
 	
 	////////ELECTRONICA	
-	if /*(ctipo_fac='F' and ls_elec='1') or*/ (ctipo_fac='F'  and cempres='0' and (ls_elec='1' or ls_elec='2')) then 
+	if (ctipo_fac='F'  and cempres='0' and (ls_elec='1' or ls_elec='2')) then 
 		nvo_factura_electronica u_elec
 		st_ret_dian    lst_lle
 		string ls_fver
@@ -371,6 +371,19 @@ for k=1 to dw_resumen.rowcount()
 
 		u_elec=create nvo_factura_electronica
 		lst_lle=u_elec.sign_chilkat(dw_electronica,ist_nfactura.ndoc,clugar,ctipo_fac,0,'f','FV')
+		
+		update factcab set envio_xml='1' ,cod_versionfe=:ls_fver
+		where nfact=:ist_nfactura.ndoc and clugar=:clugar and tipo=:ctipo_fac;
+		
+		If SQLCA.SQLCode = -1 then
+			Rollback;
+			MessageBox("SQL error Factura xml_envia", 'Error actualizando')
+			Return -1
+		Else
+			commit;
+		end If				
+		
+		
 	end if
 	////////ELECTRONICA		
 next //k=1 to dw_resumen.rowcount()
