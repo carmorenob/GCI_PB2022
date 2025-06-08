@@ -199,6 +199,7 @@ boolean guardo=true
 DataWindowChild pab, Hab,Camas,idw_tiping,idw_precibe,idw_destino,idw_viaing,idw_causaex,idw_profesal
 String Pabellon, Habitacion, Cdemp, Ctemp,cama,continua
 end variables
+
 forward prototypes
 public function integer rn (long nh, string clug_hadm)
 public function integer guardar ()
@@ -1757,63 +1758,63 @@ if enobserv='1' then
 	tab_1.tabpage_1.pb_4.enabled=true
 end if
 
-	if idw_viaing.getitemstring(idw_viaing.getrow(),'accion')='1' then
-		this.modify ("gb_6.visible=1")
-		this.modify ("gb_6.height=308")		
-		this.modify ("t_6.visible=1")
-		this.modify ("t_7.visible=1")
-		this.modify ("t_9.visible=1")
-		this.modify ("t_8.visible=1")		
-		this.modify ("c_ips_remite.visible=1")	
-		this.modify ("prof_recibe.visible=1")	
-		this.modify ("fecha_notifica.visible=1")	
-		this.modify ("fecha_aceptacion.visible=1")	
-		this.modify ("observaciones.y=1208")
-		this.modify ("siras.y=1208")
-		this.modify ("observaciones_t.y=1148")
-		this.modify ("t_10.y=1148")
-		this.modify ("gb_7.y=1088")	
-		this.modify ("docac.y=972")	
-		this.modify ("nombreac.y=972")	
-		this.modify ("telac.y=972")		
-		this.modify ("docac_t.y=912")	
-		this.modify ("nombreac_t.y=912")	
-		this.modify ("telac_t.y=912")	
-		this.modify ("gb_1.y=856")		
-		this.modify ("gb_5.y=856")
-		this.modify ("clasif.y=972")
-		this.modify ("gb_3.y=700")
-		this.modify ("cod_rips.y=764")
-		this.modify ("desdiag.y=764")
-	else
-		this.modify ("gb_6.visible=0")
-		this.modify ("gb_6.height=224")			
-		this.modify ("t_6.visible=0")
-		this.modify ("t_7.visible=0")
-		this.modify ("t_9.visible=0")
-		this.modify ("t_8.visible=0")		
-		this.modify ("c_ips_remite.visible=0")	
-		this.modify ("prof_recibe.visible=0")	
-		this.modify ("fecha_notifica.visible=0")	
-		this.modify ("fecha_aceptacion.visible=0")		
-		this.modify ("observaciones.y=860")
-		this.modify ("siras.y=860")
-		this.modify ("observaciones_t.y=800")
-		this.modify ("t_10.y=800")			
-		this.modify ("gb_7.y=760")		
-		this.modify ("docac.y=648")	
-		this.modify ("nombreac.y=648")	
-		this.modify ("telac.y=648")	
-		this.modify ("docac_t.y=588")	
-		this.modify ("nombreac_t.y=588")	
-		this.modify ("telac_t.y=588")	
-		this.modify ("gb_1.y=532")	
-		this.modify ("gb_5.y=532")
-		this.modify ("clasif.y=648")
-		this.modify ("gb_3.y=376")
-		this.modify ("cod_rips.y=440")
-		this.modify ("desdiag.y=440")
-	end if
+if idw_viaing.getitemstring(idw_viaing.getrow(),'accion')='1' then
+	this.modify ("gb_6.visible=1")
+	this.modify ("gb_6.height=308")		
+	this.modify ("t_6.visible=1")
+	this.modify ("t_7.visible=1")
+	this.modify ("t_9.visible=1")
+	this.modify ("t_8.visible=1")		
+	this.modify ("c_ips_remite.visible=1")	
+	this.modify ("prof_recibe.visible=1")	
+	this.modify ("fecha_notifica.visible=1")	
+	this.modify ("fecha_aceptacion.visible=1")	
+	this.modify ("observaciones.y=1208")
+	this.modify ("siras.y=1208")
+	this.modify ("observaciones_t.y=1148")
+	this.modify ("t_10.y=1148")
+	this.modify ("gb_7.y=1088")	
+	this.modify ("docac.y=972")	
+	this.modify ("nombreac.y=972")	
+	this.modify ("telac.y=972")		
+	this.modify ("docac_t.y=912")	
+	this.modify ("nombreac_t.y=912")	
+	this.modify ("telac_t.y=912")	
+	this.modify ("gb_1.y=856")		
+	this.modify ("gb_5.y=856")
+	this.modify ("clasif.y=972")
+	this.modify ("gb_3.y=700")
+	this.modify ("cod_rips.y=764")
+	this.modify ("desdiag.y=764")
+else
+	this.modify ("gb_6.visible=0")
+	this.modify ("gb_6.height=224")			
+	this.modify ("t_6.visible=0")
+	this.modify ("t_7.visible=0")
+	this.modify ("t_9.visible=0")
+	this.modify ("t_8.visible=0")		
+	this.modify ("c_ips_remite.visible=0")	
+	this.modify ("prof_recibe.visible=0")	
+	this.modify ("fecha_notifica.visible=0")	
+	this.modify ("fecha_aceptacion.visible=0")		
+	this.modify ("observaciones.y=860")
+	this.modify ("siras.y=860")
+	this.modify ("observaciones_t.y=800")
+	this.modify ("t_10.y=800")			
+	this.modify ("gb_7.y=760")		
+	this.modify ("docac.y=648")	
+	this.modify ("nombreac.y=648")	
+	this.modify ("telac.y=648")	
+	this.modify ("docac_t.y=588")	
+	this.modify ("nombreac_t.y=588")	
+	this.modify ("telac_t.y=588")	
+	this.modify ("gb_1.y=532")	
+	this.modify ("gb_5.y=532")
+	this.modify ("clasif.y=648")
+	this.modify ("gb_3.y=376")
+	this.modify ("cod_rips.y=440")
+	this.modify ("desdiag.y=440")
+end if
 end event
 
 type tabpage_2 from userobject within tab_1
@@ -2930,6 +2931,43 @@ choose case nombre
 		end if
 end choose
 	
+end event
+
+event retrieveend;string ls_sale
+int li_fila
+
+ls_sale=dw_sale.getitemstring(1,'conductaurg')
+li_fila=idw_destino.find("codconducta='"+ls_sale+"'",1,idw_destino.rowcount())
+
+if idw_destino.getitemstring(li_fila,'accion')='1' then
+	this.modify ("nivel.visible=1")
+	this.modify ("t_3.visible=1")
+	this.modify ("gb_4.visible=1")
+	this.modify ("t_2.visible=1")
+	this.modify ("t_5.visible=1")
+	this.modify ("t_7.visible=1")
+	this.modify ("t_8.visible=1")
+	this.modify ("c_ips_remitir.visible=1")
+	this.modify ("fecha_notifica.visible=1")
+	this.modify ("prof_recibe.visible=1")
+	this.modify ("t_6.visible=1")
+	this.modify ("fecha_aceptacion.visible=1")
+	this.modify ("cargo_profe_recibe.visible=1")
+else
+	this.modify ("nivel.visible=0")
+	this.modify ("t_3.visible=0")		
+	this.modify ("gb_4.visible=0")
+	this.modify ("t_2.visible=0")
+	this.modify ("t_5.visible=0")
+	this.modify ("t_7.visible=0")
+	this.modify ("t_8.visible=0")
+	this.modify ("c_ips_remitir.visible=0")
+	this.modify ("fecha_notifica.visible=0")
+	this.modify ("prof_recibe.visible=0")			
+	this.modify ("t_6.visible=0")
+	this.modify ("fecha_aceptacion.visible=0")
+	this.modify ("cargo_profe_recibe.visible=0")			
+end if
 end event
 
 type pb_guardaegres from picturebutton within tabpage_3
