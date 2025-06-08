@@ -253,6 +253,7 @@ int xant,yant
 string sexo_paci,orden,anterior,ord,ant,is_cext
 datawindowchild dw_contrato,gc_regimen,idw_finconr,idw_finprocr,idw_causaexr,idw_ambprocr,idw_profeacr
 end variables
+
 on w_captur_rip.create
 this.tab_1=create tab_1
 this.st_fact=create st_fact
@@ -2215,7 +2216,7 @@ choose case colum
 		if this.getitemstring(row,colum)<>"" then
 			
 			setnull(veri)
-			veri=idw_causaexr.find("codcausaexter ='"+this.getitemstring(row,'causaexterna')+"'",1,idw_causaexr.rowcount())
+			veri=idw_causaexr.find("s_causaexterna='"+this.getitemstring(row,'s_causaexterna')+"'",1,idw_causaexr.rowcount())
 			if veri>0 then
 				is_cext=idw_causaexr.getitemstring(veri,'dxrel')
 			else
