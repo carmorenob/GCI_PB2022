@@ -1952,7 +1952,7 @@ end type
 
 event clicked;////////ELECTRONICA	
 if is_elec='2' then
-	double l_i,l_nfactura
+	double l_i,l_nfactura,ldb_ctos
 	string ls_clugar,ls_tfac,ls_fver
 	datetime ldt_ff
 	nvo_factura_electronica u_elec
@@ -1980,29 +1980,10 @@ if is_elec='2' then
 			messagebox('Atencíon','No hay version Facturacion Electronica Linea 72')
 			return
 		end if
-				
 		
-		if ldt_ff>ldt_iniciafevs then
-			if g_motor='postgres' then
-				dw_electronica.dataobject="dw_factura_electronica_postgres19"
-			else
-				dw_electronica.dataobject="dw_factura_electronica"
-			end if
-		else
-			if g_motor='postgres' then
-				dw_electronica.dataobject="dw_factura_electronica_postgres"
-			else
-				dw_electronica.dataobject="dw_factura_electronica"
-			end if
-			
-		end if
-		dw_electronica.settransobject(sqlca)		
-			
 		l_nfactura=dw_facturas.getitemnumber(l_i,'nfact')
 		ls_clugar=dw_facturas.getitemstring(l_i,'clugar')
 		ls_tfac=dw_facturas.getitemstring(l_i,'tipo')
-		
-		lst_lle=u_elec.sign_chilkat(dw_electronica,l_nfactura,ls_clugar,ls_tfac,0,'f','FV')
 		
 		if datetime(dw_facturas.getitemdatetime(l_i,'fechat'))>ldt_iniciafevs then
 			if (dw_facturas.getitemnumber(l_i,'vtproced')<>dw_facturas.getitemnumber(l_i,'vtemp') ) and dw_empresa.getitemstring(1,"codemp")<>'0' then 
@@ -2012,22 +1993,61 @@ if is_elec='2' then
 					dw_electronica.dataobject="dw_factura_electronica_rc"
 				end if
 				dw_electronica.settransobject(sqlca)		
-							
-				lst_lle=u_elec.sign_chilkat(dw_electronica,l_nfactura,ls_clugar,ls_tfac,0,'r','RC')
+				
+				SELECT 
+					count(1) into :ldb_ctos
+				FROM 
+					(factcab INNER JOIN tesorecajcpo ON (factcab.tipo = tesorecajcpo.tipo_fac) 
+					AND (factcab.clugar = tesorecajcpo.clugar_fac) AND (factcab.nfact = tesorecajcpo.nfact)) 
+					INNER JOIN tesorecajcab ON (tesorecajcpo.clugar = tesorecajcab.clugar) AND (tesorecajcpo.nrcaj = tesorecajcab.nrcaj)
+				WHERE 
+					(((tesorecajcab.estado_dian) Is Null) 
+					AND ((tesorecajcab.estado) Is Null) 
+					AND ((factcab.nfact)=:l_nfactura) 
+					AND ((factcab.clugar)=:ls_clugar) 
+					AND ((factcab.tipo)=:ls_tfac));
+
+				if ldb_ctos>0 then				
+					lst_lle=u_elec.sign_chilkat(dw_electronica,l_nfactura,ls_clugar,ls_tfac,0,'r','RC')
+					if lst_lle.as_estado<>'1' 	then
+						MessageBox("SQL error Factura xml_envia", 'Error en envio Fcatura Recaudo')
+						Return -1
+					end if
+				end if
 			end if
 		end if
 		
-		dw_facturas.setitem(l_i,'cod_versionfe',ls_fver)		
-		update factcab set envio_xml='1' ,cod_versionfe=:ls_fver
-		where nfact=:l_nfactura and clugar=:ls_clugar and tipo=:ls_tfac;
-		
-		If SQLCA.SQLCode = -1 then
-			Rollback;
-			MessageBox("SQL error Factura xml_envia", 'Error actualizando')
-			Return -1
-		Else
-			commit;
-		end If		
+		if lst_lle.as_estado='1' or (lst_lle.as_estado='' and ldb_ctos=0 ) then
+			if ldt_ff>ldt_iniciafevs then
+				if g_motor='postgres' then
+					dw_electronica.dataobject="dw_factura_electronica_postgres19"
+				else
+					dw_electronica.dataobject="dw_factura_electronica"
+				end if
+			else
+				if g_motor='postgres' then
+					dw_electronica.dataobject="dw_factura_electronica_postgres"
+				else
+					dw_electronica.dataobject="dw_factura_electronica"
+				end if
+				
+			end if
+			dw_electronica.settransobject(sqlca)		
+				
+			lst_lle=u_elec.sign_chilkat(dw_electronica,l_nfactura,ls_clugar,ls_tfac,0,'f','FV')
+			
+			dw_facturas.setitem(l_i,'cod_versionfe',ls_fver)		
+			update factcab set envio_xml='1' ,cod_versionfe=:ls_fver
+			where nfact=:l_nfactura and clugar=:ls_clugar and tipo=:ls_tfac;
+			
+			If SQLCA.SQLCode = -1 then
+				Rollback;
+				MessageBox("SQL error Factura xml_envia", 'Error actualizando')
+				Return -1
+			Else
+				commit;
+			end If		
+		end if
 	next
 	destroy u_elec
 	messagebox('','Proceso Finalizado')

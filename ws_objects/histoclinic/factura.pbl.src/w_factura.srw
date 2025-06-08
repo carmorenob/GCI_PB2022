@@ -342,7 +342,7 @@ for k=1 to dw_resumen.rowcount()
 			return -1
 		end if
 
-		ldt_ff=datetime(today())
+		ldt_ff=datetime(today(),now())
 		SELECT cod_version INTO :ls_fver
 		FROM pm_versionfe_dian
 		WHERE 

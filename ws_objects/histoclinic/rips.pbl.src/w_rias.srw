@@ -548,6 +548,7 @@ boolean ibn_paso=false
 uo_report i_rep
 DataWindowChild idw_fincon,idw_finproc,idw_causaex,idw_ambproc,idw_profeacr
 end variables
+
 forward prototypes
 public subroutine cuenta ()
 public function integer genera_forecat (long p_nrad, string p_clug_rad, datetime p_fecha_fin, boolean p_faltan)
@@ -1585,6 +1586,7 @@ if tab_2.tp2_1.cbx_5.checked then
 else 
 	is_capiv='0'
 end if
+setnull(ls_fver)
 
 if p_decual='emp' then
 	if p_faltan and  p_nradica=0 then
@@ -4646,6 +4648,14 @@ if this.getcolumnname()='radicar' then
 end if
 this.accepttext()
 
+end event
+
+event rbuttondown;st_dw_xa_funciones st_dw
+st_dw.dw=this
+st_dw.dwo=dwo
+st_dw.row=row
+st_dw.color_fondo=string(rgb(255,255,255))
+openwithparm(w_funcion_dw,st_dw)
 end event
 
 type pb_7 from picturebutton within fac
