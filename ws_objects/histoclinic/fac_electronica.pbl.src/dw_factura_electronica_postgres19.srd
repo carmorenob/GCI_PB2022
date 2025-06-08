@@ -138,22 +138,22 @@ table(column=(type=char(8190) updatewhereclause=yes name=cufe dbname="cufe" )
 	documentos_autfact.prefijo ||
 	ltrim(to_char(factcab.nfact,'99999999999'))|| 
 	to_char(cast(factcab.fecha as date ) + cast(factcab.hora as time ),'YYYY-MM-DDHH24:MI:SS-05:00')||
-	ltrim(to_char( factcab.vtproced - factcab.vtemp,'99999999999.99')) ||  
+	ltrim(to_char( (factcab.vtproced - factcab.vtcmod - factcab.vtcrec - factcab.vtdescpac),'99999999999.99')) ||  
 	'010.00'||
 	'040.00'||
 	'030.00'||
-	ltrim(to_char( factcab.vtproced - factcab.vtemp,'99999999999.99')) ||
+	ltrim(to_char( (factcab.vtproced - factcab.vtcmod - factcab.vtcrec - factcab.vtdescpac),'99999999999.99')) ||
 	ips.documento||
 	empresa.nit as cufe,
 	
 	documentos_autfact.prefijo ||
 	ltrim(to_char(factcab.nfact,'99999999999'))|| 
 	to_char(cast(factcab.fecha as date ) + cast(factcab.hora as time ),'YYYY-MM-DDHH24:MI:SS-05:00')||
-	ltrim(to_char( factcab.vtproced - factcab.vtemp,'99999999999.99'))  ||
+	ltrim(to_char(  (factcab.vtproced - factcab.vtcmod - factcab.vtcrec - factcab.vtdescpac),'99999999999.99'))  ||
 	'010.00'||
 	'040.00'||
 	'030.00' ||
-	ltrim(to_char( factcab.vtproced - factcab.vtemp,'99999999999.99')) ||
+	ltrim(to_char( (factcab.vtproced - factcab.vtcmod - factcab.vtcrec -  factcab.vtdescpac),'99999999999.99')) ||
 	ips.documento||
 	empresa.nit as small_cufe,
 
