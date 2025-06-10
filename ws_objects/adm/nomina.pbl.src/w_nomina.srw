@@ -364,8 +364,7 @@ public function integer datos_apemp (string tipodoc, string documento, string co
 public function long f_addnovedad ()
 end prototypes
 
-event type integer cargar();
-dw_historia = create uo_datastore
+event type integer cargar();dw_historia = create uo_datastore
 dw_historia.DataObject = 'dw_historia'
 dw_historia.SetTransObject(SQLCA)
 
@@ -6510,6 +6509,7 @@ If ls_tipon='V' then
 		tab_1.p_2.dw_novedad.SetItem(ldb_filanew,'cantidad_ac',1)
 		tab_1.p_2.dw_novedad.AcceptText ( )
 		tab_1.p_2.dw_novedad.event itemchanged(ldb_filanew,tab_1.p_2.dw_novedad.object.cantidad_ac,string(tab_1.p_2.dw_novedad.getitemnumber(ldb_filanew,'cantidad_ac')))
+		GarbageCollect()				
 	next
 	//actualizarDatos()	
 	pb_calcula.TriggerEvent(clicked!)
@@ -6540,7 +6540,6 @@ If ls_tipon='P' then
 	select cod_concep,des_concep,sigla,cod_tipo_concep,tipo into :ls_cesan,:ls_desco,:ls_sigla,:ls_ctipoc,:ls_tipoc from nom_concep where  (((cod_concep)=:ls_cesan) AND ((estado)='1'));
 	actualizarDatos()
 	for l_c=1 to tab_n.tpn_2.dw_empnom.rowcount()		
-	
 		tab_n.tpn_2.dw_empnom.ScrolltoRow(l_c)
 		ldb_filanew=f_addnovedad()
 		if ldb_filanew=-1 then return 
@@ -6551,6 +6550,7 @@ If ls_tipon='P' then
 		tab_1.p_2.dw_novedad.SetItem(ldb_filanew,'cantidad_ac',1)
 		tab_1.p_2.dw_novedad.AcceptText()
 		tab_1.p_2.dw_novedad.event itemchanged(ldb_filanew, tab_1.p_2.dw_novedad.object.cantidad_ac, tab_1.p_2.dw_novedad.getitemstring(ldb_filanew,'sigla'))
+		GarbageCollect()		
 	next
 
 	tab_n.tpn_2.dw_empnom.SetRedraw(true)
