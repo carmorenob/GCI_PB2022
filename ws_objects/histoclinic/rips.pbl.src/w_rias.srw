@@ -1596,19 +1596,6 @@ if p_decual='emp' then
 		fecha_ini=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemdatetime(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'fecha_inicial')
 		fecha_fin=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemdatetime(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'fecha_final')
 		fecha_radica=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemdatetime(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'fecha_radica')
-		SELECT 
-			cod_version
-		INTO
-			:ls_fver
-		FROM 
-			pm_versionfe_dian
-		WHERE 
-			(((:fecha_radica) between valido_inicio And valido_hasta));
-				
-		if sqlca.sqlnrows=0 then
-			messagebox('Atencíon','No hay version Facturacion Electronica Linea 31')
-			return -1
-		end if
 	end if
 else
 	fecha_ini=datetime(date(tab_2.tp2_2.em_3.text))
@@ -1664,6 +1651,20 @@ if p_faltan then
 			num_radica=lf_trae_ndoc(p_decual,'RV')
 			tipo_rad='F'
 			formato=""
+			SELECT 
+				cod_version
+			INTO
+				:ls_fver
+			FROM 
+				pm_versionfe_dian
+			WHERE 
+				(((:fecha_radica) between valido_inicio And valido_hasta));
+					
+			if sqlca.sqlnrows=0 then
+				messagebox('Atencíon','No hay version Facturacion Electronica Linea 73')
+				return -1
+			end if			
+			
 		end if
 		if num_radica.ndoc<0 then return -10//error grave
 		factus=p_dw_conts.getitemnumber(1,'t_factus')
@@ -1709,6 +1710,7 @@ if p_faltan then
 	if isnull(ls_fver) then
 		ls_fver=tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'cod_versionfe')
 	end if
+	
 	for j=1 to dw_trae.rowcount()
 		if ls_fver>='1.9' then
 			if dw_trae.getitemdatetime(j,'fat') >=fecha_ini and dw_trae.getitemdatetime(j,'fat') <=fecha_fin then
@@ -5684,13 +5686,8 @@ else
 	tab_2.tp2_1.t1.fac.text='Facturas Asociadas'
 	tab_2.tp2_1.cbx_5.enabled=false
 	tab_2.tp2_1.cbx_5.checked=false
-//	if isnull(getitemstring(getrow(),'cod_versionfe'))  or getitemstring(getrow(),'cod_versionfe')>='1.9' then 
-//		tab_2.tp2_1.rb_txt.checked=false	
-//		tab_2.tp2_1.rb_json.checked=true		
-//	else
-		tab_2.tp2_1.rb_txt.checked=true
-		tab_2.tp2_1.rb_json.checked=false		
-//	end if
+	tab_2.tp2_1.rb_txt.checked=true
+	tab_2.tp2_1.rb_json.checked=false		
 	is_capiv='0'
 	tab_2.tp2_1.tab_1.tp_p.tab_3.det.pb_dian.enabled=false
 	tab_2.tp2_1.tab_1.tp_p.tab_3.det.pb_diac.enabled=true
