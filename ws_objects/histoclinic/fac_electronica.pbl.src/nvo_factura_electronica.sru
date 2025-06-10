@@ -2228,7 +2228,7 @@ if as_origen='C' then
 		else	
 			if g_motor='postgres' then
 				if as_vfe>='1.9' then
-					ldw_factura.dataobject='dw_factura_electronica_postgres19'
+					ldw_factura.dataobject='asis_int_factura_ele_cap19'
 				else
 					ldw_factura.dataobject='asis_int_factura_ele_cap'
 				end if
@@ -2286,6 +2286,7 @@ ls_testp=ldw_factura.getitemstring(1,'testp')
 is_ruta_firma=ldw_factura.getitemstring(1,'ruta_certificado')
 is_clave_firma=f_descripta_new(ldw_factura.getitemstring(1,'clave_certificado'),'1')
 if isnull(is_ruta_firma) or  trim(is_ruta_firma)='' then
+	messagebox('Atencíon','No hay Certificado')
 	return -1
 end if
 
