@@ -203,6 +203,7 @@ private string i_clug_his , i_profe , i_indapdx , i_clug_hadm , i_est_hadm , i_c
 private string l_evo,l_usu,l_tpu, ori,profesi,l_enfe,ls_aordarea
 datawindowchild idw_procs , idw_genericos , idw_insumo, idw_finproc,idw_profe,idw_profeat
 end variables
+
 forward prototypes
 public function integer reset ()
 public function long insert_proc (string p_codigo, integer p_cant)
@@ -1988,7 +1989,7 @@ getchild('codprof',idw_profe)
 idw_profe.settransobject( sqlca)
 modify('codprof.accelerator="q"')
 idw_profe.retrieve(clugar)
-idw_profe.setfilter("evoluciona ='1'")
+idw_profe.setfilter("evoluciona ='1' or enfermero='1' ")
 idw_profe.filter()
 insertrow(1)
 

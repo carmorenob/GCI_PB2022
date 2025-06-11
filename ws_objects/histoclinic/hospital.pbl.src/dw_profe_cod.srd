@@ -16,9 +16,11 @@ table(column=(type=char(10) updatewhereclause=yes name=codprof dbname="profe_lug
  column=(type=char(1) updatewhereclause=yes name=mgeneral dbname="profe_lugar.mgeneral" dbalias=".mgeneral" )
  column=(type=char(1) updatewhereclause=yes name=vacunador dbname="profe_lugar.vacunador" dbalias=".vacunador" )
  column=(type=char(1) updatewhereclause=yes name=evoluciona dbname="profe_lugar.evoluciona" dbalias=".evoluciona" )
+ column=(type=char(1) updatewhereclause=yes name=enfermero dbname="profe_lugar.enfermero" dbalias=".enfermero" )
  retrieve="SELECT distinct
 	profe.codprof, profe.nombre1, profe.nombre2, profe.apellido1, profe.apellido2, 
-	profe.cirujano, profe.anestesia, profe.odontologo, profe.mgeneral, profe.vacunador, profe.evoluciona
+	profe.cirujano, profe.anestesia, profe.odontologo, profe.mgeneral, profe.vacunador, profe.evoluciona,
+	profe.enfermero
 FROM
 	(profe inner join usuarios on profe.usuario = usuarios.usuario) 
 	inner join profe_lugar on profe.codprof = profe_lugar.codprof
