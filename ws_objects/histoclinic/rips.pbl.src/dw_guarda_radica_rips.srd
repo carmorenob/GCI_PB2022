@@ -24,7 +24,7 @@ FROM
 WHERE 
 	(((factcab.clugar) Like :clug) 
 	AND ((factcab.nradica) Is Null) 
-	AND ((factcab.CodTIngre)=:serv) 
+	AND ((factcab.CodTIngre) like :serv) 
 	AND ((factcab.Fecha)>=:fecha1 And (factcab.Fecha)<=:fecha2) 
 	AND ((factcab.CEmp)=:emp) 
 	AND ((factcab.CContrato) Like :cont) 
@@ -46,7 +46,7 @@ FROM
 WHERE 
 	(((factcab.clugar) Like :clug) 
 	AND ((factcab.nradica) Is Null) 
-	AND ((factcab.CodTIngre)<>:serv) 
+	AND ((factcab.CodTIngre) not like :serv) 
 	AND ((factcab.Fecha)>=:fecha1 And (factcab.Fecha)<=:fecha2) 
 	AND ((factcab.CEmp)=:emp) 
 	AND ((factcab.CContrato) Like :cont) 
@@ -85,4 +85,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=0 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 
