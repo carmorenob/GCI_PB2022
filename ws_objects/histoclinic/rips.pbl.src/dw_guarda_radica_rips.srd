@@ -46,7 +46,7 @@ FROM
 WHERE 
 	(((factcab.clugar) Like :clug) 
 	AND ((factcab.nradica) Is Null) 
-	AND ((factcab.CodTIngre) not like :serv) 
+	AND ((factcab.CodTIngre) like :serv) 
 	AND ((factcab.Fecha)>=:fecha1 And (factcab.Fecha)<=:fecha2) 
 	AND ((factcab.CEmp)=:emp) 
 	AND ((factcab.CContrato) Like :cont) 
