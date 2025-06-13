@@ -311,6 +311,7 @@ table(column=(type=char(3) updatewhereclause=yes name=tipodoc dbname="nom_valore
  column=(type=char(1) updatewhereclause=yes name=tipo_cesan dbname="nom_valores_ref.tipo_cesan" dbalias=".tipo_cesan" )
  column=(type=datetime updatewhereclause=yes name=fecha_bonif dbname="nom_valores_ref.fecha_bonif" dbalias=".fecha_bonif" )
  column=(type=long updatewhereclause=yes name=diasluto dbname="diasluto" )
+ column=(type=char(1) updatewhereclause=yes name=pens_2381 dbname="nom_valores_ref.pens_2381" dbalias=".pens_2381" ) 
  retrieve="SELECT 
  	empleados.tipodoc,empleados.documento,empleados.ingre_distri,empleados.ingre_empre,   
 	empleados.fecha_retiro,emplecargo.ncargo,emplecargo.cargo,emplecargo.codrela,   
@@ -372,7 +373,7 @@ table(column=(type=char(3) updatewhereclause=yes name=tipodoc dbname="nom_valore
 	0 AS ctr135,0 AS ctr136,0 AS ctr137,0 AS ctr138,0 AS ctr139,0 AS ctr140,0 AS ctr141,
 	0 AS ctr142,0 AS ctr143,0 AS ctr144,0 AS ctr145,0 AS ctr146,0 AS ctr147,0 AS ctr148,
 	0 AS ctr149,0 AS ctr150, empleados.tipo_cesan,empleados.fecha_bonif,
-	0 as diasluto
+	0 as diasluto,empleados.pens_2381
 FROM 
 	nom_valores_ref, ((((empleados INNER JOIN emplecargo ON (empleados.TIPODOC = emplecargo.TIPODOC) 
 		AND (empleados.DOCUMENTO = emplecargo.DOCUMENTO)) 
@@ -972,4 +973,3 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=0 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
- 

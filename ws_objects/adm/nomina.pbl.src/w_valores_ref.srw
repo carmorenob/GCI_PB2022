@@ -282,7 +282,7 @@ end type
 type dw_2 from datawindow within t_fs
 integer x = 41
 integer y = 156
-integer width = 1445
+integer width = 1659
 integer height = 1192
 integer taborder = 30
 string title = "none"

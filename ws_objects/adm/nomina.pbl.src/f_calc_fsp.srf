@@ -4,7 +4,7 @@ end type
 
 forward prototypes
 global function decimal f_calc_fsp (decimal valor, decimal base, double uvt, string sobre, string concep, integer dec_gral)
-global function decimal f_calc_fsp (decimal base, decimal valor, decimal smlv, integer anyo)
+global function decimal f_calc_fsp (decimal ade_base, decimal ade_valor, decimal ade_smlv, integer ai_anyo, string as_pen2381)
 end prototypes
 
 global function decimal f_calc_fsp (decimal valor, decimal base, double uvt, string sobre, string concep, integer dec_gral);decimal  rtf, valorRTF, porc_rtf, agr_rtf,valor_uvt,valor_in
@@ -30,12 +30,12 @@ end if
 Return valor_uvt
 end function
 
-global function decimal f_calc_fsp (decimal base, decimal valor, decimal smlv, integer anyo);decimal  valor_smlv, p_fsp,p_fs,b_fsp,b_fs
+global function decimal f_calc_fsp (decimal ade_base, decimal ade_valor, decimal ade_smlv, integer ai_anyo, string as_pen2381);decimal  valor_smlv, p_fsp,p_fs,b_fsp,b_fs
 
-if valor <= 0 then Return 0.0
-valor_smlv=base/smlv
+if ade_valor<= 0 then Return 0.0
+valor_smlv=ade_base/ade_smlv
 select porce_fsp,porce_fs into :p_fsp,:p_fs from nom_valores_ref_fs
-where  ((:valor_smlv>=rango_min) and  (:valor_smlv<rango_max)) and ano=:anyo;
+where  ((:ade_smlv>=rango_min) and  (:ade_smlv<rango_max)) and ano=:ai_anyo and pens_2381=:as_pen2381;
 If SQLCA.SQLCode = -1 then
 	MessageBox("SQL error", SQLCA.SQLErrText)
 	Return 0
@@ -43,8 +43,8 @@ End If
 p_fsp=p_fsp/100
 p_fs=p_fs/100
 
-b_fsp= f_multiplo_superior((valor * p_fsp),100)
-b_fs= f_multiplo_superior((valor * p_fs),100)
+b_fsp= f_multiplo_superior((ade_valor * p_fsp),100)
+b_fs= f_multiplo_superior((ade_valor * p_fs),100)
 Return b_fsp + b_fs
 end function
 
