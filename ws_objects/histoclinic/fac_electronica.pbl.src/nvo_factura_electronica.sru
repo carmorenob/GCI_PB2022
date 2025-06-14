@@ -1176,9 +1176,12 @@ end function
 
 private function integer of_enviar_correo (ref datawindow ads_datos, decimal ad_nfact, string as_lug, string as_tipofac, integer as_nnota, string as_tipo, string as_docnm, string as_qrcode, string as_cufe, string as_small_cufe, string as_zipname, string as_filename, string as_xml_factura, string as_xml_retorno, ref nvo_generic_ole_object aoo_cert);int li_rc , li_Success
 string ls_ojo,ls_cpo,ls_asun
+
 nvo_generic_ole_object loo_Mailman , loo_Email
 uo_datastore lds_attached_doc
 
+
+//// PARA FACTURA
 if as_docnm='FV' then
 	if as_tipo='f' then
 		if f_lee_rep_dw(as_docnm,as_lug,'Factura',ads_datos)=-1 then return -1
@@ -1198,6 +1201,20 @@ if as_docnm='FV' then
 	end if
 end if
 
+////  PARA RECIBO
+if as_tipo='r' and as_docnm='RC' then
+
+	ad_nfact=ads_datos.getitemnumber(1,'nfact')
+	as_lug=ads_datos.getitemstring(1,'clugar')
+	if f_lee_rep_dw(as_docnm,as_lug,'Recibo',ads_datos)=-1 then return -1
+
+	if ads_datos.retrieve(ad_nfact,as_lug,'1')<0 then 
+		of_estado_factura_email(ad_nfact,as_lug,as_tipofac,as_nnota,'r',as_tipo,as_docnm)
+		return -1
+	end if
+end if
+
+/// PARA FACTURA CAPITA
 if as_docnm='RV'  then 
 	if  as_tipo='c' or as_tipo='a' then
 		if g_motor='postgres' then
@@ -1228,6 +1245,7 @@ if as_docnm='RV'  then
 		end if
 	end if
 end if
+
 
 ls_ojo=ads_datos.modify('qr_picture.filename="'+as_qrcode+'"')
 loo_Mailman = create nvo_generic_ole_object
@@ -1283,21 +1301,26 @@ end if
 ls_asun+=';'+is_nombre_lugar
 loo_Email.Subject = ls_asun
 
-
-//if isnull(ads_datos.getitemstring(1,"razon_social")) then
-//	ls_cpo="Señores:~r~n"+ads_datos.getitemstring(1,"razon_pagador")+"~r~n"
-//else
+if as_tipo='r' then
+	ls_cpo="Señores:~r~n"+ads_datos.getitemstring(1,"razon_social_rc")+"~r~n"
+else
 	ls_cpo="Señores:~r~n"+ads_datos.getitemstring(1,"razon_social")+"~r~n"
-//end if
-ls_cpo+="NIT/CC"+ads_datos.getitemstring(1,"ls_nit")+"~r~n~r~n"
+end if
 
+ls_cpo+="NIT/CC"+ads_datos.getitemstring(1,"ls_nit")+"~r~n~r~n"
 
 if as_tipo='f' then
 	ls_cpo+="Les informamos ha recibido un documento de Factura Electronica de venta emitida por "+is_nombre_lugar
 end if
+
+if as_tipo='r' then
+	ls_cpo+="Les informamos ha recibido un documento de Factura de Recaudo emitida por "+is_nombre_lugar
+end if
+
 if as_tipo='a' then
 	ls_cpo= "Les informamos ha recibido un documento Nota Credito factura de venta emitida por "+is_nombre_lugar+".~r~n~r~nFeliz día."
 end if
+
 ls_cpo+=" Numero de documento "+ads_datos.getitemstring(1,"ls_numfact")+"~r~n~r~n"
 
 if as_tipo='f' then
@@ -1310,13 +1333,24 @@ if as_tipo='f' then
 		end if
 	end if
 end if
+if as_tipo='r' then
+	ls_cpo+= "Fecha de Emisión "+string(ads_datos.getitemdatetime(1,"fecha_factura"),'yyyy-mm-dd')+"~r~n~r~n"
+	if ads_datos.getitemnumber(1,'tpago')<>0 then
+		ls_cpo+= "Valor "+string(ads_datos.getitemnumber(1,'tpago'),"##,##0.00")+"~r~n~r~n"
+	end if
+end if
+
 ls_cpo+='-----------------------------------------------------------------------------------'+"~r~n~r~n"
 ls_cpo+='Este es un sistema automático de aviso, por favor no responda este mensaje'+"~r~n~r~n"
 ls_cpo+='-----------------------------------------------------------------------------------'+"~r~n~r~n"
 loo_Email.Body =ls_cpo
 
 loo_Email.From = is_nombre_lugar+" <"+is_cuenta_email+">"
-li_Success = loo_Email.AddTo(ads_datos.getitemstring(1,"razon_social"),ads_datos.getitemstring(1,"email_cliente"))
+if as_tipo='r' then
+	li_Success = loo_Email.AddTo(ads_datos.getitemstring(1,"razon_social_rc"),ads_datos.getitemstring(1,"email_cliente"))
+else
+	li_Success = loo_Email.AddTo(ads_datos.getitemstring(1,"razon_social"),ads_datos.getitemstring(1,"email_cliente"))
+end if
 if not isnull(is_cuenta_email1) then
 	li_Success = loo_Email.AddTo('Copia',is_cuenta_email1)
 end if
@@ -1338,7 +1372,7 @@ if of_zip(is_ruta_facturas+as_zipname , is_ruta_facturas+as_filename+'.pdf','a')
 end if
 
 lds_attached_doc =create uo_datastore
-if as_docnm='FV' then
+if as_docnm='FV' or  as_docnm='RC' then
 	lds_attached_doc.dataobject='dw_attached_document'
 else
 	lds_attached_doc.dataobject='dw_attached_document_capita'
@@ -2672,7 +2706,7 @@ int 		li_rc,						li_ret,						li_res,						li_donde,						li_file
 string 	ls_data_qr,				is_ruta_qr='c:\windows\temp\'  
 string 	ls_sufijo_campo='',	ls_ojo,					ls_name,					ls_small_cufe,				ls_small_cufex,				ls_sfc,			ls_sfc_384,				ls_testp
 string 	ls_coddoc,				ls_retc,					ls_retdes,				ls_xml_ret,					ls_null,						ls_tipo,			ls_tipo_ambiente
-string 	ls_prefac,				ls_numfact,				ls_t,						ls_api
+string 	ls_prefac,				ls_numfact,				ls_t,						ls_api,						ls_StatusCode
 
 
 st_ret_dian lst_ret_dian
@@ -2694,6 +2728,7 @@ lnv_CrypterObject = Create CrypterObject
 Lnv_code = create coderobject
 
 setnull(ls_null)
+setnull(ls_StatusCode)
 
 
 if as_coddoc='RV' or as_coddoc='RC'  then 
@@ -2934,7 +2969,6 @@ if lbn_actu_consec_zip then
 end if
 
 if lbn_actu_consec_fact or lbn_actu_consec_zip then
-	//if of_actu_estado_factura(al_nro_fact,as_clug_factura,as_tipofac,ls_null,lst_ret_dian.as_filename,lst_ret_dian.as_zipname,lst_ret_dian.as_track_id,as_tipo_docu,ls_coddoc,ls_sfc)=-1 then 
 	if as_coddoc='FV' or as_coddoc='RV' then
 		if of_actu_estado_factura(al_nro_fact,as_clug_factura,as_tipofac,adb_nnota,ls_null,lst_ret_dian.as_filename,lst_ret_dian.as_zipname,lst_ret_dian.as_track_id,as_tipo_docu,as_coddoc,ls_sfc)=-1 then 
 			lst_ret_dian.as_estado="-2"
@@ -3030,12 +3064,13 @@ if isnull(adw_factura.getitemstring(1,'estado_dian'+ls_sufijo_campo)) or adw_fac
 			lst_ret_dian.as_estado="-2"
 			return lst_ret_dian
 		end if	
-		if lds_result.getitemstring(lds_result.rowcount(),'StatusCode')='99' then
+		ls_StatusCode=lds_result.getitemstring(lds_result.rowcount(),'StatusCode')
+		if ls_StatusCode='99' then
 			lst_ret_dian.as_estado="-2"
 		 	return lst_ret_dian
 		end if
 		
-		if lds_result.getitemstring(lds_result.rowcount(),'statuscode')='00' then //validada OK		
+		if ls_StatusCode='00' then //validada OK		
 			
 			if of_estado_factura_dian(al_nro_fact,as_clug_factura,as_tipofac,adb_nnota,'1',as_tipo_docu,as_coddoc)=-1 then
 				lst_ret_dian.as_estado="-2"

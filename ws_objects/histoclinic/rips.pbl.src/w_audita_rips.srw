@@ -2010,7 +2010,7 @@ if is_elec='2' then
 				if ldb_ctos>0 then				
 					lst_lle=u_elec.sign_chilkat(dw_electronica,l_nfactura,ls_clugar,ls_tfac,0,'r','RC')
 					if lst_lle.as_estado<>'1' 	then
-						MessageBox("SQL error Factura xml_envia", 'Error en envio Fcatura Recaudo')
+						MessageBox("SQL error Factura xml_envia", 'Error en envio Factura Recaudo')
 						Return -1
 					end if
 				end if
