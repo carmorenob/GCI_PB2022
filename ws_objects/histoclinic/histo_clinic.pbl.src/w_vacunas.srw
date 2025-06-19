@@ -672,7 +672,8 @@ end if
 
 if getcolumnname()='fechavac' or getcolumnname()='proxdosis' then
 	ldt_cuando=datetime(today(),now())
-	interv=dw_dosis.getitemnumber(row,'intervalo')
+	interv= day(date(ldt_cuando)) + 1
+	
 	if getcolumnname()='fechavac' and  (datetime(data)< datetime(relativedate(date(ldt_cuando),-interv)) or  datetime(data)> ldt_cuando) then
 		setitem(getrow(),"fechavac",today())
 		return 2
