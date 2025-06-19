@@ -44,7 +44,7 @@ string gs_inv='Jorca2021'
 // para el objeto de reporte los valores son : documento!,interno!,menu!,externo!
 boolean g_demo=false,g_formula=true
 string gs_filehc,tipo_pais,g_vencimiento //para lo de lotes
-string g_aplicacion='histo_clinic',g_version='6.0.0.132'
+string g_aplicacion='histo_clinic',g_version='6.0.0.133'
 string gs_oxigeno,gs_apidocker,gs_directorio
 date usu_fecha_ini, usu_fecha_fin
 uo_report i_rep_asis[8,15]
