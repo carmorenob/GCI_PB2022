@@ -58,11 +58,10 @@ end type
 global w_cirugias w_cirugias
 
 type variables
-datawindowchild espe
+datawindowchild idw_espe,idw_profe
 string i_profe,i_especi
 st_cirugia st_c
 end variables
-
 forward prototypes
 public subroutine f_revisa ()
 public function integer f_bloquea ()
@@ -195,15 +194,6 @@ event open;st_c = message.powerobjectparm
 long donde,j,cual,k
 real pormanual
 string mod_qx, ojo
-dw_via.settransobject(sqlca)
-dw_profe.settransobject(sqlca)
-dw_profe.retrieve(clugar)
-dw_profe.getchild('cesp',espe)
-espe.settransobject(sqlca)
-espe.insertrow(1)
-dw_profe.insertrow(1)
-dw_via.insertrow(0)
-dw_via.setfocus()
 
 SELECT cadena into :mod_qx
 FROM parametros_gen
@@ -294,13 +284,13 @@ choose case st_c.nuevo_edita
 	case "nuevo"
 		dw_via.setitem(1,1,st_c.via)
 		dw_profe.setitem(1,1,st_c.prof_cir)
-		if not isnull(st_c.prof_cir) then espe.retrieve(st_c.prof_cir)
+		if not isnull(st_c.prof_cir) then idw_espe.retrieve(st_c.prof_cir)
 		dw_profe.setitem(1,2,st_c.espe_cir)
 		calcula()
 	case "edita"
 		dw_via.setitem(1,1,st_c.dw_factura.getitemstring(donde,"via"))
 		dw_profe.setitem(1,1,st_c.dw_factura.getitemstring(donde,"profe"))
-		espe.retrieve(st_c.dw_factura.getitemstring(donde,"profe"))
+		idw_espe.retrieve(st_c.dw_factura.getitemstring(donde,"profe"))
 		dw_profe.setitem(1,2,st_c.dw_factura.getitemstring(donde,"espe"))
 		if st_c.tiposerv="Q" then
 			st_c.dw_factura_cpo.setfilter("num_padre="+string(st_c.dw_factura.getitemnumber(donde,"numero")))
@@ -324,7 +314,7 @@ event close;closewithreturn(this,st_c)
 end event
 
 type st_3 from statictext within w_cirugias
-integer x = 2030
+integer x = 2418
 integer y = 208
 integer width = 343
 integer height = 56
@@ -386,6 +376,12 @@ boolean border = false
 boolean livescroll = true
 end type
 
+event constructor;settransobject(sqlca)
+insertrow(0)
+setfocus()
+
+end event
+
 type dw_profe from datawindow within w_cirugias
 integer x = 1079
 integer y = 124
@@ -402,16 +398,30 @@ choose case getcolumn()
 	case 1
 		setitem(1,2,"")
 		i_profe=getitemstring(1,1)
-		espe.retrieve(i_profe)
-		if espe.rowcount() < 1 then 
+		idw_espe.retrieve(i_profe)
+		if idw_espe.rowcount() < 1 then 
 			messagebox("Atención","Profesional no tiene asignada Especialidad")
 		else
-			setitem(1,2,espe.getitemstring(1,1))
+			setitem(1,2,idw_espe.getitemstring(1,1))
 		end if
 	case 2
 		i_especi = getitemstring(1,2)
 end choose
 
+end event
+
+event constructor;settransobject(sqlca)
+
+getchild('codprof',idw_profe)
+idw_profe.settransobject(sqlca)
+idw_profe.retrieve(clugar)
+
+idw_profe.getchild('cesp',idw_espe)
+idw_espe.settransobject(sqlca)
+
+retrieve(clugar)
+idw_espe.insertrow(1)
+dw_profe.insertrow(1)
 end event
 
 type cbx_bilateral from checkbox within w_cirugias
