@@ -1749,7 +1749,7 @@ return lst_ret_dian
 end function
 
 public function string sispro_login (string as_ambiente, string as_td, string as_doc, string as_pasw, string as_nit, string as_url);Integer li_rc
-String ls_ReturnJson,ls_json,ls_token, ls_url
+String ls_ReturnJson,ls_json,ls_token, ls_url,ls_passwd
 
 HttpClient lo_client
 lo_client = Create HttpClient
@@ -1759,7 +1759,9 @@ lnv_json = create jsonpackage
 
 //POST /api/auth/LoginSISPRO { "persona": { "identificacion": { "tipo": "CC", "numero": "1234567890" } }, "clave": "secretpassword", "nit": "123456789" }
 lnv_json.setvalue("persona",'{"identificacion":{"tipo":"'+as_td+'","numero":"'+as_doc+'"}}')
-lnv_json.setvalue("clave",as_pasw,false)
+ls_passwd=f_descripta_new(as_pasw,'1')
+
+lnv_json.setvalue("clave",ls_passwd,false)
 lnv_json.setvalue("nit",as_nit,false)
 
 ls_json=lnv_json.GetJsonString()
