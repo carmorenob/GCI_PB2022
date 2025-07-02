@@ -1820,11 +1820,11 @@ if gs_apidocker='1' then
 				Else
 					commit;
 				end If						
-				messagebox('Atencíon','Proceso Finalizado')
+				messagebox('Atencíon','Validación Con Éxito FEVRIPS Validador Ministerio')
 			end if	
 		end if
 	else
-		messagebox('Atencíon','No hay conexión Token')
+		messagebox('Atencíon','No hay Conexión Token FEVRIPS Validador Ministerio')
 	end if //token
 end if
 destroy luo_rips

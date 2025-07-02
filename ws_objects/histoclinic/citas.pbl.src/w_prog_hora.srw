@@ -81,7 +81,6 @@ datawindowchild consult, espe , gcita,dclugar
 datetime desde,hasta
 string profe1,consul,codgrupo,ls_clugar
 end variables
-
 forward prototypes
 public subroutine marcafila (long fila)
 public subroutine marcacol (long columna)
@@ -305,7 +304,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-02-24"), Time("19:49:19.000000"))
+datetime value = DateTime(Date("2025-07-02"), Time("09:13:16.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -359,8 +358,6 @@ boolean livescroll = true
 end type
 
 event constructor;settransobject(sqlca)
-//modify('#1.width=562')
-//modify('#1.dddw.useasborder="no"') 
 insertrow(1)
 end event
 
@@ -895,6 +892,11 @@ choose case this.getcolumn()
 		espe.filter()
 	case 3
 		consul=data
+		
+		espe.retrieve(ls_clugar)
+		espe.setfilter("cesp='aa'")
+		espe.filter()
+
 		this.setitem(1,'duracion',consult.getitemnumber(consult.getrow(),"duracion"))
 		dw_2.reset()
 		if dw_profe.getitemstring(1,1)<>"" then
@@ -1110,9 +1112,9 @@ end event
 
 event constructor;this.getchild("codprof",espe)
 espe.settransobject(sqlca)
-espe.retrieve()
-espe.setfilter("cesp='aa'")
-espe.filter()
+//espe.retrieve()
+//espe.setfilter("cesp='aa'")
+//espe.filter()
 this.insertrow(1)
 
 end event
