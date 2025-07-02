@@ -32,7 +32,7 @@ end forward
 
 global type w_af_baja from w_center
 string tag = "Ha realizado cambios. Desea guardarlos?"
-integer width = 5202
+integer width = 6245
 integer height = 1956
 string title = "Activos Fijos- Bajas"
 boolean maxbox = false
@@ -137,8 +137,8 @@ event resize;call super::resize;//
 end event
 
 type pb_grabar from w_center`pb_grabar within w_af_baja
-integer x = 2377
-integer y = 1592
+integer x = 2587
+integer y = 1588
 integer taborder = 100
 boolean originalsize = false
 string powertiptext = "&Guardar"
@@ -280,8 +280,8 @@ end event
 type pb_cerrar from picturebutton within w_af_baja
 event mousemove pbm_mousemove
 string tag = "Cerrar"
-integer x = 1929
-integer y = 1592
+integer x = 2139
+integer y = 1588
 integer width = 142
 integer height = 124
 integer taborder = 90
@@ -305,7 +305,7 @@ end event
 type gb_1 from groupbox within w_af_baja
 integer x = 37
 integer y = 24
-integer width = 4347
+integer width = 5317
 integer height = 616
 integer textsize = -8
 integer weight = 700
@@ -338,8 +338,8 @@ boolean focusrectangle = false
 end type
 
 type st_2 from statictext within w_af_baja
-integer x = 4443
-integer y = 56
+integer x = 5394
+integer y = 68
 integer width = 686
 integer height = 572
 boolean bringtotop = true
@@ -360,8 +360,8 @@ end type
 type pb_1 from picturebutton within w_af_baja
 event mousemove pbm_mousemove
 string tag = "Cerrar"
-integer x = 2222
-integer y = 1592
+integer x = 2432
+integer y = 1588
 integer width = 142
 integer height = 124
 integer taborder = 100
@@ -406,7 +406,7 @@ end event
 type dw_lp from datawindow within w_af_baja
 integer x = 82
 integer y = 100
-integer width = 4123
+integer width = 5065
 integer height = 500
 integer taborder = 130
 boolean bringtotop = true
@@ -458,7 +458,7 @@ end event
 type dw_b from datawindow within w_af_baja
 integer x = 91
 integer y = 764
-integer width = 4960
+integer width = 5957
 integer height = 704
 integer taborder = 100
 boolean bringtotop = true
@@ -495,8 +495,8 @@ end event
 type pb_2 from picturebutton within w_af_baja
 event mousemove pbm_mousemove
 string tag = "Cerrar"
-integer x = 2075
-integer y = 1592
+integer x = 2286
+integer y = 1588
 integer width = 142
 integer height = 124
 integer taborder = 100
@@ -593,7 +593,7 @@ end event
 type gb_2 from groupbox within w_af_baja
 integer x = 41
 integer y = 700
-integer width = 5074
+integer width = 6039
 integer height = 840
 integer taborder = 100
 integer textsize = -8
@@ -611,8 +611,8 @@ type pb_buscar from picturebutton within w_af_baja
 event mousemove pbm_mousemove
 string tag = "Buscar"
 boolean visible = false
-integer x = 4219
-integer y = 92
+integer x = 5161
+integer y = 108
 integer width = 142
 integer height = 124
 integer taborder = 20
@@ -633,8 +633,8 @@ event clicked;//openwithParm(w_af_bplaca,sle_1)
 end event
 
 type cbx_1 from checkbox within w_af_baja
-integer x = 2546
-integer y = 1632
+integer x = 2757
+integer y = 1628
 integer width = 430
 integer height = 80
 boolean bringtotop = true
