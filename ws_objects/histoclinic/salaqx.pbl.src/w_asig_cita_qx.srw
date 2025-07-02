@@ -284,8 +284,6 @@ if dw_qxcita.rowcount() >0  then
 		dw_profes.setitem(l_donde,'prof',dw_qxcita_cir.getitemstring(l_j,'qx'))
 		dw_profes.setitem(l_donde,'fecha',dw_qxcita.getitemdatetime(1,'fecha_asigna'))
 		dw_profes.setitem(l_donde,'hora',datetime(date("1/1/1900"),time(dw_qxcita_cir.getitemdatetime(l_j,'hora'))))
-		datetime jaer
-		jaer=dw_qxcita_cir.getitemdatetime(l_donde,'iniciacir')
 		dw_profes.setitem(l_donde,'iniciaqx',dw_qxcita_cir.getitemdatetime(l_donde,'iniciacir'))
 		dw_profes.setitem(l_donde,'terminaqx',dw_qxcita_cir.getitemdatetime(l_donde,'terminacir'))
 		dw_profes.setitem(l_donde,'usuario',usuario)
@@ -426,6 +424,13 @@ end function
 event open;RegistryGet( "HKEY_CLASSES_ROOT\.pdf", "", RegString!, ls_tipo)
 RegistryGet( "HKEY_CLASSES_ROOT\"+ls_tipo+"\shell\open\command", "", RegString!, is_pdf)
 
+if g_motor='postgres' then
+	tab_2.tp2_1.dw_consultxgcita.dataobject='dw_consullibrexgcita_qx_postgres'
+else
+	tab_2.tp2_1.dw_consultxgcita.dataobject='dw_consullibrexgcita_qx'
+end if
+tab_2.tp2_1.dw_consultxgcita.settransobject(sqlca)
+
 f_limpia()
 int cuan
 select count(codemp) into :cuan from emppac where tipodoc=:tipdoc and  documento=:docu;
@@ -530,8 +535,7 @@ end on
 event timer;if tab_2.tp2_1.dw_consultxgcita.rowcount()<1 then return
 w_principal.setmicrohelp('Leyendo ....')
 i_fila_prof=tab_2.tp2_1.dw_consultxgcita.getrow()
-//dw_agenda.retrieve(i_consul,i_desde,i_hasta,i_profes,tab_2.tp2_1.dw_consultxgcita.getitemstring(i_fila_prof,"cesp"),dw_escog_profe.getitemstring(1,1))
-//w_principal.setmicrohelp('Gestión Clínica Integrada')
+
 end event
 
 type pb_3 from pb_report within w_asig_cita_qx
@@ -1207,10 +1211,6 @@ i_profes=getitemstring(getrow(),"prof")
 i_consul=getitemstring(getrow(),"consult")
 //dw_agenda.retrieve(i_consul,i_desde,i_hasta,i_profes,getitemstring(getrow(),"cesp"),dw_escog_qx.getitemstring(1,1))
 dw_agenda.retrieve(i_consul,i_desde,i_hasta)
-
-end event
-
-event constructor;settransobject(sqlca)
 
 end event
 

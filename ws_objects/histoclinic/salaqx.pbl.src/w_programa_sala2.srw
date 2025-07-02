@@ -135,7 +135,7 @@ end type
 end forward
 
 global type w_programa_sala2 from window
-integer width = 5111
+integer width = 5339
 integer height = 2132
 boolean titlebar = true
 string title = "Programación de Turnos"
@@ -169,7 +169,8 @@ end type
 global w_programa_sala2 w_programa_sala2
 
 type variables
-datawindowchild idw_sala, idw_espe 
+datawindowchild idw_sala, idw_espe ,idw_cami,idw_auxiliarenf,idw_enfermero,idw_especialista
+datawindowchild idw_auxiliarqx,idw_circulante,idw_instrumentador,idw_anestesiologo
 datetime inicia , termina
 boolean retirar,click
 int fila,colu
@@ -177,7 +178,6 @@ string i_tipo, i_letra, i_ctrl, i_prof
 long i_x, i_y
 
 end variables
-
 forward prototypes
 public function dwobject lf_dwo (string p_column)
 end prototypes
@@ -673,7 +673,7 @@ integer height = 84
 integer taborder = 100
 date maxdate = Date("2999-12-31")
 date mindate = Date("1800-01-01")
-datetime value = DateTime(Date("2025-02-24"), Time("20:05:41.000000"))
+datetime value = DateTime(Date("2025-07-02"), Time("09:04:25.000000"))
 integer textsize = -8
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -701,7 +701,7 @@ end event
 
 type dw_agenda_prof from datawindow within w_programa_sala2
 boolean visible = false
-integer x = 3099
+integer x = 3360
 integer width = 311
 integer height = 100
 integer taborder = 100
@@ -721,7 +721,7 @@ end event
 type st_fecha_hora from statictext within w_programa_sala2
 integer x = 18
 integer y = 1196
-integer width = 1440
+integer width = 1723
 integer height = 64
 integer textsize = -8
 integer weight = 400
@@ -784,7 +784,7 @@ end event
 type dw_resumen from datawindow within w_programa_sala2
 string tag = "trae los datos para pintar la programacion de sala"
 boolean visible = false
-integer x = 3502
+integer x = 3762
 integer y = 12
 integer width = 151
 integer height = 72
@@ -830,7 +830,7 @@ end event
 type dw_det from datawindow within w_programa_sala2
 integer x = 18
 integer y = 1272
-integer width = 1449
+integer width = 1733
 integer height = 624
 integer taborder = 60
 string title = "none"
@@ -885,8 +885,8 @@ sqlca.autocommit=false
 end event
 
 type tab_1 from tab within w_programa_sala2
-integer x = 1545
-integer width = 3502
+integer x = 1815
+integer width = 3451
 integer height = 1928
 integer taborder = 90
 integer textsize = -8
@@ -921,7 +921,7 @@ end on
 type tp_1 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 3465
+integer width = 3415
 integer height = 1800
 long backcolor = 67108864
 string text = "Programación de Turnos"
@@ -1276,7 +1276,8 @@ event insert_new ( long j,  long k,  integer emp_n,  integer emp_v,  string prof
 event cambia_viejo ( long j,  long k,  integer emp_n,  integer emp_v )
 event chequea ( integer row,  integer col,  boolean repintar )
 event mousemove pbm_dwnmousemove
-integer width = 3429
+integer x = 18
+integer width = 3397
 integer height = 1664
 integer taborder = 50
 string title = "none"
@@ -2096,7 +2097,7 @@ end event
 type tp_2 from userobject within tab_1
 integer x = 18
 integer y = 112
-integer width = 3465
+integer width = 3415
 integer height = 1800
 long backcolor = 67108864
 string text = "Programación del Profesional"
@@ -2448,13 +2449,7 @@ event clicked;LONG J,K,donde
 int emp_n=-1,emp_v=-1
 datawindow dw
 string espe
-//if dw_profes.getitemstring(1,'tipo')='0' then
-//	prof=dw_profes.getitemstring(1,'especialista')
-//	letra='E'
-//else
-//	prof=dw_profes.getitemstring(1,'anestesiologo')
-//	letra='A'
-//end if
+
 if isNull(i_prof) or i_prof = '' then
 	MessageBox('Atención','Seleccione el profesional')
 	Return 0
@@ -2596,7 +2591,7 @@ type dw_profes from datawindow within w_programa_sala2
 event p_itemchanged ( )
 integer x = 14
 integer y = 496
-integer width = 1481
+integer width = 1765
 integer height = 436
 integer taborder = 40
 string title = "none"
@@ -2728,10 +2723,43 @@ end choose
 end event
 
 event constructor;this.settransobject(sqlca)
-this.insertrow(1)
+
 this.getchild('cesp',idw_espe)
 idw_espe.settransobject(sqlca)
 
+this.getchild('camillero',idw_cami)
+idw_cami.settransobject(sqlca)
+idw_cami.retrieve('%')
+
+this.getchild('auxiliarenf',idw_auxiliarenf)
+idw_auxiliarenf.settransobject(sqlca)
+idw_auxiliarenf.retrieve('%')
+
+this.getchild('enfermero',idw_enfermero)
+idw_enfermero.settransobject(sqlca)
+idw_enfermero.retrieve('%')
+
+this.getchild('auxiliarqx',idw_auxiliarqx)
+idw_auxiliarqx.settransobject(sqlca)
+idw_auxiliarqx.retrieve('%')
+
+this.getchild('circulante',idw_circulante)
+idw_circulante.settransobject(sqlca)
+idw_circulante.retrieve('%')
+
+this.getchild('instrumentador',idw_instrumentador)
+idw_instrumentador.settransobject(sqlca)
+idw_instrumentador.retrieve('%')
+
+this.getchild('anestesiologo',idw_anestesiologo)
+idw_anestesiologo.settransobject(sqlca)
+idw_anestesiologo.retrieve('%')
+
+this.getchild('especialista',idw_especialista)
+idw_especialista.settransobject(sqlca)
+idw_especialista.retrieve('%')
+
+this.insertrow(1)
 end event
 
 event itemchanged;this.accepttext()
@@ -2742,7 +2770,7 @@ end event
 type gb_3 from groupbox within w_programa_sala2
 integer x = 18
 integer y = 968
-integer width = 1490
+integer width = 1774
 integer height = 128
 integer taborder = 50
 integer textsize = -8
@@ -2759,7 +2787,7 @@ end type
 
 type gb_4 from groupbox within w_programa_sala2
 integer y = 1140
-integer width = 1499
+integer width = 1792
 integer height = 768
 integer textsize = -8
 integer weight = 400
@@ -2775,7 +2803,7 @@ end type
 
 type dw_resu_prof from datawindow within w_programa_sala2
 boolean visible = false
-integer x = 2834
+integer x = 3095
 integer y = 4
 integer width = 238
 integer height = 100
@@ -2864,7 +2892,7 @@ end event
 type dw_sala from datawindow within w_programa_sala2
 integer x = 55
 integer y = 332
-integer width = 1330
+integer width = 1559
 integer height = 132
 integer taborder = 30
 string title = "none"
@@ -2905,7 +2933,7 @@ event mousemove pbm_mousemove
 boolean visible = false
 integer x = 27
 integer y = 184
-integer width = 1426
+integer width = 1765
 integer height = 296
 integer taborder = 100
 integer textsize = -2
