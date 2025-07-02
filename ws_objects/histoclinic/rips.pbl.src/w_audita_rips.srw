@@ -1761,9 +1761,10 @@ end if
 if gs_apidocker='1' then
 	string ls_token, ls_tds,ls_docs,ls_pass,ls_ipsn,ls_url,ls_tamb,ls_err
 	jsonpackage lnv_json
-	string ls_ResultadosValidacion,ls_cuve,ls_rs
+	string ls_ResultadosValidacion,ls_cuve,ls_rs,ls_FechaRadicacion
 	datetime ldt_frad
 	boolean lbo_rstate
+	int li_pos,li_pos1
 		
 	SELECT 
 		usuarios.tipodoc, usuarios.documento, 
@@ -1804,8 +1805,11 @@ if gs_apidocker='1' then
 		if Len(ls_err) = 0 then
 			lbo_rstate = lnv_json.GetValueBoolean("ResultState")
 			ls_cuve = lnv_json.GetValue("CodigoUnicoValidacion")
-			if lbo_rstate  and pos(ls_cuve,'RECHAZADO')=0 then
-				ldt_frad= lnv_json.GetValueDateTime("FechaRadicacion")
+			if lbo_rstate  and pos(ls_cuve,'RECHAZADO')=0 then	
+				ls_FechaRadicacion= lnv_json.GetValue("FechaRadicacion")
+				li_pos=pos(ls_FechaRadicacion,'T')
+				li_pos1=pos(ls_FechaRadicacion,'.')
+				ldt_frad=datetime(date(mid(ls_FechaRadicacion,1,li_pos -1 )),time(mid(ls_FechaRadicacion,li_pos +1,li_pos -1 )))
 				
 				update factcab set cuve=:ls_cuve, fecha_cuve=:ldt_frad
 				where nfact=:ldb_nfac and clugar=:ls_clu and tipo=:ls_tip;
