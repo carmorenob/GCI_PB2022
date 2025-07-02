@@ -70,7 +70,6 @@ if lds_202.rowcount()=0 then
 	"(101)resul_bmama", "(102)cop", "(103)fecha_hemo", "(104)resul_hemo", "(105)fecha_glice", "(106)fecha_creat", "(107)resul_creat", "(108)fecha_present", "(109)resul_psa", 
 	"(110)fecha_hpc", "(111)fecha_hdl", "(112)fecha_baci", "(113)resul_baci", "(114)resul_riescar", "(115)tto_sifiges", "(116)tto_sificog", "(117)resul_metb", "(118)fecha_trig", fecha_audita)
 	VALUES (:as_tdoc, :as_docu,cast(:li_gestante as varchar),'0','21','0','21','98','21','21',:ls_trec,
-	VALUES (:as_tdoc, :as_docu,cast(:li_gestante as varchar),'0','21','0','21','98','21','21',:ls_trec,
 	'0','21','21','0',:ls_avojos,:ls_avojos,'1800-01-01','999','1800-01-01','999',:ls_fppart,'0','21',
 	'0','0','0','0','0','0','0','0','0','0','0','0','1845-01-01','1845-01-01',
 	'1845-01-01','1845-01-01','1845-01-01','0','1845-01-01','1845-01-01','0','1845-01-01','0',
