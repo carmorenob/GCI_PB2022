@@ -6116,7 +6116,11 @@ string ls_fver
 u_elec=create nvo_factura_electronica
 
 if g_motor='postgres' then
-	dw_electronica.dataobject='asis_int_factura_ele_cap'
+	if tab_2.tp2_1.tab_1.tp_p.dw_radica.getitemstring(tab_2.tp2_1.tab_1.tp_p.dw_radica.getrow(),'cod_versionfe')>='1.9' then
+		dw_electronica.dataobject='asis_int_factura_ele_cap19'
+	else
+		dw_electronica.dataobject='asis_int_factura_ele_cap'
+	end if
 else
 	dw_electronica.dataobject='dw_factura_electronica_cap_sql' 
 end if	
