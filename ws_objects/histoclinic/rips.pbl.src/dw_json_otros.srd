@@ -64,6 +64,7 @@ table(column=(type=char(12) updatewhereclause=yes name=c_supersalud dbname="c_su
 	uniones.c_medica
 FROM
 (
+	/*medicamentos con serviciios ingreso*/
 	SELECT 
 		Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
 		serviciosingreso.fecha as fechat,
@@ -126,6 +127,7 @@ FROM
 	
 	UNION ALL
 	
+	/*Proced con servicios ingreso*/
 	SELECT 
 		Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
 		serviciosingreso.fecha,
@@ -187,6 +189,7 @@ FROM
 
 	UNION ALL
 
+	/*Proced hospi*/
 	SELECT 
 		Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
 		hospadmi.fechaingreso,
@@ -261,7 +264,8 @@ FROM
 
 
 	UNION ALL
-		
+
+	/*medicamentos hospi*/		
 	SELECT 
 		Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
 		factcab.fecha as fechaat,
@@ -310,10 +314,8 @@ FROM
 		INNER JOIN PACIENTES ON (factcpo.DOCUMENTO = PACIENTES.DOCUMENTO) AND (factcpo.TIPODOC = PACIENTES.TIPODOC)) 
 		INNER JOIN TIPOIDENTIFICACION ON PACIENTES.TIPODOC = TIPOIDENTIFICACION.CODTIPOIDENT) 
 		LEFT JOIN serviciosingreso ON (factcpo.nfact = serviciosingreso.nfactura) AND (factcpo.clugar = serviciosingreso.clugar_fac) 
-		AND (factcpo.tipo = serviciosingreso.tipo_fac) AND (factcpo.nitem = serviciosingreso.nitem_fac)) 
-		INNER JOIN ripsradica ON (factcab.nradica = ripsradica.num_radicacion) AND (factcab.clugar_rad = ripsradica.clugar) 
-		AND (factcab.tipo_rad = ripsradica.tipo)) 
-		INNER JOIN DOCUMENTOS_AUTFACT ON ripsradica.c_aut = DOCUMENTOS_AUTFACT.c_aut) 
+		AND (factcpo.tipo = serviciosingreso.tipo_fac) AND (factcpo.nitem = serviciosingreso.nitem_fac))) 
+		INNER JOIN DOCUMENTOS_AUTFACT ON factcab.c_aut = DOCUMENTOS_AUTFACT.c_aut) 
 		INNER JOIN oscuerpo ON (factcpo.nfact = oscuerpo.nfact) AND (factcpo.clugar = oscuerpo.clugar_fact) AND (factcpo.tipo = oscuerpo.tipo_fact) 
 		AND (factcpo.nitem = oscuerpo.nitem_fact)) 
 		INNER JOIN oscabeza ON (oscuerpo.contador = oscabeza.contador) AND (oscuerpo.clugar = oscabeza.clugar) AND (oscuerpo.nsolicitud = oscabeza.nsolicitud)) 
@@ -325,15 +327,88 @@ FROM
 		LEFT JOIN tesorecajcab ON (tesorecajcpo.clugar = tesorecajcab.clugar) AND (tesorecajcpo.nrcaj = tesorecajcab.nrcaj)) 
 		LEFT JOIN documentos_autfact AS documentos_autfact_1 ON tesorecajcab.c_aut = documentos_autfact_1.c_aut
 	WHERE 
-		(((factcab.tipo)='C') AND ((DOCUMENTOS_AUTFACT.coddoc)='FV') 
+		(((factcab.tipo)='F') AND ((DOCUMENTOS_AUTFACT.coddoc)='FV') 
 		AND ((DOCUMENTOS_AUTFACT.clugar)='01') 
 		AND ((factcpo.RIA)='7') 
 		AND ((factcab.NFact)=:nfact) AND ((factcab.clugar)=:clug) AND ((factcab.tipo)=:tipo) 
-		AND ((contratos.ctcontra)='2') AND ((factcab.codtingre)='1') 
+		AND ((contratos.ctcontra)='1') AND ((factcab.codtingre)='1') 
 		AND ((serviciosingreso.nfactura) Is Null))
+
+	UNION ALL
+
+	/*Medicamentos  oscuerpo nueva relacion */		
+	SELECT 
+		Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
+		factcab.fecha as fechaat,
+		Medicamentos.codigo_unif AS codigo_uni, 
+		Medicamentos.Medicamento, 
+		factcpo.Cantidad, 
+		factcpo.vproced/factcpo.Cantidad AS vuni, 
+		factcpo.VProced, factcpo.NItem, factcab.Fecha, factcab.clugar AS clugar_fac, ips.c_supersalud AS csuper_ips, 
+		sumarticulo.cum, factcpo.tipo AS tipo_fac, DOCUMENTOS_AUTFACT.PREFIJO, sumarticulo.cum_espe, factcab.NFact,
+		profe.tdoc, profe.documento, 
+		case when 
+			factcpo.vcopago<>0
+		then
+			'02'
+		else
+			 case when 
+				factcpo.vcm<>0
+			then
+				'01'
+			else
+				case when 
+					factcpo.vpart<>0
+				then
+					'03'
+				else
+					'05'
+				end
+			end
+		end as VTMD,
+			
+		factcpo.vcopago+factcpo.vcm+factcpo.vpart+factcpo.vcr as vpm,
+		sumarticulo.ium,  agrupservicios.tipo_serv as tipoos, 
+		tesorecajcpo.nrcaj, documentos_autfact_1.prefijo as pref_rc,
+		factcpo.c_medica
+	FROM 
+		((((((((((((((((((((factcab 
+		INNER JOIN factcpo ON (factcab.clugar = factcpo.clugar) AND (factcab.NFact = factcpo.NFact) 
+		AND (factcab.TIPO = factcpo.TIPO)) 
+		INNER JOIN Lugar ON factcab.clugar = Lugar.codlugar) 
+		INNER JOIN ips ON factcab.ips = ips.c_ips) 
+		INNER JOIN contratos ON (factcab.ccontrato = contratos.codcontrato) AND (factcab.cemp = contratos.codemp)) 
+		INNER JOIN Medicamentos ON factcpo.c_medica = Medicamentos.c_medica) 
+		INNER JOIN MedFormaF ON Medicamentos.codformaf = MedFormaF.codformaf) 
+		INNER JOIN MedUMedida ON Medicamentos.cum_pes = MedUMedida.codumeddca) 
+		LEFT JOIN sumarticulo ON factcpo.codarticulo = sumarticulo.codarticulo) 
+		INNER JOIN PACIENTES ON (factcpo.DOCUMENTO = PACIENTES.DOCUMENTO) AND (factcpo.TIPODOC = PACIENTES.TIPODOC)) 
+		INNER JOIN TIPOIDENTIFICACION ON PACIENTES.TIPODOC = TIPOIDENTIFICACION.CODTIPOIDENT) 
+		LEFT JOIN serviciosingreso ON (factcpo.nfact = serviciosingreso.nfactura) AND (factcpo.clugar = serviciosingreso.clugar_fac) 
+		AND (factcpo.tipo = serviciosingreso.tipo_fac) AND (factcpo.nitem = serviciosingreso.nitem_fac))) 
+		INNER JOIN DOCUMENTOS_AUTFACT ON factcab.c_aut = DOCUMENTOS_AUTFACT.c_aut) 
+		INNER JOIN oscuerpo ON (factcpo.item_os = oscuerpo.item) AND (factcpo.nsolicitud_os = oscuerpo.nsolicitud) 
+		AND (factcpo.clugar_os = oscuerpo.clugar) AND (factcpo.contador_os = oscuerpo.contador)) 
+		INNER JOIN oscabeza ON (oscuerpo.contador = oscabeza.contador) AND (oscuerpo.clugar = oscabeza.clugar) AND (oscuerpo.nsolicitud = oscabeza.nsolicitud)) 
+		INNER JOIN diags ON oscabeza.codgeral = diags.codgeral) 
+		INNER JOIN profe ON oscabeza.codprof = profe.codprof) 
+		INNER JOIN agrupservicios ON factcpo.codconcepto = agrupservicios.codconcepto) 
+		LEFT JOIN tesorecajcpo ON (factcab.tipo = tesorecajcpo.tipo_fac) AND (factcab.clugar = tesorecajcpo.clugar_fac) 
+		AND (factcab.nfact = tesorecajcpo.nfact)) 
+		LEFT JOIN tesorecajcab ON (tesorecajcpo.clugar = tesorecajcab.clugar) AND (tesorecajcpo.nrcaj = tesorecajcab.nrcaj)) 
+		LEFT JOIN documentos_autfact AS documentos_autfact_1 ON tesorecajcab.c_aut = documentos_autfact_1.c_aut
+	WHERE 
+		(((factcab.tipo)='F') AND ((DOCUMENTOS_AUTFACT.coddoc)='FV') 
+		AND ((DOCUMENTOS_AUTFACT.clugar)='01') 
+		AND ((factcpo.RIA)='7') 
+		AND ((factcab.NFact)=:nfact) AND ((factcab.clugar)=:clug) AND ((factcab.tipo)=:tipo) 
+		AND ((contratos.ctcontra)='1') AND ((factcab.codtingre)='1') 
+		AND ((serviciosingreso.nfactura) Is Null))
+
 	
 	UNION ALL
-	
+
+	/*Medicamentos  oscuerpo vieja relacion */			
 	SELECT 
 		Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
 		factcab.fecha as fechaat,
@@ -380,10 +455,8 @@ FROM
 		INNER JOIN PACIENTES ON (factcpo.TIPODOC = PACIENTES.TIPODOC) AND (factcpo.DOCUMENTO = PACIENTES.DOCUMENTO)) 
 		INNER JOIN TIPOIDENTIFICACION ON PACIENTES.TIPODOC = TIPOIDENTIFICACION.CODTIPOIDENT) 
 		LEFT JOIN serviciosingreso ON (factcpo.nitem = serviciosingreso.nitem_fac) AND (factcpo.tipo = serviciosingreso.tipo_fac) 
-		AND (factcpo.clugar = serviciosingreso.clugar_fac) AND (factcpo.nfact = serviciosingreso.nfactura)) 
-		INNER JOIN ripsradica ON (factcab.tipo_rad = ripsradica.tipo) AND (factcab.clugar_rad = ripsradica.clugar) 
-		AND (factcab.nradica = ripsradica.num_radicacion)) 
-		INNER JOIN DOCUMENTOS_AUTFACT ON ripsradica.c_aut = DOCUMENTOS_AUTFACT.c_aut) 
+		AND (factcpo.clugar = serviciosingreso.clugar_fac) AND (factcpo.nfact = serviciosingreso.nfactura))) 
+		INNER JOIN DOCUMENTOS_AUTFACT ON factcab.c_aut = DOCUMENTOS_AUTFACT.c_aut) 
 		LEFT JOIN oscuerpo ON (factcpo.nitem = oscuerpo.nitem_fact) AND (factcpo.tipo = oscuerpo.tipo_fact) AND (factcpo.clugar = oscuerpo.clugar_fact) 
 		AND (factcpo.nfact = oscuerpo.nfact)) 
 		INNER JOIN profe ON factcab.cprof_ordena = profe.codprof) 
@@ -394,11 +467,11 @@ FROM
 		LEFT JOIN tesorecajcab ON (tesorecajcpo.clugar = tesorecajcab.clugar) AND (tesorecajcpo.nrcaj = tesorecajcab.nrcaj)) 
 		LEFT JOIN documentos_autfact AS documentos_autfact_1 ON tesorecajcab.c_aut = documentos_autfact_1.c_aut
 	WHERE 
-		(((factcab.tipo)='C') AND ((DOCUMENTOS_AUTFACT.coddoc)='FV') 
+		(((factcab.tipo)='F') AND ((DOCUMENTOS_AUTFACT.coddoc)='FV') 
 		AND ((DOCUMENTOS_AUTFACT.clugar)='01') 
 		AND ((factcpo.RIA)='7') 
 		AND ((factcab.NFact)=:nfact) AND ((factcab.clugar)=:clug) AND ((factcab.tipo)=:tipo) 
-		AND ((contratos.ctcontra)='2') AND ((factcab.codtingre)='1') 
+		AND ((contratos.ctcontra)='1') AND ((factcab.codtingre)='1') 
 		AND ((serviciosingreso.nfactura) Is Null)
 		AND ((oscuerpo.nfact) Is Null))
 ) as Uniones" arguments=(("nfact", number),("clug", string),("tipo", string)) )

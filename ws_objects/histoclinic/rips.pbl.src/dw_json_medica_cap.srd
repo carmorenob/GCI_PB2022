@@ -62,7 +62,9 @@ table(column=(type=char(12) updatewhereclause=yes name=c_supersalud dbname="c_su
 		uniones.dxr1, 
 		uniones.num_radicacion, uniones.clugar, uniones.tipo,
 		uniones.umm, uniones.tdoc, uniones.documento
- FROM (
+FROM 
+(
+	/*medicamehbtos con servicios ingreso*/
  	SELECT 
 		Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
 		serviciosingreso.fecha as fechaat,
@@ -129,7 +131,8 @@ table(column=(type=char(12) updatewhereclause=yes name=c_supersalud dbname="c_su
 		AND ((contratos.ctcontra)='2') )
 
 	UNION ALL
-	
+
+	/*Medicamentos con ordenes relacion vieja*/	
 	SELECT 
 		Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
 		serviciosingreso.fecha,
@@ -199,6 +202,7 @@ table(column=(type=char(12) updatewhereclause=yes name=c_supersalud dbname="c_su
 
 	UNION ALL
 
+	/*Medicamentos con ordenes qe no tenga ordenes*/	
 	SELECT 
 		Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
 		serviciosingreso.fecha,
@@ -262,6 +266,76 @@ table(column=(type=char(12) updatewhereclause=yes name=c_supersalud dbname="c_su
 		AND ((contratos.ctcontra)='2') AND ((factcab.codtingre)='1') 
 		AND ((serviciosingreso.nfactura) Is Null)
 		AND ((oscuerpo.nfact) Is Null))
+
+	UNION ALL
+
+	/*Medicamentos con ordenes relacion nueva*/	
+	SELECT 
+		Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
+		serviciosingreso.fecha,
+		diags.cod_rips as dx1,
+		Medicamentos.codigo_unif AS codigo_uni, Medicamentos.POS, 
+		Medicamentos.Medicamento, 
+		MedFormaF.codformaf AS formafarm, 
+		Medicamentos.concentracion AS concentracio, MedUMedida.UnidadMed AS unidadme, factcpo.Cantidad, 
+		factcpo.vproced/factcpo.cantidad AS vuni, 
+		factcpo.VProced, factcpo.NItem, factcab.Fecha, factcab.clugar AS clugar_fac, ips.c_supersalud AS csuper_ips, 
+		sumarticulo.cum, factcpo.tipo AS tipo_fac, DOCUMENTOS_AUTFACT.PREFIJO, sumarticulo.cum_espe, factcab.NFact,
+		PACIENTES.tipodoc as tdpac, PACIENTES.documento as  docpac,
+		case when 
+			factcpo.vcopago<>0
+		then
+			'02'
+		else
+			 case when 
+				factcpo.vcm<>0
+			then
+				'01'
+			else
+				case when 
+					factcpo.vpart<>0
+				then
+					'03'
+				else
+					'05'
+				end
+			end
+		end as VTMD,
+			
+		factcpo.vcopago+factcpo.vcm+factcpo.vpart+factcpo.vcr as vpm,
+		sumarticulo.ium, sumarticulo.cod_tmedica, 
+		diags.cod_rips as dxr1, 
+		ripsradica.num_radicacion, ripsradica.clugar, ripsradica.tipo,
+		medicamentos.umm,profe.tdoc, profe.documento
+	FROM 
+		((((((((((((((((factcab INNER JOIN factcpo ON (factcab.clugar = factcpo.clugar) AND (factcab.NFact = factcpo.NFact) 
+		AND (factcab.TIPO = factcpo.TIPO)) 
+		INNER JOIN Lugar ON factcab.clugar = Lugar.codlugar) 
+		INNER JOIN ips ON factcab.ips = ips.c_ips) 
+		INNER JOIN contratos ON (factcab.ccontrato = contratos.codcontrato) AND (factcab.cemp = contratos.codemp)) 
+		INNER JOIN Medicamentos ON factcpo.c_medica = Medicamentos.c_medica) 
+		INNER JOIN MedFormaF ON Medicamentos.codformaf = MedFormaF.codformaf) 
+		INNER JOIN MedUMedida ON Medicamentos.cum_pes = MedUMedida.codumeddca) 
+		LEFT JOIN sumarticulo ON factcpo.codarticulo = sumarticulo.codarticulo) 
+		INNER JOIN PACIENTES ON (factcpo.DOCUMENTO = PACIENTES.DOCUMENTO) AND (factcpo.TIPODOC = PACIENTES.TIPODOC)) 
+		INNER JOIN TIPOIDENTIFICACION ON PACIENTES.TIPODOC = TIPOIDENTIFICACION.CODTIPOIDENT) 
+		LEFT JOIN serviciosingreso ON (factcpo.nfact = serviciosingreso.nfactura) AND (factcpo.clugar = serviciosingreso.clugar_fac) 
+		AND (factcpo.tipo = serviciosingreso.tipo_fac) AND (factcpo.nitem = serviciosingreso.nitem_fac)) 
+		INNER JOIN ripsradica ON (factcab.nradica = ripsradica.num_radicacion) AND (factcab.clugar_rad = ripsradica.clugar) 
+		AND (factcab.tipo_rad = ripsradica.tipo)) 
+		INNER JOIN DOCUMENTOS_AUTFACT ON ripsradica.c_aut = DOCUMENTOS_AUTFACT.c_aut) 
+		INNER JOIN oscuerpo ON (factcpo.item_os = oscuerpo.item) AND (factcpo.nsolicitud_os = oscuerpo.nsolicitud) AND (factcpo.clugar_os = oscuerpo.clugar) 
+		AND (factcpo.contador_os = oscuerpo.contador)) 
+		INNER JOIN oscabeza ON (oscuerpo.contador = oscabeza.contador) AND (oscuerpo.clugar = oscabeza.clugar) AND (oscuerpo.nsolicitud = oscabeza.nsolicitud)) 
+		INNER JOIN diags ON oscabeza.codgeral = diags.codgeral) 
+		INNER JOIN profe ON oscabeza.codprof = profe.codprof
+	WHERE 
+		(((factcab.tipo)='C') AND ((DOCUMENTOS_AUTFACT.coddoc)='RV') 
+		AND ((DOCUMENTOS_AUTFACT.clugar)='01') 
+		AND ((factcpo.RIA)='6') 
+		AND ((factcab.nradica)=:nfact) AND ((factcab.clugar_rad)=:clug) AND ((factcab.tipo_rad)=:tipo) 
+		AND ((contratos.ctcontra)='2') AND ((factcab.codtingre)='1') 
+		AND ((serviciosingreso.nfactura) Is Null))
 ) as uniones;
 " arguments=(("nfact", number),("clug", string),("tipo", string)) )
 text(band=header alignment="2" text="Vuni" border="0" color="33554432" x="677" y="8" height="64" width="443" html.valueishtml="0"  name=vuni_t visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
@@ -348,3 +422,4 @@ export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
 import.xml()
 export.pdf(method=2 distill.custompostscript="0" nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no )
 export.xhtml()
+ 

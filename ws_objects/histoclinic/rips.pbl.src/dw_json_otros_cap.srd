@@ -67,6 +67,7 @@ table(column=(type=char(12) updatewhereclause=yes name=c_supersalud dbname="c_su
 	uniones.c_medica
 FROM
 (
+/*medicamentos con servicios ingreso*/
  SELECT 
 	Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
 	serviciosingreso.fecha as fechaat,
@@ -126,6 +127,7 @@ WHERE
 
 UNION ALL
 
+/*proced con servicios ingreso*/
 SELECT 
 	Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
 	serviciosingreso.fecha,
@@ -180,7 +182,8 @@ WHERE
 	AND ((contratos.ctcontra)='2') )
 
 UNION ALL
-	
+
+/*medicamentos con ordenes relacion vieja*/
 SELECT 
 	Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
 	serviciosingreso.fecha as fechaat,
@@ -248,6 +251,7 @@ WHERE
 
 UNION ALL
 
+/*Medicamentos con ordenes relacion nueva*/
 SELECT 
 	Lugar.c_supersalud, factcpo.autorizacion, '' as idmipres, 
 	serviciosingreso.fecha as fechaat,
