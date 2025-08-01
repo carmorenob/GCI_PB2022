@@ -248,7 +248,6 @@ loo_GenFact.SigNamespacePrefix = "ds"
 //https://www.chilkatsoft.com/refdoc/xChilkatXmlDSigGenRef.html#prop21
 loo_GenFact.SignedInfoDigestMethod = "sha256"
 
-
 loo_Xml = create nvo_generic_ole_object
 //li_rc = loo_Xml.ConnectToNewObject("Chilkat_9_5_0.Xml")
 li_rc = loo_Xml.ConnectToNewObject("Chilkat.Xml")
@@ -260,9 +259,6 @@ if li_rc < 0 then
     MessageBox("Error Linea 60 of_firmar_xml","Connecting to COM object failed Chilkat.Xml")
     return -1
 end if
-
-loo_Xml.RemoveChild("cac:PrepaidPayment")
-
 
 loo_Xml.Tag = "xades:QualifyingProperties"
 loo_Xml.AddAttribute("Target","#xmldsig-"+smallcufe_formated)
@@ -297,6 +293,7 @@ ls_KeyInfoId = "xmldsig-"+smallcufe_formated+"-keyinfo"
 loo_GenFact.KeyInfoId = ls_KeyInfoId
 loo_GenFact.AddSameDocRef(ls_KeyInfoId,"sha256","","","")
 
+
 // Add a Reference to the SignedProperties.
 ls_SignedPropsId = "xmldsig-"+smallcufe_formated+"-signedprops"
 loo_GenFact.AddObjectRef(ls_SignedPropsId,"sha256","","","http://uri.etsi.org/01903#SignedProperties")
@@ -324,9 +321,10 @@ end if
 // Create the XAdES-EPES signed XML.
 //https://www.chilkatsoft.com/refdoc/xChilkatXmlDSigGenRef.html#prop0
 //ESTA PROPIEDAD ES BIEN IMPORTATE PARA QUE EL MENSAJE PASE BIEN EN LA DIAN!!!!!!
-loo_GenFact.Behaviors = "CompactSignedXml"
-	
+loo_GenFact.Behaviors ="CompactSignedXml"
+
 li_Success = loo_GenFact.CreateXmlDSigSb(aoo_SbXml)
+
 if li_Success = 0 then
 	messagebox("Error firmando la factura" ,string( loo_GenFact.LastErrorText ))
 	destroy loo_GenFact
@@ -335,6 +333,7 @@ if li_Success = 0 then
 	destroy loo_Xml
 	return -1
 end if
+
 
 // Verify the signatures we just produced...
 loo_Verifier = create nvo_generic_ole_object
@@ -363,6 +362,18 @@ do while li_VerifyIdx < li_NumSigs
     end if
     li_VerifyIdx = li_VerifyIdx + 1
 loop
+
+ls_xml=aoo_sbxml.GetAsString()
+
+ls_xml=f_limpia_firma(ls_xml)
+li_Success = aoo_SbXml.SetString(ls_xml)
+if li_Success <> 1 then
+    Messagebox("Error Linea 17 0of_firmar_xml", "Error convirtiendo Datawindow a XML")
+    destroy aoo_SbXml
+	destroy aoo_cert
+    return -1
+end if
+
 destroy loo_GenFact 
 destroy loo_Xml
 return 1
@@ -826,6 +837,18 @@ do while li_VerifyIdx < li_NumSigs
     end if
     li_VerifyIdx = li_VerifyIdx + 1
 loop
+
+ls_xml=aoo_sbxml.GetAsString()
+
+ls_xml=f_limpia_firma(ls_xml)
+li_Success = aoo_SbXml.SetString(ls_xml)
+if li_Success <> 1 then
+    Messagebox("Error Linea 151 of_firmar_xml_atached", "Error convirtiendo Datawindow a XML")
+    destroy aoo_SbXml
+	destroy aoo_cert
+    return -1
+end if
+
 destroy loo_GenFact 
 destroy loo_Xml
 return 1
