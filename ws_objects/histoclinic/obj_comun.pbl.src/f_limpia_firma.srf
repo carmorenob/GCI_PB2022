@@ -1,0 +1,37 @@
+﻿$PBExportHeader$f_limpia_firma.srf
+global type f_limpia_firma from function_object
+end type
+
+forward prototypes
+global function string f_limpia_firma (string as_xml)
+end prototypes
+
+global function string f_limpia_firma (string as_xml);string ls_inicio, ls_fin, ls_firma, ls_firma_limpia, ls_xml_limpio
+integer li_pos_ini, li_pos_fin
+
+ls_inicio = "<ds:SignatureValue>"
+ls_fin = "</ds:SignatureValue>"
+
+li_pos_ini = pos(as_xml, ls_inicio)
+li_pos_fin = pos(as_xml, ls_fin)
+
+if li_pos_ini > 0 and li_pos_fin > li_pos_ini then
+    li_pos_ini += len(ls_inicio)
+    ls_firma = mid(as_xml, li_pos_ini, li_pos_fin - li_pos_ini)
+
+    // Limpieza de caracteres no deseados
+    ls_firma_limpia = f_remplaza(ls_firma, "&#xD;", "")
+    ls_firma_limpia = f_remplaza(ls_firma_limpia, "&#xA;", "")
+    ls_firma_limpia = f_remplaza(ls_firma_limpia, "~r", "")
+    ls_firma_limpia = f_remplaza(ls_firma_limpia, "~n", "")
+    ls_firma_limpia = trim(ls_firma_limpia)
+
+    // Reconstrucción del XML
+    ls_xml_limpio = left(as_xml, li_pos_ini - 1) + ls_firma_limpia + mid(as_xml, li_pos_fin)
+    return ls_xml_limpio
+else
+    return as_xml
+end if
+
+end function
+

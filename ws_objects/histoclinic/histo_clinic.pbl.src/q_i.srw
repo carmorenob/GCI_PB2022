@@ -2,6 +2,8 @@
 forward
 global type q_i from window
 end type
+type cb_7 from commandbutton within q_i
+end type
 type cb_6 from commandbutton within q_i
 end type
 type cb_3 from commandbutton within q_i
@@ -53,6 +55,7 @@ windowtype windowtype = response!
 long backcolor = 67108864
 string icon = "AppIcon!"
 boolean center = true
+cb_7 cb_7
 cb_6 cb_6
 cb_3 cb_3
 wb_1 wb_1
@@ -77,6 +80,7 @@ end type
 global q_i q_i
 
 on q_i.create
+this.cb_7=create cb_7
 this.cb_6=create cb_6
 this.cb_3=create cb_3
 this.wb_1=create wb_1
@@ -97,7 +101,8 @@ this.dw_2=create dw_2
 this.dw_1=create dw_1
 this.ads_datos=create ads_datos
 this.cb_1=create cb_1
-this.Control[]={this.cb_6,&
+this.Control[]={this.cb_7,&
+this.cb_6,&
 this.cb_3,&
 this.wb_1,&
 this.cb_2,&
@@ -120,6 +125,7 @@ this.cb_1}
 end on
 
 on q_i.destroy
+destroy(this.cb_7)
 destroy(this.cb_6)
 destroy(this.cb_3)
 destroy(this.wb_1)
@@ -141,6 +147,30 @@ destroy(this.dw_1)
 destroy(this.ads_datos)
 destroy(this.cb_1)
 end on
+
+type cb_7 from commandbutton within q_i
+integer x = 183
+integer y = 1020
+integer width = 402
+integer height = 112
+integer taborder = 50
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+string text = "none"
+end type
+
+event clicked;string jaer
+
+jaer=""
+jaer=jaer+""
+jaer=jaer+""
+jaer=jaer+"	"
+jaer=f_descripta(jaer)
+end event
 
 type cb_6 from commandbutton within q_i
 integer x = 942
