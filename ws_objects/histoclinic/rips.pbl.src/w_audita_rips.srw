@@ -410,6 +410,15 @@ else
 end if
 end event
 
+event resize;tab_1.resize(newwidth -100 ,newheight -100)
+tab_1.tp_1.resize(tab_1.width -70 ,tab_1.height -70)
+tab_1.tp_1.gb_4.resize(tab_1.tp_1.width -70 ,tab_1.tp_1.height -70)
+tab_1.tp_1.dw_ria.resize(tab_1.tp_1.gb_4.width -100 ,tab_1.tp_1.gb_4.height - 500)
+
+
+tab_1.tp_2.resize(tab_1.width -100 ,tab_1.height -100)
+end event
+
 type gb_11 from groupbox within w_audita_rips
 boolean visible = false
 integer x = 2304
@@ -664,7 +673,7 @@ choose case cual
 		dw_ria.settransobject(sqlca)
 		dw_ria.getchild('s_fin_consulta',idw_fincon)
 		idw_fincon.settransobject(sqlca)
-		
+
 		dw_ria.getchild('s_causaexterna',idw_causaex)
 		idw_causaex.settransobject(sqlca)
 		
@@ -680,7 +689,7 @@ choose case cual
 		
 		dw_ria.getchild('s_fin_consulta',idw_fincon)
 		idw_fincon.settransobject(sqlca)
-		
+
 		dw_ria.getchild('s_finalidadproced',idw_finproc)
 		idw_finproc.settransobject(SQLCA)
 		
@@ -694,24 +703,28 @@ choose case cual
 		idw_profea.settransobject(sqlca)
 		
 		pb_guardar.enabled=true
+
 	case "Urgencias"
 		dw_ria.dataobject="dw_audita_rips_urg"
 		dw_ria.settransobject(sqlca)
 		dw_ria.retrieve(datetime(date(em_11.text)),datetime(date(em_21.text)),clugar)
 		pb_guardar.enabled=false
 		return
+	
 	case "Hospitalización"
 		dw_ria.dataobject="dw_audita_rips_hosp"
 		dw_ria.settransobject(sqlca)
 		dw_ria.retrieve(datetime(date(em_11.text)),datetime(date(em_21.text)),clugar)
 		pb_guardar.enabled=false
 		return
+	
 	case "Recien Nacido"
 		dw_ria.dataobject="dw_audita_rips_rn"
 		dw_ria.settransobject(sqlca)
 		dw_ria.retrieve(datetime(date(em_11.text)),datetime(date(em_21.text)),clugar)
 		pb_guardar.enabled=false
 		return
+	
 	case "Medicamentos"
 		dw_ria.dataobject="dw_audita_rips_medica"
 		dw_ria.settransobject(sqlca)
@@ -721,6 +734,7 @@ choose case cual
 		
 		pb_guardar.enabled=false
 		return
+	
 	case "Otros Servicios"
 		dw_ria.dataobject="dw_audita_rips_otros"
 		dw_ria.settransobject(sqlca)
@@ -728,6 +742,14 @@ choose case cual
 		pb_guardar.enabled=false
 		return
 end choose
+
+
+if  cual="Medicamentos" or cual="Otros Servicios" then
+	idw_profea.retrieve('%')
+end if
+
+dw_ria.retrieve(param,datetime(date(em_11.text)),datetime(date(em_21.text)),clugar)
+
 if  cual="Consulta" or cual="Procedimientos" then
 	idw_fincon.retrieve('1')
 	idw_finproc.retrieve('1')
@@ -736,11 +758,6 @@ if  cual="Consulta" or cual="Procedimientos" then
 	idw_profea.retrieve('%')
 end if
 
-if  cual="Medicamentos" or cual="Otros Servicios" then
-	idw_profea.retrieve('%')
-end if
-
-dw_ria.retrieve(param,datetime(date(em_11.text)),datetime(date(em_21.text)),clugar)
 end event
 
 type pb_guardar from picturebutton within tp_1
@@ -961,8 +978,9 @@ end type
 
 type dw_ria from datawindow within tp_1
 event clickup pbm_dwnlbuttonup
+integer x = 37
 integer y = 420
-integer width = 6798
+integer width = 6761
 integer height = 1648
 integer taborder = 240
 boolean bringtotop = true
